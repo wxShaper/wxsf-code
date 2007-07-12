@@ -1,0 +1,826 @@
+#pragma once
+
+#include <wx/wxprec.h>
+
+#include <wx/tokenzr.h>
+#include <wx/xml/xml.h>
+#include <wx/arrstr.h>
+
+#include "ShapeHandle.h"
+#include "ScaledPaintDC.h"
+
+// user-defined serialization flags
+/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize shape position </summary>
+#define sfsfBASESHAPE_POSITION 1
+/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize list of accepted child and neighbour shapes </summary>
+#define sfsfBASESHAPE_ACCEPTEDSHAPES 2
+/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize list of accepted connection types </summary>
+#define sfsfBASESHAPE_ACCEPTEDCONNECTIONS 4
+/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize list of shape handles </summary>
+#define sfsfBASESHAPE_HANDLES 8
+
+// default values
+/// <summary> Default value of wxSFShapeObject::m_fVisible data member </summary>
+#define sfdvBASESHAPE_VISIBILITY true
+/// <summary> Default value of wxSFShapeObject::m_fActive data member </summary>
+#define sfdvBASESHAPE_ACTIVITY true
+/// <summary> Default value of wxSFShapeObject::m_nHoverColor data member </summary>
+#define sfdvBASESHAPE_HOVERCOLOUR wxColor(120, 120, 255)
+/// <summary> Default value of wxSFShapeObject::m_nRelativePosition data member </summary>
+#define sfdvBASESHAPE_POSITION wxRealPoint(0, 0)
+/// <summary> Default value of wxSFShapeObject::m_fHighlighting data member </summary>
+#define sfdvBASESHAPE_HIGHLIGHTING true
+/// <summary> Default value of wxSFShapeObject::m_fHovering data member </summary>
+#define sfdvBASESHAPE_HOVERING true
+/// <summary> Default value of wxSFShapeObject::m_fParentChange data member </summary>
+#define sfdvBASESHAPE_PARENTCHANGE true
+/// <summary> Default value of wxSFShapeObject::m_fSizeChange data member </summary>
+#define sfdvBASESHAPE_SIZECHANGE true
+/// <summary> Default value of wxSFShapeObject::m_fPositionChange data member </summary>
+#define sfdvBASESHAPE_POSITIONCHANGE true
+
+class wxSFShapeCanvas;
+class CShapeList;
+
+/// <summary>
+/// Base class for all shapes providing fundamental functionality and publishing set
+/// of virtual functions which must be defined by the user in derived shapes. This class
+/// shouldn't be used as it is.
+///
+/// Shape objects derived from this class use hierarchical approach. It means that every
+/// shape must have defined parent shape (can be NULL for topmost shapes). An absolute
+/// shape position is then calculated as a sumation of all relative positions of all parent
+/// shapes. Also the size of the parent shape can be limited be a boundind box of all
+/// children shapes.
+///
+/// This class also declares set of virtual functions used as event handlers for various
+/// events (moving, sizing, drawing, mouse events, serialization and deserialization requests, ...)
+/// mostly triggered by a parent shape canvas.
+/// </summary>
+class wxSFShapeBase : public wxObject
+{
+public:
+
+    friend class wxSFShapeCanvas;
+
+	DECLARE_DYNAMIC_CLASS(wxSFShapeBase);
+
+    /// <summary> Bit flags for wxSFShapeBase::GetCompleteBoundingBox function </summary>
+    enum BBMODE
+    {
+		bbSELF = 1,
+        bbCHILDREN = 2,
+        bbCONNECTIONS = 4,
+		bbALL = 7
+    };
+
+    /// <summary> Default constructor </summary>
+	wxSFShapeBase(void);
+	/// <summary> User constructor </summary>
+	/// <param name="pos"> Initial relative position </param>
+	/// <param name="parentId"> ID of a parent shape </param>
+	/// <param name="canvas"> Pointer to a shape canvas </param>
+	wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFShapeCanvas* canvas);
+	/// <summary> Copy constructor </summary>
+	/// <param name="obj"> Reference to the source object </param>
+	wxSFShapeBase(wxSFShapeBase& obj);
+	/// <summary> Destructor </summary>
+	virtual ~wxSFShapeBase(void);
+
+	// public data members
+
+	// public functions
+	/// <summary> Clone the object itself. </summary>
+	/// <returns> Pointer to a new instace of the shape object</returns>
+	wxSFShapeBase* Clone(){return new wxSFShapeBase(*this);}
+
+    /// <summary> Refresh (redraw) the shape </summary>
+	void Refresh();
+	/// <summary> Draw shape. Default implementation tests basic shape visual states
+	/// (normal/ready, mouse is over the shape, dragged shape can be accepted) and
+	/// call appropriate virtual functions (DrawNormal, DrawHover, DrawHighlighted)
+	/// for its visualisation. The function can be overrided if neccessary. </summary>
+	/// <param name="dc"> Reference to a device context where the shape will be drawn to </param>
+	virtual void Draw(wxSFScaledPaintDC& dc);
+    /// <summary> Test whether the given point is inside the shape. The function
+    /// can be overrided if neccessary. </summary>
+    /// <param name="pos"> Examined point </param>
+    /// <returns> TRUE if the point is inside the shape area, otherwise FALSE </returns>
+	virtual bool IsInside(const wxPoint& pos);
+	/// <summary> Test whether the given rectangle intersects the shape. </summary>
+	/// <param name="rct"> Examined rectangle </param>
+	/// <returns> TRUE if the examined rectangle intersects the shape, otherwise FALSE </returns>
+	virtual bool Intersects(const wxRect& rct);
+	/// <summary> Get the shape's absolute position in the canvas (calculated as a sumation
+	/// of all relative positions in the shapes' hierarchy. The function can be overrided if neccessary. </summary>
+	/// <returns> Shape's position </returns>
+	virtual wxRealPoint GetAbsolutePosition();
+	/// <summary> Get intersection point of the shape border and a line leading from
+	/// the shape's center to the given point.  Default implementation does nothing. The function can be overrided if neccessary. </summary>
+	/// <param name="to"> Ending point of the virtual intersection line </param>
+	/// <returns> Intersection point </returns>
+	virtual wxRealPoint GetBorderPoint(const wxRealPoint& to);
+	/// <summary> Get shape's center.  Default implementation does nothing. The function can be overrided if neccessary. </summary>
+	/// <returns> Center point </returns>
+	virtual wxRealPoint GetCenter();
+
+	/// <summary> Function called by the framework responsible for creation of shape handles
+    /// at the creation time. Default implementation does nothing. The function can be overrided if neccesary </summary>
+	virtual void CreateHandles();
+	/// <summary> Show/hide shape handles. Hidden handles are inactive. </summary>
+	/// <param name="show"> TRUE for showing, FALSE for hidding </param>
+	void ShowHandles(bool show);
+
+    /// <summary> Enable/disable interactive change of shape's parent (done by mouse operations). </summary>
+    /// <param name="enable"> TRUE for allowing the change, otherwise FALSE </param>
+    void EnableParentChange(bool enable){m_fParentChange = enable;}
+    /// <summary> Function returns TRUE if the interactive parent change is enabled, otherwise returns FALSE. </summary>
+    /// <seealso cref="EnableParentChange"></seealso>
+	bool CanChangeParent() {return m_fParentChange;}
+    /// <summary> Enable/disable interactive change of shape's size (done by mouse operations). </summary>
+    /// <param name="enable"> TRUE for allowing the change, otherwise FALSE </param>
+	void EnableSizeChange(bool enable){m_fSizeChange = enable;}
+    /// <summary> Function returns TRUE if the interactive size change is enabled, otherwise returns FALSE. </summary>
+    /// <seealso cref="EnableSizeChange"></seealso>
+	bool CanChangeSize(){return m_fSizeChange;}
+    /// <summary> Enable/disable interactive change of shape's position (done by mouse operations). </summary>
+    /// <param name="enable"> TRUE for allowing the change, otherwise FALSE </param>
+	void EnablePositionChange(bool enable){m_fPositionChange = enable;}
+    /// <summary> Function returns TRUE if the interactive position change is enabled, otherwise returns FALSE. </summary>
+    /// <seealso cref="EnablePositionChange"></seealso>
+	bool CanChangePosition(){return m_fPositionChange;}
+    /// <summary> Enable/disable shape highlighting. </summary>
+    /// <param name="enable"> TRUE for enabling, otherwise FALSE </param>
+	void EnableHighlighting(bool enable){m_fHighlighting = enable;}
+    /// <summary> Function returns TRUE if the highlighting is enabled, otherwise returns FALSE. </summary>
+    /// <seealso cref="EnableHighlighting"></seealso>
+	bool CanHighlight(){return m_fHighlighting;}
+    /// <summary> Enable/disable mouse hovering. </summary>
+    /// <param name="enable"> TRUE for enabling, otherwise FALSE </param>
+	void EnableHovering(bool enable){m_fHovering = enable;}
+    /// <summary> Function returns TRUE if the hovering is enabled, otherwise returns FALSE. </summary>
+    /// <seealso cref="EnableHovering"></seealso>
+	bool CanHover(){return m_fHovering;}
+
+    /// <summary> Get child shapes associated with this (parent) shape. </summary>
+    /// <param name="children"> List of child shapes </param>
+    /// <param name="recursive"> Set this flag TRUE if also children of children of ... should be found. </param>
+	void GetChildren(CShapeList& children, bool recursive = false);
+
+    /// <summary> Get shapes's bounding box. The function can be overrided
+    /// if neccessary. </summary>
+    /// <returns> Bounding rectangle </returns>
+	virtual wxRect GetBoundingBox();
+	/// <summary> Get shape's bounding box which includes also associated child shapes and connections </summary>
+	/// <param name="rct"> Returned bounding rectangle </param>
+	/// <param name="mask"> Bit mask of object types which should be included into calculation </param>
+	/// <seealso cref="BBMODE"></seealso>
+	void GetCompleteBoundingBox(wxRect& rct, int mask = bbALL);
+
+    /// <summary> Scale the shape size by in both directions. The function can be overrided if necessary. </summary>
+    /// <param name="x"> Horizontal scale factor </param>
+    /// <param name="y"> Vertical scale factor </param>
+	virtual void Scale(double x, double y);
+    /// <summary> Scale the shape size by in both directions. </summary>
+    /// <param name="scale"> Scaling factor </param>
+	void Scale(const wxRealPoint& scale);
+	/// <summary> Move the shape to the given absolute position. The function can be overrided if necessary. </summary>
+	/// <param name="x"> X coordinate </param>
+	/// <param name="y"> Y coordinate </param>
+	virtual void MoveTo(double x, double y);
+	/// <summary> Move the shape to the given absolute position. </summary>
+	/// <param name="pos"> New absolute position </param>
+	void MoveTo(const wxRealPoint& pos);
+	/// <summary> Move the shape by the given offset. The function
+    /// can be overrided if neccessary. </summary>
+	/// <param name="x"> X offset </param>
+	/// <param name="y"> Y offset </param>
+	virtual void MoveBy(double x, double y);
+	/// <summary> Move the shape by the given offset. </summary>
+	/// <param name="delta"> Offset </param>
+	void MoveBy(const wxRealPoint& delta);
+	/// <summary> Resize the shape to bound all child shapes.
+	/// The function can be overrided if neccessary.</summary>
+	virtual void FitToChildren();
+
+    /*!
+     * \brief Base serialization function called by the framework resposible for
+     * creation of new object node and invoking the Serialize function. This function
+     * shouldn't be called directly.
+     * \param node Pointer to existing XML node or NULL (for creation of new XML node)
+     * \return New XML node with very basic shape's properties
+     * \sa Serialize
+     */
+	wxXmlNode* SerializeToXml(wxXmlNode* node);
+    /*!
+     * \brief Base deserialization function called by the framework resposible for
+     * invoking the Deserialize function. This function shouldn't be called directly.
+     * \param node Pointer to existing XML node
+     * \sa Deserialize
+     */
+	void DeserializeFromXml(wxXmlNode* node);
+
+	// public member data accessors
+	/// <summary> Function returns TRUE if the shape is selected, otherwise returns FALSE. </summary>
+	bool IsSelected(){return m_fSelected;}
+	/// <summary> Set the shape as a selected/deselected one </summary>
+	/// <param name="state"> Selection state (TRUE is selected, FALSE is deselected) </param>
+	void Select(bool state){m_fSelected = state;}
+
+    /// <summary> Set shape's relative position. Absolute shape's position is then calculated
+    /// as a sumation of the relative positions of this shape and all parent shapes in the shape's
+    /// hierarchy. </summary>
+    /// <param name="pos"> New relative position </param>
+    /// <seealso cref="MoveTo"></seealso>
+	void SetRelativePosition(const wxRealPoint& pos){m_nRelativePosition = pos;}
+    /// <summary> Set shape's relative position. Absolute shape's position is then calculated
+    /// as a sumation of the relative positions of this shape and all parent shapes in the shape's
+    /// hierarchy. </summary>
+    /// <param name="x"> Horizontal coordinate of new relative position </param>
+    /// <param name="y"> Vertical coordinate of new relative position </param>
+    /// <seealso cref="MoveTo"></seealso>
+	void SetRelativePosition(double x, double y){m_nRelativePosition.x = x; m_nRelativePosition.y = y;}
+    /// <summary> Get shape's relative position </summary>
+    /// <returns> Current relative position </returns>
+    /// <seealso cref="GetAbsolutePosition"></seealso>
+	wxRealPoint GetRelativePosition() const {return m_nRelativePosition;}
+
+    /// <summary> Get pointer to a parent shape </summary>
+	wxSFShapeBase* GetParentShape();
+	/// <summary> Assign this shape to some other shapes that becomes its parent </summary>
+	/// <param name="parentId"> ID of a new parent shape </param>
+	void SetParentShapeId(long parentId){m_nParentShapeId = parentId;}
+	/// <summary> Get ID of current parent shape </summary>
+	/// <returns> ID of a parent shape if any, otherwise -1 </returns>
+	long GetParentShapeId(){return m_nParentShapeId;}
+	/*!
+	 * \brief Set shape's parent canvas where it will be drawn
+	 * \param canvas Pointer to shapes canvas
+	 * \sa wxSFShapeCanvas
+	 */
+	void SetParentCanvas(wxSFShapeCanvas* canvas){m_pParentCanvas = canvas;}
+	/*!
+	 * \brief Get shape's parent canvas where it will be drawn
+	 * \return Pointer to shapes canvas
+	 * \sa wxSFShapeCanvas
+	 */
+	wxSFShapeCanvas* GetParentCanvas(){return m_pParentCanvas;}
+	/*!
+	 * \brief Get the shape's visibility status
+	 * \return TRUE if the shape is visible, otherwise FALSE
+	 */
+	bool IsVisible(){return m_fVisible;}
+	/*!
+	 * \brief Show/hide shape
+	 * \param show Set the parameter to TRUE if the shape should be visible, otherwise use FALSE
+	 */
+	void Show(bool show){m_fVisible = show;}
+	/*!
+	 * \brief Set shape's hover color
+	 * \param col Hover color
+	 */
+	void SetHoverColour(const wxColour& col){m_nHoverColor = col;}
+	/*!
+	 * \brief Get shape's hover color
+	 * \return Current hover color
+	 */
+	wxColour GetHoverColour() const {return m_nHoverColor;}
+	/*!
+	 * \brief Get serialization mask.
+	 *
+	 * Serialization mask allows user to specify which additional shape's properties
+	 * will be serialized (not all shapes have additional properties). The mask value
+	 * consists of combination of declared serialization flags which have form "sfsfXXX_YYY" where XXX
+	 * determinates an owner object and YYY is more detailed flag specification. See
+	 * file members (defines) list for more information about available serialization flags.
+	 * \return Serialization mask value
+	 */
+	long GetSerializationMask(){return m_nSerializeMask;}
+	/*!
+	 * \brief Set serialization mask.
+	 *
+	 * Serialization mask allows user to specify which additional shape's properties
+	 * will be serialized (not all shapes have additional properties). The mask value
+	 * consists of combination of declared serialization flags which have form "sfsfXXX_YYY" where XXX
+	 * determinates an owner object and YYY is more detailed flag specification. See
+	 * file members (defines) list for more information about available serialization flags.
+	 * \param mask Serialization mask value
+	 */
+	void SetSerializationMask(long mask){m_nSerializeMask = mask;}
+	/*!
+	 * \brief Set shape's unique ID.
+	 *
+	 * Each shape MUST have unique ID so use this function carrefully
+	 * \param id New ID
+	 */
+	void SetId(long id){m_nId = id;}
+	/*!
+	 * \brief Get shape's ID.
+	 * \return Shape's unique ID
+	 */
+	long GetId(){return m_nId;}
+	/*!
+	 * \brief Function returns value of a shape's activation flag.
+	 *
+	 * Non-active shapes are visible, but don't receive (process) any events.
+	 * \return TRUE if the shape is active, othervise FALSE
+	 */
+	bool IsActive() {return m_fActive;}
+	/*!
+	 * \brief Shape's activation/deactivation
+	 *
+	 * Deactivated shapes are visible, but don't receive (process) any events.
+	 * \param active TRUE for activation, FALSE for deactivation
+	 * \return Description
+	 * \sa Show
+	 */
+	void Activate(bool active) {m_fActive = active;}
+
+    /*!
+     * \brief Tells whether the given shape type is accepted by this shape (it means
+     * whether this shape can be its parent).
+     *
+     * The function is typically used by the framework for determination whether a dropped
+     * shape can be assigned to an underlying shape as its child.
+     * \param type Class name of examined shape object
+     * \return TRUE if the shape type is accepted, otherwise FALSE.
+     */
+    bool IsChildAccepted(const wxString& type);
+    /*!
+     * \brief Function returns TRUE if all currently dragged shapes can be accepted
+     * as children of this shape.
+     * \sa IsShapeAccepted
+     */
+    bool AcceptCurrentlyDraggedShapes();
+    /*!
+     * \brief Add given shape type to an acceptance list. The acceptance list contains class
+     * names of the shapes which can be accepted as children of this shape.
+     * Note: Keyword 'All' behaves like any class name.
+     * \param type Class name of accepted shape object
+     * \sa IsShapeAccepted
+     */
+	void AcceptChild(const wxString& type) {m_arrAcceptedChildren.Add(type);}
+	/*!
+	 * \brief Get shape types acceptance list.
+	 * \return String array with class names of accepted shape types.
+	 * \sa IsChildAccepted
+	 */
+	wxArrayString& GetAcceptedChildren() {return m_arrAcceptedChildren;}
+    /*!
+     * \brief Tells whether the given connection type is accepted by this shape (it means
+     * whether this shape can be connected to another one by a connection of given type).
+     *
+     * The function is typically used by the framework during interactive connection creation.
+     * \param type Class name of examined connection object
+     * \return TRUE if the connection type is accepted, otherwise FALSE.
+     */
+	bool IsConnectionAccepted(const wxString& type);
+    /*!
+     * \brief Add given connection type to an acceptance list. The acceptance list contains class
+     * names of the connection which can be accepted by this shape.
+     * Note: Keyword 'All' behaves like any class name.
+     * \param type Class name of accepted connection object
+     * \sa IsConnectionAccepted
+     */
+	void AcceptConnection(const wxString& type) {m_arrAcceptedConnections.Add(type);}
+	/*!
+	 * \brief Get connection types acceptance list.
+	 * \return String array with class names of accepted connection types.
+	 * \sa IsConnectionAccepted
+	 */
+	wxArrayString& GetAcceptedConnections() {return m_arrAcceptedConnections;}
+    /*!
+     * \brief Tells whether the given shape type is accepted by this shape as its source neighbour(it means
+     * whether this shape can be connected from another one of given type).
+     *
+     * The function is typically used by the framework during interactive connection creation.
+     * \param type Class name of examined connection object
+     * \return TRUE if the shape type is accepted, otherwise FALSE.
+     */
+	bool IsSrcNeighbourAccepted(const wxString& type);
+    /*!
+     * \brief Add given shape type to an source neighbours' acceptance list. The acceptance list contains class
+     * names of the shape types which can be accepted by this shape as its source neighbour.
+     * Note: Keyword 'All' behaves like any class name.
+     * \param type Class name of accepted connection object
+     * \sa IsSrcNeighbourAccepted
+     */
+	void AcceptSrcNeighbour(const wxString& type) {m_arrAcceptedSrcNeighbours.Add(type);}
+	/*!
+	 * \brief Get source neighbour types acceptance list.
+	 * \return String array with class names of accepted source neighbours types.
+	 * \sa IsSrcNeighbourAccepted
+	 */
+	wxArrayString& GetAcceptedSrcNeighbours() {return m_arrAcceptedSrcNeighbours;}
+    /*!
+     * \brief Tells whether the given shape type is accepted by this shape as its target neighbour(it means
+     * whether this shape can be connected to another one of given type).
+     *
+     * The function is typically used by the framework during interactive connection creation.
+     * \param type Class name of examined connection object
+     * \return TRUE if the shape type is accepted, otherwise FALSE.
+     */
+	bool IsTrgNeighbourAccepted(const wxString& type);
+    /*!
+     * \brief Add given shape type to an target neighbours' acceptance list. The acceptance list contains class
+     * names of the shape types which can be accepted by this shape as its target neighbour.
+     * Note: Keyword 'All' behaves like any class name.
+     * \param type Class name of accepted connection object
+     * \sa IsTrgNeighbourAccepted
+     */
+	void AcceptTrgNeighbour(const wxString& type) {m_arrAcceptedTrgNeighbours.Add(type);}
+	/*!
+	 * \brief Get target neighbour types acceptance list.
+	 * \return String array with class names of accepted target neighbours types.
+	 * \sa IsTrgNeighbourAccepted
+	 */
+	wxArrayString& GetAcceptedTrgNeighbours() {return m_arrAcceptedTrgNeighbours;}
+	/*!
+	 * \brief Clear shape object acceptance list
+	 * \sa AcceptChild
+	 */
+	void ClearAcceptedChilds(){m_arrAcceptedChildren.Clear();}
+	/*!
+	 * \brief Clear connection object acceptance list
+	 * \sa AcceptConnection
+	 */
+	void ClearAcceptedConnections(){m_arrAcceptedConnections.Clear();}
+	/*!
+	 * \brief Clear source neighbour objects acceptance list
+	 * \sa AcceptSrcNeighbour
+	 */
+	void ClearAcceptedSrcNeighbours(){m_arrAcceptedSrcNeighbours.Clear();}
+	/*!
+	 * \brief Clear target neighbour objects acceptance list
+	 * \sa AcceptTrgNeighbour
+	 */
+	void ClearAcceptedTrgNeighbours(){m_arrAcceptedTrgNeighbours.Clear();}
+
+    /*!
+     * \brief Get list of currently assigned shape handles.
+     * \return Reference to the handle list
+     * \sa CHandleList
+     */
+	CHandleList& GetHandles() {return m_lstHandles;}
+	/*!
+	 * \brief Get shape handle.
+	 * \param type Handle type
+	 * \param id Handle ID (usefull only for line control points)
+	 * \return Pointer to the shape handle object
+	 * \sa wxSFShapeHandle
+	 */
+	wxSFShapeHandle* GetHandle(wxSFShapeHandle::HANDLETYPE type, long id = -1);
+	/*!
+	 * \brief Add new handle to the shape.
+	 *
+	 * The function creates new instance of shape handle (if it doesn't exist yet)
+	 * and inserts it into handle list.
+	 * \param type Handle type
+	 * \param id Handle ID (usefull only for line control points)
+	 * \sa wxSFShapeHandle
+	 */
+	void AddHandle(wxSFShapeHandle::HANDLETYPE type, long id = -1);
+	/*!
+	 * \brief Remove given shape handle (if exists).
+	 * \param type Handle type
+	 * \param id Handle ID (usefull only for line control points)
+	 * \sa wxSFShapeHandle
+	 */
+	void RemoveHandle(wxSFShapeHandle::HANDLETYPE type, long id = -1);
+
+	// public event handlers
+	/*!
+	 * \brief Event handler called when the shape is clicked by
+	 * the left mouse button. The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnLeftClick(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when the shape is clicked by
+	 * the right mouse button. The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnRightClick(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when the shape is double-clicked by
+	 * the left mouse button. The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnLeftDoubleClick(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when the shape is double-clicked by
+	 * the right mouse button. The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnRightDoubleClick(const wxPoint& pos);
+
+	/*!
+	 * \brief Event handler called at the begining of the shape dragging process.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnBeginDrag(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called during the shape dragging process.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnDragging(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called at the end of the shape dragging process.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnEndDrag(const wxPoint& pos);
+
+	/*!
+	 * \brief Event handler called when the user started to drag the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param handle Reference to dragged handle
+	 */
+	virtual void OnBeginHandle(wxSFShapeHandle& handle);
+	/*!
+	 * \brief Event handler called during dragging of the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param handle Reference to dragged handle
+	 */
+	virtual void OnHandle(wxSFShapeHandle& handle);
+	/*!
+	 * \brief Event handler called when the user finished dragging of the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param handle Reference to dragged handle
+	 */
+	virtual void OnEndHandle(wxSFShapeHandle& handle);
+	/*!
+	 * \brief Event handler called when a mouse pointer enters the shape area.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 */
+	virtual void OnMouseEnter(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when a mouse pointer moves above the shape area.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 */
+	virtual void OnMouseOver(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when a mouse pointer leaves the shape area.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 */
+	virtual void OnMouseLeave(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when any key is pressed (in the shape canvas).
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \param key The key code
+	 * \return The must should return TRUE if the default event routine should be called
+	 * as well, otherwise FALSE
+	 * \sa wxSFShapeBase::_OnKey
+	 */
+	virtual bool OnKey(int key);
+
+protected:
+
+	// protected data members
+	/*! \brief Selection flag */
+	bool m_fSelected;
+	/*! \brief Visibility flag */
+	bool m_fVisible;
+	/*! \brief Activation flag */
+	bool m_fActive;
+	/*! \brief Parent change flag (an interactive parent change is allowed) */
+	bool m_fParentChange;
+	/*! \brief Hovering flag (the mouse pointer is just above the shape */
+	bool m_fHovering;
+	/*! \brief Highlighting flag (the shapes can accept shapes just dragged over it) */
+	bool m_fHighlighting;
+	/*! \brief Sizing flag (an interactive size change is allowed) */
+	bool m_fSizeChange;
+	/*! \brief Positioning flag (an interactive position change is allowed) */
+	bool m_fPositionChange;
+	/*! \brief Serialization mask */
+	long m_nSerializeMask;
+	/*! \brief ID of a parent shape */
+	long m_nParentShapeId;
+
+	wxColour m_nHoverColor;
+	wxRealPoint m_nRelativePosition;
+	/*! \brief String list with class names of accepted child shapes */
+	wxArrayString m_arrAcceptedChildren;
+	/*! \brief String list with class names of accepted connections */
+	wxArrayString m_arrAcceptedConnections;
+	/*! \brief String list with class names of accepted source neighbour shapes */
+	wxArrayString m_arrAcceptedSrcNeighbours;
+	/*! \brief String list with class names of accepted target neighbour shapes */
+	wxArrayString m_arrAcceptedTrgNeighbours;
+
+	wxSFShapeCanvas *m_pParentCanvas;
+	/*! \brief Handle list */
+	CHandleList m_lstHandles;
+
+	// protected functions
+	/*!
+	 * \brief Draw the shape in the normal way. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
+	virtual void DrawNormal(wxSFScaledPaintDC& dc);
+	/*!
+	 * \brief Draw the shape in the selected way. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
+	virtual void DrawSelected(wxSFScaledPaintDC& dc);
+	/*!
+	 * \brief Draw the shape in the hower mode (the mouse cursor is above the shape).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
+	virtual void DrawHover(wxSFScaledPaintDC& dc);
+	/*!
+	 * \brief Draw the shape in the highlighted mode (another shape is dragged over this
+	 * shape and this shape will accept the dragged one if it will be dropped on it).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
+	virtual void DrawHighlighted(wxSFScaledPaintDC& dc);
+
+    /*!
+     * \brief Serialize shape's properties to the given XML node. The serialization
+     * routine is automatically called by the framework and should take care about serialization
+     * of all specific shape's properties.
+     *
+     * Note, that the shape serialization is used not only for saving canvas's content to a file
+     * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
+     * function otherwise all mentioned operations wont be available for this shape.
+     *
+     * The routine code could look like the example bellow.
+     * \param node Pointer to XML node where the shape's property nodes will be appended to
+     *
+     * Example code:
+     * \code
+     * wxXmlNode* wxSFCurveShape::Serialize(wxXmlNode* node)
+     * {
+     *     if(node)
+     *     {
+     *         // call base class's serialization routine
+     *         node = wxSFLineShape::Serialize(node);
+     *
+     *         // serialize custom property
+     *         AddPropertyNode(node, wxT("max_steps"), LongToString((long)m_nMaxSteps));
+     *     }
+     *     // return updated node
+     *     return node;
+     * }
+     * \endcode
+     */
+	virtual wxXmlNode* Serialize(wxXmlNode* node);
+    /*!
+     * \brief Deserialize shape's properties from the given XML node. The
+     * routine is automatically called by the framework and should take care about deserialization
+     * of all specific shape's properties.
+     *
+     * Note, that the shape serialization is used not only for saving canvas's content to a file
+     * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
+     * function otherwise all mentioned operations wont be available for this shape.
+     *
+     * The routine code could look like the example bellow.
+     * \param node Pointer to a source XML node containig the shape's property nodes
+     *
+     * Example code:
+     * \code
+     * void wxSFCurveShape::Deserialize(wxXmlNode* node)
+     * {
+     *      // call base class's deserialization rountine (if necessary...)
+     *      wxSFLineShape::Deserialize(node);
+     *
+     *      // iterate through all property nodes
+     *      wxXmlNode *propNode = node->GetChildren();
+     *      while(propNode)
+     *      {
+     *          if(propNode->GetName() == wxT("max_steps"))
+     *          {
+     *              // read the node value and convert it to a proper data type
+     *              m_nMaxSteps = StringToLong(node->GetNodeContent());
+     *          }
+     *          propNode = propNode->GetNext();
+     *      }
+     * }
+     * \endcode
+     */
+    virtual void Deserialize(wxXmlNode* node);
+
+    /*!
+     * \brief Repaint the shape
+     * \param rct Canvas portion that should be updated
+     */
+	void Refresh(const wxRect& rct);
+
+private:
+
+	// private data members
+	bool m_fMouseOver;
+	bool m_fFirstMove;
+	bool m_fHighlighParent;
+
+	wxRealPoint m_nMouseOffset;
+
+	long m_nId;
+
+	// private event handlers
+
+    /*!
+     * \brief Original protected event handler called when the mouse pointer is moving around the shape canvas.
+     *
+	 * The function is called by the framework (by the shape canvas). After processing the event
+	 * relevant overridable event handlers are called.
+     * \param pos Current mouse position
+     * \sa wxShapeBase::OnMouseEnter, wxShapeBase::OnMouseOver, wxShapeBase::OnMouseLeave
+     */
+	void _OnMouseMove(const wxPoint& pos);
+    /*!
+     * \brief Original protected event handler called at the begininig of dragging process.
+     *
+	 * The function is called by the framework (by the shape canvas). After processing the event
+	 * an overridable event handler is called.
+     * \param pos Current mouse position
+     * \sa wxShapeBase::OnBeginDrag
+     */
+	void _OnBeginDrag(const wxPoint& pos);
+    /*!
+     * \brief Original protected event handler called during a dragging process.
+     *
+	 * The function is called by the framework (by the shape canvas). After processing the event
+	 * an overridable event handler is called.
+     * \param pos Current mouse position
+     * \sa wxShapeBase::OnDragging
+     */
+	void _OnDragging(const wxPoint& pos);
+    /*!
+     * \brief Original protected event handler called at the end of dragging process.
+     *
+	 * The function is called by the framework (by the shape canvas). After processing the event
+	 * an overridable event handler is called.
+     * \param pos Current mouse position
+     * \sa wxShapeBase::OnEndDrag
+     */
+	void _OnEndDrag(const wxPoint& pos);
+
+	/*!
+	 * \brief Original protected event handler called when any key is pressed (in the shape canvas).
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation performs operations necessary for proper shape's
+	 * moving and repainting.
+	 * \param key The key code
+	 * \sa wxSFShapeBase::OnKey
+	 */
+	void _OnKey(int key);
+};
+
+WX_DECLARE_LIST(wxSFShapeBase, CShapeList);
