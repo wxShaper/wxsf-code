@@ -9,6 +9,11 @@
 #include "ShapeHandle.h"
 #include "ScaledPaintDC.h"
 
+#define sfRECURSIVE true
+#define sfNORECURSIVE false
+#define sfDIRECT true
+#define sfINDIRECT false
+
 // user-defined serialization flags
 /// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize shape position </summary>
 #define sfsfBASESHAPE_POSITION 1
@@ -73,6 +78,17 @@ public:
         bbCONNECTIONS = 4,
 		bbALL = 7
     };
+
+    /*! \brief Search mode flags for GetAssignedConnections function */
+	enum CONNECTMODE
+	{
+	    /*! \brief Search for connection starting in examined shape */
+	    lineSTARTING,
+	    /*! \brief Search for connection ending in examined shape */
+	    lineENDING,
+	    /*! \brief Search for both starting and ending connections */
+	    lineBOTH
+	};
 
     /// <summary> Default constructor </summary>
 	wxSFShapeBase(void);
@@ -164,8 +180,20 @@ public:
 
     /// <summary> Get child shapes associated with this (parent) shape. </summary>
     /// <param name="children"> List of child shapes </param>
-    /// <param name="recursive"> Set this flag TRUE if also children of children of ... should be found. </param>
+    /// <param name="recursive"> Set this flag TRUE if also children of children of ... should be found
+    /// (also sfRECURSIVE a sfNORECURSIVE constants can be used). </param>
 	void GetChildren(CShapeList& children, bool recursive = false);
+
+	/*!
+	 * \brief Get neighbour shapes connected to this shape.
+	 * \param neighbours List of neighbour shapes
+	 * \param condir Connection direction
+	 * \param direct Set this flag to TRUE if only closest shapes should be found,
+	 * otherwise also shapes connected by forked lines will be found (also
+	 * constants sfDIRECT and sfINDIRECT can be used)
+	 * \sa CONNECTMODE
+	 */
+	void GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct = true);
 
     /// <summary> Get shapes's bounding box. The function can be overrided
     /// if neccessary. </summary>
@@ -769,8 +797,22 @@ private:
 	bool m_fHighlighParent;
 
 	wxRealPoint m_nMouseOffset;
+	wxList m_lstProcessed;
 
 	long m_nId;
+
+    // private functions
+
+	/*!
+	 * \brief Auxiliary function called by GetNeighbours function.
+	 * \param neighbours List of neighbour shapes
+	 * \param condir Connection direction
+	 * \param direct Set this flag to TRUE if only closest shapes should be found,
+	 * otherwise also shapes connected by forked lines will be found (also
+	 * constants sfDIRECT and sfINDIRECT can be used)
+	 * \sa GetNeighbours
+	 */
+	void _GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct);
 
 	// private event handlers
 

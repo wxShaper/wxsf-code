@@ -1,4 +1,8 @@
-Changes in version 1.1.0 alpha (2007-07-07):
+Changes in version 1.1.1 alpha (2007-07-12):
+--------------------------------------------
+- Added ability to find neighbour shapes (functions wxSFShapeBase::GetNeighbours() and wxSFShapeCanvas::GetNeighbours())
+
+Changes in version 1.1.0 alpha (2007-07-12):
 --------------------------------------------
 - Enhanced shapes policy (definitions which shape type can be connected to which one, what can be source or what can be target, etc.).
 - Ability to get wxSF number from canvas class.

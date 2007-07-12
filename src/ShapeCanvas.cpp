@@ -33,7 +33,7 @@ END_EVENT_TABLE()
 wxSFShapeCanvas::wxSFShapeCanvas(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 : wxScrolledWindow(parent, id, pos, size, style)
 {
-    m_sVersion =  wxT("1.1.0 alpha");
+    m_sVersion =  wxT("1.1.1 alpha");
 
 	SetScrollbars(5, 5, 100, 100);
 	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
@@ -1665,7 +1665,7 @@ int wxSFShapeCanvas::GetShapesInside(const wxRect& rct, CShapeList& shapes)
 	return (int)shapes.GetCount();
 }
 
-int wxSFShapeCanvas::GetAssignedConnections(wxSFShapeBase* parent, CONNECTMODE mode, CShapeList& lines)
+int wxSFShapeCanvas::GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, CShapeList& lines)
 {
 	wxSFLineShape* pLine;
 
@@ -1678,15 +1678,15 @@ int wxSFShapeCanvas::GetAssignedConnections(wxSFShapeBase* parent, CONNECTMODE m
             pLine = (wxSFLineShape*)node->GetData();
             switch(mode)
             {
-                case lineSTARTING:
+                case wxSFShapeBase::lineSTARTING:
                     if(pLine->GetSrcShapeId() == parent->GetId())lines.Append(pLine);
                     break;
 
-                case lineENDING:
+                case wxSFShapeBase::lineENDING:
                     if(pLine->GetTrgShapeId() == parent->GetId())lines.Append(pLine);
                     break;
 
-                case lineBOTH:
+                case wxSFShapeBase::lineBOTH:
                     if((pLine->GetSrcShapeId() == parent->GetId())
                     || (pLine->GetTrgShapeId() == parent->GetId()))lines.Append(pLine);
                     break;
@@ -1779,20 +1779,43 @@ void wxSFShapeCanvas::GetChildren(wxSFShapeBase* parent, CShapeList& children, b
 	}
 	else
 	{
-		wxSFShapeBase* shape;
+		wxSFShapeBase* pShape;
 
 		wxCShapeListNode *node = m_lstShapes.GetFirst();
 		while(node)
 		{
-			shape = node->GetData();
-			if(shape->GetParentShapeId() == -1)
+			pShape = node->GetData();
+			if(pShape->GetParentShapeId() == -1)
 			{
-				children.Append(shape);
-				if(recursive)shape->GetChildren(children, recursive);
+				children.Append(pShape);
+				if(recursive)pShape->GetChildren(children, recursive);
 			}
 			node = node->GetNext();
 		}
 	}
+}
+
+void wxSFShapeCanvas::GetNeighbours(wxSFShapeBase* parent, CShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct)
+{
+    if(parent)
+    {
+        parent->GetNeighbours(neighbours, condir, direct);
+    }
+    else
+    {
+		wxSFShapeBase* pShape;
+
+		wxCShapeListNode *node = m_lstShapes.GetFirst();
+		while(node)
+		{
+			pShape = node->GetData();
+			if(pShape->GetParentShapeId() == -1)
+			{
+				pShape->GetNeighbours(neighbours, condir, direct);
+			}
+			node = node->GetNext();
+		}
+    }
 }
 
 bool wxSFShapeCanvas::HasChildren(wxSFShapeBase* parent)

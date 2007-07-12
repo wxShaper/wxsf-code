@@ -120,7 +120,7 @@ wxSFShapeBase::~wxSFShapeBase(void)
 	{
 		CShapeList m_lstChildren;
 		GetChildren(m_lstChildren);
-		m_pParentCanvas->GetAssignedConnections(this, wxSFShapeCanvas::lineBOTH, m_lstChildren);
+		m_pParentCanvas->GetAssignedConnections(this, lineBOTH, m_lstChildren);
 
 		wxCShapeListNode *node = m_lstChildren.GetFirst();
 		while(node)
@@ -169,7 +169,7 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 
 		if(m_pParentCanvas)
 		{
-			m_pParentCanvas->GetAssignedConnections(this, wxSFShapeCanvas::lineBOTH, lstLines);
+			m_pParentCanvas->GetAssignedConnections(this, lineBOTH, lstLines);
 		}
 		wxCShapeListNode* node = lstLines.GetFirst();
 		while(node)
@@ -180,7 +180,7 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 
 			// get also BB of connections assigned to this connection
 			lstConnections.Clear();
-			m_pParentCanvas->GetAssignedConnections(pLine, wxSFShapeCanvas::lineBOTH, lstConnections);
+			m_pParentCanvas->GetAssignedConnections(pLine, lineBOTH, lstConnections);
 
             wxCShapeListNode* cnode = lstConnections.GetFirst();
             while(cnode)
@@ -448,7 +448,7 @@ void wxSFShapeBase::DrawHighlighted(wxSFScaledPaintDC& dc)
 }
 
 //----------------------------------------------------------------------------------//
-// protected functions
+// other functions
 //----------------------------------------------------------------------------------//
 
 void wxSFShapeBase::CreateHandles()
@@ -474,6 +474,64 @@ void wxSFShapeBase::GetChildren(CShapeList &children, bool recursive)
 			node = node->GetNext();
 		}
 	}
+}
+
+void wxSFShapeBase::GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct)
+{
+    m_lstProcessed.Clear();
+    this->_GetNeighbours(neighbours, condir, direct);
+}
+
+void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct)
+{
+    if( m_pParentCanvas )
+    {
+        if( m_lstProcessed.IndexOf(this) != wxNOT_FOUND )return;
+
+        CShapeList lstConnections;
+        wxSFLineShape *pLine;
+        wxSFShapeBase *pOposite = NULL;
+
+        m_pParentCanvas->GetAssignedConnections(this, condir, lstConnections);
+
+        wxCShapeListNode *node = lstConnections.GetFirst();
+        while(node)
+        {
+            pLine = (wxSFLineShape*)node->GetData();
+            switch(condir)
+            {
+                case lineSTARTING:
+                    {
+                        pOposite = m_pParentCanvas->FindShape(pLine->GetTrgShapeId());
+                        if(pOposite && !pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))neighbours.Append(pOposite);
+                    }
+                    break;
+
+                case lineENDING:
+                    {
+                        pOposite = m_pParentCanvas->FindShape(pLine->GetSrcShapeId());
+                        if(pOposite && !pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))neighbours.Append(pOposite);
+                    }
+                    break;
+
+                case lineBOTH:
+                    {
+
+                        if(m_nId == pLine->GetSrcShapeId())pOposite = m_pParentCanvas->FindShape(pLine->GetTrgShapeId());
+                        else
+                            pOposite = m_pParentCanvas->FindShape(pLine->GetSrcShapeId());
+
+                        if(pOposite && !pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))neighbours.Append(pOposite);
+                    }
+            }
+
+            if(!direct && pOposite && pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))
+            {
+                m_lstProcessed.Append(this);
+                pOposite->_GetNeighbours(neighbours, condir, direct);
+            }
+        }
+    }
 }
 
 void wxSFShapeBase::Refresh(const wxRect& rct)

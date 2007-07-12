@@ -10,10 +10,6 @@
 #define serWITHOUT_PARENTS false
 #define sfSAVE_STATE true
 #define sfDONT_SAVE_STATE false
-#define sfRECURSIVE true
-#define sfNOTRECURSIVE false
-#define sfDIRECT true
-#define sfINDIRECT false
 
 // default values
 /*! \brief Default value of wxSFShapeCanvas::m_fShowGrid data member */
@@ -102,17 +98,6 @@ public:
 		searchUNSELECTED,
 		/*! \brief Search for both selected and unselected shapes */
 		searchBOTH
-	};
-
-    /*! \brief Search mode flags for GetAssignedConnections function */
-	enum CONNECTMODE
-	{
-	    /*! \brief Search for connection starting in examined shape */
-	    lineSTARTING,
-	    /*! \brief Search for connection ending in examined shape */
-	    lineENDING,
-	    /*! \brief Search for both starting and ending connections */
-	    lineBOTH
 	};
 
 	// public functions
@@ -366,9 +351,9 @@ public:
 	 * \param lines Reference to shape list where pointers to
 	 * all found connections will be stored
 	 * \return Number of found connections
-	 * \sa CONNECTMODE
+	 * \sa wxSFShapeBase::CONNECTMODE
 	 */
-	int GetAssignedConnections(wxSFShapeBase* parent, CONNECTMODE mode, CShapeList& lines);
+	int GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, CShapeList& lines);
 	/*!
 	 * \brief Get list of shapes of given type.
 	 * \param shapeInfo Shape object type
@@ -386,13 +371,24 @@ public:
 	bool HasChildren(wxSFShapeBase* parent);
 	/*!
 	 * \brief Get child shapes of given parent shape.
-	 * \param parent Pointer to parent shape
+	 * \param parent Pointer to parent shape (can be NULL for all topmost shapes)
 	 * \param children Reference to shape list where pointers to
 	 * all found shapes will be stored
 	 * \param recursive Set this parameter to TRUE if children of children should
 	 * be found as well (in recursive way)
 	 */
 	void GetChildren(wxSFShapeBase* parent, CShapeList& children, bool recursive = false);
+	/*!
+	 * \brief Get neighbour shapes connected to given parent shape.
+	 * \param parent Pointer to parent shape (can be NULL for all topmost shapes)
+	 * \param neighbours List of neighbour shapes
+	 * \param condir Connection direction
+	 * \param direct Set this flag to TRUE if only closest shapes should be found,
+	 * otherwise also shapes connected by forked lines will be found (also
+	 * constants sfDIRECT and sfINDIRECT can be used)
+	 * \sa wxSFShapeBase::CONNECTMODE
+	 */
+	void GetNeighbours(wxSFShapeBase* parent, CShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct = true);
 
 	// public members accessors
 	/*!

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1181760828 source:d:\mywork\source\vc++\wxsf\example\wx_pch.h
+1184249330 source:d:\mywork\source\vc++\wxsf\example\wx_pch.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 
@@ -1746,7 +1746,7 @@
 
 1174307114 d:\lib\wxmsw-2.8\include\wx\msw\filedlg.h
 
-1184237506 source:d:\mywork\source\vc++\wxsf\example\mainframe.cpp
+1184249329 source:d:\mywork\source\vc++\wxsf\example\mainframe.cpp
 	"vld.h"
 	<wx/artprov.h>
 	"MainFrame.h"
@@ -1769,7 +1769,7 @@
 	"wx/bitmap.h"
 	"wx/icon.h"
 
-1175616784 d:\mywork\source\vc++\wxsf\example\mainframe.h
+1184249329 d:\mywork\source\vc++\wxsf\example\mainframe.h
 	<wx/clrpicker.h>
 	"FrameCanvas.h"
 
@@ -1788,10 +1788,10 @@
 	"wx/button.h"
 	"wx/cmndata.h"
 
-1183406847 d:\mywork\source\vc++\wxsf\example\framecanvas.h
+1184249330 d:\mywork\source\vc++\wxsf\example\framecanvas.h
 	"wxShapeFramework.h"
 
-1176648320 d:\mywork\source\vc++\wxsf\include\wxshapeframework.h
+1184249325 d:\mywork\source\vc++\wxsf\include\wxshapeframework.h
 	"ShapeCanvas.h"
 	"RectShape.h"
 	"RoundRectShape.h"
@@ -1808,13 +1808,13 @@
 	"LineShape.h"
 	"CurveShape.h"
 
-1184247440 d:\mywork\source\vc++\wxsf\include\shapecanvas.h
+1184268018 d:\mywork\source\vc++\wxsf\include\shapecanvas.h
 	"ShapeBase.h"
 	"MultiSelRect.h"
 	"CanvasHistory.h"
 	"LineShape.h"
 
-1184229125 d:\mywork\source\vc++\wxsf\include\shapebase.h
+1184267511 d:\mywork\source\vc++\wxsf\include\shapebase.h
 	<wx/wxprec.h>
 	<wx/tokenzr.h>
 	<wx/xml/xml.h>
@@ -1833,95 +1833,95 @@
 	"wx/object.h"
 	"wx/list.h"
 
-1183736074 d:\mywork\source\vc++\wxsf\include\shapehandle.h
+1184249325 d:\mywork\source\vc++\wxsf\include\shapehandle.h
 	<wx/list.h>
 	"ScaledPaintDC.h"
 
-1182184495 d:\mywork\source\vc++\wxsf\include\scaledpaintdc.h
+1184249325 d:\mywork\source\vc++\wxsf\include\scaledpaintdc.h
 	<wx/dcmemory.h>
 
-1181751889 d:\mywork\source\vc++\wxsf\include\multiselrect.h
+1184249325 d:\mywork\source\vc++\wxsf\include\multiselrect.h
 	"rectshape.h"
 
-1183021389 d:\mywork\source\vc++\wxsf\include\rectshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\rectshape.h
 	"shapebase.h"
 
-1181753021 d:\mywork\source\vc++\wxsf\include\canvashistory.h
+1184249324 d:\mywork\source\vc++\wxsf\include\canvashistory.h
 	"CanvasState.h"
 
-1180114490 d:\mywork\source\vc++\wxsf\include\canvasstate.h
+1184249325 d:\mywork\source\vc++\wxsf\include\canvasstate.h
 	<wx/wxprec.h>
 
-1183021293 d:\mywork\source\vc++\wxsf\include\lineshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\lineshape.h
 	"ShapeBase.h"
 	"ArrowBase.h"
 
-1183021331 d:\mywork\source\vc++\wxsf\include\arrowbase.h
+1184249325 d:\mywork\source\vc++\wxsf\include\arrowbase.h
 	"ShapeBase.h"
 
-1183021405 d:\mywork\source\vc++\wxsf\include\roundrectshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\roundrectshape.h
 	"rectshape.h"
 
-1182426940 d:\mywork\source\vc++\wxsf\include\fixedrectshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\fixedrectshape.h
 	"RectShape.h"
 
-1182426928 d:\mywork\source\vc++\wxsf\include\ellipseshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\ellipseshape.h
 	"RectShape.h"
 
-1182426858 d:\mywork\source\vc++\wxsf\include\circleshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\circleshape.h
 	"FixedRectShape.h"
 
-1182426897 d:\mywork\source\vc++\wxsf\include\diamondshape.h
+1184249324 d:\mywork\source\vc++\wxsf\include\diamondshape.h
 	"PolygonShape.h"
 
-1183021373 d:\mywork\source\vc++\wxsf\include\polygonshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\polygonshape.h
 	"RectShape.h"
 
-1183735790 d:\mywork\source\vc++\wxsf\include\textshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\textshape.h
 	"RectShape.h"
 
-1182426912 d:\mywork\source\vc++\wxsf\include\edittextshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\edittextshape.h
 	"textshape.h"
 
-1183021345 d:\mywork\source\vc++\wxsf\include\bitmapshape.h
+1184249324 d:\mywork\source\vc++\wxsf\include\bitmapshape.h
 	"RectShape.h"
 
-1181752327 d:\mywork\source\vc++\wxsf\include\openarrow.h
+1184249325 d:\mywork\source\vc++\wxsf\include\openarrow.h
 	"ArrowBase.h"
 
-1183021448 d:\mywork\source\vc++\wxsf\include\solidarrow.h
+1184249325 d:\mywork\source\vc++\wxsf\include\solidarrow.h
 	"OpenArrow.h"
 
-1183021358 d:\mywork\source\vc++\wxsf\include\curveshape.h
+1184249325 d:\mywork\source\vc++\wxsf\include\curveshape.h
 	"LineShape.h"
 
-1169028667 d:\mywork\source\vc++\wxsf\example\res\rect.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\rect.xpm
 
-1169037696 d:\mywork\source\vc++\wxsf\example\res\tool.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\tool.xpm
 
-1169028956 d:\mywork\source\vc++\wxsf\example\res\roundrect.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\roundrect.xpm
 
-1169029602 d:\mywork\source\vc++\wxsf\example\res\grid.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\grid.xpm
 
-1171717140 d:\mywork\source\vc++\wxsf\example\res\line.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\line.xpm
 
-1173091412 d:\mywork\source\vc++\wxsf\example\res\curve.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\curve.xpm
 
-1173702938 d:\mywork\source\vc++\wxsf\example\res\ellipse.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\ellipse.xpm
 
-1173790912 d:\mywork\source\vc++\wxsf\example\res\circle.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\circle.xpm
 
-1173790973 d:\mywork\source\vc++\wxsf\example\res\fixedrect.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\fixedrect.xpm
 
-1173953402 d:\mywork\source\vc++\wxsf\example\res\diamond.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\diamond.xpm
 
-1174394204 d:\mywork\source\vc++\wxsf\example\res\text.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\text.xpm
 
-1174647250 d:\mywork\source\vc++\wxsf\example\res\edittext.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\edittext.xpm
 
-1175521084 d:\mywork\source\vc++\wxsf\example\res\bitmap.xpm
+1184249327 d:\mywork\source\vc++\wxsf\example\res\bitmap.xpm
 
-1183452444 source:d:\mywork\source\vc++\wxsf\example\resource.rc
+1184249329 source:d:\mywork\source\vc++\wxsf\example\resource.rc
 	"wx/msw/wx.rc"
 
 1174307114 d:\lib\wxmsw-2.8\include\wx\msw\wx.rc
@@ -1942,15 +1942,15 @@
 
 1174307114 d:\lib\wxmsw-2.8\include\wx\msw\rcdefs.h
 
-1184053726 source:d:\mywork\source\vc++\wxsf\example\mainapp.cpp
+1184249329 source:d:\mywork\source\vc++\wxsf\example\mainapp.cpp
 	"MainApp.h"
 	"MainFrame.h"
 
-1171901615 d:\mywork\source\vc++\wxsf\example\mainapp.h
+1184249330 d:\mywork\source\vc++\wxsf\example\mainapp.h
 	<wx/defs.h>
 	<wx/app.h>
 
-1184236628 source:d:\mywork\source\vc++\wxsf\example\framecanvas.cpp
+1184249330 source:d:\mywork\source\vc++\wxsf\example\framecanvas.cpp
 	"FrameCanvas.h"
 	"MainFrame.h"
 	<wx/textdlg.h>
