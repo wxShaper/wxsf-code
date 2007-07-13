@@ -1746,7 +1746,7 @@
 
 1174307114 d:\lib\wxmsw-2.8\include\wx\msw\filedlg.h
 
-1184249329 source:d:\mywork\source\vc++\wxsf\example\mainframe.cpp
+1184325369 source:d:\mywork\source\vc++\wxsf\example\mainframe.cpp
 	"vld.h"
 	<wx/artprov.h>
 	"MainFrame.h"
@@ -1788,7 +1788,7 @@
 	"wx/button.h"
 	"wx/cmndata.h"
 
-1184249330 d:\mywork\source\vc++\wxsf\example\framecanvas.h
+1184316313 d:\mywork\source\vc++\wxsf\example\framecanvas.h
 	"wxShapeFramework.h"
 
 1184249325 d:\mywork\source\vc++\wxsf\include\wxshapeframework.h
@@ -1814,7 +1814,7 @@
 	"CanvasHistory.h"
 	"LineShape.h"
 
-1184267511 d:\mywork\source\vc++\wxsf\include\shapebase.h
+1184326632 d:\mywork\source\vc++\wxsf\include\shapebase.h
 	<wx/wxprec.h>
 	<wx/tokenzr.h>
 	<wx/xml/xml.h>
@@ -1950,7 +1950,7 @@
 	<wx/defs.h>
 	<wx/app.h>
 
-1184249330 source:d:\mywork\source\vc++\wxsf\example\framecanvas.cpp
+1184326187 source:d:\mywork\source\vc++\wxsf\example\framecanvas.cpp
 	"FrameCanvas.h"
 	"MainFrame.h"
 	<wx/textdlg.h>

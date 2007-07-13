@@ -5,6 +5,8 @@
 
 WX_DEFINE_LIST(CShapeList);
 
+CShapeList m_lstProcessed;
+
 IMPLEMENT_DYNAMIC_CLASS(wxSFShapeBase, wxObject);
 
 wxSFShapeBase::wxSFShapeBase(void)
@@ -478,8 +480,13 @@ void wxSFShapeBase::GetChildren(CShapeList &children, bool recursive)
 
 void wxSFShapeBase::GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct)
 {
-    m_lstProcessed.Clear();
-    this->_GetNeighbours(neighbours, condir, direct);
+    if( !this->IsKindOf(CLASSINFO(wxSFLineShape)) )
+    {
+        m_lstProcessed.Clear();
+        this->_GetNeighbours(neighbours, condir, direct);
+        // delete starting object if necessary (can be added in a case of complex connection network)
+        neighbours.DeleteObject(this);
+    }
 }
 
 void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct)
@@ -494,6 +501,7 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
 
         m_pParentCanvas->GetAssignedConnections(this, condir, lstConnections);
 
+        // find oposite shpes in direct branches
         wxCShapeListNode *node = lstConnections.GetFirst();
         while(node)
         {
@@ -501,35 +509,72 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
             switch(condir)
             {
                 case lineSTARTING:
-                    {
-                        pOposite = m_pParentCanvas->FindShape(pLine->GetTrgShapeId());
-                        if(pOposite && !pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))neighbours.Append(pOposite);
-                    }
+                    pOposite = m_pParentCanvas->FindShape(pLine->GetTrgShapeId());
                     break;
 
                 case lineENDING:
-                    {
-                        pOposite = m_pParentCanvas->FindShape(pLine->GetSrcShapeId());
-                        if(pOposite && !pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))neighbours.Append(pOposite);
-                    }
+                    pOposite = m_pParentCanvas->FindShape(pLine->GetSrcShapeId());
                     break;
 
                 case lineBOTH:
                     {
-
                         if(m_nId == pLine->GetSrcShapeId())pOposite = m_pParentCanvas->FindShape(pLine->GetTrgShapeId());
                         else
                             pOposite = m_pParentCanvas->FindShape(pLine->GetSrcShapeId());
-
-                        if(pOposite && !pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))neighbours.Append(pOposite);
                     }
             }
 
-            if(!direct && pOposite && pOposite->IsKindOf(CLASSINFO(wxSFLineShape)))
+            // add oposite shape to the list (if applicable)
+            if(pOposite && !pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) && ( neighbours.IndexOf(pOposite) == wxNOT_FOUND )) neighbours.Append(pOposite);
+
+            // find next shapes
+            if( !direct && pOposite )
             {
+                // in the case of indirect branches we must differentiate between connections
+                // and ordinary shapes
                 m_lstProcessed.Append(this);
-                pOposite->_GetNeighbours(neighbours, condir, direct);
+
+                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )
+                {
+                    pLine = (wxSFLineShape*)pOposite;
+                    switch(condir)
+                    {
+                        case lineSTARTING:
+                            {
+                                pOposite = m_pParentCanvas->FindShape( pLine->GetSrcShapeId() );
+
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
+                            }
+                            break;
+
+                        case lineENDING:
+                            {
+                                pOposite = m_pParentCanvas->FindShape( pLine->GetTrgShapeId() );
+
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
+                            }
+                            break;
+
+                        case lineBOTH:
+                            {
+                                pOposite = m_pParentCanvas->FindShape( pLine->GetSrcShapeId() );
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
+
+                                pOposite = m_pParentCanvas->FindShape( pLine->GetTrgShapeId() );
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
+                            }
+                            break;
+                    }
+                }
+                else
+                    pLine->_GetNeighbours(neighbours, condir, direct);
             }
+
+            node = node->GetNext();
         }
     }
 }

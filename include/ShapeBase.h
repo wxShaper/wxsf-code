@@ -253,7 +253,7 @@ public:
 	bool IsSelected(){return m_fSelected;}
 	/// <summary> Set the shape as a selected/deselected one </summary>
 	/// <param name="state"> Selection state (TRUE is selected, FALSE is deselected) </param>
-	void Select(bool state){m_fSelected = state;}
+	void Select(bool state){m_fSelected = state; ShowHandles(state);}
 
     /// <summary> Set shape's relative position. Absolute shape's position is then calculated
     /// as a sumation of the relative positions of this shape and all parent shapes in the shape's
@@ -797,7 +797,6 @@ private:
 	bool m_fHighlighParent;
 
 	wxRealPoint m_nMouseOffset;
-	wxList m_lstProcessed;
 
 	long m_nId;
 
@@ -866,3 +865,5 @@ private:
 };
 
 WX_DECLARE_LIST(wxSFShapeBase, CShapeList);
+
+extern CShapeList m_lstProcessed;

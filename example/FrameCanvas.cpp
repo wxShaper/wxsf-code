@@ -233,6 +233,69 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 	}
 }
 
+void CFrameCanvas::OnRightDown(wxMouseEvent& event)
+{
+    // try to find shape under cursor
+    wxSFShapeBase *pShape = GetShapeAtPosition(DP2LP(event.GetPosition()), 1, searchBOTH);
+
+    // print out information about the shape (if found)
+    if(pShape)
+    {
+        CShapeList lstShapes;
+        wxString msg;
+        wxSFShapeBase *pChild;
+        int counter;
+
+        // show basic info
+        msg.Printf(wxT("Class name: %s, ID: %d\n"), pShape->GetClassInfo()->GetClassName(), pShape->GetId());
+
+        // show info about shape's children
+        counter = 1;
+        pShape->GetChildren(lstShapes, sfRECURSIVE);
+        if( lstShapes.GetCount() > 0 )
+        {
+            msg += wxT("\nChildren:\n");
+            wxCShapeListNode* node = lstShapes.GetFirst();
+            while(node)
+            {
+                pChild = node->GetData();
+
+                msg += wxString::Format(wxT("%d. Class name: %s, ID: %d\n"), counter, pChild->GetClassInfo()->GetClassName(), pChild->GetId());
+                counter++;
+
+                node = node->GetNext();
+            }
+        }
+
+        // show info about shape's neighbours
+        counter = 1;
+        lstShapes.Clear();
+        pShape->GetNeighbours(lstShapes, wxSFShapeBase::lineBOTH, sfINDIRECT);
+        if( lstShapes.GetCount() > 0 )
+        {
+            msg += wxT("\nNeighbours:\n");
+            wxCShapeListNode *node = lstShapes.GetFirst();
+            while(node)
+            {
+                pChild = node->GetData();
+
+                msg += wxString::Format(wxT("%d. Class name: %s, ID: %d\n"), counter, pChild->GetClassInfo()->GetClassName(), pChild->GetId());
+                counter++;
+
+                node = node->GetNext();
+            }
+        }
+
+        // show message
+        wxMessageBox(msg, wxT("wxShapeFramework"), wxOK | wxICON_INFORMATION);
+    }
+    else
+        wxMessageBox(wxT("No shape found on this position."), wxT("wxShapeFramework"), wxOK | wxICON_INFORMATION);
+
+    // call default handler
+    wxSFShapeCanvas::OnRightDown(event);
+}
+
 void CFrameCanvas::OnKeyDown(wxKeyEvent& event)
 {
 	switch(event.GetKeyCode())

@@ -462,7 +462,7 @@ void CMainFrame::OnSelectAll(wxCommandEvent& event)
 
 void CMainFrame::OnAbout(wxCommandEvent& event)
 {
-	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.1\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), shapeCanvas->GetVersion().c_str()), wxT("ShapeFranework"));
+	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.2\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), shapeCanvas->GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void CMainFrame::OnExportToBMP(wxCommandEvent& event)

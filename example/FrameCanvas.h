@@ -11,6 +11,7 @@ public:
 
 	// public virtual functions
 	virtual void OnLeftDown(wxMouseEvent& event);
+	virtual void OnRightDown(wxMouseEvent& event);
 	virtual void OnKeyDown(wxKeyEvent& event);
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
 

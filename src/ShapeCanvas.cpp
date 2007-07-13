@@ -33,7 +33,7 @@ END_EVENT_TABLE()
 wxSFShapeCanvas::wxSFShapeCanvas(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 : wxScrolledWindow(parent, id, pos, size, style)
 {
-    m_sVersion =  wxT("1.1.1 alpha");
+    m_sVersion =  wxT("1.1.2 alpha");
 
 	SetScrollbars(5, 5, 100, 100);
 	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
@@ -228,7 +228,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 					}
 
 					pSelectedShape->Select(true);
-					pSelectedShape->ShowHandles(true);
+					//pSelectedShape->ShowHandles(true);
 
 					GetSelectedShapes(m_lstSelection);
 					// remove child shapes from the selection
@@ -239,7 +239,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 						HideAllHandles();
 					}
 					m_shpMultiEdit.Show(false);
-					m_shpMultiEdit.ShowHandles(false);
+					//m_shpMultiEdit.ShowHandles(false);
 					m_nWorkingMode = modeSHAPEMOVE;
 
 					// inform selected shapes about begin of dragging...
@@ -498,7 +498,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 				if(selRect.Contains(pShape->GetBoundingBox()))
 				{
 					pShape->Select(true);
-					pShape->ShowHandles(true);
+					//pShape->ShowHandles(true);
 					m_lstSelection.Append(pShape);
 				}
 				node = node->GetNext();
@@ -577,11 +577,14 @@ void wxSFShapeCanvas::OnRightDown(wxMouseEvent& event)
 	{
     case modeREADY:
         {
+            DeselectAll();
+
             wxSFShapeBase* pShape = GetShapeAtPosition(lpos);
             if(pShape)
             {
+                pShape->Select(true);
                 pShape->OnRightClick(lpos);
-                pShape->Refresh();
+                //pShape->Refresh();
             }
         }
         break;
@@ -589,6 +592,8 @@ void wxSFShapeCanvas::OnRightDown(wxMouseEvent& event)
     default:
         break;
 	}
+
+	Refresh();
 }
 
 void wxSFShapeCanvas::OnRightUp(wxMouseEvent &event)
@@ -601,19 +606,19 @@ void wxSFShapeCanvas::OnRightUp(wxMouseEvent &event)
 	{
 	case modeREADY:
 		{
-			wxSFShapeBase* pSelectedShape = GetShapeAtPosition(lpos);
+			/*wxSFShapeBase* pSelectedShape = GetShapeAtPosition(lpos);
 
 			if(pSelectedShape)
 			{
 				// perform selection
 				DeselectAll();
-				HideAllHandles();
+				//HideAllHandles();
 				pSelectedShape->Select(true);
-				pSelectedShape->ShowHandles(true);
+				//pSelectedShape->ShowHandles(true);
 
 				// call user defined action
 				pSelectedShape->OnRightClick(lpos);
-			}
+			}*/
 		}
 		break;
 
@@ -621,9 +626,9 @@ void wxSFShapeCanvas::OnRightUp(wxMouseEvent &event)
         break;
 	}
 
-	m_shpMultiEdit.Show(false);
+	//m_shpMultiEdit.Show(false);
 
-	Refresh();
+	//Refresh();
 }
 
 void wxSFShapeCanvas::OnRightDoubleClick(wxMouseEvent& event)
@@ -1731,9 +1736,12 @@ void wxSFShapeCanvas::DeselectAll()
 	while(node)
 	{
 		node->GetData()->Select(false);
-		node->GetData()->ShowHandles(false);
+		//node->GetData()->ShowHandles(false);
 		node = node->GetNext();
 	}
+
+    m_shpMultiEdit.Show(false);
+    //m_shpMultiEdit.ShowHandles(false);
 }
 
 void wxSFShapeCanvas::SelectAll()
@@ -1744,7 +1752,7 @@ void wxSFShapeCanvas::SelectAll()
 		while(node)
 		{
 			node->GetData()->Select(true);
-			node->GetData()->ShowHandles(true);
+			//node->GetData()->ShowHandles(true);
 			node = node->GetNext();
 		}
 
@@ -1848,7 +1856,7 @@ void wxSFShapeCanvas::ValidateSelection(CShapeList& selection)
 		wxSFShapeBase* pShape = node->GetData();
 
 		pShape->Select(false);
-		pShape->ShowHandles(false);
+		//pShape->ShowHandles(false);
 		selection.DeleteObject(pShape);
 
 		node = node->GetNext();
