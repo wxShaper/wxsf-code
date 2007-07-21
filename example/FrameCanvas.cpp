@@ -74,6 +74,11 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
                     m_pParentFrame->SetToolMode(CMainFrame::modeDESIGN);
                 }
 
+                // set alignment
+                pText->SetVAlign(wxSFShapeBase::valignTOP);
+                pText->SetHAlign(wxSFShapeBase::halignCENTER);
+                pText->SetVBorder(10);
+
                 // set shapes policy
                 pText->AcceptConnection(wxT("All"));
                 pText->AcceptSrcNeighbour(wxT("All"));

@@ -146,13 +146,13 @@ void wxSFRectShape::OnRightHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN);
+	/*wxRect chBB;
+	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
 
 	if(!chBB.IsEmpty())
 	{
 		if(handle.GetPosition().x <= chBB.GetRight())return;
-	}
+	}*/
 
 	m_nRectSize.x = handle.GetPosition().x - GetAbsolutePosition().x;
 	//m_nRectSize.x = m_nPrevSize.x + handle.GetTotalDelta().x;
@@ -162,13 +162,14 @@ void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN);
+    wxSFShapeBase *pChild;
+	/*wxRect chBB;
+	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
 
 	if(!chBB.IsEmpty())
 	{
 		if(handle.GetPosition().x > chBB.GetLeft())return;
-	}
+	}*/
 
 	double dx = (double)handle.GetPosition().x - GetAbsolutePosition().x;
 
@@ -179,7 +180,11 @@ void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
 	wxCShapeListNode *node = m_lstChildren.GetFirst();
 	while(node)
 	{
-		node->GetData()->MoveBy(-dx, 0);
+	    pChild = node->GetData();
+	    if( pChild->GetHAlign() == halignNONE )
+	    {
+            node->GetData()->MoveBy(-dx, 0);
+	    }
 		node = node->GetNext();
 	}
 	// update position and size of the shape
@@ -191,13 +196,14 @@ void wxSFRectShape::OnTopHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN);
+    wxSFShapeBase *pChild;
+	/*wxRect chBB;
+	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
 
 	if(!chBB.IsEmpty())
 	{
 		if(handle.GetPosition().y > chBB.GetTop())return;
-	}
+	}*/
 
 	double dy = (double)handle.GetPosition().y - GetAbsolutePosition().y;
 
@@ -208,7 +214,11 @@ void wxSFRectShape::OnTopHandle(wxSFShapeHandle& handle)
 	wxCShapeListNode *node = m_lstChildren.GetFirst();
 	while(node)
 	{
-		node->GetData()->MoveBy(0, -dy);
+	    pChild = node->GetData();
+	    if( pChild->GetVAlign() == valignNONE )
+	    {
+            node->GetData()->MoveBy(0, -dy);
+	    }
 		node = node->GetNext();
 	}
 	// update position and size of the shape
@@ -220,13 +230,13 @@ void wxSFRectShape::OnBottomHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN);
+	/*wxRect chBB;
+	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
 
 	if(!chBB.IsEmpty())
 	{
 		if(handle.GetPosition().y <= chBB.GetBottom())return;
-	}
+	}*/
 
 	m_nRectSize.y = handle.GetPosition().y - GetAbsolutePosition().y;
 }

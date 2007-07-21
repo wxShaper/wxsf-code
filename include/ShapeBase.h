@@ -43,6 +43,14 @@
 #define sfdvBASESHAPE_SIZECHANGE true
 /// <summary> Default value of wxSFShapeObject::m_fPositionChange data member </summary>
 #define sfdvBASESHAPE_POSITIONCHANGE true
+/// <summary> Default value of wxSFShapeObject::m_nVAlign data member </summary>
+#define sfdvBASESHAPE_VALIGN valignNONE
+/// <summary> Default value of wxSFShapeObject::m_nHAlign data member </summary>
+#define sfdvBASESHAPE_HALIGN halignNONE
+/// <summary> Default value of wxSFShapeObject::m_nVBorder data member </summary>
+#define sfdvBASESHAPE_VBORDER 5
+/// <summary> Default value of wxSFShapeObject::m_nHBorder data member </summary>
+#define sfdvBASESHAPE_HBORDER 5
 
 class wxSFShapeCanvas;
 class CShapeList;
@@ -67,6 +75,7 @@ class wxSFShapeBase : public wxObject
 public:
 
     friend class wxSFShapeCanvas;
+    friend class wxSFShapeHandle;
 
 	DECLARE_DYNAMIC_CLASS(wxSFShapeBase);
 
@@ -76,7 +85,7 @@ public:
 		bbSELF = 1,
         bbCHILDREN = 2,
         bbCONNECTIONS = 4,
-		bbALL = 7
+        bbALL = 7
     };
 
     /*! \brief Search mode flags for GetAssignedConnections function */
@@ -88,6 +97,24 @@ public:
 	    lineENDING,
 	    /*! \brief Search for both starting and ending connections */
 	    lineBOTH
+	};
+
+    /*! \brief Flags for AlignV function */
+	enum VALIGN
+	{
+	    valignNONE,
+	    valignTOP,
+	    valignMIDDLE,
+	    valignBOTTOM
+	};
+
+    /*! \brief Flags for AlignH function */
+	enum HALIGN
+	{
+	    halignNONE,
+	    halignLEFT,
+	    halignCENTER,
+	    halignRIGHT
 	};
 
     /// <summary> Default constructor </summary>
@@ -227,8 +254,12 @@ public:
 	/// <summary> Move the shape by the given offset. </summary>
 	/// <param name="delta"> Offset </param>
 	void MoveBy(const wxRealPoint& delta);
-	/// <summary> Resize the shape to bound all child shapes.
-	/// The function can be overrided if neccessary.</summary>
+
+	/*! \brief Upate shape (align all child shapes an resize it to fit them) */
+	void Update();
+	/*! \brief Update shape position in order to its alignment */
+	void DoAlignment();
+	/*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
 	virtual void FitToChildren();
 
     /*!
@@ -272,6 +303,58 @@ public:
     /// <returns> Current relative position </returns>
     /// <seealso cref="GetAbsolutePosition"></seealso>
 	wxRealPoint GetRelativePosition() const {return m_nRelativePosition;}
+	/*!
+	 * \brief Set vertical alignment of this shape inside its parent
+	 * \param val Alignment type
+	 * \sa VALIGN
+	 */
+	void SetVAlign(VALIGN val){m_nVAlign = val;}
+	/*!
+	 * \brief Get vertical alignment of this shape inside its parent
+	 * \return Alignment type
+	 * \sa VALIGN
+	 */
+	VALIGN GetVAlign(){return m_nVAlign;}
+	/*!
+	 * \brief Set horizontal alignment of this shape inside its parent
+	 * \param val Horizontal type
+	 * \sa HALIGN
+	 */
+	void SetHAlign(HALIGN val){m_nHAlign = val;}
+	/*!
+	 * \brief Get horizontal alignment of this shape inside its parent
+	 * \return Alignment type
+	 * \sa VALIGN
+	 */
+	HALIGN GetHAlign(){return m_nHAlign;}
+	/*!
+	 * \brief Set vertical border between this shape and its parent (is vertical
+	 * alignment is set).
+	 * \param border Vertical border
+	 * \sa SetVAlign
+	 */
+	void SetVBorder(double border){m_nVBorder = border;}
+	/*!
+	 * \brief Get vertical border between this shape and its parent (is vertical
+	 * alignment is set).
+	 * \return Vertical border
+	 * \sa SetVAlign
+	 */
+	double GetVBorder(){return m_nVBorder;}
+	/*!
+	 * \brief Set horizontal border between this shape and its parent (is horizontal
+	 * alignment is set).
+	 * \param border Horizontal border
+	 * \sa SetVAlign
+	 */
+	void SetHBorder(double border){m_nHBorder = border;}
+	/*!
+	 * \brief Get horizontal border between this shape and its parent (is horizontal
+	 * alignment is set).
+	 * \return Vertical border
+	 * \sa SetHAlign
+	 */
+	double GetHBorder(){return m_nHBorder;}
 
     /// <summary> Get pointer to a parent shape </summary>
 	wxSFShapeBase* GetParentShape();
@@ -688,6 +771,14 @@ protected:
 	wxArrayString m_arrAcceptedSrcNeighbours;
 	/*! \brief String list with class names of accepted target neighbour shapes */
 	wxArrayString m_arrAcceptedTrgNeighbours;
+    /*! \brief Value of vertical border used by AlignV function */
+	double m_nVBorder;
+    /*! \brief Value of horizontal border used by AlignH function */
+    double m_nHBorder;
+    /*! \brief Vertical alignment of child shapes */
+    VALIGN m_nVAlign;
+    /*! \brief Horizontal alignment of child shapes */
+    HALIGN m_nHAlign;
 
 	wxSFShapeCanvas *m_pParentCanvas;
 	/*! \brief Handle list */
@@ -862,6 +953,15 @@ private:
 	 * \sa wxSFShapeBase::OnKey
 	 */
 	void _OnKey(int key);
+
+	/*!
+	 * \brief Original protected event handler called during dragging of the shape handle.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation manages the child shapes' alignment (if set).
+	 * \param handle Reference to dragged handle
+	 */
+	void _OnHandle(wxSFShapeHandle& handle);
 };
 
 WX_DECLARE_LIST(wxSFShapeBase, CShapeList);

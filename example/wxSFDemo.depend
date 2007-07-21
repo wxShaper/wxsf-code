@@ -1814,7 +1814,7 @@
 	"CanvasHistory.h"
 	"LineShape.h"
 
-1184326632 d:\mywork\source\vc++\wxsf\include\shapebase.h
+1184362973 d:\mywork\source\vc++\wxsf\include\shapebase.h
 	<wx/wxprec.h>
 	<wx/tokenzr.h>
 	<wx/xml/xml.h>
@@ -1950,7 +1950,7 @@
 	<wx/defs.h>
 	<wx/app.h>
 
-1184326187 source:d:\mywork\source\vc++\wxsf\example\framecanvas.cpp
+1184363953 source:d:\mywork\source\vc++\wxsf\example\framecanvas.cpp
 	"FrameCanvas.h"
 	"MainFrame.h"
 	<wx/textdlg.h>

@@ -129,6 +129,30 @@ wxXmlNode* wxSFShapeBase::Serialize(wxXmlNode* node)
 			AddPropertyNode(node, wxT("relative_position"), RealPointToString(m_nRelativePosition));
 		}
 
+		// store "m_nVAlign" property
+		if(m_nVAlign != sfdvBASESHAPE_VALIGN)
+		{
+		    AddPropertyNode(node, wxT("valign"), LongToString(m_nVAlign));
+		}
+
+		// store "m_nHAlign" property
+		if(m_nHAlign != sfdvBASESHAPE_HALIGN)
+		{
+		    AddPropertyNode(node, wxT("halign"), LongToString(m_nHAlign));
+		}
+
+		// store "m_nVBorder" property
+		if(m_nVBorder != sfdvBASESHAPE_VBORDER)
+		{
+		    AddPropertyNode(node, wxT("vborder"), DoubleToString(m_nVBorder));
+		}
+
+		// store "m_nHBorder" property
+		if(m_nHBorder != sfdvBASESHAPE_HBORDER)
+		{
+		    AddPropertyNode(node, wxT("hborder"), DoubleToString(m_nHBorder));
+		}
+
 		// store handles
 		if((m_nSerializeMask & sfsfBASESHAPE_HANDLES) || (m_fSizeChange != sfdvBASESHAPE_SIZECHANGE))
 		{
@@ -268,6 +292,22 @@ void wxSFShapeBase::Deserialize(wxXmlNode* node)
 		else if(propNode->GetName() == wxT("relative_position"))
 		{
 			m_nRelativePosition = StringToRealPoint(propNode->GetNodeContent());
+		}
+		else if(propNode->GetName() == wxT("valign"))
+		{
+			m_nVAlign = (VALIGN)StringToLong(propNode->GetNodeContent());
+		}
+		else if(propNode->GetName() == wxT("halign"))
+		{
+			m_nHAlign = (HALIGN)StringToLong(propNode->GetNodeContent());
+		}
+		else if(propNode->GetName() == wxT("vborder"))
+		{
+			m_nVBorder = StringToDouble(propNode->GetNodeContent());
+		}
+		else if(propNode->GetName() == wxT("hborder"))
+		{
+			m_nHBorder = StringToDouble(propNode->GetNodeContent());
 		}
 		else if(propNode->GetName() == wxT("handles"))
 		{

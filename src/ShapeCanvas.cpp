@@ -11,6 +11,8 @@
 #include "BitmapShape.h"
 #include "CommonFcn.h"
 
+// TODO: wxSFShapeCanvas: Implement function DoAlignment()
+
 WX_DEFINE_LIST(CIDList);
 
 static const wxChar* dataFormatID = wxT("ShapeFrameWorkDataFormat1_0");
@@ -33,7 +35,7 @@ END_EVENT_TABLE()
 wxSFShapeCanvas::wxSFShapeCanvas(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 : wxScrolledWindow(parent, id, pos, size, style)
 {
-    m_sVersion =  wxT("1.1.2 alpha");
+    m_sVersion =  wxT("1.1.3 alpha");
 
 	SetScrollbars(5, 5, 100, 100);
 	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
@@ -460,6 +462,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 					{
 						pShape->SetRelativePosition(pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition());
 						pShape->SetParentShapeId(pParentShape->GetId());
+						pShape->DoAlignment();
 					}
 					else
 					{
@@ -476,7 +479,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 			if(m_lstSelection.GetCount()>1)
 			{
 				m_shpMultiEdit.Show(true);
-				m_shpMultiEdit.ShowHandles(true);
+				//m_shpMultiEdit.ShowHandles(true);
 			}
 			else
 				m_shpMultiEdit.Show(false);

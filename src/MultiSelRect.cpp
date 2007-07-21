@@ -121,6 +121,9 @@ void wxSFMultiSelRect::ScaleChildren(wxSFShapeBase *parent, double sx, double sy
             pShape->SetRelativePosition(pShape->GetRelativePosition().x*sx, pShape->GetRelativePosition().y*sy);
 		}
 
+        // re-align shapes which have set any alignment mode
+		pShape->DoAlignment();
+
 		node = node->GetNext();
 	}
 }
@@ -187,6 +190,8 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 			// scale its children as well
 			ScaleChildren(pShape, sx, 1);
 
+			pShape->DoAlignment();
+
 			node = node->GetNext();
 		}
 	}
@@ -249,6 +254,8 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 			// scale its children as well
 			ScaleChildren(pShape, sx, 1);
 
+			pShape->DoAlignment();
+
 			node = node->GetNext();
 		}
 	}
@@ -300,6 +307,8 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 
             // scale its children as well
             ScaleChildren(pShape, 1, sy);
+
+            pShape->DoAlignment();
 
             node = node->GetNext();
 		}
@@ -362,6 +371,8 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
 
             // scale its children as well
             ScaleChildren(pShape, 1, sy);
+
+            pShape->DoAlignment();
 
             node = node->GetNext();
 		}

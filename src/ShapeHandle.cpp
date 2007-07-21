@@ -128,48 +128,48 @@ void wxSFShapeHandle::OnDragging(const wxPoint& pos)
 			{
 			case hndLEFTTOP:
 				if((pos.x < prevRct.GetRight()) && (pos.y < prevRct.GetBottom()))
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
 			case hndTOP:
 				if(pos.y < prevRct.GetBottom())
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
 			case hndRIGHTTOP:
 				if((pos.x > prevRct.GetLeft()) && (pos.y < prevRct.GetBottom()))
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
 			case hndRIGHT:
 				if(pos.x > prevRct.GetLeft())
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
 			case hndRIGHTBOTTOM:
 				if((pos.x > prevRct.GetLeft()) && (pos.y > prevRct.GetTop()))
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
 			case hndBOTTOM:
 				if(pos.y > prevRct.GetTop())
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
 			case hndLEFTBOTTOM:
 				if((pos.x < prevRct.GetRight()) && (pos.y > prevRct.GetTop()))
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
 			case hndLEFT:
 				if(pos.x < prevRct.GetRight())
-					m_pParentShape->OnHandle(*this);
+					m_pParentShape->_OnHandle(*this);
 				break;
 
             case hndLINESTART:
             case hndLINEEND:
 			case hndLINECTRL:
-				m_pParentShape->OnHandle(*this);
+				m_pParentShape->_OnHandle(*this);
 				break;
 
             default:
