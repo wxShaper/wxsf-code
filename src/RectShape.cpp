@@ -49,13 +49,16 @@ bool wxSFRectShape::Intersects(const wxRect& rct)
 	return wxRect(wxPoint((int)GetAbsolutePosition().x, (int)GetAbsolutePosition().y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y)).Intersects(rct);
 }
 
-void wxSFRectShape::Scale(double x, double y)
+void wxSFRectShape::Scale(double x, double y, bool children)
 {
 	// HINT: overload it for custom actions...
 
 	if((x > 0) && (y > 0))
 	{
 		SetRectSize(m_nRectSize.x * x, m_nRectSize.y * y);
+
+        // call default function implementation (needed for scaling of shape's children)
+		wxSFShapeBase::Scale(x, y, children);
 	}
 }
 

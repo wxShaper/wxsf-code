@@ -53,7 +53,7 @@ wxSFTextShape::~wxSFTextShape()
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFTextShape::Scale(double x, double y)
+void wxSFTextShape::Scale(double x, double y, bool children)
 {
     // HINT: overload it for custom actions...
 
@@ -72,6 +72,9 @@ void wxSFTextShape::Scale(double x, double y)
 
 		m_Font.SetPointSize((int)size);
 		UpdateRectSize();
+
+        // call default function implementation (needed for scaling of shape's children)
+		wxSFShapeBase::Scale(x, y, children);
 	}
 }
 

@@ -13,6 +13,8 @@
 #define sfNORECURSIVE false
 #define sfDIRECT true
 #define sfINDIRECT false
+#define sfWITHCHILDREN true
+#define sfWITHOUTCHILDREN false
 
 // user-defined serialization flags
 /// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize shape position </summary>
@@ -232,13 +234,25 @@ public:
 	/// <seealso cref="BBMODE"></seealso>
 	void GetCompleteBoundingBox(wxRect& rct, int mask = bbALL);
 
-    /// <summary> Scale the shape size by in both directions. The function can be overrided if necessary. </summary>
+    /// <summary> Scale the shape size by in both directions. The function can be overrided if necessary
+    /// (new implementation should call default one ore scale shape's children manualy if neccesary). </summary>
     /// <param name="x"> Horizontal scale factor </param>
     /// <param name="y"> Vertical scale factor </param>
-	virtual void Scale(double x, double y);
+    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
+    /// the shape will be updated after scaling via Update() function. </param>
+	virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
     /// <summary> Scale the shape size by in both directions. </summary>
     /// <param name="scale"> Scaling factor </param>
-	void Scale(const wxRealPoint& scale);
+    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
+    /// the shape will be updated after scaling via Update() function. </param>
+	void Scale(const wxRealPoint& scale, bool children = sfWITHCHILDREN);
+    /*!
+     * \brief Scale shape's children
+     * \param x Horizontal scale factor
+     * \param y Vertical scale factor
+     * \sa Scale
+     */
+	void ScaleChildren(double x, double y);
 	/// <summary> Move the shape to the given absolute position. The function can be overrided if necessary. </summary>
 	/// <param name="x"> X coordinate </param>
 	/// <param name="y"> Y coordinate </param>

@@ -105,39 +105,6 @@ bool wxSFMultiSelRect::AnyHeightExceeded(const wxPoint& delta)
 	return true;
 }
 
-void wxSFMultiSelRect::ScaleChildren(wxSFShapeBase *parent, double sx, double sy)
-{
-	CShapeList m_lstChildren;
-	parent->GetChildren(m_lstChildren, true);
-
-	wxCShapeListNode *node = m_lstChildren.GetFirst();
-	while(node)
-	{
-		wxSFShapeBase* pShape = node->GetData();
-
-		if(CanScale(pShape))
-		{
-		    pShape->Scale(sx, sy);
-            pShape->SetRelativePosition(pShape->GetRelativePosition().x*sx, pShape->GetRelativePosition().y*sy);
-		}
-
-        // re-align shapes which have set any alignment mode
-		pShape->DoAlignment();
-
-		node = node->GetNext();
-	}
-}
-
-bool wxSFMultiSelRect::CanScale(wxSFShapeBase* shape)
-{
-	if(shape)
-	{
-		return shape->CanChangeSize() && !shape->IsKindOf(CLASSINFO(wxSFTextShape));
-	}
-	else
-		return false;
-}
-
 //----------------------------------------------------------------------------------//
 // public virtual functions
 //----------------------------------------------------------------------------------//
@@ -164,10 +131,9 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 			if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
 			{
 			    dx = (pShape->GetAbsolutePosition().x - (GetAbsolutePosition().x + MEOFFSET))/(GetRectSize().x - 2*MEOFFSET)*handle.GetDelta().x;
-                if(CanScale(pShape))
-				{
-					pShape->Scale(sx, 1);
-				}
+
+				pShape->Scale(sx, 1, sfWITHCHILDREN);
+
                 if(pShape->CanChangePosition())pShape->MoveBy(dx, 0);
 			}
 			else
@@ -186,11 +152,6 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
                     }
 			    }
 			}
-
-			// scale its children as well
-			ScaleChildren(pShape, sx, 1);
-
-			pShape->DoAlignment();
 
 			node = node->GetNext();
 		}
@@ -229,10 +190,9 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
                         pShape->MoveBy(dx, 0);
                     }
                 }
-                if(CanScale(pShape))
-				{
-					pShape->Scale(sx, 1);
-				}
+
+                pShape->Scale(sx, 1, sfWITHCHILDREN);
+
             }
             else
 			{
@@ -250,11 +210,6 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
                     }
 			    }
 			}
-
-			// scale its children as well
-			ScaleChildren(pShape, sx, 1);
-
-			pShape->DoAlignment();
 
 			node = node->GetNext();
 		}
@@ -282,10 +237,9 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
             if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
             {
                 dy = (pShape->GetAbsolutePosition().y - (GetAbsolutePosition().y + MEOFFSET))/(GetRectSize().y - 2*MEOFFSET)*handle.GetDelta().y;
-                if(CanScale(pShape))
-				{
-					pShape->Scale(1, sy);
-				}
+
+                pShape->Scale(1, sy, sfWITHCHILDREN);
+
                 if(pShape->CanChangePosition())pShape->MoveBy(0, dy);
             }
             else
@@ -304,11 +258,6 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
                     }
                 }
             }
-
-            // scale its children as well
-            ScaleChildren(pShape, 1, sy);
-
-            pShape->DoAlignment();
 
             node = node->GetNext();
 		}
@@ -347,10 +296,8 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
                         pShape->MoveBy(0, dy);
                     }
                 }
-                if(CanScale(pShape))
-				{
-					pShape->Scale(1, sy);
-				}
+
+                pShape->Scale(1, sy, sfWITHCHILDREN);
             }
             else
             {
@@ -368,11 +315,6 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
                     }
                 }
             }
-
-            // scale its children as well
-            ScaleChildren(pShape, 1, sy);
-
-            pShape->DoAlignment();
 
             node = node->GetNext();
 		}

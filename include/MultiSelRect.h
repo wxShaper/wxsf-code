@@ -46,11 +46,7 @@ private:
 
 	// private functions
 	/// <summary> Auxiliary function </summary>
-	bool CanScale(wxSFShapeBase* shape);
-	/// <summary> Auxiliary function </summary>
 	bool AnyWidthExceeded(const wxPoint& delta);
 	/// <summary> Auxiliary function </summary>
 	bool AnyHeightExceeded(const wxPoint& delta);
-	/// <summary> Auxiliary function </summary>
-	void ScaleChildren(wxSFShapeBase* parent, double sx, double sy);
 };

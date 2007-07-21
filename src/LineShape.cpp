@@ -272,7 +272,7 @@ bool wxSFLineShape::Intersects(const wxRect& rct)
 	return false;
 }
 
-void wxSFLineShape::Scale(double x, double y)
+void wxSFLineShape::Scale(double x, double y, bool children)
 {
 	wxRealPoint *pt;
 
@@ -286,6 +286,9 @@ void wxSFLineShape::Scale(double x, double y)
 
 		node = node->GetNext();
 	}
+
+    // call default function implementation (needed for scaling of shape's children)
+	wxSFShapeBase::Scale(x, y, children);
 }
 
 void wxSFLineShape::MoveTo(double x, double y)

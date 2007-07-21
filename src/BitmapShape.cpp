@@ -70,7 +70,7 @@ bool wxSFBitmapShape::CreateFromFile(const wxString& file)
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFBitmapShape::Scale(double x, double y)
+void wxSFBitmapShape::Scale(double x, double y, bool children)
 {
 	if(m_fCanScale)
 	{
@@ -78,6 +78,9 @@ void wxSFBitmapShape::Scale(double x, double y)
 		m_nRectSize.y *= y;
 
 		if(!m_fRescaleInProgress)RescaleImage(m_nRectSize);
+
+        // call default function implementation (needed for scaling of shape's children)
+		wxSFShapeBase::Scale(x, y, children);
 	}
 }
 

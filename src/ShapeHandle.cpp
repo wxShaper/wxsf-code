@@ -120,7 +120,6 @@ void wxSFShapeHandle::OnDragging(const wxPoint& pos)
 		if(pos != m_nPrevPos)
 		{
 		    wxRect prevRct = m_pParentShape->GetBoundingBox();
-			wxRect prevDispRct = GetSelectionBB();
 
 			m_nCurrPos = pos;
 
@@ -174,12 +173,6 @@ void wxSFShapeHandle::OnDragging(const wxPoint& pos)
 
             default:
                 break;
-			}
-
-			if(m_pParentShape->GetParentCanvas())
-			{
-			    wxRect currDispRct = GetSelectionBB();
-				m_pParentShape->GetParentCanvas()->RefreshCanvas(false, prevDispRct.Union(currDispRct).Inflate(int(MEOFFSET*m_pParentShape->GetParentCanvas()->GetScale())));
 			}
 		}
 
@@ -288,25 +281,4 @@ wxRect wxSFShapeHandle::GetHandleRect() const
 	}
 	else
 		return wxRect();
-}
-
-wxRect wxSFShapeHandle::GetSelectionBB() const
-{
-    wxRect bbRct;
-
-    if(m_pParentShape && m_pParentShape->GetParentCanvas())
-    {
-        // get selected shapes
-        CShapeList lstSelection;
-        m_pParentShape->GetParentCanvas()->GetSelectedShapes(lstSelection);
-
-        wxCShapeListNode *node = lstSelection.GetFirst();
-        while(node)
-        {
-			node->GetData()->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN | wxSFShapeBase::bbCONNECTIONS);
-            node = node->GetNext();
-        }
-    }
-
-    return bbRct;
 }

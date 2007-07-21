@@ -29,7 +29,7 @@ wxSFSquareShape::~wxSFSquareShape()
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFSquareShape::Scale(double x, double y)
+void wxSFSquareShape::Scale(double x, double y, bool children)
 {
 	// HINT: overload it for custom actions...
 
@@ -44,6 +44,9 @@ void wxSFSquareShape::Scale(double x, double y)
             s = y;
 
 		SetRectSize(m_nRectSize.x * s, m_nRectSize.y * s);
+
+        // call default function implementation (needed for scaling of shape's children)
+		wxSFShapeBase::Scale(x, y, children);
 	}
 }
 

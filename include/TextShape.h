@@ -75,7 +75,9 @@ public:
     /// <summary> Scale the shape size by in both directions. The function can be overrided if necessary. </summary>
     /// <param name="x"> Horizontal scale factor </param>
     /// <param name="y"> Vertical scale factor </param>
-    virtual void Scale(double x, double y);
+    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
+    /// the shape will be updated after scaling via Update() function. </param>
+    virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
 	/*!
 	 * \brief Event handler called during dragging of the shape handle.
 	 * The function can be overrided if necessary.

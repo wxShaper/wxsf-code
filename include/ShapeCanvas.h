@@ -389,6 +389,16 @@ public:
 	 * \sa wxSFShapeBase::CONNECTMODE
 	 */
 	void GetNeighbours(wxSFShapeBase* parent, CShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct = true);
+    /*!
+	 * \brief Get box bounding all shapes in the canvas.
+	 * \return Total bounding box
+	 */
+	wxRect GetTotalBoundingBox() const;
+    /*!
+     * \brief Get bounding box of all selected shapes.
+     * \return Selection bounding box
+     */
+	wxRect GetSelectionBB();
 
 	// public members accessors
 	/*!
@@ -663,11 +673,6 @@ private:
 	int GetIDCount(long id);
 	/*! \brief Update connection shapes after importing/dropping of new shapes */
 	void UpdateConnections();
-    /*!
-	 * \brief Get box bounding all shapes in the canvas.
-	 * \return Total bounding box
-	 */
-	wxRect GetTotalBoundingBox() const;
 	/*! \brief Update scroll window virtual size so it can display all shape canvas */
 	void UpdateVirtualSize();
 	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */

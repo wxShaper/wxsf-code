@@ -55,7 +55,9 @@ public:
 	/// The function can be overrided if neccessary. </summary>
 	/// <param name="x"> Scale ratio in the horizontal direction </param>
 	/// <param name="y"> Scale ratio in the vertical direction </param>
-	virtual void Scale(double x, double y);
+    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
+    /// the shape will be updated after scaling via Update() function. </param>
+	virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
 	/// <summary> Event handler called when the user started to drag the shape handle.
 	/// The function can be overrided if neccessary. </summary>
 	/// <param name="handle"> Reference to the dragged shape handle </param>

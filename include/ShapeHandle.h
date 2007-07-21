@@ -146,12 +146,6 @@ protected:
      */
 	wxRect GetHandleRect() const;
     /*!
-     * \brief Get bounding box of all selected shapes.
-     * \return Selection bounding box
-     */
-	wxRect GetSelectionBB() const;
-
-    /*!
      * \brief Event handler called when the mouse pointer is moving above shape canvas.
      * \param pos Current mouse position
      */

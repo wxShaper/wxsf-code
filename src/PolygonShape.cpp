@@ -125,12 +125,15 @@ wxRealPoint wxSFPolygonShape::GetBorderPoint(const wxRealPoint& to)
 	}
 }
 
-void wxSFPolygonShape::Scale(double x, double y)
+void wxSFPolygonShape::Scale(double x, double y, bool children)
 {
 	m_nRectSize.x *= x;
 	m_nRectSize.y *= y;
 
 	FitVerticesToBoundingBox();
+
+    // call default function implementation (needed for scaling of shape's children)
+    wxSFShapeBase::Scale(x, y, children);
 }
 
 void wxSFPolygonShape::OnHandle(wxSFShapeHandle& handle)

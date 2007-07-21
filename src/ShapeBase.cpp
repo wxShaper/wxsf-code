@@ -1,5 +1,6 @@
 #include "ShapeBase.h"
 #include "ShapeCanvas.h"
+#include "TextShape.h"
 
 #include <wx/listimpl.cpp>
 
@@ -312,18 +313,55 @@ void wxSFShapeBase::MoveBy(const wxRealPoint& delta)
 	this->MoveBy(delta.x, delta.y);
 }
 
-void wxSFShapeBase::Scale(double x, double y)
+void wxSFShapeBase::Scale(double x, double y, bool children)
 {
 	// HINT: overload it for custom actions...
+
+	if(children)
+	{
+	    ScaleChildren(x, y);
+	}
+
+    Update();
 }
 
-void wxSFShapeBase::Scale(const wxRealPoint& scale)
+void wxSFShapeBase::Scale(const wxRealPoint& scale, bool children)
 {
-	this->Scale(scale.x, scale.y);
+	this->Scale(scale.x, scale.y, children);
+}
+
+void wxSFShapeBase::ScaleChildren(double x, double y)
+{
+	CShapeList m_lstChildren;
+	GetChildren(m_lstChildren, sfRECURSIVE);
+
+	wxCShapeListNode *node = m_lstChildren.GetFirst();
+	while(node)
+	{
+		wxSFShapeBase* pShape = node->GetData();
+
+        if(pShape->CanChangeSize() && !pShape->IsKindOf(CLASSINFO(wxSFTextShape)))
+		{
+		    pShape->Scale(x, y, sfWITHOUTCHILDREN);
+		}
+
+		if( (pShape->GetVAlign() == valignNONE) || (pShape->GetHAlign() == halignNONE) )
+		{
+            pShape->SetRelativePosition(pShape->GetRelativePosition().x*x, pShape->GetRelativePosition().y*y);
+		}
+
+        // re-align shapes which have set any alignment mode
+		pShape->DoAlignment();
+
+		node = node->GetNext();
+	}
 }
 
 void wxSFShapeBase::Update()
 {
+    // fit the shape to its children
+    this->FitToChildren();
+
     // do self-alignment
     DoAlignment();
 
@@ -337,9 +375,6 @@ void wxSFShapeBase::Update()
         node->GetData()->DoAlignment();
         node = node->GetNext();
     }
-
-    // fit the shape to its children
-    this->FitToChildren();
 }
 
 bool wxSFShapeBase::AcceptCurrentlyDraggedShapes()
@@ -979,9 +1014,17 @@ void wxSFShapeBase::_OnKey(int key)
 
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
+    // get initial bounding box
+    wxRect prevDispRct = GetParentCanvas()->GetSelectionBB();
+
     // call appropriate user-defined handler
 	this->OnHandle(handle);
 
     // update shape
     Update();
+
+    // refresh canvas
+    wxRect currDispRct = GetParentCanvas()->GetSelectionBB();
+    GetParentCanvas()->RefreshCanvas(false, prevDispRct.Union(currDispRct).Inflate(int(MEOFFSET*GetParentCanvas()->GetScale())));
+
 }

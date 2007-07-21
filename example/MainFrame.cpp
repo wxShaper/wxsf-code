@@ -183,7 +183,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 void CMainFrame::set_properties()
 {
     // begin wxGlade: CMainFrame::set_properties
-    SetTitle(wxT("ShapeFramework Demo Application"));
+    SetTitle(wxT("wxShapeFramework Demo Application"));
     SetSize(wxSize(800, 600));
     int statusBar_widths[] = { -1 };
     statusBar->SetStatusWidths(1, statusBar_widths);
