@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      EditTextShape.cpp
+ * Purpose:   Implements editable text shape class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "EditTextShape.h"
 #include "ShapeCanvas.h"
 

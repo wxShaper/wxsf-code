@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      LineShapeXml.cpp
+ * Purpose:   Implements line shape's serialization capability
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "LineShape.h"
 #include "CommonFcn.h"
 
@@ -62,7 +72,7 @@ wxXmlNode* wxSFLineShape::Serialize(wxXmlNode* node)
 			child->AddProperty(wxT("type"), m_pTrgArrow->GetClassInfo()->GetClassName());
 			child = m_pTrgArrow->Serialize(child);
 			node->AddChild(child);
-		}			
+		}
 
 		// line style
 		if(m_Pen != sfdvLINESHAPE_PEN)
@@ -123,7 +133,7 @@ void wxSFLineShape::Deserialize(wxXmlNode* node)
 			{
 				SetTrgArrow(pArrow);
 				pArrow->Deserialize(propNode);
-			}			
+			}
 		}
 		else if(propNode->GetName() == wxT("line_style"))
 		{

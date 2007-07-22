@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      FixedRectShape.cpp
+ * Purpose:   Implements square shape class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "FixedRectShape.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFSquareShape, wxSFRectShape);

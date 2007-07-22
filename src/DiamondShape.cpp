@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      DiamondShape.cpp
+ * Purpose:   Implements diamond shape class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "DiamondShape.h"
 #include "CommonFcn.h"
 

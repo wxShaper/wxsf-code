@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      CanvasHistory.cpp
+ * Purpose:   Implements manager for stored canvas states
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include <wx/mstream.h>
 
 #include "CanvasHistory.h"

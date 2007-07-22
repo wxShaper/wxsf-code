@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      ShapeDataObject.cpp
+ * Purpose:   Implements shape data object class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include <wx/mstream.h>
 
 #include "ShapeDataObject.h"
@@ -43,7 +53,7 @@ wxString wxSFShapeDataObject::SerializeSelectedShapes(const CShapeList& selectio
 	wxXmlDocument xmlDoc;
 	xmlDoc.SetRoot(root);
 	xmlDoc.Save(outstream);
-	
+
 	char *buffer = new char [outstream.GetSize()];
 
 	if(buffer)

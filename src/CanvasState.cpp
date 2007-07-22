@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      CanvasState.cpp
+ * Purpose:   Implements container for stored canvas state
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include <wx/mstream.h>
 
 #include "CanvasState.h"

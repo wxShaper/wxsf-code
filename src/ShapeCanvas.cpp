@@ -1,4 +1,14 @@
 #include <wx/wfstream.h>
+/***************************************************************
+ * Name:      ShapeCanvas.cpp
+ * Purpose:   Implements shape canvas class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include <wx/mstream.h>
 #include <wx/txtstrm.h>
 #include <wx/clipbrd.h>
@@ -10,8 +20,6 @@
 #include "EditTextShape.h"
 #include "BitmapShape.h"
 #include "CommonFcn.h"
-
-// TODO: wxSFShapeCanvas: Implement function DoAlignment()
 
 WX_DEFINE_LIST(CIDList);
 

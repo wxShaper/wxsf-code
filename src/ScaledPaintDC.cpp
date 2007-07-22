@@ -1,5 +1,14 @@
-#include "ScaledPaintDC.h"
+/***************************************************************
+ * Name:      ScaledPaintDC.cpp
+ * Purpose:   Implements scaled DC class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
 
+#include "ScaledPaintDC.h"
 
 wxSFScaledPaintDC::wxSFScaledPaintDC(wxBitmap& outbmp, double scale)
 : wxMemoryDC(outbmp)

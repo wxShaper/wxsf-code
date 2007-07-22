@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      CommonFcn.cpp
+ * Purpose:   Implements set of global (auxiliary) functions
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include <wx/tokenzr.h>
 
 #include "CommonFcn.h"

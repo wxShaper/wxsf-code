@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      MultiSelRect.cpp
+ * Purpose:   Implements aux. multiselection shape class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "MultiSelRect.h"
 #include "ShapeCanvas.h"
 #include "TextShape.h"

@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      TextShape.cpp
+ * Purpose:   Implements static text shape class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "TextShape.h"
 #include "ShapeCanvas.h"
 

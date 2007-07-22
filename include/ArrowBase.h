@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      ArrowBase.h
+ * Purpose:   Defines line arrow base class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #pragma once
 
 #include "ShapeBase.h"

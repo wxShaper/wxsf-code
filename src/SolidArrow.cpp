@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      SolidArrow.cpp
+ * Purpose:   Implements solid arrow for line shapes
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "SolidArrow.h"
 #include "CommonFcn.h"
 

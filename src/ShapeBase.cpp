@@ -1,10 +1,18 @@
+/***************************************************************
+ * Name:      ShapeBase.h
+ * Purpose:   Implements shape base class
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-07-22
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "ShapeBase.h"
 #include "ShapeCanvas.h"
 #include "TextShape.h"
 
 #include <wx/listimpl.cpp>
-
-// TODO: wxSFShapeBase: Implement function ScaleChildren()
 
 WX_DEFINE_LIST(CShapeList);
 
