@@ -9,11 +9,12 @@ What wxShapeFramework is?
 -------------------------
 
 wxShapeFramework (wxSF) is a software library/framework based on wxWidgets which allows
-easy development of software applications which GUI manipulates with graphical objects
-(shapes) like various CASE tools, technological processes modeling tools, etc.
+easy development of software applications manipulating with 
+graphical objects (shapes) like various CASE tools, technological processes modeling
+tools, etc.
 
-The library consists of several classes encapsulating so called Shape canvas (visual GUI
-control used for management of included diagrams which supports serialization/
+The library consists of several classes encapsulating so called 'Shape canvas' (visual
+GUI control used for management of included diagrams; it supports serialization/
 deserialization to XML files, clipboard and drag&drop operations with diagram's
 components, undo/redo operations, diagrams' export to BMP files, etc) and diagrams'
 components as well (basic rectangular and eliptic shapes, line and curve shape,

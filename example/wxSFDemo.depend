@@ -1746,7 +1746,7 @@
 
 1174307114 d:\lib\wxmsw-2.8\include\wx\msw\filedlg.h
 
-1185025754 source:d:\mywork\source\vc++\wxsf\example\mainframe.cpp
+1185032156 source:d:\mywork\source\vc++\wxsf\example\mainframe.cpp
 	"vld.h"
 	<wx/artprov.h>
 	"MainFrame.h"
@@ -1791,7 +1791,7 @@
 1184316313 d:\mywork\source\vc++\wxsf\example\framecanvas.h
 	"wxShapeFramework.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\wxshapeframework.h
+1185108204 d:\mywork\source\vc++\wxsf\include\wxshapeframework.h
 	"ShapeCanvas.h"
 	"RectShape.h"
 	"RoundRectShape.h"
@@ -1808,13 +1808,13 @@
 	"LineShape.h"
 	"CurveShape.h"
 
-1185031436 d:\mywork\source\vc++\wxsf\include\shapecanvas.h
+1185107885 d:\mywork\source\vc++\wxsf\include\shapecanvas.h
 	"ShapeBase.h"
 	"MultiSelRect.h"
 	"CanvasHistory.h"
 	"LineShape.h"
 
-1185027824 d:\mywork\source\vc++\wxsf\include\shapebase.h
+1185176376 d:\mywork\source\vc++\wxsf\include\shapebase.h
 	<wx/wxprec.h>
 	<wx/tokenzr.h>
 	<wx/xml/xml.h>
@@ -1833,66 +1833,66 @@
 	"wx/object.h"
 	"wx/list.h"
 
-1185029609 d:\mywork\source\vc++\wxsf\include\shapehandle.h
+1185107965 d:\mywork\source\vc++\wxsf\include\shapehandle.h
 	<wx/list.h>
 	"ScaledPaintDC.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\scaledpaintdc.h
+1185107666 d:\mywork\source\vc++\wxsf\include\scaledpaintdc.h
 	<wx/dcmemory.h>
 
-1185029073 d:\mywork\source\vc++\wxsf\include\multiselrect.h
+1185107068 d:\mywork\source\vc++\wxsf\include\multiselrect.h
 	"rectshape.h"
 
-1185027482 d:\mywork\source\vc++\wxsf\include\rectshape.h
+1185107434 d:\mywork\source\vc++\wxsf\include\rectshape.h
 	"shapebase.h"
 
-1184249324 d:\mywork\source\vc++\wxsf\include\canvashistory.h
+1185104911 d:\mywork\source\vc++\wxsf\include\canvashistory.h
 	"CanvasState.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\canvasstate.h
+1185104953 d:\mywork\source\vc++\wxsf\include\canvasstate.h
 	<wx/wxprec.h>
 
-1185027428 d:\mywork\source\vc++\wxsf\include\lineshape.h
+1185106848 d:\mywork\source\vc++\wxsf\include\lineshape.h
 	"ShapeBase.h"
 	"ArrowBase.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\arrowbase.h
+1185104725 d:\mywork\source\vc++\wxsf\include\arrowbase.h
 	"ShapeBase.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\roundrectshape.h
+1185107498 d:\mywork\source\vc++\wxsf\include\roundrectshape.h
 	"rectshape.h"
 
-1185027408 d:\mywork\source\vc++\wxsf\include\fixedrectshape.h
+1185106659 d:\mywork\source\vc++\wxsf\include\fixedrectshape.h
 	"RectShape.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\ellipseshape.h
+1185106452 d:\mywork\source\vc++\wxsf\include\ellipseshape.h
 	"RectShape.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\circleshape.h
+1185105010 d:\mywork\source\vc++\wxsf\include\circleshape.h
 	"FixedRectShape.h"
 
-1184249324 d:\mywork\source\vc++\wxsf\include\diamondshape.h
+1185105176 d:\mywork\source\vc++\wxsf\include\diamondshape.h
 	"PolygonShape.h"
 
-1185027460 d:\mywork\source\vc++\wxsf\include\polygonshape.h
+1185173047 d:\mywork\source\vc++\wxsf\include\polygonshape.h
 	"RectShape.h"
 
-1185027886 d:\mywork\source\vc++\wxsf\include\textshape.h
+1185108137 d:\mywork\source\vc++\wxsf\include\textshape.h
 	"RectShape.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\edittextshape.h
+1185106250 d:\mywork\source\vc++\wxsf\include\edittextshape.h
 	"textshape.h"
 
-1185027385 d:\mywork\source\vc++\wxsf\include\bitmapshape.h
+1185104770 d:\mywork\source\vc++\wxsf\include\bitmapshape.h
 	"RectShape.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\openarrow.h
+1185107199 d:\mywork\source\vc++\wxsf\include\openarrow.h
 	"ArrowBase.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\solidarrow.h
+1185108020 d:\mywork\source\vc++\wxsf\include\solidarrow.h
 	"OpenArrow.h"
 
-1184249325 d:\mywork\source\vc++\wxsf\include\curveshape.h
+1185105104 d:\mywork\source\vc++\wxsf\include\curveshape.h
 	"LineShape.h"
 
 1184249327 d:\mywork\source\vc++\wxsf\example\res\rect.xpm

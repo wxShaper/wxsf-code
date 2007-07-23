@@ -1023,7 +1023,7 @@ void wxSFShapeBase::_OnKey(int key)
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
     // get initial bounding box
-    wxRect prevDispRct = GetParentCanvas()->GetSelectionBB();
+    //wxRect prevDispRct = GetParentCanvas()->GetSelectionBB();
 
     // call appropriate user-defined handler
 	this->OnHandle(handle);
@@ -1032,7 +1032,8 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
     Update();
 
     // refresh canvas
-    wxRect currDispRct = GetParentCanvas()->GetSelectionBB();
-    GetParentCanvas()->RefreshCanvas(false, prevDispRct.Union(currDispRct).Inflate(int(MEOFFSET*GetParentCanvas()->GetScale())));
+    /*wxRect currDispRct = GetParentCanvas()->GetSelectionBB();
+    GetParentCanvas()->RefreshCanvas(false, prevDispRct.Union(currDispRct).Inflate(int(MEOFFSET*GetParentCanvas()->GetScale())));*/
+    GetParentCanvas()->Refresh(false);
 
 }

@@ -122,17 +122,24 @@ wxRealPoint wxSFPolygonShape::GetBorderPoint(const wxRealPoint& to)
 			}
 		}
 
+		delete [] pts;
+
 		if(fSuccess)
 		{
-			delete [] pts;
 			return intersection;
 		}
 		else
 		{
-			delete [] pts;
 			return center;
 		}
 	}
+}
+
+void wxSFPolygonShape::FitToChildren()
+{
+    wxSFRectShape::FitToChildren();
+
+    FitVerticesToBoundingBox();
 }
 
 void wxSFPolygonShape::Scale(double x, double y, bool children)

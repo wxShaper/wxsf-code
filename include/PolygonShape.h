@@ -68,6 +68,9 @@ public:
 	void SetVertices(size_t n, const wxRealPoint pts[]);
 
 	// public virtual functions
+    /// <summary> Resize the rectangle to bound all child shapes.
+    /// The function can be overrided if neccessary. </summary>
+	virtual void FitToChildren();
 	/// <summary> Get intersection point of the polygon's border and a line leading from
 	/// the polygon's center to the given point. The function can be overrided if neccessary. </summary>
 	/// <param name="to"> Ending point of the virtual intersection line </param>

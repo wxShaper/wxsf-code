@@ -43,7 +43,7 @@ END_EVENT_TABLE()
 wxSFShapeCanvas::wxSFShapeCanvas(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 : wxScrolledWindow(parent, id, pos, size, style)
 {
-    m_sVersion =  wxT("1.1.4 alpha");
+    m_sVersion =  wxT("1.1.5 alpha");
 
 	SetScrollbars(5, 5, 100, 100);
 	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
