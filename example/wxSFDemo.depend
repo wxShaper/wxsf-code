@@ -1769,7 +1769,7 @@
 	"wx/bitmap.h"
 	"wx/icon.h"
 
-1184249329 d:\mywork\source\vc++\wxsf\example\mainframe.h
+1185225476 d:\mywork\source\vc++\wxsf\example\mainframe.h
 	<wx/clrpicker.h>
 	"FrameCanvas.h"
 
@@ -1808,13 +1808,13 @@
 	"LineShape.h"
 	"CurveShape.h"
 
-1185107885 d:\mywork\source\vc++\wxsf\include\shapecanvas.h
+1185210533 d:\mywork\source\vc++\wxsf\include\shapecanvas.h
 	"ShapeBase.h"
 	"MultiSelRect.h"
 	"CanvasHistory.h"
 	"LineShape.h"
 
-1185176376 d:\mywork\source\vc++\wxsf\include\shapebase.h
+1185210063 d:\mywork\source\vc++\wxsf\include\shapebase.h
 	<wx/wxprec.h>
 	<wx/tokenzr.h>
 	<wx/xml/xml.h>

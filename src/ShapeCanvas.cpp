@@ -2114,6 +2114,94 @@ void wxSFShapeCanvas::MoveShapesFromNegatives()
 	}
 }
 
+void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
+{
+    wxRealPoint min_pos, max_pos, pos;
+    wxRect shapeBB, updRct;
+    wxSFShapeBase *pShape;
+
+    CShapeList lstSelection;
+    GetSelectedShapes(lstSelection);
+
+    updRct = GetSelectionBB();
+
+    // find most distant position
+    wxCShapeListNode *node = lstSelection.GetFirst();
+    while(node)
+    {
+        pShape = node->GetData();
+
+        pos = pShape->GetAbsolutePosition();
+        shapeBB = pShape->GetBoundingBox();
+
+        if( node == lstSelection.GetFirst() )
+        {
+            min_pos = max_pos = pos;
+        }
+        else
+        {
+            if( pos.x < min_pos.x )min_pos.x = pos.x;
+            if( pos.y < min_pos.y )min_pos.y = pos.y;
+            if( (pos.x + shapeBB.GetWidth()) > max_pos.x )max_pos.x = pos.x + shapeBB.GetWidth();
+            if( (pos.y + shapeBB.GetHeight()) > max_pos.y )max_pos.y = pos.y + shapeBB.GetHeight();
+        }
+
+        node = node->GetNext();
+    }
+
+    // set new positions
+    node = lstSelection.GetFirst();
+    while(node)
+    {
+        pShape = node->GetData();
+
+        pos = pShape->GetAbsolutePosition();
+        shapeBB = pShape->GetBoundingBox();
+
+        switch(halign)
+        {
+            case halignLEFT:
+                pShape->MoveTo(min_pos.x, pos.y);
+                break;
+
+            case halignRIGHT:
+                pShape->MoveTo(max_pos.x - shapeBB.GetWidth(), pos.y);
+                break;
+
+            case halignCENTER:
+                pShape->MoveTo((max_pos.x + min_pos.x)/2 - shapeBB.GetWidth()/2, pos.y);
+                break;
+
+            default:
+                break;
+        }
+
+        switch(valign)
+        {
+            case valignTOP:
+                pShape->MoveTo(pos.x, min_pos.y);
+                break;
+
+            case valignBOTTOM:
+                pShape->MoveTo(pos.x, max_pos.y - shapeBB.GetHeight());
+                break;
+
+            case valignMIDDLE:
+                pShape->MoveTo(pos.x, (max_pos.y + min_pos.y)/2 - shapeBB.GetHeight()/2);
+                break;
+
+            default:
+                break;
+        }
+
+        pShape->Update();
+
+        node = node->GetNext();
+    }
+
+    if(!updRct.IsEmpty())RefreshCanvas(false, updRct);
+}
+
 //----------------------------------------------------------------------------------//
 // Clipboard functions
 //----------------------------------------------------------------------------------//

@@ -1,40 +1,8 @@
-// use Visual Leak Detector (for MS VC++ compiler only)
-#ifdef USEVLD
-#include "vld.h"
-#endif
-
 #include <wx/artprov.h>
 
 #include "MainFrame.h"
-#include "res/Rect.xpm"
-#include "res/Tool.xpm"
-#include "res/RoundRect.xpm"
-#include "res/Grid.xpm"
-#include "res/Line.xpm"
-#include "res/Curve.xpm"
-#include "res/Ellipse.xpm"
-#include "res/Circle.xpm"
-#include "res/FixedRect.xpm"
-#include "res/Diamond.xpm"
-#include "res/Text.xpm"
-#include "res/EditText.xpm"
-#include "res/Bitmap.xpm"
-
-int gridId = wxNewId();
-int toolId = wxNewId();
-int rectId = wxNewId();
-int lineId = wxNewId();
-int curveId = wxNewId();
-int rndRectId = wxNewId();
-int ellipseId = wxNewId();
-int circleId = wxNewId();
-int fixedRectId = wxNewId();
-int diamondId = wxNewId();
-int textId = wxNewId();
-int editTextId = wxNewId();
-int bitmapId = wxNewId();
-int cpickerId = wxNewId();
-int savebmpId = wxNewId();
+#include "Art.h"
+#include "Ids.h"
 
 BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
@@ -48,46 +16,21 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(wxID_PASTE, CMainFrame::OnPaste)
 	EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
 	EVT_MENU(wxID_SELECTALL, CMainFrame::OnSelectAll)
-	EVT_MENU(savebmpId, CMainFrame::OnExportToBMP)
+	EVT_MENU(IDM_SAVEASBITMAP, CMainFrame::OnExportToBMP)
 	EVT_COMMAND_SCROLL(wxID_ZOOM_FIT, CMainFrame::OnSlider)
-	EVT_TOOL(gridId, CMainFrame::OnShowGrid)
-	EVT_TOOL(toolId, CMainFrame::OnDesignTool)
-	EVT_TOOL(rectId, CMainFrame::OnRectTool)
-	EVT_TOOL(rndRectId, CMainFrame::OnRoundRectTool)
-	EVT_TOOL(fixedRectId, CMainFrame::OnFixedRectTool)
-	EVT_TOOL(circleId, CMainFrame::OnCircleTool)
-	EVT_TOOL(diamondId, CMainFrame::OnDiamondTool)
-	EVT_TOOL(textId, CMainFrame::OnTextTool)
-	EVT_TOOL(editTextId, CMainFrame::OnEditTextTool)
-	EVT_TOOL(bitmapId, CMainFrame::OnBitmapTool)
-	EVT_TOOL(ellipseId, CMainFrame::OnEllipseTool)
-	EVT_TOOL(lineId, CMainFrame::OnLineTool)
-	EVT_TOOL(curveId, CMainFrame::OnCurveTool)
-	EVT_COLOURPICKER_CHANGED(cpickerId, CMainFrame::OnHowerColor)
-	EVT_UPDATE_UI(gridId, CMainFrame::OnUpdateShowGrid)
-	EVT_UPDATE_UI(toolId, CMainFrame::OnUpdateDesignTool)
-	EVT_UPDATE_UI(rectId, CMainFrame::OnUpdateRectTool)
-	EVT_UPDATE_UI(ellipseId, CMainFrame::OnUpdateEllipseTool)
-	EVT_UPDATE_UI(rndRectId, CMainFrame::OnUpdateRoundRectTool)
-	EVT_UPDATE_UI(fixedRectId, CMainFrame::OnUpdateFixedRectTool)
-	EVT_UPDATE_UI(circleId, CMainFrame::OnUpdateCircleTool)
-	EVT_UPDATE_UI(diamondId, CMainFrame::OnUpdateDiamondTool)
-	EVT_UPDATE_UI(textId, CMainFrame::OnUpdateTextTool)
-	EVT_UPDATE_UI(editTextId, CMainFrame::OnUpdateEditTextTool)
-	EVT_UPDATE_UI(bitmapId, CMainFrame::OnUpdateBitmapTool)
-	EVT_UPDATE_UI(lineId, CMainFrame::OnUpdateLineTool)
-	EVT_UPDATE_UI(curveId, CMainFrame::OnUpdateCurveTool)
+	EVT_TOOL_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnShpTool)
+	EVT_COLOURPICKER_CHANGED(IDT_COLORPICKER, CMainFrame::OnHowerColor)
 	EVT_UPDATE_UI(wxID_COPY, CMainFrame::OnUpdateCopy)
 	EVT_UPDATE_UI(wxID_CUT, CMainFrame::OnUpdateCut)
 	EVT_UPDATE_UI(wxID_PASTE, CMainFrame::OnUpdatePaste)
 	EVT_UPDATE_UI(wxID_UNDO, CMainFrame::OnUpdateUndo)
 	EVT_UPDATE_UI(wxID_REDO, CMainFrame::OnUpdateRedo)
+	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnUpdateShpTool)
 END_EVENT_TABLE()
 
 CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE)
 {
-    // begin wxGlade: CMainFrame::CMainFrame
     mainMenu = new wxMenuBar();
 
     SetMenuBar(mainMenu);
@@ -97,7 +40,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	fileMenu->Append(wxID_OPEN, wxT("&Open\tCtrl+O"), wxT("Load a chart from XML file"), wxITEM_NORMAL);
 	fileMenu->Append(wxID_SAVE, wxT("&Save as...\tCtrl+Shift+S"), wxT("Save the chart to XML file"), wxITEM_NORMAL);
 	fileMenu->AppendSeparator();
-	fileMenu->Append(savebmpId, wxT("&Export to BMP..."), wxT("Export the chart to BMP file"), wxITEM_NORMAL);
+	fileMenu->Append(IDM_SAVEASBITMAP, wxT("&Export to BMP..."), wxT("Export the chart to BMP file"), wxITEM_NORMAL);
 	fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+X"), wxT("Close application"), wxITEM_NORMAL);
     mainMenu->Append(fileMenu, wxT("&File"));
@@ -125,7 +68,6 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 
     set_properties();
     do_layout();
-    // end wxGlade
 
 	// set icon
 	SetIcon(wxICON(amain));
@@ -135,7 +77,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	zoomSlider->SetToolTip(wxT("Set canvas scale"));
 
 	// create colour picker
-	cpicker = new wxColourPickerCtrl(toolBar, cpickerId, wxColor(120, 120, 255), wxDefaultPosition, wxSize(22, 22));
+	cpicker = new wxColourPickerCtrl(toolBar, IDT_COLORPICKER, wxColor(120, 120, 255), wxDefaultPosition, wxSize(22, 22));
 	cpicker->SetToolTip(wxT("Set hower color"));
 
 	// add toolbar tools
@@ -150,21 +92,21 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	toolBar->AddTool(wxID_UNDO, wxT("Undo"), wxArtProvider::GetBitmap(wxART_UNDO, wxART_TOOLBAR), wxT("Undo"));
 	toolBar->AddTool(wxID_REDO, wxT("Redo"), wxArtProvider::GetBitmap(wxART_REDO, wxART_TOOLBAR), wxT("Redo"));
 	toolBar->AddSeparator();
-	toolBar->AddCheckTool(gridId, wxT("Grid"), wxBitmap(Grid_xpm), wxNullBitmap, wxT("Show/hide grid"));
+	toolBar->AddCheckTool(IDT_GRID, wxT("Grid"), wxBitmap(Grid_xpm), wxNullBitmap, wxT("Show/hide grid"));
 	toolBar->AddSeparator();
-	toolBar->AddRadioTool(toolId, wxT("Tool"), wxBitmap(Tool_xpm), wxNullBitmap, wxT("Design tool"));
-	toolBar->AddRadioTool(rectId, wxT("Rectangle"), wxBitmap(Rect_xpm), wxNullBitmap, wxT("Rectangle"));
-	toolBar->AddRadioTool(fixedRectId, wxT("Ficed rectangle"), wxBitmap(FixedRect_xpm), wxNullBitmap, wxT("Fixed rectangle"));
-	toolBar->AddRadioTool(rndRectId, wxT("RoundRect"), wxBitmap(RoundRect_xpm), wxNullBitmap, wxT("Rounded rectangle"));
-	toolBar->AddRadioTool(ellipseId, wxT("Ellipse"), wxBitmap(Ellipse_xpm), wxNullBitmap, wxT("Ellipse"));
-	toolBar->AddRadioTool(circleId, wxT("Circle"), wxBitmap(Circle_xpm), wxNullBitmap, wxT("Circle"));
-	toolBar->AddRadioTool(diamondId, wxT("Diamond"), wxBitmap(Diamond_xpm), wxNullBitmap, wxT("Diamond"));
-	toolBar->AddRadioTool(textId, wxT("Text"), wxBitmap(Text_xpm), wxNullBitmap, wxT("Text"));
-	toolBar->AddRadioTool(editTextId, wxT("Editable text"), wxBitmap(EditText_xpm), wxNullBitmap, wxT("Editable text"));
-	toolBar->AddRadioTool(bitmapId, wxT("Bitmap"), wxBitmap(Bitmap_xpm), wxNullBitmap, wxT("Bitmap"));
+	toolBar->AddRadioTool(IDT_TOOL, wxT("Tool"), wxBitmap(Tool_xpm), wxNullBitmap, wxT("Design tool"));
+	toolBar->AddRadioTool(IDT_RECTSHP, wxT("Rectangle"), wxBitmap(Rect_xpm), wxNullBitmap, wxT("Rectangle"));
+	toolBar->AddRadioTool(IDT_SQUARESHP, wxT("Fixed rectangle"), wxBitmap(FixedRect_xpm), wxNullBitmap, wxT("Fixed rectangle"));
+	toolBar->AddRadioTool(IDT_RNDRECTSHP, wxT("RoundRect"), wxBitmap(RoundRect_xpm), wxNullBitmap, wxT("Rounded rectangle"));
+	toolBar->AddRadioTool(IDT_ELLIPSESHP, wxT("Ellipse"), wxBitmap(Ellipse_xpm), wxNullBitmap, wxT("Ellipse"));
+	toolBar->AddRadioTool(IDT_CIRCLESHP, wxT("Circle"), wxBitmap(Circle_xpm), wxNullBitmap, wxT("Circle"));
+	toolBar->AddRadioTool(IDT_DIAMONDSHP, wxT("Diamond"), wxBitmap(Diamond_xpm), wxNullBitmap, wxT("Diamond"));
+	toolBar->AddRadioTool(IDT_TEXTSHP, wxT("Text"), wxBitmap(Text_xpm), wxNullBitmap, wxT("Text"));
+	toolBar->AddRadioTool(IDT_EDITTEXTSHP, wxT("Editable text"), wxBitmap(EditText_xpm), wxNullBitmap, wxT("Editable text"));
+	toolBar->AddRadioTool(IDT_BITMAPSHP, wxT("Bitmap"), wxBitmap(Bitmap_xpm), wxNullBitmap, wxT("Bitmap"));
 	toolBar->AddSeparator();
-	toolBar->AddRadioTool(lineId, wxT("Line"), wxBitmap(Line_xpm), wxNullBitmap, wxT("Polyline connection"));
-	toolBar->AddRadioTool(curveId, wxT("Curve"), wxBitmap(Curve_xpm), wxNullBitmap, wxT("Curve connection"));
+	toolBar->AddRadioTool(IDT_LINESHP, wxT("Line"), wxBitmap(Line_xpm), wxNullBitmap, wxT("Polyline connection"));
+	toolBar->AddRadioTool(IDT_CURVESHP, wxT("Curve"), wxBitmap(Curve_xpm), wxNullBitmap, wxT("Curve connection"));
 	toolBar->AddSeparator();
 	toolBar->AddControl(zoomSlider);
 	toolBar->AddSeparator();
@@ -211,163 +153,11 @@ void CMainFrame::do_layout()
 // protected event handlers
 //----------------------------------------------------------------------------------//
 
+// menu events
+
 void CMainFrame::OnExit(wxCommandEvent& event)
 {
 	Destroy();
-}
-
-void CMainFrame::OnSlider(wxScrollEvent& event)
-{
-	shapeCanvas->SetScale(double(zoomSlider->GetValue())/5);
-	shapeCanvas->Refresh(false);
-}
-
-void CMainFrame::OnShowGrid(wxCommandEvent& event)
-{
-	m_fShowGrid = !m_fShowGrid;
-	shapeCanvas->UseGrid(m_fShowGrid);
-	shapeCanvas->ShowGrid(m_fShowGrid);
-	shapeCanvas->Refresh(false);
-}
-
-void CMainFrame::OnUpdateShowGrid(wxUpdateUIEvent& event)
-{
-	event.Check(m_fShowGrid);
-}
-
-void CMainFrame::OnDesignTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeDESIGN;
-}
-
-void CMainFrame::OnUpdateDesignTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeDESIGN);
-}
-
-void CMainFrame::OnRectTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeRECT;
-}
-
-void CMainFrame::OnUpdateRectTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeRECT);
-}
-
-void CMainFrame::OnRoundRectTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeROUNDRECT;
-}
-
-void CMainFrame::OnUpdateRoundRectTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeROUNDRECT);
-}
-
-void CMainFrame::OnFixedRectTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeFIXEDRECT;
-}
-
-void CMainFrame::OnUpdateFixedRectTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeFIXEDRECT);
-}
-
-void CMainFrame::OnCircleTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeCIRCLE;
-}
-
-void CMainFrame::OnUpdateCircleTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeCIRCLE);
-}
-
-void CMainFrame::OnEllipseTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeELLIPSE;
-}
-
-void CMainFrame::OnUpdateEllipseTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeELLIPSE);
-}
-
-void CMainFrame::OnDiamondTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeDIAMOND;
-}
-
-void CMainFrame::OnUpdateDiamondTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeDIAMOND);
-}
-
-void CMainFrame::OnTextTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeTEXT;
-}
-
-void CMainFrame::OnUpdateTextTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeTEXT);
-}
-
-void CMainFrame::OnEditTextTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeEDITTEXT;
-}
-
-void CMainFrame::OnUpdateEditTextTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeEDITTEXT);
-}
-
-void CMainFrame::OnBitmapTool(wxCommandEvent& event)
-{
-	if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
-	m_nToolMode = modeBITMAP;
-}
-
-void CMainFrame::OnUpdateBitmapTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeBITMAP);
-}
-
-void CMainFrame::OnLineTool(wxCommandEvent& event)
-{
-	m_nToolMode = modeLINE;
-}
-
-void CMainFrame::OnUpdateLineTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeLINE);
-}
-
-void CMainFrame::OnCurveTool(wxCommandEvent& event)
-{
-	m_nToolMode = modeCURVE;
-}
-
-void CMainFrame::OnUpdateCurveTool(wxUpdateUIEvent& event)
-{
-	event.Check(m_nToolMode == modeCURVE);
-}
-
-void CMainFrame::OnHowerColor(wxColourPickerEvent& event)
-{
-	shapeCanvas->SetHoverColour(event.GetColour());
 }
 
 void CMainFrame::OnNew(wxCommandEvent& event)
@@ -462,7 +252,7 @@ void CMainFrame::OnSelectAll(wxCommandEvent& event)
 
 void CMainFrame::OnAbout(wxCommandEvent& event)
 {
-	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.2\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), shapeCanvas->GetVersion().c_str()), wxT("ShapeFranework"));
+	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.3\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), shapeCanvas->GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void CMainFrame::OnExportToBMP(wxCommandEvent& event)
@@ -475,17 +265,146 @@ void CMainFrame::OnExportToBMP(wxCommandEvent& event)
 	}
 }
 
+// tool events
 
+void CMainFrame::OnShpTool(wxCommandEvent& event)
+{
+    if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
 
+    switch(event.GetId())
+    {
+        case IDT_GRID:
+        	m_fShowGrid = !m_fShowGrid;
+            shapeCanvas->UseGrid(m_fShowGrid);
+            shapeCanvas->ShowGrid(m_fShowGrid);
+            shapeCanvas->Refresh(false);
+            break;
 
+        case IDT_BITMAPSHP:
+        	m_nToolMode = modeBITMAP;
+        	break;
 
+        case IDT_CIRCLESHP:
+            m_nToolMode = modeCIRCLE;
+            break;
 
+        case IDT_CURVESHP:
+            m_nToolMode = modeCURVE;
+            break;
 
+        case IDT_DIAMONDSHP:
+            m_nToolMode = modeDIAMOND;
+            break;
 
+        case IDT_EDITTEXTSHP:
+            m_nToolMode = modeEDITTEXT;
+            break;
 
+        case IDT_ELLIPSESHP:
+            m_nToolMode = modeELLIPSE;
+            break;
 
+        case IDT_LINESHP:
+            m_nToolMode = modeLINE;
+            break;
 
+        case IDT_RECTSHP:
+            m_nToolMode = modeRECT;
+            break;
 
+        case IDT_RNDRECTSHP:
+            m_nToolMode = modeROUNDRECT;
+            break;
 
+        case IDT_SQUARESHP:
+            m_nToolMode = modeFIXEDRECT;
+            break;
 
+        case IDT_TEXTSHP:
+            m_nToolMode = modeTEXT;
+            break;
 
+        case IDT_TOOL:
+            m_nToolMode = modeDESIGN;
+            break;
+
+        default:
+            event.Skip();
+            break;
+    }
+}
+
+void CMainFrame::OnUpdateShpTool(wxUpdateUIEvent& event)
+{
+    switch(event.GetId())
+    {
+        case IDT_GRID:
+        	event.Check(m_fShowGrid);
+            break;
+
+        case IDT_BITMAPSHP:
+        	event.Check(m_nToolMode == modeBITMAP);
+        	break;
+
+        case IDT_CIRCLESHP:
+            event.Check(m_nToolMode == modeCIRCLE);
+            break;
+
+        case IDT_CURVESHP:
+            event.Check(m_nToolMode == modeCURVE);
+            break;
+
+        case IDT_DIAMONDSHP:
+            event.Check(m_nToolMode == modeDIAMOND);
+            break;
+
+        case IDT_EDITTEXTSHP:
+            event.Check(m_nToolMode == modeEDITTEXT);
+            break;
+
+        case IDT_ELLIPSESHP:
+            event.Check(m_nToolMode == modeELLIPSE);
+            break;
+
+        case IDT_LINESHP:
+            event.Check(m_nToolMode == modeLINE);
+            break;
+
+        case IDT_RECTSHP:
+            event.Check(m_nToolMode == modeRECT);
+            break;
+
+        case IDT_RNDRECTSHP:
+            event.Check(m_nToolMode == modeROUNDRECT);
+            break;
+
+        case IDT_SQUARESHP:
+            event.Check(m_nToolMode == modeFIXEDRECT);
+            break;
+
+        case IDT_TEXTSHP:
+            event.Check(m_nToolMode == modeTEXT);
+            break;
+
+        case IDT_TOOL:
+            event.Check(m_nToolMode == modeDESIGN);
+            break;
+
+        default:
+            event.Skip();
+            break;
+    }
+}
+
+// other events
+
+void CMainFrame::OnSlider(wxScrollEvent& event)
+{
+	shapeCanvas->SetScale(double(zoomSlider->GetValue())/5);
+	shapeCanvas->Refresh(false);
+}
+
+void CMainFrame::OnHowerColor(wxColourPickerEvent& event)
+{
+	shapeCanvas->SetHoverColour(event.GetColour());
+}

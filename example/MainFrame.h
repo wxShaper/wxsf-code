@@ -1,10 +1,9 @@
-#include <wx/clrpicker.h>
-
-#include "FrameCanvas.h"
-
 #ifndef MAINFRAME_H
 #define MAINFRAME_H
 
+#include <wx/clrpicker.h>
+
+#include "FrameCanvas.h"
 
 class CMainFrame: public wxFrame {
 public:
@@ -46,22 +45,8 @@ protected:
 	bool m_fShowGrid;
 	MODE m_nToolMode;
 
-	void OnSlider(wxScrollEvent& event);
+    // menu event handlers
 	void OnExit(wxCommandEvent& event);
-	void OnShowGrid(wxCommandEvent& event);
-	void OnDesignTool(wxCommandEvent& event);
-	void OnRectTool(wxCommandEvent& event);
-	void OnRoundRectTool(wxCommandEvent& event);
-	void OnEllipseTool(wxCommandEvent& event);
-	void OnCircleTool(wxCommandEvent& event);
-	void OnFixedRectTool(wxCommandEvent& event);
-	void OnDiamondTool(wxCommandEvent& event);
-	void OnTextTool(wxCommandEvent& event);
-	void OnEditTextTool(wxCommandEvent& event);
-	void OnBitmapTool(wxCommandEvent& event);
-	void OnLineTool(wxCommandEvent& event);
-	void OnCurveTool(wxCommandEvent& event);
-	void OnHowerColor(wxColourPickerEvent& event);
 	void OnNew(wxCommandEvent& event);
 	void OnSave(wxCommandEvent& event);
 	void OnLoad(wxCommandEvent& event);
@@ -74,28 +59,20 @@ protected:
 	void OnSelectAll(wxCommandEvent& event);
 	void OnExportToBMP(wxCommandEvent& event);
 
-	void OnUpdateShowGrid(wxUpdateUIEvent& event);
-	void OnUpdateDesignTool(wxUpdateUIEvent& event);
-	void OnUpdateRectTool(wxUpdateUIEvent& event);
-	void OnUpdateEllipseTool(wxUpdateUIEvent& event);
-	void OnUpdateRoundRectTool(wxUpdateUIEvent& event);
-	void OnUpdateFixedRectTool(wxUpdateUIEvent& event);
-	void OnUpdateCircleTool(wxUpdateUIEvent& event);
-	void OnUpdateDiamondTool(wxUpdateUIEvent& event);
-	void OnUpdateTextTool(wxUpdateUIEvent& event);
-	void OnUpdateEditTextTool(wxUpdateUIEvent& event);
-	void OnUpdateBitmapTool(wxUpdateUIEvent& event);
-	void OnUpdateLineTool(wxUpdateUIEvent& event);
-	void OnUpdateCurveTool(wxUpdateUIEvent& event);
+    // toolbar event handlers
+	void OnSlider(wxScrollEvent& event);
+	void OnShpTool(wxCommandEvent& event);
+	void OnHowerColor(wxColourPickerEvent& event);
+
 	void OnUpdateCopy(wxUpdateUIEvent& event);
 	void OnUpdateCut(wxUpdateUIEvent& event);
 	void OnUpdatePaste(wxUpdateUIEvent& event);
 	void OnUpdateUndo(wxUpdateUIEvent& event);
 	void OnUpdateRedo(wxUpdateUIEvent& event);
+	void OnUpdateShpTool(wxUpdateUIEvent& event);
 
 	DECLARE_EVENT_TABLE();
 
 };
-
 
 #endif // MAINFRAME_H

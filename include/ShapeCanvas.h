@@ -110,6 +110,24 @@ public:
 		searchBOTH
 	};
 
+    /*! \brief Flags for AlignSelected function */
+	enum VALIGN
+	{
+	    valignNONE,
+	    valignTOP,
+	    valignMIDDLE,
+	    valignBOTTOM
+	};
+
+    /*! \brief Flags for AlignSelected function */
+	enum HALIGN
+	{
+	    halignNONE,
+	    halignLEFT,
+	    halignCENTER,
+	    halignRIGHT
+	};
+
 	// public functions
 	/*! \brief Get wxShapeFramework version number */
 	wxString GetVersion() {return m_sVersion;}
@@ -237,6 +255,9 @@ public:
 	bool CanUndo();
 	/*! \brief Function returns TRUE if Redo operation can be done */
 	bool CanRedo();
+	/*! \brief Function returns TRUE if AlignSelected function can be invoked (if more than
+	 * one shape is selected) */
+	bool CanAlign() {return m_shpMultiEdit.IsVisible();}
 
     /*! \brief Save current canvas state (for Undo/Redo operations) */
 	void SaveCanvasState();
@@ -409,6 +430,15 @@ public:
      * \return Selection bounding box
      */
 	wxRect GetSelectionBB();
+
+	/*!
+	 * \brief Align selected shapes in given directions.
+	 *
+	 * Shapes will be aligned according to most far shape in appropriate direction.
+	 * \param halign Horizontal alignment
+	 * \param valign Vertical alignment
+	 */
+	void AlignSelected(HALIGN halign, VALIGN valign);
 
 	// public members accessors
 	/*!

@@ -111,7 +111,7 @@ public:
 	    lineBOTH
 	};
 
-    /*! \brief Flags for AlignV function */
+    /*! \brief Flags for SetVAlign function */
 	enum VALIGN
 	{
 	    valignNONE,
@@ -120,7 +120,7 @@ public:
 	    valignBOTTOM
 	};
 
-    /*! \brief Flags for AlignH function */
+    /*! \brief Flags for SetHAlign function */
 	enum HALIGN
 	{
 	    halignNONE,
