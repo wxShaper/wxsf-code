@@ -108,6 +108,12 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	toolBar->AddRadioTool(IDT_LINESHP, wxT("Line"), wxBitmap(Line_xpm), wxNullBitmap, wxT("Polyline connection"));
 	toolBar->AddRadioTool(IDT_CURVESHP, wxT("Curve"), wxBitmap(Curve_xpm), wxNullBitmap, wxT("Curve connection"));
 	toolBar->AddSeparator();
+	toolBar->AddTool(IDT_ALIGN_LEFT, wxT("Align left"), wxBitmap(AlignLeft_xpm), wxT("Align selected shapes to the left"));
+	toolBar->AddTool(IDT_ALIGN_RIGHT, wxT("Align right"), wxBitmap(AlignRight_xpm), wxT("Align selected shapes to the right"));
+	toolBar->AddTool(IDT_ALIGN_TOP, wxT("Align top"), wxBitmap(AlignTop_xpm), wxT("Align selected shapes to the top"));
+	toolBar->AddTool(IDT_ALIGN_BOTTOM, wxT("Align bottom"), wxBitmap(AlignBottom_xpm), wxT("Align selected shapes to the bottom"));
+	toolBar->AddTool(IDT_ALIGN_MIDDLE, wxT("Align middle"), wxBitmap(AlignMiddle_xpm), wxT("Align selected shapes to the middle"));
+	toolBar->AddTool(IDT_ALIGN_CENTER, wxT("Align center"), wxBitmap(AlignCenter_xpm), wxT("Align selected shapes to the center"));
 	toolBar->AddControl(zoomSlider);
 	toolBar->AddSeparator();
 	toolBar->AddControl(cpicker);
@@ -126,7 +132,7 @@ void CMainFrame::set_properties()
 {
     // begin wxGlade: CMainFrame::set_properties
     SetTitle(wxT("wxShapeFramework Demo Application"));
-    SetSize(wxSize(800, 600));
+    SetSize(wxSize(950, 700));
     int statusBar_widths[] = { -1 };
     statusBar->SetStatusWidths(1, statusBar_widths);
     const wxString statusBar_fields[] = {
@@ -328,6 +334,30 @@ void CMainFrame::OnShpTool(wxCommandEvent& event)
             m_nToolMode = modeDESIGN;
             break;
 
+        case IDT_ALIGN_LEFT:
+            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignLEFT, wxSFShapeCanvas::valignNONE);
+            break;
+
+        case IDT_ALIGN_RIGHT:
+            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignRIGHT, wxSFShapeCanvas::valignNONE);
+            break;
+
+        case IDT_ALIGN_CENTER:
+            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignCENTER, wxSFShapeCanvas::valignNONE);
+            break;
+
+        case IDT_ALIGN_TOP:
+            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignTOP);
+            break;
+
+        case IDT_ALIGN_BOTTOM:
+            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignBOTTOM);
+            break;
+
+        case IDT_ALIGN_MIDDLE:
+            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignMIDDLE);
+            break;
+
         default:
             event.Skip();
             break;
@@ -388,6 +418,15 @@ void CMainFrame::OnUpdateShpTool(wxUpdateUIEvent& event)
 
         case IDT_TOOL:
             event.Check(m_nToolMode == modeDESIGN);
+            break;
+
+        case IDT_ALIGN_RIGHT:
+        case IDT_ALIGN_LEFT:
+        case IDT_ALIGN_TOP:
+        case IDT_ALIGN_BOTTOM:
+        case IDT_ALIGN_MIDDLE:
+        case IDT_ALIGN_CENTER:
+            event.Enable(shapeCanvas->CanAlign());
             break;
 
         default:

@@ -1910,20 +1910,21 @@ void wxSFShapeCanvas::UpdateMultieditSize()
 {
 	// calculate bounding box
 	wxRect unionRct;
-	bool firstRun = true;
+	//bool firstRun = true;
 	CShapeList m_lstSelection;
 	GetSelectedShapes(m_lstSelection);
 	wxCShapeListNode *node = m_lstSelection.GetFirst();
 	while(node)
 	{
-		if(firstRun)
+		if(node == m_lstSelection.GetFirst())
 		{
 			unionRct = node->GetData()->GetBoundingBox();
-			firstRun = false;
+			//firstRun = false;
 		}
 		else
 			unionRct.Union(node->GetData()->GetBoundingBox());
-		node = node->GetNext();
+
+        node = node->GetNext();
 	}
 	unionRct.Inflate(MEOFFSET, MEOFFSET);
 
@@ -2199,7 +2200,12 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
         node = node->GetNext();
     }
 
-    if(!updRct.IsEmpty())RefreshCanvas(false, updRct);
+    if(!updRct.IsEmpty())
+    {
+        UpdateMultieditSize();
+        SaveCanvasState();
+        RefreshCanvas(false, updRct);
+    }
 }
 
 //----------------------------------------------------------------------------------//

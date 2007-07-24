@@ -86,7 +86,7 @@
 					<Add directory="$(#wx)\lib\gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="xcopy ..\lib\Win-gcc\ReleaseDLL\wxSF.dll ..\bin\Win-gcc\ReleaseDLL /Y" />
+					<Add after="xcopy ..\lib\Win-gcc\ReleaseDLL\wxSF.dll ..\bin\Win-gcc\ReleaseDLL /Y /I" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug DLL">
@@ -116,7 +116,7 @@
 					<Add directory="$(#wx)\lib\gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="xcopy ..\lib\Win-gcc\DebugDLL\wxSFd.dll ..\bin\Win-gcc\DebugDLL /Y" />
+					<Add after="xcopy ..\lib\Win-gcc\DebugDLL\wxSFd.dll ..\bin\Win-gcc\DebugDLL /Y /I" />
 				</ExtraCommands>
 			</Target>
 		</Build>

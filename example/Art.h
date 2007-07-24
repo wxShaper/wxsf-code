@@ -14,5 +14,11 @@
 #include "res/Text.xpm"
 #include "res/EditText.xpm"
 #include "res/Bitmap.xpm"
+#include "res/AlignLeft.xpm"
+#include "res/AlignRight.xpm"
+#include "res/AlignTop.xpm"
+#include "res/AlignBottom.xpm"
+#include "res/AlignMiddle.xpm"
+#include "res/AlignCenter.xpm"
 
 #endif // ART_H_INCLUDED
