@@ -61,7 +61,7 @@ protected:
 
     // toolbar event handlers
 	void OnSlider(wxScrollEvent& event);
-	void OnShpTool(wxCommandEvent& event);
+	void OnTool(wxCommandEvent& event);
 	void OnHowerColor(wxColourPickerEvent& event);
 
 	void OnUpdateCopy(wxUpdateUIEvent& event);
@@ -69,7 +69,7 @@ protected:
 	void OnUpdatePaste(wxUpdateUIEvent& event);
 	void OnUpdateUndo(wxUpdateUIEvent& event);
 	void OnUpdateRedo(wxUpdateUIEvent& event);
-	void OnUpdateShpTool(wxUpdateUIEvent& event);
+	void OnUpdateTool(wxUpdateUIEvent& event);
 
 	DECLARE_EVENT_TABLE();
 

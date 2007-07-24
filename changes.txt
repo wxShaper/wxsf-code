@@ -1,7 +1,9 @@
-Changes in version 1.1.5 alpha (2007-07-23):
+Changes in version 1.1.5 alpha (2007-07-24):
 --------------------------------------------
 - Fixed function FitToChildren in diamond shape (wxSFDiamondShape)
 - Fixed canvas refresh during shape handle dragging
+- Added function for alignment of selected shapes in the shape canvas (wxSFShapeCanvas::AlignSelected())
+- Updated example code to demonstrate AlignSelected() function
 
 Changes in version 1.1.4 alpha (2007-07-21):
 --------------------------------------------

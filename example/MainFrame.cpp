@@ -18,14 +18,14 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(wxID_SELECTALL, CMainFrame::OnSelectAll)
 	EVT_MENU(IDM_SAVEASBITMAP, CMainFrame::OnExportToBMP)
 	EVT_COMMAND_SCROLL(wxID_ZOOM_FIT, CMainFrame::OnSlider)
-	EVT_TOOL_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnShpTool)
+	EVT_TOOL_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnTool)
 	EVT_COLOURPICKER_CHANGED(IDT_COLORPICKER, CMainFrame::OnHowerColor)
 	EVT_UPDATE_UI(wxID_COPY, CMainFrame::OnUpdateCopy)
 	EVT_UPDATE_UI(wxID_CUT, CMainFrame::OnUpdateCut)
 	EVT_UPDATE_UI(wxID_PASTE, CMainFrame::OnUpdatePaste)
 	EVT_UPDATE_UI(wxID_UNDO, CMainFrame::OnUpdateUndo)
 	EVT_UPDATE_UI(wxID_REDO, CMainFrame::OnUpdateRedo)
-	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnUpdateShpTool)
+	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnUpdateTool)
 END_EVENT_TABLE()
 
 CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
@@ -273,7 +273,7 @@ void CMainFrame::OnExportToBMP(wxCommandEvent& event)
 
 // tool events
 
-void CMainFrame::OnShpTool(wxCommandEvent& event)
+void CMainFrame::OnTool(wxCommandEvent& event)
 {
     if(shapeCanvas->GetMode() == CFrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
 
@@ -364,7 +364,7 @@ void CMainFrame::OnShpTool(wxCommandEvent& event)
     }
 }
 
-void CMainFrame::OnUpdateShpTool(wxUpdateUIEvent& event)
+void CMainFrame::OnUpdateTool(wxUpdateUIEvent& event)
 {
     switch(event.GetId())
     {

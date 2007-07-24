@@ -250,7 +250,6 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 					}
 					m_shpMultiEdit.Show(false);
 					//m_shpMultiEdit.ShowHandles(false);
-					m_nWorkingMode = modeSHAPEMOVE;
 
 					// inform selected shapes about begin of dragging...
 					wxCShapeListNode *node = m_lstSelection.GetFirst();
@@ -262,6 +261,8 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 
 					// call user defined actions
 					pSelectedShape->OnLeftClick(FitPositionToGrid(lpos));
+
+					m_nWorkingMode = modeSHAPEMOVE;
 				}
 				else
 				{
@@ -487,7 +488,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 			if(m_lstSelection.GetCount()>1)
 			{
 				m_shpMultiEdit.Show(true);
-				//m_shpMultiEdit.ShowHandles(true);
+				m_shpMultiEdit.ShowHandles(true);
 			}
 			else
 				m_shpMultiEdit.Show(false);
@@ -2119,12 +2120,13 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
 {
     wxRealPoint min_pos, max_pos, pos;
     wxRect shapeBB, updRct;
-    wxSFShapeBase *pShape;
+    wxSFShapeBase *pShape, *pParent;
 
     CShapeList lstSelection;
     GetSelectedShapes(lstSelection);
 
     updRct = GetSelectionBB();
+    updRct.Inflate(MEOFFSET, MEOFFSET);
 
     // find most distant position
     wxCShapeListNode *node = lstSelection.GetFirst();
@@ -2137,7 +2139,9 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
 
         if( node == lstSelection.GetFirst() )
         {
-            min_pos = max_pos = pos;
+            min_pos = pos;
+            max_pos.x = pos.x + shapeBB.GetWidth();
+            max_pos.y = pos.y + shapeBB.GetHeight();
         }
         else
         {
@@ -2195,7 +2199,13 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
                 break;
         }
 
+        // update the shape and its parent
         pShape->Update();
+        pParent = pShape->GetParentShape();
+        if(pParent)
+        {
+            pParent->Update();
+        }
 
         node = node->GetNext();
     }
