@@ -257,7 +257,7 @@ public:
 	bool CanRedo();
 	/*! \brief Function returns TRUE if AlignSelected function can be invoked (if more than
 	 * one shape is selected) */
-	bool CanAlign() {return m_shpMultiEdit.IsVisible();}
+	bool CanAlign();
 
     /*! \brief Save current canvas state (for Undo/Redo operations) */
 	void SaveCanvasState();
