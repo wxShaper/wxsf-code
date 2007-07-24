@@ -740,7 +740,7 @@ void wxSFShapeBase::DoAlignment()
                 break;
 
             case valignBOTTOM:
-                m_nRelativePosition.y = parentBB.GetBottom() - shapeBB.GetHeight() - m_nVBorder;
+                m_nRelativePosition.y = parentBB.GetHeight() - shapeBB.GetHeight() - m_nVBorder;
 
             default:
                 break;
@@ -758,7 +758,7 @@ void wxSFShapeBase::DoAlignment()
                 break;
 
             case halignRIGHT:
-                m_nRelativePosition.x = parentBB.GetRight() - shapeBB.GetWidth() - m_nHBorder;
+                m_nRelativePosition.x = parentBB.GetWidth() - shapeBB.GetWidth() - m_nHBorder;
 
             default:
                 break;
