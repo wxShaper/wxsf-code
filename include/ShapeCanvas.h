@@ -194,6 +194,29 @@ public:
 	void RemoveShapes(const CShapeList& selection);
 	/*! \brief Remove all shapes from the canvas */
 	void Clear();
+    /*!
+     * \brief Add given shape type to an acceptance list. The acceptance list contains class
+     * names of the shapes which can be inserted into this instance of shapes canvas.
+     * Note: Keyword 'All' behaves like any class name.
+     * \param type Class name of accepted shape object
+     * \sa IsShapeAccepted
+     */
+	void AcceptShape(const wxString& type) {m_arrAcceptedShapes.Add(type);}
+    /*!
+     * \brief Tells whether the given shape type is accepted by this canvas instance (it means
+     * whether this shape can be inserted into it).
+     *
+     * The function is typically used by the framework for determination whether class type supplied
+     * by AddShape() function can be inserted into shape canvas.
+     * \param type Class name of examined shape object
+     * \return TRUE if the shape type is accepted, otherwise FALSE.
+     */
+	bool IsShapeAccepted(const wxString& type);
+	/*!
+	 * \brief Clear shape object acceptance list
+	 * \sa AcceptShape
+	 */
+	void ClearAcceptedShapes(){m_arrAcceptedShapes.Clear();}
 
     /*!
      * \brief Start interactive connection creation.
@@ -257,7 +280,7 @@ public:
 	bool CanRedo();
 	/*! \brief Function returns TRUE if AlignSelected function can be invoked (if more than
 	 * one shape is selected) */
-	bool CanAlign();
+	bool CanAlignSelected();
 
     /*! \brief Save current canvas state (for Undo/Redo operations) */
 	void SaveCanvasState();
@@ -666,6 +689,8 @@ private:
 
 	wxSFShapeHandle* m_pSelectedHandle;
 	wxSFLineShape* m_pNewLineShape;
+
+	wxArrayString m_arrAcceptedShapes;
 
 	/*! \brief wxSF version number */
 	wxString m_sVersion;

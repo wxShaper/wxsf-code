@@ -172,6 +172,11 @@ void CMainFrame::OnNew(wxCommandEvent& event)
 	{
 		shapeCanvas->Clear();
 		shapeCanvas->ClearCanvasHistory();
+
+        // set accepted shapes
+        shapeCanvas->ClearAcceptedShapes();
+        shapeCanvas->AcceptShape(wxT("All"));
+
 		shapeCanvas->Refresh();
 	}
 }
@@ -258,7 +263,7 @@ void CMainFrame::OnSelectAll(wxCommandEvent& event)
 
 void CMainFrame::OnAbout(wxCommandEvent& event)
 {
-	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.3\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), shapeCanvas->GetVersion().c_str()), wxT("ShapeFranework"));
+	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.4\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), shapeCanvas->GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void CMainFrame::OnExportToBMP(wxCommandEvent& event)
@@ -426,7 +431,7 @@ void CMainFrame::OnUpdateTool(wxUpdateUIEvent& event)
         case IDT_ALIGN_BOTTOM:
         case IDT_ALIGN_MIDDLE:
         case IDT_ALIGN_CENTER:
-            event.Enable(shapeCanvas->CanAlign());
+            event.Enable(shapeCanvas->CanAlignSelected());
             break;
 
         default:

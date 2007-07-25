@@ -12,6 +12,18 @@ CFrameCanvas::CFrameCanvas(wxWindow* parent, wxWindowID id)
 
 	// initialize data members
 	m_pParentFrame = (CMainFrame*)parent;
+
+	// set accepted shapes
+	ClearAcceptedShapes();
+	AcceptShape(wxT("All"));
+
+	/*AcceptShape(wxT("wxSFRoundRectShape"));
+	AcceptShape(wxT("wxSFDiamondShape"));
+	AcceptShape(wxT("wxSFTextShape"));
+
+	AcceptShape(wxT("wxSFLineShape"));
+	AcceptShape(wxT("wxSFCurveShape"));*/
+
 }
 
 CFrameCanvas::~CFrameCanvas(void)
@@ -59,13 +71,27 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		    if(dlg.ShowModal() == wxID_OK)
 		    {
                 wxSFTextShape* pText = NULL;
+
 				if(m_pParentFrame->GetToolMode() == CMainFrame::modeTEXT)
 					pText = (wxSFTextShape*)AddShape(CLASSINFO(wxSFTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
 				else
 					pText = (wxSFEditTextShape*)AddShape(CLASSINFO(wxSFEditTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
+
                 if(pText)
                 {
 					pText->SetText(dlg.GetValue());
+
+                    // set alignment
+                    pText->SetVAlign(wxSFShapeBase::valignTOP);
+                    pText->SetHAlign(wxSFShapeBase::halignCENTER);
+                    pText->SetVBorder(10);
+
+                    // set shapes policy
+                    pText->AcceptConnection(wxT("All"));
+                    pText->AcceptSrcNeighbour(wxT("All"));
+                    pText->AcceptTrgNeighbour(wxT("wxSFTextShape"));
+                    pText->AcceptTrgNeighbour(wxT("wxSFEditTextShape"));
+
 					SaveCanvasState();
                     pText->Refresh();
                 }
@@ -73,17 +99,6 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
                 {
                     m_pParentFrame->SetToolMode(CMainFrame::modeDESIGN);
                 }
-
-                // set alignment
-                pText->SetVAlign(wxSFShapeBase::valignTOP);
-                pText->SetHAlign(wxSFShapeBase::halignCENTER);
-                pText->SetVBorder(10);
-
-                // set shapes policy
-                pText->AcceptConnection(wxT("All"));
-                pText->AcceptSrcNeighbour(wxT("All"));
-                pText->AcceptTrgNeighbour(wxT("wxSFTextShape"));
-                pText->AcceptTrgNeighbour(wxT("wxSFEditTextShape"));
 		    }
 		}
 		break;

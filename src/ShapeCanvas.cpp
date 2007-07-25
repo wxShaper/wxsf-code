@@ -1,4 +1,3 @@
-#include <wx/wfstream.h>
 /***************************************************************
  * Name:      ShapeCanvas.cpp
  * Purpose:   Implements shape canvas class
@@ -9,6 +8,10 @@
  * Notes:
  **************************************************************/
 
+// TODO: wxSFShapeCanvas: Implement function AcceptShape()
+// TODO: wxSFShapeCnavas: Implement function ResizeSelected()
+
+#include <wx/wfstream.h>
 #include <wx/mstream.h>
 #include <wx/txtstrm.h>
 #include <wx/clipbrd.h>
@@ -43,7 +46,7 @@ END_EVENT_TABLE()
 wxSFShapeCanvas::wxSFShapeCanvas(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 : wxScrolledWindow(parent, id, pos, size, style)
 {
-    m_sVersion =  wxT("1.1.5 alpha");
+    m_sVersion =  wxT("1.1.6 alpha");
 
 	SetScrollbars(5, 5, 100, 100);
 	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
@@ -78,6 +81,9 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxWindow* parent, wxWindowID id, const wxPoint&
 	m_lstIDPairs.DeleteContents(true);
 
 	m_formatShapes.SetId(dataFormatID);
+
+	// accept all shape types
+	//m_arrAcceptedShapes.Add(wxT("All"));
 
 	m_CanvasHistory.SetParentCanvas(this);
 	SaveCanvasState();
@@ -1055,19 +1061,24 @@ wxSFShapeBase* wxSFShapeCanvas::AddShape(wxClassInfo* shapeInfo, bool saveState)
 
 wxSFShapeBase* wxSFShapeCanvas::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState)
 {
-	// create shape object from class info
-	wxSFShapeBase* pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
+    if( IsShapeAccepted(shapeInfo->GetClassName()) )
+    {
+        // create shape object from class info
+        wxSFShapeBase* pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
 
-	pShape = AddShape(pShape, pos, true, saveState);
+        pShape = AddShape(pShape, pos, true, saveState);
 
-	return pShape;
+        return pShape;
+    }
+    else
+        return NULL;
 }
 
 wxSFShapeBase* wxSFShapeCanvas::AddShape(wxSFShapeBase* shape, const wxPoint& pos, bool initialize, bool saveState)
 {
 	if(shape)
 	{
-		if(shape->IsKindOf(CLASSINFO(wxSFShapeBase)))
+		if( shape->IsKindOf(CLASSINFO(wxSFShapeBase)) && IsShapeAccepted(shape->GetClassInfo()->GetClassName()) )
 		{
 			wxPoint newPos = FitPositionToGrid(DP2LP(pos));
 			shape->SetRelativePosition(wxRealPoint(newPos.x, newPos.y));
@@ -1099,7 +1110,16 @@ wxSFShapeBase* wxSFShapeCanvas::AddShape(wxSFShapeBase* shape, const wxPoint& po
 			shape = NULL;
 		}
 	}
+
 	return shape;
+}
+
+bool wxSFShapeCanvas::IsShapeAccepted(const wxString& type)
+{
+    if( m_arrAcceptedShapes.Index(type) != wxNOT_FOUND )return true;
+    else if( m_arrAcceptedShapes.Index(wxT("All")) != wxNOT_FOUND )return true;
+    else
+        return false;
 }
 
 void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos)
@@ -1127,7 +1147,6 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
             }
         }
     }
-    //_OnLeftDown(event);
 }
 
 void wxSFShapeCanvas::AbortInteractiveConnection()
@@ -1277,6 +1296,20 @@ void wxSFShapeCanvas::LoadCanvas(const wxString& file)
                         grid = grid->GetNext();
                     }
                 }
+                else if(child->GetName() == wxT("accepted_shapes"))
+                {
+                    ClearAcceptedShapes();
+
+                    wxXmlNode* accept = child->GetChildren();
+                    while(accept)
+                    {
+                        if(accept->GetName() == wxT("type"))
+                        {
+                            m_arrAcceptedShapes.Add(accept->GetNodeContent());
+                        }
+                        accept = accept->GetNext();
+                    }
+                }
                 else if(child->GetName() == wxT("chart"))
                 {
                     // only one chart can be loaded at once
@@ -1350,6 +1383,17 @@ void wxSFShapeCanvas::SaveCanvas(const wxString& file)
         AddPropertyNode(child, wxT("color"), ColourToString(m_nGridColor));
     }
     root->AddChild(child);
+
+    // save acceptance list
+    if( !m_arrAcceptedShapes.IsEmpty() && (m_arrAcceptedShapes.Index(wxT("All"))==wxNOT_FOUND) )
+    {
+         child = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("accepted_shapes"));
+         for(size_t i = 0; i < m_arrAcceptedShapes.GetCount(); i++)
+         {
+             AddPropertyNode(child, wxT("type"), m_arrAcceptedShapes[i]);
+         }
+         root->AddChild(child);
+    }
 
     // create chart node
     wxXmlNode* chart = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("chart"));
@@ -2347,7 +2391,7 @@ bool wxSFShapeCanvas::CanRedo()
 	return m_CanvasHistory.CanRedo();
 }
 
-bool wxSFShapeCanvas::CanAlign()
+bool wxSFShapeCanvas::CanAlignSelected()
 {
     return ( m_shpMultiEdit.IsVisible() & (m_nWorkingMode == modeREADY) );
 }

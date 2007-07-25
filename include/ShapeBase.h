@@ -492,7 +492,7 @@ public:
      * names of the shapes which can be accepted as children of this shape.
      * Note: Keyword 'All' behaves like any class name.
      * \param type Class name of accepted shape object
-     * \sa IsShapeAccepted
+     * \sa IsChildAccepted
      */
 	void AcceptChild(const wxString& type) {m_arrAcceptedChildren.Add(type);}
 	/*!
