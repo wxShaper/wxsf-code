@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "DiagramManager.h"
 #include "ShapeCanvas.h"
 
 #include "RectShape.h"

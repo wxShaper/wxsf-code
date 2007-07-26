@@ -158,6 +158,7 @@
 		<Unit filename="..\include\CircleShape.h" />
 		<Unit filename="..\include\CommonFcn.h" />
 		<Unit filename="..\include\CurveShape.h" />
+		<Unit filename="..\include\DiagramManager.h" />
 		<Unit filename="..\include\DiamondShape.h" />
 		<Unit filename="..\include\EditTextShape.h" />
 		<Unit filename="..\include\EllipseShape.h" />
@@ -185,6 +186,7 @@
 		<Unit filename="CommonFcn.cpp" />
 		<Unit filename="CurveShape.cpp" />
 		<Unit filename="CurveShapeXml.cpp" />
+		<Unit filename="DiagramManager.cpp" />
 		<Unit filename="DiamondShape.cpp" />
 		<Unit filename="EditTextShape.cpp" />
 		<Unit filename="EllipseShape.cpp" />
