@@ -257,7 +257,9 @@ protected:
 
 private:
 
+    /*! \brief Auxiliary list */
     CIDList m_lstIDPairs;
+    /*! \brief Auxiliary list */
 	CShapeList m_lstLinesForUpdate;
 
 	/*! \brief wxSF version number */

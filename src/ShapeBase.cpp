@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+// TODO: wxSFShapeBase: Implement LockAspectRation() function
+
 #include "ShapeBase.h"
 #include "ShapeCanvas.h"
 #include "TextShape.h"
@@ -551,6 +553,28 @@ void wxSFShapeBase::DrawHighlighted(wxSFScaledPaintDC& dc)
 void wxSFShapeBase::CreateHandles()
 {
 	// HINT: overload it for custom actions...
+}
+
+void wxSFShapeBase::AssignChild(wxSFShapeBase* child)
+{
+    wxASSERT(child);
+    wxASSERT(m_pParentCanvas);
+    wxASSERT(m_pParentCanvas->GetDiagramManager());
+
+    if(child && m_pParentCanvas && m_pParentCanvas->GetDiagramManager())
+    {
+        // set parent shape ID
+        child->SetParentShapeId(this->GetId());
+
+        // add the child shape to shape list if neccessary
+        if( m_pParentCanvas->GetDiagramManager()->GetShapeList().IndexOf(child) == wxNOT_FOUND )
+        {
+            m_pParentCanvas->GetDiagramManager()->GetShapeList().Append(child);
+        }
+
+        // update parent shape
+        Update();
+    }
 }
 
 void wxSFShapeBase::GetChildren(CShapeList &children, bool recursive)

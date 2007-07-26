@@ -222,7 +222,6 @@ public:
     /// <param name="recursive"> Set this flag TRUE if also children of children of ... should be found
     /// (also sfRECURSIVE a sfNORECURSIVE constants can be used). </param>
 	void GetChildren(CShapeList& children, bool recursive = false);
-
 	/*!
 	 * \brief Get neighbour shapes connected to this shape.
 	 * \param neighbours List of neighbour shapes
@@ -380,6 +379,14 @@ public:
 	 */
 	double GetHBorder(){return m_nHBorder;}
 
+    /*!
+     * \brief Assign existing shape as a child.
+     *
+     * If the child is not added in global shape list managed by the diagram manager
+     * the it is added. Also the child's parent shape ID value is set properly.
+     * \param child Pointer to child shape
+     */
+    void AssignChild(wxSFShapeBase* child);
     /// <summary> Get pointer to a parent shape </summary>
 	wxSFShapeBase* GetParentShape();
 	/// <summary> Assign this shape to some other shapes that becomes its parent </summary>

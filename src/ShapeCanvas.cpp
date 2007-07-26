@@ -9,7 +9,6 @@
  **************************************************************/
 
 // TODO: wxSFShapeCanvas: Implement canvas thumbnail (wxSFCanvasThumbnail class)
-// TODO: wxSFShapeCnavas: Implement function ResizeSelected()
 
 #include <wx/wfstream.h>
 #include <wx/mstream.h>
