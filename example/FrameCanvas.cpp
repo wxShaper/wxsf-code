@@ -3,8 +3,8 @@
 
 #include <wx/textdlg.h>
 
-CFrameCanvas::CFrameCanvas(wxWindow* parent, wxWindowID id)
-: wxSFShapeCanvas(parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
+CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id)
+: wxSFShapeCanvas(manager, parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
 {
 	// initialize grid
 	UseGrid(true);
@@ -14,8 +14,8 @@ CFrameCanvas::CFrameCanvas(wxWindow* parent, wxWindowID id)
 	m_pParentFrame = (CMainFrame*)parent;
 
 	// set accepted shapes
-	ClearAcceptedShapes();
-	AcceptShape(wxT("All"));
+	GetDiagramManager()->ClearAcceptedShapes();
+	GetDiagramManager()->AcceptShape(wxT("All"));
 
 	/*AcceptShape(wxT("wxSFRoundRectShape"));
 	AcceptShape(wxT("wxSFDiamondShape"));
@@ -44,7 +44,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 			if(dlg.ShowModal() == wxID_OK)
 			{
-				wxSFBitmapShape* pShape = (wxSFBitmapShape*)AddShape(CLASSINFO(wxSFBitmapShape), event.GetPosition(), sfDONT_SAVE_STATE);
+				wxSFBitmapShape* pShape = (wxSFBitmapShape*)GetDiagramManager()->AddShape(CLASSINFO(wxSFBitmapShape), event.GetPosition(), sfDONT_SAVE_STATE);
 				if(pShape)
 				{
 					pShape->CreateFromFile(dlg.GetPath());
@@ -73,9 +73,9 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
                 wxSFTextShape* pText = NULL;
 
 				if(m_pParentFrame->GetToolMode() == CMainFrame::modeTEXT)
-					pText = (wxSFTextShape*)AddShape(CLASSINFO(wxSFTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
+					pText = (wxSFTextShape*)GetDiagramManager()->AddShape(CLASSINFO(wxSFTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
 				else
-					pText = (wxSFEditTextShape*)AddShape(CLASSINFO(wxSFEditTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
+					pText = (wxSFEditTextShape*)GetDiagramManager()->AddShape(CLASSINFO(wxSFEditTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
 
                 if(pText)
                 {
@@ -105,7 +105,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeDIAMOND:
 		{
-			wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFDiamondShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), event.GetPosition());
 			if(pShape)
 			{
 			    // set shape policy
@@ -125,7 +125,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeFIXEDRECT:
 		{
-		    wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFSquareShape), event.GetPosition());
+		    wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFSquareShape), event.GetPosition());
 		    if(pShape)
 			{
 			    // set shape policy
@@ -145,7 +145,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeROUNDRECT:
 		{
-			wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFRoundRectShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), event.GetPosition());
 			if(pShape)
 			{
 			    // set shape policy
@@ -165,7 +165,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeRECT:
 		{
-			wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFRectShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRectShape), event.GetPosition());
 			if(pShape)
 			{
 			    // set shape policy
@@ -185,7 +185,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeELLIPSE:
 		{
-			wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFEllipseShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), event.GetPosition());
 			if(pShape)
 			{
 			    // set shape policy
@@ -205,7 +205,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeCIRCLE:
 		{
-			wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFCircleShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), event.GetPosition());
 			if(pShape)
 			{
 			    // set shape policy

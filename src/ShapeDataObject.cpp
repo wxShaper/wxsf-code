@@ -18,17 +18,17 @@ wxSFShapeDataObject::wxSFShapeDataObject(const wxDataFormat& format)
 	m_Data.SetText(wxT("<?xml version=\"1.0\" encoding=\"utf-8\"?><chart />"));
 }
 
-wxSFShapeDataObject::wxSFShapeDataObject(const wxDataFormat& format, const CShapeList& selection, wxSFShapeCanvas* canvas)
+wxSFShapeDataObject::wxSFShapeDataObject(const wxDataFormat& format, const CShapeList& selection, wxSFDiagramManager* manager)
 : wxDataObjectSimple(format)
 {
-	m_Data.SetText(SerializeSelectedShapes(selection, canvas));
+	m_Data.SetText(SerializeSelectedShapes(selection, manager));
 }
 
 wxSFShapeDataObject::~wxSFShapeDataObject(void)
 {
 }
 
-wxString wxSFShapeDataObject::SerializeSelectedShapes(const CShapeList& selection, wxSFShapeCanvas* canvas)
+wxString wxSFShapeDataObject::SerializeSelectedShapes(const CShapeList& selection, wxSFDiagramManager* manager)
 {
 	// create root node
 	wxSFShapeBase *pShape;
@@ -42,7 +42,7 @@ wxString wxSFShapeDataObject::SerializeSelectedShapes(const CShapeList& selectio
 		if(pShape)
 		{
 			// serialize parent's children
-			canvas->SerializeShapes(pShape, root, serINCLUDE_PARENTS);
+			manager->SerializeShapes(pShape, root, serINCLUDE_PARENTS);
 		}
 		node = node->GetNext();
 	}

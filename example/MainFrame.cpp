@@ -64,7 +64,8 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
     toolBar = new wxToolBar(this, -1, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL|wxTB_FLAT);
     SetToolBar(toolBar);
 
-    shapeCanvas = new CFrameCanvas(this, -1);
+    // set shape canvas and associate it wirh diagram manager
+    shapeCanvas = new CFrameCanvas(&m_DiagramManager, this, -1);
 
     set_properties();
     do_layout();
@@ -170,12 +171,12 @@ void CMainFrame::OnNew(wxCommandEvent& event)
 {
 	if(wxMessageBox(wxT("Current chart will be lost. Do you want to proceed?"), wxT("ShapeFramework"), wxYES_NO | wxICON_QUESTION) == wxYES)
 	{
-		shapeCanvas->Clear();
+		m_DiagramManager.Clear();
 		shapeCanvas->ClearCanvasHistory();
 
         // set accepted shapes
-        shapeCanvas->ClearAcceptedShapes();
-        shapeCanvas->AcceptShape(wxT("All"));
+        m_DiagramManager.ClearAcceptedShapes();
+        m_DiagramManager.AcceptShape(wxT("All"));
 
 		shapeCanvas->Refresh();
 	}
@@ -263,7 +264,7 @@ void CMainFrame::OnSelectAll(wxCommandEvent& event)
 
 void CMainFrame::OnAbout(wxCommandEvent& event)
 {
-	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.4\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), shapeCanvas->GetVersion().c_str()), wxT("ShapeFranework"));
+	wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5\nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void CMainFrame::OnExportToBMP(wxCommandEvent& event)

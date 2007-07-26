@@ -38,15 +38,18 @@ wxSFCanvasState::~wxSFCanvasState(void)
 
 void wxSFCanvasState::Restore(wxSFShapeCanvas* canvas)
 {
+    wxASSERT(canvas);
+    wxASSERT(canvas->GetDiagramManager());
+
 	// create input stream from local memory buffer
 	wxMemoryInputStream instream(m_dataBuffer.GetData(), m_dataBuffer.GetDataLen()-1);
 
 	// deserialize canvas content
-	if(instream.IsOk() && canvas)
+	if(instream.IsOk() && canvas && canvas->GetDiagramManager())
 	{
 		// clear all previous canvas content
-		canvas->Clear();
-		canvas->DeserializeChartFromXml(instream);
+		canvas->GetDiagramManager()->Clear();
+		canvas->GetDiagramManager()->DeserializeChartFromXml(instream);
 		canvas->Refresh(false);
 	}
 }

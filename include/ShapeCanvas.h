@@ -11,13 +11,12 @@
 #pragma once
 
 #include "ShapeBase.h"
+#include "DiagramManager.h"
 #include "MultiSelRect.h"
 #include "CanvasHistory.h"
 #include "LineShape.h"
 
 #define MEOFFSET 5
-#define serINCLUDE_PARENTS true
-#define serWITHOUT_PARENTS false
 #define sfSAVE_STATE true
 #define sfDONT_SAVE_STATE false
 
@@ -39,24 +38,11 @@
 /*! \brief Default value of wxSFShapeCanvas::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
 
-/*! \brief Auxiliary class encapsulation two variables suitable for shape IDs. It is
- * used for storing infomation about various relevant shape IDs */
-class CIDPair : public wxObject
-{
-public:
-    /*! \brief Constructor */
-	CIDPair(long oldId, long newId){m_nOldID = oldId; m_nNewID = newId;}
-	long m_nNewID;
-	long m_nOldID;
-};
-
-WX_DECLARE_LIST(CIDPair, CIDList);
-
 /*!
  * \brief Class encapsulating a Shape canvas. The shape canvas is window control
- * which extends the wxScrolledWindow and is responsible for management of shapes diagrams.
+ * which extends the wxScrolledWindow and is responsible for displaying of shapes diagrams.
  * It also supports clipboard and drag&drop operations, undo/redo operations,
- * graphics exporting functions and serialization/deserialization of inserted shape objects.
+ * and graphics exporting functions.
  *
  * This class is a core framework class and provides many member functions suitable for adding,
  * removing, moving, resizing and drawing of shape objects. It can be used as it is or as a base class
@@ -64,21 +50,24 @@ WX_DECLARE_LIST(CIDPair, CIDList);
  * its virtual functions or by manual events handling. In both cases the user is responsible
  * for invoking of default event handlers/virtual functions otherwise the
  * built in functionality wont be available.
- * \sa wxSFShapeObject
+ * \sa wxSFDiagramManager
  */
 class wxSFShapeCanvas : public wxScrolledWindow
 {
 public:
 
+    friend class wxSFDiagramManager;
+
     /*!
      * \brief Constructor
+     * \param manager Pointer to shape manager
      * \param parent Parent window
      * \param id Window ID
      * \param pos Initial position
      * \param size Initial size
      * \param style Window style
      */
-	wxSFShapeCanvas(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxHSCROLL | wxVSCROLL);
+	wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxHSCROLL | wxVSCROLL);
 	/*! \brief Destructor */
 	~wxSFShapeCanvas(void);
 
@@ -129,13 +118,19 @@ public:
 	};
 
 	// public functions
-	/*! \brief Get wxShapeFramework version number */
-	wxString GetVersion() {return m_sVersion;}
 
-	/*!
-	 * \brief Get the lowest free shape ID
-	 */
-	long GetNewId();
+    /*!
+     * \brief Get diagram manager associated with this instance of shape canvas
+     * \return Pointer to diagram manager
+     * \sa wxSFDiagramManager
+     */
+    wxSFDiagramManager* GetDiagramManager(){return m_pManager;}
+    /*!
+     * \brief Set diagram manager for this shape canvas
+     * \param manager Pointer to diagram manager instance
+     * \sa wxSFDiagramManager
+     */
+    void SetDiagramManager(wxSFDiagramManager* manager){m_pManager = manager;}
 
     /*!
      * \brief Load serialized canvas content (diagrams) from given file.
@@ -152,71 +147,6 @@ public:
      * \param file Full file name
      */
 	void SaveCanvasToBMP(const wxString& file);
-
-    /*!
-     * \brief Create new direct connection between two shapes.
-     *
-     * This function creates new simple connection line (without arrows) between gived
-     * shapes.
-     * \param srcId ID of a source shape
-     * \param trgId ID of target shape
-     * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
-     * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
-     * \sa StartInteractiveConnection
-     */
-    wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true);
-    /*!
-     * \brief Create new shape and add it to the shape canvas.
-     * \param shapeInfo Shape type
-     * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
-     * \return Pointer to new shape object. The object is added to the shape canvas automaticaly.
-     */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, bool saveState = true);
-	/*!
-	 * \brief Create new shape and add it to the shape canvas.
-	 * \param shapeInfo Shape type
-	 * \param pos Shape position
-	 * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
-	 * \return Description
-	 * \sa Seealso
-	 */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState = true);
-	/*!
-	 * \brief Remove given shape from the shape canvas. The shape object will be deleted as well.
-	 * \param shape Pointer to shape object should be deleted
-	 * \param refresh Set the paramater to TRUE if you wish to repaint the canvas
-	 */
-	void RemoveShape(wxSFShapeBase* shape, bool refresh = true);
-	/*!
-	 * \brief Remove shapes from the shape canvas
-	 * \param selection List of shapes which should be removed from the canvas
-	 */
-	void RemoveShapes(const CShapeList& selection);
-	/*! \brief Remove all shapes from the canvas */
-	void Clear();
-    /*!
-     * \brief Add given shape type to an acceptance list. The acceptance list contains class
-     * names of the shapes which can be inserted into this instance of shapes canvas.
-     * Note: Keyword 'All' behaves like any class name.
-     * \param type Class name of accepted shape object
-     * \sa IsShapeAccepted
-     */
-	void AcceptShape(const wxString& type) {m_arrAcceptedShapes.Add(type);}
-    /*!
-     * \brief Tells whether the given shape type is accepted by this canvas instance (it means
-     * whether this shape can be inserted into it).
-     *
-     * The function is typically used by the framework for determination whether class type supplied
-     * by AddShape() function can be inserted into shape canvas.
-     * \param type Class name of examined shape object
-     * \return TRUE if the shape type is accepted, otherwise FALSE.
-     */
-	bool IsShapeAccepted(const wxString& type);
-	/*!
-	 * \brief Clear shape object acceptance list
-	 * \sa AcceptShape
-	 */
-	void ClearAcceptedShapes(){m_arrAcceptedShapes.Clear();}
 
     /*!
      * \brief Start interactive connection creation.
@@ -288,45 +218,6 @@ public:
 	void ClearCanvasHistory();
 
     /*!
-     * \brief Serialize complete shape canvas to given file
-     * \param file Output file
-     */
-	void SerializeChartToXml(const wxString& file);
-    /*!
-     * \brief Deserialize complete shape canvas from given file
-     * \param file Input file
-     */
-	void DeserializeChartFromXml(const wxString& file);
-    /*!
-     * \brief Serialize complete shape canvas to given output stream
-     * \param outstream Output stream
-     */
-	void SerializeChartToXml(wxOutputStream& outstream);
-    /*!
-     * \brief Deserialize complete shape canvas from given input stream
-     * \param instream Input stream
-     */
-	void DeserializeChartFromXml(wxInputStream& instream);
-    /*!
-     * \brief Serialize child shapes of specified parent.
-     *
-     * The parent can be NULL (in that case all shapes in the canvas will be serialized
-     * to given XML node).
-     * \param parent Parent shape
-     * \param node Output XML node
-     * \param withparent If TRUE then parent shape will be serialized as well
-     */
-	void SerializeShapes(wxSFShapeBase* parent, wxXmlNode* node, bool withparent);
-	/*!
-	 * \brief Deserialize shapes from XML and assign them to given parent.
-	 *
-     * The parent can be NULL (in that case topmost shapes will have no parent assigned).
-	 * \param parent Parent shapes
-	 * \param node Source XML node
-	 */
-	void DeserializeShapes(wxSFShapeBase* parent, wxXmlNode* node);
-
-    /*!
      * \brief Convert device position to logical position.
      *
      * The function returns unscrolled unscaled canvas position.
@@ -343,12 +234,6 @@ public:
      */
 	wxPoint LP2DP(const wxPoint& pos) const;
 
-    /*!
-     * \brief Find shape with given ID.
-     * \param id Shape's ID
-     * \return Pointer to shape if exists, otherwise NULL
-     */
-	wxSFShapeBase* FindShape(long id);
 	/*!
 	 * \brief Get shape at given logical position.
 	 * \param pos Logical position
@@ -384,65 +269,12 @@ public:
 	 */
 	int GetShapesInside(const wxRect& rct, CShapeList& shapes);
 	/*!
-	 * \brief Get list of all shapes in the canvas.
-	 *
-	 * Note that this is a main shape list and every change made on it
-	 * will affect a shape diagram in the canvas.
-	 * \return Reference to shape list
-	 */
-	CShapeList& GetShapeList(){return m_lstShapes;}
-	/*!
 	 * \brief Get list of selected shapes.
 	 * \param selection Reference to shape list where pointers to
 	 * all selected shapes will be stored
 	 * \return Number of selected shapes
 	 */
 	int GetSelectedShapes(CShapeList& selection);
-	/*!
-	 * \brief Get list of connections assigned to given parent shape.
-	 * \param parent Pointer to parent shape
-	 * \param mode Search mode
-	 * \param lines Reference to shape list where pointers to
-	 * all found connections will be stored
-	 * \return Number of found connections
-	 * \sa wxSFShapeBase::CONNECTMODE
-	 */
-	int GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, CShapeList& lines);
-	/*!
-	 * \brief Get list of shapes of given type.
-	 * \param shapeInfo Shape object type
-	 * \param shapes Reference to shape list where pointers to
-	 * all found shapes will be stored
-	 * \return Number of found shapes
-	 */
-	int GetShapes(wxClassInfo* shapeInfo, CShapeList& shapes);
-
-    /*!
-     * \brief Function finds out whether given shape has some children.
-     * \param parent Pointer to potential parent shape
-     * \return TRUE if the parent shape has children, otherwise FALSE
-     */
-	bool HasChildren(wxSFShapeBase* parent);
-	/*!
-	 * \brief Get child shapes of given parent shape.
-	 * \param parent Pointer to parent shape (can be NULL for all topmost shapes)
-	 * \param children Reference to shape list where pointers to
-	 * all found shapes will be stored
-	 * \param recursive Set this parameter to TRUE if children of children should
-	 * be found as well (in recursive way)
-	 */
-	void GetChildren(wxSFShapeBase* parent, CShapeList& children, bool recursive = false);
-	/*!
-	 * \brief Get neighbour shapes connected to given parent shape.
-	 * \param parent Pointer to parent shape (can be NULL for all topmost shapes)
-	 * \param neighbours List of neighbour shapes
-	 * \param condir Connection direction
-	 * \param direct Set this flag to TRUE if only closest shapes should be found,
-	 * otherwise also shapes connected by forked lines will be found (also
-	 * constants sfDIRECT and sfINDIRECT can be used)
-	 * \sa wxSFShapeBase::CONNECTMODE
-	 */
-	void GetNeighbours(wxSFShapeBase* parent, CShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct = true);
     /*!
 	 * \brief Get box bounding all shapes in the canvas.
 	 * \return Total bounding box
@@ -554,6 +386,24 @@ public:
 	 * \return TRUE if shape multi change is enabled, otherwise FALSE
 	 */
 	bool IsMultiSizeChangeEnabled(){return m_fMultiSizeChange;}
+
+	/*!
+	 * \brief Update given position so it will fit canvas grid (if enabled).
+	 * \param pos Position which should be updated
+	 * \return Updated position
+	 */
+	wxPoint FitPositionToGrid(const wxPoint& pos) const;
+	/*! \brief Update size of multi selection rectangle */
+	void UpdateMultieditSize();
+	/*! \brief Update scroll window virtual size so it can display all shape canvas */
+	void UpdateVirtualSize();
+	/*! \brief Move all shapes so none of it will be located in negative position */
+	void MoveShapesFromNegatives();
+    /*!
+     * \brief Validate selection (remove redundantly selected shapes etc...).
+     * \param selection List of selected shapes that should be validated
+     */
+	void ValidateSelection(CShapeList& selection);
 
 	// public virtual event handlers
     /*!
@@ -674,6 +524,11 @@ protected:
 	 * \param dc Refenrence to device context where the shapes will be drawn to
 	 */
 	void DrawContent(wxSFScaledPaintDC& dc);
+    /*!
+     * \brief Get reference to multiselection box
+     * \return Reference to multiselection box object
+     */
+    wxSFMultiSelRect& GetMultiselectionBox(){return m_shpMultiEdit;}
 
 private:
 
@@ -681,69 +536,25 @@ private:
 	bool m_fCanSaveStateOnMouseUp;
 
 	wxSFCanvasHistory m_CanvasHistory;
-	CShapeList m_lstShapes;
-	CShapeList m_lstLinesForUpdate;
-	CIDList m_lstIDPairs;
+
 	wxSFMultiSelRect m_shpMultiEdit;
 	wxDataFormat m_formatShapes;
 
+    wxSFDiagramManager* m_pManager;
 	wxSFShapeHandle* m_pSelectedHandle;
 	wxSFLineShape* m_pNewLineShape;
 
-	wxArrayString m_arrAcceptedShapes;
-
-	/*! \brief wxSF version number */
-	wxString m_sVersion;
-
 	// private functions
-    /*!
-     * \brief Add an existing shape to the canvas.
-     * \param shape Pointer to the shape
-     * \param pos Position
-     * \param initialize TRUE if the shape should be reinitilialized, otherwise FALSE
-     * \param saveState TRUE if the canvas state should be saved
-     * \return Pointer to the shape
-     */
-	wxSFShapeBase* AddShape(wxSFShapeBase* shape, const wxPoint& pos, bool initialize, bool saveState = true);
 	/*!
 	 * \brief Move child shapes of given parent shape to a top of the shape list (it
 	 * means that they will be displayed in the front of all other shapes).
 	 * \param parent Parent shape
 	 */
 	void MoveChildrenToTop(wxSFShapeBase* parent);
-	/*!
-	 * \brief Find out whether given shape ID is already used.
-	 * \param id Shape ID
-	 * \return TRUE if the shape ID is used, otherwise FALSE
-	 */
-	bool IsIdUsed(long id);
-	/*!
-	 * \brief Update given position so it will fit canvas grid (if enabled).
-	 * \param pos Position which should be updated
-	 * \return Updated position
-	 */
-	wxPoint FitPositionToGrid(const wxPoint& pos) const;
-	/*! \brief Update size of multi selection rectangle */
-	void UpdateMultieditSize();
-    /*!
-     * \brief Validate selection (remove redundantly selected shapes etc...).
-     * \param selection List of selected shapes that should be validated
-     */
-	void ValidateSelection(CShapeList& selection);
-	/*!
-	 * \brief Get number of occurences of given ID.
-	 * \param id Shape ID
-	 * \return Number of ID's occurences
-	 */
-	int GetIDCount(long id);
-	/*! \brief Update connection shapes after importing/dropping of new shapes */
-	void UpdateConnections();
-	/*! \brief Update scroll window virtual size so it can display all shape canvas */
-	void UpdateVirtualSize();
+
 	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */
 	void DeleteAllTextCtrls();
-	/*! \brief Move all shapes so none of it will be located in negative position */
-	void MoveShapesFromNegatives();
+
 
 	// private event handlers
 	/*!

@@ -4,6 +4,7 @@
 #include <wx/clrpicker.h>
 
 #include "FrameCanvas.h"
+#include "wxShapeFramework.h"
 
 class CMainFrame: public wxFrame {
 public:
@@ -41,6 +42,8 @@ protected:
     CFrameCanvas* shapeCanvas;
 	wxSlider* zoomSlider;
 	wxColourPickerCtrl* cpicker;
+
+	wxSFDiagramManager m_DiagramManager;
 
 	bool m_fShowGrid;
 	MODE m_nToolMode;

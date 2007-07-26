@@ -6,7 +6,7 @@ class CMainFrame;
 class CFrameCanvas : public wxSFShapeCanvas
 {
 public:
-	CFrameCanvas(wxWindow* parent, wxWindowID id);
+	CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id);
 	virtual ~CFrameCanvas(void);
 
 	// public virtual functions

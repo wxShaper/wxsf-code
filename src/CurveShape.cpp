@@ -101,7 +101,7 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
             }
             else if(m_nSrcShapeId != -1)
             {
-                wxSFShapeBase* pSrcShape = m_pParentCanvas->FindShape(m_nSrcShapeId);
+                wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
                 if(pSrcShape)
                 {
                     wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);
@@ -189,8 +189,8 @@ void wxSFCurveShape::GetUpdatedLineSegment(CLineSegmentArray& segments)
         GetLineSegments(segments);
         if(segments.Count() > 0)
         {
-            wxSFShapeBase* pSrcShape = m_pParentCanvas->FindShape(m_nSrcShapeId);
-            wxSFShapeBase* pTrgShape = m_pParentCanvas->FindShape(m_nTrgShapeId);
+            wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
+            wxSFShapeBase* pTrgShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nTrgShapeId);
 
             // prepend and append new line segmets
             if(pSrcShape)

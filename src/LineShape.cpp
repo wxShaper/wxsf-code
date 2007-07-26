@@ -206,7 +206,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         if(m_nSrcShapeId != -1)
         {
            // wxRealPoint shpCenter = m_pParentCanvas->FindShape(m_nSrcShapeId)->GetCenter();
-			wxRealPoint shpCenter = m_pParentCanvas->FindShape(m_nSrcShapeId)->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
+			wxRealPoint shpCenter = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId)->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)shpCenter.x, (int)shpCenter.y, 1, 1));
@@ -218,7 +218,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         // include ending point
         if(m_nTrgShapeId != -1)
         {
-            wxRealPoint shpCenter = m_pParentCanvas->FindShape(m_nTrgShapeId)->GetCenter();
+            wxRealPoint shpCenter = m_pParentCanvas->GetDiagramManager()->FindShape(m_nTrgShapeId)->GetCenter();
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)shpCenter.x, (int)shpCenter.y, 1, 1));
@@ -431,8 +431,8 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
     {
         wxRealPoint *pt, prevPt;
 
-        wxSFShapeBase* pSrcShape = m_pParentCanvas->FindShape(m_nSrcShapeId);
-        wxSFShapeBase* pTrgShape = m_pParentCanvas->FindShape(m_nTrgShapeId);
+        wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
+        wxSFShapeBase* pTrgShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nTrgShapeId);
 
 		if(m_lstPoints.GetCount() > 0)
 		{
@@ -504,7 +504,7 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
             }
             else if(m_nSrcShapeId != -1)
             {
-                wxSFShapeBase* pSrcShape = m_pParentCanvas->FindShape(m_nSrcShapeId);
+                wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
                 if(pSrcShape)
                 {
                     wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);

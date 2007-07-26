@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "ShapeCanvas.h"
+#include "DiagramManager.h"
 
 /*!
  * \brief Class encapsulating data object used during clipboard operations with shapes.
@@ -27,9 +27,9 @@ public:
      * \brief User constructor
      * \param format Data format
      * \param selection List of shapes which should be stored in the data object
-     * \param canvas Pointer to shape canvas which manages stored shapes
+     * \param manager Pointer to diagram manager which manages stored shapes
      */
-	wxSFShapeDataObject(const wxDataFormat& format, const CShapeList& selection, wxSFShapeCanvas* canvas);
+	wxSFShapeDataObject(const wxDataFormat& format, const CShapeList& selection, wxSFDiagramManager* manager);
 	/*! \brief Destructor */
 	virtual ~wxSFShapeDataObject(void);
 
@@ -59,6 +59,6 @@ protected:
      * \param canvas Parent shape canvas
      * \return String containing serialized information
      */
-	wxString SerializeSelectedShapes(const CShapeList& selection, wxSFShapeCanvas* canvas);
+	wxString SerializeSelectedShapes(const CShapeList& selection, wxSFDiagramManager* manager);
 
 };
