@@ -76,8 +76,26 @@ void wxSFRectShape::FitToChildren()
 {
     // HINT: overload it for custom actions...
 
-	wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbSELF | bbCHILDREN);
+    wxSFShapeBase* pChild;
+    CShapeList m_lstChildren;
+    GetChildren(m_lstChildren);
+
+    // get bounding box of the shape and children set be inside it
+    wxRect chBB = GetBoundingBox();
+
+    wxCShapeListNode* node = m_lstChildren.GetFirst();
+    while(node)
+    {
+        pChild = node->GetData();
+
+        if( pChild->IsAlwaysInsideParent() )
+        {
+            pChild->GetCompleteBoundingBox(chBB, bbSELF | bbCHILDREN);
+        }
+        node = node->GetNext();
+    }
+
+	//GetCompleteBoundingBox(chBB, bbSELF | bbCHILDREN);
 
 	if(!chBB.IsEmpty())
 	{
@@ -85,7 +103,6 @@ void wxSFRectShape::FitToChildren()
 
 		if(!shpBB.Contains(chBB))
 		{
-			wxSFShapeBase* pChild;
 			double dx = chBB.GetLeft() - shpBB.GetLeft();
 			double dy = chBB.GetTop() - shpBB.GetTop();
 
@@ -97,10 +114,10 @@ void wxSFRectShape::FitToChildren()
 			// move its "1st level" children if neccessary
 			if((dx < 0) || (dy < 0))
 			{
-				CShapeList m_lstChildren;
-				GetChildren(m_lstChildren);
+				//CShapeList m_lstChildren;
+				//GetChildren(m_lstChildren);
 
-				wxCShapeListNode* node = m_lstChildren.GetFirst();
+				node = m_lstChildren.GetFirst();
 				while(node)
 				{
 					pChild = node->GetData();

@@ -1,8 +1,11 @@
-Changes in version 1.2.0 alpha (2007-07-26):
+Changes in version 1.2.0 alpha (2007-07-27):
 --------------------------------------------
 - Separated data and presentation layer (see wxSFDiagramManager and wxSFShapeCanvas classes)
 - Updated example code to demonstrate this feature (v1.5)
 - Added function wxSFShapeBase::AssignChild()
+- Added functions wxSFShapeBase::SetAlwaysInsideParent() and wxSFShapeBase::IsAlwaysInsideParent().
+  If the property is set to TRUE then shape's parent is always resized to fit this shape, otherwise
+  a size change of child shape doesn't involve parent shape's size.
 
 Changes in version 1.1.6 alpha (2007-07-25):
 --------------------------------------------

@@ -55,6 +55,8 @@
 #define sfdvBASESHAPE_SIZECHANGE true
 /// <summary> Default value of wxSFShapeObject::m_fPositionChange data member </summary>
 #define sfdvBASESHAPE_POSITIONCHANGE true
+/// <summary> Default value of wxSFShapeObject::m_fAlwaysInsideParent data member </summary>
+#define sfdvBASESHAPE_ALWAYSINSIDE true
 /// <summary> Default value of wxSFShapeObject::m_nVAlign data member </summary>
 #define sfdvBASESHAPE_VALIGN valignNONE
 /// <summary> Default value of wxSFShapeObject::m_nHAlign data member </summary>
@@ -216,6 +218,12 @@ public:
     /// <summary> Function returns TRUE if the hovering is enabled, otherwise returns FALSE. </summary>
     /// <seealso cref="EnableHovering"></seealso>
 	bool CanHover(){return m_fHovering;}
+    /// <summary> If the property is set to TRUE then shape's parent is always resized to fit this shape, otherwise
+    /// a size change of child shape doesn't involve parent shape's size. </summary>
+	void SetAlwaysInsideParent(bool enable){m_fAlwaysInsideParent = enable;}
+    /// <summary> Function returns TRUE if the parent shape is resized to fit this shape. </summary>
+    /// <seealso cref="SetAlwaysInsideParent"></seealso>
+	bool IsAlwaysInsideParent(){return m_fAlwaysInsideParent;}
 
     /// <summary> Get child shapes associated with this (parent) shape. </summary>
     /// <param name="children"> List of child shapes </param>
@@ -787,6 +795,8 @@ protected:
 	bool m_fSizeChange;
 	/*! \brief Positioning flag (an interactive position change is allowed) */
 	bool m_fPositionChange;
+	/*! \brief Docking flag (the parent shape will be resized to fit this child shape) */
+	bool m_fAlwaysInsideParent;
 	/*! \brief Serialization mask */
 	long m_nSerializeMask;
 	/*! \brief ID of a parent shape */

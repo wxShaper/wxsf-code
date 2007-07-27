@@ -72,6 +72,12 @@ wxXmlNode* wxSFShapeBase::Serialize(wxXmlNode* node)
 			AddPropertyNode(node, wxT("hovering"), BoolToString(m_fHovering));
 		}
 
+		// store "m_fAlwaysInsideParent" property
+		if(m_fAlwaysInsideParent != sfdvBASESHAPE_ALWAYSINSIDE)
+		{
+			AddPropertyNode(node, wxT("always_inside"), BoolToString(m_fAlwaysInsideParent));
+		}
+
         if(!m_arrAcceptedChildren.IsEmpty() || !m_arrAcceptedConnections.IsEmpty() ||
             !m_arrAcceptedSrcNeighbours.IsEmpty() || !m_arrAcceptedTrgNeighbours.IsEmpty())
         {
@@ -238,6 +244,10 @@ void wxSFShapeBase::Deserialize(wxXmlNode* node)
 		else if(propNode->GetName() == wxT("hovering"))
 		{
 			m_fHovering = StringToBool(propNode->GetNodeContent());
+		}
+		else if(propNode->GetName() == wxT("always_inside"))
+		{
+			m_fAlwaysInsideParent = StringToBool(propNode->GetNodeContent());
 		}
 		else if(propNode->GetName() == wxT("policy"))
 		{

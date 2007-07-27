@@ -41,6 +41,7 @@ wxSFShapeBase::wxSFShapeBase(void)
 	m_fPositionChange = sfdvBASESHAPE_POSITIONCHANGE;
 	m_fHighlighting = sfdvBASESHAPE_HIGHLIGHTING;
 	m_fHovering = sfdvBASESHAPE_HOVERING;
+	m_fAlwaysInsideParent = sfdvBASESHAPE_ALWAYSINSIDE;
 
 	m_nRelativePosition = sfdvBASESHAPE_POSITION;
 	m_nHoverColor = sfdvBASESHAPE_HOVERCOLOUR;
@@ -87,6 +88,7 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFShapeCan
 	m_fPositionChange = sfdvBASESHAPE_POSITIONCHANGE;
 	m_fHighlighting = sfdvBASESHAPE_HIGHLIGHTING;
 	m_fHovering = sfdvBASESHAPE_HOVERING;
+	m_fAlwaysInsideParent = sfdvBASESHAPE_ALWAYSINSIDE;
 
 	m_nVAlign = sfdvBASESHAPE_VALIGN;
 	m_nHAlign = sfdvBASESHAPE_HALIGN;
@@ -117,6 +119,7 @@ wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj)
 	m_fPositionChange = obj.m_fPositionChange;
 	m_fHighlighting = obj.m_fHighlighting;
 	m_fHovering = obj.m_fHovering;
+	m_fAlwaysInsideParent = obj.m_fAlwaysInsideParent;
 
 	m_nVAlign = obj.m_nVAlign;
 	m_nHAlign = obj.m_nHAlign;
