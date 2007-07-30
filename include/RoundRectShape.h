@@ -30,8 +30,8 @@ public:
 	/// <param name="size"> Initial size </param>
 	/// <param name="radius"> Corner radius </param>
 	/// <param name="parentId"> ID of a parent shape </param>
-	/// <param name="canvas"> Pointer of a parent canvas </param>
-	wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer of parent diagram manager </param>
+	wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Refernce to the source object </param>
 	wxSFRoundRectShape(wxSFRoundRectShape& obj);

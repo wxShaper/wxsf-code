@@ -55,8 +55,8 @@ friend class wxSFShapeCanvas;
 	/// <param name="src"> ID of the source shape </param>
 	/// <param name="trg"> ID of the target shape </param>
 	/// <param name="path"> List of the line control points (can be empty) </param>
-	/// <param name="canvas"> Pointer to the shape canvas </param>
-	wxSFLineShape(long src, long trg, const CPointList& path, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer to parent shape manager </param>
+	wxSFLineShape(long src, long trg, const CPointList& path, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object</param>
 	wxSFLineShape(wxSFLineShape& obj);

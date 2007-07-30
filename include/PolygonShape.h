@@ -39,8 +39,8 @@ public:
 	/// <param name="pts"> Array of the polygon vertices </param>
 	/// <param name="pos"> Relative position of the polygon shape </param>
 	/// <param name="parentId"> ID of a parent shape </param>
-	/// <param name="canvas"> Pointer of a parent canvas </param>
-	wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer of parent diagram manager </param>
+	wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to a source object </param>
 	wxSFPolygonShape(wxSFPolygonShape& obj);

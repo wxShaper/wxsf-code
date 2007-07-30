@@ -1,3 +1,7 @@
+Changes in version 1.2.1 alpha (2007-07-30):
+--------------------------------------------
+- Fixed ability to work with shapes without need of existing shape canvas
+
 Changes in version 1.2.0 alpha (2007-07-27):
 --------------------------------------------
 - Separated data and presentation layer (see wxSFDiagramManager and wxSFShapeCanvas classes)

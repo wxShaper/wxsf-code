@@ -19,8 +19,8 @@ wxSFCircleShape::wxSFCircleShape(void)
     SetRectSize(50, 50);
 }
 
-wxSFCircleShape::wxSFCircleShape(const wxRealPoint& pos, double radius, long parentId, wxSFShapeCanvas* canvas)
-: wxSFSquareShape(pos, radius, parentId, canvas)
+wxSFCircleShape::wxSFCircleShape(const wxRealPoint& pos, double radius, long parentId, wxSFDiagramManager* manager)
+: wxSFSquareShape(pos, radius, parentId, manager)
 {
 
 }

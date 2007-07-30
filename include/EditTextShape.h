@@ -64,8 +64,8 @@ public:
 	/// <param name="pos"> Initial position </param>
 	/// <param name="txt"> Text content </param>
 	/// <param name="parentId"> ID of the parent shape </param>
-	/// <param name="canvas"> Pointer to the parent canvas </param>
-	wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer to the parent canvas </param>
+	wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFEditTextShape(wxSFEditTextShape& obj);

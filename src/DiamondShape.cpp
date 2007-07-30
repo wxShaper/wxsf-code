@@ -24,8 +24,8 @@ wxSFDiamondShape::wxSFDiamondShape()
 	SetVertices(4, diamond);
 }
 
-wxSFDiamondShape::wxSFDiamondShape(const wxRealPoint& pos, long parentId, wxSFShapeCanvas* canvas)
-: wxSFPolygonShape(4, diamond, pos, parentId, canvas)
+wxSFDiamondShape::wxSFDiamondShape(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
+: wxSFPolygonShape(4, diamond, pos, parentId, manager)
 {
 	m_nSerializeMask &= ~sfsfPOLYGONSHAPE_VERTICES;
 }

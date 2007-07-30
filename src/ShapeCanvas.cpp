@@ -72,7 +72,7 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 	m_pNewLineShape = NULL;
 
 	// initialize multiedit rectangle
-	m_shpMultiEdit.SetParentCanvas(this);
+	m_shpMultiEdit.SetParentManager(m_pManager);
 	m_shpMultiEdit.SetId(0);
 	m_shpMultiEdit.CreateHandles();
 	m_shpMultiEdit.Select(true);

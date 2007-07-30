@@ -67,6 +67,7 @@
 #define sfdvBASESHAPE_HBORDER 5
 
 class wxSFShapeCanvas;
+class wxSFDiagramManager;
 class CShapeList;
 
 /// <summary>
@@ -136,8 +137,8 @@ public:
 	/// <summary> User constructor </summary>
 	/// <param name="pos"> Initial relative position </param>
 	/// <param name="parentId"> ID of a parent shape </param>
-	/// <param name="canvas"> Pointer to a shape canvas </param>
-	wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer to parent diagram manager </param>
+	wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFShapeBase(wxSFShapeBase& obj);
@@ -404,17 +405,23 @@ public:
 	/// <returns> ID of a parent shape if any, otherwise -1 </returns>
 	long GetParentShapeId(){return m_nParentShapeId;}
 	/*!
-	 * \brief Set shape's parent canvas where it will be drawn
-	 * \param canvas Pointer to shapes canvas
-	 * \sa wxSFShapeCanvas
+	 * \brief Set shape's parent diagram manager
+	 * \param canvas Pointer to diagram manager
+	 * \sa wxSFDiagramManager
 	 */
-	void SetParentCanvas(wxSFShapeCanvas* canvas){m_pParentCanvas = canvas;}
+	void SetParentManager(wxSFDiagramManager* manager){m_pParentManager = manager;}
 	/*!
-	 * \brief Get shape's parent canvas where it will be drawn
-	 * \return Pointer to shapes canvas
-	 * \sa wxSFShapeCanvas
+	 * \brief Get shape's parent diagram manager
+	 * \return Pointer to diagram manager
+	 * \sa wxSFDiagramManager
 	 */
-	wxSFShapeCanvas* GetParentCanvas(){return m_pParentCanvas;}
+	wxSFDiagramManager* GetParentManager(){return m_pParentManager;}
+	/*!
+	 * \brief Get shape's parent canvas
+	 * \return Pointer to shape canvas if assigned via diagram manager, otherwise NULL
+	 * \sa wxSFDiagramManager
+	 */
+	wxSFShapeCanvas* GetParentCanvas();
 	/*!
 	 * \brief Get the shape's visibility status
 	 * \return TRUE if the shape is visible, otherwise FALSE
@@ -821,7 +828,9 @@ protected:
     /*! \brief Horizontal alignment of child shapes */
     HALIGN m_nHAlign;
 
-	wxSFShapeCanvas *m_pParentCanvas;
+    /*! \brief Pointer to parent diagram manager */
+    wxSFDiagramManager *m_pParentManager;
+	//wxSFShapeCanvas *m_pParentCanvas;
 	/*! \brief Handle list */
 	CHandleList m_lstHandles;
 

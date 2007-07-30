@@ -35,8 +35,8 @@ public:
 	/// <param name="pos"> Initial position </param>
 	/// <param name="size"> Initial size </param>
 	/// <param name="parentId"> ID of a parent shape </param>
-	/// <param name="canvas"> Pointer of a parent canvas </param>
-	wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer to parent diagram manager </param>
+	wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Refernce to the source object </param>
 	wxSFRectShape(wxSFRectShape& obj);

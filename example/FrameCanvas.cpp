@@ -16,14 +16,6 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	// set accepted shapes
 	GetDiagramManager()->ClearAcceptedShapes();
 	GetDiagramManager()->AcceptShape(wxT("All"));
-
-	/*AcceptShape(wxT("wxSFRoundRectShape"));
-	AcceptShape(wxT("wxSFDiamondShape"));
-	AcceptShape(wxT("wxSFTextShape"));
-
-	AcceptShape(wxT("wxSFLineShape"));
-	AcceptShape(wxT("wxSFCurveShape"));*/
-
 }
 
 CFrameCanvas::~CFrameCanvas(void)

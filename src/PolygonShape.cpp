@@ -24,8 +24,8 @@ wxSFPolygonShape::wxSFPolygonShape(void)
 	m_nSerializeMask |= sfsfPOLYGONSHAPE_VERTICES;
 }
 
-wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFShapeCanvas* canvas)
-: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, canvas)
+wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, manager)
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
 	m_nSerializeMask |= sfsfPOLYGONSHAPE_VERTICES;

@@ -21,8 +21,8 @@ wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()
 	m_Fill = sfdvRECTSHAPE_FILL;
 }
 
-wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFShapeCanvas* canvas)
-: wxSFShapeBase(pos, parentId, canvas)
+wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFDiagramManager* manager)
+: wxSFShapeBase(pos, parentId, manager)
 {
 	m_nRectSize = size;
 	m_Border = sfdvRECTSHAPE_BORDER;

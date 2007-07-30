@@ -23,8 +23,8 @@ wxSFBitmapShape::wxSFBitmapShape(void)
 	CreateFromXPM(NoSource_xpm);
 }
 
-wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, long parentId, wxSFShapeCanvas* canvas)
-: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, canvas)
+wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, long parentId, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, manager)
 {
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
@@ -150,9 +150,12 @@ bool wxSFBitmapShape::CreateFromXPM(const char* const* bits)
 
 void wxSFBitmapShape::RescaleImage(const wxRealPoint& size)
 {
-	wxImage image = m_OriginalBitmap.ConvertToImage();
-	image.Rescale(int(size.x * m_pParentCanvas->GetScale()), int(size.y * m_pParentCanvas->GetScale()), wxIMAGE_QUALITY_NORMAL);
-	m_Bitmap = wxBitmap(image);
+    if( GetParentCanvas() )
+    {
+        wxImage image = m_OriginalBitmap.ConvertToImage();
+        image.Rescale(int(size.x * GetParentCanvas()->GetScale()), int(size.y * GetParentCanvas()->GetScale()), wxIMAGE_QUALITY_NORMAL);
+        m_Bitmap = wxBitmap(image);
+    }
 }
 
 //----------------------------------------------------------------------------------//

@@ -21,8 +21,8 @@ wxSFRoundRectShape::wxSFRoundRectShape(void) : wxSFRectShape()
 	m_nRadius = sfdvROUNDRECTSHAPE_RADIUS;
 }
 
-wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, long parentId, wxSFShapeCanvas* canvas)
-: wxSFRectShape(pos, size, parentId, canvas)
+wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, long parentId, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, size, parentId, manager)
 {
 	m_nRadius = radius;
 }

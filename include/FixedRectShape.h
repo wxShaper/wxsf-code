@@ -25,8 +25,8 @@ public:
 	/// <param name="pos"> Initial position </param>
 	/// <param name="size"> Initial size </param>
 	/// <param name="parentId"> ID of the parent shape </param>
-	/// <param name="canvas"> Pointer to the parent canvas </param>
-	wxSFSquareShape(const wxRealPoint& pos, double size, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer to parent diagram manager </param>
+	wxSFSquareShape(const wxRealPoint& pos, double size, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFSquareShape(wxSFSquareShape& obj);

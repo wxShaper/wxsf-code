@@ -18,8 +18,8 @@ wxSFCurveShape::wxSFCurveShape() : wxSFLineShape()
     m_nMaxSteps = sfdvCURVESHAPE_MAXSTEPS;
 }
 
-wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const CPointList& path, wxSFShapeCanvas* canvas)
-: wxSFLineShape(src, trg, path, canvas)
+wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const CPointList& path, wxSFDiagramManager* manager)
+: wxSFLineShape(src, trg, path, manager)
 {
     m_nMaxSteps = maxsteps;
 }
@@ -101,7 +101,7 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
             }
             else if(m_nSrcShapeId != -1)
             {
-                wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
+                wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
                 if(pSrcShape)
                 {
                     wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);
@@ -183,14 +183,14 @@ int wxSFCurveShape::GetHitLinesegment(const wxPoint& pos)
 
 void wxSFCurveShape::GetUpdatedLineSegment(CLineSegmentArray& segments)
 {
-    if(m_pParentCanvas)
+    if(m_pParentManager)
     {
         // get normal line segment
         GetLineSegments(segments);
         if(segments.Count() > 0)
         {
-            wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
-            wxSFShapeBase* pTrgShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nTrgShapeId);
+            wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
+            wxSFShapeBase* pTrgShape = m_pParentManager->FindShape(m_nTrgShapeId);
 
             // prepend and append new line segmets
             if(pSrcShape)

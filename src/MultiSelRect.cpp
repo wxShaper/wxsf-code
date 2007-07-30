@@ -31,10 +31,10 @@ void wxSFMultiSelRect::OnBeginHandle(wxSFShapeHandle& handle)
 {
 	// inform all selected shapes about begin of the handle dragging
 
-	if(m_pParentCanvas)
+	if(GetParentCanvas())
 	{
 		CShapeList lstShapes;
-		m_pParentCanvas->GetSelectedShapes(lstShapes);
+		GetParentCanvas()->GetSelectedShapes(lstShapes);
 
 		wxCShapeListNode* node = lstShapes.GetFirst();
 		while(node)
@@ -49,10 +49,10 @@ void wxSFMultiSelRect::OnEndHandle(wxSFShapeHandle& handle)
 {
 	// inform all selected shapes about end of the handle dragging
 
-	if(m_pParentCanvas)
+	if(GetParentCanvas())
 	{
 		CShapeList lstShapes;
-		m_pParentCanvas->GetSelectedShapes(lstShapes);
+		GetParentCanvas()->GetSelectedShapes(lstShapes);
 
 		wxCShapeListNode* node = lstShapes.GetFirst();
 		while(node)
@@ -69,11 +69,11 @@ void wxSFMultiSelRect::OnEndHandle(wxSFShapeHandle& handle)
 
 bool wxSFMultiSelRect::AnyWidthExceeded(const wxPoint& delta)
 {
-	if(m_pParentCanvas)
+	if(GetParentCanvas())
 	{
 	    wxSFShapeBase* pShape;
 		CShapeList m_lstSelection;
-		m_pParentCanvas->GetSelectedShapes(m_lstSelection);
+		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		// first determine whether any shape in the selection exceeds its bounds
 		wxCShapeListNode *node = m_lstSelection.GetFirst();
@@ -93,11 +93,11 @@ bool wxSFMultiSelRect::AnyWidthExceeded(const wxPoint& delta)
 
 bool wxSFMultiSelRect::AnyHeightExceeded(const wxPoint& delta)
 {
-	if(m_pParentCanvas)
+	if(GetParentCanvas())
 	{
 	    wxSFShapeBase* pShape;
 		CShapeList m_lstSelection;
-		m_pParentCanvas->GetSelectedShapes(m_lstSelection);
+		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		// first determine whether any shape in the selection exceeds its bounds
 		wxCShapeListNode *node = m_lstSelection.GetFirst();
@@ -121,7 +121,7 @@ bool wxSFMultiSelRect::AnyHeightExceeded(const wxPoint& delta)
 
 void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 {
-	if(m_pParentCanvas && !AnyWidthExceeded(handle.GetDelta()))
+	if(GetParentCanvas() && !AnyWidthExceeded(handle.GetDelta()))
 	{
 	    wxCPointListNode* ptnode;
 	    wxSFLineShape* pLine;
@@ -130,7 +130,7 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 		double dx, sx = (GetRectSize().x - 2*MEOFFSET + handle.GetDelta().x)/(GetRectSize().x - 2*MEOFFSET);
 
 		CShapeList m_lstSelection;
-		m_pParentCanvas->GetSelectedShapes(m_lstSelection);
+		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		wxCShapeListNode *node = m_lstSelection.GetFirst();
 		while(node)
@@ -170,7 +170,7 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 
 void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 {
-	if(m_pParentCanvas && !AnyWidthExceeded(wxPoint(-handle.GetDelta().x, 0)))
+	if(GetParentCanvas() && !AnyWidthExceeded(wxPoint(-handle.GetDelta().x, 0)))
 	{
 	    wxCPointListNode* ptnode;
 	    wxSFLineShape* pLine;
@@ -179,7 +179,7 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 		double dx, sx = (GetRectSize().x - 2*MEOFFSET - handle.GetDelta().x)/(GetRectSize().x - 2*MEOFFSET);
 
 		CShapeList m_lstSelection;
-		m_pParentCanvas->GetSelectedShapes(m_lstSelection);
+		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		wxCShapeListNode *node = m_lstSelection.GetFirst();
 		while(node)
@@ -228,7 +228,7 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 
 void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 {
-	if(m_pParentCanvas  && !AnyHeightExceeded(handle.GetDelta()))
+	if(GetParentCanvas()  && !AnyHeightExceeded(handle.GetDelta()))
 	{
         wxCPointListNode* ptnode;
 	    wxSFLineShape* pLine;
@@ -237,7 +237,7 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 		double dy, sy = (GetRectSize().y - 2*MEOFFSET + handle.GetDelta().y)/(GetRectSize().y - 2*MEOFFSET);
 
 		CShapeList m_lstSelection;
-		m_pParentCanvas->GetSelectedShapes(m_lstSelection);
+		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		wxCShapeListNode *node = m_lstSelection.GetFirst();
 		while(node)
@@ -276,7 +276,7 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 
 void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
 {
-	if(m_pParentCanvas  && !AnyHeightExceeded(wxPoint(0, -handle.GetDelta().y)))
+	if(GetParentCanvas()  && !AnyHeightExceeded(wxPoint(0, -handle.GetDelta().y)))
 	{
 	    wxCPointListNode* ptnode;
 	    wxSFLineShape* pLine;
@@ -285,7 +285,7 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
 		double dy, sy = (GetRectSize().y - 2*MEOFFSET - handle.GetDelta().y)/(GetRectSize().y - 2*MEOFFSET);
 
 		CShapeList m_lstSelection;
-		m_pParentCanvas->GetSelectedShapes(m_lstSelection);
+		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		wxCShapeListNode *node = m_lstSelection.GetFirst();
 		while(node)

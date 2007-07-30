@@ -29,7 +29,7 @@ wxSFShapeBase::wxSFShapeBase(void)
 	m_fMouseOver = false;
 	m_fFirstMove = false;
 	m_fHighlighParent = false;
-	m_pParentCanvas = NULL;
+	m_pParentManager = NULL;
 	m_nParentShapeId = -1;
 	m_nId=-1;
 
@@ -55,19 +55,22 @@ wxSFShapeBase::wxSFShapeBase(void)
 	m_lstHandles.DeleteContents(true);
 }
 
-wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFShapeCanvas* canvas)
+wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
 {
-    wxASSERT_MSG( canvas, wxT("Shape canvas has not been properly set in shape."));
-    wxASSERT_MSG( canvas->GetDiagramManager(), wxT("Shape manager has not been properly set in shape."));
+    //wxASSERT_MSG( canvas, wxT("Shape canvas has not been properly set in shape."));
+    //wxASSERT_MSG( canvas->GetDiagramManager(), wxT("Shape manager has not been properly set in shape."));
 
 	// initialize data members
 	m_nParentShapeId = parentId;
-	m_pParentCanvas = canvas;
+	m_pParentManager = manager;
 
-	if(m_pParentCanvas)
+	if(m_pParentManager)
 	{
-		m_nHoverColor = m_pParentCanvas->GetHoverColour();
-		m_nId = m_pParentCanvas->GetDiagramManager()->GetNewId();
+		if( m_pParentManager->GetShapeCanvas() )m_nHoverColor = m_pParentManager->GetShapeCanvas()->GetHoverColour();
+		else
+            m_nHoverColor = sfdvBASESHAPE_HOVERCOLOUR;
+
+		m_nId = m_pParentManager->GetNewId();
 	}
 	else
 	{
@@ -135,7 +138,7 @@ wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj)
 
 	m_nRelativePosition = obj.m_nRelativePosition;
 
-	m_pParentCanvas = obj.m_pParentCanvas;
+	m_pParentManager = obj.m_pParentManager;
 	m_nParentShapeId = obj.m_nParentShapeId;
 
 	m_nId = obj.m_nId;
@@ -147,25 +150,25 @@ wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj)
 
 wxSFShapeBase::~wxSFShapeBase(void)
 {
-    wxASSERT(m_pParentCanvas);
-    wxASSERT(m_pParentCanvas->GetDiagramManager());
+    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentCanvas->GetDiagramManager());
 
 	// clear handles
 	m_lstHandles.Clear();
 
 	// remove children and connected lines
-	if(m_pParentCanvas)
+	if(m_pParentManager)
 	{
 		CShapeList m_lstChildren;
 		GetChildren(m_lstChildren);
-		m_pParentCanvas->GetDiagramManager()->GetAssignedConnections(this, lineBOTH, m_lstChildren);
+		m_pParentManager->GetAssignedConnections(this, lineBOTH, m_lstChildren);
 
 		wxCShapeListNode *node = m_lstChildren.GetFirst();
 		while(node)
 		{
 			wxSFShapeBase *pShape = node->GetData();
 
-			if(m_pParentCanvas->GetDiagramManager()->GetShapeList().DeleteObject(pShape))delete pShape;
+			if(m_pParentManager->GetShapeList().DeleteObject(pShape))delete pShape;
 
 			node = node->GetNext();
 		}
@@ -186,8 +189,8 @@ wxRect wxSFShapeBase::GetBoundingBox()
 
 void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 {
-    wxASSERT(m_pParentCanvas);
-    wxASSERT(m_pParentCanvas->GetDiagramManager());
+    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentCanvas->GetDiagramManager());
 
 	CShapeList lstChildren;
 	CShapeList lstConnections;
@@ -208,9 +211,9 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 		CShapeList lstLines;
 		wxSFShapeBase *pLine;
 
-		if(m_pParentCanvas)
+		if(m_pParentManager)
 		{
-			m_pParentCanvas->GetDiagramManager()->GetAssignedConnections(this, lineBOTH, lstLines);
+			m_pParentManager->GetAssignedConnections(this, lineBOTH, lstLines);
 		}
 		wxCShapeListNode* node = lstLines.GetFirst();
 		while(node)
@@ -221,7 +224,7 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 
 			// get also BB of connections assigned to this connection
 			lstConnections.Clear();
-			m_pParentCanvas->GetDiagramManager()->GetAssignedConnections(pLine, lineBOTH, lstConnections);
+			m_pParentManager->GetAssignedConnections(pLine, lineBOTH, lstConnections);
 
             wxCShapeListNode* cnode = lstConnections.GetFirst();
             while(cnode)
@@ -401,12 +404,13 @@ void wxSFShapeBase::Update()
 
 bool wxSFShapeBase::AcceptCurrentlyDraggedShapes()
 {
-    wxASSERT(m_pParentCanvas);
+    wxASSERT(m_pParentManager);
+    wxASSERT(m_pParentManager->GetShapeCanvas());
 
-    if(m_pParentCanvas && !IsChildAccepted(wxT("All")))
+    if(m_pParentManager && m_pParentManager->GetShapeCanvas() && !IsChildAccepted(wxT("All")))
     {
         CShapeList lstSelection;
-        m_pParentCanvas->GetSelectedShapes(lstSelection);
+        m_pParentManager->GetShapeCanvas()->GetSelectedShapes(lstSelection);
 
         wxCShapeListNode* node = lstSelection.GetFirst();
         while(node)
@@ -460,12 +464,11 @@ void wxSFShapeBase::FitToChildren()
 
 wxSFShapeBase* wxSFShapeBase::GetParentShape()
 {
-    wxASSERT(m_pParentCanvas);
-    wxASSERT(m_pParentCanvas->GetDiagramManager());
+    wxASSERT(m_pParentManager);
 
-	if(m_pParentCanvas && (m_nParentShapeId != -1))
+	if(m_pParentManager && (m_nParentShapeId != -1))
 	{
-		return m_pParentCanvas->GetDiagramManager()->FindShape(m_nParentShapeId);
+		return m_pParentManager->FindShape(m_nParentShapeId);
 	}
 	return NULL;
 }
@@ -481,9 +484,9 @@ void wxSFShapeBase::Refresh()
 
 void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc)
 {
-    wxASSERT(m_pParentCanvas);
+    wxASSERT(m_pParentManager);
 
-    if(!m_pParentCanvas)return;
+    if(!m_pParentManager->GetShapeCanvas())return;
 
 	// first, draw myself
 	if(m_fMouseOver)
@@ -561,18 +564,17 @@ void wxSFShapeBase::CreateHandles()
 void wxSFShapeBase::AssignChild(wxSFShapeBase* child)
 {
     wxASSERT(child);
-    wxASSERT(m_pParentCanvas);
-    wxASSERT(m_pParentCanvas->GetDiagramManager());
+    wxASSERT(m_pParentManager);
 
-    if(child && m_pParentCanvas && m_pParentCanvas->GetDiagramManager())
+    if(child && m_pParentManager)
     {
         // set parent shape ID
         child->SetParentShapeId(this->GetId());
 
         // add the child shape to shape list if neccessary
-        if( m_pParentCanvas->GetDiagramManager()->GetShapeList().IndexOf(child) == wxNOT_FOUND )
+        if( m_pParentManager->GetShapeList().IndexOf(child) == wxNOT_FOUND )
         {
-            m_pParentCanvas->GetDiagramManager()->GetShapeList().Append(child);
+            m_pParentManager->GetShapeList().Append(child);
         }
 
         // update parent shape
@@ -582,12 +584,11 @@ void wxSFShapeBase::AssignChild(wxSFShapeBase* child)
 
 void wxSFShapeBase::GetChildren(CShapeList &children, bool recursive)
 {
-    wxASSERT(m_pParentCanvas);
-    wxASSERT(m_pParentCanvas->GetDiagramManager());
+    wxASSERT(m_pParentManager);
 
-	if(m_pParentCanvas)
+	if(m_pParentManager)
 	{
-		wxCShapeListNode *node = m_pParentCanvas->GetDiagramManager()->GetShapeList().GetFirst();
+		wxCShapeListNode *node = m_pParentManager->GetShapeList().GetFirst();
 		while(node)
 		{
 			wxSFShapeBase *pShape = node->GetData();
@@ -616,10 +617,9 @@ void wxSFShapeBase::GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bo
 
 void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct)
 {
-    wxASSERT(m_pParentCanvas);
-    wxASSERT(m_pParentCanvas->GetDiagramManager());
+    wxASSERT(m_pParentManager);
 
-    if( m_pParentCanvas )
+    if( m_pParentManager )
     {
         if( m_lstProcessed.IndexOf(this) != wxNOT_FOUND )return;
 
@@ -627,7 +627,7 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
         wxSFLineShape *pLine;
         wxSFShapeBase *pOposite = NULL;
 
-        m_pParentCanvas->GetDiagramManager()->GetAssignedConnections(this, condir, lstConnections);
+        m_pParentManager->GetAssignedConnections(this, condir, lstConnections);
 
         // find oposite shpes in direct branches
         wxCShapeListNode *node = lstConnections.GetFirst();
@@ -637,18 +637,18 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
             switch(condir)
             {
                 case lineSTARTING:
-                    pOposite = m_pParentCanvas->GetDiagramManager()->FindShape(pLine->GetTrgShapeId());
+                    pOposite = m_pParentManager->FindShape(pLine->GetTrgShapeId());
                     break;
 
                 case lineENDING:
-                    pOposite = m_pParentCanvas->GetDiagramManager()->FindShape(pLine->GetSrcShapeId());
+                    pOposite = m_pParentManager->FindShape(pLine->GetSrcShapeId());
                     break;
 
                 case lineBOTH:
                     {
-                        if(m_nId == pLine->GetSrcShapeId())pOposite = m_pParentCanvas->GetDiagramManager()->FindShape(pLine->GetTrgShapeId());
+                        if(m_nId == pLine->GetSrcShapeId())pOposite = m_pParentManager->FindShape(pLine->GetTrgShapeId());
                         else
-                            pOposite = m_pParentCanvas->GetDiagramManager()->FindShape(pLine->GetSrcShapeId());
+                            pOposite = m_pParentManager->FindShape(pLine->GetSrcShapeId());
                     }
             }
 
@@ -669,7 +669,7 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
                     {
                         case lineSTARTING:
                             {
-                                pOposite = m_pParentCanvas->GetDiagramManager()->FindShape( pLine->GetSrcShapeId() );
+                                pOposite = m_pParentManager->FindShape( pLine->GetSrcShapeId() );
 
                                 if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
@@ -678,7 +678,7 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
 
                         case lineENDING:
                             {
-                                pOposite = m_pParentCanvas->GetDiagramManager()->FindShape( pLine->GetTrgShapeId() );
+                                pOposite = m_pParentManager->FindShape( pLine->GetTrgShapeId() );
 
                                 if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
@@ -687,11 +687,11 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
 
                         case lineBOTH:
                             {
-                                pOposite = m_pParentCanvas->GetDiagramManager()->FindShape( pLine->GetSrcShapeId() );
+                                pOposite = m_pParentManager->FindShape( pLine->GetSrcShapeId() );
                                 if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
 
-                                pOposite = m_pParentCanvas->GetDiagramManager()->FindShape( pLine->GetTrgShapeId() );
+                                pOposite = m_pParentManager->FindShape( pLine->GetTrgShapeId() );
                                 if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
                             }
@@ -707,13 +707,20 @@ void wxSFShapeBase::_GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, b
     }
 }
 
+wxSFShapeCanvas* wxSFShapeBase::GetParentCanvas()
+{
+    wxASSERT(m_pParentManager);
+
+    return m_pParentManager->GetShapeCanvas();
+}
+
 void wxSFShapeBase::Refresh(const wxRect& rct)
 {
-    wxASSERT(m_pParentCanvas);
+    wxASSERT(m_pParentManager);
 
-	if(m_pParentCanvas)
+	if(m_pParentManager->GetShapeCanvas())
 	{
-		m_pParentCanvas->RefreshCanvas(false, rct);
+		m_pParentManager->GetShapeCanvas()->RefreshCanvas(false, rct);
 	}
 }
 
@@ -908,7 +915,7 @@ void wxSFShapeBase::_OnBeginDrag(const wxPoint& pos)
 
 void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 {
-    wxASSERT(m_pParentCanvas);
+    wxASSERT(m_pParentManager);
 
 	if(m_fVisible && m_fActive && m_fPositionChange)
 	{
@@ -929,7 +936,7 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 		GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN);
 
 		// update canvas
-		if(m_pParentCanvas)
+		if(m_pParentManager->GetShapeCanvas())
 		{
 			const wxRect unionRect = prevBB.Union(currBB);
 			Refresh(unionRect);
@@ -946,11 +953,12 @@ void wxSFShapeBase::_OnEndDrag(const wxPoint& pos)
 
 void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 {
-    wxASSERT(m_pParentCanvas);
+    wxASSERT(m_pParentManager);
 
 	if(m_fVisible && m_fActive)
 	{
 		bool fUpdateShape = false;
+		wxSFShapeCanvas *pCanvas = m_pParentManager->GetShapeCanvas();
 
 		// send the event to child handles too...
 		wxCHandleListNode *node = m_lstHandles.GetFirst();
@@ -961,13 +969,13 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		}
 
 		// determine, whether the shape should be highlighted for any reason
-		if(m_pParentCanvas && m_fHighlighting)
+		if(pCanvas && m_fHighlighting)
 		{
-		    switch(m_pParentCanvas->GetMode())
+		    switch(pCanvas->GetMode())
 		    {
             case wxSFShapeCanvas::modeSHAPEMOVE:
                 {
-                    if(m_pParentCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)
+                    if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)
                     {
                         fUpdateShape = m_fHighlighParent = AcceptCurrentlyDraggedShapes();
                     }
@@ -976,14 +984,14 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 
             case wxSFShapeCanvas::modeHANDLEMOVE:
                 {
-    				if(m_pParentCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)fUpdateShape = true;
+    				if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)fUpdateShape = true;
                     m_fHighlighParent = false;
                 }
                 break;
 
             default:
                 {
-                    if(m_pParentCanvas->GetShapeAtPosition(pos) == this)fUpdateShape = true;
+                    if(pCanvas->GetShapeAtPosition(pos) == this)fUpdateShape = true;
                     m_fHighlighParent = false;
                 }
                 break;
@@ -1016,22 +1024,25 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 
 void wxSFShapeBase::_OnKey(int key)
 {
-    wxASSERT(m_pParentCanvas);
+    wxASSERT(m_pParentManager);
 
-	if(m_fVisible && m_fActive && m_fSelected && m_pParentCanvas)
+    wxSFShapeCanvas *pCanvas = m_pParentManager->GetShapeCanvas();
+
+	if(m_fVisible && m_fActive && m_fSelected && pCanvas)
 	{
 		double dx = 1, dy = 1;
 		bool fRefreshAll = false;
 		wxRect prevBB;
 
-		if(m_pParentCanvas->IsGridUsed())
+
+		if(pCanvas->IsGridUsed())
 		{
-			dx = m_pParentCanvas->GetGrid().x;
-			dy = m_pParentCanvas->GetGrid().y;
+			dx = pCanvas->GetGrid().x;
+			dy = pCanvas->GetGrid().y;
 		}
 
 		CShapeList lstSelection;
-		m_pParentCanvas->GetSelectedShapes(lstSelection);
+		pCanvas->GetSelectedShapes(lstSelection);
 		if((lstSelection.GetCount() > 1) && (lstSelection.IndexOf(this) != wxNOT_FOUND))
 		{
 		    fRefreshAll = true;
@@ -1073,12 +1084,13 @@ void wxSFShapeBase::_OnKey(int key)
             Refresh(prevBB);
         }
         else
-            m_pParentCanvas->Refresh(false);
+            pCanvas->Refresh(false);
 	}
 }
 
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
+    wxASSERT(m_pParentManager);
     // get initial bounding box
     //wxRect prevDispRct = GetParentCanvas()->GetSelectionBB();
 
@@ -1091,6 +1103,6 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
     // refresh canvas
     /*wxRect currDispRct = GetParentCanvas()->GetSelectionBB();
     GetParentCanvas()->RefreshCanvas(false, prevDispRct.Union(currDispRct).Inflate(int(MEOFFSET*GetParentCanvas()->GetScale())));*/
-    GetParentCanvas()->Refresh(false);
+    if( m_pParentManager->GetShapeCanvas() )m_pParentManager->GetShapeCanvas()->Refresh(false);
 
 }

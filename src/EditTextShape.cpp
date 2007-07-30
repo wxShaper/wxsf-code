@@ -90,8 +90,8 @@ wxSFEditTextShape::wxSFEditTextShape(void)
 	m_pTextCtrl = NULL;
 }
 
-wxSFEditTextShape::wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFShapeCanvas* canvas)
-: wxSFTextShape(pos, txt, parentId, canvas)
+wxSFEditTextShape::wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager)
+: wxSFTextShape(pos, txt, parentId, manager)
 {
 	m_pTextCtrl = NULL;
 }
@@ -114,19 +114,19 @@ void wxSFEditTextShape::OnLeftDoubleClick(const wxPoint &pos)
 {
 	// HINT: override it if neccessary...
 
-	if(m_pParentCanvas)
+	if(GetParentCanvas())
 	{
 	    wxRealPoint shpPos = GetAbsolutePosition();
 		wxRect shpBB = GetBoundingBox();
 		int dx, dy;
 
 		int style = 0;
-		double scale = m_pParentCanvas->GetScale();
-		m_pParentCanvas->CalcUnscrolledPosition(0, 0, &dx, &dy);
+		double scale = GetParentCanvas()->GetScale();
+		GetParentCanvas()->CalcUnscrolledPosition(0, 0, &dx, &dy);
 
 		if(m_sText.Contains(wxT("\n")))style = wxTE_MULTILINE;
 
-		m_pTextCtrl = new wxSFContentCtrl(m_pParentCanvas, textCtrlId, this, m_sText, wxPoint(int((shpPos.x * scale) - dx), int((shpPos.y * scale) - dy)), wxSize(int(shpBB.GetWidth() * scale), int(shpBB.GetHeight() * scale)), style);
+		m_pTextCtrl = new wxSFContentCtrl(GetParentCanvas(), textCtrlId, this, m_sText, wxPoint(int((shpPos.x * scale) - dx), int((shpPos.y * scale) - dy)), wxSize(int(shpBB.GetWidth() * scale), int(shpBB.GetHeight() * scale)), style);
 		m_fHandlesState = CanChangeSize();
 		EnableSizeChange(false);
 	}

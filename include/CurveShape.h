@@ -30,8 +30,8 @@ public:
     /// <param name="src"> ID of the source shape </param>
     /// <param name="trg"> ID of the target shape </param>
     /// <param name="path"> Array of line's control points </param>
-    /// <param name="canvas"> Parent shape canvas </param>
-	wxSFCurveShape(size_t maxsteps, long src, long trg, const CPointList& path, wxSFShapeCanvas* canvas);
+    /// <param name="manager"> Parent parent diagram manager </param>
+	wxSFCurveShape(size_t maxsteps, long src, long trg, const CPointList& path, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFCurveShape(wxSFCurveShape& obj);

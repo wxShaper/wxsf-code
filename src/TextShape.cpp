@@ -28,8 +28,8 @@ wxSFTextShape::wxSFTextShape(void)
     UpdateRectSize();
 }
 
-wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFShapeCanvas* canvas)
-: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, canvas)
+wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, manager)
 {
     m_Font = sfdvTEXTSHAPE_FONT;
     m_Font.SetPointSize(12);
@@ -173,7 +173,7 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 wxSize wxSFTextShape::GetTextExtent()
 {
     wxCoord w = 0, h = 0;
-    if(m_pParentCanvas)
+    if(m_pParentManager && GetParentCanvas())
     {
         wxClientDC dc((wxWindow*)GetParentCanvas());
 

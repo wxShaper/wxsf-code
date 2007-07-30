@@ -40,8 +40,8 @@ wxSFLineShape::wxSFLineShape(void)
 	m_lstPoints.DeleteContents(true);
 }
 
-wxSFLineShape::wxSFLineShape(long src, long trg, const CPointList& path, wxSFShapeCanvas* canvas)
-: wxSFShapeBase(wxRealPoint(0, 0), -1, canvas)
+wxSFLineShape::wxSFLineShape(long src, long trg, const CPointList& path, wxSFDiagramManager* manager)
+: wxSFShapeBase(wxRealPoint(0, 0), -1, manager)
 {
 	m_nSrcShapeId = src;
 	m_nTrgShapeId = trg;
@@ -180,6 +180,8 @@ wxRealPoint wxSFLineShape::GetBorderPoint(const wxRealPoint& to)
 
 wxRect wxSFLineShape::GetBoundingBox()
 {
+    wxASSERT(m_pParentManager);
+
 	wxRect lineRct(0, 0, 0, 0);
 
     CLineSegmentArray m_arrSegments;
@@ -206,7 +208,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         if(m_nSrcShapeId != -1)
         {
            // wxRealPoint shpCenter = m_pParentCanvas->FindShape(m_nSrcShapeId)->GetCenter();
-			wxRealPoint shpCenter = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId)->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
+			wxRealPoint shpCenter = m_pParentManager->FindShape(m_nSrcShapeId)->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)shpCenter.x, (int)shpCenter.y, 1, 1));
@@ -218,7 +220,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         // include ending point
         if(m_nTrgShapeId != -1)
         {
-            wxRealPoint shpCenter = m_pParentCanvas->GetDiagramManager()->FindShape(m_nTrgShapeId)->GetCenter();
+            wxRealPoint shpCenter = m_pParentManager->FindShape(m_nTrgShapeId)->GetCenter();
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)shpCenter.x, (int)shpCenter.y, 1, 1));
@@ -374,11 +376,11 @@ void wxSFLineShape::OnLeftDoubleClick(const wxPoint& pos)
 {
     // HINT: override it for custom actions
 
-    if(m_pParentCanvas)
+    if(GetParentCanvas())
     {
         // remove existing handle if exist otherwise create a new one at the
         // given position
-        wxSFShapeHandle *pHandle = m_pParentCanvas->GetTopmostHandleAtPosition(pos);
+        wxSFShapeHandle *pHandle = GetParentCanvas()->GetTopmostHandleAtPosition(pos);
         if(pHandle && (pHandle->GetParentShape() == this))
         {
             if(pHandle->GetType() == wxSFShapeHandle::hndLINECTRL)
@@ -424,15 +426,17 @@ void wxSFLineShape::DrawHighlighted(wxSFScaledPaintDC& dc)
 
 void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 {
+    wxASSERT(m_pParentManager);
+
     //segments.Clear();
     segments.Alloc(m_lstPoints.GetCount()+1);
 
-    if(m_pParentCanvas)
+    if(m_pParentManager)
     {
         wxRealPoint *pt, prevPt;
 
-        wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
-        wxSFShapeBase* pTrgShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nTrgShapeId);
+        wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
+        wxSFShapeBase* pTrgShape = m_pParentManager->FindShape(m_nTrgShapeId);
 
 		if(m_lstPoints.GetCount() > 0)
 		{
@@ -468,6 +472,8 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 
 void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
 {
+    wxASSERT(m_pParentManager);
+
     size_t i;
 	CLineSegmentArray arrLines;
 	GetLineSegments(arrLines);
@@ -504,7 +510,7 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
             }
             else if(m_nSrcShapeId != -1)
             {
-                wxSFShapeBase* pSrcShape = m_pParentCanvas->GetDiagramManager()->FindShape(m_nSrcShapeId);
+                wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
                 if(pSrcShape)
                 {
                     wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);

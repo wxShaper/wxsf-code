@@ -29,8 +29,8 @@ public:
 	/// <param name="pos"> Initial position </param>
 	/// <param name="bitmapPath"> BMP file name </param>
 	/// <param name="parentId"> ID of a parent shape </param>
-	/// <param name="canvas"> Pointer of a parent canvas </param>
-	wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer of parent manager </param>
+	wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Source shape </param>
 	wxSFBitmapShape(wxSFBitmapShape& obj);

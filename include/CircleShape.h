@@ -24,8 +24,8 @@ public:
 	/// <param name="pos"> Initial shape position </param>
 	/// <param name="radius"> Circle radius </param>
 	/// <param name="parentId"> ID of the parent shape </param>
-	/// <param name="canvas"> Pointer to the parent canvas </param>
-	wxSFCircleShape(const wxRealPoint& pos, double radius, long parentId, wxSFShapeCanvas* canvas);
+	/// <param name="manager"> Pointer to parent manager </param>
+	wxSFCircleShape(const wxRealPoint& pos, double radius, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFCircleShape(wxSFCircleShape& obj);

@@ -34,9 +34,9 @@ public:
      * \param pos Initial position
      * \param txt Text content
      * \param parentId ID of a parent shape
-     * \param canvas Pointer to parent canvas
+     * \param manager Pointer to parent diagram manager
      */
-	wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFShapeCanvas* canvas);
+	wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager);
 	/*!
 	 * \brief Copy constructor.
 	 * \param obj Source objct

@@ -24,8 +24,8 @@ public:
     /// <summary> User constructor </summary>
     /// <param name="pos"> Initial position </param>
     /// <param name="parentId"> ID of the parent shape </param>
-    /// <param name="canvas"> Pointer to the parent canvas </param>
-	wxSFDiamondShape(const wxRealPoint& pos, long parentId, wxSFShapeCanvas* canvas);
+    /// <param name="manager"> Pointer to parent diagram manager </param>
+	wxSFDiamondShape(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFDiamondShape(wxSFDiamondShape& obj);

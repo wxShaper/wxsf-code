@@ -18,8 +18,8 @@ wxSFSquareShape::wxSFSquareShape(void)
     SetRectSize(100, 100);
 }
 
-wxSFSquareShape::wxSFSquareShape(const wxRealPoint& pos, double size, long parentId, wxSFShapeCanvas* canvas)
-: wxSFRectShape(pos, wxRealPoint(size, size), parentId, canvas)
+wxSFSquareShape::wxSFSquareShape(const wxRealPoint& pos, double size, long parentId, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, wxRealPoint(size, size), parentId, manager)
 {
 
 }
