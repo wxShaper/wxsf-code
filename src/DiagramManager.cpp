@@ -22,7 +22,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sVersion =  wxT("1.2.1 alpha");
+    m_sVersion =  wxT("1.2.2 alpha");
 }
 
 wxSFDiagramManager::~wxSFDiagramManager()
@@ -69,8 +69,6 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, const wxPoint&
 {
 	if(shape)
 	{
-	    //wxASSERT_MSG( m_pShapeCanvas, wxT("Shape canvas is not set properly in diagram manager.") );
-
 		if( shape->IsKindOf(CLASSINFO(wxSFShapeBase)) && IsShapeAccepted(shape->GetClassInfo()->GetClassName()) )
 		{
 		    shape->SetParentManager(this);
@@ -123,8 +121,6 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, const wxPoint&
 
 wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, bool saveState)
 {
-    //wxASSERT_MSG( m_pShapeCanvas, wxT("Shape canvas is not set properly in diagram manager.") );
-
     wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFLineShape), sfDONT_SAVE_STATE);
     if(pShape)
     {
@@ -146,8 +142,6 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 {
 	if(shape)
 	{
-	    // wxASSERT_MSG( m_pShapeCanvas, wxT("Shape canvas is not set properly in diagram manager.") );
-
 		// delete shape from list
 		if(m_lstShapes.DeleteObject(shape))
 		{
@@ -176,9 +170,7 @@ void wxSFDiagramManager::RemoveShapes(const CShapeList& selection)
 
 void wxSFDiagramManager::Clear()
 {
-    //wxASSERT_MSG( m_pShapeCanvas, wxT("Shape canvas is not set properly in diagram manager.") );
-
-	wxCShapeListNode *node = m_lstShapes.GetFirst();
+ 	wxCShapeListNode *node = m_lstShapes.GetFirst();
 	while(node)
 	{
 		wxSFShapeBase* pShape = node->GetData();
@@ -290,8 +282,6 @@ void wxSFDiagramManager::DeserializeChartFromXml(const wxString& file)
 
 void wxSFDiagramManager::DeserializeChartFromXml(wxInputStream& instream)
 {
-    //wxASSERT_MSG( m_pShapeCanvas, wxT("Shape canvas is not set properly in diagram manager.") );
-
 	// load an XML file
 	try
 	{

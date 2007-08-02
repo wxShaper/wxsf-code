@@ -44,7 +44,8 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 : wxScrolledWindow(parent, id, pos, size, style)
 {
     // initialize shape manager
-    wxASSERT_MSG( manager, wxT("Shape manager has not been properly set in shape canvas."));
+    wxASSERT_MSG( manager, wxT("Shape manager has not been properly set in shape canvas's constructor."));
+    if(!manager)return;
 
     m_pManager = manager;
     m_pManager->SetShapeCanvas(this);
@@ -119,7 +120,8 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& event)
 
 void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+    wxASSERT( m_pManager );
+    if(!m_pManager)return;
 
     wxSFShapeBase* pShape = NULL;
 
@@ -208,7 +210,8 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 {
 	// HINT: override it for custom actions...
 
-	wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
     DeleteAllTextCtrls();
 	SetFocus();
@@ -666,7 +669,8 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 {
 	// HINT: override it for custom actions...
 
-	wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	wxPoint lpos = DP2LP(event.GetPosition());
 
@@ -760,6 +764,9 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 {
 	// HINT: override it for custom actions...
+
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	CShapeList m_lstSelection;
 	GetSelectedShapes(m_lstSelection);
@@ -1004,7 +1011,8 @@ wxPoint wxSFShapeCanvas::LP2DP(const wxPoint& pos) const
 
 void wxSFShapeCanvas::SetScale(double scale)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	if(scale != 0)m_nScale = scale;
 	else
@@ -1041,7 +1049,8 @@ wxPoint wxSFShapeCanvas::FitPositionToGrid(const wxPoint& pos) const
 
 void wxSFShapeCanvas::LoadCanvas(const wxString& file)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+ 	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
     bool fChartLoaded = false;
 	double nScale = 1;
@@ -1148,7 +1157,8 @@ void wxSFShapeCanvas::LoadCanvas(const wxString& file)
 
 void wxSFShapeCanvas::SaveCanvas(const wxString& file)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+ 	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	// create root node and save canvas properties
 	wxXmlNode *child, *root = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("canvas"));
@@ -1224,10 +1234,11 @@ void wxSFShapeCanvas::SaveCanvas(const wxString& file)
 
 void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos)
 {
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
+
     if((m_nWorkingMode == modeREADY) && shapeInfo->IsKindOf(CLASSINFO(wxSFLineShape)))
     {
-        wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
-
         m_pNewLineShape = (wxSFLineShape*)m_pManager->AddShape(shapeInfo, sfDONT_SAVE_STATE);
         if(m_pNewLineShape)
         {
@@ -1253,7 +1264,8 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
 
 void wxSFShapeCanvas::AbortInteractiveConnection()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
     if(m_pNewLineShape)
     {
@@ -1292,7 +1304,8 @@ void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
 
 int wxSFShapeCanvas::GetSelectedShapes(CShapeList& selection)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+ 	wxASSERT(m_pManager);
+	if(!m_pManager)return 0;
 
 	selection.Clear();
 
@@ -1309,7 +1322,8 @@ int wxSFShapeCanvas::GetSelectedShapes(CShapeList& selection)
 
 wxSFShapeBase* wxSFShapeCanvas::GetShapeAtPosition(const wxPoint& pos, int zorder, SEARCHMODE mode)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return NULL;
 
 	int nCounter = 1;
 	CShapeList m_lstSortedShapes;
@@ -1369,7 +1383,8 @@ wxSFShapeBase* wxSFShapeCanvas::GetShapeAtPosition(const wxPoint& pos, int zorde
 
 wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return NULL;
 
     wxSFShapeHandle* pHandle;
 
@@ -1402,7 +1417,8 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
 
 int wxSFShapeCanvas::GetShapesAtPosition(const wxPoint& pos, CShapeList& shapes)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return 0;
 
 	shapes.Clear();
 	wxSFShapeBase *pShape;
@@ -1420,7 +1436,8 @@ int wxSFShapeCanvas::GetShapesAtPosition(const wxPoint& pos, CShapeList& shapes)
 
 int wxSFShapeCanvas::GetShapesInside(const wxRect& rct, CShapeList& shapes)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return 0;
 
 	shapes.Clear();
 	wxSFShapeBase* pShape;
@@ -1438,7 +1455,8 @@ int wxSFShapeCanvas::GetShapesInside(const wxRect& rct, CShapeList& shapes)
 
 void wxSFShapeCanvas::DeselectAll()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	wxCShapeListNode *node = m_pManager->GetShapeList().GetFirst();
 	while(node)
@@ -1454,7 +1472,8 @@ void wxSFShapeCanvas::DeselectAll()
 
 void wxSFShapeCanvas::SelectAll()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	if(m_pManager->GetShapeList().GetCount() > 0)
 	{
@@ -1481,7 +1500,8 @@ void wxSFShapeCanvas::SelectAll()
 
 void wxSFShapeCanvas::HideAllHandles()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	wxCShapeListNode *node = m_pManager->GetShapeList().GetFirst();
 	while(node)
@@ -1493,7 +1513,8 @@ void wxSFShapeCanvas::HideAllHandles()
 
 void wxSFShapeCanvas::ValidateSelection(CShapeList& selection)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	CShapeList m_lstShapesToRemove;
 
@@ -1539,7 +1560,8 @@ void wxSFShapeCanvas::ValidateSelection(CShapeList& selection)
 
 void wxSFShapeCanvas::MoveChildrenToTop(wxSFShapeBase* parent)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	CShapeList m_lstChildren;
 	m_pManager->GetChildren(parent, m_lstChildren);
@@ -1586,7 +1608,8 @@ void wxSFShapeCanvas::UpdateMultieditSize()
 
 void wxSFShapeCanvas::SetHoverColour(const wxColour& col)
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	m_nCommonHoverColor = col;
 
@@ -1601,23 +1624,26 @@ void wxSFShapeCanvas::SetHoverColour(const wxColour& col)
 
 wxRect wxSFShapeCanvas::GetTotalBoundingBox() const
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
-
     wxRect virtRct;
 
-    // calculate total bounding box (includes all shapes)
-    wxCShapeListNode* node = m_pManager->GetShapeList().GetFirst();
-    while(node)
-    {
-        if(node == m_pManager->GetShapeList().GetFirst())
-        {
-            virtRct = node->GetData()->GetBoundingBox();
-        }
-        else
-            virtRct.Union(node->GetData()->GetBoundingBox());
+	wxASSERT(m_pManager);
 
-        node = node->GetNext();
-    }
+	if(m_pManager)
+	{
+        // calculate total bounding box (includes all shapes)
+        wxCShapeListNode* node = m_pManager->GetShapeList().GetFirst();
+        while(node)
+        {
+            if(node == m_pManager->GetShapeList().GetFirst())
+            {
+                virtRct = node->GetData()->GetBoundingBox();
+            }
+            else
+                virtRct.Union(node->GetData()->GetBoundingBox());
+
+            node = node->GetNext();
+        }
+	}
 
     return virtRct;
 }
@@ -1655,7 +1681,8 @@ void wxSFShapeCanvas::UpdateVirtualSize()
 
 void wxSFShapeCanvas::DeleteAllTextCtrls()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	wxSFContentCtrl* pTextCtrl = NULL;
 	CShapeList lstShapes;
@@ -1672,7 +1699,8 @@ void wxSFShapeCanvas::DeleteAllTextCtrls()
 
 void wxSFShapeCanvas::MoveShapesFromNegatives()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	wxSFShapeBase *pShape;
 	wxRealPoint shapePos;
@@ -1837,7 +1865,8 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
 
 void wxSFShapeCanvas::Copy()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	// copy selected shapes to the clipboard
 	if(wxTheClipboard->Open())
@@ -1853,7 +1882,8 @@ void wxSFShapeCanvas::Copy()
 
 void wxSFShapeCanvas::Cut()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	Copy();
 
@@ -1869,7 +1899,8 @@ void wxSFShapeCanvas::Cut()
 
 void wxSFShapeCanvas::Paste()
 {
-    wxASSERT_MSG( m_pManager, wxT("Shape manager has not been properly set in shape canvas."));
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
 
 	if(wxTheClipboard->Open())
 	{
