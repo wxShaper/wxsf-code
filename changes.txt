@@ -1,4 +1,4 @@
-Changes in version 1.2.2 alpha (2007-07-30):
+Changes in version 1.2.2 alpha (2007-08-02):
 --------------------------------------------
 - Improved testing of invalid pointers among main framework's components (shape base,
   shape canvas and diagram manager) and thus whole library stability.

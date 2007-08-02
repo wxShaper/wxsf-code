@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxSF", "src\wxSF.vcproj", "{F4B55686-ED45-4851-B674-83A74830EBEB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxSFDemo", "example\wxSFDemo.vcproj", "{31C89992-5239-4BB2-889E-6404108C411E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4B55686-ED45-4851-B674-83A74830EBEB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F4B55686-ED45-4851-B674-83A74830EBEB}.Debug|Win32.Build.0 = Debug|Win32
+		{F4B55686-ED45-4851-B674-83A74830EBEB}.Release|Win32.ActiveCfg = Release|Win32
+		{F4B55686-ED45-4851-B674-83A74830EBEB}.Release|Win32.Build.0 = Release|Win32
+		{31C89992-5239-4BB2-889E-6404108C411E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{31C89992-5239-4BB2-889E-6404108C411E}.Debug|Win32.Build.0 = Debug|Win32
+		{31C89992-5239-4BB2-889E-6404108C411E}.Release|Win32.ActiveCfg = Release|Win32
+		{31C89992-5239-4BB2-889E-6404108C411E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
