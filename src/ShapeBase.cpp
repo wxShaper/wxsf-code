@@ -187,11 +187,21 @@ wxRect wxSFShapeBase::GetBoundingBox()
 
 void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 {
+    m_lstProcessed.Clear();
+    _GetCompleteBoundingBox(rct, mask);
+}
+
+void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
+{
     wxASSERT(m_pParentManager);
     if(!m_pParentManager)return;
 
+    if( m_lstProcessed.IndexOf(this) != wxNOT_FOUND )return;
+    else
+        m_lstProcessed.Append(this);
+
 	CShapeList lstChildren;
-	CShapeList lstConnections;
+	//CShapeList lstConnections;
 
 	// firts, get bounding box of the current shape
 	if(mask & bbSELF)
@@ -218,7 +228,10 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 
 			rct.Union(pLine->GetBoundingBox());
 
-			// get also BB of connections assigned to this connection
+			// get children of the connections
+			pLine->GetChildren(lstChildren);
+
+			/*// get also BB of connections assigned to this connection
 			lstConnections.Clear();
 			m_pParentManager->GetAssignedConnections(pLine, lineBOTH, lstConnections);
 
@@ -227,7 +240,7 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
             {
                 rct.Union(cnode->GetData()->GetBoundingBox());
                 cnode = cnode->GetNext();
-            }
+            }*/
 
 			node = node->GetNext();
 		}
@@ -242,7 +255,7 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 		wxCShapeListNode* node = lstChildren.GetFirst();
 		while(node)
 		{
-		    node->GetData()->GetCompleteBoundingBox(rct, mask);
+		    node->GetData()->_GetCompleteBoundingBox(rct, mask);
 			node = node->GetNext();
 		}
 	}
@@ -387,14 +400,17 @@ void wxSFShapeBase::Update()
     DoAlignment();
 
     // do alignment of shape's children (if required)
-    CShapeList lstChildren;
-    GetChildren(lstChildren, sfNORECURSIVE);
-
-    wxCShapeListNode* node = lstChildren.GetFirst();
-    while(node)
+    if( !this->IsKindOf(CLASSINFO(wxSFLineShape)) )
     {
-        node->GetData()->DoAlignment();
-        node = node->GetNext();
+        CShapeList lstChildren;
+        GetChildren(lstChildren, sfNORECURSIVE);
+
+        wxCShapeListNode* node = lstChildren.GetFirst();
+        while(node)
+        {
+            node->GetData()->DoAlignment();
+            node = node->GetNext();
+        }
     }
 }
 

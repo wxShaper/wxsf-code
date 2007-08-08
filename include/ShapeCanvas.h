@@ -644,5 +644,6 @@ private:
 	 */
 	void _OnKeyDown(wxKeyEvent& event);
 
+
 	DECLARE_EVENT_TABLE();
 };

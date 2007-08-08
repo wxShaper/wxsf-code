@@ -16,7 +16,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\lib\Win-msvc\Debug"
+			OutputDirectory="..\lib\Win-msvc"
 			IntermediateDirectory="..\obj\Win-msvc\wxsf\Debug"
 			ConfigurationType="4"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -89,7 +89,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\lib\Win-msvc\Release"
+			OutputDirectory="..\lib\Win-msvc\"
 			IntermediateDirectory="..\obj\Win-msvc\wxsf\Release"
 			ConfigurationType="4"
 			ATLMinimizesCRunTimeLibraryUsage="true"

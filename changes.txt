@@ -1,3 +1,9 @@
+Changes in version 1.2.3 alpha (2007-08-03):
+--------------------------------------------
+- Fixed function wxSFShapeBase::GetCompleteBoundingBox().
+- Fixed update of shapes assigned as children to line shapes (alignment of those
+  child shapes is ignored).
+
 Changes in version 1.2.2 alpha (2007-08-02):
 --------------------------------------------
 - Improved testing of invalid pointers among main framework's components (shape base,

@@ -481,7 +481,12 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 				{
 					if(pParentShape)
 					{
-						pShape->SetRelativePosition(pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition());
+					    /*if(pParentShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+					    {
+					        pShape->SetRelativePosition(0, 0);
+					    }
+					    else*/
+                        pShape->SetRelativePosition(pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition());
 						pShape->SetParentShapeId(pParentShape->GetId());
 						pShape->DoAlignment();
 					}

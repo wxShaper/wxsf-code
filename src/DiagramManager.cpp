@@ -22,7 +22,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sVersion =  wxT("1.2.2 alpha");
+    m_sVersion =  wxT("1.2.3 alpha");
 }
 
 wxSFDiagramManager::~wxSFDiagramManager()

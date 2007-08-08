@@ -953,6 +953,11 @@ private:
 	 * \sa GetNeighbours
 	 */
 	void _GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct);
+	/// <summary> Auxiliary function called by GetCompleteBoundingBox function. </summary>
+	/// <param name="rct"> Returned bounding rectangle </param>
+	/// <param name="mask"> Bit mask of object types which should be included into calculation </param>
+	/// <seealso cref="BBMODE"></seealso>
+	void _GetCompleteBoundingBox(wxRect& rct, int mask = bbALL);
 
 	// private event handlers
 
