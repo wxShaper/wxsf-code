@@ -297,6 +297,18 @@
 				RelativePath=".\TextShapeXml.cpp"
 				>
 			</File>
+			<Filter
+				Name="wxxmlserializer"
+				>
+				<File
+					RelativePath=".\wxxmlserializer\XmlSerializer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\wxxmlserializer\XmlSerializerConv.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -413,6 +425,14 @@
 					RelativePath="..\include\wxShapeFramework.h"
 					>
 				</File>
+				<Filter
+					Name="wxxmlserializer"
+					>
+					<File
+						RelativePath="..\include\XmlSerializer.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

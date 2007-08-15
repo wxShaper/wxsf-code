@@ -19,6 +19,10 @@ wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()
 	m_nRectSize = sfdvRECTSHAPE_SIZE;
 	m_Border = sfdvRECTSHAPE_BORDER;
 	m_Fill = sfdvRECTSHAPE_FILL;
+
+	XS_SERIALIZE_REALPOINT_EX(m_nRectSize, wxT("size"), xsSerializable::RealPointToString(sfdvRECTSHAPE_SIZE));
+	XS_SERIALIZE_PEN_EX(m_Border, wxT("border"), xsSerializable::PenToString(sfdvRECTSHAPE_BORDER));
+	XS_SERIALIZE_BRUSH_EX(m_Fill, wxT("fill"), xsSerializable::BrushToString(sfdvRECTSHAPE_FILL));
 }
 
 wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFDiagramManager* manager)
@@ -27,6 +31,10 @@ wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, lo
 	m_nRectSize = size;
 	m_Border = sfdvRECTSHAPE_BORDER;
 	m_Fill = sfdvRECTSHAPE_FILL;
+
+	XS_SERIALIZE_REALPOINT_EX(m_nRectSize, wxT("size"), xsSerializable::RealPointToString(sfdvRECTSHAPE_SIZE));
+	XS_SERIALIZE_PEN_EX(m_Border, wxT("border"), xsSerializable::PenToString(sfdvRECTSHAPE_BORDER));
+	XS_SERIALIZE_BRUSH_EX(m_Fill, wxT("fill"), xsSerializable::BrushToString(sfdvRECTSHAPE_FILL));
 }
 
 wxSFRectShape::wxSFRectShape(wxSFRectShape& obj) : wxSFShapeBase(obj)
@@ -77,13 +85,11 @@ void wxSFRectShape::FitToChildren()
     // HINT: overload it for custom actions...
 
     wxSFShapeBase* pChild;
-    CShapeList m_lstChildren;
-    GetChildren(m_lstChildren);
 
     // get bounding box of the shape and children set be inside it
     wxRect chBB = GetBoundingBox();
 
-    wxCShapeListNode* node = m_lstChildren.GetFirst();
+    wxShapeListNode* node = (wxShapeListNode*)GetFirstChildNode();
     while(node)
     {
         pChild = node->GetData();
@@ -114,10 +120,7 @@ void wxSFRectShape::FitToChildren()
 			// move its "1st level" children if neccessary
 			if((dx < 0) || (dy < 0))
 			{
-				//CShapeList m_lstChildren;
-				//GetChildren(m_lstChildren);
-
-				node = m_lstChildren.GetFirst();
+				node = (wxShapeListNode*)GetFirstChildNode();
 				while(node)
 				{
 					pChild = node->GetData();
@@ -204,16 +207,13 @@ void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
 	double dx = (double)handle.GetPosition().x - GetAbsolutePosition().x;
 
 	// update position of children
-	CShapeList m_lstChildren;
-	GetChildren(m_lstChildren);
-
-	wxCShapeListNode *node = m_lstChildren.GetFirst();
+	wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
 	while(node)
 	{
 	    pChild = node->GetData();
 	    if( pChild->GetHAlign() == halignNONE )
 	    {
-            node->GetData()->MoveBy(-dx, 0);
+            pChild->MoveBy(-dx, 0);
 	    }
 		node = node->GetNext();
 	}
@@ -238,16 +238,13 @@ void wxSFRectShape::OnTopHandle(wxSFShapeHandle& handle)
 	double dy = (double)handle.GetPosition().y - GetAbsolutePosition().y;
 
 	// update position of children
-	CShapeList m_lstChildren;
-	GetChildren(m_lstChildren);
-
-	wxCShapeListNode *node = m_lstChildren.GetFirst();
+	wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
 	while(node)
 	{
 	    pChild = node->GetData();
 	    if( pChild->GetVAlign() == valignNONE )
 	    {
-            node->GetData()->MoveBy(0, -dy);
+            pChild->MoveBy(0, -dy);
 	    }
 		node = node->GetNext();
 	}

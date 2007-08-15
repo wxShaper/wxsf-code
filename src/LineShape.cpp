@@ -12,10 +12,8 @@
 #include "ShapeCanvas.h"
 #include "CommonFcn.h"
 
-#include <wx/listimpl.cpp>
 #include <wx/arrimpl.cpp>
 
-WX_DEFINE_LIST(CPointList);
 WX_DEFINE_OBJARRAY(CLineSegmentArray);
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFLineShape, wxSFShapeBase);
@@ -35,12 +33,18 @@ wxSFLineShape::wxSFLineShape(void)
 
 	m_nMode = modeREADY;
 
-	m_nSerializeMask &= ~sfsfBASESHAPE_POSITION;
+	XS_SERIALIZE_LONG_EX(m_nSrcShapeId, wxT("source"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
+	XS_SERIALIZE_LONG_EX(m_nTrgShapeId, wxT("target"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
+	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), xsSerializable::LongToString(sfdvLINESHAPE_DOCKPOINT));
+	XS_SERIALIZE_PEN_EX(m_Pen, wxT("line_style"), xsSerializable::PenToString(sfdvLINESHAPE_PEN));
+	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
+	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
+	XS_SERIALIZE_LISTREALPOINT(m_lstPoints, wxT("control_points"));
 
 	m_lstPoints.DeleteContents(true);
 }
 
-wxSFLineShape::wxSFLineShape(long src, long trg, const CPointList& path, wxSFDiagramManager* manager)
+wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
 : wxSFShapeBase(wxRealPoint(0, 0), -1, manager)
 {
 	m_nSrcShapeId = src;
@@ -54,14 +58,20 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const CPointList& path, wxSFDia
 
 	m_nMode = modeREADY;
 
-	wxCPointListNode* node = path.GetFirst();
+	wxRealPointListNode* node = path.GetFirst();
 	while(node)
 	{
 		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
 		node = node->GetNext();
 	}
 
-	m_nSerializeMask &= ~sfsfBASESHAPE_POSITION;
+	XS_SERIALIZE_LONG_EX(m_nSrcShapeId, wxT("source"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
+	XS_SERIALIZE_LONG_EX(m_nTrgShapeId, wxT("target"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
+	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), xsSerializable::LongToString(sfdvLINESHAPE_DOCKPOINT));
+	XS_SERIALIZE_PEN_EX(m_Pen, wxT("line_style"), xsSerializable::PenToString(sfdvLINESHAPE_PEN));
+	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
+	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
+	XS_SERIALIZE_LISTREALPOINT(m_lstPoints, wxT("control_points"));
 
 	m_lstPoints.DeleteContents(true);
 }
@@ -91,7 +101,7 @@ wxSFLineShape::wxSFLineShape(wxSFLineShape& obj)
 
 	m_nMode = obj.m_nMode;
 
-	wxCPointListNode* node = obj.m_lstPoints.GetFirst();
+	wxRealPointListNode* node = obj.m_lstPoints.GetFirst();
 	while(node)
 	{
 		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
@@ -155,7 +165,7 @@ wxSFArrowBase* wxSFLineShape::SetTrgArrow(wxClassInfo* arrowInfo)
 
 wxRealPoint wxSFLineShape::GetAbsolutePosition()
 {
-    wxCPointListNode* ptnode;
+    wxRealPointListNode* ptnode;
 
 	int ptsCnt = (int)m_lstPoints.GetCount();
 
@@ -288,7 +298,7 @@ void wxSFLineShape::Scale(double x, double y, bool children)
 {
 	wxRealPoint *pt;
 
-	wxCPointListNode* node = m_lstPoints.GetFirst();
+	wxRealPointListNode* node = m_lstPoints.GetFirst();
 	while(node)
 	{
 		pt = node->GetData();
@@ -314,7 +324,7 @@ void wxSFLineShape::MoveBy(double x, double y)
 {
 	wxRealPoint *pt;
 
-	wxCPointListNode* node = m_lstPoints.GetFirst();
+	wxRealPointListNode* node = m_lstPoints.GetFirst();
 	while(node)
 	{
 		pt = node->GetData();
@@ -345,7 +355,7 @@ void wxSFLineShape::OnHandle(wxSFShapeHandle& handle)
     {
     case wxSFShapeHandle::hndLINECTRL:
         {
-            wxCPointListNode* node = m_lstPoints.Item(handle.GetId());
+            wxRealPointListNode* node = m_lstPoints.Item(handle.GetId());
             if(node)
             {
                 wxRealPoint* pt = node->GetData();
@@ -440,7 +450,7 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 
 		if(m_lstPoints.GetCount() > 0)
 		{
-			wxCPointListNode* node = m_lstPoints.GetFirst();
+			wxRealPointListNode* node = m_lstPoints.GetFirst();
 			while(node)
 			{
 				pt = node->GetData();

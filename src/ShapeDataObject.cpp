@@ -18,7 +18,7 @@ wxSFShapeDataObject::wxSFShapeDataObject(const wxDataFormat& format)
 	m_Data.SetText(wxT("<?xml version=\"1.0\" encoding=\"utf-8\"?><chart />"));
 }
 
-wxSFShapeDataObject::wxSFShapeDataObject(const wxDataFormat& format, const CShapeList& selection, wxSFDiagramManager* manager)
+wxSFShapeDataObject::wxSFShapeDataObject(const wxDataFormat& format, const ShapeList& selection, wxSFDiagramManager* manager)
 : wxDataObjectSimple(format)
 {
 	m_Data.SetText(SerializeSelectedShapes(selection, manager));
@@ -28,21 +28,21 @@ wxSFShapeDataObject::~wxSFShapeDataObject(void)
 {
 }
 
-wxString wxSFShapeDataObject::SerializeSelectedShapes(const CShapeList& selection, wxSFDiagramManager* manager)
+wxString wxSFShapeDataObject::SerializeSelectedShapes(const ShapeList& selection, wxSFDiagramManager* manager)
 {
 	// create root node
 	wxSFShapeBase *pShape;
 	wxXmlNode *root = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("chart"));
 
 	// serialize copied shapes to XML node
-	wxCShapeListNode *node = selection.GetFirst();
+	wxShapeListNode *node = selection.GetFirst();
 	while(node)
 	{
 		pShape = node->GetData();
 		if(pShape)
 		{
 			// serialize parent's children
-			manager->SerializeShapes(pShape, root, serINCLUDE_PARENTS);
+			manager->SerializeObjects(pShape, root, serINCLUDE_PARENTS);
 		}
 		node = node->GetNext();
 	}

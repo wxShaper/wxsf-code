@@ -15,9 +15,11 @@
 #include <wx/tokenzr.h>
 #include <wx/xml/xml.h>
 #include <wx/arrstr.h>
+#include <wx/list.h>
 
 #include "ShapeHandle.h"
 #include "ScaledPaintDC.h"
+#include "XmlSerializer.h"
 
 #define sfRECURSIVE true
 #define sfNORECURSIVE false
@@ -25,16 +27,6 @@
 #define sfINDIRECT false
 #define sfWITHCHILDREN true
 #define sfWITHOUTCHILDREN false
-
-// user-defined serialization flags
-/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize shape position </summary>
-#define sfsfBASESHAPE_POSITION 1
-/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize list of accepted child and neighbour shapes </summary>
-#define sfsfBASESHAPE_ACCEPTEDSHAPES 2
-/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize list of accepted connection types </summary>
-#define sfsfBASESHAPE_ACCEPTEDCONNECTIONS 4
-/// <summary> wxSFShapeObject::SetSerializationMask parameter: Serialize list of shape handles </summary>
-#define sfsfBASESHAPE_HANDLES 8
 
 // default values
 /// <summary> Default value of wxSFShapeObject::m_fVisible data member </summary>
@@ -65,10 +57,15 @@
 #define sfdvBASESHAPE_VBORDER 5
 /// <summary> Default value of wxSFShapeObject::m_nHBorder data member </summary>
 #define sfdvBASESHAPE_HBORDER 5
+/// <summary> Default value of wxSFShapeObject::m_fDeleteUserData data member </summary>
+#define sfdvBASESHAPE_DELETEUSERDATA true
 
 class wxSFShapeCanvas;
 class wxSFDiagramManager;
-class CShapeList;
+
+class wxSFShapeBase;
+
+WX_DECLARE_LIST(wxSFShapeBase, ShapeList);
 
 /// <summary>
 /// Base class for all shapes providing fundamental functionality and publishing set
@@ -85,7 +82,7 @@ class CShapeList;
 /// events (moving, sizing, drawing, mouse events, serialization and deserialization requests, ...)
 /// mostly triggered by a parent shape canvas.
 /// </summary>
-class wxSFShapeBase : public wxObject
+class wxSFShapeBase : public xsSerializable
 {
 public:
 
@@ -230,7 +227,7 @@ public:
     /// <param name="children"> List of child shapes </param>
     /// <param name="recursive"> Set this flag TRUE if also children of children of ... should be found
     /// (also sfRECURSIVE a sfNORECURSIVE constants can be used). </param>
-	void GetChildren(CShapeList& children, bool recursive = false);
+	void GetChildren(ShapeList& children, bool recursive = false);
 	/*!
 	 * \brief Get neighbour shapes connected to this shape.
 	 * \param neighbours List of neighbour shapes
@@ -240,7 +237,7 @@ public:
 	 * constants sfDIRECT and sfINDIRECT can be used)
 	 * \sa CONNECTMODE
 	 */
-	void GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct = true);
+	void GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bool direct = true);
 
     /// <summary> Get shapes's bounding box. The function can be overrided
     /// if neccessary. </summary>
@@ -293,23 +290,6 @@ public:
 	void DoAlignment();
 	/*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
 	virtual void FitToChildren();
-
-    /*!
-     * \brief Base serialization function called by the framework resposible for
-     * creation of new object node and invoking the Serialize function. This function
-     * shouldn't be called directly.
-     * \param node Pointer to existing XML node or NULL (for creation of new XML node)
-     * \return New XML node with very basic shape's properties
-     * \sa Serialize
-     */
-	wxXmlNode* SerializeToXml(wxXmlNode* node);
-    /*!
-     * \brief Base deserialization function called by the framework resposible for
-     * invoking the Deserialize function. This function shouldn't be called directly.
-     * \param node Pointer to existing XML node
-     * \sa Deserialize
-     */
-	void DeserializeFromXml(wxXmlNode* node);
 
 	// public member data accessors
 	/// <summary> Function returns TRUE if the shape is selected, otherwise returns FALSE. </summary>
@@ -398,12 +378,27 @@ public:
     void AssignChild(wxSFShapeBase* child);
     /// <summary> Get pointer to a parent shape </summary>
 	wxSFShapeBase* GetParentShape();
-	/// <summary> Assign this shape to some other shapes that becomes its parent </summary>
-	/// <param name="parentId"> ID of a new parent shape </param>
-	void SetParentShapeId(long parentId){m_nParentShapeId = parentId;}
-	/// <summary> Get ID of current parent shape </summary>
-	/// <returns> ID of a parent shape if any, otherwise -1 </returns>
-	long GetParentShapeId(){return m_nParentShapeId;}
+
+    /*!
+     * \brief Associate user data with the shape.
+     *
+     * If the data object is properly set then its marked properties will be serialized
+     * together with the parent shape.
+     * \param data Pointer to user data
+     */
+    void SetUserData(xsSerializable* data){m_pUserData = data;}
+     /*!
+     * \brief Get associated user data.
+     *
+     * \return Pointer to user data
+     */
+    xsSerializable* GetUserData(){return m_pUserData;}
+    /*!
+     * \brief Enable deletion of associated user data when the shape is destroyed.
+     * \param del TRUE if the associated data should be deleted, otherwise FALSE.
+     */
+    void DeleteUserDataOnDestroy(bool del){m_fDeleteUserData = del;}
+
 	/*!
 	 * \brief Set shape's parent diagram manager
 	 * \param canvas Pointer to diagram manager
@@ -442,40 +437,6 @@ public:
 	 * \return Current hover color
 	 */
 	wxColour GetHoverColour() const {return m_nHoverColor;}
-	/*!
-	 * \brief Get serialization mask.
-	 *
-	 * Serialization mask allows user to specify which additional shape's properties
-	 * will be serialized (not all shapes have additional properties). The mask value
-	 * consists of combination of declared serialization flags which have form "sfsfXXX_YYY" where XXX
-	 * determinates an owner object and YYY is more detailed flag specification. See
-	 * file members (defines) list for more information about available serialization flags.
-	 * \return Serialization mask value
-	 */
-	long GetSerializationMask(){return m_nSerializeMask;}
-	/*!
-	 * \brief Set serialization mask.
-	 *
-	 * Serialization mask allows user to specify which additional shape's properties
-	 * will be serialized (not all shapes have additional properties). The mask value
-	 * consists of combination of declared serialization flags which have form "sfsfXXX_YYY" where XXX
-	 * determinates an owner object and YYY is more detailed flag specification. See
-	 * file members (defines) list for more information about available serialization flags.
-	 * \param mask Serialization mask value
-	 */
-	void SetSerializationMask(long mask){m_nSerializeMask = mask;}
-	/*!
-	 * \brief Set shape's unique ID.
-	 *
-	 * Each shape MUST have unique ID so use this function carrefully
-	 * \param id New ID
-	 */
-	void SetId(long id){m_nId = id;}
-	/*!
-	 * \brief Get shape's ID.
-	 * \return Shape's unique ID
-	 */
-	long GetId(){return m_nId;}
 	/*!
 	 * \brief Function returns value of a shape's activation flag.
 	 *
@@ -804,10 +765,8 @@ protected:
 	bool m_fPositionChange;
 	/*! \brief Docking flag (the parent shape will be resized to fit this child shape) */
 	bool m_fAlwaysInsideParent;
-	/*! \brief Serialization mask */
-	long m_nSerializeMask;
-	/*! \brief ID of a parent shape */
-	long m_nParentShapeId;
+	/*! \brief Automatic user data deletion flag */
+	bool m_fDeleteUserData;
 
 	wxColour m_nHoverColor;
 	wxRealPoint m_nRelativePosition;
@@ -833,6 +792,9 @@ protected:
 	//wxSFShapeCanvas *m_pParentCanvas;
 	/*! \brief Handle list */
 	CHandleList m_lstHandles;
+
+	/*! \brief Container for serializable user data associated with the shape */
+	xsSerializable *m_pUserData;
 
 	// protected functions
 	/*!
@@ -939,7 +901,7 @@ private:
 
 	wxRealPoint m_nMouseOffset;
 
-	long m_nId;
+	//long m_nId;
 
     // private functions
 
@@ -952,7 +914,7 @@ private:
 	 * constants sfDIRECT and sfINDIRECT can be used)
 	 * \sa GetNeighbours
 	 */
-	void _GetNeighbours(CShapeList& neighbours, CONNECTMODE condir, bool direct);
+	void _GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bool direct);
 	/// <summary> Auxiliary function called by GetCompleteBoundingBox function. </summary>
 	/// <param name="rct"> Returned bounding rectangle </param>
 	/// <param name="mask"> Bit mask of object types which should be included into calculation </param>
@@ -1019,6 +981,4 @@ private:
 	void _OnHandle(wxSFShapeHandle& handle);
 };
 
-WX_DECLARE_LIST(wxSFShapeBase, CShapeList);
-
-extern CShapeList m_lstProcessed;
+extern ShapeList m_lstProcessed;

@@ -29,7 +29,7 @@ public:
      * \param selection List of shapes which should be stored in the data object
      * \param manager Pointer to diagram manager which manages stored shapes
      */
-	wxSFShapeDataObject(const wxDataFormat& format, const CShapeList& selection, wxSFDiagramManager* manager);
+	wxSFShapeDataObject(const wxDataFormat& format, const ShapeList& selection, wxSFDiagramManager* manager);
 	/*! \brief Destructor */
 	virtual ~wxSFShapeDataObject(void);
 
@@ -59,6 +59,6 @@ protected:
      * \param canvas Parent shape canvas
      * \return String containing serialized information
      */
-	wxString SerializeSelectedShapes(const CShapeList& selection, wxSFDiagramManager* manager);
+	wxString SerializeSelectedShapes(const ShapeList& selection, wxSFDiagramManager* manager);
 
 };

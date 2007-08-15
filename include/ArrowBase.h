@@ -14,7 +14,7 @@
 
 class wxSFLineShape;
 /// <summary> Base class for a line arrows </summary>
-class wxSFArrowBase :	public wxObject
+class wxSFArrowBase :	public xsSerializable
 {
 public:
 	friend class wxSFLineShape;
@@ -57,14 +57,5 @@ protected:
 	/// <summary> Pointer to a parent shape </summary>
 	wxSFShapeBase* m_pParentShape;
 
-	// protected virtual functions
-	/// <summary> Serialize shape's properties to the given XML node </summary>
-	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>
-	/// <seealso cref="wxSFShapeBase::Serialize"></seealso>
-	virtual wxXmlNode* Serialize(wxXmlNode* node);
-	/// <summary> Deserialize shape's properties from the given XML node </summary>
-	/// <param name="node"> Source XML node containig the shape's property nodes</param>
-	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
-	virtual void Deserialize(wxXmlNode* node);
 };
 

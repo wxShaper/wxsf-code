@@ -21,7 +21,7 @@
 /// <summary> Default value of wxSFLineShape::m_nDockPoint data member </summary>
 #define sfdvLINESHAPE_DOCKPOINT 0
 
-WX_DECLARE_LIST(wxRealPoint, CPointList);
+//WX_DECLARE_LIST(wxRealPoint, CPointList);
 
 /// <summary> Auxiliary class encapsulating the line segment. </summary>
 /// <seealso cref="wxSFLineShape"></seealso>
@@ -56,7 +56,7 @@ friend class wxSFShapeCanvas;
 	/// <param name="trg"> ID of the target shape </param>
 	/// <param name="path"> List of the line control points (can be empty) </param>
 	/// <param name="manager"> Pointer to parent shape manager </param>
-	wxSFLineShape(long src, long trg, const CPointList& path, wxSFDiagramManager* manager);
+	wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object</param>
 	wxSFLineShape(wxSFLineShape& obj);
@@ -118,7 +118,7 @@ friend class wxSFShapeCanvas;
 	int GetDockPoint(){return m_nDockPoint;}
 	/// <summary> Get a list of the line's contol points (their positions). </summary>
 	/// <returns> List of control points' positions </returns>
-	CPointList& GetControlPoints() {return m_lstPoints;}
+	RealPointList& GetControlPoints() {return m_lstPoints;}
 	/// <summary> Get a position of the line dock point. </summary>
 	/// <returns> The dock point's position </returns>
 	wxRealPoint GetDockPointPosition();
@@ -201,7 +201,7 @@ protected:
 
 	// protected data members
 	/// <summary> List of the line's control points </summary>
-	CPointList m_lstPoints;
+	RealPointList m_lstPoints;
 	wxRealPoint m_nPrevPosition;
 	wxPoint m_nUnfinishedPoint;
 	LINEMODE m_nMode;

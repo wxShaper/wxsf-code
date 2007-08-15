@@ -21,6 +21,9 @@ wxSFBitmapShape::wxSFBitmapShape(void)
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromXPM(NoSource_xpm);
+
+    XS_SERIALIZE_STRING(m_sBitmapPath, wxT("path"));
+    XS_SERIALIZE_BOOL_EX(m_fCanScale, wxT("scale_image"), xsSerializable::BoolToString(sfdvBITMAPSHAPE_SCALEIMAGE));
 }
 
 wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, long parentId, wxSFDiagramManager* manager)
@@ -29,7 +32,9 @@ wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapP
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromFile(bitmapPath);
-}
+
+    XS_SERIALIZE_STRING(m_sBitmapPath, wxT("path"));
+    XS_SERIALIZE_BOOL_EX(m_fCanScale, wxT("scale_image"), xsSerializable::BoolToString(sfdvBITMAPSHAPE_SCALEIMAGE));}
 
 wxSFBitmapShape::wxSFBitmapShape(wxSFBitmapShape& obj)
 {
@@ -51,7 +56,7 @@ bool wxSFBitmapShape::CreateFromFile(const wxString& file)
 	bool fSuccess = true;
 
 	// load bitmap from the file
-	if((m_sBitmapPath != file) || (!m_Bitmap.IsOk()))
+	//if((m_sBitmapPath != file) || (!m_Bitmap.IsOk()))
 	{
 		m_sBitmapPath = file;
 		if(wxFileExists(m_sBitmapPath))

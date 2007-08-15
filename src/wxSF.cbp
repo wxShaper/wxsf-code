@@ -176,6 +176,7 @@
 		<Unit filename="..\include\ShapeHandle.h" />
 		<Unit filename="..\include\SolidArrow.h" />
 		<Unit filename="..\include\TextShape.h" />
+		<Unit filename="..\include\XmlSerializer.h" />
 		<Unit filename="..\include\wxShapeFramework.h" />
 		<Unit filename="ArrowBase.cpp" />
 		<Unit filename="BitmapShape.cpp" />
@@ -214,9 +215,12 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="wxxmlserializer\XmlSerializer.cpp" />
+		<Unit filename="wxxmlserializer\XmlSerializerConv.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

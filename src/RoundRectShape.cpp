@@ -19,12 +19,16 @@ IMPLEMENT_DYNAMIC_CLASS(wxSFRoundRectShape, wxSFRectShape);
 wxSFRoundRectShape::wxSFRoundRectShape(void) : wxSFRectShape()
 {
 	m_nRadius = sfdvROUNDRECTSHAPE_RADIUS;
+
+	XS_SERIALIZE_DOUBLE_EX(m_nRadius, wxT("radius"), xsSerializable::DoubleToString(sfdvROUNDRECTSHAPE_RADIUS));
 }
 
 wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, long parentId, wxSFDiagramManager* manager)
 : wxSFRectShape(pos, size, parentId, manager)
 {
 	m_nRadius = radius;
+
+	XS_SERIALIZE_DOUBLE_EX(m_nRadius, wxT("radius"), xsSerializable::DoubleToString(sfdvROUNDRECTSHAPE_RADIUS));
 }
 
 wxSFRoundRectShape::wxSFRoundRectShape(wxSFRoundRectShape& obj) : wxSFRectShape(obj)

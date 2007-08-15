@@ -22,12 +22,6 @@ wxXmlNode* wxSFCurveShape::Serialize(wxXmlNode* node)
 	if(node)
 	{
 		node = wxSFLineShape::Serialize(node);
-
-		// save 'm_nMaxSteps'
-		if(m_nMaxSteps != sfdvCURVESHAPE_MAXSTEPS)
-		{
-		    AddPropertyNode(node, wxT("max_steps"), LongToString((long)m_nMaxSteps));
-		}
 	}
 
 	return node;
@@ -39,13 +33,4 @@ void wxSFCurveShape::Deserialize(wxXmlNode* node)
 
     wxSFLineShape::Deserialize(node);
 
-	wxXmlNode *propNode = node->GetChildren();
-	while(propNode)
-	{
-	    if(propNode->GetName() == wxT("max_steps"))
-	    {
-	        m_nMaxSteps = StringToLong(node->GetNodeContent());
-	    }
-	    propNode = propNode->GetNext();
-	}
 }

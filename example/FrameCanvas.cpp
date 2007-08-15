@@ -85,6 +85,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
                     pText->AcceptTrgNeighbour(wxT("wxSFEditTextShape"));
 
 					SaveCanvasState();
+
                     pText->Refresh();
                 }
                 if(!event.ControlDown())
@@ -97,7 +98,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeDIAMOND:
 		{
-			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
 			    // set shape policy
@@ -107,6 +108,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+
+                SaveCanvasState();
 			}
             if(!event.ControlDown())
             {
@@ -117,7 +120,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeFIXEDRECT:
 		{
-		    wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFSquareShape), event.GetPosition());
+		    wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFSquareShape), event.GetPosition(), sfDONT_SAVE_STATE);
 		    if(pShape)
 			{
 			    // set shape policy
@@ -127,6 +130,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+
+                SaveCanvasState();
 			}
             if(!event.ControlDown())
             {
@@ -137,7 +142,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeROUNDRECT:
 		{
-			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
 			    // set shape policy
@@ -147,6 +152,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+
+                SaveCanvasState();
 			}
             if(!event.ControlDown())
             {
@@ -157,7 +164,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeRECT:
 		{
-			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRectShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
 			    // set shape policy
@@ -166,6 +173,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+
+                SaveCanvasState();
 			}
 
             if(!event.ControlDown())
@@ -177,7 +186,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeELLIPSE:
 		{
-			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
 			    // set shape policy
@@ -187,6 +196,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+
+                SaveCanvasState();
 			}
             if(!event.ControlDown())
             {
@@ -197,7 +208,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
 	case CMainFrame::modeCIRCLE:
 		{
-			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), event.GetPosition());
+			wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
 			    // set shape policy
@@ -209,6 +220,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+
+                SaveCanvasState();
 			}
             if(!event.ControlDown())
             {
@@ -253,7 +266,7 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
     // print out information about the shape (if found)
     if(pShape)
     {
-        CShapeList lstShapes;
+        ShapeList lstShapes;
         wxString msg;
         wxSFShapeBase *pChild;
         int counter;
@@ -267,7 +280,7 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
         if( lstShapes.GetCount() > 0 )
         {
             msg += wxT("\nChildren:\n");
-            wxCShapeListNode* node = lstShapes.GetFirst();
+            wxShapeListNode* node = lstShapes.GetFirst();
             while(node)
             {
                 pChild = node->GetData();
@@ -286,7 +299,7 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
         if( lstShapes.GetCount() > 0 )
         {
             msg += wxT("\nNeighbours:\n");
-            wxCShapeListNode *node = lstShapes.GetFirst();
+            wxShapeListNode *node = lstShapes.GetFirst();
             while(node)
             {
                 pChild = node->GetData();

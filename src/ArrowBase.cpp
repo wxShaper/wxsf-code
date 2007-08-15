@@ -10,9 +10,8 @@
 
 #include "ArrowBase.h"
 #include "LineShape.h"
-#include "CommonFcn.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFArrowBase, wxObject);
+IMPLEMENT_DYNAMIC_CLASS(wxSFArrowBase, xsSerializable);
 
 wxSFArrowBase::wxSFArrowBase(void)
 {
@@ -42,18 +41,3 @@ void wxSFArrowBase::Draw(const wxRealPoint &from, const wxRealPoint &to, wxSFSca
 	// HINT: override it for custom drawing...
 }
 
-//----------------------------------------------------------------------------------//
-// Serialization
-//----------------------------------------------------------------------------------//
-
-wxXmlNode* wxSFArrowBase::Serialize(wxXmlNode* node)
-{
-	// HINT: overload it for custom actions...
-
-	return node;
-}
-
-void wxSFArrowBase::Deserialize(wxXmlNode* node)
-{
-	// HINT: overload it for custom actions...
-}

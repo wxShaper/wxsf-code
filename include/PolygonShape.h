@@ -12,16 +12,9 @@
 
 #include "RectShape.h"
 
-WX_DECLARE_OBJARRAY(wxRealPoint, CPointArray);
-
 // default values
 /// <summary> Default value of wxSFPolygonShape::m_fConnextToVertex data member </summary>
 #define sfdvPOLYGONSHAPE_VERTEXCONNECTIONS true
-
-// user-defined serialization flags
-/// <summary> Use sfsfPOLYGONSHAPE_VERTICES flag with the SetSerializationMask function
-/// if the polygon vertices should be serialized together with other polygon's properties. </summary>
-#define sfsfPOLYGONSHAPE_VERTICES 16
 
 /// <summary> Class extends the wxSFRectShape and encapsulates general polygon shape
 /// defined by a set of its vertices. The class can be used as it is or as a base class
@@ -91,7 +84,7 @@ public:
 protected:
 	// protected data members
 	bool m_fConnectToVertex;
-	CPointArray m_arrVertices;
+	RealPointArray m_arrVertices;
 
 	// protected functions
 	/// <summary> Move all vertices so the polygon's relative bounding box position

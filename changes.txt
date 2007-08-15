@@ -1,3 +1,20 @@
+Changes in version 1.3.0 alpha (2007-08-15):
+--------------------------------------------
+- wxSF ported to use wxXmlSerialization (new mini-library suitable for automated serialization/
+  deserialization of class objects (arranged into a list or a tree) and their properties 
+  (attributes) to/from XML files). The wxXmlSerialization library is shipped together with the wxSF 
+  and can be used free and separately in other projects.
+- Implemented a container for user-defined data (objects derived from xsSerializable class) which can be
+  assigned to the shape and serialized with it (wxSFShapeBase::SetUserData(), wxSFShapeBase::
+  GetUserData(), wxSFShapeBase::DeleteUserDataOnDestroy()).
+
+  NOTE: wxSF project file format is not comapatible with previous versions.
+
+Changes in version 1.2.4 alpha (2007-08-10):
+--------------------------------------------
+- Removed assertion of valid pointer to diagram manager in a shape's destructor.
+- Shapes acceptance list in diagram manager is tested for record duplicity
+
 Changes in version 1.2.3 alpha (2007-08-03):
 --------------------------------------------
 - Fixed function wxSFShapeBase::GetCompleteBoundingBox().

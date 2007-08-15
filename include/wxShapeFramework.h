@@ -29,3 +29,7 @@
 
 #include "LineShape.h"
 #include "CurveShape.h"
+
+#include "CommonFcn.h"
+
+#include "XmlSerializer.h"

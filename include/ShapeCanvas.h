@@ -38,6 +38,25 @@
 /*! \brief Default value of wxSFShapeCanvas::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
 
+class wxSFCanvasSettings : public xsSerializable
+{
+public:
+    DECLARE_DYNAMIC_CLASS(wxSFCanvasSettings);
+
+    wxSFCanvasSettings();
+
+    wxColour m_nBackgroundColor;
+    wxColour m_nCommonHoverColor;
+    bool m_fMultiselection;
+    bool m_fMultiSizeChange;
+    bool m_fShowGrid;
+    bool m_fUseGrid;
+    wxSize m_nGridSize;
+    wxColour m_nGridColor;
+    wxArrayString m_arrAcceptedShapes;
+    double m_nScale;
+};
+
 /*!
  * \brief Class encapsulating a Shape canvas. The shape canvas is window control
  * which extends the wxScrolledWindow and is responsible for displaying of shapes diagrams.
@@ -259,7 +278,7 @@ public:
 	 * \return Number of found shapes
 	 * \sa wxSFShapeCanvas::DP2LP
 	 */
-	int GetShapesAtPosition(const wxPoint& pos, CShapeList& shapes);
+	int GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes);
 	/*!
 	 * \brief Get list of shapes located inside given rectangle
 	 * \param rct Examined rectangle
@@ -267,14 +286,14 @@ public:
 	 * all found shapes will be stored
 	 * \return Number of found shapes
 	 */
-	int GetShapesInside(const wxRect& rct, CShapeList& shapes);
+	int GetShapesInside(const wxRect& rct, ShapeList& shapes);
 	/*!
 	 * \brief Get list of selected shapes.
 	 * \param selection Reference to shape list where pointers to
 	 * all selected shapes will be stored
 	 * \return Number of selected shapes
 	 */
-	int GetSelectedShapes(CShapeList& selection);
+	int GetSelectedShapes(ShapeList& selection);
     /*!
 	 * \brief Get box bounding all shapes in the canvas.
 	 * \return Total bounding box
@@ -300,46 +319,46 @@ public:
 	 * \brief Set canvas background color.
 	 * \param col Background color
 	 */
-	void SetCanvasColour(const wxColour& col){m_nBackgroundColor = col;}
+	void SetCanvasColour(const wxColour& col){m_Settings.m_nBackgroundColor = col;}
 	/*!
 	 * \brief Get canvas background color.
 	 * \return Background color
 	 */
-	wxColour GetCanvasColour() const {return m_nBackgroundColor;}
+	wxColour GetCanvasColour() const {return m_Settings.m_nBackgroundColor;}
 	/*! \brief Function returns TRUE if a canvas grid is used. */
-	bool IsGridUsed(){return m_fUseGrid;}
+	bool IsGridUsed(){return m_Settings.m_fUseGrid;}
 	/*!
 	 * \brief Snap shapes to canvas grid On/Off.
 	 * \param use TRUE if the grid should be used, otherwise FALSE.
 	 */
-	void UseGrid(bool use){m_fUseGrid = use;}
+	void UseGrid(bool use){m_Settings.m_fUseGrid = use;}
 	/*! \brief Functions returns TRUE if the canvas grid is used. */
-	bool IsGridShown(){return m_fShowGrid;}
+	bool IsGridShown(){return m_Settings.m_fShowGrid;}
 	/*!
 	 * \brief Show/hide canvas grid.
 	 * \param show TRUE if the grid should be visible, otherwise FALSE.
 	 */
-	void ShowGrid(bool show){m_fShowGrid = show;}
+	void ShowGrid(bool show){m_Settings.m_fShowGrid = show;}
 	/*!
 	 * \brief Get grid size.
 	 * \return Grid size
 	 */
-	wxSize GetGrid() const {return m_nGridSize;}
+	wxSize GetGrid() const {return m_Settings.m_nGridSize;}
 	/*!
 	 * \brief Set grid size.
 	 * \param grid Grid size.
 	 */
-	void SetGrid(wxSize grid){m_nGridSize = grid;}
+	void SetGrid(wxSize grid){m_Settings.m_nGridSize = grid;}
 	/*!
 	 * \brief Set grid color.
 	 * \param col Grid color.
 	 */
-	void SetGridColour(const wxColour& col){m_nGridColor = col;}
+	void SetGridColour(const wxColour& col){m_Settings.m_nGridColor = col;}
 	/*!
 	 * \brief Get grid color.
 	 * \return Grid color
 	 */
-	wxColour GetGridColour() const {return m_nGridColor;}
+	wxColour GetGridColour() const {return m_Settings.m_nGridColor;}
 	/*!
 	 * \brief Set canvas scale.
 	 * \param scale Scale value.
@@ -349,7 +368,7 @@ public:
 	 * \brief Get canvas scale.
 	 * \return Canvas scale
 	 */
-	double GetScale(){return m_nScale;}
+	double GetScale(){return m_Settings.m_nScale;}
 	/*!
 	 * \brief Get canvas workind mode.
 	 * \return Working mode
@@ -365,27 +384,27 @@ public:
 	 * \brief Get default hover color.
 	 * \return Hover color
 	 */
-	wxColour GetHoverColour() const {return m_nCommonHoverColor;}
+	wxColour GetHoverColour() const {return m_Settings.m_nCommonHoverColor;}
 	/*!
 	 * \brief Enable/disable shape multiselection.
 	 * \param enable TRUE if the feature should be enabled, otherwise FALSE
 	 */
-	void EnableMultiselection(bool enable){m_fMultiselection = enable;}
+	void EnableMultiselection(bool enable){m_Settings.m_fMultiselection = enable;}
 	/*!
 	 * \brief Get state of multiselection flag.
 	 * \return TRUE if shape multiselection is enabled, otherwise FALSE
 	 */
-	bool IsMultiselectionEnable(){return m_fMultiselection;}
+	bool IsMultiselectionEnable(){return m_Settings.m_fMultiselection;}
 	/*!
 	 * \brief Enable/disable simultaneous shape size changes (via multiselection).
 	 * \param enable TRUE if the feature should be enabled, otherwise FALSE
 	 */
-	void EnableMultiSizeChange(bool enable){m_fMultiSizeChange = enable;}
+	void EnableMultiSizeChange(bool enable){m_Settings.m_fMultiSizeChange = enable;}
 	/*!
 	 * \brief Get state of multi size change flag.
 	 * \return TRUE if shape multi change is enabled, otherwise FALSE
 	 */
-	bool IsMultiSizeChangeEnabled(){return m_fMultiSizeChange;}
+	bool IsMultiSizeChangeEnabled(){return m_Settings.m_fMultiSizeChange;}
 
 	/*!
 	 * \brief Update given position so it will fit canvas grid (if enabled).
@@ -403,7 +422,7 @@ public:
      * \brief Validate selection (remove redundantly selected shapes etc...).
      * \param selection List of selected shapes that should be validated
      */
-	void ValidateSelection(CShapeList& selection);
+	void ValidateSelection(ShapeList& selection);
 
 	// public virtual event handlers
     /*!
@@ -506,17 +525,19 @@ public:
 protected:
 
 	// protected data members
-	bool m_fUseGrid;
-	bool m_fShowGrid;
-	bool m_fMultiselection;
-	bool m_fMultiSizeChange;
-	wxSize m_nGridSize;
-	wxColour m_nGridColor;
-	wxColour m_nBackgroundColor;
-	wxColour m_nCommonHoverColor;
-	double m_nScale;
+	//bool m_fUseGrid;
+	//bool m_fShowGrid;
+	//bool m_fMultiselection;
+	//bool m_fMultiSizeChange;
+	//wxSize m_nGridSize;
+	//wxColour m_nGridColor;
+	//wxColour m_nBackgroundColor;
+	//wxColour m_nCommonHoverColor;
+	//double m_nScale;
 
 	MODE m_nWorkingMode;
+
+	wxSFCanvasSettings m_Settings;
 
 	// protected functions
 	/*!
@@ -545,12 +566,6 @@ private:
 	wxSFLineShape* m_pNewLineShape;
 
 	// private functions
-	/*!
-	 * \brief Move child shapes of given parent shape to a top of the shape list (it
-	 * means that they will be displayed in the front of all other shapes).
-	 * \param parent Parent shape
-	 */
-	void MoveChildrenToTop(wxSFShapeBase* parent);
 
 	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */
 	void DeleteAllTextCtrls();

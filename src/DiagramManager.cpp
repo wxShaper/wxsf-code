@@ -17,12 +17,18 @@
 
 WX_DEFINE_LIST(CIDList);
 
+IMPLEMENT_DYNAMIC_CLASS(wxSFDiagramManager, wxXmlSerializer);
+
 wxSFDiagramManager::wxSFDiagramManager()
 {
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sVersion =  wxT("1.2.3 alpha");
+    m_sVersion =  wxT("1.3.0 alpha");
+
+    SetSerializerOwner(wxT("wxShapeFramework"));
+    SetSerializerVersion(wxT("1.0"));
+    SetSerializerRootName(wxT("chart"));
 }
 
 wxSFDiagramManager::~wxSFDiagramManager()
@@ -57,7 +63,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
         // create shape object from class info
         wxSFShapeBase* pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
 
-        pShape = AddShape(pShape, pos, true, saveState);
+        pShape = AddShape(pShape, GetRootItem(), pos, true, saveState);
 
         return pShape;
     }
@@ -65,7 +71,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
         return NULL;
 }
 
-wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, const wxPoint& pos, bool initialize, bool saveState)
+wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable* parent, const wxPoint& pos, bool initialize, bool saveState)
 {
 	if(shape)
 	{
@@ -85,8 +91,6 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, const wxPoint&
 			{
 				// set shape's properties
 
-				shape->SetParentShapeId(-1);
-				shape->SetId(GetNewId());
 				shape->CreateHandles();
 
 				if( m_pShapeCanvas )
@@ -95,15 +99,16 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, const wxPoint&
 				}
 			}
 
-			// insert new shape into list at the first position
-            m_lstShapes.Insert(shape);
+            if(parent)
+            {
+                AddItem(parent, shape);
+            }
+            else
+                AddItem(GetRootItem(), shape);
 
             if( m_pShapeCanvas )
             {
-                // store canvas state
                 if( saveState )m_pShapeCanvas->SaveCanvasState();
-
-                // repaint canvas
                 shape->Refresh();
             }
 		}
@@ -142,42 +147,42 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 {
 	if(shape)
 	{
-		// delete shape from list
-		if(m_lstShapes.DeleteObject(shape))
+        // remove connected lines
+		ShapeList m_lstConnections;
+		GetAssignedConnections(shape, wxSFShapeBase::lineBOTH, m_lstConnections);
+
+		wxShapeListNode *node = m_lstConnections.GetFirst();
+		while(node)
 		{
-            // delete the shape
-            delete shape;
+			RemoveShape(node->GetData(), false);
+			node = node->GetNext();
 		}
+
+        // remove the shape
+		RemoveItem(shape);
 
 		if(refresh && m_pShapeCanvas)m_pShapeCanvas->Refresh();
 	}
 }
 
-void wxSFDiagramManager::RemoveShapes(const CShapeList& selection)
+void wxSFDiagramManager::RemoveShapes(const ShapeList& selection)
 {
     wxSFShapeBase* pShape;
-	wxCShapeListNode *node = selection.GetFirst();
+	wxShapeListNode *node = selection.GetFirst();
 	while(node)
 	{
 	    pShape = node->GetData();
 	    // one shape can delete also parent or conection shape so it is
 	    // important whether double-linked shapes already exist before
 	    // their deletion
-	    if(m_lstShapes.IndexOf(pShape) != wxNOT_FOUND)RemoveShape(pShape, false);
+	    if(GetItem(pShape->GetId()))RemoveShape(pShape, false);
 		node = node->GetNext();
 	}
 }
 
 void wxSFDiagramManager::Clear()
 {
- 	wxCShapeListNode *node = m_lstShapes.GetFirst();
-	while(node)
-	{
-		wxSFShapeBase* pShape = node->GetData();
-		if(m_lstShapes.DeleteObject(pShape))delete pShape;
-
-		node = m_lstShapes.GetFirst();
-	}
+	RemoveAll();
 
     if( m_pShapeCanvas )
     {
@@ -192,77 +197,12 @@ void wxSFDiagramManager::Clear()
 
 void wxSFDiagramManager::SerializeChartToXml(const wxString& file)
 {
-	wxFileOutputStream outstream(file);
-
-	if(outstream.IsOk())
-	{
-		SerializeChartToXml(outstream);
-	}
-	else
-		wxMessageBox(wxT("Unable to initialize output file stream."), wxT("ShapeFramework"), wxICON_ERROR);
+    SerializeToXml(file);
 }
 
 void wxSFDiagramManager::SerializeChartToXml(wxOutputStream& outstream)
 {
-	// create root node
-	wxXmlNode *root = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("chart"));
-
-	if(root)
-	{
-		// serialize shapes recursively
-		SerializeShapes(NULL, root, serWITHOUT_PARENTS);
-
-		// create XML document
-		try
-		{
-			wxXmlDocument xmlDoc;
-			xmlDoc.SetRoot(root);
-
-			xmlDoc.Save(outstream, 2);
-		}
-		catch (...)
-		{
-			wxMessageBox(wxT("Unable to save XML document."), wxT("ShapeFramework"), wxICON_ERROR);
-		}
-	}
-}
-
-void wxSFDiagramManager::SerializeShapes(wxSFShapeBase* parent, wxXmlNode* node, bool withparent)
-{
-	wxXmlNode* shapeNode = NULL;
-	wxSFShapeBase* pChild;
-
-	CShapeList lstChildren;
-	GetChildren(parent, lstChildren);
-
-	// serialize parent shape
-	if(withparent && parent)
-	{
-		shapeNode = parent->SerializeToXml(NULL);
-		if(shapeNode)
-		{
-			SerializeShapes(parent, shapeNode, serWITHOUT_PARENTS);
-			node->AddChild(shapeNode);
-		}
-	}
-	else
-	{
-		// serialize parent's children
-		wxCShapeListNode* snode = lstChildren.GetLast();
-		while(snode)
-		{
-			pChild = snode->GetData();
-
-			shapeNode = pChild->SerializeToXml(NULL);
-			if(shapeNode)
-			{
-				SerializeShapes(pChild, shapeNode, serWITHOUT_PARENTS);
-				node->AddChild(shapeNode);
-			}
-
-			snode = snode->GetPrevious();
-		}
-	}
+    SerializeToXml(outstream);
 }
 
 void wxSFDiagramManager::DeserializeChartFromXml(const wxString& file)
@@ -278,6 +218,7 @@ void wxSFDiagramManager::DeserializeChartFromXml(const wxString& file)
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize input stream."), wxT("ShapeFramework"), wxICON_ERROR);
+
 }
 
 void wxSFDiagramManager::DeserializeChartFromXml(wxInputStream& instream)
@@ -296,7 +237,7 @@ void wxSFDiagramManager::DeserializeChartFromXml(wxInputStream& instream)
 			m_lstLinesForUpdate.Clear();
 
 			// read shape objects from XML recursively
-			DeserializeShapes(NULL, root);
+			DeserializeObjects(NULL, root);
 
 			// update IDs in connection lines
 			UpdateConnections();
@@ -316,7 +257,7 @@ void wxSFDiagramManager::DeserializeChartFromXml(wxInputStream& instream)
 	}
 }
 
-void wxSFDiagramManager::DeserializeShapes(wxSFShapeBase* parent, wxXmlNode* node)
+void wxSFDiagramManager::DeserializeObjects(xsSerializable* parent, wxXmlNode* node)
 {
 	wxSFShapeBase *pShape;
 
@@ -325,12 +266,12 @@ void wxSFDiagramManager::DeserializeShapes(wxSFShapeBase* parent, wxXmlNode* nod
 	{
 		if(shapeNode->GetName() == wxT("object"))
 		{
-			pShape = AddShape((wxSFShapeBase*)wxCreateDynamicObject(shapeNode->GetPropVal(wxT("type"), wxT(""))), wxDefaultPosition, true, sfDONT_SAVE_STATE);
+			pShape = AddShape((wxSFShapeBase*)wxCreateDynamicObject(shapeNode->GetPropVal(wxT("type"), wxT(""))), parent, wxDefaultPosition, true, sfDONT_SAVE_STATE);
 			if(pShape)
 			{
 				// store new assigned ID
 				long newId = pShape->GetId();
-				pShape->DeserializeFromXml(shapeNode);
+				pShape->DeserializeObject(shapeNode);
 
 				// update handle in line shapes
 				if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
@@ -347,12 +288,8 @@ void wxSFDiagramManager::DeserializeShapes(wxSFShapeBase* parent, wxXmlNode* nod
 					pShape->SetId(newId);
 				}
 
-				if(parent)pShape->SetParentShapeId(parent->GetId());
-				else
-					pShape->SetParentShapeId(-1);
-
 				// deserialize child objects
-				DeserializeShapes(pShape, shapeNode);
+				DeserializeObjects(pShape, shapeNode);
 			}
 		}
 		shapeNode = shapeNode->GetNext();
@@ -363,6 +300,13 @@ void wxSFDiagramManager::DeserializeShapes(wxSFShapeBase* parent, wxXmlNode* nod
 // Shape handling functions
 //----------------------------------------------------------------------------------//
 
+void wxSFDiagramManager::AcceptShape(const wxString& type)
+{
+    if(m_arrAcceptedShapes.Index(type) == wxNOT_FOUND)
+    {
+        m_arrAcceptedShapes.Add(type);
+    }
+}
 bool wxSFDiagramManager::IsShapeAccepted(const wxString& type)
 {
     if( m_arrAcceptedShapes.Index(type) != wxNOT_FOUND )return true;
@@ -371,14 +315,14 @@ bool wxSFDiagramManager::IsShapeAccepted(const wxString& type)
         return false;
 }
 
-int wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, CShapeList& lines)
+int wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines)
 {
 	wxSFLineShape* pLine;
 
-    CShapeList m_lstLines;
+    ShapeList m_lstLines;
     if(GetShapes(CLASSINFO(wxSFLineShape), m_lstLines))
     {
-        wxCShapeListNode *node = m_lstLines.GetFirst();
+        wxShapeListNode *node = m_lstLines.GetFirst();
         while(node)
         {
             pLine = (wxSFLineShape*)node->GetData();
@@ -404,58 +348,19 @@ int wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeB
     return (int)lines.GetCount();
 }
 
-int wxSFDiagramManager::GetShapes(wxClassInfo* shapeInfo, CShapeList& shapes)
+int wxSFDiagramManager::GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes)
 {
-	shapes.Clear();
-	wxSFShapeBase* pShape;
-
-	wxCShapeListNode *node = m_lstShapes.GetFirst();
-	while(node)
-	{
-	    pShape = node->GetData();
-	    if(pShape->IsKindOf(shapeInfo))shapes.Append(pShape);
-	    node = node->GetNext();
-	}
-
-	return (int)shapes.GetCount();
+	return GetItems(shapeInfo, (SerializableList&)shapes);;
 }
 
 wxSFShapeBase* wxSFDiagramManager::FindShape(long id)
 {
-	wxCShapeListNode *node = m_lstShapes.GetFirst();
-	while(node)
-	{
-		if(node->GetData()->GetId() == id)return node->GetData();
-		node = node->GetNext();
-	}
-	return NULL;
+    if(id == -1)return NULL;
+    else
+        return (wxSFShapeBase*)GetItem(id);
 }
 
-void wxSFDiagramManager::GetChildren(wxSFShapeBase* parent, CShapeList& children, bool recursive)
-{
-	if(parent)
-	{
-		parent->GetChildren(children, recursive);
-	}
-	else
-	{
-		wxSFShapeBase* pShape;
-
-		wxCShapeListNode *node = m_lstShapes.GetFirst();
-		while(node)
-		{
-			pShape = node->GetData();
-			if(pShape->GetParentShapeId() == -1)
-			{
-				children.Append(pShape);
-				if(recursive)pShape->GetChildren(children, recursive);
-			}
-			node = node->GetNext();
-		}
-	}
-}
-
-void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, CShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct)
+void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct)
 {
     if(parent)
     {
@@ -463,16 +368,15 @@ void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, CShapeList& neighb
     }
     else
     {
+        wxASSERT(GetRootItem());
+
 		wxSFShapeBase* pShape;
 
-		wxCShapeListNode *node = m_lstShapes.GetFirst();
+		wxSerializableListNode *node = GetRootItem()->GetFirstChildNode();
 		while(node)
 		{
-			pShape = node->GetData();
-			if(pShape->GetParentShapeId() == -1)
-			{
-				pShape->GetNeighbours(neighbours, condir, direct);
-			}
+			pShape = (wxSFShapeBase*)node->GetData();
+            pShape->GetNeighbours(neighbours, condir, direct);
 			node = node->GetNext();
 		}
     }
@@ -480,9 +384,9 @@ void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, CShapeList& neighb
 
 bool wxSFDiagramManager::HasChildren(wxSFShapeBase* parent)
 {
-	CShapeList children;
-	GetChildren(parent, children);
-	return !children.IsEmpty();
+	if(parent->GetFirstChildNode())return true;
+	else
+        return false;
 }
 
 void wxSFDiagramManager::UpdateConnections()
@@ -498,7 +402,7 @@ void wxSFDiagramManager::UpdateConnections()
 	        pIDPair = idnode->GetData();
 	        if(pIDPair->m_nNewID != pIDPair->m_nOldID)
 	        {
-                wxCShapeListNode* node = m_lstLinesForUpdate.GetFirst();
+                wxShapeListNode* node = m_lstLinesForUpdate.GetFirst();
                 while(node)
                 {
                     pLine = (wxSFLineShape*)node->GetData();
@@ -513,32 +417,4 @@ void wxSFDiagramManager::UpdateConnections()
 
 	m_lstIDPairs.Clear();
 	m_lstLinesForUpdate.Clear();
-}
-
-bool wxSFDiagramManager::IsIdUsed(long id)
-{
-	return (GetIDCount(id) > 0);
-}
-
-int wxSFDiagramManager::GetIDCount(long id)
-{
-	int nCount = 0;
-
-	wxCShapeListNode *node = m_lstShapes.GetFirst();
-	while(node)
-	{
-		if(node->GetData()->GetId() == id)nCount++;
-		node = node->GetNext();
-	}
-
-	return nCount;
-}
-
-long wxSFDiagramManager::GetNewId()
-{
-	long nId = 1;
-
-	while(IsIdUsed(nId))nId++;
-
-	return nId;
 }

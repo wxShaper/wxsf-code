@@ -19,7 +19,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxSFDiamondShape, wxSFPolygonShape);
 wxSFDiamondShape::wxSFDiamondShape()
 : wxSFPolygonShape()
 {
-	m_nSerializeMask &= ~sfsfPOLYGONSHAPE_VERTICES;
+	EnablePropertySerialization(wxT("vertices"), false);
 
 	SetVertices(4, diamond);
 }
@@ -27,7 +27,7 @@ wxSFDiamondShape::wxSFDiamondShape()
 wxSFDiamondShape::wxSFDiamondShape(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
 : wxSFPolygonShape(4, diamond, pos, parentId, manager)
 {
-	m_nSerializeMask &= ~sfsfPOLYGONSHAPE_VERTICES;
+	EnablePropertySerialization(wxT("vertices"), false);
 }
 
 wxSFDiamondShape::wxSFDiamondShape(wxSFDiamondShape& obj)

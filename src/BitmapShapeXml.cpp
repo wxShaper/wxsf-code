@@ -22,15 +22,6 @@ wxXmlNode* wxSFBitmapShape::Serialize(wxXmlNode* node)
 	if(node)
 	{
 		node = wxSFRectShape::Serialize(node);
-
-		// save bitmap path
-		AddPropertyNode(node, wxT("path"), m_sBitmapPath);
-
-		// save 'm_fCanScale' property
-		if(m_fCanScale != sfdvBITMAPSHAPE_SCALEIMAGE)
-		{
-			AddPropertyNode(node, wxT("scale_image"), BoolToString(m_fCanScale));
-		}
 	}
 
 	return node;
@@ -44,20 +35,7 @@ void wxSFBitmapShape::Deserialize(wxXmlNode* node)
 
 	wxRealPoint prevSize = m_nRectSize;
 
-	wxXmlNode* propNode = node->GetChildren();
-	while(propNode)
-	{
-		if(propNode->GetName() == wxT("path"))
-		{
-			CreateFromFile(propNode->GetNodeContent());
-		}
-		else if(propNode->GetName() == wxT("scale_image"))
-		{
-			m_fCanScale = StringToBool(propNode->GetNodeContent());
-		}
-
-		propNode = propNode->GetNext();
-	}
+	CreateFromFile(m_sBitmapPath);
 
 	if(m_fCanScale)
 	{

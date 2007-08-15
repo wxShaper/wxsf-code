@@ -11,24 +11,24 @@
 #include "PolygonShape.h"
 #include "CommonFcn.h"
 
-#include <wx/arrimpl.cpp>
-
-WX_DEFINE_OBJARRAY(CPointArray);
-
 IMPLEMENT_DYNAMIC_CLASS(wxSFPolygonShape, wxSFRectShape);
 
 wxSFPolygonShape::wxSFPolygonShape(void)
 : wxSFRectShape()
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
-	m_nSerializeMask |= sfsfPOLYGONSHAPE_VERTICES;
+
+	XS_SERIALIZE_BOOL_EX(m_fConnectToVertex, wxT("connect_to_vertex"), xsSerializable::BoolToString(sfdvPOLYGONSHAPE_VERTEXCONNECTIONS));
+    XS_SERIALIZE_ARRAYREALPOINT(m_arrVertices, wxT("vertices"));
 }
 
 wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
 : wxSFRectShape(pos, wxRealPoint(1, 1), parentId, manager)
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
-	m_nSerializeMask |= sfsfPOLYGONSHAPE_VERTICES;
+
+	XS_SERIALIZE_BOOL_EX(m_fConnectToVertex, wxT("connect_to_vertex"), xsSerializable::BoolToString(sfdvPOLYGONSHAPE_VERTEXCONNECTIONS));
+    XS_SERIALIZE_ARRAYREALPOINT(m_arrVertices, wxT("vertices"));
 
 	SetVertices(n, pts);
 }

@@ -39,9 +39,10 @@ WX_DECLARE_LIST(CIDPair, CIDList);
  * each diagram) and every shape manager can be assigned as a source to one shape
  * canvas (and vice versa).
  */
-class wxSFDiagramManager : public wxObject
+class wxSFDiagramManager : public wxXmlSerializer
 {
 public:
+    DECLARE_DYNAMIC_CLASS(wxSFDiagramManager);
 
     /*! \brief Constructor */
     wxSFDiagramManager();
@@ -83,12 +84,13 @@ public:
     /*!
      * \brief Add an existing shape to the canvas.
      * \param shape Pointer to the shape
+     * \param shape Pointer to the parent shape
      * \param pos Position
      * \param initialize TRUE if the shape should be reinitilialized, otherwise FALSE
      * \param saveState TRUE if the canvas state should be saved
      * \return Pointer to the shape
      */
-	wxSFShapeBase* AddShape(wxSFShapeBase* shape, const wxPoint& pos, bool initialize, bool saveState = true);
+	wxSFShapeBase* AddShape(wxSFShapeBase* shape, xsSerializable* parent,  const wxPoint& pos, bool initialize, bool saveState = true);
 
 	/*!
 	 * \brief Remove given shape from the shape canvas. The shape object will be deleted as well.
@@ -100,7 +102,7 @@ public:
 	 * \brief Remove shapes from the shape canvas
 	 * \param selection List of shapes which should be removed from the canvas
 	 */
-	void RemoveShapes(const CShapeList& selection);
+	void RemoveShapes(const ShapeList& selection);
 	/*! \brief Remove all shapes from canvas */
 	void Clear();
 
@@ -124,16 +126,6 @@ public:
      * \param instream Input stream
      */
 	void DeserializeChartFromXml(wxInputStream& instream);
-    /*!
-     * \brief Serialize child shapes of specified parent.
-     *
-     * The parent can be NULL (in that case all shapes in the canvas will be serialized
-     * to given XML node).
-     * \param parent Parent shape
-     * \param node Output XML node
-     * \param withparent If TRUE then parent shape will be serialized as well
-     */
-	void SerializeShapes(wxSFShapeBase* parent, wxXmlNode* node, bool withparent);
 	/*!
 	 * \brief Deserialize shapes from XML and assign them to given parent.
 	 *
@@ -141,7 +133,7 @@ public:
 	 * \param parent Parent shapes
 	 * \param node Source XML node
 	 */
-	void DeserializeShapes(wxSFShapeBase* parent, wxXmlNode* node);
+	virtual void DeserializeObjects(xsSerializable* parent, wxXmlNode* node);
 
     /*!
      * \brief Add given shape type to an acceptance list. The acceptance list contains class
@@ -150,7 +142,7 @@ public:
      * \param type Class name of accepted shape object
      * \sa IsShapeAccepted
      */
-	void AcceptShape(const wxString& type) {m_arrAcceptedShapes.Add(type);}
+	void AcceptShape(const wxString& type);
     /*!
      * \brief Tells whether the given shape type is accepted by this canvas instance (it means
      * whether this shape can be inserted into it).
@@ -186,7 +178,7 @@ public:
 	 * \return Number of found connections
 	 * \sa wxSFShapeBase::CONNECTMODE
 	 */
-	int GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, CShapeList& lines);
+	int GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines);
 	/*!
 	 * \brief Get list of shapes of given type.
 	 * \param shapeInfo Shape object type
@@ -194,7 +186,7 @@ public:
 	 * all found shapes will be stored
 	 * \return Number of found shapes
 	 */
-	int GetShapes(wxClassInfo* shapeInfo, CShapeList& shapes);
+	int GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes);
 
     /*!
      * \brief Function finds out whether given shape has some children.
@@ -202,15 +194,6 @@ public:
      * \return TRUE if the parent shape has children, otherwise FALSE
      */
 	bool HasChildren(wxSFShapeBase* parent);
-	/*!
-	 * \brief Get child shapes of given parent shape.
-	 * \param parent Pointer to parent shape (can be NULL for all topmost shapes)
-	 * \param children Reference to shape list where pointers to
-	 * all found shapes will be stored
-	 * \param recursive Set this parameter to TRUE if children of children should
-	 * be found as well (in recursive way)
-	 */
-	void GetChildren(wxSFShapeBase* parent, CShapeList& children, bool recursive = false);
 	/*!
 	 * \brief Get neighbour shapes connected to given parent shape.
 	 * \param parent Pointer to parent shape (can be NULL for all topmost shapes)
@@ -221,19 +204,10 @@ public:
 	 * constants sfDIRECT and sfINDIRECT can be used)
 	 * \sa wxSFShapeBase::CONNECTMODE
 	 */
-	void GetNeighbours(wxSFShapeBase* parent, CShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct = true);
+	void GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct = true);
 
-	/*!
-	 * \brief Get the lowest free shape ID
-	 */
-	long GetNewId();
 
     // public member data accessors
-    /*!
-     * \brief Get reference to list storing managed shapes
-     * \return Reference to shape list
-     */
-    CShapeList& GetShapeList(){return m_lstShapes;}
     /*!
      * \brief Set associated shape canvas
      * \param canvas Pointer to shape canvas
@@ -248,8 +222,6 @@ public:
 protected:
 
     // protected data members
-    /*! \brief Shape list */
-    CShapeList m_lstShapes;
     /*! \brief List of accepted shape types */
     wxArrayString m_arrAcceptedShapes;
 
@@ -260,26 +232,13 @@ private:
     /*! \brief Auxiliary list */
     CIDList m_lstIDPairs;
     /*! \brief Auxiliary list */
-	CShapeList m_lstLinesForUpdate;
+	ShapeList m_lstLinesForUpdate;
 
 	/*! \brief wxSF version number */
 	wxString m_sVersion;
 
-	/*!
-	 * \brief Get number of occurences of given ID.
-	 * \param id Shape ID
-	 * \return Number of ID's occurences
-	 */
-	int GetIDCount(long id);
 	/*! \brief Update connection shapes after importing/dropping of new shapes */
 	void UpdateConnections();
-	/*!
-	 * \brief Find out whether given shape ID is already used.
-	 * \param id Shape ID
-	 * \return TRUE if the shape ID is used, otherwise FALSE
-	 */
-	bool IsIdUsed(long id);
-
 
 };
 

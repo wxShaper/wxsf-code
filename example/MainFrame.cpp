@@ -65,6 +65,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
     SetToolBar(toolBar);
 
     // set shape canvas and associate it wirh diagram manager
+    //m_DiagramManager.Initialize();
     shapeCanvas = new CFrameCanvas(&m_DiagramManager, this, -1);
 
     set_properties();
@@ -178,6 +179,7 @@ void CMainFrame::OnNew(wxCommandEvent& event)
         m_DiagramManager.ClearAcceptedShapes();
         m_DiagramManager.AcceptShape(wxT("All"));
 
+        shapeCanvas->SaveCanvasState();
 		shapeCanvas->Refresh();
 	}
 }

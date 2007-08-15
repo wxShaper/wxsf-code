@@ -58,14 +58,5 @@ protected:
 	/// <param name="pts"> Array of the arrow shape vertices </param>
 	/// <param name="dc"> Device context for drawing </param>
 	virtual void DrawArrowShape(int n, wxRealPoint pts[], wxSFScaledPaintDC& dc);
-
-	/// <summary> Serialize shape's properties to the given XML node </summary>
-	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>
-	/// <seealso cref="wxSFShapeBase::Serialize"></seealso>
-	virtual wxXmlNode* Serialize(wxXmlNode* node);
-	/// <summary> Deserialize shape's properties from the given XML node </summary>
-	/// <param name="node"> Source XML node containig the shape's property nodes</param>
-	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
-	virtual void Deserialize(wxXmlNode* node);
 };
 

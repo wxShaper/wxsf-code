@@ -31,7 +31,7 @@ public:
     /// <param name="trg"> ID of the target shape </param>
     /// <param name="path"> Array of line's control points </param>
     /// <param name="manager"> Parent parent diagram manager </param>
-	wxSFCurveShape(size_t maxsteps, long src, long trg, const CPointList& path, wxSFDiagramManager* manager);
+	wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFCurveShape(wxSFCurveShape& obj);
@@ -60,7 +60,7 @@ public:
 protected:
 
     // protected data members
-    size_t m_nMaxSteps;
+    long m_nMaxSteps;
 
     // protected virtual functions
 	/// <summary> Serialize shape's properties to the given XML node. </summary>

@@ -25,6 +25,10 @@ wxSFTextShape::wxSFTextShape(void)
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
 
+    XS_SERIALIZE_FONT_EX(m_Font, wxT("font"), xsSerializable::FontToString(sfdvTEXTSHAPE_FONT));
+    XS_SERIALIZE_COLOUR_EX(m_TextColor, wxT("color"), xsSerializable::ColourToString(sfdvTEXTSHAPE_TEXTCOLOR));
+    XS_SERIALIZE_STRING(m_sText, wxT("text"));
+
     UpdateRectSize();
 }
 
@@ -39,6 +43,10 @@ wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long p
 
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
+
+    XS_SERIALIZE_FONT_EX(m_Font, wxT("font"), xsSerializable::FontToString(sfdvTEXTSHAPE_FONT));
+    XS_SERIALIZE_COLOUR_EX(m_TextColor, wxT("color"), xsSerializable::ColourToString(sfdvTEXTSHAPE_TEXTCOLOR));
+    XS_SERIALIZE_STRING(m_sText, wxT("text"));
 
     UpdateRectSize();
 }
@@ -130,11 +138,11 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 		    double dx = m_nRectSize.x - prevSize.x;
 
             // update position of children
-            CShapeList m_lstChildren;
+            ShapeList m_lstChildren;
             GetChildren(m_lstChildren);
             m_lstChildren.Insert(this);
 
-            wxCShapeListNode *node = m_lstChildren.GetFirst();
+            wxShapeListNode *node = m_lstChildren.GetFirst();
             while(node)
             {
                 node->GetData()->MoveBy(-dx, 0);
@@ -148,11 +156,11 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 		    double dy = m_nRectSize.y - prevSize.y;
 
             // update position of children
-            CShapeList m_lstChildren;
+            ShapeList m_lstChildren;
             GetChildren(m_lstChildren);
             m_lstChildren.Insert(this);
 
-            wxCShapeListNode *node = m_lstChildren.GetFirst();
+            wxShapeListNode *node = m_lstChildren.GetFirst();
             while(node)
             {
                 node->GetData()->MoveBy(0, -dy);

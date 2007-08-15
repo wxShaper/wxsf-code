@@ -16,12 +16,16 @@ IMPLEMENT_DYNAMIC_CLASS(wxSFCurveShape, wxSFLineShape);
 wxSFCurveShape::wxSFCurveShape() : wxSFLineShape()
 {
     m_nMaxSteps = sfdvCURVESHAPE_MAXSTEPS;
+
+    XS_SERIALIZE_LONG_EX(m_nMaxSteps, wxT("max_steps"), xsSerializable::LongToString(sfdvCURVESHAPE_MAXSTEPS));
 }
 
-wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const CPointList& path, wxSFDiagramManager* manager)
+wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
 : wxSFLineShape(src, trg, path, manager)
 {
     m_nMaxSteps = maxsteps;
+
+    XS_SERIALIZE_LONG_EX(m_nMaxSteps, wxT("max_steps"), xsSerializable::LongToString(sfdvCURVESHAPE_MAXSTEPS));
 }
 
 wxSFCurveShape::wxSFCurveShape(wxSFCurveShape& obj)
