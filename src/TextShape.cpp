@@ -25,9 +25,9 @@ wxSFTextShape::wxSFTextShape(void)
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
 
-    XS_SERIALIZE_FONT_EX(m_Font, wxT("font"), xsSerializable::FontToString(sfdvTEXTSHAPE_FONT));
-    XS_SERIALIZE_COLOUR_EX(m_TextColor, wxT("color"), xsSerializable::ColourToString(sfdvTEXTSHAPE_TEXTCOLOR));
-    XS_SERIALIZE_STRING(m_sText, wxT("text"));
+    XS_SERIALIZE_EX(m_Font, wxT("font"), sfdvTEXTSHAPE_FONT);
+    XS_SERIALIZE_EX(m_TextColor, wxT("color"), sfdvTEXTSHAPE_TEXTCOLOR);
+    XS_SERIALIZE(m_sText, wxT("text"));
 
     UpdateRectSize();
 }
@@ -44,9 +44,9 @@ wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long p
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
 
-    XS_SERIALIZE_FONT_EX(m_Font, wxT("font"), xsSerializable::FontToString(sfdvTEXTSHAPE_FONT));
-    XS_SERIALIZE_COLOUR_EX(m_TextColor, wxT("color"), xsSerializable::ColourToString(sfdvTEXTSHAPE_TEXTCOLOR));
-    XS_SERIALIZE_STRING(m_sText, wxT("text"));
+    XS_SERIALIZE_EX(m_Font, wxT("font"), sfdvTEXTSHAPE_FONT);
+    XS_SERIALIZE_EX(m_TextColor, wxT("color"), sfdvTEXTSHAPE_TEXTCOLOR);
+    XS_SERIALIZE(m_sText, wxT("text"));
 
     UpdateRectSize();
 }

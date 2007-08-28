@@ -570,7 +570,6 @@ private:
 	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */
 	void DeleteAllTextCtrls();
 
-
 	// private event handlers
 	/*!
 	 * \brief Event handler called when the canvas should be repainted.

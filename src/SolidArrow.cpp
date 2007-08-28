@@ -18,7 +18,7 @@ wxSFSolidArrow::wxSFSolidArrow(void)
 {
 	m_Fill = sfdvARROW_FILL;
 
-	XS_SERIALIZE_BRUSH_EX(m_Fill, wxT("fill"), xsSerializable::BrushToString(sfdvARROW_FILL));
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
 }
 
 wxSFSolidArrow::wxSFSolidArrow(wxSFShapeBase* parent)
@@ -26,7 +26,7 @@ wxSFSolidArrow::wxSFSolidArrow(wxSFShapeBase* parent)
 {
 	m_Fill = sfdvARROW_FILL;
 
-	XS_SERIALIZE_BRUSH_EX(m_Fill, wxT("fill"), xsSerializable::BrushToString(sfdvARROW_FILL));
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
 }
 
 wxSFSolidArrow::wxSFSolidArrow(wxSFSolidArrow& obj)

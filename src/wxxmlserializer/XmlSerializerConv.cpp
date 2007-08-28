@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      XmlSerializerConv.cpp
+ * Purpose:   Implements data types conversion functions
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-08-28
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "XmlSerializer.h"
 
 #include <wx/tokenzr.h>

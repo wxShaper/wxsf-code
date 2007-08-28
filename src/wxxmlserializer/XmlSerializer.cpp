@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      XmlSerializer.cpp
+ * Purpose:   Implements XML serializer and related classes
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-08-28
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #include "XmlSerializer.h"
 
 #include <wx/listimpl.cpp>
@@ -442,12 +452,15 @@ void wxXmlSerializer::AddItem(long parentId, xsSerializable* item)
 
 void wxXmlSerializer::AddItem(xsSerializable* parent, xsSerializable* item)
 {
-    wxASSERT(parent);
+    wxASSERT(m_pRoot);
     wxASSERT(item);
 
-    if( parent && item )
+    if( item )
     {
-        parent->AddChild(item);
+        if( parent )parent->AddChild(item);
+		else
+			m_pRoot->AddChild(item);
+
         item->SetId(GetNewId());
     }
 }

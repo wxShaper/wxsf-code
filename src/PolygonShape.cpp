@@ -18,8 +18,8 @@ wxSFPolygonShape::wxSFPolygonShape(void)
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
 
-	XS_SERIALIZE_BOOL_EX(m_fConnectToVertex, wxT("connect_to_vertex"), xsSerializable::BoolToString(sfdvPOLYGONSHAPE_VERTEXCONNECTIONS));
-    XS_SERIALIZE_ARRAYREALPOINT(m_arrVertices, wxT("vertices"));
+	XS_SERIALIZE_EX(m_fConnectToVertex, wxT("connect_to_vertex"), sfdvPOLYGONSHAPE_VERTEXCONNECTIONS);
+    XS_SERIALIZE(m_arrVertices, wxT("vertices"));
 }
 
 wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
@@ -27,8 +27,8 @@ wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealP
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
 
-	XS_SERIALIZE_BOOL_EX(m_fConnectToVertex, wxT("connect_to_vertex"), xsSerializable::BoolToString(sfdvPOLYGONSHAPE_VERTEXCONNECTIONS));
-    XS_SERIALIZE_ARRAYREALPOINT(m_arrVertices, wxT("vertices"));
+	XS_SERIALIZE_EX(m_fConnectToVertex, wxT("connect_to_vertex"), sfdvPOLYGONSHAPE_VERTEXCONNECTIONS);
+    XS_SERIALIZE(m_arrVertices, wxT("vertices"));
 
 	SetVertices(n, pts);
 }

@@ -156,7 +156,8 @@ public:
 	/// call appropriate virtual functions (DrawNormal, DrawHover, DrawHighlighted)
 	/// for its visualisation. The function can be overrided if neccessary. </summary>
 	/// <param name="dc"> Reference to a device context where the shape will be drawn to </param>
-	virtual void Draw(wxSFScaledPaintDC& dc);
+	/// <param name="children"> TRUE if the shape's children should be drawn as well </param>
+	virtual void Draw(wxSFScaledPaintDC& dc, bool children = sfWITHCHILDREN);
     /// <summary> Test whether the given point is inside the shape. The function
     /// can be overrided if neccessary. </summary>
     /// <param name="pos"> Examined point </param>
@@ -824,65 +825,27 @@ protected:
     /*!
      * \brief Serialize shape's properties to the given XML node. The serialization
      * routine is automatically called by the framework and should take care about serialization
-     * of all specific shape's properties.
+     * of all specific (non-standard) shape's properties.
      *
      * Note, that the shape serialization is used not only for saving canvas's content to a file
      * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
      * function otherwise all mentioned operations wont be available for this shape.
      *
-     * The routine code could look like the example bellow.
      * \param node Pointer to XML node where the shape's property nodes will be appended to
-     *
-     * Example code:
-     * \code
-     * wxXmlNode* wxSFCurveShape::Serialize(wxXmlNode* node)
-     * {
-     *     if(node)
-     *     {
-     *         // call base class's serialization routine
-     *         node = wxSFLineShape::Serialize(node);
-     *
-     *         // serialize custom property
-     *         AddPropertyNode(node, wxT("max_steps"), LongToString((long)m_nMaxSteps));
-     *     }
-     *     // return updated node
-     *     return node;
-     * }
-     * \endcode
+     * \sa xsSerializable::Serialize
      */
 	virtual wxXmlNode* Serialize(wxXmlNode* node);
     /*!
      * \brief Deserialize shape's properties from the given XML node. The
      * routine is automatically called by the framework and should take care about deserialization
-     * of all specific shape's properties.
+     * of all specific (non-standard) shape's properties.
      *
      * Note, that the shape serialization is used not only for saving canvas's content to a file
      * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
      * function otherwise all mentioned operations wont be available for this shape.
      *
-     * The routine code could look like the example bellow.
      * \param node Pointer to a source XML node containig the shape's property nodes
-     *
-     * Example code:
-     * \code
-     * void wxSFCurveShape::Deserialize(wxXmlNode* node)
-     * {
-     *      // call base class's deserialization rountine (if necessary...)
-     *      wxSFLineShape::Deserialize(node);
-     *
-     *      // iterate through all property nodes
-     *      wxXmlNode *propNode = node->GetChildren();
-     *      while(propNode)
-     *      {
-     *          if(propNode->GetName() == wxT("max_steps"))
-     *          {
-     *              // read the node value and convert it to a proper data type
-     *              m_nMaxSteps = StringToLong(node->GetNodeContent());
-     *          }
-     *          propNode = propNode->GetNext();
-     *      }
-     * }
-     * \endcode
+     * \sa xsSerializable::Deserialize
      */
     virtual void Deserialize(wxXmlNode* node);
 

@@ -33,13 +33,13 @@ wxSFLineShape::wxSFLineShape(void)
 
 	m_nMode = modeREADY;
 
-	XS_SERIALIZE_LONG_EX(m_nSrcShapeId, wxT("source"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
-	XS_SERIALIZE_LONG_EX(m_nTrgShapeId, wxT("target"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
-	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), xsSerializable::LongToString(sfdvLINESHAPE_DOCKPOINT));
-	XS_SERIALIZE_PEN_EX(m_Pen, wxT("line_style"), xsSerializable::PenToString(sfdvLINESHAPE_PEN));
+	XS_SERIALIZE_EX(m_nSrcShapeId, wxT("source"), sfdvLINESHAPE_UNKNOWNID);
+	XS_SERIALIZE_EX(m_nTrgShapeId, wxT("target"), sfdvLINESHAPE_UNKNOWNID);
+	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), sfdvLINESHAPE_DOCKPOINT);
+	XS_SERIALIZE_EX(m_Pen, wxT("line_style"), sfdvLINESHAPE_PEN);
 	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
 	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
-	XS_SERIALIZE_LISTREALPOINT(m_lstPoints, wxT("control_points"));
+	XS_SERIALIZE(m_lstPoints, wxT("control_points"));
 
 	m_lstPoints.DeleteContents(true);
 }
@@ -65,13 +65,13 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSF
 		node = node->GetNext();
 	}
 
-	XS_SERIALIZE_LONG_EX(m_nSrcShapeId, wxT("source"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
-	XS_SERIALIZE_LONG_EX(m_nTrgShapeId, wxT("target"), xsSerializable::LongToString(sfdvLINESHAPE_UNKNOWNID));
-	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), xsSerializable::LongToString(sfdvLINESHAPE_DOCKPOINT));
-	XS_SERIALIZE_PEN_EX(m_Pen, wxT("line_style"), xsSerializable::PenToString(sfdvLINESHAPE_PEN));
+	XS_SERIALIZE_EX(m_nSrcShapeId, wxT("source"), sfdvLINESHAPE_UNKNOWNID);
+	XS_SERIALIZE_EX(m_nTrgShapeId, wxT("target"), sfdvLINESHAPE_UNKNOWNID);
+	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), sfdvLINESHAPE_DOCKPOINT);
+	XS_SERIALIZE_EX(m_Pen, wxT("line_style"), sfdvLINESHAPE_PEN);
 	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
 	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
-	XS_SERIALIZE_LISTREALPOINT(m_lstPoints, wxT("control_points"));
+	XS_SERIALIZE(m_lstPoints, wxT("control_points"));
 
 	m_lstPoints.DeleteContents(true);
 }

@@ -17,7 +17,8 @@ wxSFCurveShape::wxSFCurveShape() : wxSFLineShape()
 {
     m_nMaxSteps = sfdvCURVESHAPE_MAXSTEPS;
 
-    XS_SERIALIZE_LONG_EX(m_nMaxSteps, wxT("max_steps"), xsSerializable::LongToString(sfdvCURVESHAPE_MAXSTEPS));
+    //XS_SERIALIZE_LONG_EX(m_nMaxSteps, wxT("max_steps"), xsSerializable::LongToString(sfdvCURVESHAPE_MAXSTEPS));
+    XS_SERIALIZE_EX(m_nMaxSteps, wxT("max_steps"), sfdvCURVESHAPE_MAXSTEPS);
 }
 
 wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
@@ -25,7 +26,7 @@ wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPo
 {
     m_nMaxSteps = maxsteps;
 
-    XS_SERIALIZE_LONG_EX(m_nMaxSteps, wxT("max_steps"), xsSerializable::LongToString(sfdvCURVESHAPE_MAXSTEPS));
+    XS_SERIALIZE_EX(m_nMaxSteps, wxT("max_steps"), sfdvCURVESHAPE_MAXSTEPS);
 }
 
 wxSFCurveShape::wxSFCurveShape(wxSFCurveShape& obj)

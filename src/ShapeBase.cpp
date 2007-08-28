@@ -31,8 +31,6 @@ wxSFShapeBase::wxSFShapeBase(void)
 	m_fHighlighParent = false;
 	m_pParentManager = NULL;
 	m_pUserData = NULL;
-	//m_nParentShapeId = -1;
-	//m_nId=-1;
 
 	// archived properties
 	m_fVisible = sfdvBASESHAPE_VISIBILITY;
@@ -53,27 +51,28 @@ wxSFShapeBase::wxSFShapeBase(void)
 	m_nHBorder = sfdvBASESHAPE_HBORDER;
 
     // mark serialized properties
-    XS_SERIALIZE_LONG(m_nId, wxT("id"));
-    XS_SERIALIZE_BOOL_EX(m_fActive, wxT("active"), xsSerializable::BoolToString(sfdvBASESHAPE_ACTIVITY));
-    XS_SERIALIZE_BOOL_EX(m_fVisible, wxT("visibility"), xsSerializable::BoolToString(sfdvBASESHAPE_VISIBILITY));
-    XS_SERIALIZE_BOOL_EX(m_fParentChange, wxT("parent_change"), xsSerializable::BoolToString(sfdvBASESHAPE_PARENTCHANGE));
-    XS_SERIALIZE_BOOL_EX(m_fSizeChange, wxT("size_change"), xsSerializable::BoolToString(sfdvBASESHAPE_SIZECHANGE));
-    XS_SERIALIZE_BOOL_EX(m_fPositionChange, wxT("position_change"), xsSerializable::BoolToString(sfdvBASESHAPE_POSITIONCHANGE));
-    XS_SERIALIZE_BOOL_EX(m_fHighlighting, wxT("highlighting"), xsSerializable::BoolToString(sfdvBASESHAPE_HIGHLIGHTING));
-    XS_SERIALIZE_BOOL_EX(m_fHovering, wxT("hovering"), xsSerializable::BoolToString(sfdvBASESHAPE_HOVERING));
-    XS_SERIALIZE_BOOL_EX(m_fAlwaysInsideParent, wxT("always_inside"), xsSerializable::BoolToString(sfdvBASESHAPE_ALWAYSINSIDE));
-    XS_SERIALIZE_BOOL_EX(m_fDeleteUserData, wxT("delete_data"), xsSerializable::BoolToString(sfdvBASESHAPE_DELETEUSERDATA));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedChildren, wxT("accepted_children"));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedConnections, wxT("accepted_connections"));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedSrcNeighbours, wxT("accepted_src_neighbours"));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedTrgNeighbours, wxT("accepted_trg_neighbours"));
-    XS_SERIALIZE_COLOUR_EX(m_nHoverColor, wxT("hover_color"), xsSerializable::ColourToString(sfdvBASESHAPE_HOVERCOLOUR));
-    XS_SERIALIZE_REALPOINT(m_nRelativePosition, wxT("relative_position"));
-    XS_SERIALIZE_LONG_EX(m_nHAlign, wxT("halign"), xsSerializable::LongToString(sfdvBASESHAPE_HALIGN));
-    XS_SERIALIZE_LONG_EX(m_nVAlign, wxT("valign"), xsSerializable::LongToString(sfdvBASESHAPE_VALIGN));
-    XS_SERIALIZE_DOUBLE_EX(m_nHBorder, wxT("hborder"), xsSerializable::DoubleToString(sfdvBASESHAPE_HBORDER));
-    XS_SERIALIZE_DOUBLE_EX(m_nVBorder, wxT("vborder"), xsSerializable::DoubleToString(sfdvBASESHAPE_VBORDER));
-    XS_SERIALIZE_DYNAMIC_OBJECT(m_pUserData, wxT("user_data"));
+    XS_SERIALIZE(m_nId, wxT("id"));
+    XS_SERIALIZE_EX(m_fActive, wxT("active"), sfdvBASESHAPE_ACTIVITY);
+    XS_SERIALIZE_EX(m_fVisible, wxT("visibility"), sfdvBASESHAPE_VISIBILITY);
+    XS_SERIALIZE_EX(m_fParentChange, wxT("parent_change"), sfdvBASESHAPE_PARENTCHANGE);
+    XS_SERIALIZE_EX(m_fSizeChange, wxT("size_change"), sfdvBASESHAPE_SIZECHANGE);
+    XS_SERIALIZE_EX(m_fPositionChange, wxT("position_change"), sfdvBASESHAPE_POSITIONCHANGE);
+    XS_SERIALIZE_EX(m_fHighlighting, wxT("highlighting"), sfdvBASESHAPE_HIGHLIGHTING);
+    XS_SERIALIZE_EX(m_fHovering, wxT("hovering"), sfdvBASESHAPE_HOVERING);
+    XS_SERIALIZE_EX(m_fAlwaysInsideParent, wxT("always_inside"), sfdvBASESHAPE_ALWAYSINSIDE);
+    XS_SERIALIZE_EX(m_fDeleteUserData, wxT("delete_data"), sfdvBASESHAPE_DELETEUSERDATA);
+    XS_SERIALIZE(m_arrAcceptedChildren, wxT("accepted_children"));
+    XS_SERIALIZE(m_arrAcceptedConnections, wxT("accepted_connections"));
+    XS_SERIALIZE(m_arrAcceptedSrcNeighbours, wxT("accepted_src_neighbours"));
+    XS_SERIALIZE(m_arrAcceptedTrgNeighbours, wxT("accepted_trg_neighbours"));
+    XS_SERIALIZE_EX(m_nHoverColor, wxT("hover_color"), sfdvBASESHAPE_HOVERCOLOUR);
+    XS_SERIALIZE(m_nRelativePosition, wxT("relative_position"));
+    XS_SERIALIZE_LONG_EX(m_nHAlign, wxT("halign"), sfdvBASESHAPE_HALIGN);
+    XS_SERIALIZE_LONG_EX(m_nVAlign, wxT("valign"), (long)sfdvBASESHAPE_VALIGN);
+    XS_SERIALIZE_EX(m_nHBorder, wxT("hborder"), sfdvBASESHAPE_HBORDER);
+    XS_SERIALIZE_EX(m_nVBorder, wxT("vborder"), sfdvBASESHAPE_VBORDER);
+    XS_SERIALIZE(m_pUserData, wxT("user_data"));
+
 
 	m_lstHandles.DeleteContents(true);
 }
@@ -83,7 +82,6 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramM
 	wxASSERT_MSG(manager, wxT("Shape manager has not been properly set in shape constructor."));
 
 	// initialize data members
-	//m_nParentShapeId = parentId;
 	m_pParentManager = manager;
     m_pUserData = NULL;
 
@@ -92,13 +90,10 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramM
 		if( m_pParentManager->GetShapeCanvas() )m_nHoverColor = m_pParentManager->GetShapeCanvas()->GetHoverColour();
 		else
             m_nHoverColor = sfdvBASESHAPE_HOVERCOLOUR;
-
-		//m_nId = m_pParentManager->GetNewId();
 	}
 	else
 	{
 		m_nHoverColor = sfdvBASESHAPE_HOVERCOLOUR;
-		//m_nId = -1;
 	}
 
 	m_fSelected = false;
@@ -128,27 +123,27 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramM
 		m_nRelativePosition = sfdvBASESHAPE_POSITION;
 
     // mark serialized properties
-    XS_SERIALIZE_LONG(m_nId, wxT("id"));
-    XS_SERIALIZE_BOOL_EX(m_fActive, wxT("active"), xsSerializable::BoolToString(sfdvBASESHAPE_ACTIVITY));
-    XS_SERIALIZE_BOOL_EX(m_fVisible, wxT("visibility"), xsSerializable::BoolToString(sfdvBASESHAPE_VISIBILITY));
-    XS_SERIALIZE_BOOL_EX(m_fParentChange, wxT("parent_change"), xsSerializable::BoolToString(sfdvBASESHAPE_PARENTCHANGE));
-    XS_SERIALIZE_BOOL_EX(m_fSizeChange, wxT("size_change"), xsSerializable::BoolToString(sfdvBASESHAPE_SIZECHANGE));
-    XS_SERIALIZE_BOOL_EX(m_fPositionChange, wxT("position_change"), xsSerializable::BoolToString(sfdvBASESHAPE_POSITIONCHANGE));
-    XS_SERIALIZE_BOOL_EX(m_fHighlighting, wxT("highlighting"), xsSerializable::BoolToString(sfdvBASESHAPE_HIGHLIGHTING));
-    XS_SERIALIZE_BOOL_EX(m_fHovering, wxT("hovering"), xsSerializable::BoolToString(sfdvBASESHAPE_HOVERING));
-    XS_SERIALIZE_BOOL_EX(m_fAlwaysInsideParent, wxT("always_inside"), xsSerializable::BoolToString(sfdvBASESHAPE_ALWAYSINSIDE));
-    XS_SERIALIZE_BOOL_EX(m_fDeleteUserData, wxT("delete_data"), xsSerializable::BoolToString(sfdvBASESHAPE_DELETEUSERDATA));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedChildren, wxT("accepted_children"));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedConnections, wxT("accepted_connections"));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedSrcNeighbours, wxT("accepted_src_neighbours"));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedTrgNeighbours, wxT("accepted_trg_neighbours"));
-    XS_SERIALIZE_COLOUR_EX(m_nHoverColor, wxT("hover_color"), xsSerializable::ColourToString(sfdvBASESHAPE_HOVERCOLOUR));
-    XS_SERIALIZE_REALPOINT(m_nRelativePosition, wxT("relative_position"));
-    XS_SERIALIZE_LONG_EX(m_nHAlign, wxT("halign"), xsSerializable::LongToString(sfdvBASESHAPE_HALIGN));
-    XS_SERIALIZE_LONG_EX(m_nVAlign, wxT("valign"), xsSerializable::LongToString(sfdvBASESHAPE_VALIGN));
-    XS_SERIALIZE_DOUBLE_EX(m_nHBorder, wxT("hborder"), xsSerializable::DoubleToString(sfdvBASESHAPE_HBORDER));
-    XS_SERIALIZE_DOUBLE_EX(m_nVBorder, wxT("vborder"), xsSerializable::DoubleToString(sfdvBASESHAPE_VBORDER));
-    XS_SERIALIZE_DYNAMIC_OBJECT(m_pUserData, wxT("user_data"));
+    XS_SERIALIZE(m_nId, wxT("id"));
+    XS_SERIALIZE_EX(m_fActive, wxT("active"), sfdvBASESHAPE_ACTIVITY);
+    XS_SERIALIZE_EX(m_fVisible, wxT("visibility"), sfdvBASESHAPE_VISIBILITY);
+    XS_SERIALIZE_EX(m_fParentChange, wxT("parent_change"), sfdvBASESHAPE_PARENTCHANGE);
+    XS_SERIALIZE_EX(m_fSizeChange, wxT("size_change"), sfdvBASESHAPE_SIZECHANGE);
+    XS_SERIALIZE_EX(m_fPositionChange, wxT("position_change"), sfdvBASESHAPE_POSITIONCHANGE);
+    XS_SERIALIZE_EX(m_fHighlighting, wxT("highlighting"), sfdvBASESHAPE_HIGHLIGHTING);
+    XS_SERIALIZE_EX(m_fHovering, wxT("hovering"), sfdvBASESHAPE_HOVERING);
+    XS_SERIALIZE_EX(m_fAlwaysInsideParent, wxT("always_inside"), sfdvBASESHAPE_ALWAYSINSIDE);
+    XS_SERIALIZE_EX(m_fDeleteUserData, wxT("delete_data"), sfdvBASESHAPE_DELETEUSERDATA);
+    XS_SERIALIZE(m_arrAcceptedChildren, wxT("accepted_children"));
+    XS_SERIALIZE(m_arrAcceptedConnections, wxT("accepted_connections"));
+    XS_SERIALIZE(m_arrAcceptedSrcNeighbours, wxT("accepted_src_neighbours"));
+    XS_SERIALIZE(m_arrAcceptedTrgNeighbours, wxT("accepted_trg_neighbours"));
+    XS_SERIALIZE_EX(m_nHoverColor, wxT("hover_color"), sfdvBASESHAPE_HOVERCOLOUR);
+    XS_SERIALIZE(m_nRelativePosition, wxT("relative_position"));
+    XS_SERIALIZE_LONG_EX(m_nHAlign, wxT("halign"), sfdvBASESHAPE_HALIGN);
+    XS_SERIALIZE_LONG_EX(m_nVAlign, wxT("valign"), (long)sfdvBASESHAPE_VALIGN);
+    XS_SERIALIZE_EX(m_nHBorder, wxT("hborder"), sfdvBASESHAPE_HBORDER);
+    XS_SERIALIZE_EX(m_nVBorder, wxT("vborder"), sfdvBASESHAPE_VBORDER);
+    XS_SERIALIZE(m_pUserData, wxT("user_data"));
 
 	m_lstHandles.DeleteContents(true);
 }
@@ -500,15 +495,6 @@ void wxSFShapeBase::FitToChildren()
 
 wxSFShapeBase* wxSFShapeBase::GetParentShape()
 {
-    /*wxASSERT(m_pParentManager);
-    if( !m_pParentManager )return NULL;
-
-	if(m_nParentShapeId != -1)
-	{
-		return m_pParentManager->FindShape(m_nParentShapeId);
-	}
-	return NULL;*/
-
     wxASSERT(m_pParentManager);
 
     if(m_pParentManager->GetRootItem() != m_pParentItem)
@@ -528,7 +514,7 @@ void wxSFShapeBase::Refresh()
     Refresh(this->GetBoundingBox());
 }
 
-void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc)
+void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 {
     wxASSERT(m_pParentManager);
     wxASSERT(m_pParentManager->GetShapeCanvas());
@@ -550,11 +536,14 @@ void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc)
 	if(m_fSelected)this->DrawSelected(dc);
 
 	// ... then draw child shapes
-	wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
-	while(node)
+	if(children)
 	{
-		node->GetData()->Draw(dc);
-		node = node->GetNext();
+        wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+        while(node)
+        {
+            node->GetData()->Draw(dc);
+            node = node->GetNext();
+        }
 	}
 }
 
@@ -776,7 +765,7 @@ void wxSFShapeBase::RemoveHandle(wxSFShapeHandle::HANDLETYPE type, long id)
 void wxSFShapeBase::DoAlignment()
 {
     wxSFShapeBase *pParent = this->GetParentShape();
-    if(pParent)
+    if(pParent && !pParent->IsKindOf(CLASSINFO(wxSFLineShape)))
     {
         wxRect parentBB = pParent->GetBoundingBox();
         wxRect shapeBB = this->GetBoundingBox();

@@ -37,16 +37,16 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
     m_nGridSize = sfdvSHAPECANVAS_GRIDSIZE;
     m_nGridColor = sfdvSHAPECANVAS_GRIDCOLOR;
 
-    XS_SERIALIZE_DOUBLE(m_nScale, wxT("scale"));
-    XS_SERIALIZE_COLOUR_EX(m_nBackgroundColor, wxT("background_color"), xsSerializable::ColourToString(sfdvSHAPECANVAS_BACKGROUNDCOLOR));
-    XS_SERIALIZE_COLOUR_EX(m_nCommonHoverColor, wxT("hover_color"), xsSerializable::ColourToString(sfdvSHAPECANVAS_HOVERCOLOR));
-    XS_SERIALIZE_BOOL_EX(m_fMultiselection, wxT("multiselection"), xsSerializable::BoolToString(sfdvSHAPECANVAS_MULTISELECTION));
-    XS_SERIALIZE_BOOL_EX(m_fMultiSizeChange, wxT("multichange"), xsSerializable::BoolToString(sfdvSHAPECANVAS_MULTISIZECHANGE));
-    XS_SERIALIZE_BOOL_EX(m_fShowGrid, wxT("show_grid"), xsSerializable::BoolToString(sfdvSHAPECANVAS_SHOWGRID));
-    XS_SERIALIZE_BOOL_EX(m_fUseGrid, wxT("use_grid"), xsSerializable::BoolToString(sfdvSHAPECANVAS_USEGRID));
-    XS_SERIALIZE_SIZE_EX(m_nGridSize, wxT("grid_size"), xsSerializable::SizeToString(sfdvSHAPECANVAS_GRIDSIZE));
-    XS_SERIALIZE_COLOUR_EX(m_nGridColor, wxT("grid_color"), xsSerializable::ColourToString(sfdvSHAPECANVAS_GRIDCOLOR));
-    XS_SERIALIZE_ARRAYSTRING(m_arrAcceptedShapes, wxT("accepted_shapes"));
+    XS_SERIALIZE(m_nScale, wxT("scale"));
+    XS_SERIALIZE_EX(m_nBackgroundColor, wxT("background_color"), sfdvSHAPECANVAS_BACKGROUNDCOLOR);
+    XS_SERIALIZE_EX(m_nCommonHoverColor, wxT("hover_color"), sfdvSHAPECANVAS_HOVERCOLOR);
+    XS_SERIALIZE_EX(m_fMultiselection, wxT("multiselection"), sfdvSHAPECANVAS_MULTISELECTION);
+    XS_SERIALIZE_EX(m_fMultiSizeChange, wxT("multichange"), sfdvSHAPECANVAS_MULTISIZECHANGE);
+    XS_SERIALIZE_EX(m_fShowGrid, wxT("show_grid"), sfdvSHAPECANVAS_SHOWGRID);
+    XS_SERIALIZE_EX(m_fUseGrid, wxT("use_grid"), sfdvSHAPECANVAS_USEGRID);
+    XS_SERIALIZE_EX(m_nGridSize, wxT("grid_size"), sfdvSHAPECANVAS_GRIDSIZE);
+    XS_SERIALIZE_EX(m_nGridColor, wxT("grid_color"), sfdvSHAPECANVAS_GRIDCOLOR);
+    XS_SERIALIZE(m_arrAcceptedShapes, wxT("accepted_shapes"));
 }
 
 static const wxChar* dataFormatID = wxT("ShapeFrameWorkDataFormat1_0");
@@ -154,7 +154,6 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc)
     if(!m_pManager->GetRootItem())return;
 
     wxSFShapeBase* pShape = NULL;
-    ShapeList lstSelected;
 
 	// prepare window dc
 	PrepareDC(dc);
@@ -183,52 +182,75 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc)
 
 	if(m_nWorkingMode == modeSHAPEMOVE)
 	{
-	     GetSelectedShapes(lstSelected);
-	}
+        ShapeList m_lstSelected;
+        ShapeList m_lstToDraw;
 
-	// draw parent shapes (children are processed by parent objects)
-	wxSerializableListNode *node = m_pManager->GetRootItem()->GetFirstChildNode();
-	while(node)
-	{
-		pShape = (wxSFShapeBase*)node->GetData();
+        // get selected shapes
+	    GetSelectedShapes(m_lstSelected);
 
-		if(m_nWorkingMode == modeSHAPEMOVE)
-		{
-            if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)) && (lstSelected.IndexOf(pShape)==wxNOT_FOUND))
+	    // get all existing shapes
+	    m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), m_lstToDraw);
+
+        // draw unselected non line-based shapes first...
+        wxShapeListNode *node = m_lstToDraw.GetFirst();
+        while(node)
+        {
+            pShape = (wxSFShapeBase*)node->GetData();
+
+            if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)) && (m_lstSelected.IndexOf(pShape)==wxNOT_FOUND))
             {
-                pShape->Draw(dc);
+                pShape->Draw(dc, sfWITHOUTCHILDREN);
             }
-		}
-		else
-		{
-            if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
-            {
-                pShape->Draw(dc);
-            }
-		}
-		node = node->GetNext();
-	}
 
-	// draw connections
-	node = m_pManager->GetRootItem()->GetFirstChildNode();
-	while(node)
-	{
-		pShape = (wxSFShapeBase*)node->GetData();
-        if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
-		{
-			pShape->Draw(dc);
+            node = node->GetNext();
 		}
-		node = node->GetNext();
-	}
 
-    // draw dragged shapes at the last
-	if(m_nWorkingMode == modeSHAPEMOVE)
-	{
-        wxShapeListNode *node = lstSelected.GetFirst();
+        // ... draw dragged shapes ...
+        node = m_lstSelected.GetFirst();
         while(node)
         {
             pShape = (wxSFShapeBase*)node->GetData();
             if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+            {
+                pShape->Draw(dc);
+            }
+            node = node->GetNext();
+        }
+
+        // ... and draw connections at the last
+        node = (wxShapeListNode*)m_pManager->GetRootItem()->GetFirstChildNode();
+        while(node)
+        {
+            pShape = node->GetData();
+            if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+            {
+                pShape->Draw(dc, sfWITHOUTCHILDREN);
+            }
+            node = node->GetNext();
+        }
+	}
+	else
+	{
+        // draw parent shapes (children are processed by parent objects)
+        wxSerializableListNode *node = m_pManager->GetRootItem()->GetFirstChildNode();
+        while(node)
+        {
+            pShape = (wxSFShapeBase*)node->GetData();
+
+            if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+            {
+                pShape->Draw(dc);
+            }
+
+            node = node->GetNext();
+        }
+
+        // draw connections
+        node = m_pManager->GetRootItem()->GetFirstChildNode();
+        while(node)
+        {
+            pShape = (wxSFShapeBase*)node->GetData();
+            if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
             {
                 pShape->Draw(dc);
             }
@@ -543,7 +565,8 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 				{
 					if(pParentShape)
 					{
-                        pShape->SetRelativePosition(pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition());
+					    wxRealPoint apos = pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition();
+                        pShape->SetRelativePosition(apos);
                         pShape->Reparent(pParentShape);
 
 						pShape->DoAlignment();
@@ -1702,8 +1725,8 @@ void wxSFShapeCanvas::MoveShapesFromNegatives()
 		}
 		else
 		{
-			if(shapePos.x < minx)minx = shapePos.x;
-			if(shapePos.y < miny)miny = shapePos.y;
+            if(shapePos.x < minx)minx = shapePos.x;
+            if(shapePos.y < miny)miny = shapePos.y;
 		}
 
 		node = node->GetNext();

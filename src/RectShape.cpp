@@ -20,9 +20,9 @@ wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()
 	m_Border = sfdvRECTSHAPE_BORDER;
 	m_Fill = sfdvRECTSHAPE_FILL;
 
-	XS_SERIALIZE_REALPOINT_EX(m_nRectSize, wxT("size"), xsSerializable::RealPointToString(sfdvRECTSHAPE_SIZE));
-	XS_SERIALIZE_PEN_EX(m_Border, wxT("border"), xsSerializable::PenToString(sfdvRECTSHAPE_BORDER));
-	XS_SERIALIZE_BRUSH_EX(m_Fill, wxT("fill"), xsSerializable::BrushToString(sfdvRECTSHAPE_FILL));
+	XS_SERIALIZE_EX(m_nRectSize, wxT("size"),sfdvRECTSHAPE_SIZE);
+	XS_SERIALIZE_EX(m_Border, wxT("border"), sfdvRECTSHAPE_BORDER);
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"),sfdvRECTSHAPE_FILL);
 }
 
 wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFDiagramManager* manager)
@@ -32,9 +32,9 @@ wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, lo
 	m_Border = sfdvRECTSHAPE_BORDER;
 	m_Fill = sfdvRECTSHAPE_FILL;
 
-	XS_SERIALIZE_REALPOINT_EX(m_nRectSize, wxT("size"), xsSerializable::RealPointToString(sfdvRECTSHAPE_SIZE));
-	XS_SERIALIZE_PEN_EX(m_Border, wxT("border"), xsSerializable::PenToString(sfdvRECTSHAPE_BORDER));
-	XS_SERIALIZE_BRUSH_EX(m_Fill, wxT("fill"), xsSerializable::BrushToString(sfdvRECTSHAPE_FILL));
+	XS_SERIALIZE_EX(m_nRectSize, wxT("size"),sfdvRECTSHAPE_SIZE);
+	XS_SERIALIZE_EX(m_Border, wxT("border"), sfdvRECTSHAPE_BORDER);
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"),sfdvRECTSHAPE_FILL);
 }
 
 wxSFRectShape::wxSFRectShape(wxSFRectShape& obj) : wxSFShapeBase(obj)
