@@ -765,10 +765,20 @@ void wxSFShapeBase::RemoveHandle(wxSFShapeHandle::HANDLETYPE type, long id)
 void wxSFShapeBase::DoAlignment()
 {
     wxSFShapeBase *pParent = this->GetParentShape();
-    if(pParent && !pParent->IsKindOf(CLASSINFO(wxSFLineShape)))
+
+    if(pParent)
     {
-        wxRect parentBB = pParent->GetBoundingBox();
+        wxRect parentBB;
+        if(pParent->IsKindOf(CLASSINFO(wxSFLineShape)))
+        {
+            wxRealPoint pos = pParent->GetAbsolutePosition();
+            parentBB = wxRect((int)pos.x, (int)pos.y, 1, 1);
+        }
+        else
+            parentBB = pParent->GetBoundingBox();
+
         wxRect shapeBB = this->GetBoundingBox();
+
 
         // do vertical alignment
         switch(m_nVAlign)

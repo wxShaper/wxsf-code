@@ -205,27 +205,23 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc)
             node = node->GetNext();
 		}
 
-        // ... draw dragged shapes ...
-        node = m_lstSelected.GetFirst();
-        while(node)
-        {
-            pShape = (wxSFShapeBase*)node->GetData();
-            if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
-            {
-                pShape->Draw(dc);
-            }
-            node = node->GetNext();
-        }
-
-        // ... and draw connections at the last
+        // ... draw connections ...
         node = (wxShapeListNode*)m_pManager->GetRootItem()->GetFirstChildNode();
         while(node)
         {
             pShape = node->GetData();
-            if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+            if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)) && (m_lstSelected.IndexOf(pShape)==wxNOT_FOUND))
             {
                 pShape->Draw(dc, sfWITHOUTCHILDREN);
             }
+            node = node->GetNext();
+        }
+
+        // ... and draw dragged shapes
+        node = m_lstSelected.GetFirst();
+        while(node)
+        {
+            node->GetData()->Draw(dc);
             node = node->GetNext();
         }
 	}
