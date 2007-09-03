@@ -1,4 +1,4 @@
-Changes in version 1.3.0 alpha (2007-08-15):
+Changes in version 1.3.0 alpha (2007-08-31):
 --------------------------------------------
 - wxSF ported to use wxXmlSerialization (new mini-library suitable for automated serialization/
   deserialization of class objects (arranged into a list or a tree) and their properties 
@@ -7,6 +7,13 @@ Changes in version 1.3.0 alpha (2007-08-15):
 - Implemented a container for user-defined data (objects derived from xsSerializable class) which can be
   assigned to the shape and serialized with it (wxSFShapeBase::SetUserData(), wxSFShapeBase::
   GetUserData(), wxSFShapeBase::DeleteUserDataOnDestroy()).
+- Implemented wxEVT_SF_LINE_DONE (macro EVT_SF_LINE_DONE) and event class wxSFShapeEvent.
+- Applied compiler symbol WXMAKINGDLL_SF which allows compile the library with defined 
+  WXDLLEXPORT flags.
+- Added support for composed shapes (for more details see wxSFSample3).
+- Added three new sample projects to the library sources distribution.
+- Improved C::B and MS Visual Studio project and solution files.
+- Several bug fixes.
 
   NOTE: wxSF project file format is not comapatible with previous versions.
 

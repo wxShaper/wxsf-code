@@ -11,6 +11,7 @@
 #pragma once
 
 #include <wx/wxprec.h>
+#include "Defs.h"
 
 class wxSFShapeCanvas;
 /// <summary> Class which stores one saved state of the shape canvas. The instaces of this

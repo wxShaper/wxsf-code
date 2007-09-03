@@ -23,8 +23,8 @@ wxSFRoundRectShape::wxSFRoundRectShape(void) : wxSFRectShape()
 	XS_SERIALIZE_EX(m_nRadius, wxT("radius"), sfdvROUNDRECTSHAPE_RADIUS);
 }
 
-wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, long parentId, wxSFDiagramManager* manager)
-: wxSFRectShape(pos, size, parentId, manager)
+wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, size, manager)
 {
 	m_nRadius = radius;
 

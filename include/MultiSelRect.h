@@ -15,7 +15,7 @@
 /// <summary> Auxiliary class encapsulating multiselection rectangle used
 /// in the shape canvas. The class shouldn't be used directly. </summary>
 /// <seealso cref="wxSFShapeCanvas"></seealso>
-class wxSFMultiSelRect : public wxSFRectShape
+class WXDLLIMPEXP_SF wxSFMultiSelRect : public wxSFRectShape
 {
 public:
     /// <summary> Default constructor </summary>

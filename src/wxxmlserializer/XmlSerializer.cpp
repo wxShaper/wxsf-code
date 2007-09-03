@@ -14,11 +14,11 @@
 #include <wx/wfstream.h>
 #include <wx/arrimpl.cpp>
 
-WX_DEFINE_OBJARRAY(RealPointArray);
+WX_DEFINE_EXPORTED_OBJARRAY(RealPointArray);
 
-WX_DEFINE_LIST(PropertyList);
-WX_DEFINE_LIST(SerializableList);
-WX_DEFINE_LIST(RealPointList);
+WX_DEFINE_EXPORTED_LIST(PropertyList);
+WX_DEFINE_EXPORTED_LIST(SerializableList);
+WX_DEFINE_EXPORTED_LIST(RealPointList);
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -39,8 +39,15 @@ IMPLEMENT_DYNAMIC_CLASS(xsSerializable, wxObject);
 xsSerializable::xsSerializable()
 {
     m_pParentItem = NULL;
-    //m_nId = m_nItemCounter++;
+    m_fSerialize = true;
     m_nId = -1;
+}
+
+xsSerializable::xsSerializable(xsSerializable& obj)
+{
+    m_pParentItem = obj.m_pParentItem;
+    m_fSerialize = obj.m_fSerialize;
+    m_nId = obj.m_nId;
 }
 
 xsSerializable::~xsSerializable()
@@ -245,7 +252,8 @@ wxXmlNode* xsSerializable::Serialize(wxXmlNode* node)
                     node->AddChild(newNode);
                 }
             }
-            else if(property->m_sDataType == wxT("serializabledynamic"))
+            else if( (property->m_sDataType == wxT("serializabledynamic")) ||
+                    (property->m_sDataType == wxT("serializabledynamicnocreate")))
             {
                 xsSerializable* object = *(xsSerializable**)(property->m_pSourceVariable);
 
@@ -356,6 +364,19 @@ void xsSerializable::Deserialize(wxXmlNode* node)
                     {
                         *(xsSerializable**)(property->m_pSourceVariable) = (xsSerializable*)wxCreateDynamicObject(objectNode->GetPropVal(wxT("type"), wxT("")));
 
+                        xsSerializable* object = *(xsSerializable**)(property->m_pSourceVariable);
+                        if(object)
+                        {
+                            object->DeserializeObject(objectNode);
+                        }
+                    }
+                }
+                else if(property->m_sDataType == wxT("serializabledynamicnocreate"))
+                {
+                    wxXmlNode *objectNode = xmlNode->GetChildren();
+
+                    if( objectNode && (objectNode->GetName() == wxT("object")) )
+                    {
                         xsSerializable* object = *(xsSerializable**)(property->m_pSourceVariable);
                         if(object)
                         {
@@ -513,7 +534,7 @@ void wxXmlSerializer::SerializeToXml(const wxString& file)
 
 	if(outstream.IsOk())
 	{
-		SerializeToXml(outstream);
+		this->SerializeToXml(outstream);
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize output file stream."), m_sOwner, wxICON_ERROR);
@@ -553,7 +574,7 @@ void wxXmlSerializer::DeserializeFromXml(const wxString& file)
 	wxFileInputStream instream(file);
 	if(instream.IsOk())
 	{
-		DeserializeFromXml(instream);
+		this->DeserializeFromXml(instream);
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize input stream."), m_sOwner, wxICON_ERROR);
@@ -603,12 +624,15 @@ void wxXmlSerializer::SerializeObjects(xsSerializable* parent, wxXmlNode* node, 
 	// serialize parent shape
 	if(withparent)
 	{
-		projectNode = parent->SerializeObject(NULL);
-		if(projectNode)
-		{
-			SerializeObjects(parent, projectNode, false);
-			node->AddChild(projectNode);
-		}
+	    if(parent->IsSerialized())
+	    {
+            projectNode = parent->SerializeObject(NULL);
+            if(projectNode)
+            {
+                SerializeObjects(parent, projectNode, false);
+                node->AddChild(projectNode);
+            }
+	    }
 	}
 	else
 	{
@@ -618,12 +642,15 @@ void wxXmlSerializer::SerializeObjects(xsSerializable* parent, wxXmlNode* node, 
 		{
 			pChild = snode->GetData();
 
-			projectNode = pChild->SerializeObject(NULL);
-			if(projectNode)
-			{
-				SerializeObjects(pChild, projectNode, false);
-				node->AddChild(projectNode);
-			}
+            if(pChild->IsSerialized())
+            {
+                projectNode = pChild->SerializeObject(NULL);
+                if(projectNode)
+                {
+                    SerializeObjects(pChild, projectNode, false);
+                    node->AddChild(projectNode);
+                }
+            }
 
 			snode = snode->GetNext();
 		}

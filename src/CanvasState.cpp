@@ -49,7 +49,7 @@ void wxSFCanvasState::Restore(wxSFShapeCanvas* canvas)
 	{
 		// clear all previous canvas content
 		canvas->GetDiagramManager()->Clear();
-		canvas->GetDiagramManager()->DeserializeChartFromXml(instream);
+		canvas->GetDiagramManager()->DeserializeFromXml(instream);
 		canvas->Refresh(false);
 	}
 }

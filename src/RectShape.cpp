@@ -25,8 +25,8 @@ wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()
 	XS_SERIALIZE_EX(m_Fill, wxT("fill"),sfdvRECTSHAPE_FILL);
 }
 
-wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFDiagramManager* manager)
-: wxSFShapeBase(pos, parentId, manager)
+wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager)
+: wxSFShapeBase(pos, manager)
 {
 	m_nRectSize = size;
 	m_Border = sfdvRECTSHAPE_BORDER;

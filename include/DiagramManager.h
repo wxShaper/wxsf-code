@@ -14,8 +14,10 @@
 
 #define serINCLUDE_PARENTS true
 #define serWITHOUT_PARENTS false
+#define sfINITIALIZE true
+#define sfDONT_INITIALIZE false
 
-class wxSFShapeCanvas;
+class WXDLLIMPEXP_SF wxSFShapeCanvas;
 
 /*! \brief Auxiliary class encapsulation two variables suitable for shape IDs. It is
  * used for storing infomation about various relevant shape IDs */
@@ -39,7 +41,7 @@ WX_DECLARE_LIST(CIDPair, CIDList);
  * each diagram) and every shape manager can be assigned as a source to one shape
  * canvas (and vice versa).
  */
-class wxSFDiagramManager : public wxXmlSerializer
+class WXDLLIMPEXP_SF wxSFDiagramManager : public wxXmlSerializer
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxSFDiagramManager);
@@ -110,22 +112,22 @@ public:
      * \brief Serialize complete shape canvas to given file
      * \param file Output file
      */
-	void SerializeChartToXml(const wxString& file);
+	virtual void SerializeToXml(const wxString& file);
     /*!
      * \brief Deserialize complete shape canvas from given file
      * \param file Input file
      */
-	void DeserializeChartFromXml(const wxString& file);
+	virtual void DeserializeFromXml(const wxString& file);
     /*!
      * \brief Serialize complete shape canvas to given output stream
      * \param outstream Output stream
      */
-	void SerializeChartToXml(wxOutputStream& outstream);
+	virtual void SerializeToXml(wxOutputStream& outstream);
     /*!
      * \brief Deserialize complete shape canvas from given input stream
      * \param instream Input stream
      */
-	void DeserializeChartFromXml(wxInputStream& instream);
+	virtual void DeserializeFromXml(wxInputStream& instream);
 	/*!
 	 * \brief Deserialize shapes from XML and assign them to given parent.
 	 *
@@ -239,6 +241,13 @@ private:
 
 	/*! \brief Update connection shapes after importing/dropping of new shapes */
 	void UpdateConnections();
+
+	/*!
+	 * \brief Deserialize shapes from XML and assign them to given parent.
+	 * \param parent Parent shapes
+	 * \param node Source XML node
+	 */
+	void _DeserializeObjects(xsSerializable* parent, wxXmlNode* node);
 
 };
 

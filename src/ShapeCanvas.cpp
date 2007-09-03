@@ -21,7 +21,7 @@
 #include "ShapeDataObject.h"
 #include "EditTextShape.h"
 #include "BitmapShape.h"
-#include "CommonFcn.h"
+#include "SFEvents.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 
@@ -450,7 +450,12 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                             // swith off the "under-construcion" mode
                             m_pNewLineShape->SetLineMode(wxSFLineShape::modeREADY);
 
-                            // inform user that the line is completed
+                            // inform user that the line is completed in two ways:
+                            // 1) send event
+                            wxSFShapeEvent event( wxEVT_SF_LINE_DONE, m_pNewLineShape->GetId());
+                            event.SetShape( m_pNewLineShape );
+                            ProcessEvent( event );
+                            // 2) call virtual functions
                             OnConnectionFinished(m_pNewLineShape);
 
                             m_pNewLineShape->Refresh();
@@ -1180,6 +1185,7 @@ void wxSFShapeCanvas::LoadCanvas(const wxString& file)
                     if(!fChartLoaded)
                     {
                         m_pManager->DeserializeObjects(NULL, child);
+
                         fChartLoaded = true;
                     }
                 }
@@ -1403,12 +1409,15 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
 	while(node)
 	{
 		// iterate through all shape's handles
-		wxCHandleListNode* hnode = node->GetData()->GetHandles().GetFirst();
-		while(hnode)
+		if(node->GetData()->CanChangeSize())
 		{
-			pHandle = hnode->GetData();
-			if(pHandle->IsVisible() && pHandle->IsInside(pos))return pHandle;
-			hnode = hnode->GetNext();
+            wxCHandleListNode* hnode = node->GetData()->GetHandles().GetFirst();
+            while(hnode)
+            {
+                pHandle = hnode->GetData();
+                if(pHandle->IsVisible() && pHandle->IsInside(pos))return pHandle;
+                hnode = hnode->GetNext();
+            }
 		}
 		node = node->GetNext();
 	}
@@ -1927,7 +1936,7 @@ void wxSFShapeCanvas::Paste()
 			if(instream.IsOk())
 			{
 				// deserialize XML data
-				m_pManager->DeserializeChartFromXml(instream);
+				m_pManager->DeserializeFromXml(instream);
 
 				SaveCanvasState();
 				Refresh();

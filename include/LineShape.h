@@ -41,7 +41,7 @@ public:
 WX_DECLARE_OBJARRAY(CLineSegment, CLineSegmentArray);
 
 /// <summary> Basic class encapsulating the multiline consisting of several line segments. </summary>
-class wxSFLineShape :	public wxSFShapeBase
+class WXDLLIMPEXP_SF wxSFLineShape : public wxSFShapeBase
 {
 public:
 

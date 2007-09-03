@@ -14,7 +14,7 @@
 
 /// <summary> Class encapsulating the ellipse shape. It extends the basic rectangular shape. </summary>
 /// <seealso cref="wxSFRectShape"></seealso>
-class wxSFEllipseShape : public wxSFRectShape
+class WXDLLIMPEXP_SF wxSFEllipseShape : public wxSFRectShape
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxSFEllipseShape);
@@ -24,9 +24,8 @@ public:
     /// <summary> User constructor </summary>
     /// <param name="pos"> Initial position </param>
     /// <param name="size"> Initial size </param>
-    /// <param name="parentId"> ID of the parent shape </param>
     /// <param name="manager"> Pointer to parent diagram manager </param>
-	wxSFEllipseShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFDiagramManager* manager);
+	wxSFEllipseShape(const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source shape </param>
 	wxSFEllipseShape(wxSFEllipseShape& obj);

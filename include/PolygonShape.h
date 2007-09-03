@@ -20,7 +20,7 @@
 /// defined by a set of its vertices. The class can be used as it is or as a base class
 /// for shapes with more complex form and functionality. </summary>
 /// <seealso cref="wxSFDiamondShape"></seealso>
-class wxSFPolygonShape : public wxSFRectShape
+class WXDLLIMPEXP_SF wxSFPolygonShape : public wxSFRectShape
 {
 public:
 	DECLARE_DYNAMIC_CLASS(wxSFPolygonShape);
@@ -31,9 +31,8 @@ public:
 	/// <param name="n"> Number of the polygon vertices </param>
 	/// <param name="pts"> Array of the polygon vertices </param>
 	/// <param name="pos"> Relative position of the polygon shape </param>
-	/// <param name="parentId"> ID of a parent shape </param>
 	/// <param name="manager"> Pointer of parent diagram manager </param>
-	wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager);
+	wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to a source object </param>
 	wxSFPolygonShape(wxSFPolygonShape& obj);

@@ -43,6 +43,7 @@ Distribution content:
 
 .\doc		- wxSF doxygen documentation file (in CHM and HTML format).
 .\example	- Source code and project files of wxSF Demonstration application.
+.\samples	- Various simple sample projects
 .\include	- Library headers files (needed for both hosting applications and
 		library itself)
 .\src		- Source code ad project files of the wxSF library

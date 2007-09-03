@@ -14,7 +14,7 @@
 
 /// <summary> Class encapsulating the diamond shape. It extends the basic polygon shape. </summary>
 /// <seealso cref="wxSFPolygonShape"></seealso>
-class wxSFDiamondShape : public wxSFPolygonShape
+class WXDLLIMPEXP_SF wxSFDiamondShape : public wxSFPolygonShape
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxSFDiamondShape);
@@ -23,9 +23,8 @@ public:
     wxSFDiamondShape();
     /// <summary> User constructor </summary>
     /// <param name="pos"> Initial position </param>
-    /// <param name="parentId"> ID of the parent shape </param>
     /// <param name="manager"> Pointer to parent diagram manager </param>
-	wxSFDiamondShape(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager);
+	wxSFDiamondShape(const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFDiamondShape(wxSFDiamondShape& obj);

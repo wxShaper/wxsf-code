@@ -12,9 +12,10 @@
 
 #include "ShapeBase.h"
 
-class wxSFLineShape;
+class WXDLLIMPEXP_SF wxSFLineShape;
+
 /// <summary> Base class for a line arrows </summary>
-class wxSFArrowBase :	public xsSerializable
+class WXDLLIMPEXP_SF wxSFArrowBase : public xsSerializable
 {
 public:
 	friend class wxSFLineShape;

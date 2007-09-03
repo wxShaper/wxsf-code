@@ -18,7 +18,7 @@
 #define sfdvROUNDRECTSHAPE_RADIUS 20
 
 /// <summary> Class ecapsulating rounded rectangle. It extends the basic rectangular shape.</summary>
-class wxSFRoundRectShape :	public wxSFRectShape
+class WXDLLIMPEXP_SF wxSFRoundRectShape :	public wxSFRectShape
 {
 public:
 	DECLARE_DYNAMIC_CLASS(wxSFRoundRectShape);
@@ -29,9 +29,8 @@ public:
 	/// <param name="pos"> Initial position </param>
 	/// <param name="size"> Initial size </param>
 	/// <param name="radius"> Corner radius </param>
-	/// <param name="parentId"> ID of a parent shape </param>
 	/// <param name="manager"> Pointer of parent diagram manager </param>
-	wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, long parentId, wxSFDiagramManager* manager);
+	wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Refernce to the source object </param>
 	wxSFRoundRectShape(wxSFRoundRectShape& obj);

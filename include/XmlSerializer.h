@@ -15,11 +15,12 @@
     #include <wx/wx.h>
 #endif
 
+#include "Defs.h"
 #include <wx/list.h>
 #include <wx/xml/xml.h>
 
-WX_DECLARE_OBJARRAY(wxRealPoint, RealPointArray);
-WX_DECLARE_LIST(wxRealPoint, RealPointList);
+WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_SF);
+WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_SF);
 
 /*! \brief Macro creates new serialized STRING property */
 #define XS_SERIALIZE_STRING(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
@@ -77,6 +78,8 @@ WX_DECLARE_LIST(wxRealPoint, RealPointList);
 
 /*! \brief Macro creates new serialized property encapsulating a dynamic serializable object */
 #define XS_SERIALIZE_DYNAMIC_OBJECT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("serializabledynamic"), name);
+/*! \brief Macro creates new serialized property encapsulating a dynamic serializable object */
+#define XS_SERIALIZE_DYNAMIC_OBJECT_NO_CREATE(x, name) XS_SERIALIZE_PROPERTY(x, wxT("serializabledynamicnocreate"), name);
 /*! \brief Macro creates new serialized property encapsulating a static serializable object */
 #define XS_SERIALIZE_STATIC_OBJECT(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(xsSerializable)), wxT("Object is not xsSerializable"));XS_SERIALIZE_PROPERTY(x, wxT("serializablestatic"), name);
 
@@ -90,11 +93,11 @@ WX_DECLARE_LIST(wxRealPoint, RealPointList);
 /*! \brief Macro creates new serialized property with defined dafult value and automaticaly determines its type (if supported)*/
 #define XS_SERIALIZE_EX(x, name, def) AddProperty(new xsProperty(&x, name, def));
 
-class xsProperty;
-class xsSerializable;
+class WXDLLIMPEXP_SF xsProperty;
+class WXDLLIMPEXP_SF xsSerializable;
 
-WX_DECLARE_LIST(xsProperty, PropertyList);
-WX_DECLARE_LIST(xsSerializable, SerializableList);
+WX_DECLARE_LIST_WITH_DECL(xsProperty, PropertyList, class WXDLLIMPEXP_SF);
+WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_SF);
 
 /*!
  * \brief Base class encapsulating object which can be serialized/deserialized to/from
@@ -109,13 +112,15 @@ WX_DECLARE_LIST(xsSerializable, SerializableList);
  * member functions or by member functions of wxXmlSerializer class object which should be
  * used as their manager (recommended way).
  */
-class xsSerializable : public wxObject
+class WXDLLIMPEXP_SF xsSerializable : public wxObject
 {
 public:
     DECLARE_DYNAMIC_CLASS(xsSerializable);
 
     /*! \brief Constructor. */
     xsSerializable();
+    /*! \brief Copy constructor. */
+    xsSerializable(xsSerializable& obj);
     /*! \brief Destructor. */
     ~xsSerializable();
 
@@ -222,6 +227,16 @@ public:
      * \param field Name of examined property
      */
     bool IsPropertySerialized(const wxString& field);
+    /*!
+     * \brief Enable/disable object serialization.
+     * \param enab TRUE if the object should be serialized, otherwise FALSE
+     */
+    void EnableSerialization(bool enab){m_fSerialize = enab;}
+    /*!
+     * \brief Returns information whether the object is serialized or not.
+     */
+    bool IsSerialized(){return m_fSerialize;}
+
 
     /*! \brief Converts data from given string representation to its relevant value */
     static wxColour StringToColour(const wxString& val);
@@ -286,6 +301,8 @@ protected:
 
     /*! \brief Object ID */
     long m_nId;
+    /*! \brief Object serialization flag */
+    bool m_fSerialize;
 
     // protected functions
     /*!
@@ -375,7 +392,7 @@ protected:
  * 'serializabledynamic' and 'serializablestatic'. Only properties of these data types are recognized
  * and processed by parent serializable object.
  */
-class xsProperty : public wxObject
+class WXDLLIMPEXP_SF xsProperty : public wxObject
 {
 public:
     DECLARE_DYNAMIC_CLASS(xsProperty);
@@ -509,7 +526,7 @@ public:
  * its children). These child object can be handled via xsSerializable and wxXmlSerializer
  * classes' member functions.
  */
-class wxXmlSerializer : public wxObject
+class WXDLLIMPEXP_SF wxXmlSerializer : public wxObject
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxXmlSerializer);
@@ -601,22 +618,22 @@ public:
      * \brief Serialize stored objects to given file.
      * \param file Full path to output file.
      */
-    void SerializeToXml(const wxString& file);
+    virtual void SerializeToXml(const wxString& file);
     /*!
      * \brief Serialize strored objects to given stream.
      * \param outstream Output stream
      */
-    void SerializeToXml(wxOutputStream& outstream);
+    virtual void SerializeToXml(wxOutputStream& outstream);
     /*!
      * \brief Deserialize objects from given file.
      * \param file Full path to input file
      */
-    void DeserializeFromXml(const wxString& file);
+    virtual void DeserializeFromXml(const wxString& file);
     /*!
      * \brief Deserialize objects from given stream.
      * \param instream Input stream
      */
-    void DeserializeFromXml(wxInputStream& instream);
+    virtual void DeserializeFromXml(wxInputStream& instream);
 
     /*!
      * \brief Serialize child objects of given parent object (parent object can be optionaly

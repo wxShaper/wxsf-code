@@ -15,7 +15,7 @@
 /// <summary> Class extends the wxSFArrowBase class and encapsulates
 /// arrow shape consisting of single two lines leading from the end of the
 /// parent line shape </summary>
-class wxSFOpenArrow : public wxSFArrowBase
+class WXDLLIMPEXP_SF wxSFOpenArrow : public wxSFArrowBase
 {
 public:
 	DECLARE_DYNAMIC_CLASS(wxSFSolidArrow);

@@ -17,7 +17,7 @@
 
 /// <summary> Interpolation line shape. The class extends wxSFLineShape class and allows
 /// user to create curved connection line.</summary>
-class wxSFCurveShape : public wxSFLineShape
+class WXDLLIMPEXP_SF wxSFCurveShape : public wxSFLineShape
 {
 public:
 

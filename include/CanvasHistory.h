@@ -12,11 +12,11 @@
 
 #include "CanvasState.h"
 
-class wxSFShapeCanvas;
+class WXDLLIMPEXP_SF wxSFShapeCanvas;
 /// <summary> Container class that manages stored canvas states (canvas snapshots) and implements
 /// basic Undo/Redo functionality. </summary>
 /// <seealso cref="wxSFCanvasState"></seealso>
-class wxSFCanvasHistory : public wxObject
+class WXDLLIMPEXP_SF wxSFCanvasHistory : public wxObject
 {
 public:
     /// <summary> Default constructor </summary>

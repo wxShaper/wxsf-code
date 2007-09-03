@@ -12,7 +12,7 @@
 
 #include "textshape.h"
 
-class wxSFEditTextShape;
+class WXDLLIMPEXP_SF wxSFEditTextShape;
 
 /// <summary> Auxiliary class providing neccessary functionality needed for in-place
 /// modification of a content of the text shape. </summary>
@@ -51,7 +51,7 @@ protected:
 
 /// <summary> Class encapsulating the editable text shape. It extends the basic text shape. </summary>
 /// <seealso cref="wxSFTextShape"></seealso>
-class wxSFEditTextShape :	public wxSFTextShape
+class WXDLLIMPEXP_SF wxSFEditTextShape :	public wxSFTextShape
 {
 public:
 	friend class wxSFContentCtrl;
@@ -63,9 +63,8 @@ public:
 	/// <summary> User constructor </summary>
 	/// <param name="pos"> Initial position </param>
 	/// <param name="txt"> Text content </param>
-	/// <param name="parentId"> ID of the parent shape </param>
 	/// <param name="manager"> Pointer to the parent canvas </param>
-	wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager);
+	wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFEditTextShape(wxSFEditTextShape& obj);

@@ -17,7 +17,7 @@
 
 /// <summary> Class encapsulating the bitmap shape. The shape can display and control the
 /// extents of BMP files loaded from a file. </summary>
-class wxSFBitmapShape : public wxSFRectShape
+class WXDLLIMPEXP_SF wxSFBitmapShape : public wxSFRectShape
 {
 public:
 
@@ -28,9 +28,8 @@ public:
 	/// <summary> User contructor </summary>
 	/// <param name="pos"> Initial position </param>
 	/// <param name="bitmapPath"> BMP file name </param>
-	/// <param name="parentId"> ID of a parent shape </param>
 	/// <param name="manager"> Pointer of parent manager </param>
-	wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, long parentId, wxSFDiagramManager* manager);
+	wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Source shape </param>
 	wxSFBitmapShape(wxSFBitmapShape& obj);

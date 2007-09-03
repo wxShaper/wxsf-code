@@ -16,7 +16,7 @@
 
 #include <wx/listimpl.cpp>
 
-WX_DEFINE_LIST(ShapeList);
+WX_DEFINE_EXPORTED_LIST(ShapeList);
 
 ShapeList m_lstProcessed;
 
@@ -77,7 +77,7 @@ wxSFShapeBase::wxSFShapeBase(void)
 	m_lstHandles.DeleteContents(true);
 }
 
-wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
+wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager)
 {
 	wxASSERT_MSG(manager, wxT("Shape manager has not been properly set in shape constructor."));
 
@@ -148,7 +148,7 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramM
 	m_lstHandles.DeleteContents(true);
 }
 
-wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj)
+wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj) : xsSerializable(obj)
 {
 	// initialize data members
 	m_fSelected = obj.m_fSelected;
@@ -221,7 +221,7 @@ void wxSFShapeBase::GetCompleteBoundingBox(wxRect &rct, int mask)
 
 void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
     if(!m_pParentManager)return;
 
     if( m_lstProcessed.IndexOf(this) != wxNOT_FOUND )return;
@@ -433,8 +433,8 @@ void wxSFShapeBase::Update()
 
 bool wxSFShapeBase::AcceptCurrentlyDraggedShapes()
 {
-    wxASSERT(m_pParentManager);
-    wxASSERT(m_pParentManager->GetShapeCanvas());
+    //wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager->GetShapeCanvas());
 
     if(!m_pParentManager || !m_pParentManager->GetShapeCanvas())return false;
 
@@ -495,9 +495,9 @@ void wxSFShapeBase::FitToChildren()
 
 wxSFShapeBase* wxSFShapeBase::GetParentShape()
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
 
-    if(m_pParentManager->GetRootItem() != m_pParentItem)
+    if(m_pParentManager && (m_pParentManager->GetRootItem() != m_pParentItem) )
     {
         return (wxSFShapeBase*)m_pParentItem;
     }
@@ -516,8 +516,8 @@ void wxSFShapeBase::Refresh()
 
 void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 {
-    wxASSERT(m_pParentManager);
-    wxASSERT(m_pParentManager->GetShapeCanvas());
+    //wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager->GetShapeCanvas());
 
     if(!m_pParentManager || !m_pParentManager->GetShapeCanvas())return;
 
@@ -583,19 +583,6 @@ void wxSFShapeBase::CreateHandles()
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::AssignChild(wxSFShapeBase* child)
-{
-    wxASSERT(child);
-    wxASSERT(m_pParentManager);
-
-    if(m_pParentManager && child)
-    {
-        child->SetId(m_pParentManager->GetNewId());
-        this->AddChild(child);
-        Update();
-    }
-}
-
 void wxSFShapeBase::GetChildren(ShapeList& children, bool recursive)
 {
     wxSerializableListNode *node = GetFirstChildNode();
@@ -623,7 +610,7 @@ void wxSFShapeBase::GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, boo
 
 void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bool direct)
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
 
     if( m_pParentManager )
     {
@@ -715,7 +702,7 @@ void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bo
 
 wxSFShapeCanvas* wxSFShapeBase::GetParentCanvas()
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
     if( !m_pParentManager )return NULL;
 
     return m_pParentManager->GetShapeCanvas();
@@ -723,8 +710,8 @@ wxSFShapeCanvas* wxSFShapeBase::GetParentCanvas()
 
 void wxSFShapeBase::Refresh(const wxRect& rct)
 {
-    wxASSERT(m_pParentManager);
-    wxASSERT(m_pParentManager->GetShapeCanvas());
+    //wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager->GetShapeCanvas());
 
 	if(m_pParentManager && m_pParentManager->GetShapeCanvas())
 	{
@@ -909,7 +896,7 @@ void wxSFShapeBase::_OnBeginDrag(const wxPoint& pos)
 
 void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
     if( !m_pParentManager )return;
 
 	if(m_fVisible && m_fActive && m_fPositionChange)
@@ -948,7 +935,7 @@ void wxSFShapeBase::_OnEndDrag(const wxPoint& pos)
 
 void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
     if( !m_pParentManager )return;
 
 	if(m_fVisible && m_fActive)
@@ -1020,13 +1007,15 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 
 void wxSFShapeBase::_OnKey(int key)
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
+
+    if(!m_pParentManager)return;
 
     wxSFShapeCanvas *pCanvas = m_pParentManager->GetShapeCanvas();
 
-    wxASSERT(pCanvas);
+    //wxASSERT(pCanvas);
 
-    if( !m_pParentManager || !pCanvas)return;
+    if(!pCanvas)return;
 
 	if(m_fVisible && m_fActive && m_fSelected)
 	{
@@ -1090,7 +1079,7 @@ void wxSFShapeBase::_OnKey(int key)
 
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
-    wxASSERT(m_pParentManager);
+   // wxASSERT(m_pParentManager);
     if( !m_pParentManager )return;
 
     // get initial bounding box

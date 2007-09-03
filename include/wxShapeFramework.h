@@ -30,6 +30,6 @@
 #include "LineShape.h"
 #include "CurveShape.h"
 
-#include "CommonFcn.h"
+#include "SFEvents.h"
 
 #include "XmlSerializer.h"

@@ -38,6 +38,9 @@
 /*! \brief Default value of wxSFShapeCanvas::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
 
+/*!
+ * \brief Auxiliary serializable class encapsulating the canvas properties.
+ */
 class wxSFCanvasSettings : public xsSerializable
 {
 public:
@@ -71,7 +74,7 @@ public:
  * built in functionality wont be available.
  * \sa wxSFDiagramManager
  */
-class wxSFShapeCanvas : public wxScrolledWindow
+class WXDLLIMPEXP_SF wxSFShapeCanvas : public wxScrolledWindow
 {
 public:
 

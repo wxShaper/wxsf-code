@@ -13,7 +13,7 @@
 #include "FixedRectShape.h"
 
 /// <summary> Class encapsulating the circle shape.</summary>
-class wxSFCircleShape : public wxSFSquareShape
+class WXDLLIMPEXP_SF wxSFCircleShape : public wxSFSquareShape
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxSFCircleShape);
@@ -23,9 +23,8 @@ public:
 	/// <summary> User constructor </summary>
 	/// <param name="pos"> Initial shape position </param>
 	/// <param name="radius"> Circle radius </param>
-	/// <param name="parentId"> ID of the parent shape </param>
 	/// <param name="manager"> Pointer to parent manager </param>
-	wxSFCircleShape(const wxRealPoint& pos, double radius, long parentId, wxSFDiagramManager* manager);
+	wxSFCircleShape(const wxRealPoint& pos, double radius, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFCircleShape(wxSFCircleShape& obj);

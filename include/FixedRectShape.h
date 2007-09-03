@@ -14,7 +14,7 @@
 
 /// <summary> Class encapsulating the square shape. It extends the basic rectangular shape. </summary>
 /// <seealso cref="wxSFRectShape"></seealso>
-class wxSFSquareShape : public wxSFRectShape
+class WXDLLIMPEXP_SF wxSFSquareShape : public wxSFRectShape
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxSFSquareShape);
@@ -24,9 +24,8 @@ public:
 	/// <summary> User constructor </summary>
 	/// <param name="pos"> Initial position </param>
 	/// <param name="size"> Initial size </param>
-	/// <param name="parentId"> ID of the parent shape </param>
 	/// <param name="manager"> Pointer to parent diagram manager </param>
-	wxSFSquareShape(const wxRealPoint& pos, double size, long parentId, wxSFDiagramManager* manager);
+	wxSFSquareShape(const wxRealPoint& pos, double size, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFSquareShape(wxSFSquareShape& obj);

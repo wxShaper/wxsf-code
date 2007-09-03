@@ -22,7 +22,7 @@
  * displaying of various text information in the canvas.
  * \sa wxSFEditTextShape
  */
-class wxSFTextShape : public wxSFRectShape
+class WXDLLIMPEXP_SF wxSFTextShape : public wxSFRectShape
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxSFTextShape);
@@ -33,10 +33,9 @@ public:
      * \brief User constructor.
      * \param pos Initial position
      * \param txt Text content
-     * \param parentId ID of a parent shape
      * \param manager Pointer to parent diagram manager
      */
-	wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager);
+	wxSFTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager);
 	/*!
 	 * \brief Copy constructor.
 	 * \param obj Source objct
@@ -97,6 +96,8 @@ public:
 	 * \param handle Reference to dragged handle
 	 */
     virtual void OnHandle(wxSFShapeHandle& handle);
+	/*! \brief Upate shape (align all child shapes an resize it to fit them) */
+	virtual void Update();
 
     // public functions
     wxSize GetTextExtent();

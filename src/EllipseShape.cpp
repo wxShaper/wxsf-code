@@ -18,8 +18,8 @@ wxSFEllipseShape::wxSFEllipseShape(void)
 
 }
 
-wxSFEllipseShape::wxSFEllipseShape(const wxRealPoint& pos, const wxRealPoint& size, long parentId, wxSFDiagramManager* manager)
-: wxSFRectShape(pos, size, parentId, manager)
+wxSFEllipseShape::wxSFEllipseShape(const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, size, manager)
 {
 
 }

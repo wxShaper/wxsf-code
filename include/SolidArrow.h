@@ -18,7 +18,7 @@
 /// <summary> Class extends the wxSFArrowBase class and encapsulates
 /// arrow shape consisting of a solid triangle pointing to the end of the
 /// parent line shape </summary>
-class wxSFSolidArrow :	public wxSFOpenArrow
+class WXDLLIMPEXP_SF wxSFSolidArrow :	public wxSFOpenArrow
 {
 public:
 	DECLARE_DYNAMIC_CLASS(wxSFSolidArrow);

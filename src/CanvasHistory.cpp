@@ -47,7 +47,7 @@ void wxSFCanvasHistory::SaveCanvasState()
 	if(outstream.IsOk() && m_pParentCanvas && m_pParentCanvas->GetDiagramManager())
 	{
 		// serialize canvas to memory stream
-		m_pParentCanvas->GetDiagramManager()->SerializeChartToXml(outstream);
+		m_pParentCanvas->GetDiagramManager()->SerializeToXml(outstream);
 
 		// delete all states newer than the current state
 		if(m_pCurrentCanvasState)

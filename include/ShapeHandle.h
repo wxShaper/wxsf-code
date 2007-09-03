@@ -14,7 +14,7 @@
 
 #include "ScaledPaintDC.h"
 
-class wxSFShapeBase;
+class WXDLLIMPEXP_SF wxSFShapeBase;
 
 /*! \brief Class encapsulates shape's handle. The class shouldn't be used separately; see
  * wxSFShapeBase class for more detailed information about functions used for managing of shape

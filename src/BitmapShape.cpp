@@ -26,8 +26,8 @@ wxSFBitmapShape::wxSFBitmapShape(void)
     XS_SERIALIZE_EX(m_fCanScale, wxT("scale_image"), sfdvBITMAPSHAPE_SCALEIMAGE);
 }
 
-wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, long parentId, wxSFDiagramManager* manager)
-: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, manager)
+wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, wxRealPoint(1, 1), manager)
 {
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;

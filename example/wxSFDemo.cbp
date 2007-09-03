@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\bin\Win-gcc\Debug\wxSFDemo.exe" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\obj\Win-gcc\wxsfdemo\Debug" />
+				<Option output="..\bin\Win-gcc\Lib\Debug\wxSFDemo" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\obj\Win-gcc\wxsfdemo\Lib\Debug" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -29,12 +29,12 @@
 					<Add library="libwxzlibd.a" />
 					<Add library="libwxexpatd.a" />
 					<Add directory="$(#wx)\lib\gcc_lib" />
-					<Add directory="..\lib\Win-gcc\Debug" />
+					<Add directory="..\lib\Win-gcc\Lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="..\bin\Win-gcc\Release\wxSFDemo.exe" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\obj\Win-gcc\wxsfdemo\Release" />
+				<Option output="..\bin\Win-gcc\Lib\Release\wxSFDemo" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\obj\Win-gcc\wxsfdemo\Lib\Release" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -55,13 +55,13 @@
 					<Add library="libwxzlib.a" />
 					<Add library="libwxexpat.a" />
 					<Add directory="$(#wx)\lib\gcc_lib" />
-					<Add directory="..\lib\Win-gcc\Release" />
+					<Add directory="..\lib\Win-gcc\Lib" />
 				</Linker>
 			</Target>
 			<Target title="Debug DLL">
-				<Option output="..\bin\Win-gcc\DebugDLL\wxSFDemo.exe" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\bin\Win-gcc\DebugDLL" />
-				<Option object_output="..\obj\Win-gcc\wxsfdemo\DebugDLL" />
+				<Option output="..\bin\Win-gcc\Dll\Debug\wxSFDemo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\bin\Win-gcc\Dll\Debug" />
+				<Option object_output="..\obj\Win-gcc\wxsfdemo\Dll\Debug" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -83,13 +83,13 @@
 					<Add library="libwxzlibd.a" />
 					<Add library="libwxexpatd.a" />
 					<Add directory="$(#wx)\lib\gcc_dll" />
-					<Add directory="..\lib\Win-gcc\DebugDLL" />
+					<Add directory="..\lib\Win-gcc\Dll" />
 				</Linker>
 			</Target>
 			<Target title="Release DLL">
-				<Option output="..\bin\Win-gcc\ReleaseDLL\wxSFDemo.exe" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\bin\Win-gcc\ReleaseDLL" />
-				<Option object_output="..\obj\Win-gcc\wxsfdemo\ReleaseDLL" />
+				<Option output="..\bin\Win-gcc\Dll\Release\wxSFDemo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\bin\Win-gcc\Dll\Release" />
+				<Option object_output="..\obj\Win-gcc\wxsfdemo\Dll\Release" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -111,7 +111,7 @@
 					<Add library="libwxzlib.a" />
 					<Add library="libwxexpat.a" />
 					<Add directory="$(#wx)\lib\gcc_dll" />
-					<Add directory="..\lib\Win-gcc\ReleaseDLL" />
+					<Add directory="..\lib\Win-gcc\Dll" />
 				</Linker>
 			</Target>
 		</Build>
@@ -165,6 +165,7 @@
 		<Extensions>
 			<code_completion />
 			<envvars />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

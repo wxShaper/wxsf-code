@@ -22,8 +22,8 @@ wxSFPolygonShape::wxSFPolygonShape(void)
     XS_SERIALIZE(m_arrVertices, wxT("vertices"));
 }
 
-wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
-: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, manager)
+wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, wxRealPoint(1, 1), manager)
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
 

@@ -8,12 +8,12 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\lib\Win-gcc\Debug\libwxSFd.a" prefix_auto="1" extension_auto="1" />
+				<Option output="..\lib\Win-gcc\Lib\libwxSFd" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="..\obj\Win-gcc\wxsf\Debug" />
+				<Option object_output="..\obj\Win-gcc\wxsf\Lib\Debug" />
 				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\Debug\wxSFDemo.exe" />
+				<Option host_application="..\bin\Win-gcc\Lib\Debug\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
@@ -34,12 +34,12 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="..\lib\Win-gcc\Release\libwxSF.a" prefix_auto="1" extension_auto="1" />
+				<Option output="..\lib\Win-gcc\Lib\libwxSF" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="..\obj\Win-gcc\wxsf\Release" />
+				<Option object_output="..\obj\Win-gcc\wxsf\Lib\Release" />
 				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\Release\wxSFDemo.exe" />
+				<Option host_application="..\bin\Win-gcc\Lib\Release\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
@@ -60,17 +60,18 @@
 				</Linker>
 			</Target>
 			<Target title="Release DLL">
-				<Option output="..\lib\Win-gcc\ReleaseDLL\wxSF.dll" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\obj\Win-gcc\wxsf\ReleaseDLL" />
+				<Option output="..\lib\Win-gcc\Dll\wxSF" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\obj\Win-gcc\wxsf\Dll\Release" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\ReleaseDLL\wxSFDemo.exe" />
+				<Option host_application="..\bin\Win-gcc\Dll\Release\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-DWXUSINGDLL" />
+					<Add option="-DWXMAKINGDLL_SF" />
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -86,15 +87,15 @@
 					<Add directory="$(#wx)\lib\gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="xcopy ..\lib\Win-gcc\ReleaseDLL\wxSF.dll ..\bin\Win-gcc\ReleaseDLL /Y /I" />
+					<Add after="xcopy ..\lib\Win-gcc\Dll\wxSF.dll ..\bin\Win-gcc\Dll\Release /Y /I" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug DLL">
-				<Option output="..\lib\Win-gcc\DebugDLL\wxSFd.dll" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\obj\Win-gcc\wxsf\DebugDLL" />
+				<Option output="..\lib\Win-gcc\Dll\wxSFd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="..\obj\Win-gcc\wxsf\Dll\Debug" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\DebugDLL\wxSFDemo.exe" />
+				<Option host_application="..\bin\Win-gcc\Dll\Debug\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -102,6 +103,7 @@
 					<Add option="-g" />
 					<Add option="-D__WXDEBUG__" />
 					<Add option="-DWXUSINGDLL" />
+					<Add option="-DWXMAKINGDLL_SF" />
 					<Add directory="$(#wx)\lib\gcc_dll\mswud" />
 				</Compiler>
 				<ResourceCompiler>
@@ -116,7 +118,7 @@
 					<Add directory="$(#wx)\lib\gcc_dll" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="xcopy ..\lib\Win-gcc\DebugDLL\wxSFd.dll ..\bin\Win-gcc\DebugDLL /Y /I" />
+					<Add after="xcopy ..\lib\Win-gcc\Dll\wxSFd.dll ..\bin\Win-gcc\Dll\Debug /Y /I" />
 				</ExtraCommands>
 			</Target>
 		</Build>
@@ -158,6 +160,7 @@
 		<Unit filename="..\include\CircleShape.h" />
 		<Unit filename="..\include\CommonFcn.h" />
 		<Unit filename="..\include\CurveShape.h" />
+		<Unit filename="..\include\Defs.h" />
 		<Unit filename="..\include\DiagramManager.h" />
 		<Unit filename="..\include\DiamondShape.h" />
 		<Unit filename="..\include\EditTextShape.h" />
@@ -169,6 +172,7 @@
 		<Unit filename="..\include\PolygonShape.h" />
 		<Unit filename="..\include\RectShape.h" />
 		<Unit filename="..\include\RoundRectShape.h" />
+		<Unit filename="..\include\SFEvents.h" />
 		<Unit filename="..\include\ScaledPaintDC.h" />
 		<Unit filename="..\include\ShapeBase.h" />
 		<Unit filename="..\include\ShapeCanvas.h" />
@@ -202,6 +206,7 @@
 		<Unit filename="RectShapeXml.cpp" />
 		<Unit filename="RoundRectShape.cpp" />
 		<Unit filename="RoundRectShapeXml.cpp" />
+		<Unit filename="SFEvents.cpp" />
 		<Unit filename="ScaledPaintDC.cpp" />
 		<Unit filename="ShapeBase.cpp" />
 		<Unit filename="ShapeBaseXml.cpp" />

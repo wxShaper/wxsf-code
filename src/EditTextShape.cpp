@@ -90,8 +90,8 @@ wxSFEditTextShape::wxSFEditTextShape(void)
 	m_pTextCtrl = NULL;
 }
 
-wxSFEditTextShape::wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager)
-: wxSFTextShape(pos, txt, parentId, manager)
+wxSFEditTextShape::wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager)
+: wxSFTextShape(pos, txt, manager)
 {
 	m_pTextCtrl = NULL;
 }

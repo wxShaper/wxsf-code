@@ -20,6 +20,7 @@
 #include "ShapeHandle.h"
 #include "ScaledPaintDC.h"
 #include "XmlSerializer.h"
+#include "Defs.h"
 
 #define sfRECURSIVE true
 #define sfNORECURSIVE false
@@ -60,12 +61,11 @@
 /// <summary> Default value of wxSFShapeObject::m_fDeleteUserData data member </summary>
 #define sfdvBASESHAPE_DELETEUSERDATA true
 
-class wxSFShapeCanvas;
-class wxSFDiagramManager;
+class WXDLLIMPEXP_SF wxSFShapeCanvas;
+class WXDLLIMPEXP_SF wxSFDiagramManager;
+class WXDLLIMPEXP_SF wxSFShapeBase;
 
-class wxSFShapeBase;
-
-WX_DECLARE_LIST(wxSFShapeBase, ShapeList);
+WX_DECLARE_LIST_WITH_DECL(wxSFShapeBase, ShapeList, class WXDLLIMPEXP_SF);
 
 /// <summary>
 /// Base class for all shapes providing fundamental functionality and publishing set
@@ -82,7 +82,7 @@ WX_DECLARE_LIST(wxSFShapeBase, ShapeList);
 /// events (moving, sizing, drawing, mouse events, serialization and deserialization requests, ...)
 /// mostly triggered by a parent shape canvas.
 /// </summary>
-class wxSFShapeBase : public xsSerializable
+class WXDLLIMPEXP_SF wxSFShapeBase : public xsSerializable
 {
 public:
 
@@ -133,9 +133,8 @@ public:
 	wxSFShapeBase(void);
 	/// <summary> User constructor </summary>
 	/// <param name="pos"> Initial relative position </param>
-	/// <param name="parentId"> ID of a parent shape </param>
 	/// <param name="manager"> Pointer to parent diagram manager </param>
-	wxSFShapeBase(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager);
+	wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
 	wxSFShapeBase(wxSFShapeBase& obj);
@@ -285,10 +284,10 @@ public:
 	/// <param name="delta"> Offset </param>
 	void MoveBy(const wxRealPoint& delta);
 
-	/*! \brief Upate shape (align all child shapes an resize it to fit them) */
-	void Update();
 	/*! \brief Update shape position in order to its alignment */
 	void DoAlignment();
+	/*! \brief Upate shape (align all child shapes an resize it to fit them) */
+	virtual void Update();
 	/*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
 	virtual void FitToChildren();
 
@@ -297,7 +296,7 @@ public:
 	bool IsSelected(){return m_fSelected;}
 	/// <summary> Set the shape as a selected/deselected one </summary>
 	/// <param name="state"> Selection state (TRUE is selected, FALSE is deselected) </param>
-	void Select(bool state){m_fSelected = state; ShowHandles(state);}
+	void Select(bool state){m_fSelected = state; ShowHandles(state && m_fSizeChange);}
 
     /// <summary> Set shape's relative position. Absolute shape's position is then calculated
     /// as a sumation of the relative positions of this shape and all parent shapes in the shape's
@@ -369,14 +368,6 @@ public:
 	 */
 	double GetHBorder(){return m_nHBorder;}
 
-    /*!
-     * \brief Assign existing shape as a child.
-     *
-     * If the child is not added in global shape list managed by the diagram manager
-     * the it is added. Also the child's parent shape ID value is set properly.
-     * \param child Pointer to child shape
-     */
-    void AssignChild(wxSFShapeBase* child);
     /// <summary> Get pointer to a parent shape </summary>
 	wxSFShapeBase* GetParentShape();
 

@@ -38,7 +38,7 @@ Distribution content:
 .\ReleaseDLL	- DLL-based executable and relevant DLLs of wxShapeFramework demo
 		application.
 
-All binaries have been built with GCC 3.4.5 and unicode release of wxWidgets 2.8.3.p1
+All binaries have been built with GCC 3.4.5 and unicode release of wxWidgets 2.8.4
 (both static and dynamic link).
 
 Note:

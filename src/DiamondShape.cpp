@@ -24,8 +24,8 @@ wxSFDiamondShape::wxSFDiamondShape()
 	SetVertices(4, diamond);
 }
 
-wxSFDiamondShape::wxSFDiamondShape(const wxRealPoint& pos, long parentId, wxSFDiagramManager* manager)
-: wxSFPolygonShape(4, diamond, pos, parentId, manager)
+wxSFDiamondShape::wxSFDiamondShape(const wxRealPoint& pos, wxSFDiagramManager* manager)
+: wxSFPolygonShape(4, diamond, pos, manager)
 {
 	EnablePropertySerialization(wxT("vertices"), false);
 }

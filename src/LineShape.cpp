@@ -45,7 +45,7 @@ wxSFLineShape::wxSFLineShape(void)
 }
 
 wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
-: wxSFShapeBase(wxRealPoint(0, 0), -1, manager)
+: wxSFShapeBase(wxRealPoint(0, 0), manager)
 {
 	m_nSrcShapeId = src;
 	m_nTrgShapeId = trg;
@@ -436,7 +436,9 @@ void wxSFLineShape::DrawHighlighted(wxSFScaledPaintDC& dc)
 
 void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
+
+    if(!m_pParentManager)return;
 
     //segments.Clear();
     segments.Alloc(m_lstPoints.GetCount()+1);
@@ -482,7 +484,9 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 
 void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
 {
-    wxASSERT(m_pParentManager);
+    //wxASSERT(m_pParentManager);
+
+    if(!m_pParentManager)return;
 
     size_t i;
 	CLineSegmentArray arrLines;

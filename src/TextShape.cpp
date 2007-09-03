@@ -32,8 +32,8 @@ wxSFTextShape::wxSFTextShape(void)
     UpdateRectSize();
 }
 
-wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, long parentId, wxSFDiagramManager* manager)
-: wxSFRectShape(pos, wxRealPoint(1, 1), parentId, manager)
+wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager)
+: wxSFRectShape(pos, wxRealPoint(1, 1), manager)
 {
     m_Font = sfdvTEXTSHAPE_FONT;
     m_Font.SetPointSize(12);
@@ -70,6 +70,12 @@ wxSFTextShape::~wxSFTextShape()
 //----------------------------------------------------------------------------------//
 // public virtual functions
 //----------------------------------------------------------------------------------//
+
+void wxSFTextShape::Update()
+{
+    UpdateRectSize();
+    wxSFShapeBase::Update();
+}
 
 void wxSFTextShape::Scale(double x, double y, bool children)
 {
@@ -138,11 +144,14 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 		    double dx = m_nRectSize.x - prevSize.x;
 
             // update position of children
-            ShapeList m_lstChildren;
+            /*ShapeList m_lstChildren;
             GetChildren(m_lstChildren);
-            m_lstChildren.Insert(this);
+            m_lstChildren.Insert(this);*/
 
-            wxShapeListNode *node = m_lstChildren.GetFirst();
+            //wxShapeListNode *node = m_lstChildren.GetFirst();
+            MoveBy(-dx, 0);
+
+            wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
             while(node)
             {
                 node->GetData()->MoveBy(-dx, 0);
@@ -156,11 +165,14 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 		    double dy = m_nRectSize.y - prevSize.y;
 
             // update position of children
-            ShapeList m_lstChildren;
+            /*ShapeList m_lstChildren;
             GetChildren(m_lstChildren);
             m_lstChildren.Insert(this);
 
-            wxShapeListNode *node = m_lstChildren.GetFirst();
+            wxShapeListNode *node = m_lstChildren.GetFirst();*/
+            MoveBy(0, -dy);
+
+            wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
             while(node)
             {
                 node->GetData()->MoveBy(0, -dy);
