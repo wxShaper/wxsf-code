@@ -25,7 +25,9 @@ bool wxSFSample2App::OnInit()
     wxSFSample2Frame* frame = new wxSFSample2Frame(0L, _("wxShapeFramework Sample 2"));
 
     // To Set App Icon
+    #ifdef __WXMSW__
     frame->SetIcon(wxICON(aaaa));
+    #endif
     frame->Show();
 
     return true;

@@ -203,10 +203,12 @@ void wxSFShapeHandle::OnEndDrag(const wxPoint& pos)
 
 void wxSFShapeHandle::DrawNormal(wxSFScaledPaintDC& dc)
 {
+    dc.SetPen(*wxBLACK_PEN);
     dc.SetBrush(*wxBLACK_BRUSH);
     dc.SetLogicalFunction(wxINVERT);
     dc.DrawRectangle(GetHandleRect());
     dc.SetLogicalFunction(wxCOPY);
+    dc.SetPen(wxNullPen);
     dc.SetBrush(wxNullBrush);
 }
 

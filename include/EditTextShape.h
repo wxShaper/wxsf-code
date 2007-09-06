@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "textshape.h"
+#include "TextShape.h"
 
 class WXDLLIMPEXP_SF wxSFEditTextShape;
 

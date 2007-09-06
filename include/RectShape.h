@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "shapebase.h"
+#include "ShapeBase.h"
 
 // default values
 /// <summary> Default value of wxSFRectShape::m_nRectSize data member </summary>
@@ -24,7 +24,7 @@
 /// for many other shapes that can be bounded by a simple rectangle. The class
 /// provides all functionality needed for manipulating the rectangle's (bounding box)
 /// size and position. </summary>
-class WXDLLIMPEXP_SF wxSFRectShape :	public wxSFShapeBase
+class WXDLLIMPEXP_SF wxSFRectShape : public wxSFShapeBase
 {
 public:
 	DECLARE_DYNAMIC_CLASS(wxSFRectShape);

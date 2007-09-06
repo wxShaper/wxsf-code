@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "rectshape.h"
+#include "RectShape.h"
 
 /// <summary> Auxiliary class encapsulating multiselection rectangle used
 /// in the shape canvas. The class shouldn't be used directly. </summary>

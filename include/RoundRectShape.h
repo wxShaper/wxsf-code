@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "rectshape.h"
+#include "RectShape.h"
 
 // default values
 

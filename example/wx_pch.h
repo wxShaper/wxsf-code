@@ -10,9 +10,7 @@
 #ifndef WX_PCH_H_INCLUDED
 #define WX_PCH_H_INCLUDED
 
-#ifndef __GNUWIN32__
 #pragma warning( disable : 4251 )
-#endif
 
 // basic wxWidgets headers
 #include <wx/wxprec.h>
