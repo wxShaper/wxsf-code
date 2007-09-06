@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="wxShapeFramework">
+		<Project filename="src/wxSF.Linux.cbp" />
+		<Project filename="example/wxSFDemo.Linux.cbp" active="1">
+			<Depends filename="src/wxSF.Linux.cbp" />
+		</Project>
+		<Project filename="samples/wxSFSample1/wxSFSample1.Linux.cbp">
+			<Depends filename="src/wxSF.Linux.cbp" />
+		</Project>
+		<Project filename="samples/wxSFSample2/wxSFSample2.Linux.cbp">
+			<Depends filename="src/wxSF.Linux.cbp" />
+		</Project>
+		<Project filename="samples/wxSFSample3/wxSFSample3.Linux.cbp">
+			<Depends filename="src/wxSF.Linux.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

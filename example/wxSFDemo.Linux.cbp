@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="wxSFDemo" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../bin/Lin-gcc/Lib/Debug/wxSFDemo" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../obj/Lin-gcc/wxsfdemo/Lib/Debug" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="libwxSFd.a" />
+					<Add directory="../lib/Lin-gcc/Lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../bin/Lin-gcc/Lib/Release/wxSFDemo" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../obj/Lin-gcc/wxsfdemo/Lib/Release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="libwxSF.a" />
+					<Add directory="../lib/Lin-gcc/Lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug DLL">
+				<Option output="../bin/Lin-gcc/Dll/Debug/wxSFDemo" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="../bin/Lin-gcc/Dll/Debug" />
+				<Option object_output="../obj/Lin-gcc/wxsfdemo/Dll/Debug" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DWXUSINGDLL" />
+				</Compiler>
+				<Linker>
+					<Add library="wxSFd" />
+					<Add directory="../lib/Lin-gcc/Dll" />
+				</Linker>
+			</Target>
+			<Target title="Release DLL">
+				<Option output="../bin/Lin-gcc/Dll/Release/wxSFDemo" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="../bin/Lin-gcc/Dll/Release" />
+				<Option object_output="../obj/Lin-gcc/wxsfdemo/Dll/Release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DWXUSINGDLL" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="wxSF" />
+					<Add directory="../lib/Lin-gcc/Dll" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="`wx-config --cflags`" />
+			<Add option="-pipe" />
+			<Add option="-include wx_pch.h" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DWX_PRECOMP" />
+			<Add directory="../include" />
+		</Compiler>
+		<Linker>
+			<Add option="`wx-config --libs`" />
+		</Linker>
+		<Unit filename="Art.h" />
+		<Unit filename="FrameCanvas.cpp" />
+		<Unit filename="FrameCanvas.h" />
+		<Unit filename="Ids.h" />
+		<Unit filename="MainApp.cpp" />
+		<Unit filename="MainApp.h" />
+		<Unit filename="MainFrame.cpp" />
+		<Unit filename="MainFrame.h" />
+		<Unit filename="_wx_intellisense_28.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="wx_pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
