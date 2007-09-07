@@ -521,7 +521,7 @@ void wxXmlSerializer::SetRootItem(xsSerializable* root)
     wxASSERT(root);
     wxASSERT(root->IsKindOf(CLASSINFO(xsSerializable)));
 
-    if(root)
+    if(root && root->IsKindOf(CLASSINFO(xsSerializable)))
     {
         if(m_pRoot)delete m_pRoot;
         m_pRoot = root;
