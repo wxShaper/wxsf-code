@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="wxSF" />
+		<Option pch_mode="0" />
+		<Option default_target="Release DLL" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../lib/Lin-gcc/Lib/libwxSFd" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../obj/Lin-gcc/wxsf/Lib/Debug" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option host_application="../bin/Lin-gcc/Lib/Debug/wxSFDemo" />
+				<Option createDefFile="1" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../lib/Lin-gcc/Lib/libwxSF" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../obj/Lin-gcc/wxsf/Lib/Release" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option host_application="../bin/Lin-gcc/Lib/Release/wxSFDemo" />
+				<Option createDefFile="1" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Release DLL">
+				<Option output="../lib/Lin-gcc/Dll/libwxSF.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../obj/Lin-gcc/wxsf/Dll/Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option host_application="../bin/Lin-gcc/Dll/Release/wxSFDemo" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DWXMAKINGDLL_SF" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cp -f ../lib/Lin-gcc/Dll/libwxSF.so ../bin/Lin-gcc/Dll/Release" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug DLL">
+				<Option output="../lib/Lin-gcc/Dll/libwxSFd.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../obj/Lin-gcc/wxsf/Dll/Debug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option host_application="../bin/Lin-gcc/Dll/Debug/wxSFDemo" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DWXMAKINGDLL_SF" />
+				</Compiler>
+				<ExtraCommands>
+					<Add after="cp -f ../lib/Lin-gcc/Dll/libwxSFd.so ../bin/Lin-gcc/Dll/Debug" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="`wx-config --cflags`" />
+			<Add option="-pipe" />
+			<Add option="-include wx_pch.h" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DWX_PRECOMP" />
+			<Add directory="../include" />
+		</Compiler>
+		<Linker>
+			<Add option="`wx-config --libs`" />
+		</Linker>
+		<Unit filename="../include/ArrowBase.h" />
+		<Unit filename="../include/BitmapShape.h" />
+		<Unit filename="../include/CanvasHistory.h" />
+		<Unit filename="../include/CanvasState.h" />
+		<Unit filename="../include/CircleShape.h" />
+		<Unit filename="../include/CommonFcn.h" />
+		<Unit filename="../include/CurveShape.h" />
+		<Unit filename="../include/Defs.h" />
+		<Unit filename="../include/DiagramManager.h" />
+		<Unit filename="../include/DiamondShape.h" />
+		<Unit filename="../include/EditTextShape.h" />
+		<Unit filename="../include/EllipseShape.h" />
+		<Unit filename="../include/FixedRectShape.h" />
+		<Unit filename="../include/LineShape.h" />
+		<Unit filename="../include/MultiSelRect.h" />
+		<Unit filename="../include/OpenArrow.h" />
+		<Unit filename="../include/PolygonShape.h" />
+		<Unit filename="../include/RectShape.h" />
+		<Unit filename="../include/RoundRectShape.h" />
+		<Unit filename="../include/SFEvents.h" />
+		<Unit filename="../include/ScaledPaintDC.h" />
+		<Unit filename="../include/ShapeBase.h" />
+		<Unit filename="../include/ShapeCanvas.h" />
+		<Unit filename="../include/ShapeDataObject.h" />
+		<Unit filename="../include/ShapeHandle.h" />
+		<Unit filename="../include/SolidArrow.h" />
+		<Unit filename="../include/TextShape.h" />
+		<Unit filename="../include/XmlSerializer.h" />
+		<Unit filename="../include/wxShapeFramework.h" />
+		<Unit filename="ArrowBase.cpp" />
+		<Unit filename="BitmapShape.cpp" />
+		<Unit filename="BitmapShapeXml.cpp" />
+		<Unit filename="CanvasHistory.cpp" />
+		<Unit filename="CanvasState.cpp" />
+		<Unit filename="CircleShape.cpp" />
+		<Unit filename="CommonFcn.cpp" />
+		<Unit filename="CurveShape.cpp" />
+		<Unit filename="CurveShapeXml.cpp" />
+		<Unit filename="DiagramManager.cpp" />
+		<Unit filename="DiamondShape.cpp" />
+		<Unit filename="EditTextShape.cpp" />
+		<Unit filename="EllipseShape.cpp" />
+		<Unit filename="FixedRectShape.cpp" />
+		<Unit filename="LineShape.cpp" />
+		<Unit filename="LineShapeXml.cpp" />
+		<Unit filename="MultiSelRect.cpp" />
+		<Unit filename="OpenArrow.cpp" />
+		<Unit filename="PolygonShape.cpp" />
+		<Unit filename="PolygonShapeXml.cpp" />
+		<Unit filename="RectShape.cpp" />
+		<Unit filename="RectShapeXml.cpp" />
+		<Unit filename="RoundRectShape.cpp" />
+		<Unit filename="RoundRectShapeXml.cpp" />
+		<Unit filename="SFEvents.cpp" />
+		<Unit filename="ScaledPaintDC.cpp" />
+		<Unit filename="ShapeBase.cpp" />
+		<Unit filename="ShapeBaseXml.cpp" />
+		<Unit filename="ShapeCanvas.cpp" />
+		<Unit filename="ShapeDataObject.cpp" />
+		<Unit filename="ShapeHandle.cpp" />
+		<Unit filename="SolidArrow.cpp" />
+		<Unit filename="TextShape.cpp" />
+		<Unit filename="TextShapeXml.cpp" />
+		<Unit filename="wx_pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Unit filename="wxxmlserializer/XmlSerializer.cpp" />
+		<Unit filename="wxxmlserializer/XmlSerializerConv.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
