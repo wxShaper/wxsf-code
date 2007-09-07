@@ -1942,6 +1942,7 @@ void wxSFShapeCanvas::Paste()
 				Refresh();
 			}
 		}
+		wxTheClipboard->Close();
 	}
 }
 

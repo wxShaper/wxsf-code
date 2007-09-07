@@ -206,7 +206,11 @@ void wxSFShapeHandle::DrawNormal(wxSFScaledPaintDC& dc)
     dc.SetPen(*wxBLACK_PEN);
     dc.SetBrush(*wxBLACK_BRUSH);
     dc.SetLogicalFunction(wxINVERT);
+    #ifdef __WXGTK__
+    dc.DrawRectangle(GetHandleRect().Inflate(1, 1));
+    #else
     dc.DrawRectangle(GetHandleRect());
+    #endif
     dc.SetLogicalFunction(wxCOPY);
     dc.SetPen(wxNullPen);
     dc.SetBrush(wxNullBrush);

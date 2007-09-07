@@ -254,7 +254,8 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 		{
 			pLine = node->GetData();
 
-			rct.Union(pLine->GetBoundingBox());
+			//rct.Union(pLine->GetBoundingBox());
+			lstChildren.Append(pLine);
 
 			// get children of the connections
 			pLine->GetChildren(lstChildren);
