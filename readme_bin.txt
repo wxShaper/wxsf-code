@@ -34,17 +34,14 @@ platform).
 Distribution content:
 ---------------------
 
-.\Release	- standalone executable of wxShapeFramework demo app
-.\ReleaseDLL	- DLL-based executable and relevant DLLs of wxShapeFramework demo
-		application.
+.\Bin		- Redistributable binary files needed for running of client applications
+		  using the wxSF's Dlls (contains basic wxWidgets library's dlls and
+		  C runtime libraries).
+.\Demo		- Standalone executable of wxShapeFramework demo app.
+.\Include	- wxSF header files.
+.\Lib		- Prebuild wxSF libraries (Release) suitable for both static and dynamic
+		  linking and supported compilers (MinGW a MSVC8) on MS Windows.
 
-All binaries have been built with GCC 3.4.5 and unicode release of wxWidgets 2.8.4
-(both static and dynamic link).
-
-Note:
------
-
-This package do not allow building of user applications based on wxSF. To do this you
-must download source files package that includes both library source code files and
-the demo application source files as well.
+Binaries have been built with GCC 3.4.5, MSVC8 (MS Visual Studio 2005) and unicode release
+ of wxWidgets 2.8.4.
 

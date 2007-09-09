@@ -33,7 +33,8 @@ platform).
 Requirements:
 -------------
 
-- wxSF uses wxWidgets (www.wxwidgets.org) and was tested with version 2.8.3 (patch 1).
+- wxSF uses wxWidgets (www.wxwidgets.org) and was tested with version 2.8.4 on MS Windows
+  and Linux (Ubuntu 7.04) target platforms.
 - Code::Blocks (www.codeblocks.org) IDE with MinGW C++ compiler is required
 (recommended) for open included workspace/project files.
 
@@ -43,9 +44,9 @@ Distribution content:
 
 .\doc		- wxSF doxygen documentation file (in CHM and HTML format).
 .\example	- Source code and project files of wxSF Demonstration application.
-.\samples	- Various simple sample projects
 .\include	- Library headers files (needed for both hosting applications and
 		library itself)
+.\samples	- Sample projects with commented source code.
 .\src		- Source code ad project files of the wxSF library
 changes.txt	- Information about library version and release changes.
 
@@ -59,7 +60,7 @@ changes.txt	- Information about library version and release changes.
 Note:
 -----
 
-This package doesn't include any executable (demo app) or built binary files (wxSF,
-wxWidgets and run-time DLLs). To obtain them you must built it yourself or download
-appropriate package.
+This package doesn't include any executable (demo app) or pre-built binary files (wxSF,
+wxWidgets and C run-time DLLs). To obtain them you must built it yourself or download
+binary package.
 

@@ -602,14 +602,10 @@
 					RelativePath="..\include\wxShapeFramework.h"
 					>
 				</File>
-				<Filter
-					Name="wxxmlserializer"
+				<File
+					RelativePath="..\include\XmlSerializer.h"
 					>
-					<File
-						RelativePath="..\include\XmlSerializer.h"
-						>
-					</File>
-				</Filter>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

@@ -133,7 +133,8 @@ void wxSFSample3Frame::OnRightClickCanvas(wxMouseEvent& event)
     }
 }
 
-// event handler called when interactive the line creation process is finished
+// Event handler called when the interactive line creation process is finished.
+// Alternatively you can override virtual function wxSFShapeCanvas::OnConnectionFinished().
 void wxSFSample3Frame::OnLineDone(wxSFShapeEvent& event)
 {
     // get new line shape (if created)
