@@ -197,6 +197,7 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 wxSize wxSFTextShape::GetTextExtent()
 {
     wxCoord w = -1, h = -1;
+
     if(m_pParentManager && GetParentCanvas())
     {
         wxClientDC dc((wxWindow*)GetParentCanvas());
@@ -205,6 +206,14 @@ wxSize wxSFTextShape::GetTextExtent()
         dc.SetFont(m_Font);
         dc.GetMultiLineTextExtent(m_sText, &w, &h, &m_nLineHeight);
         dc.SetFont(wxNullFont);
+    }
+    else
+    {
+        w = (int)m_nRectSize.x;
+        h = (int)m_nRectSize.y;
+
+        wxStringTokenizer tokens(m_sText, wxT("\n\r"));
+        m_nLineHeight = int(m_nRectSize.y/tokens.CountTokens());
     }
 
     return wxSize(w, h);

@@ -136,8 +136,8 @@ void wxSFRectShape::FitToChildren()
 		}
 
 		// perform the action recursively
-		wxSFShapeBase* m_pParentShape = GetParentShape();
-		if(m_pParentShape)m_pParentShape->FitToChildren();
+		/*wxSFShapeBase* m_pParentShape = GetParentShape();
+		if(m_pParentShape)m_pParentShape->FitToChildren();*/
 	}
 }
 

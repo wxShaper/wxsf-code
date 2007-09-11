@@ -234,9 +234,9 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 	// firts, get bounding box of the current shape
 	if(mask & bbSELF)
 	{
-		if(rct.IsEmpty())rct = this->GetBoundingBox().Inflate(m_nHBorder, m_nVAlign);
+		if(rct.IsEmpty())rct = this->GetBoundingBox().Inflate((int)m_nHBorder, (int)m_nVBorder);
 		else
-			rct.Union(this->GetBoundingBox().Inflate(m_nHBorder, m_nVAlign));
+			rct.Union(this->GetBoundingBox().Inflate((int)m_nHBorder, (int)m_nVBorder));
 	}
 	else
 		mask |= bbSELF;
@@ -493,8 +493,8 @@ void wxSFShapeBase::FitToChildren()
 {
 	// HINT: overload it for custom actions...
 
-	wxSFShapeBase* m_pParentShape = GetParentShape();
-	if(m_pParentShape)m_pParentShape->FitToChildren();
+	/*wxSFShapeBase* m_pParentShape = GetParentShape();
+	if(m_pParentShape)m_pParentShape->FitToChildren();*/
 }
 
 wxSFShapeBase* wxSFShapeBase::GetParentShape()

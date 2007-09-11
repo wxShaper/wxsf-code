@@ -495,7 +495,8 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 			// resize parent shape to fit all its children if neccessary
 			if(m_pSelectedHandle->GetParentShape()->GetParentShape())
 			{
-				((wxSFShapeBase*)m_pSelectedHandle->GetParentShape()->GetParentShape())->FitToChildren();
+				//((wxSFShapeBase*)m_pSelectedHandle->GetParentShape()->GetParentShape())->FitToChildren();
+				((wxSFShapeBase*)m_pSelectedHandle->GetParentShape()->GetParentShape())->Update();
 			}
 
 			// if the handle is line handle then return the line to normal state
@@ -580,7 +581,8 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 			}
 
 			// resize parent shape to fit all its children
-			if(pParentShape)pParentShape->FitToChildren();
+			//if(pParentShape)pParentShape->FitToChildren();
+			if(pParentShape)pParentShape->Update();
 
 			if(m_lstSelection.GetCount()>1)
 			{
