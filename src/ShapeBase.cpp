@@ -234,9 +234,9 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 	// firts, get bounding box of the current shape
 	if(mask & bbSELF)
 	{
-		if(rct.IsEmpty())rct = this->GetBoundingBox();
+		if(rct.IsEmpty())rct = this->GetBoundingBox().Inflate(m_nHBorder, m_nVAlign);
 		else
-			rct.Union(this->GetBoundingBox());
+			rct.Union(this->GetBoundingBox().Inflate(m_nHBorder, m_nVAlign));
 	}
 	else
 		mask |= bbSELF;

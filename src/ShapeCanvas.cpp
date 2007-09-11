@@ -450,12 +450,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                             // swith off the "under-construcion" mode
                             m_pNewLineShape->SetLineMode(wxSFLineShape::modeREADY);
 
-                            // inform user that the line is completed in two ways:
-                            // 1) send event
-                            wxSFShapeEvent event( wxEVT_SF_LINE_DONE, m_pNewLineShape->GetId());
-                            event.SetShape( m_pNewLineShape );
-                            ProcessEvent( event );
-                            // 2) call virtual functions
+                            // inform user that the line is completed
                             OnConnectionFinished(m_pNewLineShape);
 
                             m_pNewLineShape->Refresh();
@@ -1278,6 +1273,14 @@ void wxSFShapeCanvas::AbortInteractiveConnection()
 void wxSFShapeCanvas::OnConnectionFinished(wxSFLineShape* connection)
 {
 	// HINT: override to perform user-defined actions...
+
+	// ... standard implementation generates the wxEVT_SF_LINE_DONE event.
+	long id = -1;
+	if( connection ) id = connection->GetId();
+
+    wxSFShapeEvent event( wxEVT_SF_LINE_DONE, id);
+    event.SetShape( connection );
+    ProcessEvent( event );
 }
 
 void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)

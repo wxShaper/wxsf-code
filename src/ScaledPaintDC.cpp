@@ -204,12 +204,16 @@ void wxSFScaledPaintDC::DrawPolygon(size_t n, wxRealPoint points[], wxCoord xoff
 void wxSFScaledPaintDC::DrawText(const wxString& txt, double x, double y)
 {
 	wxFont font = GetFont();
+	wxFont prevfont = font;
+
 	if(font != wxNullFont)
 	{
 		font.SetPointSize(int(font.GetPointSize()*m_nScale));
 		SetFont(font);
 	}
     wxMemoryDC::DrawText(txt, int(x*m_nScale), int(y*m_nScale));
+
+    SetFont(prevfont);
 }
 
 void wxSFScaledPaintDC::DrawText(const wxString& txt, const wxRealPoint& pos)

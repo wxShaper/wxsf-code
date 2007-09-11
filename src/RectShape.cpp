@@ -54,17 +54,20 @@ wxSFRectShape::~wxSFRectShape(void)
 
 wxRect wxSFRectShape::GetBoundingBox()
 {
-	return wxRect(wxPoint((int)GetAbsolutePosition().x, (int)GetAbsolutePosition().y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y));
+    wxRealPoint apos = GetAbsolutePosition();
+	return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y ));
 }
 
 bool wxSFRectShape::IsInside(const wxPoint& pos)
 {
-	return wxRect(wxPoint((int)GetAbsolutePosition().x, (int)GetAbsolutePosition().y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y)).Contains(pos);
+    wxRealPoint apos = GetAbsolutePosition();
+	return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y)).Contains(pos);
 }
 
 bool wxSFRectShape::Intersects(const wxRect& rct)
 {
-	return wxRect(wxPoint((int)GetAbsolutePosition().x, (int)GetAbsolutePosition().y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y)).Intersects(rct);
+    wxRealPoint apos = GetAbsolutePosition();
+	return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y)).Intersects(rct);
 }
 
 void wxSFRectShape::Scale(double x, double y, bool children)

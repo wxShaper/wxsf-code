@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="wxShapeFramework">
-		<Project filename="src\wxSF.cbp" active="1" />
+		<Project filename="src\wxSF.cbp" />
 		<Project filename="example\wxSFDemo.cbp">
 			<Depends filename="src\wxSF.cbp" />
 		</Project>
@@ -11,7 +11,7 @@
 		<Project filename="samples\wxSFSample2\wxSFSample2.cbp">
 			<Depends filename="src\wxSF.cbp" />
 		</Project>
-		<Project filename="samples\wxSFSample3\wxSFSample3.cbp">
+		<Project filename="samples\wxSFSample3\wxSFSample3.cbp" active="1">
 			<Depends filename="src\wxSF.cbp" />
 		</Project>
 	</Workspace>

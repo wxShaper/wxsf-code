@@ -55,9 +55,9 @@
 /// <summary> Default value of wxSFShapeObject::m_nHAlign data member </summary>
 #define sfdvBASESHAPE_HALIGN halignNONE
 /// <summary> Default value of wxSFShapeObject::m_nVBorder data member </summary>
-#define sfdvBASESHAPE_VBORDER 5
+#define sfdvBASESHAPE_VBORDER 0
 /// <summary> Default value of wxSFShapeObject::m_nHBorder data member </summary>
-#define sfdvBASESHAPE_HBORDER 5
+#define sfdvBASESHAPE_HBORDER 0
 /// <summary> Default value of wxSFShapeObject::m_fDeleteUserData data member </summary>
 #define sfdvBASESHAPE_DELETEUSERDATA true
 
