@@ -19,6 +19,8 @@ wxSFTextShape::wxSFTextShape(void)
     m_Font = sfdvTEXTSHAPE_FONT;
     m_Font.SetPointSize(12);
 
+	m_nLineHeight = 12;
+
     m_TextColor = sfdvTEXTSHAPE_TEXTCOLOR;
     m_sText = wxT("Text");
 
@@ -37,6 +39,8 @@ wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDi
 {
     m_Font = sfdvTEXTSHAPE_FONT;
     m_Font.SetPointSize(12);
+
+	m_nLineHeight = 12;
 
     m_TextColor = sfdvTEXTSHAPE_TEXTCOLOR;
     m_sText = txt;
@@ -192,7 +196,7 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 
 wxSize wxSFTextShape::GetTextExtent()
 {
-    wxCoord w = 0, h = 0;
+    wxCoord w = -1, h = -1;
     if(m_pParentManager && GetParentCanvas())
     {
         wxClientDC dc((wxWindow*)GetParentCanvas());
@@ -210,11 +214,14 @@ void wxSFTextShape::UpdateRectSize()
 {
     wxSize tsize = GetTextExtent();
 
-    if(tsize.x == 0) tsize.x = 1;
-    if(tsize.y == 0) tsize.y = 1;
+	if(tsize.IsFullySpecified())
+	{
+		if(tsize.x <= 0) tsize.x = 1;
+		if(tsize.y <= 0) tsize.y = 1;
 
-    m_nRectSize.x = (double)tsize.x;
-    m_nRectSize.y = (double)tsize.y;
+		m_nRectSize.x = (double)tsize.x;
+		m_nRectSize.y = (double)tsize.y;
+	}
 }
 
 void wxSFTextShape::SetText(const wxString& txt)

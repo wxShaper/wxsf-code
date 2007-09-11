@@ -430,6 +430,9 @@ void wxSFShapeBase::Update()
             node = node->GetNext();
         }
     }
+
+    // do it recursively on all parent shapes
+    if( GetParentShape() )GetParentShape()->Update();
 }
 
 bool wxSFShapeBase::AcceptCurrentlyDraggedShapes()

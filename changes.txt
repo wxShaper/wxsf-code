@@ -3,6 +3,11 @@ Changes in version 1.3.1 beta (2007-09-10):
 - Fixed wxSFShapeBase::GetCompleteBoundingBox() function to respect non-zero horizontal
   and verical shape borders.
 - Fixed drawing of multiline text shapes during scaling of the whole shape canvas.
+- wxSFShapeBase::Update() function is now called recursively for all parents.
+- Implemented wxEVT_SF_TEXT_CHANGE event (macro EVT_SF_TEXT_CHANGE). 
+- Added wxSFShapeCanvas::OnTextChange() event handler called by the franework if any ediatble text shape
+  is changed (default implementation generates the wxEVT_SF_TEXT_CHANGE event).
+- Fixed initialization of text shapes after the deserialization if the shape canvas doesn't exist yet.
 
 Changes in version 1.3.0 beta (2007-09-07):
 --------------------------------------------

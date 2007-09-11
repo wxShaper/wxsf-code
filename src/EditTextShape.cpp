@@ -71,10 +71,17 @@ void wxSFContentCtrl::Quit()
 		m_pParentShape->SetText(GetValue());
 		m_pParentShape->m_pTextCtrl = NULL;
 		m_pParentShape->EnableSizeChange(m_pParentShape->m_fHandlesState);
-		m_pParentShape->Refresh();
 
 		// save canvas state if the textctrl content has changed...
-		if(m_sPrevContent != GetValue())m_pParentShape->GetParentCanvas()->SaveCanvasState();
+		if(m_sPrevContent != GetValue())
+		{
+		    // inform parent shape canvas about text change...
+            m_pParentShape->GetParentCanvas()->OnTextChange(m_pParentShape);
+		    m_pParentShape->GetParentCanvas()->SaveCanvasState();
+		}
+
+		m_pParentShape->Update();
+		m_pParentShape->GetParentCanvas()->Refresh();
 	}
 
 	Destroy();

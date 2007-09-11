@@ -15,6 +15,7 @@
 #include "MultiSelRect.h"
 #include "CanvasHistory.h"
 #include "LineShape.h"
+#include "EditTextShape.h"
 
 #define MEOFFSET 5
 #define sfSAVE_STATE true
@@ -188,13 +189,6 @@ public:
     void StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos);
     /*! \brief Abort interactive connection creation process */
 	void AbortInteractiveConnection();
-	/*!
-	 * \brief Event handler called after successfull conection creation. The function
-	 * can be overrided if necessary. The default implementation does nothing.
-	 * \param connection Pointer to new connection object
-	 * \sa StartInteractiveConnection
-	 */
-	virtual void OnConnectionFinished(wxSFLineShape* connection);
 
     /*! \brief Select all shapes in the canvas */
 	void SelectAll();
@@ -524,6 +518,24 @@ public:
      * \sa _OnKeyDown
      */
 	virtual void OnKeyDown(wxKeyEvent& event);
+
+    /*!
+     * \brief Event handler call when any editable text shape is changed.
+     * The function can be overrided if necessary.
+     *
+     * The function is called by the framework and its default implementation
+     * generates wxEVT_SF_TEXT_CHANGE event.
+     * \param text Changed wxSFEditTestShape object
+     */
+	virtual void OnTextChange(wxSFEditTextShape* text);
+	/*!
+	 * \brief Event handler called after successfull conection creation. The function
+	 * can be overrided if necessary. The default implementation
+     * generates wxEVT_SF_LINE_DONE event.
+	 * \param connection Pointer to new connection object
+	 * \sa StartInteractiveConnection
+	 */
+	virtual void OnConnectionFinished(wxSFLineShape* connection);
 
 protected:
 

@@ -937,6 +937,33 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 	}
 }
 
+void wxSFShapeCanvas::OnConnectionFinished(wxSFLineShape* connection)
+{
+	// HINT: override to perform user-defined actions...
+
+	// ... standard implementation generates the wxEVT_SF_LINE_DONE event.
+	long id = -1;
+	if( connection ) id = connection->GetId();
+
+    wxSFShapeEvent event( wxEVT_SF_LINE_DONE, id);
+    event.SetShape( connection );
+    ProcessEvent( event );
+}
+
+void wxSFShapeCanvas::OnTextChange(wxSFEditTextShape* text)
+{
+    // HINT: override it for custom actions...
+
+	// ... standard implementation generates the wxEVT_SF_TEXT_CHANGE event.
+	long id = -1;
+	if( text ) id = text->GetId();
+
+    wxSFShapeEvent event( wxEVT_SF_TEXT_CHANGE, id);
+    event.SetShape( text );
+    ProcessEvent( event );
+}
+
+
 //----------------------------------------------------------------------------------//
 // Private event handlers functions
 //----------------------------------------------------------------------------------//
@@ -1268,19 +1295,6 @@ void wxSFShapeCanvas::AbortInteractiveConnection()
     }
 	m_nWorkingMode = modeREADY;
 	Refresh(false);
-}
-
-void wxSFShapeCanvas::OnConnectionFinished(wxSFLineShape* connection)
-{
-	// HINT: override to perform user-defined actions...
-
-	// ... standard implementation generates the wxEVT_SF_LINE_DONE event.
-	long id = -1;
-	if( connection ) id = connection->GetId();
-
-    wxSFShapeEvent event( wxEVT_SF_LINE_DONE, id);
-    event.SetShape( connection );
-    ProcessEvent( event );
 }
 
 void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)

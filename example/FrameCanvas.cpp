@@ -71,7 +71,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
                 if(pText)
                 {
-					pText->SetText(dlg.GetValue());
+					//pText->SetText(dlg.GetValue());
+					pText->SetText(wxT("Hello\nWorld"));
 
                     // set alignment
                     pText->SetVAlign(wxSFShapeBase::valignTOP);

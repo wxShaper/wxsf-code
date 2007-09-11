@@ -1,3 +1,13 @@
+/***************************************************************
+ * Name:      SFEvents.h
+ * Purpose:   Defines shape events classes
+ * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
+ * Created:   2007-09-11
+ * Copyright: Michal Bližňák
+ * License:   wxWidgets license (www.wxwidgets.org)
+ * Notes:
+ **************************************************************/
+
 #ifndef SF_EVENTS_H
 #define SF_EVENTS_H
 
@@ -8,7 +18,8 @@ class WXDLLIMPEXP_SF wxSFShapeBase;
 class WXDLLIMPEXP_SF wxSFShapeEvent;
 
 BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_LINE_DONE, 7777)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_LINE_DONE, 7770)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_TEXT_CHANGE, 7771)
 END_DECLARE_EVENT_TYPES()
 
 typedef void (wxEvtHandler::*wxSFShapeEventFunction)(wxSFShapeEvent&);
@@ -22,6 +33,15 @@ typedef void (wxEvtHandler::*wxSFShapeEventFunction)(wxSFShapeEvent&);
 #define EVT_SF_LINE_DONE(id, fn) \
     DECLARE_EVENT_TABLE_ENTRY( \
         wxEVT_SF_LINE_DONE, id, wxID_ANY, \
+        (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxSFShapeEventFunction, &fn ), \
+        (wxObject *) NULL \
+    ),
+
+/*! \brief Event table macro mapping event wxEVT_SF_TEXT_CHANGE. This event occures
+ * when the editable text shape's content is changed. */
+#define EVT_SF_TEXT_CHANGE(id, fn) \
+    DECLARE_EVENT_TABLE_ENTRY( \
+        wxEVT_TEXT_CHANGE, id, wxID_ANY, \
         (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxSFShapeEventFunction, &fn ), \
         (wxObject *) NULL \
     ),
