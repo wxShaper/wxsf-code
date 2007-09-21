@@ -142,13 +142,12 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 			{
 			    dx = (pShape->GetAbsolutePosition().x - (GetAbsolutePosition().x + MEOFFSET))/(GetRectSize().x - 2*MEOFFSET)*handle.GetDelta().x;
 
-				pShape->Scale(sx, 1, sfWITHCHILDREN);
-
-                if(pShape->CanChangePosition())pShape->MoveBy(dx, 0);
+				if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(sx, 1, sfWITHCHILDREN);
+                if(pShape->ContainsStyle(sfsPOSITION_CHANGE))pShape->MoveBy(dx, 0);
 			}
 			else
 			{
-			    if(pShape->CanChangePosition())
+			    if(pShape->ContainsStyle(sfsPOSITION_CHANGE))
 			    {
                     pLine = (wxSFLineShape*)pShape;
                     ptnode = pLine->GetControlPoints().GetFirst();
@@ -188,7 +187,7 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 
             if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
             {
-                if(pShape->CanChangePosition())
+                if(pShape->ContainsStyle(sfsPOSITION_CHANGE))
                 {
                     if(pShape->GetParentShape())
                     {
@@ -201,12 +200,12 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
                     }
                 }
 
-                pShape->Scale(sx, 1, sfWITHCHILDREN);
+                if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(sx, 1, sfWITHCHILDREN);
 
             }
             else
 			{
-			    if(pShape->CanChangePosition())
+			    if(pShape->ContainsStyle(sfsPOSITION_CHANGE))
 			    {
                     pLine = (wxSFLineShape*)pShape;
                     ptnode = pLine->GetControlPoints().GetFirst();
@@ -248,13 +247,12 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
             {
                 dy = (pShape->GetAbsolutePosition().y - (GetAbsolutePosition().y + MEOFFSET))/(GetRectSize().y - 2*MEOFFSET)*handle.GetDelta().y;
 
-                pShape->Scale(1, sy, sfWITHCHILDREN);
-
-                if(pShape->CanChangePosition())pShape->MoveBy(0, dy);
+                if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(1, sy, sfWITHCHILDREN);
+                if(pShape->ContainsStyle(sfsPOSITION_CHANGE))pShape->MoveBy(0, dy);
             }
             else
             {
-                if(pShape->CanChangePosition())
+                if(pShape->ContainsStyle(sfsPOSITION_CHANGE))
                 {
                     pLine = (wxSFLineShape*)pShape;
                     ptnode = pLine->GetControlPoints().GetFirst();
@@ -294,7 +292,7 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
 
             if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
             {
-                if(pShape->CanChangePosition())
+                if(pShape->ContainsStyle(sfsPOSITION_CHANGE))
                 {
                     if(pShape->GetParentShape())
                     {
@@ -307,11 +305,11 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
                     }
                 }
 
-                pShape->Scale(1, sy, sfWITHCHILDREN);
+                if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(1, sy, sfWITHCHILDREN);
             }
             else
             {
-                if(pShape->CanChangePosition())
+                if(pShape->ContainsStyle(sfsPOSITION_CHANGE))
                 {
                     pLine = (wxSFLineShape*)pShape;
                     ptnode = pLine->GetControlPoints().GetFirst();

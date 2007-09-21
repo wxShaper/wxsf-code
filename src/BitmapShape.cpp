@@ -18,6 +18,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxSFBitmapShape, wxSFRectShape);
 wxSFBitmapShape::wxSFBitmapShape(void)
 : wxSFRectShape()
 {
+    m_sBitmapPath = wxT("");
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromXPM(NoSource_xpm);
@@ -29,6 +30,7 @@ wxSFBitmapShape::wxSFBitmapShape(void)
 wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, wxSFDiagramManager* manager)
 : wxSFRectShape(pos, wxRealPoint(1, 1), manager)
 {
+    m_sBitmapPath = wxT("");
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromFile(bitmapPath);
@@ -62,8 +64,8 @@ bool wxSFBitmapShape::CreateFromFile(const wxString& file)
 		m_sBitmapPath = file;
 		if(wxFileExists(m_sBitmapPath))
 		{
-			fSuccess = m_OriginalBitmap.LoadFile(m_sBitmapPath, wxBITMAP_TYPE_BMP);
-			m_Bitmap = m_OriginalBitmap;
+			fSuccess = m_Bitmap.LoadFile(m_sBitmapPath, wxBITMAP_TYPE_BMP);
+
 		}
 		else
 			fSuccess = false;
@@ -74,10 +76,52 @@ bool wxSFBitmapShape::CreateFromFile(const wxString& file)
 		m_Bitmap = wxBitmap(NoSource_xpm);
 	}
 
+    m_OriginalBitmap = m_Bitmap;
+
 	m_nRectSize.x = m_Bitmap.GetWidth();
 	m_nRectSize.y = m_Bitmap.GetHeight();
 
-	EnableSizeChange(m_fCanScale);
+	//EnableSizeChange(m_fCanScale);
+	if(m_fCanScale)
+	{
+	    AddStyle(sfsSIZE_CHANGE);
+        //SetStyle(GetStyle() | sfsSIZE_CHANGE);
+	}
+	else
+        RemoveStyle(sfsSIZE_CHANGE);
+        //SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
+
+	return fSuccess;
+}
+
+bool wxSFBitmapShape::CreateFromXPM(const char* const* bits)
+{
+	bool fSuccess = false;
+	m_sBitmapPath = wxT("");
+
+	// create bitmap from XPM
+	m_Bitmap = wxBitmap(bits);
+	fSuccess = m_Bitmap.IsOk();
+
+	if(!fSuccess)
+	{
+		m_Bitmap = wxBitmap(NoSource_xpm);
+	}
+
+	m_OriginalBitmap = m_Bitmap;
+
+	m_nRectSize.x = m_Bitmap.GetWidth();
+	m_nRectSize.y = m_Bitmap.GetHeight();
+
+	//EnableSizeChange(m_fCanScale);
+	if(m_fCanScale)
+	{
+        //SetStyle(GetStyle() | sfsSIZE_CHANGE);
+        AddStyle(sfsSIZE_CHANGE);
+	}
+	else
+        RemoveStyle(sfsSIZE_CHANGE);
+        //SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
 
 	return fSuccess;
 }
@@ -116,7 +160,9 @@ void wxSFBitmapShape::OnHandle(wxSFShapeHandle& handle)
 		wxSFRectShape::OnHandle(handle);
 	}
 	else
-		EnableSizeChange(false);
+        RemoveStyle(sfsSIZE_CHANGE);
+        //SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
+		//EnableSizeChange(false);
 }
 
 void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& handle)
@@ -131,28 +177,6 @@ void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& handle)
 //----------------------------------------------------------------------------------//
 // protected functions
 //----------------------------------------------------------------------------------//
-
-bool wxSFBitmapShape::CreateFromXPM(const char* const* bits)
-{
-	bool fSuccess = false;
-	m_sBitmapPath = wxT("");
-
-	// create bitmap from XPM
-	m_Bitmap = wxBitmap(NoSource_xpm);
-	fSuccess = m_Bitmap.IsOk();
-
-	if(!fSuccess)
-	{
-		m_OriginalBitmap = wxBitmap(NoSource_xpm);
-		m_Bitmap = m_OriginalBitmap;
-	}
-	m_nRectSize.x = m_Bitmap.GetWidth();
-	m_nRectSize.y = m_Bitmap.GetHeight();
-
-	EnableSizeChange(m_fCanScale);
-
-	return fSuccess;
-}
 
 void wxSFBitmapShape::RescaleImage(const wxRealPoint& size)
 {

@@ -74,12 +74,8 @@ void cStarShape::Initialize()
         m_pText->SetVAlign(wxSFShapeBase::valignMIDDLE);
         m_pText->SetHAlign(wxSFShapeBase::halignCENTER);
 
-        // disable interactive features if required
-        m_pText->EnableParentChange(false);
-        m_pText->EnableHighlighting(false);
-        m_pText->EnableHovering(false);
-        m_pText->EnablePositionChange(false);
-        m_pText->EnableSizeChange(false);
+        // set required shape style(s)
+        m_pText->SetStyle(sfsALWAYS_INSIDE);
 
         // components of composite shapes created at runtime in parent shape's
         // constructor cannot be serialized in standard way so it is important

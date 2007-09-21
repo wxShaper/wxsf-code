@@ -212,7 +212,7 @@ wxSize wxSFTextShape::GetTextExtent()
         w = (int)m_nRectSize.x;
         h = (int)m_nRectSize.y;
 
-        wxStringTokenizer tokens(m_sText, wxT("\n\r"));
+        wxStringTokenizer tokens(m_sText, wxT("\n\r"), wxTOKEN_RET_EMPTY);
         m_nLineHeight = int(m_nRectSize.y/tokens.CountTokens());
     }
 
@@ -271,28 +271,12 @@ void wxSFTextShape::OnLeftHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	/*wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN);
-
-	if(!chBB.IsEmpty())
-	{
-		if(handle.GetPosition().x > chBB.GetLeft())return;
-	}*/
-
     m_nRectSize.x -= ((double)handle.GetPosition().x - GetAbsolutePosition().x);
 }
 
 void wxSFTextShape::OnTopHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
-
-	/*wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN);
-
-	if(!chBB.IsEmpty())
-	{
-		if(handle.GetPosition().y > chBB.GetTop())return;
-	}*/
 
 	m_nRectSize.y -= ((double)handle.GetPosition().y - GetAbsolutePosition().y);
 }
@@ -322,9 +306,10 @@ void wxSFTextShape::DrawTextContent(wxSFScaledPaintDC& dc)
     wxRealPoint pos = GetAbsolutePosition();
 
 	// draw all text lines
-	wxStringTokenizer tokens(m_sText, wxT("\n\r"));
-    while(!(line = tokens.GetNextToken()).IsEmpty())
+	wxStringTokenizer tokens(m_sText, wxT("\n\r"), wxTOKEN_RET_EMPTY);
+    while(tokens.HasMoreTokens())
     {
+        line = tokens.GetNextToken();
 		dc.DrawText(line, pos.x, pos.y + i*m_nLineHeight);
 		i++;
 	}

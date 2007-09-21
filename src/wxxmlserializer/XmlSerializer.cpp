@@ -728,6 +728,8 @@ xsSerializable* wxXmlSerializer::_GetItem(long id, xsSerializable* parent)
 {
     wxASSERT(parent);
 
+    if( !parent )return NULL;
+
     if( parent->GetId() == id )return parent;
 
     xsSerializable *pItem = NULL;
@@ -745,6 +747,8 @@ void wxXmlSerializer::_GetItems(wxClassInfo* type, xsSerializable* parent, Seria
 {
     wxASSERT(parent);
     wxASSERT(type);
+
+    if(!parent && !type)return;
 
     if( parent->IsKindOf(type) )
     {

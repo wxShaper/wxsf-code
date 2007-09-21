@@ -56,9 +56,11 @@ public:
     /// <param name="file"> Full file name </param>
     /// <returns> TRUE on success, otherwise FALSE </returns>
 	bool CreateFromFile(const wxString& file);
-	/// <summary> Event handler called during dragging of the shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to the dragged shape handle </param>
+    /// <summary> Load a bitmap from the XPM structure </summary>
+    /// <param name="bits"> Buffer with the image bits </param>
+    /// <returns> TRUE on success, otherwise FALSE </returns>
+	bool CreateFromXPM(const char* const* bits);
+
 	// public virtual function
 	/// <summary> Scale the bitmap shape in both directions.
 	/// The function can be overrided if neccessary. </summary>
@@ -94,10 +96,6 @@ protected:
 	wxRealPoint m_nPrevPos;
 
 	// protected functions
-    /// <summary> Load a bitmap from the XPM structure </summary>
-    /// <param name="bits"> Buffer with the image bits </param>
-    /// <returns> TRUE on success, otherwise FALSE </returns>
-	bool CreateFromXPM(const char* const* bits);
 	/// <summary> Rescale the bitmap shape so it will fit the given extent. The
 	/// shape position is not involved (the left-top bitmap corner is not moved). </summary>
 	/// <param name="size"> New bitmap size </param>

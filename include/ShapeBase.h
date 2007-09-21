@@ -38,18 +38,6 @@
 #define sfdvBASESHAPE_HOVERCOLOUR wxColor(120, 120, 255)
 /// <summary> Default value of wxSFShapeObject::m_nRelativePosition data member </summary>
 #define sfdvBASESHAPE_POSITION wxRealPoint(0, 0)
-/// <summary> Default value of wxSFShapeObject::m_fHighlighting data member </summary>
-#define sfdvBASESHAPE_HIGHLIGHTING true
-/// <summary> Default value of wxSFShapeObject::m_fHovering data member </summary>
-#define sfdvBASESHAPE_HOVERING true
-/// <summary> Default value of wxSFShapeObject::m_fParentChange data member </summary>
-#define sfdvBASESHAPE_PARENTCHANGE true
-/// <summary> Default value of wxSFShapeObject::m_fSizeChange data member </summary>
-#define sfdvBASESHAPE_SIZECHANGE true
-/// <summary> Default value of wxSFShapeObject::m_fPositionChange data member </summary>
-#define sfdvBASESHAPE_POSITIONCHANGE true
-/// <summary> Default value of wxSFShapeObject::m_fAlwaysInsideParent data member </summary>
-#define sfdvBASESHAPE_ALWAYSINSIDE true
 /// <summary> Default value of wxSFShapeObject::m_nVAlign data member </summary>
 #define sfdvBASESHAPE_VALIGN valignNONE
 /// <summary> Default value of wxSFShapeObject::m_nHAlign data member </summary>
@@ -58,8 +46,8 @@
 #define sfdvBASESHAPE_VBORDER 0
 /// <summary> Default value of wxSFShapeObject::m_nHBorder data member </summary>
 #define sfdvBASESHAPE_HBORDER 0
-/// <summary> Default value of wxSFShapeObject::m_fDeleteUserData data member </summary>
-#define sfdvBASESHAPE_DELETEUSERDATA true
+/// <summary> Default value of wxSFShapeObject::m_nStyle data member </summary>
+#define sfdvBASESHAPE_DEFAULT_STYLE 223
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 class WXDLLIMPEXP_SF wxSFDiagramManager;
@@ -129,6 +117,27 @@ public:
 	    halignRIGHT
 	};
 
+    /*! \brief Basic shape's styles used with SetStyle() function */
+	enum STYLE
+	{
+	    /*! \brief Interactive parent change is allowed */
+	    sfsPARENT_CHANGE = 1,
+	    /*! \brief Interactive position change is allowed */
+	    sfsPOSITION_CHANGE = 2,
+	    /*! \brief Interactive size change is allowed */
+	    sfsSIZE_CHANGE = 4,
+	    /*! \brief Shape is highlighted at mouse hovering */
+	    sfsHOVERING = 8,
+	    /*! \brief Shape is highlighted at shape dragging */
+	    sfsHIGHLIGHTING = 16,
+	    /*! \brief Shape doesn't receive mouse events and is 'invisible' for GetShapeXXX functions */
+	    sfsTRAVERSE = 32,
+	    /*! \brief Shape is always inside its parent */
+	    sfsALWAYS_INSIDE = 64,
+	    /*! \brief User data is destroyed at the shape deletion */
+	    sfsDELETE_USER_DATA = 128
+	};
+
     /// <summary> Default constructor </summary>
 	wxSFShapeBase(void);
 	/// <summary> User constructor </summary>
@@ -186,42 +195,18 @@ public:
 	/// <param name="show"> TRUE for showing, FALSE for hidding </param>
 	void ShowHandles(bool show);
 
-    /// <summary> Enable/disable interactive change of shape's parent (done by mouse operations). </summary>
-    /// <param name="enable"> TRUE for allowing the change, otherwise FALSE </param>
-    void EnableParentChange(bool enable){m_fParentChange = enable;}
-    /// <summary> Function returns TRUE if the interactive parent change is enabled, otherwise returns FALSE. </summary>
-    /// <seealso cref="EnableParentChange"></seealso>
-	bool CanChangeParent() {return m_fParentChange;}
-    /// <summary> Enable/disable interactive change of shape's size (done by mouse operations). </summary>
-    /// <param name="enable"> TRUE for allowing the change, otherwise FALSE </param>
-	void EnableSizeChange(bool enable){m_fSizeChange = enable;}
-    /// <summary> Function returns TRUE if the interactive size change is enabled, otherwise returns FALSE. </summary>
-    /// <seealso cref="EnableSizeChange"></seealso>
-	bool CanChangeSize(){return m_fSizeChange;}
-    /// <summary> Enable/disable interactive change of shape's position (done by mouse operations). </summary>
-    /// <param name="enable"> TRUE for allowing the change, otherwise FALSE </param>
-	void EnablePositionChange(bool enable){m_fPositionChange = enable;}
-    /// <summary> Function returns TRUE if the interactive position change is enabled, otherwise returns FALSE. </summary>
-    /// <seealso cref="EnablePositionChange"></seealso>
-	bool CanChangePosition(){return m_fPositionChange;}
-    /// <summary> Enable/disable shape highlighting. </summary>
-    /// <param name="enable"> TRUE for enabling, otherwise FALSE </param>
-	void EnableHighlighting(bool enable){m_fHighlighting = enable;}
-    /// <summary> Function returns TRUE if the highlighting is enabled, otherwise returns FALSE. </summary>
-    /// <seealso cref="EnableHighlighting"></seealso>
-	bool CanHighlight(){return m_fHighlighting;}
-    /// <summary> Enable/disable mouse hovering. </summary>
-    /// <param name="enable"> TRUE for enabling, otherwise FALSE </param>
-	void EnableHovering(bool enable){m_fHovering = enable;}
-    /// <summary> Function returns TRUE if the hovering is enabled, otherwise returns FALSE. </summary>
-    /// <seealso cref="EnableHovering"></seealso>
-	bool CanHover(){return m_fHovering;}
-    /// <summary> If the property is set to TRUE then shape's parent is always resized to fit this shape, otherwise
-    /// a size change of child shape doesn't involve parent shape's size. </summary>
-	void SetAlwaysInsideParent(bool enable){m_fAlwaysInsideParent = enable;}
-    /// <summary> Function returns TRUE if the parent shape is resized to fit this shape. </summary>
-    /// <seealso cref="SetAlwaysInsideParent"></seealso>
-	bool IsAlwaysInsideParent(){return m_fAlwaysInsideParent;}
+    /*!
+     * \brief Set shape's style.
+     * \param style Combination of the shape's styles
+     * \sa STYLE
+     */
+    inline void SetStyle(long style){m_nStyle = style;}
+    /*! \brief Get current shape style. */
+    inline long GetStyle(){return m_nStyle;}
+    inline void AddStyle(STYLE style){m_nStyle |= style;}
+    inline void RemoveStyle(STYLE style){m_nStyle &= ~style;}
+    inline bool ContainsStyle(STYLE style){return (m_nStyle & style) != 0;}
+
 
     /// <summary> Get child shapes associated with this (parent) shape. </summary>
     /// <param name="children"> List of child shapes </param>
@@ -296,7 +281,7 @@ public:
 	bool IsSelected(){return m_fSelected;}
 	/// <summary> Set the shape as a selected/deselected one </summary>
 	/// <param name="state"> Selection state (TRUE is selected, FALSE is deselected) </param>
-	void Select(bool state){m_fSelected = state; ShowHandles(state && m_fSizeChange);}
+	void Select(bool state){m_fSelected = state; ShowHandles(state && (m_nStyle & sfsSIZE_CHANGE));}
 
     /// <summary> Set shape's relative position. Absolute shape's position is then calculated
     /// as a sumation of the relative positions of this shape and all parent shapes in the shape's
@@ -378,18 +363,13 @@ public:
      * together with the parent shape.
      * \param data Pointer to user data
      */
-    void SetUserData(xsSerializable* data){m_pUserData = data;}
+    void SetUserData(xsSerializable* data);//{m_pUserData = data;}
      /*!
      * \brief Get associated user data.
      *
      * \return Pointer to user data
      */
     xsSerializable* GetUserData(){return m_pUserData;}
-    /*!
-     * \brief Enable deletion of associated user data when the shape is destroyed.
-     * \param del TRUE if the associated data should be deleted, otherwise FALSE.
-     */
-    void DeleteUserDataOnDestroy(bool del){m_fDeleteUserData = del;}
 
 	/*!
 	 * \brief Set shape's parent diagram manager
@@ -745,20 +725,8 @@ protected:
 	bool m_fVisible;
 	/*! \brief Activation flag */
 	bool m_fActive;
-	/*! \brief Parent change flag (an interactive parent change is allowed) */
-	bool m_fParentChange;
-	/*! \brief Hovering flag (the mouse pointer is just above the shape */
-	bool m_fHovering;
-	/*! \brief Highlighting flag (the shapes can accept shapes just dragged over it) */
-	bool m_fHighlighting;
-	/*! \brief Sizing flag (an interactive size change is allowed) */
-	bool m_fSizeChange;
-	/*! \brief Positioning flag (an interactive position change is allowed) */
-	bool m_fPositionChange;
-	/*! \brief Docking flag (the parent shape will be resized to fit this child shape) */
-	bool m_fAlwaysInsideParent;
-	/*! \brief Automatic user data deletion flag */
-	bool m_fDeleteUserData;
+    /*! \brief Shape's style mask */
+	long m_nStyle;
 
 	wxColour m_nHoverColor;
 	wxRealPoint m_nRelativePosition;
@@ -781,7 +749,6 @@ protected:
 
     /*! \brief Pointer to parent diagram manager */
     wxSFDiagramManager *m_pParentManager;
-	//wxSFShapeCanvas *m_pParentCanvas;
 	/*! \brief Handle list */
 	CHandleList m_lstHandles;
 
@@ -854,8 +821,6 @@ private:
 	bool m_fHighlighParent;
 
 	wxRealPoint m_nMouseOffset;
-
-	//long m_nId;
 
     // private functions
 

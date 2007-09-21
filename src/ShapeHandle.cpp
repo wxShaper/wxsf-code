@@ -125,7 +125,7 @@ void wxSFShapeHandle::OnDragging(const wxPoint& pos)
 {
     // HINT: override it if neccessary...
 
-	if(m_fVisible && m_pParentShape && m_pParentShape->CanChangeSize())
+	if(m_fVisible && m_pParentShape && m_pParentShape->ContainsStyle(wxSFShapeBase::sfsSIZE_CHANGE))
 	{
 		if(pos != m_nPrevPos)
 		{
@@ -218,7 +218,7 @@ void wxSFShapeHandle::DrawNormal(wxSFScaledPaintDC& dc)
 
 void wxSFShapeHandle::DrawHover(wxSFScaledPaintDC& dc)
 {
-    if(m_pParentShape->CanChangeSize())
+    if(m_pParentShape->ContainsStyle(wxSFShapeBase::sfsSIZE_CHANGE))
     {
         dc.SetBrush(wxBrush(m_pParentShape->GetHoverColour()));
         dc.DrawRectangle(GetHandleRect());

@@ -275,25 +275,6 @@ bool wxSFLineShape::IsInside(const wxPoint& pos)
         return false;
 }
 
-bool wxSFLineShape::Intersects(const wxRect& rct)
-{
-    // Get all polyline segments
-    CLineSegmentArray m_arrLineSegments;
-    GetLineSegments(m_arrLineSegments);
-
-    // test whether any line segment lies inside given rectangle
-    for(size_t i=0; i < m_arrLineSegments.Count(); i++)
-    {
-        if(rct.Contains((int)m_arrLineSegments.Item(i).m_nSrc.x, (int)m_arrLineSegments.Item(i).m_nSrc.y) &&
-            rct.Contains((int)m_arrLineSegments.Item(i).m_nTrg.x, (int)m_arrLineSegments.Item(i).m_nTrg.y))
-        {
-            return true;
-        }
-    }
-
-	return false;
-}
-
 void wxSFLineShape::Scale(double x, double y, bool children)
 {
 	wxRealPoint *pt;

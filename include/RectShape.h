@@ -51,15 +51,6 @@ public:
     /// if neccessary. </summary>
     /// <returns> Bounding rectangle </returns>
 	virtual wxRect GetBoundingBox();
-    /// <summary> Test whether the given point is inside the shape. The function
-    /// can be overrided if neccessary. </summary>
-    /// <param name="pos"> Examined point </param>
-    /// <returns> TRUE if the point is inside the shape area, otherwise FALSE </returns>
-	virtual bool IsInside(const wxPoint& pos);
-	/// <summary> Test whether the given rectangle intersects the shape. </summary>
-	/// <param name="rct"> Examined rectangle </param>
-	/// <returns> TRUE if the examined rectangle intersects the shape, otherwise FALSE </returns>
-	virtual bool Intersects(const wxRect& rct);
 	/// <summary> Get intersection point of the shape's border and a line leading from
 	/// the shape's center to the given point. The function can be overrided if neccessary. </summary>
 	/// <param name="to"> Ending point of the virtual intersection line </param>

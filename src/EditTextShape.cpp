@@ -70,7 +70,7 @@ void wxSFContentCtrl::Quit()
 	{
 		m_pParentShape->SetText(GetValue());
 		m_pParentShape->m_pTextCtrl = NULL;
-		m_pParentShape->EnableSizeChange(m_pParentShape->m_fHandlesState);
+		m_pParentShape->SetStyle(m_pParentShape->m_nCurrentState);
 
 		// save canvas state if the textctrl content has changed...
 		if(m_sPrevContent != GetValue())
@@ -134,7 +134,11 @@ void wxSFEditTextShape::OnLeftDoubleClick(const wxPoint &pos)
 		if(m_sText.Contains(wxT("\n")))style = wxTE_MULTILINE;
 
 		m_pTextCtrl = new wxSFContentCtrl(GetParentCanvas(), textCtrlId, this, m_sText, wxPoint(int((shpPos.x * scale) - dx), int((shpPos.y * scale) - dy)), wxSize(int(shpBB.GetWidth() * scale), int(shpBB.GetHeight() * scale)), style);
-		m_fHandlesState = CanChangeSize();
-		EnableSizeChange(false);
+
+		m_nCurrentState = GetStyle();
+		RemoveStyle(sfsSIZE_CHANGE);
+		//m_fHandlesState = GetStyle() & sfsSIZE_CHANGE;
+		//SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
+
 	}
 }

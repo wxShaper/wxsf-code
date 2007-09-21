@@ -141,11 +141,6 @@ friend class wxSFShapeCanvas;
     /// <param name="pos"> Examined point </param>
     /// <returns> TRUE if the point is inside the shape area, otherwise FALSE </returns>
 	virtual bool IsInside(const wxPoint& pos);
-	/// <summary> Test whether the given rectangle intersects the shape.  The function
-    /// can be overrided if neccessary. </summary>
-	/// <param name="rct"> Examined rectangle </param>
-	/// <returns> TRUE if the examined rectangle intersects the shape, otherwise FALSE </returns>
-	virtual bool Intersects(const wxRect& rct);
 	/// <summary> Move the shape to the given absolute position. The function
     /// can be overrided if neccessary. </summary>
 	/// <param name="x"> X coordinate </param>

@@ -29,4 +29,9 @@ void wxSFShapeBase::Deserialize(wxXmlNode* node)
 	// HINT: overload it for custom actions...
 
 	xsSerializable::Deserialize(node);
+
+	if( m_pUserData )
+	{
+	    m_pUserData->SetParent(this);
+	}
 }

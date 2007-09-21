@@ -1,4 +1,4 @@
-Changes in version 1.3.1 beta (2007-09-10):
+Changes in version 1.3.1 beta (2007-09-21):
 --------------------------------------------
 - Fixed wxSFShapeBase::GetCompleteBoundingBox() function to respect non-zero horizontal
   and verical shape borders.
@@ -8,6 +8,18 @@ Changes in version 1.3.1 beta (2007-09-10):
 - Added wxSFShapeCanvas::OnTextChange() event handler called by the franework if any ediatble text shape
   is changed (default implementation generates the wxEVT_SF_TEXT_CHANGE event).
 - Fixed initialization of text shapes after the deserialization if the shape canvas doesn't exist yet.
+- Fixed shape resizing problems occured if the shape has one or more children aligned to
+  the right or bottom.
+- Function wxSFBitmapShape::CreateFromXPM() is now public.
+- Partial shape flags (m_fParentChange, m_fSizeChange, m_fPositionChange, m_fAlwaysInside,
+  m_fHovering and m_fHighlighting) with relevant accessors have been replaced with 
+  one common style property (see STYLE enumeration and wxSFShapeBase::SetStyle(), 
+  wxSFShapeBase::GetStyle(), AddStyle(), RemoveStyle(), ContainsStyle() functions). Also new 
+  shape's flag sfsTRAVERSE has been implemented. This modification makes the wxSF much more flexible
+  and reduces size of the project XML files (only one property (style) is now serialized instead
+  of many partial flags).
+- Optimized drawing.
+- Associated user data now knows its parent shape (via xsSerializable::GetParent() function).
 - Code clean-up.
 
 Changes in version 1.3.0 beta (2007-09-07):

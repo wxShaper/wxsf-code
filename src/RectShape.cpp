@@ -12,6 +12,8 @@
 #include "ShapeCanvas.h"
 #include "CommonFcn.h"
 
+// TODO: wxSFShapeBase: Implement LockAspectRation() function
+
 IMPLEMENT_DYNAMIC_CLASS(wxSFRectShape, wxSFShapeBase);
 
 wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()
@@ -58,18 +60,6 @@ wxRect wxSFRectShape::GetBoundingBox()
 	return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y ));
 }
 
-bool wxSFRectShape::IsInside(const wxPoint& pos)
-{
-    wxRealPoint apos = GetAbsolutePosition();
-	return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y)).Contains(pos);
-}
-
-bool wxSFRectShape::Intersects(const wxRect& rct)
-{
-    wxRealPoint apos = GetAbsolutePosition();
-	return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y)).Intersects(rct);
-}
-
 void wxSFRectShape::Scale(double x, double y, bool children)
 {
 	// HINT: overload it for custom actions...
@@ -97,7 +87,7 @@ void wxSFRectShape::FitToChildren()
     {
         pChild = node->GetData();
 
-        if( pChild->IsAlwaysInsideParent() )
+        if( pChild->GetStyle() & sfsALWAYS_INSIDE )
         {
             pChild->GetCompleteBoundingBox(chBB, bbSELF | bbCHILDREN);
         }

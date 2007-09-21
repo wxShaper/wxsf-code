@@ -89,6 +89,6 @@ public:
 
 protected:
 	wxSFContentCtrl* m_pTextCtrl;
-	bool m_fHandlesState;
+	long m_nCurrentState;
 };
 

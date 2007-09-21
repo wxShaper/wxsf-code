@@ -8,8 +8,6 @@
  * Notes:
  **************************************************************/
 
-// TODO: wxSFShapeBase: Implement LockAspectRation() function
-
 #include "ShapeBase.h"
 #include "ShapeCanvas.h"
 #include "TextShape.h"
@@ -35,14 +33,7 @@ wxSFShapeBase::wxSFShapeBase(void)
 	// archived properties
 	m_fVisible = sfdvBASESHAPE_VISIBILITY;
 	m_fActive = sfdvBASESHAPE_ACTIVITY;
-	m_fParentChange = sfdvBASESHAPE_PARENTCHANGE;
-	m_fSizeChange = sfdvBASESHAPE_SIZECHANGE;
-	m_fPositionChange = sfdvBASESHAPE_POSITIONCHANGE;
-	m_fHighlighting = sfdvBASESHAPE_HIGHLIGHTING;
-	m_fHovering = sfdvBASESHAPE_HOVERING;
-	m_fAlwaysInsideParent = sfdvBASESHAPE_ALWAYSINSIDE;
-	m_fDeleteUserData = sfdvBASESHAPE_DELETEUSERDATA;
-
+	m_nStyle = sfdvBASESHAPE_DEFAULT_STYLE;
 	m_nRelativePosition = sfdvBASESHAPE_POSITION;
 	m_nHoverColor = sfdvBASESHAPE_HOVERCOLOUR;
 	m_nVAlign = sfdvBASESHAPE_VALIGN;
@@ -54,13 +45,7 @@ wxSFShapeBase::wxSFShapeBase(void)
     XS_SERIALIZE(m_nId, wxT("id"));
     XS_SERIALIZE_EX(m_fActive, wxT("active"), sfdvBASESHAPE_ACTIVITY);
     XS_SERIALIZE_EX(m_fVisible, wxT("visibility"), sfdvBASESHAPE_VISIBILITY);
-    XS_SERIALIZE_EX(m_fParentChange, wxT("parent_change"), sfdvBASESHAPE_PARENTCHANGE);
-    XS_SERIALIZE_EX(m_fSizeChange, wxT("size_change"), sfdvBASESHAPE_SIZECHANGE);
-    XS_SERIALIZE_EX(m_fPositionChange, wxT("position_change"), sfdvBASESHAPE_POSITIONCHANGE);
-    XS_SERIALIZE_EX(m_fHighlighting, wxT("highlighting"), sfdvBASESHAPE_HIGHLIGHTING);
-    XS_SERIALIZE_EX(m_fHovering, wxT("hovering"), sfdvBASESHAPE_HOVERING);
-    XS_SERIALIZE_EX(m_fAlwaysInsideParent, wxT("always_inside"), sfdvBASESHAPE_ALWAYSINSIDE);
-    XS_SERIALIZE_EX(m_fDeleteUserData, wxT("delete_data"), sfdvBASESHAPE_DELETEUSERDATA);
+    XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvBASESHAPE_DEFAULT_STYLE);
     XS_SERIALIZE(m_arrAcceptedChildren, wxT("accepted_children"));
     XS_SERIALIZE(m_arrAcceptedConnections, wxT("accepted_connections"));
     XS_SERIALIZE(m_arrAcceptedSrcNeighbours, wxT("accepted_src_neighbours"));
@@ -104,14 +89,7 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager
 	// archived properties
 	m_fVisible = sfdvBASESHAPE_VISIBILITY;
 	m_fActive = sfdvBASESHAPE_ACTIVITY;
-	m_fParentChange = sfdvBASESHAPE_PARENTCHANGE;
-	m_fSizeChange = sfdvBASESHAPE_SIZECHANGE;
-	m_fPositionChange = sfdvBASESHAPE_POSITIONCHANGE;
-	m_fHighlighting = sfdvBASESHAPE_HIGHLIGHTING;
-	m_fHovering = sfdvBASESHAPE_HOVERING;
-	m_fAlwaysInsideParent = sfdvBASESHAPE_ALWAYSINSIDE;
-	m_fDeleteUserData = sfdvBASESHAPE_DELETEUSERDATA;
-
+	m_nStyle = sfdvBASESHAPE_DEFAULT_STYLE;
 	m_nVAlign = sfdvBASESHAPE_VALIGN;
 	m_nHAlign = sfdvBASESHAPE_HALIGN;
 	m_nVBorder = sfdvBASESHAPE_VBORDER;
@@ -126,13 +104,7 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager
     XS_SERIALIZE(m_nId, wxT("id"));
     XS_SERIALIZE_EX(m_fActive, wxT("active"), sfdvBASESHAPE_ACTIVITY);
     XS_SERIALIZE_EX(m_fVisible, wxT("visibility"), sfdvBASESHAPE_VISIBILITY);
-    XS_SERIALIZE_EX(m_fParentChange, wxT("parent_change"), sfdvBASESHAPE_PARENTCHANGE);
-    XS_SERIALIZE_EX(m_fSizeChange, wxT("size_change"), sfdvBASESHAPE_SIZECHANGE);
-    XS_SERIALIZE_EX(m_fPositionChange, wxT("position_change"), sfdvBASESHAPE_POSITIONCHANGE);
-    XS_SERIALIZE_EX(m_fHighlighting, wxT("highlighting"), sfdvBASESHAPE_HIGHLIGHTING);
-    XS_SERIALIZE_EX(m_fHovering, wxT("hovering"), sfdvBASESHAPE_HOVERING);
-    XS_SERIALIZE_EX(m_fAlwaysInsideParent, wxT("always_inside"), sfdvBASESHAPE_ALWAYSINSIDE);
-    XS_SERIALIZE_EX(m_fDeleteUserData, wxT("delete_data"), sfdvBASESHAPE_DELETEUSERDATA);
+    XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvBASESHAPE_DEFAULT_STYLE);
     XS_SERIALIZE(m_arrAcceptedChildren, wxT("accepted_children"));
     XS_SERIALIZE(m_arrAcceptedConnections, wxT("accepted_connections"));
     XS_SERIALIZE(m_arrAcceptedSrcNeighbours, wxT("accepted_src_neighbours"));
@@ -156,15 +128,7 @@ wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj) : xsSerializable(obj)
 	m_fFirstMove = obj.m_fFirstMove;
 	m_fVisible = obj.m_fVisible;
 	m_fActive = obj.m_fActive;
-	m_fHighlighParent = obj.m_fHighlighParent;
-	m_fParentChange = obj.m_fParentChange;
-	m_fSizeChange = obj.m_fSizeChange;
-	m_fPositionChange = obj.m_fPositionChange;
-	m_fHighlighting = obj.m_fHighlighting;
-	m_fHovering = obj.m_fHovering;
-	m_fAlwaysInsideParent = obj.m_fAlwaysInsideParent;
-	m_fDeleteUserData = obj.m_fDeleteUserData;
-
+	m_nStyle = obj.m_nStyle;
 	m_nVAlign = obj.m_nVAlign;
 	m_nHAlign = obj.m_nHAlign;
 	m_nVBorder = obj.m_nVBorder;
@@ -198,7 +162,7 @@ wxSFShapeBase::~wxSFShapeBase(void)
 	// clear handles
 	m_lstHandles.Clear();
 	// delete user data
-	if(m_pUserData && m_fDeleteUserData)delete m_pUserData;
+	if(m_pUserData && (m_nStyle & sfsDELETE_USER_DATA))delete m_pUserData;
 }
 
 
@@ -283,14 +247,14 @@ bool wxSFShapeBase::IsInside(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 
-	return false;
+	return this->GetBoundingBox().Contains(pos);
 }
 
 bool wxSFShapeBase::Intersects(const wxRect& rct)
 {
 	// HINT: overload it for custom actions...
 
-	return false;
+	return rct.Intersects(this->GetBoundingBox());
 }
 
 wxRealPoint wxSFShapeBase::GetAbsolutePosition()
@@ -392,7 +356,7 @@ void wxSFShapeBase::ScaleChildren(double x, double y)
 	{
 		wxSFShapeBase* pShape = node->GetData();
 
-        if(pShape->CanChangeSize() && !pShape->IsKindOf(CLASSINFO(wxSFTextShape)))
+        if((pShape->GetStyle() & sfsSIZE_CHANGE) && !pShape->IsKindOf(CLASSINFO(wxSFTextShape)))
 		{
 		    pShape->Scale(x, y, sfWITHOUTCHILDREN);
 		}
@@ -411,18 +375,15 @@ void wxSFShapeBase::ScaleChildren(double x, double y)
 
 void wxSFShapeBase::Update()
 {
-    // fit the shape to its children
-    this->FitToChildren();
-
     // do self-alignment
     DoAlignment();
+
+    // fit the shape to its children
+    this->FitToChildren();
 
     // do alignment of shape's children (if required)
     if( !this->IsKindOf(CLASSINFO(wxSFLineShape)) )
     {
-        //ShapeList lstChildren;
-        //GetChildren(lstChildren, sfNORECURSIVE);
-
         wxShapeListNode* node = (wxShapeListNode*)GetFirstChildNode();
         while(node)
         {
@@ -509,6 +470,16 @@ wxSFShapeBase* wxSFShapeBase::GetParentShape()
         return NULL;
 }
 
+void wxSFShapeBase::SetUserData(xsSerializable* data)
+{
+    m_pUserData = data;
+    if( m_pUserData )
+    {
+        // let associated data to know its parent shape
+        m_pUserData->SetParent(this);
+    }
+}
+
 //----------------------------------------------------------------------------------//
 // Drawing functions
 //----------------------------------------------------------------------------------//
@@ -526,14 +497,15 @@ void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
     if(!m_pParentManager || !m_pParentManager->GetShapeCanvas())return;
 
 	// first, draw itself
-	if(m_fMouseOver)
+	//if(m_fMouseOver && (m_fHighlighParent || m_fHovering))
+	if(m_fMouseOver && ( m_fHighlighParent || (m_nStyle & sfsHOVERING) ))
 	{
 		if(m_fHighlighParent)
 		{
 			this->DrawHighlighted(dc);
 		}
 		else
-			if(m_fHovering)this->DrawHover(dc);
+			this->DrawHover(dc);
 	}
 	else this->DrawNormal(dc);
 
@@ -903,7 +875,8 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
     //wxASSERT(m_pParentManager);
     if( !m_pParentManager )return;
 
-	if(m_fVisible && m_fActive && m_fPositionChange)
+//	if(m_fVisible && m_fActive && m_fPositionChange)
+	if(m_fVisible && m_fActive && (m_nStyle & sfsPOSITION_CHANGE))
 	{
 		if(m_fFirstMove)
 		{
@@ -956,7 +929,7 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		}
 
 		// determine, whether the shape should be highlighted for any reason
-		if(pCanvas && m_fHighlighting)
+		if(pCanvas)
 		{
 		    switch(pCanvas->GetMode())
 		    {
@@ -1051,19 +1024,19 @@ void wxSFShapeBase::_OnKey(int key)
             switch(key)
             {
             case WXK_LEFT:
-                if(m_fPositionChange)MoveBy(-dx, 0);
+                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(-dx, 0);
                 break;
 
             case WXK_RIGHT:
-                if(m_fPositionChange)MoveBy(dx, 0);
+                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(dx, 0);
                 break;
 
             case WXK_UP:
-                if(m_fPositionChange)MoveBy(0, -dy);
+                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(0, -dy);
                 break;
 
             case WXK_DOWN:
-                if(m_fPositionChange)MoveBy(0, dy);
+                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(0, dy);
                 break;
             }
         }
@@ -1084,20 +1057,29 @@ void wxSFShapeBase::_OnKey(int key)
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
    // wxASSERT(m_pParentManager);
-    if( !m_pParentManager )return;
+    wxSFShapeBase* pChild;
 
-    // get initial bounding box
-    //wxRect prevDispRct = GetParentCanvas()->GetSelectionBB();
+    if( !m_pParentManager )return;
 
     // call appropriate user-defined handler
 	this->OnHandle(handle);
 
+    // align children
+    wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+    while(node)
+    {
+        pChild = node->GetData();
+
+        if((pChild->GetVAlign() != valignNONE) || (pChild->GetHAlign() != halignNONE))
+        {
+            node->GetData()->DoAlignment();
+        }
+        node = node->GetNext();
+    }
     // update shape
     Update();
 
     // refresh canvas
-    /*wxRect currDispRct = GetParentCanvas()->GetSelectionBB();
-    GetParentCanvas()->RefreshCanvas(false, prevDispRct.Union(currDispRct).Inflate(int(MEOFFSET*GetParentCanvas()->GetScale())));*/
     if( m_pParentManager->GetShapeCanvas() )m_pParentManager->GetShapeCanvas()->Refresh(false);
 
 }

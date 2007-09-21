@@ -35,7 +35,10 @@ void wxSFBitmapShape::Deserialize(wxXmlNode* node)
 
 	wxRealPoint prevSize = m_nRectSize;
 
-	CreateFromFile(m_sBitmapPath);
+    if(!m_sBitmapPath.IsEmpty())
+    {
+        CreateFromFile(m_sBitmapPath);
+    }
 
 	if(m_fCanScale)
 	{

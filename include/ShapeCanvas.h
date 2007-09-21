@@ -20,6 +20,8 @@
 #define MEOFFSET 5
 #define sfSAVE_STATE true
 #define sfDONT_SAVE_STATE false
+#define sfFROM_PAINT true
+#define sfFROM_ANYWHERE false
 
 // default values
 /*! \brief Default value of wxSFShapeCanvas::m_fShowGrid data member */
@@ -421,6 +423,18 @@ public:
      */
 	void ValidateSelection(ShapeList& selection);
 
+	/*!
+	 * \brief Function responsible for drawing of the canvas's content to given DC.
+	 * \param dc Reference to device context where the shapes will be drawn to
+	 */
+	void DrawContent(wxSFScaledPaintDC& dc, bool fromPaint);
+
+    /*!
+     * \brief Get reference to multiselection box
+     * \return Reference to multiselection box object
+     */
+    wxSFMultiSelRect& GetMultiselectionBox(){return m_shpMultiEdit;}
+
 	// public virtual event handlers
     /*!
      * \brief Event handler call when the canvas is clicked by
@@ -555,16 +569,6 @@ protected:
 	wxSFCanvasSettings m_Settings;
 
 	// protected functions
-	/*!
-	 * \brief Function responsible for drawing of the canvas's content to given DC.
-	 * \param dc Refenrence to device context where the shapes will be drawn to
-	 */
-	void DrawContent(wxSFScaledPaintDC& dc);
-    /*!
-     * \brief Get reference to multiselection box
-     * \return Reference to multiselection box object
-     */
-    wxSFMultiSelRect& GetMultiselectionBox(){return m_shpMultiEdit;}
 
 private:
 
@@ -584,6 +588,8 @@ private:
 
 	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */
 	void DeleteAllTextCtrls();
+	/*! \brief Validate selection so the shapes in the given list can be processed by the clipboard functions */
+	void ValidateSelectionForClipboard(ShapeList& list);
 
 	// private event handlers
 	/*!

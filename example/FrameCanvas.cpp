@@ -71,8 +71,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
                 if(pText)
                 {
-					//pText->SetText(dlg.GetValue());
-					pText->SetText(wxT("Hello\nWorld"));
+					pText->SetText(dlg.GetValue());
 
                     // set alignment
                     pText->SetVAlign(wxSFShapeBase::valignTOP);
@@ -213,8 +212,8 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 			if(pShape)
 			{
 			    // set shape policy
-			    pShape->EnableSizeChange(false);
-			    pShape->EnablePositionChange(false);
+			    pShape->RemoveStyle(wxSFShapeBase::sfsSIZE_CHANGE);
+
 			    pShape->AcceptChild(wxT("wxSFTextShape"));
 				pShape->AcceptChild(wxT("wxSFEditTextShape"));
 
