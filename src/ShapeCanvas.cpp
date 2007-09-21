@@ -185,7 +185,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 			while(upd)
 			{
 				// get damaged region
-				updRct = upd.GetRect();
+				updRct = DP2LP(upd.GetRect());
 
 				// draw unselected non line-based shapes first...
 				wxShapeListNode *node = m_lstToDraw.GetFirst();
@@ -271,7 +271,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 		{
 			while(upd)
 			{
-				updRct = upd.GetRect();
+				updRct = DP2LP(upd.GetRect());
 
 				// draw parent shapes (children are processed by parent objects)
 				wxShapeListNode *node = m_lstToDraw.GetFirst();
@@ -376,6 +376,12 @@ void wxSFShapeCanvas::OnEraseBackground(wxEraseEvent &event)
 
 void wxSFShapeCanvas::RefreshCanvas(bool erase, wxRect rct)
 {
+    /*wxRect updRct = LP2DP(rct);
+
+    updRct.Inflate(int(10/m_Settings.m_nScale), int(10/m_Settings.m_nScale));
+
+    RefreshRect(updRct, erase);*/
+
 	wxPoint lpos = DP2LP(wxPoint(0, 0));
 
 	rct.Inflate(int(10/m_Settings.m_nScale), int(10/m_Settings.m_nScale));
@@ -1232,12 +1238,28 @@ wxPoint wxSFShapeCanvas::DP2LP(const wxPoint& pos) const
 	return wxPoint(int(x/m_Settings.m_nScale), int(y/m_Settings.m_nScale));
 }
 
+wxRect wxSFShapeCanvas::DP2LP(const wxRect& rct) const
+{
+	int x,y;
+	CalcUnscrolledPosition(rct.x, rct.y, &x, &y);
+
+	return wxRect(int(x/m_Settings.m_nScale), int(y/m_Settings.m_nScale), int(rct.width/m_Settings.m_nScale), int(rct.height/m_Settings.m_nScale));
+}
+
 wxPoint wxSFShapeCanvas::LP2DP(const wxPoint& pos) const
 {
 	int x,y;
 	CalcScrolledPosition(pos.x, pos.y, &x, &y);
 
 	return wxPoint(int(x*m_Settings.m_nScale), int(y*m_Settings.m_nScale));
+}
+
+wxRect wxSFShapeCanvas::LP2DP(const wxRect& rct) const
+{
+	int x,y;
+	CalcScrolledPosition(rct.x, rct.y, &x, &y);
+
+	return wxRect(int(x*m_Settings.m_nScale), int(y*m_Settings.m_nScale), int(rct.width*m_Settings.m_nScale), int(rct.height*m_Settings.m_nScale));
 }
 
 void wxSFShapeCanvas::SetScale(double scale)

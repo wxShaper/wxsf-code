@@ -243,6 +243,7 @@ public:
      * \return Logical position
      */
 	wxPoint DP2LP(const wxPoint& pos) const;
+	wxRect DP2LP(const wxRect& rct) const;
     /*!
      * \brief Convert logical position to device position.
      *
@@ -251,6 +252,7 @@ public:
      * \return Device position
      */
 	wxPoint LP2DP(const wxPoint& pos) const;
+	wxRect LP2DP(const wxRect& rct) const;
 
 	/*!
 	 * \brief Get shape at given logical position.
