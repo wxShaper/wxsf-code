@@ -491,13 +491,10 @@ void wxSFShapeBase::Refresh()
 
 void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 {
-    //wxASSERT(m_pParentManager);
-    //wxASSERT(m_pParentManager->GetShapeCanvas());
-
     if(!m_pParentManager || !m_pParentManager->GetShapeCanvas())return;
+    if(!m_fVisible)return;
 
 	// first, draw itself
-	//if(m_fMouseOver && (m_fHighlighParent || m_fHovering))
 	if(m_fMouseOver && ( m_fHighlighParent || (m_nStyle & sfsHOVERING) ))
 	{
 		if(m_fHighlighParent)
@@ -935,24 +932,33 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		    {
             case wxSFShapeCanvas::modeSHAPEMOVE:
                 {
-                    if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)
+                    if(ContainsStyle(sfsHIGHLIGHTING))
                     {
-                        fUpdateShape = m_fHighlighParent = AcceptCurrentlyDraggedShapes();
+                        if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)
+                        {
+                            fUpdateShape = m_fHighlighParent = AcceptCurrentlyDraggedShapes();
+                        }
                     }
                 }
                 break;
 
             case wxSFShapeCanvas::modeHANDLEMOVE:
                 {
-    				if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)fUpdateShape = true;
-                    m_fHighlighParent = false;
+                    if(ContainsStyle(sfsHOVERING))
+                    {
+                        if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)fUpdateShape = true;
+                        m_fHighlighParent = false;
+                    }
                 }
                 break;
 
             default:
                 {
-                    if(pCanvas->GetShapeAtPosition(pos) == this)fUpdateShape = true;
-                    m_fHighlighParent = false;
+                    if(ContainsStyle(sfsHOVERING))
+                    {
+                        if(pCanvas->GetShapeAtPosition(pos) == this)fUpdateShape = true;
+                        m_fHighlighParent = false;
+                    }
                 }
                 break;
 		    }
@@ -1024,19 +1030,19 @@ void wxSFShapeBase::_OnKey(int key)
             switch(key)
             {
             case WXK_LEFT:
-                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(-dx, 0);
+                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(-dx, 0);
                 break;
 
             case WXK_RIGHT:
-                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(dx, 0);
+                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(dx, 0);
                 break;
 
             case WXK_UP:
-                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(0, -dy);
+                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(0, -dy);
                 break;
 
             case WXK_DOWN:
-                if(m_nStyle & sfsPOSITION_CHANGE)MoveBy(0, dy);
+                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(0, dy);
                 break;
             }
         }

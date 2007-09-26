@@ -534,7 +534,9 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                 //if(pShapeUnder && !pShapeUnder->IsKindOf(CLASSINFO(wxSFLineShape)))
 				if(pShapeUnder)
                 {
-					if((m_pNewLineShape->GetSrcShapeId() == -1) && (pShapeUnder->IsConnectionAccepted(m_pNewLineShape->GetClassInfo()->GetClassName())))
+					if((m_pNewLineShape->GetSrcShapeId() == -1) &&
+                        (pShapeUnder->IsConnectionAccepted(m_pNewLineShape->GetClassInfo()->GetClassName())))
+                        //(!pShapeUnder->GetAcceptedTrgNeighbours().IsEmpty()))
                     {
                         m_pNewLineShape->SetSrcShapeId(pShapeUnder->GetId());
 
@@ -717,7 +719,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 			while(node)
 			{
 				wxSFShapeBase* pShape = node->GetData();
-				if(selRect.Contains(pShape->GetBoundingBox()))
+				if(pShape->IsActive() && selRect.Contains(pShape->GetBoundingBox()))
 				{
 					pShape->Select(true);
 					//pShape->ShowHandles(true);
@@ -937,11 +939,13 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 			if(event.Dragging())
 			{
                 ShapeList shapes;
+                wxSFShapeBase* pShape;
+
                 m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 				wxShapeListNode* node = shapes.GetFirst();
 				while(node)
 				{
-					wxSFShapeBase* pShape = node->GetData();
+					pShape = node->GetData();
 
 					if(pShape->IsSelected() && (m_nWorkingMode == modeSHAPEMOVE))
 					{
@@ -1505,7 +1509,7 @@ wxSFShapeBase* wxSFShapeCanvas::GetShapeAtPosition(const wxPoint& pos, int zorde
 	while(node)
 	{
 		pShape = (wxSFShapeBase*)node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && !pShape->ContainsStyle(wxSFShapeBase::sfsTRAVERSE) && pShape->IsInside(pos))
+		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))
 		{
 			switch(mode)
 			{
@@ -1595,7 +1599,7 @@ int wxSFShapeCanvas::GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes)
 	while(node)
 	{
 		pShape = node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && !pShape->ContainsStyle(wxSFShapeBase::sfsTRAVERSE) && pShape->IsInside(pos))shapes.Append(pShape);
+		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))shapes.Append(pShape);
 		node = node->GetNext();
 	}
 
@@ -1617,7 +1621,7 @@ int wxSFShapeCanvas::GetShapesInside(const wxRect& rct, ShapeList& shapes)
 	while(node)
 	{
 		pShape = node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && !pShape->ContainsStyle(wxSFShapeBase::sfsTRAVERSE) && pShape->Intersects(rct))shapes.Append(pShape);
+		if(pShape->IsVisible() && pShape->IsActive() && pShape->Intersects(rct))shapes.Append(pShape);
 		node = node->GetNext();
 	}
 

@@ -47,7 +47,7 @@
 /// <summary> Default value of wxSFShapeObject::m_nHBorder data member </summary>
 #define sfdvBASESHAPE_HBORDER 0
 /// <summary> Default value of wxSFShapeObject::m_nStyle data member </summary>
-#define sfdvBASESHAPE_DEFAULT_STYLE 223
+#define sfdvBASESHAPE_DEFAULT_STYLE 127
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 class WXDLLIMPEXP_SF wxSFDiagramManager;
@@ -130,12 +130,10 @@ public:
 	    sfsHOVERING = 8,
 	    /*! \brief Shape is highlighted at shape dragging */
 	    sfsHIGHLIGHTING = 16,
-	    /*! \brief Shape doesn't receive mouse events and is 'invisible' for GetShapeXXX functions */
-	    sfsTRAVERSE = 32,
 	    /*! \brief Shape is always inside its parent */
-	    sfsALWAYS_INSIDE = 64,
+	    sfsALWAYS_INSIDE = 32,
 	    /*! \brief User data is destroyed at the shape deletion */
-	    sfsDELETE_USER_DATA = 128
+	    sfsDELETE_USER_DATA = 64
 	};
 
     /// <summary> Default constructor </summary>
