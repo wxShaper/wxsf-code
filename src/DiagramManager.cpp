@@ -24,7 +24,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sVersion =  wxT("1.3.1 beta");
+    m_sVersion =  wxT("1.3.2 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -188,7 +188,7 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
         wxShapeListNode* snode = lstChildren.GetFirst();
         while(snode)
         {
-            GetAssignedConnections(snode->GetData(), wxSFShapeBase::lineBOTH, lstConnections);
+            GetAssignedConnections(snode->GetData(), CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, lstConnections);
             snode = snode->GetNext();
         }
 
@@ -362,12 +362,12 @@ bool wxSFDiagramManager::IsShapeAccepted(const wxString& type)
         return false;
 }
 
-int wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines)
+int wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines)
 {
 	wxSFLineShape* pLine;
 
     ShapeList m_lstLines;
-    if(GetShapes(CLASSINFO(wxSFLineShape), m_lstLines))
+    if(GetShapes(shapeInfo, m_lstLines))
     {
         wxShapeListNode *node = m_lstLines.GetFirst();
         while(node)
@@ -407,11 +407,11 @@ wxSFShapeBase* wxSFDiagramManager::FindShape(long id)
         return (wxSFShapeBase*)GetItem(id);
 }
 
-void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct)
+void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbours, wxClassInfo *shapeInfo, wxSFShapeBase::CONNECTMODE condir, bool direct)
 {
     if(parent)
     {
-        parent->GetNeighbours(neighbours, condir, direct);
+        parent->GetNeighbours(neighbours, shapeInfo, condir, direct);
     }
     else
     {
@@ -423,7 +423,7 @@ void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbo
 		while(node)
 		{
 			pShape = (wxSFShapeBase*)node->GetData();
-            pShape->GetNeighbours(neighbours, condir, direct);
+            pShape->GetNeighbours(neighbours, shapeInfo, condir, direct);
 			node = node->GetNext();
 		}
     }

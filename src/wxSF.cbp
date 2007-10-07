@@ -12,7 +12,7 @@
 				<Option working_dir="" />
 				<Option object_output="..\obj\Win-gcc\wxsf\Lib\Debug" />
 				<Option type="2" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_compiler_4x" />
 				<Option host_application="..\bin\Win-gcc\Lib\Debug\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -38,7 +38,7 @@
 				<Option working_dir="" />
 				<Option object_output="..\obj\Win-gcc\wxsf\Lib\Release" />
 				<Option type="2" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_compiler_4x" />
 				<Option host_application="..\bin\Win-gcc\Lib\Release\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -63,7 +63,7 @@
 				<Option output="..\lib\Win-gcc\Dll\wxSF" prefix_auto="1" extension_auto="1" />
 				<Option object_output="..\obj\Win-gcc\wxsf\Dll\Release" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_compiler_4x" />
 				<Option host_application="..\bin\Win-gcc\Dll\Release\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
@@ -94,7 +94,7 @@
 				<Option output="..\lib\Win-gcc\Dll\wxSFd" prefix_auto="1" extension_auto="1" />
 				<Option object_output="..\obj\Win-gcc\wxsf\Dll\Debug" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_compiler_4x" />
 				<Option host_application="..\bin\Win-gcc\Dll\Debug\wxSFDemo.exe" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />

@@ -295,7 +295,7 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
         // show info about shape's neighbours
         counter = 1;
         lstShapes.Clear();
-        pShape->GetNeighbours(lstShapes, wxSFShapeBase::lineBOTH, sfINDIRECT);
+        pShape->GetNeighbours(lstShapes, CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, sfINDIRECT);
         if( lstShapes.GetCount() > 0 )
         {
             msg += wxT("\nNeighbours:\n");

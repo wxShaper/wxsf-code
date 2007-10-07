@@ -174,13 +174,14 @@ public:
 	/*!
 	 * \brief Get list of connections assigned to given parent shape.
 	 * \param parent Pointer to parent shape
+	 * \param shapeInfo Line object type
 	 * \param mode Search mode
 	 * \param lines Reference to shape list where pointers to
 	 * all found connections will be stored
 	 * \return Number of found connections
 	 * \sa wxSFShapeBase::CONNECTMODE
 	 */
-	int GetAssignedConnections(wxSFShapeBase* parent, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines);
+	int GetAssignedConnections(wxSFShapeBase* parent, wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines);
 	/*!
 	 * \brief Get list of shapes of given type.
 	 * \param shapeInfo Shape object type
@@ -200,13 +201,14 @@ public:
 	 * \brief Get neighbour shapes connected to given parent shape.
 	 * \param parent Pointer to parent shape (can be NULL for all topmost shapes)
 	 * \param neighbours List of neighbour shapes
+	 * \param shapeInfo Line object type
 	 * \param condir Connection direction
 	 * \param direct Set this flag to TRUE if only closest shapes should be found,
 	 * otherwise also shapes connected by forked lines will be found (also
 	 * constants sfDIRECT and sfINDIRECT can be used)
 	 * \sa wxSFShapeBase::CONNECTMODE
 	 */
-	void GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbours, wxSFShapeBase::CONNECTMODE condir, bool direct = true);
+	void GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbours, wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE condir, bool direct = true);
 
 
     // public member data accessors

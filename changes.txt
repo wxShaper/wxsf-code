@@ -1,3 +1,7 @@
+Changes in version 1.3.2 beta (2007-10-07):
+--------------------------------------------
+- Functions GetAssignedConnections() and GetNeighbours() now allow definition of the connection line type.
+
 Changes in version 1.3.1 beta (2007-09-26):
 --------------------------------------------
 - Fixed wxSFShapeBase::GetCompleteBoundingBox() function to respect non-zero horizontal

@@ -214,13 +214,14 @@ public:
 	/*!
 	 * \brief Get neighbour shapes connected to this shape.
 	 * \param neighbours List of neighbour shapes
+	 * \param shapeInfo Line object type
 	 * \param condir Connection direction
 	 * \param direct Set this flag to TRUE if only closest shapes should be found,
 	 * otherwise also shapes connected by forked lines will be found (also
 	 * constants sfDIRECT and sfINDIRECT can be used)
 	 * \sa CONNECTMODE
 	 */
-	void GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bool direct = true);
+	void GetNeighbours(ShapeList& neighbours, wxClassInfo* shapeInfo, CONNECTMODE condir, bool direct = true);
 
     /// <summary> Get shapes's bounding box. The function can be overrided
     /// if neccessary. </summary>
@@ -825,13 +826,14 @@ private:
 	/*!
 	 * \brief Auxiliary function called by GetNeighbours function.
 	 * \param neighbours List of neighbour shapes
+	 * \param shapeInfo Line object type
 	 * \param condir Connection direction
 	 * \param direct Set this flag to TRUE if only closest shapes should be found,
 	 * otherwise also shapes connected by forked lines will be found (also
 	 * constants sfDIRECT and sfINDIRECT can be used)
 	 * \sa GetNeighbours
 	 */
-	void _GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bool direct);
+	void _GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo, CONNECTMODE condir, bool direct);
 	/// <summary> Auxiliary function called by GetCompleteBoundingBox function. </summary>
 	/// <param name="rct"> Returned bounding rectangle </param>
 	/// <param name="mask"> Bit mask of object types which should be included into calculation </param>

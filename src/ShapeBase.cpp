@@ -211,7 +211,7 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 		wxSFShapeBase *pLine;
 
         ShapeList lstLines;
-        m_pParentManager->GetAssignedConnections(this, lineBOTH, lstLines);
+        m_pParentManager->GetAssignedConnections(this, CLASSINFO(wxSFLineShape), lineBOTH, lstLines);
 
 		wxShapeListNode* node = lstLines.GetFirst();
 		while(node)
@@ -570,18 +570,18 @@ void wxSFShapeBase::GetChildren(ShapeList& children, bool recursive)
     }
 }
 
-void wxSFShapeBase::GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bool direct)
+void wxSFShapeBase::GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo, CONNECTMODE condir, bool direct)
 {
     if( !this->IsKindOf(CLASSINFO(wxSFLineShape)) )
     {
         m_lstProcessed.Clear();
-        this->_GetNeighbours(neighbours, condir, direct);
+        this->_GetNeighbours(neighbours, shapeInfo, condir, direct);
         // delete starting object if necessary (can be added in a case of complex connection network)
         neighbours.DeleteObject(this);
     }
 }
 
-void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bool direct)
+void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo, CONNECTMODE condir, bool direct)
 {
     //wxASSERT(m_pParentManager);
 
@@ -593,7 +593,7 @@ void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bo
         wxSFLineShape *pLine;
         wxSFShapeBase *pOposite = NULL;
 
-        m_pParentManager->GetAssignedConnections(this, condir, lstConnections);
+        m_pParentManager->GetAssignedConnections(this, shapeInfo, condir, lstConnections);
 
         // find oposite shpes in direct branches
         wxShapeListNode *node = lstConnections.GetFirst();
@@ -637,7 +637,7 @@ void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bo
                             {
                                 pOposite = m_pParentManager->FindShape( pLine->GetSrcShapeId() );
 
-                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, shapeInfo, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
                             }
                             break;
@@ -646,7 +646,7 @@ void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bo
                             {
                                 pOposite = m_pParentManager->FindShape( pLine->GetTrgShapeId() );
 
-                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, shapeInfo, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
                             }
                             break;
@@ -654,18 +654,18 @@ void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, CONNECTMODE condir, bo
                         case lineBOTH:
                             {
                                 pOposite = m_pParentManager->FindShape( pLine->GetSrcShapeId() );
-                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, shapeInfo, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
 
                                 pOposite = m_pParentManager->FindShape( pLine->GetTrgShapeId() );
-                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, condir, direct);
+                                if( pOposite->IsKindOf(CLASSINFO(wxSFLineShape)) )pOposite->_GetNeighbours(neighbours, shapeInfo, condir, direct);
                                 else if( neighbours.IndexOf(pOposite) == wxNOT_FOUND )neighbours.Append(pOposite);
                             }
                             break;
                     }
                 }
                 else
-                    pLine->_GetNeighbours(neighbours, condir, direct);
+                    pLine->_GetNeighbours(neighbours, shapeInfo, condir, direct);
             }
 
             node = node->GetNext();
