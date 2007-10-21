@@ -81,11 +81,26 @@ public:
 	/// <returns> Pointer to instance of wxSFContentCtrl class </returns>
 	wxSFContentCtrl* GetTextCtrl() {return m_pTextCtrl;}
 
+	// public functions
+	/// <summary> Switch the shape to a label editation mode. </summary>
+	void EditLabel();
+
 	// public virtual functions
 	/// <summary> Event handler called when the shape was double-clicked.
 	/// The function can be overrided if neccessary. </summary>
 	/// <param name="pos"> Mouse position </param>
 	virtual void OnLeftDoubleClick(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when any key is pressed (in the shape canvas).
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \param key The key code
+	 * \return The function must return TRUE if the default event routine should be called
+	 * as well, otherwise FALSE
+	 * \sa wxSFShapeBase::OnKey
+	 */
+	virtual bool OnKey(int key);
 
 protected:
 	wxSFContentCtrl* m_pTextCtrl;

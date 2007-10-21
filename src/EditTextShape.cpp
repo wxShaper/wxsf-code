@@ -112,15 +112,12 @@ wxSFEditTextShape::~wxSFEditTextShape(void)
 {
 	if(m_pTextCtrl)delete m_pTextCtrl;
 }
-
 //----------------------------------------------------------------------------------//
-// public virtual functions
+// public functions
 //----------------------------------------------------------------------------------//
 
-void wxSFEditTextShape::OnLeftDoubleClick(const wxPoint &pos)
+void wxSFEditTextShape::EditLabel()
 {
-	// HINT: override it if neccessary...
-
 	if(GetParentCanvas())
 	{
 	    wxRealPoint shpPos = GetAbsolutePosition();
@@ -137,8 +134,36 @@ void wxSFEditTextShape::OnLeftDoubleClick(const wxPoint &pos)
 
 		m_nCurrentState = GetStyle();
 		RemoveStyle(sfsSIZE_CHANGE);
-		//m_fHandlesState = GetStyle() & sfsSIZE_CHANGE;
-		//SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
-
 	}
+}
+
+//----------------------------------------------------------------------------------//
+// public virtual functions
+//----------------------------------------------------------------------------------//
+
+void wxSFEditTextShape::OnLeftDoubleClick(const wxPoint &pos)
+{
+	// HINT: override it if neccessary...
+
+    EditLabel();
+}
+
+bool wxSFEditTextShape::OnKey(int key)
+{
+    // HINT: override it if neccessary...
+
+    switch(key)
+    {
+        case WXK_F2:
+            if(IsActive() && IsVisible())
+            {
+                EditLabel();
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return wxSFShapeBase::OnKey(key);
 }

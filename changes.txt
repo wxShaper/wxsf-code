@@ -1,6 +1,8 @@
-Changes in version 1.3.2 beta (2007-10-07):
+Changes in version 1.3.2 beta (2007-10-16):
 --------------------------------------------
 - Functions GetAssignedConnections() and GetNeighbours() now allow definition of the connection line type.
+- Added function wxSFEditTextShape::EditLabel() which starts label's editation process.
+- F2 key now starts the editable shape's label editation mode.
 
 Changes in version 1.3.1 beta (2007-09-26):
 --------------------------------------------

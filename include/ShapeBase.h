@@ -709,7 +709,7 @@ public:
 	 *
 	 * The function is called by the framework (by the shape canvas).
 	 * \param key The key code
-	 * \return The must should return TRUE if the default event routine should be called
+	 * \return The function must return TRUE if the default event routine should be called
 	 * as well, otherwise FALSE
 	 * \sa wxSFShapeBase::_OnKey
 	 */
