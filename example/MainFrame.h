@@ -4,7 +4,6 @@
 #include <wx/clrpicker.h>
 
 #include "FrameCanvas.h"
-#include "wxShapeFramework.h"
 
 class CMainFrame: public wxFrame {
 public:

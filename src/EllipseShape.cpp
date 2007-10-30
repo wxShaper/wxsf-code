@@ -8,7 +8,7 @@
  * Notes:
  **************************************************************/
 
-#include "EllipseShape.h"
+#include "wx/wxsf/EllipseShape.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFEllipseShape, wxSFRectShape);
 

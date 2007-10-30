@@ -1,5 +1,5 @@
-#ifndef DEFS_H
-#define DEFS_H
+#ifndef SFDEFS_H
+#define SFDEFS_H
 
 #ifdef USING_SOURCE_SF
 	#define WXDLLIMPEXP_SF
@@ -8,7 +8,6 @@
     #define WXDLLIMPEXP_SF
     #define WXDLLIMPEXP_DATA_SF(type)
 #elif defined( WXMAKINGDLL_SF )
-    #define WXMAKINGDLL
     #define WXDLLIMPEXP_SF WXEXPORT
     #define WXDLLIMPEXP_DATA_SF(type) WXEXPORT type
 #elif defined(WXUSINGDLL)
@@ -19,4 +18,4 @@
     #define WXDLLIMPEXP_DATA_SF(type) type
 #endif
 
-#endif//DEFS_H
+#endif//SFDEFS_H

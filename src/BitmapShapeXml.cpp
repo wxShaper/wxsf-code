@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "BitmapShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/BitmapShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 //----------------------------------------------------------------------------------//
 // Serialization

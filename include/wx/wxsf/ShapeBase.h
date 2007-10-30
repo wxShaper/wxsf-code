@@ -19,8 +19,8 @@
 
 #include "ShapeHandle.h"
 #include "ScaledPaintDC.h"
-#include "XmlSerializer.h"
 #include "Defs.h"
+#include "../wxxmlserializer/XmlSerializer.h"
 
 #define sfRECURSIVE true
 #define sfNORECURSIVE false

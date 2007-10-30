@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "LineShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/LineShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 //----------------------------------------------------------------------------------//
 // Serialization functions

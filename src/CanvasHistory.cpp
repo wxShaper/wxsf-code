@@ -10,8 +10,8 @@
 
 #include <wx/mstream.h>
 
-#include "CanvasHistory.h"
-#include "ShapeCanvas.h"
+#include "wx/wxsf/CanvasHistory.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 wxSFCanvasHistory::wxSFCanvasHistory(void)
 {

@@ -10,7 +10,7 @@
 
 #include <wx/mstream.h>
 
-#include "ShapeDataObject.h"
+#include "wx/wxsf/ShapeDataObject.h"
 
 wxSFShapeDataObject::wxSFShapeDataObject(const wxDataFormat& format)
 : wxDataObjectSimple(format)

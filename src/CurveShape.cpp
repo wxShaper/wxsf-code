@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "CurveShape.h"
-#include "ShapeCanvas.h"
+#include "wx/wxsf/CurveShape.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCurveShape, wxSFLineShape);
 

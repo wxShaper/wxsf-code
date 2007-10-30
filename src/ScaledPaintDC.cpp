@@ -8,7 +8,7 @@
  * Notes:
  **************************************************************/
 
-#include "ScaledPaintDC.h"
+#include "wx/wxsf/ScaledPaintDC.h"
 
 wxSFScaledPaintDC::wxSFScaledPaintDC(wxBitmap& outbmp, double scale)
 : wxMemoryDC(outbmp)

@@ -8,9 +8,9 @@
  * Notes:
  **************************************************************/
 
-#include "ShapeBase.h"
-#include "ShapeCanvas.h"
-#include "TextShape.h"
+#include "wx/wxsf/ShapeBase.h"
+#include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/TextShape.h"
 
 #include <wx/listimpl.cpp>
 

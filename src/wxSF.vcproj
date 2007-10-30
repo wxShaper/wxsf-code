@@ -184,7 +184,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories="$(WXWIN)/include;$(WXADDITIONS)/include;$(WXWIN)/contrib/include;../include"
-				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;NDEBUG;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;WXMAKINGDLL_SF"
+				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;NDEBUG;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;WXMAKINGDLL_SF;WXMAKINGDLL_XS"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="false"
 				RuntimeTypeInfo="true"
@@ -265,7 +265,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(WXWIN)/include&quot;;&quot;$(WXADDITIONS)/include&quot;;&quot;$(WXWIN)/contrib/include&quot;;..\include"
-				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;_DEBUG;__WXDEBUG__;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;WXMAKINGDLL_SF"
+				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;_DEBUG;__WXDEBUG__;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;WXMAKINGDLL_SF;WXMAKINGDLL_XS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -470,11 +470,11 @@
 				Name="wxxmlserializer"
 				>
 				<File
-					RelativePath=".\wxxmlserializer\XmlSerializer.cpp"
+					RelativePath=".\wxxmlserializer\PropertyIO.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\wxxmlserializer\XmlSerializerConv.cpp"
+					RelativePath=".\wxxmlserializer\XmlSerializer.cpp"
 					>
 				</File>
 			</Filter>
@@ -490,122 +490,138 @@
 			<Filter
 				Name="include"
 				>
-				<File
-					RelativePath="..\include\ArrowBase.h"
+				<Filter
+					Name="wxsf"
 					>
-				</File>
-				<File
-					RelativePath="..\include\BitmapShape.h"
+					<File
+						RelativePath="..\include\wx\wxsf\ArrowBase.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\BitmapShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\CanvasHistory.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\CanvasState.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\CircleShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\CommonFcn.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\CurveShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\Defs.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\DiagramManager.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\DiamondShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\EditTextShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\EllipseShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\FixedRectShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\LineShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\MultiSelRect.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\OpenArrow.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\PolygonShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\RectShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\RoundRectShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\ScaledPaintDC.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\SFEvents.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\ShapeBase.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\ShapeCanvas.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\ShapeDataObject.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\ShapeHandle.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\SolidArrow.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\TextShape.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxsf\wxShapeFramework.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="wxxmlserializer"
 					>
-				</File>
-				<File
-					RelativePath="..\include\CanvasHistory.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\CanvasState.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\CircleShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\CommonFcn.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\CurveShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\Defs.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\DiagramManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\DiamondShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\EditTextShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\EllipseShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\FixedRectShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\LineShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\MultiSelRect.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\OpenArrow.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\PolygonShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\RectShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\RoundRectShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\ScaledPaintDC.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\SFEvents.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\ShapeBase.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\ShapeCanvas.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\ShapeDataObject.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\ShapeHandle.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\SolidArrow.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\TextShape.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\wxShapeFramework.h"
-					>
-				</File>
-				<File
-					RelativePath="..\include\XmlSerializer.h"
-					>
-				</File>
+					<File
+						RelativePath="..\include\wx\wxxmlserializer\Defs.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxxmlserializer\PropertyIO.h"
+						>
+					</File>
+					<File
+						RelativePath="..\include\wx\wxxmlserializer\XmlSerializer.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

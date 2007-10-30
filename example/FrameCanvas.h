@@ -1,6 +1,6 @@
 #pragma once
 
-#include "wxShapeFramework.h"
+#include "wx/wxsf/wxShapeFramework.h"
 
 class CMainFrame;
 class CFrameCanvas : public wxSFShapeCanvas

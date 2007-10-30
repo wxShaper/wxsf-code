@@ -10,8 +10,8 @@
 
 #include <wx/mstream.h>
 
-#include "CanvasState.h"
-#include "ShapeCanvas.h"
+#include "wx/wxsf/CanvasState.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 #include <wx/listimpl.cpp>
 

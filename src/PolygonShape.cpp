@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "PolygonShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/PolygonShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFPolygonShape, wxSFRectShape);
 

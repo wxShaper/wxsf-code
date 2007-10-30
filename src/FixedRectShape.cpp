@@ -8,7 +8,7 @@
  * Notes:
  **************************************************************/
 
-#include "FixedRectShape.h"
+#include "wx/wxsf/FixedRectShape.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFSquareShape, wxSFRectShape);
 

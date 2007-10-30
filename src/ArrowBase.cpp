@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "ArrowBase.h"
-#include "LineShape.h"
+#include "wx/wxsf/ArrowBase.h"
+#include "wx/wxsf/LineShape.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFArrowBase, xsSerializable);
 

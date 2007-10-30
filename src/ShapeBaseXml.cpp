@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "ShapeBase.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/ShapeBase.h"
+#include "wx/wxsf/CommonFcn.h"
 
 //----------------------------------------------------------------------------------//
 // Serialization

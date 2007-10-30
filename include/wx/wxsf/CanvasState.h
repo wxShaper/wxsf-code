@@ -11,6 +11,7 @@
 #pragma once
 
 #include <wx/wxprec.h>
+
 #include "Defs.h"
 
 class wxSFShapeCanvas;

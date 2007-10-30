@@ -72,6 +72,7 @@
 					<Add option="-O2" />
 					<Add option="-DWXUSINGDLL" />
 					<Add option="-DWXMAKINGDLL_SF" />
+					<Add option="-DWXMAKINGDLL_XS" />
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -104,6 +105,7 @@
 					<Add option="-D__WXDEBUG__" />
 					<Add option="-DWXUSINGDLL" />
 					<Add option="-DWXMAKINGDLL_SF" />
+					<Add option="-DWXMAKINGDLL_XS" />
 					<Add directory="$(#wx)\lib\gcc_dll\mswud" />
 				</Compiler>
 				<ResourceCompiler>
@@ -131,9 +133,9 @@
 			<Add option="-D__WXMSW__" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DWX_PRECOMP" />
+			<Add directory="..\include" />
 			<Add directory="$(#wx)\include" />
 			<Add directory="$(#wx)\contrib\include" />
-			<Add directory="..\include" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#wx)\include" />
@@ -153,35 +155,37 @@
 			<Add library="libwsock32.a" />
 			<Add library="libodbc32.a" />
 		</Linker>
-		<Unit filename="..\include\ArrowBase.h" />
-		<Unit filename="..\include\BitmapShape.h" />
-		<Unit filename="..\include\CanvasHistory.h" />
-		<Unit filename="..\include\CanvasState.h" />
-		<Unit filename="..\include\CircleShape.h" />
-		<Unit filename="..\include\CommonFcn.h" />
-		<Unit filename="..\include\CurveShape.h" />
-		<Unit filename="..\include\Defs.h" />
-		<Unit filename="..\include\DiagramManager.h" />
-		<Unit filename="..\include\DiamondShape.h" />
-		<Unit filename="..\include\EditTextShape.h" />
-		<Unit filename="..\include\EllipseShape.h" />
-		<Unit filename="..\include\FixedRectShape.h" />
-		<Unit filename="..\include\LineShape.h" />
-		<Unit filename="..\include\MultiSelRect.h" />
-		<Unit filename="..\include\OpenArrow.h" />
-		<Unit filename="..\include\PolygonShape.h" />
-		<Unit filename="..\include\RectShape.h" />
-		<Unit filename="..\include\RoundRectShape.h" />
-		<Unit filename="..\include\SFEvents.h" />
-		<Unit filename="..\include\ScaledPaintDC.h" />
-		<Unit filename="..\include\ShapeBase.h" />
-		<Unit filename="..\include\ShapeCanvas.h" />
-		<Unit filename="..\include\ShapeDataObject.h" />
-		<Unit filename="..\include\ShapeHandle.h" />
-		<Unit filename="..\include\SolidArrow.h" />
-		<Unit filename="..\include\TextShape.h" />
-		<Unit filename="..\include\XmlSerializer.h" />
-		<Unit filename="..\include\wxShapeFramework.h" />
+		<Unit filename="..\include\wx\wxsf\ArrowBase.h" />
+		<Unit filename="..\include\wx\wxsf\BitmapShape.h" />
+		<Unit filename="..\include\wx\wxsf\CanvasHistory.h" />
+		<Unit filename="..\include\wx\wxsf\CanvasState.h" />
+		<Unit filename="..\include\wx\wxsf\CircleShape.h" />
+		<Unit filename="..\include\wx\wxsf\CommonFcn.h" />
+		<Unit filename="..\include\wx\wxsf\CurveShape.h" />
+		<Unit filename="..\include\wx\wxsf\Defs.h" />
+		<Unit filename="..\include\wx\wxsf\DiagramManager.h" />
+		<Unit filename="..\include\wx\wxsf\DiamondShape.h" />
+		<Unit filename="..\include\wx\wxsf\EditTextShape.h" />
+		<Unit filename="..\include\wx\wxsf\EllipseShape.h" />
+		<Unit filename="..\include\wx\wxsf\FixedRectShape.h" />
+		<Unit filename="..\include\wx\wxsf\LineShape.h" />
+		<Unit filename="..\include\wx\wxsf\MultiSelRect.h" />
+		<Unit filename="..\include\wx\wxsf\OpenArrow.h" />
+		<Unit filename="..\include\wx\wxsf\PolygonShape.h" />
+		<Unit filename="..\include\wx\wxsf\RectShape.h" />
+		<Unit filename="..\include\wx\wxsf\RoundRectShape.h" />
+		<Unit filename="..\include\wx\wxsf\SFEvents.h" />
+		<Unit filename="..\include\wx\wxsf\ScaledPaintDC.h" />
+		<Unit filename="..\include\wx\wxsf\ShapeBase.h" />
+		<Unit filename="..\include\wx\wxsf\ShapeCanvas.h" />
+		<Unit filename="..\include\wx\wxsf\ShapeDataObject.h" />
+		<Unit filename="..\include\wx\wxsf\ShapeHandle.h" />
+		<Unit filename="..\include\wx\wxsf\SolidArrow.h" />
+		<Unit filename="..\include\wx\wxsf\TextShape.h" />
+		<Unit filename="..\include\wx\wxsf\wxShapeFramework.h" />
+		<Unit filename="..\include\wx\wxxmlserializer\Defs.h" />
+		<Unit filename="..\include\wx\wxxmlserializer\PropertyIO.h" />
+		<Unit filename="..\include\wx\wxxmlserializer\XmlSerializer.h" />
 		<Unit filename="ArrowBase.cpp" />
 		<Unit filename="BitmapShape.cpp" />
 		<Unit filename="BitmapShapeXml.cpp" />
@@ -220,8 +224,8 @@
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
+		<Unit filename="wxxmlserializer\PropertyIO.cpp" />
 		<Unit filename="wxxmlserializer\XmlSerializer.cpp" />
-		<Unit filename="wxxmlserializer\XmlSerializerConv.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

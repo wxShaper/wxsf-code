@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "CircleShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/CircleShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCircleShape, wxSFSquareShape);
 

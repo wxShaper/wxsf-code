@@ -8,9 +8,9 @@
  * Notes:
  **************************************************************/
 
-#include "LineShape.h"
-#include "ShapeCanvas.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/LineShape.h"
+#include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/CommonFcn.h"
 
 #include <wx/arrimpl.cpp>
 

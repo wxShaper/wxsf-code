@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "CurveShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/CurveShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 //----------------------------------------------------------------------------------//
 // Serialization functions

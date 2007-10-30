@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "RoundRectShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/RoundRectShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 //----------------------------------------------------------------------------------//
 // Serialization

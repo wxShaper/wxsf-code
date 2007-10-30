@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "EditTextShape.h"
-#include "ShapeCanvas.h"
+#include "wx/wxsf/EditTextShape.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 static int textCtrlId = -1;
 

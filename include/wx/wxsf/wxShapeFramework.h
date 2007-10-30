@@ -32,4 +32,4 @@
 
 #include "SFEvents.h"
 
-#include "XmlSerializer.h"
+#include "../wxxmlserializer/XmlSerializer.h"

@@ -10,7 +10,7 @@
 
 #include <wx/tokenzr.h>
 
-#include "CommonFcn.h"
+#include "wx/wxsf/CommonFcn.h"
 
 //----------------------------------------------------------------------------------//
 // conversion functions

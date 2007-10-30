@@ -15,13 +15,13 @@
 #include <wx/txtstrm.h>
 #include <wx/clipbrd.h>
 
-#include "ShapeCanvas.h"
-#include "DiagramManager.h"
-#include "ScaledPaintDC.h"
-#include "ShapeDataObject.h"
-#include "EditTextShape.h"
-#include "BitmapShape.h"
-#include "SFEvents.h"
+#include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/DiagramManager.h"
+#include "wx/wxsf/ScaledPaintDC.h"
+#include "wx/wxsf/ShapeDataObject.h"
+#include "wx/wxsf/EditTextShape.h"
+#include "wx/wxsf/BitmapShape.h"
+#include "wx/wxsf/SFEvents.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 

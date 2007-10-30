@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "BitmapShape.h"
-#include "ShapeCanvas.h"
+#include "wx/wxsf/BitmapShape.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 #include "res/NoSource.xpm"
 

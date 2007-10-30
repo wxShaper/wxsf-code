@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "OpenArrow.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/OpenArrow.h"
+#include "wx/wxsf/CommonFcn.h"
 
 // arrow shape
 const wxRealPoint arrow[3]={wxRealPoint(0,0), wxRealPoint(10,4), wxRealPoint(10,-4)};

@@ -8,9 +8,9 @@
  * Notes:
  **************************************************************/
 
-#include "RectShape.h"
-#include "ShapeCanvas.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/RectShape.h"
+#include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/CommonFcn.h"
 
 // TODO: wxSFShapeBase: Implement LockAspectRation() function
 

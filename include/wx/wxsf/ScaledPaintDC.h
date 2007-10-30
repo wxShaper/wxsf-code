@@ -11,6 +11,7 @@
 #pragma once
 
 #include <wx/dcmemory.h>
+
 #include "Defs.h"
 
 /// <summary> Class extends buffered memory DC (wxMemoryDC) and provides modified

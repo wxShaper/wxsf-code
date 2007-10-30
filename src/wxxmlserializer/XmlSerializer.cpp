@@ -8,7 +8,7 @@
  * Notes:
  **************************************************************/
 
-#include "XmlSerializer.h"
+#include "wx/wxxmlserializer/XmlSerializer.h"
 
 #include <wx/listimpl.cpp>
 #include <wx/wfstream.h>
@@ -19,6 +19,10 @@ WX_DEFINE_EXPORTED_OBJARRAY(RealPointArray);
 WX_DEFINE_EXPORTED_LIST(PropertyList);
 WX_DEFINE_EXPORTED_LIST(SerializableList);
 WX_DEFINE_EXPORTED_LIST(RealPointList);
+
+// static members
+PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
+int wxXmlSerializer::m_nRefCounter = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -31,8 +35,6 @@ IMPLEMENT_DYNAMIC_CLASS(xsProperty, wxObject);
 /////////////////////////////////////////////////////////////////////////////////////
 
 IMPLEMENT_DYNAMIC_CLASS(xsSerializable, wxObject);
-
-//long xsSerializable::m_nItemCounter = 0;
 
 // constructor and destructor ///////////////////////////////////////////////////////
 
@@ -194,8 +196,7 @@ void xsSerializable::DeserializeObject(wxXmlNode* node)
 wxXmlNode* xsSerializable::Serialize(wxXmlNode* node)
 {
     xsProperty* property;
-    wxXmlNode* newNode;
-    wxString val;
+    xsPropertyIO* ioHandler;
 
     wxPropertyListNode* propNode = m_lstProperties.GetFirst();
     while(propNode)
@@ -204,86 +205,10 @@ wxXmlNode* xsSerializable::Serialize(wxXmlNode* node)
 
         if(property->m_fSerialize)
         {
-            newNode = NULL;
-
-            if(property->m_sDataType == wxT("arraystring"))
+			ioHandler = wxXmlSerializer::m_mapPropertyIOHandlers[property->m_sDataType];
+            if(ioHandler)
             {
-                wxArrayString array(*((wxArrayString*)property->m_pSourceVariable));
-
-                size_t cnt = array.GetCount();
-                if(cnt > 0)
-                {
-                    newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
-                    for(size_t i = 0; i < cnt; i++)
-                    {
-                          AddPropertyNode(newNode, wxT("item"), array[i]);
-                    }
-                    node->AddChild(newNode);
-                }
-            }
-            else if(property->m_sDataType == wxT("arrayrealpoint"))
-            {
-                RealPointArray array(*((RealPointArray*)property->m_pSourceVariable));
-
-                size_t cnt = array.GetCount();
-                if(cnt > 0)
-                {
-                    newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
-                    for(size_t i = 0; i < cnt; i++)
-                    {
-                          AddPropertyNode(newNode, wxT("item"), RealPointToString(array[i]));
-                    }
-                    node->AddChild(newNode);
-                }
-            }
-            else if(property->m_sDataType == wxT("listrealpoint"))
-            {
-                RealPointList *list = (RealPointList*)property->m_pSourceVariable;
-
-                if(list->GetCount() > 0)
-                {
-                    newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
-                    wxRealPointListNode* listNode = list->GetFirst();
-                    while(listNode)
-                    {
-                        AddPropertyNode(newNode, wxT("item"), RealPointToString(*(wxRealPoint*)listNode->GetData()));
-                        listNode = listNode->GetNext();
-                    }
-                    node->AddChild(newNode);
-                }
-            }
-            else if( (property->m_sDataType == wxT("serializabledynamic")) ||
-                    (property->m_sDataType == wxT("serializabledynamicnocreate")))
-            {
-                xsSerializable* object = *(xsSerializable**)(property->m_pSourceVariable);
-
-                if( object && object->IsKindOf(CLASSINFO(xsSerializable)))
-                {
-                    newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
-                    newNode->AddChild(object->SerializeObject(NULL));
-                    node->AddChild(newNode);
-                }
-            }
-            else if(property->m_sDataType == wxT("serializablestatic"))
-            {
-                newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
-                newNode->AddChild((*((xsSerializable*)property->m_pSourceVariable)).SerializeObject(NULL));
-                node->AddChild(newNode);
-            }
-            else
-            {
-                val = ConvertToString(property);
-
-                if(val != property->m_sDefaultValueStr)
-                {
-                    newNode = AddPropertyNode(node, wxT("property"), val);
-                }
-            }
-
-            if(newNode)
-            {
-                newNode->AddProperty(wxT("name"), property->m_sFieldName);
-                newNode->AddProperty(wxT("type"), property->m_sDataType);
+                ioHandler->Write(property, node);
             }
         }
 
@@ -299,6 +224,7 @@ void xsSerializable::Deserialize(wxXmlNode* node)
     if(!node)return;
 
     xsProperty* property;
+    xsPropertyIO* ioHandler;
     wxString propName;
 
     wxXmlNode *xmlNode = node->GetChildren();
@@ -311,109 +237,16 @@ void xsSerializable::Deserialize(wxXmlNode* node)
 
 	        if(property)
 	        {
-                if(property->m_sDataType == wxT("arraystring"))
+                ioHandler =  wxXmlSerializer::m_mapPropertyIOHandlers[property->m_sDataType];
+                if(ioHandler)
                 {
-                    ((wxArrayString*)property->m_pSourceVariable)->Clear();
-
-                    wxXmlNode *listNode = xmlNode->GetChildren();
-                    while(listNode)
-                    {
-                        if(listNode->GetName() == wxT("item"))
-                        {
-                            ((wxArrayString*)property->m_pSourceVariable)->Add(listNode->GetNodeContent());
-                        }
-
-                        listNode = listNode->GetNext();
-                    }
-                }
-                else if(property->m_sDataType == wxT("arrayrealpoint"))
-                {
-                    ((RealPointArray*)property->m_pSourceVariable)->Clear();
-
-                    wxXmlNode *listNode = xmlNode->GetChildren();
-                    while(listNode)
-                    {
-                        if(listNode->GetName() == wxT("item"))
-                        {
-                            ((RealPointArray*)property->m_pSourceVariable)->Add(StringToRealPoint(listNode->GetNodeContent()));
-                        }
-
-                        listNode = listNode->GetNext();
-                    }
-                }
-                else if(property->m_sDataType == wxT("listrealpoint"))
-                {
-                    ((RealPointList*)property->m_pSourceVariable)->Clear();
-
-                    wxXmlNode *listNode = xmlNode->GetChildren();
-                    while(listNode)
-                    {
-                        if(listNode->GetName() == wxT("item"))
-                        {
-                            ((RealPointList*)property->m_pSourceVariable)->Append(new wxRealPoint(StringToRealPoint(listNode->GetNodeContent())));
-                        }
-
-                        listNode = listNode->GetNext();
-                    }
-                }
-                else if(property->m_sDataType == wxT("serializabledynamic"))
-                {
-                    wxXmlNode *objectNode = xmlNode->GetChildren();
-
-                    if( objectNode && (objectNode->GetName() == wxT("object")) )
-                    {
-                        *(xsSerializable**)(property->m_pSourceVariable) = (xsSerializable*)wxCreateDynamicObject(objectNode->GetPropVal(wxT("type"), wxT("")));
-
-                        xsSerializable* object = *(xsSerializable**)(property->m_pSourceVariable);
-                        if(object)
-                        {
-                            object->DeserializeObject(objectNode);
-                        }
-                    }
-                }
-                else if(property->m_sDataType == wxT("serializabledynamicnocreate"))
-                {
-                    wxXmlNode *objectNode = xmlNode->GetChildren();
-
-                    if( objectNode && (objectNode->GetName() == wxT("object")) )
-                    {
-                        xsSerializable* object = *(xsSerializable**)(property->m_pSourceVariable);
-                        if(object)
-                        {
-                            object->DeserializeObject(objectNode);
-                        }
-                    }
-                }
-                else if(property->m_sDataType == wxT("serializablestatic"))
-                {
-                    wxXmlNode *objectNode = xmlNode->GetChildren();
-
-                    if( objectNode && (objectNode->GetName() == wxT("object")) )
-                    {
-                        (*((xsSerializable*)property->m_pSourceVariable)).DeserializeObject(objectNode);
-                    }
-                }
-                else
-                {
-                    FillFromString(xmlNode->GetNodeContent(), property);
+                    ioHandler->Read(property, xmlNode);
                 }
 	        }
 	    }
 
 	    xmlNode = xmlNode->GetNext();
 	}
-}
-
-wxXmlNode* xsSerializable::AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value)
-{
-	if(parent)
-	{
-		wxXmlNode* child = new wxXmlNode(wxXML_ELEMENT_NODE, name);
-		child->AddChild(new wxXmlNode(wxXML_TEXT_NODE, wxT(""), value));
-		parent->AddChild(child);
-		return child;
-	}
-	return NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -427,6 +260,12 @@ IMPLEMENT_DYNAMIC_CLASS(wxXmlSerializer, wxObject);
 wxXmlSerializer::wxXmlSerializer()
 {
     m_pRoot = new xsSerializable();
+
+	if(m_nRefCounter == 0)
+	{
+		InitializeAllIOHandlers();
+	}
+	m_nRefCounter++;
 }
 wxXmlSerializer::wxXmlSerializer(const wxString& owner, const wxString& root, const wxString& version)
 {
@@ -435,14 +274,60 @@ wxXmlSerializer::wxXmlSerializer(const wxString& owner, const wxString& root, co
     m_sVersion = version;
 
     m_pRoot = new xsSerializable();
+
+	if(m_nRefCounter == 0)
+	{
+		InitializeAllIOHandlers();
+	}
+	m_nRefCounter++;
 }
 
 wxXmlSerializer::~wxXmlSerializer()
 {
     if( m_pRoot ) delete m_pRoot;
+	
+	m_nRefCounter--;
+	if(m_nRefCounter == 0)
+	{
+		ClearIOHandlers();
+	}
 }
 
 // public functions //////////////////////////////////////////////////////////////////
+
+void wxXmlSerializer::InitializeAllIOHandlers()
+{
+	ClearIOHandlers();
+
+    XS_REGISTER_IO_HANDLER(wxT("string"), xsStringPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("long"), xsLongPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("double"), xsDoublePropIO);
+    XS_REGISTER_IO_HANDLER(wxT("bool"), xsBoolPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("point"), xsPointPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("size"), xsSizePropIO);
+    XS_REGISTER_IO_HANDLER(wxT("realpoint"), xsRealPointPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("colour"), xsColourPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("brush"), xsBrushPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("pen"), xsPenPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("font"), xsFontPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("arraystring"), xsArrayStringPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("arrayrealpoint"), xsArrayRealPointPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("listrealpoint"), xsListRealPointPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("serializablestatic"), xsStaticObjPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("serializabledynamic"), xsDynObjPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("serializabledynamicnocreate"), xsDynNCObjPropIO);
+}
+
+void wxXmlSerializer::ClearIOHandlers()
+{
+    PropertyIOMap::iterator it = m_mapPropertyIOHandlers.begin();
+    while(it != m_mapPropertyIOHandlers.end())
+    {
+		if(it->second)delete it->second;
+        it++;
+    }
+    m_mapPropertyIOHandlers.clear();
+}
 
 xsSerializable* wxXmlSerializer::GetItem(long id)
 {
@@ -528,19 +413,19 @@ void wxXmlSerializer::SetRootItem(xsSerializable* root)
     }
 }
 
-void wxXmlSerializer::SerializeToXml(const wxString& file)
+void wxXmlSerializer::SerializeToXml(const wxString& file, bool withroot)
 {
 	wxFileOutputStream outstream(file);
 
 	if(outstream.IsOk())
 	{
-		this->SerializeToXml(outstream);
+		this->SerializeToXml(outstream, withroot);
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize output file stream."), m_sOwner, wxICON_ERROR);
 }
 
-void wxXmlSerializer::SerializeToXml(wxOutputStream& outstream)
+void wxXmlSerializer::SerializeToXml(wxOutputStream& outstream, bool withroot)
 {
 	// create root node
 	wxXmlNode *root = new wxXmlNode(wxXML_ELEMENT_NODE, m_sRootName);
@@ -550,6 +435,14 @@ void wxXmlSerializer::SerializeToXml(wxOutputStream& outstream)
 	    // add version
 	    root->AddProperty(wxT("owner"), m_sOwner);
 	    root->AddProperty(wxT("version"), m_sVersion);
+
+	    // serialize root item properties
+	    if(withroot)
+	    {
+	        wxXmlNode *root_props = new wxXmlNode(wxXML_ELEMENT_NODE, m_sRootName + wxT("_properties"));
+	        root_props->AddChild(m_pRoot->SerializeObject(NULL));
+	        root->AddChild(root_props);
+	    }
 
 		// serialize shapes recursively
 		this->SerializeObjects(m_pRoot, root, false);
@@ -687,6 +580,11 @@ void wxXmlSerializer::DeserializeObjects(xsSerializable* parent, wxXmlNode* node
 				DeserializeObjects(pItem, projectNode);
 			}
 		}
+		else if(projectNode->GetName() == m_sRootName + wxT("_properties"))
+		{
+		    m_pRoot->DeserializeObject(projectNode->GetChildren());
+		}
+
 		projectNode = projectNode->GetNext();
 	}
 }

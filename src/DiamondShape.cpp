@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "DiamondShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/DiamondShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 // diamond shape
 const wxRealPoint diamond[4]={wxRealPoint(0,25), wxRealPoint(50,0), wxRealPoint(100, 25), wxRealPoint(50, 50)};

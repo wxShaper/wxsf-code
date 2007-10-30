@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "SolidArrow.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/SolidArrow.h"
+#include "wx/wxsf/CommonFcn.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFSolidArrow, wxSFOpenArrow);
 

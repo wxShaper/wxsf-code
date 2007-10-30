@@ -8,9 +8,9 @@
  * Notes:
  **************************************************************/
 
-#include "MultiSelRect.h"
-#include "ShapeCanvas.h"
-#include "TextShape.h"
+#include "wx/wxsf/MultiSelRect.h"
+#include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/TextShape.h"
 #include <math.h>
 
 wxSFMultiSelRect::wxSFMultiSelRect(void)

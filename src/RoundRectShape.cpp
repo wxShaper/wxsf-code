@@ -10,9 +10,9 @@
 
 #include <math.h>
 
-#include "RoundRectShape.h"
-#include "ShapeCanvas.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/RoundRectShape.h"
+#include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/CommonFcn.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFRoundRectShape, wxSFRectShape);
 

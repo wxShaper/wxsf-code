@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "TextShape.h"
-#include "ShapeCanvas.h"
+#include "wx/wxsf/TextShape.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFTextShape, wxSFRectShape);
 

@@ -15,12 +15,13 @@
     #include <wx/wx.h>
 #endif
 
-#include "Defs.h"
+#include "wx/wxxmlserializer/PropertyIO.h"
+
 #include <wx/list.h>
 #include <wx/xml/xml.h>
 
-WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_SF);
-WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_SF);
+WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_XS);
+WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_XS);
 
 /*! \brief Macro creates new serialized STRING property */
 #define XS_SERIALIZE_STRING(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
@@ -29,45 +30,45 @@ WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_SF);
 /*! \brief Macro creates new serialized LONG property */
 #define XS_SERIALIZE_LONG(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("long"), wxT("Variable is not LONG"));XS_SERIALIZE_PROPERTY(x, wxT("long"), name);
 /*! \brief Macro creates new serialized LONG property with defined default value */
-#define XS_SERIALIZE_LONG_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("long"), wxT("Variable is not LONG"));XS_SERIALIZE_PROPERTY_EX(x, wxT("long"), name, xsSerializable::LongToString(def));
+#define XS_SERIALIZE_LONG_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("long"), wxT("Variable is not LONG"));XS_SERIALIZE_PROPERTY_EX(x, wxT("long"), name, xsLongPropIO::ToString(def));
 /*! \brief Macro creates new serialized DOUBLE property */
 #define XS_SERIALIZE_DOUBLE(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("double"), wxT("Variable is not DOUBLE"));XS_SERIALIZE_PROPERTY(x, wxT("double"), name);
 /*! \brief Macro creates new serialized DOUBLE property with defined default value */
-#define XS_SERIALIZE_DOUBLE_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("double"), wxT("Variable is not DOUBLE"));XS_SERIALIZE_PROPERTY_EX(x, wxT("double"), name, xsSerializable::DoubleToString(def));
+#define XS_SERIALIZE_DOUBLE_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("double"), wxT("Variable is not DOUBLE"));XS_SERIALIZE_PROPERTY_EX(x, wxT("double"), name, xsDoublePropIO::ToString(def));
 /*! \brief Macro creates new serialized BOOL property */
 #define XS_SERIALIZE_BOOL(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("bool"), wxT("Variable is not BOOL"));XS_SERIALIZE_PROPERTY(x, wxT("bool"), name);
 /*! \brief Macro creates new serialized BOOL property with defined default value */
-#define XS_SERIALIZE_BOOL_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("bool"), wxT("Variable is not BOOL"));XS_SERIALIZE_PROPERTY_EX(x, wxT("bool"), name, xsSerializable::BoolToString(def));
+#define XS_SERIALIZE_BOOL_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("bool"), wxT("Variable is not BOOL"));XS_SERIALIZE_PROPERTY_EX(x, wxT("bool"), name, xsBoolPropIO::ToString(def));
 
 /*! \brief Macro creates new serialized wxPoint property */
 #define XS_SERIALIZE_POINT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("point"), name);
 /*! \brief Macro creates new serialized wxPoint property with defined default value */
-#define XS_SERIALIZE_POINT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("point"), name, xsSerializable::PointToString(def));
+#define XS_SERIALIZE_POINT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("point"), name, xsPointPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxRealPoint property */
 #define XS_SERIALIZE_REALPOINT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("realpoint"), name);
 /*! \brief Macro creates new serialized wxRealPoint property with defined default value */
-#define XS_SERIALIZE_REALPOINT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("realpoint"), name, xsSerializable::RealPointToString(def));
+#define XS_SERIALIZE_REALPOINT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("realpoint"), name, xsRealPointPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxSize property */
 #define XS_SERIALIZE_SIZE(x, name) XS_SERIALIZE_PROPERTY(x, wxT("size"), name);
 /*! \brief Macro creates new serialized wxSize property with defined default value */
-#define XS_SERIALIZE_SIZE_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("size"), name, xsSerializable::SizeToString(def));
+#define XS_SERIALIZE_SIZE_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("size"), name, xsSizePropIO::ToString(def));
 
 /*! \brief Macro creates new serialized wxColour property */
 #define XS_SERIALIZE_COLOUR(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxColour)), wxT("Object is not wxColour"));XS_SERIALIZE_PROPERTY(x, wxT("colour"), name);
 /*! \brief Macro creates new serialized wxColour property with defined default value */
-#define XS_SERIALIZE_COLOUR_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxColour)), wxT("Object is not wxColour"));XS_SERIALIZE_PROPERTY_EX(x, wxT("colour"), name, xsSerializable::ColourToString(def));
+#define XS_SERIALIZE_COLOUR_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxColour)), wxT("Object is not wxColour"));XS_SERIALIZE_PROPERTY_EX(x, wxT("colour"), name, xsColourPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxPen property */
 #define XS_SERIALIZE_PEN(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxPen)), wxT("Object is not wxPen"));XS_SERIALIZE_PROPERTY(x, wxT("pen"), name);
 /*! \brief Macro creates new serialized wxPen property with defined default value */
-#define XS_SERIALIZE_PEN_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxPen)), wxT("Object is not wxPen"));XS_SERIALIZE_PROPERTY_EX(x, wxT("pen"), name, xsSerializable::PenToString(def));
+#define XS_SERIALIZE_PEN_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxPen)), wxT("Object is not wxPen"));XS_SERIALIZE_PROPERTY_EX(x, wxT("pen"), name, xsPenPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxBrush property */
 #define XS_SERIALIZE_BRUSH(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxBrush)), wxT("Object is not wxBrush"));XS_SERIALIZE_PROPERTY(x, wxT("brush"), name);
 /*! \brief Macro creates new serialized wxBrush property with defined default value */
-#define XS_SERIALIZE_BRUSH_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxBrush)), wxT("Object is not wxBrush"));XS_SERIALIZE_PROPERTY_EX(x, wxT("brush"), name, xsSerializable::BrushToString(def));
+#define XS_SERIALIZE_BRUSH_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxBrush)), wxT("Object is not wxBrush"));XS_SERIALIZE_PROPERTY_EX(x, wxT("brush"), name, xsBrushPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxFont property */
 #define XS_SERIALIZE_FONT(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxFont)), wxT("Object is not wxFont"));XS_SERIALIZE_PROPERTY(x, wxT("font"), name);
 /*! \brief Macro creates new serialized wxFont property with defined default value */
-#define XS_SERIALIZE_FONT_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxFont)), wxT("Object is not wxFont"));XS_SERIALIZE_PROPERTY_EX(x, wxT("font"), name, xsSerializable::FontToString(def));
+#define XS_SERIALIZE_FONT_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxFont)), wxT("Object is not wxFont"));XS_SERIALIZE_PROPERTY_EX(x, wxT("font"), name, xsFontPropIO::ToString(def));
 
 /*! \brief Macro creates new serialized property (type 'array of strings (wxArrayString)') */
 #define XS_SERIALIZE_ARRAYSTRING(x, name) XS_SERIALIZE_PROPERTY(x, wxT("arraystring"), name);
@@ -93,11 +94,14 @@ WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_SF);
 /*! \brief Macro creates new serialized property with defined dafult value and automaticaly determines its type (if supported)*/
 #define XS_SERIALIZE_EX(x, name, def) AddProperty(new xsProperty(&x, name, def));
 
-class WXDLLIMPEXP_SF xsProperty;
-class WXDLLIMPEXP_SF xsSerializable;
+/*! \brief Macro registers new IO handler for specified data type (handler class must exist) */
+#define XS_REGISTER_IO_HANDLER(type, class) wxXmlSerializer::m_mapPropertyIOHandlers[type] = new class();
 
-WX_DECLARE_LIST_WITH_DECL(xsProperty, PropertyList, class WXDLLIMPEXP_SF);
-WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_SF);
+class WXDLLIMPEXP_XS xsProperty;
+class WXDLLIMPEXP_XS xsSerializable;
+
+WX_DECLARE_LIST_WITH_DECL(xsProperty, PropertyList, class WXDLLIMPEXP_XS);
+WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_XS);
 
 /*!
  * \brief Base class encapsulating object which can be serialized/deserialized to/from
@@ -112,9 +116,11 @@ WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_SF
  * member functions or by member functions of wxXmlSerializer class object which should be
  * used as their manager (recommended way).
  */
-class WXDLLIMPEXP_SF xsSerializable : public wxObject
+class WXDLLIMPEXP_XS xsSerializable : public wxObject
 {
 public:
+    friend class wxXmlSerializer;
+
     DECLARE_DYNAMIC_CLASS(xsSerializable);
 
     /*! \brief Constructor. */
@@ -237,58 +243,6 @@ public:
      */
     bool IsSerialized(){return m_fSerialize;}
 
-
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxColour StringToColour(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxRealPoint StringToRealPoint(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxPoint StringToPoint(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxSize StringToSize(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxBrush StringToBrush(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxPen StringToPen(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxFont StringToFont(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static long StringToLong(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static double StringToDouble(const wxString& val);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static bool StringToBool(const wxString& val);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ColourToString(const wxColour& val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString RealPointToString(const wxRealPoint& val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString PointToString(const wxPoint& val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString SizeToString(const wxSize& val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString BrushToString(const wxBrush& val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString PenToString(const wxPen& val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString FontToString(const wxFont& val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString LongToString(long val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString DoubleToString(double val);
-    /*! \brief Creates a string representation of the given value */
-    static wxString BoolToString(bool val);
-
-    /*!
-     * \brief Create new XML node of given name and value and assign it to the given
-     * parent XML node.
-     * \param parent Pointer to parent XML node
-     * \param name Name of new XML node
-     * \param value Content of new XML node
-     */
-    static wxXmlNode* AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value);
-
 protected:
     // protected data members
     /*! \brief List of serialized properties */
@@ -303,20 +257,6 @@ protected:
     long m_nId;
     /*! \brief Object serialization flag */
     bool m_fSerialize;
-
-    // protected functions
-    /*!
-     * \brief Get string representation of value of given property.
-     * \param property Pointer to property object
-     */
-    wxString ConvertToString(xsProperty* property);
-    /*!
-     * \brief Fill member data object encapsulated by given property with a value
-     * converted from its string representation.
-     * \param source String representation of property value
-     * \param property Pointer to property
-     */
-    void FillFromString(const wxString& source, xsProperty* property);
 
     // protected virtual functions
     /*!
@@ -392,7 +332,7 @@ protected:
  * 'serializabledynamic' and 'serializablestatic'. Only properties of these data types are recognized
  * and processed by parent serializable object.
  */
-class WXDLLIMPEXP_SF xsProperty : public wxObject
+class WXDLLIMPEXP_XS xsProperty : public wxObject
 {
 public:
     DECLARE_DYNAMIC_CLASS(xsProperty);
@@ -426,17 +366,17 @@ public:
     /*! \brief Constructor for BOOL property. */
     xsProperty(bool* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("bool")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for BOOL property with defined default value. */
-    xsProperty(bool* src, const wxString& field, bool def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("bool")), m_sDefaultValueStr(xsSerializable::BoolToString(def)), m_fSerialize(true) {;}
+    xsProperty(bool* src, const wxString& field, bool def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("bool")), m_sDefaultValueStr(xsBoolPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for LONG property. */
     xsProperty(long* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for LONG property with defined default value. */
-    xsProperty(long* src, const wxString& field, long def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(xsSerializable::LongToString(def)), m_fSerialize(true) {;}
+    xsProperty(long* src, const wxString& field, long def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(xsLongPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for DOUBLE property. */
     xsProperty(double* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for DOUBLE property with defined default value. */
-    xsProperty(double* src, const wxString& field, double def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(xsSerializable::DoubleToString(def)), m_fSerialize(true) {;}
+    xsProperty(double* src, const wxString& field, double def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(xsDoublePropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxString property. */
     xsProperty(wxString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
@@ -446,37 +386,37 @@ public:
     /*! \brief Constructor for wxPoint property. */
     xsProperty(wxPoint* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxPoint property with defined default value. */
-    xsProperty(wxPoint* src, const wxString& field, const wxPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(xsSerializable::PointToString(def)), m_fSerialize(true) {;}
+    xsProperty(wxPoint* src, const wxString& field, const wxPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(xsPointPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxRealPoint property. */
     xsProperty(wxRealPoint* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("realpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxRealPoint property with defined default value. */
-    xsProperty(wxRealPoint* src, const wxString& field, const wxRealPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("realpoint")), m_sDefaultValueStr(xsSerializable::RealPointToString(def)), m_fSerialize(true) {;}
+    xsProperty(wxRealPoint* src, const wxString& field, const wxRealPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("realpoint")), m_sDefaultValueStr(xsRealPointPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxSize property. */
     xsProperty(wxSize* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("size")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxSize property with defined default value. */
-    xsProperty(wxSize* src, const wxString& field, const wxSize& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("size")), m_sDefaultValueStr(xsSerializable::SizeToString(def)), m_fSerialize(true) {;}
+    xsProperty(wxSize* src, const wxString& field, const wxSize& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("size")), m_sDefaultValueStr(xsSizePropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxBrush property. */
     xsProperty(wxBrush* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("brush")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxBrush property with defined default value. */
-    xsProperty(wxBrush* src, const wxString& field, const wxBrush& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("brush")), m_sDefaultValueStr(xsSerializable::BrushToString(def)), m_fSerialize(true) {;}
+    xsProperty(wxBrush* src, const wxString& field, const wxBrush& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("brush")), m_sDefaultValueStr(xsBrushPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxPen property. */
     xsProperty(wxPen* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("pen")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxPen property with defined default value. */
-    xsProperty(wxPen* src, const wxString& field, const wxPen& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("pen")), m_sDefaultValueStr(xsSerializable::PenToString(def)), m_fSerialize(true) {;}
+    xsProperty(wxPen* src, const wxString& field, const wxPen& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("pen")), m_sDefaultValueStr(xsPenPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxFont property. */
     xsProperty(wxFont* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("font")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxFont property with defined default value. */
-    xsProperty(wxFont* src, const wxString& field, const wxFont& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("font")), m_sDefaultValueStr(xsSerializable::FontToString(def)), m_fSerialize(true) {;}
+    xsProperty(wxFont* src, const wxString& field, const wxFont& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("font")), m_sDefaultValueStr(xsFontPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxColour property. */
     xsProperty(wxColour* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("colour")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxColour property with defined default value. */
-    xsProperty(wxColour* src, const wxString& field, const wxColour& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("colour")), m_sDefaultValueStr(xsSerializable::ColourToString(def)), m_fSerialize(true) {;}
+    xsProperty(wxColour* src, const wxString& field, const wxColour& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("colour")), m_sDefaultValueStr(xsColourPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxArrayString property. */
     xsProperty(wxArrayString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraystring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
@@ -526,7 +466,7 @@ public:
  * its children). These child object can be handled via xsSerializable and wxXmlSerializer
  * classes' member functions.
  */
-class WXDLLIMPEXP_SF wxXmlSerializer : public wxObject
+class WXDLLIMPEXP_XS wxXmlSerializer : public wxObject
 {
 public:
     DECLARE_DYNAMIC_CLASS(wxXmlSerializer);
@@ -616,14 +556,16 @@ public:
 
     /*!
      * \brief Serialize stored objects to given file.
-     * \param file Full path to output file.
+     * \param file Full path to output file
+     * \param withroot If TRUE then the root item's properties are serialized as well
      */
-    virtual void SerializeToXml(const wxString& file);
+    virtual void SerializeToXml(const wxString& file, bool withroot = false);
     /*!
-     * \brief Serialize strored objects to given stream.
+     * \brief Serialize stored objects to given stream.
      * \param outstream Output stream
+     * \param withroot If TRUE then the root item's properties are serialized as well
      */
-    virtual void SerializeToXml(wxOutputStream& outstream);
+    virtual void SerializeToXml(wxOutputStream& outstream, bool withroot = false);
     /*!
      * \brief Deserialize objects from given file.
      * \param file Full path to input file
@@ -668,6 +610,14 @@ public:
 	 */
 	int GetIDCount(long id);
 
+	/*! \brief Initialize all standard property IO handlers */
+	void InitializeAllIOHandlers();
+	/*! \brief Clear all initialized property IO handlers */
+	void ClearIOHandlers();
+
+    /*! \brief Map of property IO handlers */
+    static PropertyIOMap m_mapPropertyIOHandlers;
+
 protected:
     // protected data members
     /*! \brief Owner name */
@@ -683,6 +633,7 @@ protected:
 private:
     // private data members
     int m_nCounter;
+	static int m_nRefCounter;
 
     // private functions
     /*! \brief Auxiliary function */

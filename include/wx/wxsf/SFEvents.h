@@ -12,6 +12,7 @@
 #define SF_EVENTS_H
 
 #include <wx/event.h>
+
 #include "Defs.h"
 
 class WXDLLIMPEXP_SF wxSFShapeBase;

@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#include "TextShape.h"
-#include "CommonFcn.h"
+#include "wx/wxsf/TextShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 //----------------------------------------------------------------------------------//
 // Serialization
@@ -22,7 +22,6 @@ wxXmlNode * wxSFTextShape::Serialize(wxXmlNode* node)
 	if(node)
 	{
 		node = wxSFShapeBase::Serialize(node);
-
 	}
 
 	return node;

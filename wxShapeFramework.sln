@@ -11,8 +11,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxSFSample3", "samples\wxSF
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxSFSample1", "samples\wxSFSample1\wxSFSample1.vcproj", "{D055B6AF-25E9-4A84-8350-A4D5C1F82B6C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F4B55686-ED45-4851-B674-83A74830EBEB} = {F4B55686-ED45-4851-B674-83A74830EBEB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxSFSample2", "samples\wxSFSample2\wxSFSample2.vcproj", "{0C842F01-A418-4B57-A5C6-FBE4991D4E3A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F4B55686-ED45-4851-B674-83A74830EBEB} = {F4B55686-ED45-4851-B674-83A74830EBEB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,8 +12,8 @@
 #include <wx/mstream.h>
 #include <wx/listimpl.cpp>
 
-#include "DiagramManager.h"
-#include "ShapeCanvas.h"
+#include "wx/wxsf/DiagramManager.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 WX_DEFINE_LIST(CIDList);
 
@@ -24,7 +24,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sVersion =  wxT("1.3.2 beta");
+    m_sVersion =  wxT("1.3.3 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
