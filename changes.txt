@@ -1,8 +1,9 @@
-Changes in version 1.3.3 beta (2007-10-30):
+Changes in version 1.3.3 beta (2007-11-16):
 --------------------------------------------
 - New (more flexible) version of wxXmlSerializer (saved files are compatible with the previous version).
 - Project's directory structure fulfills requirements for integration into wxWidgets/wxAdditions
   distribution (all headers are now located in '../wx/wxsf' and 'wx/wxxmlserializer' subdirs).
+- Line shapes connecting child shapes with their parents starts/end at the parent's border, not the center.
 
 Changes in version 1.3.2 beta (2007-10-26):
 --------------------------------------------

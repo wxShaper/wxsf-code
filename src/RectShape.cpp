@@ -172,16 +172,7 @@ void wxSFRectShape::OnRightHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	/*wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
-
-	if(!chBB.IsEmpty())
-	{
-		if(handle.GetPosition().x <= chBB.GetRight())return;
-	}*/
-
 	m_nRectSize.x = handle.GetPosition().x - GetAbsolutePosition().x;
-	//m_nRectSize.x = m_nPrevSize.x + handle.GetTotalDelta().x;
 }
 
 void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
@@ -189,13 +180,6 @@ void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
 	// HINT: overload it for custom actions...
 
     wxSFShapeBase *pChild;
-	/*wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
-
-	if(!chBB.IsEmpty())
-	{
-		if(handle.GetPosition().x > chBB.GetLeft())return;
-	}*/
 
 	double dx = (double)handle.GetPosition().x - GetAbsolutePosition().x;
 
@@ -220,13 +204,6 @@ void wxSFRectShape::OnTopHandle(wxSFShapeHandle& handle)
 	// HINT: overload it for custom actions...
 
     wxSFShapeBase *pChild;
-	/*wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
-
-	if(!chBB.IsEmpty())
-	{
-		if(handle.GetPosition().y > chBB.GetTop())return;
-	}*/
 
 	double dy = (double)handle.GetPosition().y - GetAbsolutePosition().y;
 
@@ -250,14 +227,6 @@ void wxSFRectShape::OnBottomHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	/*wxRect chBB;
-	GetCompleteBoundingBox(chBB, bbCHILDREN | bbOMITALIGNED);
-
-	if(!chBB.IsEmpty())
-	{
-		if(handle.GetPosition().y <= chBB.GetBottom())return;
-	}*/
-
 	m_nRectSize.y = handle.GetPosition().y - GetAbsolutePosition().y;
 }
 
@@ -271,17 +240,38 @@ wxRealPoint wxSFRectShape::GetBorderPoint(const wxRealPoint& to)
     wxRealPoint intersection, center = GetCenter();
     wxRect bbRct = this->GetBoundingBox();
 
+    /*wxRealPoint uto = to;
+
+    if( bbRct.Contains(wxPoint(to.x, to.y)) )
+    {
+        wxRealPoint rp = center - to;
+
+        if( abs(rp.x) > abs(rp.y) )
+        {
+            if( rp.x > 0 )
+                uto = wxRealPoint(bbRct.GetLeft() - 5, to.y);
+            else
+                uto = wxRealPoint(bbRct.GetRight() + 5, to.y);
+        }
+        else
+        {
+            if( rp.y > 0 ) uto = wxRealPoint(to.x, bbRct.GetTop() - 5);
+            else
+                uto = wxRealPoint(to.x, bbRct.GetBottom() + 5);
+        }
+    }*/
+
     if(LinesIntersection(wxRealPoint(bbRct.GetTopLeft().x, bbRct.GetTopLeft().y),
-                         wxRealPoint(bbRct.GetTopRight().x, bbRct.GetTopRight().y), center, to, intersection)) return intersection;
+                             wxRealPoint(bbRct.GetTopRight().x, bbRct.GetTopRight().y), center, to, intersection)) return intersection;
 
     else if(LinesIntersection(wxRealPoint(bbRct.GetTopRight().x, bbRct.GetTopRight().y),
-                              wxRealPoint(bbRct.GetBottomRight().x, bbRct.GetBottomRight().y + 1), center, to, intersection)) return intersection;
+                                  wxRealPoint(bbRct.GetBottomRight().x, bbRct.GetBottomRight().y + 1), center, to, intersection)) return intersection;
 
     else if(LinesIntersection(wxRealPoint(bbRct.GetBottomRight().x, bbRct.GetBottomRight().y + 1),
-                              wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1), center, to, intersection)) return intersection;
+                                  wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1), center, to, intersection)) return intersection;
 
     else if(LinesIntersection(wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1),
-                              wxRealPoint(bbRct.GetTopLeft().x, bbRct.GetTopLeft().y), center, to, intersection)) return intersection;
+                                  wxRealPoint(bbRct.GetTopLeft().x, bbRct.GetTopLeft().y), center, to, intersection)) return intersection;
 
     return center;
 }

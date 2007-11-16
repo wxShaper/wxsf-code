@@ -457,7 +457,35 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 		{
 			if(pSrcShape && pTrgShape)
 			{
-				segments.Add(new CLineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
+                wxRealPoint trgCenter = pTrgShape->GetCenter();
+                wxRealPoint srcCenter = pSrcShape->GetCenter();
+                wxRect trgBB = pTrgShape->GetBoundingBox();
+                wxRect srcBB = pSrcShape->GetBoundingBox();
+
+                if( (pSrcShape->GetParent() == pTrgShape) && trgBB.Contains(srcCenter.x, srcCenter.y) )
+			    {
+			        if( srcCenter.y > trgCenter.y )
+			        {
+			            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetBottom()), wxRealPoint(srcCenter.x, trgBB.GetBottom())));
+			        }
+			        else
+			        {
+			            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetTop()), wxRealPoint(srcCenter.x, trgBB.GetTop())));
+			        }
+			    }
+			    else if( (pTrgShape->GetParent() == pSrcShape) && srcBB.Contains(trgCenter.x, trgCenter.y) )
+			    {
+			        if( trgCenter.y > srcCenter.y )
+			        {
+			            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetBottom()), wxRealPoint(trgCenter.x, trgBB.GetBottom())));
+			        }
+			        else
+			        {
+			            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetTop()), wxRealPoint(trgCenter.x, trgBB.GetTop())));
+			        }
+			    }
+                else
+                    segments.Add(new CLineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
 			}
 		}
     }
@@ -465,8 +493,6 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 
 void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
 {
-    //wxASSERT(m_pParentManager);
-
     if(!m_pParentManager)return;
 
     size_t i;
