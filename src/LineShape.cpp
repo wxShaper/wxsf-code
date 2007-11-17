@@ -457,33 +457,38 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 		{
 			if(pSrcShape && pTrgShape)
 			{
-                wxRealPoint trgCenter = pTrgShape->GetCenter();
-                wxRealPoint srcCenter = pSrcShape->GetCenter();
-                wxRect trgBB = pTrgShape->GetBoundingBox();
-                wxRect srcBB = pSrcShape->GetBoundingBox();
+                if( (pSrcShape->GetParent() == pTrgShape) || (pTrgShape->GetParent() == pSrcShape) )
+                {
+                    wxRealPoint trgCenter = pTrgShape->GetCenter();
+                    wxRealPoint srcCenter = pSrcShape->GetCenter();
+                    wxRect trgBB = pTrgShape->GetBoundingBox();
+                    wxRect srcBB = pSrcShape->GetBoundingBox();
 
-                if( (pSrcShape->GetParent() == pTrgShape) && trgBB.Contains(srcCenter.x, srcCenter.y) )
-			    {
-			        if( srcCenter.y > trgCenter.y )
-			        {
-			            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetBottom()), wxRealPoint(srcCenter.x, trgBB.GetBottom())));
-			        }
-			        else
-			        {
-			            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetTop()), wxRealPoint(srcCenter.x, trgBB.GetTop())));
-			        }
-			    }
-			    else if( (pTrgShape->GetParent() == pSrcShape) && srcBB.Contains(trgCenter.x, trgCenter.y) )
-			    {
-			        if( trgCenter.y > srcCenter.y )
-			        {
-			            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetBottom()), wxRealPoint(trgCenter.x, trgBB.GetBottom())));
-			        }
-			        else
-			        {
-			            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetTop()), wxRealPoint(trgCenter.x, trgBB.GetTop())));
-			        }
-			    }
+                    if( trgBB.Contains(srcCenter.x, srcCenter.y) )
+                    {
+                        if( srcCenter.y > trgCenter.y )
+                        {
+                            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetBottom()), wxRealPoint(srcCenter.x, trgBB.GetBottom())));
+                        }
+                        else
+                        {
+                            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetTop()), wxRealPoint(srcCenter.x, trgBB.GetTop())));
+                        }
+                    }
+                    else if( srcBB.Contains(trgCenter.x, trgCenter.y) )
+                    {
+                        if( trgCenter.y > srcCenter.y )
+                        {
+                            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetBottom()), wxRealPoint(trgCenter.x, trgBB.GetBottom())));
+                        }
+                        else
+                        {
+                            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetTop()), wxRealPoint(trgCenter.x, trgBB.GetTop())));
+                        }
+                    }
+                    else
+                        segments.Add(new CLineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
+                }
                 else
                     segments.Add(new CLineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
 			}

@@ -179,6 +179,7 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
         // remove connected lines (to all children)
         ShapeList lstChildren;
         ShapeList lstConnections;
+        ShapeList lstRemovedConnections;
 
         // get all shape's children
         shape->GetChildren(lstChildren, sfRECURSIVE);
@@ -196,7 +197,12 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 		wxShapeListNode *node = lstConnections.GetFirst();
 		while(node)
 		{
-			RemoveShape(node->GetData(), false);
+		    // one connection may be used by the parent and also by his child
+		    if(lstRemovedConnections.IndexOf(node->GetData()) == wxNOT_FOUND)
+		    {
+		        lstRemovedConnections.Append(node->GetData());
+                RemoveShape(node->GetData(), false);
+		    }
 			node = node->GetNext();
 		}
 
