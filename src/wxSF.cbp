@@ -3,233 +3,378 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="wxSF" />
-		<Option pch_mode="0" />
-		<Option default_target="Release DLL" />
+		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="..\lib\Win-gcc\Lib\libwxSFd" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
-				<Option object_output="..\obj\Win-gcc\wxsf\Lib\Debug" />
-				<Option type="2" />
-				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\Lib\Debug\wxSFDemo.exe" />
-				<Option createDefFile="1" />
-				<Option projectLinkerOptionsRelation="2" />
-				<Compiler>
-					<Add option="-g" />
-					<Add option="-D__WXDEBUG__" />
-					<Add directory="$(#wx)\lib\gcc_lib\mswud" />
-				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(#wx)\lib\gcc_lib\mswud" />
-				</ResourceCompiler>
-				<Linker>
-					<Add library="libwxmsw28ud.a" />
-					<Add library="libwxpngd.a" />
-					<Add library="libwxjpegd.a" />
-					<Add library="libwxtiffd.a" />
-					<Add library="libwxzlibd.a" />
-					<Add directory="$(#wx)\lib\gcc_lib" />
-				</Linker>
-			</Target>
 			<Target title="Release">
-				<Option output="..\lib\Win-gcc\Lib\libwxSF" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
-				<Option object_output="..\obj\Win-gcc\wxsf\Lib\Release" />
-				<Option type="2" />
-				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\Lib\Release\wxSFDemo.exe" />
-				<Option createDefFile="1" />
-				<Option projectLinkerOptionsRelation="2" />
-				<Compiler>
-					<Add option="-O2" />
-					<Add directory="$(#wx)\lib\gcc_lib\mswu" />
-				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(#wx)\lib\gcc_lib\mswu" />
-				</ResourceCompiler>
-				<Linker>
-					<Add option="-s" />
-					<Add library="libwxmsw28u.a" />
-					<Add library="libwxpng.a" />
-					<Add library="libwxjpeg.a" />
-					<Add library="libwxtiff.a" />
-					<Add library="libwxzlib.a" />
-					<Add directory="$(#wx)\lib\gcc_lib" />
-				</Linker>
-			</Target>
-			<Target title="Release DLL">
-				<Option output="..\lib\Win-gcc\Dll\wxSF" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\obj\Win-gcc\wxsf\Dll\Release" />
+				<Option output="../lib/gcc_dll/wxmsw28u_wxsf.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output=".objsu" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\Dll\Release\wxSFDemo.exe" />
-				<Option createDefFile="1" />
+				<Option createDefFile="0" />
 				<Option createStaticLib="1" />
-				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
-					<Add option="-DWXUSINGDLL" />
+					<Add option="-Wall" />
+					<Add option="-O3" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-include &quot;wx_pch.h&quot;" />
 					<Add option="-DWXMAKINGDLL_SF" />
 					<Add option="-DWXMAKINGDLL_XS" />
-					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
+					<Add option="-D__WX__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-DNDEBUG" />
+					<Add option="-fno-strict-aliasing" />
+					<Add directory="../include" />
+					<Add directory="../src" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswu" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="libwxmsw28u.a" />
-					<Add library="libwxpng.a" />
-					<Add library="libwxjpeg.a" />
-					<Add library="libwxtiff.a" />
-					<Add library="libwxzlib.a" />
-					<Add directory="$(#wx)\lib\gcc_dll" />
+					<Add directory="../lib/gcc_dll" />
+					<Add directory="../build" />
+					<Add directory="$(#WX.lib)/gcc_dll" />
+					<Add library="wxmsw28u" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="xcopy ..\lib\Win-gcc\Dll\wxSF.dll ..\bin\Win-gcc\Dll\Release /Y /I" />
-				</ExtraCommands>
+				<ResourceCompiler>
+					<Add directory="../include" />
+					<Add directory="../src" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswu" />
+				</ResourceCompiler>
 			</Target>
-			<Target title="Debug DLL">
-				<Option output="..\lib\Win-gcc\Dll\wxSFd" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\obj\Win-gcc\wxsf\Dll\Debug" />
+			<Target title="Debug">
+				<Option output="../lib/gcc_dll/wxmsw28ud_wxsf.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output=".objsud" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option host_application="..\bin\Win-gcc\Dll\Debug\wxSFDemo.exe" />
-				<Option createDefFile="1" />
+				<Option createDefFile="0" />
 				<Option createStaticLib="1" />
-				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-D__WXDEBUG__" />
-					<Add option="-DWXUSINGDLL" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-include &quot;wx_pch.h&quot;" />
 					<Add option="-DWXMAKINGDLL_SF" />
 					<Add option="-DWXMAKINGDLL_XS" />
-					<Add directory="$(#wx)\lib\gcc_dll\mswud" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
+					<Add option="-D__WX__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-DDEBUG" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D__WXDEBUG__" />
+					<Add option="-O0" />
+					<Add directory="../include" />
+					<Add directory="../src" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswud" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(#wx)\lib\gcc_dll\mswud" />
-				</ResourceCompiler>
 				<Linker>
-					<Add library="libwxmsw28ud.a" />
-					<Add library="libwxpngd.a" />
-					<Add library="libwxjpegd.a" />
-					<Add library="libwxtiffd.a" />
-					<Add library="libwxzlibd.a" />
-					<Add directory="$(#wx)\lib\gcc_dll" />
+					<Add directory="../lib/gcc_dll" />
+					<Add directory="../build" />
+					<Add directory="$(#WX.lib)/gcc_dll" />
+					<Add library="wxmsw28ud" />
 				</Linker>
-				<ExtraCommands>
-					<Add after="xcopy ..\lib\Win-gcc\Dll\wxSFd.dll ..\bin\Win-gcc\Dll\Debug /Y /I" />
-				</ExtraCommands>
+				<ResourceCompiler>
+					<Add directory="../include" />
+					<Add directory="../src" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswud" />
+				</ResourceCompiler>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-			<Add option="-pipe" />
-			<Add option="-mthreads" />
-			<Add option="-include wx_pch.h" />
-			<Add option="-D__GNUWIN32__" />
-			<Add option="-D__WXMSW__" />
-			<Add option="-DwxUSE_UNICODE" />
-			<Add option="-DWX_PRECOMP" />
-			<Add directory="..\include" />
-			<Add directory="$(#wx)\include" />
-			<Add directory="$(#wx)\contrib\include" />
-		</Compiler>
-		<ResourceCompiler>
-			<Add directory="$(#wx)\include" />
-		</ResourceCompiler>
-		<Linker>
-			<Add library="libkernel32.a" />
-			<Add library="libuser32.a" />
-			<Add library="libgdi32.a" />
-			<Add library="libwinspool.a" />
-			<Add library="libcomdlg32.a" />
-			<Add library="libadvapi32.a" />
-			<Add library="libshell32.a" />
-			<Add library="libole32.a" />
-			<Add library="liboleaut32.a" />
-			<Add library="libuuid.a" />
-			<Add library="libcomctl32.a" />
-			<Add library="libwsock32.a" />
-			<Add library="libodbc32.a" />
-		</Linker>
-		<Unit filename="..\include\wx\wxsf\ArrowBase.h" />
-		<Unit filename="..\include\wx\wxsf\BitmapShape.h" />
-		<Unit filename="..\include\wx\wxsf\CanvasHistory.h" />
-		<Unit filename="..\include\wx\wxsf\CanvasState.h" />
-		<Unit filename="..\include\wx\wxsf\CircleShape.h" />
-		<Unit filename="..\include\wx\wxsf\CommonFcn.h" />
-		<Unit filename="..\include\wx\wxsf\CurveShape.h" />
-		<Unit filename="..\include\wx\wxsf\Defs.h" />
-		<Unit filename="..\include\wx\wxsf\DiagramManager.h" />
-		<Unit filename="..\include\wx\wxsf\DiamondShape.h" />
-		<Unit filename="..\include\wx\wxsf\EditTextShape.h" />
-		<Unit filename="..\include\wx\wxsf\EllipseShape.h" />
-		<Unit filename="..\include\wx\wxsf\FixedRectShape.h" />
-		<Unit filename="..\include\wx\wxsf\LineShape.h" />
-		<Unit filename="..\include\wx\wxsf\MultiSelRect.h" />
-		<Unit filename="..\include\wx\wxsf\OpenArrow.h" />
-		<Unit filename="..\include\wx\wxsf\PolygonShape.h" />
-		<Unit filename="..\include\wx\wxsf\RectShape.h" />
-		<Unit filename="..\include\wx\wxsf\RoundRectShape.h" />
-		<Unit filename="..\include\wx\wxsf\SFEvents.h" />
-		<Unit filename="..\include\wx\wxsf\ScaledPaintDC.h" />
-		<Unit filename="..\include\wx\wxsf\ShapeBase.h" />
-		<Unit filename="..\include\wx\wxsf\ShapeCanvas.h" />
-		<Unit filename="..\include\wx\wxsf\ShapeDataObject.h" />
-		<Unit filename="..\include\wx\wxsf\ShapeHandle.h" />
-		<Unit filename="..\include\wx\wxsf\SolidArrow.h" />
-		<Unit filename="..\include\wx\wxsf\TextShape.h" />
-		<Unit filename="..\include\wx\wxsf\wxShapeFramework.h" />
-		<Unit filename="..\include\wx\wxxmlserializer\Defs.h" />
-		<Unit filename="..\include\wx\wxxmlserializer\PropertyIO.h" />
-		<Unit filename="..\include\wx\wxxmlserializer\XmlSerializer.h" />
-		<Unit filename="ArrowBase.cpp" />
-		<Unit filename="BitmapShape.cpp" />
-		<Unit filename="BitmapShapeXml.cpp" />
-		<Unit filename="CanvasHistory.cpp" />
-		<Unit filename="CanvasState.cpp" />
-		<Unit filename="CircleShape.cpp" />
-		<Unit filename="CommonFcn.cpp" />
-		<Unit filename="CurveShape.cpp" />
-		<Unit filename="CurveShapeXml.cpp" />
-		<Unit filename="DiagramManager.cpp" />
-		<Unit filename="DiamondShape.cpp" />
-		<Unit filename="EditTextShape.cpp" />
-		<Unit filename="EllipseShape.cpp" />
-		<Unit filename="FixedRectShape.cpp" />
-		<Unit filename="LineShape.cpp" />
-		<Unit filename="LineShapeXml.cpp" />
-		<Unit filename="MultiSelRect.cpp" />
-		<Unit filename="OpenArrow.cpp" />
-		<Unit filename="PolygonShape.cpp" />
-		<Unit filename="PolygonShapeXml.cpp" />
-		<Unit filename="RectShape.cpp" />
-		<Unit filename="RectShapeXml.cpp" />
-		<Unit filename="RoundRectShape.cpp" />
-		<Unit filename="RoundRectShapeXml.cpp" />
-		<Unit filename="SFEvents.cpp" />
-		<Unit filename="ScaledPaintDC.cpp" />
-		<Unit filename="ShapeBase.cpp" />
-		<Unit filename="ShapeBaseXml.cpp" />
-		<Unit filename="ShapeCanvas.cpp" />
-		<Unit filename="ShapeDataObject.cpp" />
-		<Unit filename="ShapeHandle.cpp" />
-		<Unit filename="SolidArrow.cpp" />
-		<Unit filename="TextShape.cpp" />
-		<Unit filename="TextShapeXml.cpp" />
+		<Unit filename="ArrowBase.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="BitmapShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="BitmapShapeXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="CanvasHistory.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="CanvasState.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="CircleShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="CommonFcn.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="CurveShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="CurveShapeXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="DiagramManager.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="DiamondShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="EditTextShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="EllipseShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="FixedRectShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="LineShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="LineShapeXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="MultiSelRect.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="OpenArrow.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="PolygonShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="PolygonShapeXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="RectShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="RectShapeXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="RoundRectShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="RoundRectShapeXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="ScaledPaintDC.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="SFEvents.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="ShapeBase.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="ShapeBaseXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="ShapeCanvas.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="ShapeDataObject.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="ShapeHandle.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="SolidArrow.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="TextShape.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="TextShapeXml.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wx_pch.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wxxmlserializer/PropertyIO.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wxxmlserializer/XmlSerializer.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />
+			<Option target="Release" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="wxxmlserializer\PropertyIO.cpp" />
-		<Unit filename="wxxmlserializer\XmlSerializer.cpp" />
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Unit filename="wxSF.rc">
+			<Option compilerVar="WINDRES" />
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/ArrowBase.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/BitmapShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/CanvasHistory.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/CanvasState.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/CircleShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/CommonFcn.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/CurveShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/Defs.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/DiagramManager.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/DiamondShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/EditTextShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/EllipseShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/FixedRectShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/LineShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/MultiSelRect.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/OpenArrow.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/PolygonShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/RectShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/RoundRectShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/ScaledPaintDC.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/SFEvents.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/ShapeBase.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/ShapeCanvas.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/ShapeDataObject.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/ShapeHandle.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/SolidArrow.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/TextShape.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxsf/wxShapeFramework.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxxmlserializer/Defs.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxxmlserializer/PropertyIO.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../include/wx/wxxmlserializer/XmlSerializer.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

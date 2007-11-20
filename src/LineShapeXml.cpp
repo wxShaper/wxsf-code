@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxsf/LineShape.h"
 #include "wx/wxsf/CommonFcn.h"
 

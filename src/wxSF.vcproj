@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="windows-1250"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="wxSF"
-	ProjectGUID="{F4B55686-ED45-4851-B674-83A74830EBEB}"
+	ProjectGUID="{00E130F4-09D0-A048-8822-0B2D454F6CA5}"
 	RootNamespace="wxSF"
+	Keyword="Win32Proj"
 	>
 	<Platforms>
 		<Platform
@@ -15,154 +16,10 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="..\lib\Win-msvc\Lib"
-			IntermediateDirectory="..\obj\Win-msvc\wxsf\Lib\Debug"
-			ConfigurationType="4"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)/include&quot;;&quot;$(WXADDITIONS)/include&quot;;&quot;$(WXWIN)/contrib/include&quot;;..\include"
-				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;_DEBUG;__WXDEBUG__;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderThrough="wx_pch.h"
-				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
-				ForcedIncludeFiles="wx_pch.h; $(WXWIN)/include/msvc/wx/setup.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir); $(WXWIN)/include"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName)d.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\lib\Win-msvc\Lib"
-			IntermediateDirectory="..\obj\Win-msvc\wxsf\Lib\Release"
-			ConfigurationType="4"
-			ATLMinimizesCRunTimeLibraryUsage="true"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				AdditionalIncludeDirectories="$(WXWIN)/include;$(WXADDITIONS)/include;$(WXWIN)/contrib/include;../include"
-				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;NDEBUG;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;"
-				RuntimeLibrary="0"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="1"
-				PrecompiledHeaderThrough="wx_pch.h"
-				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="0"
-				ForcedIncludeFiles="wx_pch.h; $(WXWIN)/include/msvc/wx/setup.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir); $(WXWIN)/include"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release DLL|Win32"
-			OutputDirectory="..\lib\Win-msvc\Dll"
-			IntermediateDirectory="..\obj\Win-msvc\wxsf\Dll\Release"
+			OutputDirectory="../lib/vc_dll"
+			IntermediateDirectory=".objsu"
 			ConfigurationType="2"
-			ATLMinimizesCRunTimeLibraryUsage="true"
 			CharacterSet="1"
 			>
 			<Tool
@@ -182,36 +39,42 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zc:wchar_t-"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(WXWIN)/include;$(WXADDITIONS)/include;$(WXWIN)/contrib/include;../include"
-				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;NDEBUG;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;WXMAKINGDLL_SF;WXMAKINGDLL_XS"
+				AdditionalIncludeDirectories="../include;../src;$(WXWIN)/include;$(WXWIN)/lib/vc_dll/mswu"
+				PreprocessorDefinitions="WXMAKINGDLL_SF;WXMAKINGDLL_XS;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;UNICODE;_UNICODE;__WX__;__WXMSW__;WIN32;_WINDOWS;NDEBUG"
+				StringPooling="true"
 				RuntimeLibrary="2"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="1"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="wx_pch.h"
-				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
-				WarningLevel="3"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="0"
-				ForcedIncludeFiles="wx_pch.h; $(WXWIN)/include/msvc/wx/setup.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir); $(WXWIN)/include"
+				PreprocessorDefinitions="WXMAKINGDLL_SF;WXMAKINGDLL_XS;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;UNICODE;_UNICODE;__WX__;__WXMSW__;WIN32;_WINDOWS;NDEBUG"
+				AdditionalIncludeDirectories="../include;../src;$(WXWIN)/include;$(WXWIN)/lib/vc_dll/mswu"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib wsock32.lib"
-				AdditionalLibraryDirectories="&quot;$(WXWIN)/lib/vc_dll&quot;;&quot;$(WXADDITIONS)/lib/vc_dll&quot;"
+				AdditionalDependencies="wxmsw28u.lib"
+				OutputFile="$(OutDir)/wxmsw28u_wxsf.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../lib/vc_dll;$(WXWIN)/lib/vc_dll"
+				GenerateDebugInformation="false"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="../lib/vc_dll/wxmsw28u_wxsf.lib"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -239,11 +102,10 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug DLL|Win32"
-			OutputDirectory="..\lib\Win-msvc\Dll"
-			IntermediateDirectory="..\obj\Win-msvc\wxsf\Dll\Debug"
+			Name="Debug|Win32"
+			OutputDirectory="../lib/vc_dll"
+			IntermediateDirectory=".objsud"
 			ConfigurationType="2"
-			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
 			<Tool
@@ -263,39 +125,42 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zc:wchar_t-"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)/include&quot;;&quot;$(WXADDITIONS)/include&quot;;&quot;$(WXWIN)/contrib/include&quot;;..\include"
-				PreprocessorDefinitions="WIN32;STRICT;__WXMSW__;__WX__;_DEBUG;__WXDEBUG__;_WINDOWS;wxUSE_UNICODE;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;WXMAKINGDLL_SF;WXMAKINGDLL_XS"
+				AdditionalIncludeDirectories="../include;../src;$(WXWIN)/include;$(WXWIN)/lib/vc_dll/mswud"
+				PreprocessorDefinitions="WXMAKINGDLL_SF;WXMAKINGDLL_XS;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;UNICODE;_UNICODE;__WX__;__WXMSW__;WIN32;_WINDOWS;DEBUG;_DEBUG;__WXDEBUG__"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="1"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="wx_pch.h"
-				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
-				WarningLevel="3"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
-				ForcedIncludeFiles="wx_pch.h; $(WXWIN)/include/msvc/wx/setup.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir); $(WXWIN)/include"
+				PreprocessorDefinitions="WXMAKINGDLL_SF;WXMAKINGDLL_XS;_CRT_SECURE_NO_DEPRECATE;WXUSINGDLL;UNICODE;_UNICODE;__WX__;__WXMSW__;WIN32;_WINDOWS;DEBUG;_DEBUG;__WXDEBUG__"
+				AdditionalIncludeDirectories="../include;../src;$(WXWIN)/include;$(WXWIN)/lib/vc_dll/mswud"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib wsock32.lib"
-				OutputFile="$(OutDir)\$(ProjectName)d.dll"
-				AdditionalLibraryDirectories="&quot;$(WXWIN)/lib/vc_dll&quot;;&quot;$(WXADDITIONS)/lib/vc_dll&quot;"
+				AdditionalDependencies="wxmsw28ud.lib"
+				OutputFile="$(OutDir)/wxmsw28ud_wxsf.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="../lib/vc_dll;$(WXWIN)/lib/vc_dll"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/wxmsw28ud_wxsf.pdb"
+				SubSystem="2"
+				ImportLibrary="../lib/vc_dll/wxmsw28ud_wxsf.lib"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -327,312 +192,257 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
+			Name="wxxmlserializer"
+			Filter=""
 			>
 			<File
-				RelativePath=".\ArrowBase.cpp"
-				>
+				RelativePath=".\wxxmlserializer\PropertyIO.cpp">
 			</File>
 			<File
-				RelativePath=".\BitmapShape.cpp"
-				>
+				RelativePath=".\wxxmlserializer\XmlSerializer.cpp">
 			</File>
-			<File
-				RelativePath=".\BitmapShapeXml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CanvasHistory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CanvasState.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CircleShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CommonFcn.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CurveShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CurveShapeXml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DiagramManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DiamondShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\EditTextShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\EllipseShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FixedRectShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LineShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LineShapeXml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MultiSelRect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OpenArrow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PolygonShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PolygonShapeXml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RectShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RectShapeXml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RoundRectShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RoundRectShapeXml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ScaledPaintDC.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SFEvents.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShapeBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShapeBaseXml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShapeCanvas.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShapeDataObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShapeHandle.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SolidArrow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TextShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TextShapeXml.cpp"
-				>
-			</File>
-			<Filter
-				Name="wxxmlserializer"
-				>
-				<File
-					RelativePath=".\wxxmlserializer\PropertyIO.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\wxxmlserializer\XmlSerializer.cpp"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc"
+			Name="include"
+			Filter=""
 			>
-			<File
-				RelativePath=".\wx_pch.h"
-				>
-			</File>
 			<Filter
-				Name="include"
+				Name="wx"
+				Filter=""
 				>
 				<Filter
 					Name="wxsf"
+					Filter=""
 					>
 					<File
-						RelativePath="..\include\wx\wxsf\ArrowBase.h"
-						>
+						RelativePath="..\include\wx\wxsf\ArrowBase.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\BitmapShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\BitmapShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\CanvasHistory.h"
-						>
+						RelativePath="..\include\wx\wxsf\CanvasHistory.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\CanvasState.h"
-						>
+						RelativePath="..\include\wx\wxsf\CanvasState.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\CircleShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\CircleShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\CommonFcn.h"
-						>
+						RelativePath="..\include\wx\wxsf\CommonFcn.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\CurveShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\CurveShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\Defs.h"
-						>
+						RelativePath="..\include\wx\wxsf\Defs.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\DiagramManager.h"
-						>
+						RelativePath="..\include\wx\wxsf\DiagramManager.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\DiamondShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\DiamondShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\EditTextShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\EditTextShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\EllipseShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\EllipseShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\FixedRectShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\FixedRectShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\LineShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\LineShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\MultiSelRect.h"
-						>
+						RelativePath="..\include\wx\wxsf\MultiSelRect.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\OpenArrow.h"
-						>
+						RelativePath="..\include\wx\wxsf\OpenArrow.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\PolygonShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\PolygonShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\RectShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\RectShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\RoundRectShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\RoundRectShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\ScaledPaintDC.h"
-						>
+						RelativePath="..\include\wx\wxsf\ScaledPaintDC.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\SFEvents.h"
-						>
+						RelativePath="..\include\wx\wxsf\SFEvents.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\ShapeBase.h"
-						>
+						RelativePath="..\include\wx\wxsf\ShapeBase.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\ShapeCanvas.h"
-						>
+						RelativePath="..\include\wx\wxsf\ShapeCanvas.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\ShapeDataObject.h"
-						>
+						RelativePath="..\include\wx\wxsf\ShapeDataObject.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\ShapeHandle.h"
-						>
+						RelativePath="..\include\wx\wxsf\ShapeHandle.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\SolidArrow.h"
-						>
+						RelativePath="..\include\wx\wxsf\SolidArrow.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\TextShape.h"
-						>
+						RelativePath="..\include\wx\wxsf\TextShape.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxsf\wxShapeFramework.h"
-						>
+						RelativePath="..\include\wx\wxsf\wxShapeFramework.h">
 					</File>
 				</Filter>
 				<Filter
 					Name="wxxmlserializer"
+					Filter=""
 					>
 					<File
-						RelativePath="..\include\wx\wxxmlserializer\Defs.h"
-						>
+						RelativePath="..\include\wx\wxxmlserializer\Defs.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxxmlserializer\PropertyIO.h"
-						>
+						RelativePath="..\include\wx\wxxmlserializer\PropertyIO.h">
 					</File>
 					<File
-						RelativePath="..\include\wx\wxxmlserializer\XmlSerializer.h"
-						>
+						RelativePath="..\include\wx\wxxmlserializer\XmlSerializer.h">
 					</File>
 				</Filter>
 			</Filter>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest"
+		<File
+			RelativePath=".\ArrowBase.cpp">
+		</File>
+		<File
+			RelativePath=".\BitmapShape.cpp">
+		</File>
+		<File
+			RelativePath=".\BitmapShapeXml.cpp">
+		</File>
+		<File
+			RelativePath=".\CanvasHistory.cpp">
+		</File>
+		<File
+			RelativePath=".\CanvasState.cpp">
+		</File>
+		<File
+			RelativePath=".\CircleShape.cpp">
+		</File>
+		<File
+			RelativePath=".\CommonFcn.cpp">
+		</File>
+		<File
+			RelativePath=".\CurveShape.cpp">
+		</File>
+		<File
+			RelativePath=".\CurveShapeXml.cpp">
+		</File>
+		<File
+			RelativePath=".\DiagramManager.cpp">
+		</File>
+		<File
+			RelativePath=".\DiamondShape.cpp">
+		</File>
+		<File
+			RelativePath=".\EditTextShape.cpp">
+		</File>
+		<File
+			RelativePath=".\EllipseShape.cpp">
+		</File>
+		<File
+			RelativePath=".\FixedRectShape.cpp">
+		</File>
+		<File
+			RelativePath=".\LineShape.cpp">
+		</File>
+		<File
+			RelativePath=".\LineShapeXml.cpp">
+		</File>
+		<File
+			RelativePath=".\MultiSelRect.cpp">
+		</File>
+		<File
+			RelativePath=".\OpenArrow.cpp">
+		</File>
+		<File
+			RelativePath=".\PolygonShape.cpp">
+		</File>
+		<File
+			RelativePath=".\PolygonShapeXml.cpp">
+		</File>
+		<File
+			RelativePath=".\RectShape.cpp">
+		</File>
+		<File
+			RelativePath=".\RectShapeXml.cpp">
+		</File>
+		<File
+			RelativePath=".\RoundRectShape.cpp">
+		</File>
+		<File
+			RelativePath=".\RoundRectShapeXml.cpp">
+		</File>
+		<File
+			RelativePath=".\ScaledPaintDC.cpp">
+		</File>
+		<File
+			RelativePath=".\SFEvents.cpp">
+		</File>
+		<File
+			RelativePath=".\ShapeBase.cpp">
+		</File>
+		<File
+			RelativePath=".\ShapeBaseXml.cpp">
+		</File>
+		<File
+			RelativePath=".\ShapeCanvas.cpp">
+		</File>
+		<File
+			RelativePath=".\ShapeDataObject.cpp">
+		</File>
+		<File
+			RelativePath=".\ShapeHandle.cpp">
+		</File>
+		<File
+			RelativePath=".\SolidArrow.cpp">
+		</File>
+		<File
+			RelativePath=".\TextShape.cpp">
+		</File>
+		<File
+			RelativePath=".\TextShapeXml.cpp">
+		</File>
+		<File
+			RelativePath=".\wx_pch.cpp"
 			>
-			<File
-				RelativePath=".\wxSF.rc"
+			<FileConfiguration
+				Name="Release|Win32"
 				>
-			</File>
-		</Filter>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\wx_pch.h">
+		</File>
+		<File
+			RelativePath=".\wxSF.rc">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxsf/SFEvents.h"
 
 DEFINE_EVENT_TYPE( wxEVT_SF_LINE_DONE );

@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include <wx/tokenzr.h>
 
 #include "wx/wxsf/CommonFcn.h"

@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include <wx/mstream.h>
 
 #include "wx/wxsf/ShapeDataObject.h"

@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/ShapeHandle.h"
 #include "wx/wxsf/ShapeBase.h"

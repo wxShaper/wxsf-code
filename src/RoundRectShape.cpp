@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include <math.h>
 
 #include "wx/wxsf/RoundRectShape.h"

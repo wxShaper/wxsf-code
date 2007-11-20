@@ -2,7 +2,7 @@
 #define SAMPLECANVAS_H
 
 // include main wxShapeFramework header file
-#include "wxShapeFramework.h"
+#include "wx/wxsf/wxShapeFramework.h"
 
 class SampleCanvas : public wxSFShapeCanvas
 {

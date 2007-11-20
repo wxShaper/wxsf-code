@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include <wx/wfstream.h>
 #include <wx/mstream.h>
 #include <wx/listimpl.cpp>

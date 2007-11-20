@@ -7,6 +7,7 @@
  * License:   wxWidgets license (www.wxwidgets.org)
  * Notes:
  **************************************************************/
+#include "wx_pch.h"
 
 #include "wx/wxsf/BitmapShape.h"
 #include "wx/wxsf/ShapeCanvas.h"

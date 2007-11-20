@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxsf/LineShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/CommonFcn.h"
@@ -464,7 +466,7 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
                     wxRect trgBB = pTrgShape->GetBoundingBox();
                     wxRect srcBB = pSrcShape->GetBoundingBox();
 
-                    if( trgBB.Contains(srcCenter.x, srcCenter.y) )
+                    if( trgBB.Contains((int)srcCenter.x, (int)srcCenter.y) )
                     {
                         if( srcCenter.y > trgCenter.y )
                         {
@@ -475,7 +477,7 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
                             segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetTop()), wxRealPoint(srcCenter.x, trgBB.GetTop())));
                         }
                     }
-                    else if( srcBB.Contains(trgCenter.x, trgCenter.y) )
+                    else if( srcBB.Contains((int)trgCenter.x, (int)trgCenter.y) )
                     {
                         if( trgCenter.y > srcCenter.y )
                         {

@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxsf/DiamondShape.h"
 #include "wx/wxsf/CommonFcn.h"
 

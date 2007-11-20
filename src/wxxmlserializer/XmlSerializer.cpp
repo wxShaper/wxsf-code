@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxxmlserializer/XmlSerializer.h"
 
 #include <wx/listimpl.cpp>

@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxsf/EditTextShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 

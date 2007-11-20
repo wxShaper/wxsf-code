@@ -16,7 +16,7 @@
 
 #include "wxSFSample1App.h"
 // add wxShapeFramework include file
-#include "wxShapeFramework.h"
+#include "wx/wxsf/wxShapeFramework.h"
 
 class wxSFSample1Frame: public wxFrame
 {

@@ -1,28 +1,32 @@
 /***************************************************************
  * Name:      wx_pch.h
  * Purpose:   Header to create Pre-Compiled Header (PCH)
- * Author:    Michal BliûÚ·k (michal.bliznak@tiscali.cz)
- * Created:   2007-08-31
- * Copyright: Michal BliûÚ·k ()
- * License:   
+ * Author:    Michal Bli≈æ≈à√°k ()
+ * Created:   2007-03-04
+ * Copyright: Michal Bli≈æ≈à√°k ()
+ * License:
  **************************************************************/
 
 #ifndef WX_PCH_H_INCLUDED
 #define WX_PCH_H_INCLUDED
 
+#pragma warning( disable : 4100 )
+#pragma warning( disable : 4251 )
+#pragma warning( disable : 4275 )
+
 // basic wxWidgets headers
 #include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
-    #pragma hdrstop
+	#pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-    #include <wx/wx.h>
+	#include <wx/wx.h>
 #endif
 
 #ifdef WX_PRECOMP
-    // put here all your rarely-changing header files
+	// put here all your rarely-changing header files
 #endif // WX_PRECOMP
 
 #endif // WX_PCH_H_INCLUDED

@@ -8,6 +8,8 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
 #include "wx/wxsf/ScaledPaintDC.h"
 
 wxSFScaledPaintDC::wxSFScaledPaintDC(wxBitmap& outbmp, double scale)

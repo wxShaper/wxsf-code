@@ -10,6 +10,8 @@
 
 // TODO: wxSFShapeCanvas: Implement canvas thumbnail (wxSFCanvasThumbnail class)
 
+#include "wx_pch.h"
+
 #include <wx/wfstream.h>
 #include <wx/mstream.h>
 #include <wx/txtstrm.h>

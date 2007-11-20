@@ -3,81 +3,126 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="wxSFSample2" />
-		<Option pch_mode="0" />
+		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="..\..\bin\Win-gcc\Lib\Release\wxSFSample2" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\..\obj\Win-gcc\wxsfsample2\Lib\Release\" />
+				<Option output="bin/gcc/wxSFSample2.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output=".objsu" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O2" />
-					<Add directory="$(#wx)\lib\gcc_lib\mswu" />
-					<Add directory="..\..\include" />
+					<Add option="-Wall" />
+					<Add option="-O3" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-include &quot;wx_pch.h&quot;" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
+					<Add option="-D__WX__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-DNDEBUG" />
+					<Add option="-fno-strict-aliasing" />
+					<Add directory="../../include" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswu" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(#wx)\lib\gcc_lib\mswu" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="libwxSF.a" />
-					<Add library="libwxmsw28u.a" />
-					<Add library="libwxexpat.a" />
-					<Add directory="$(#wx)\lib\gcc_lib" />
-					<Add directory="..\..\lib\Win-gcc\Lib" />
+					<Add directory="bin/gcc" />
+					<Add directory="../../build" />
+					<Add directory="$(#WX.lib)/gcc_dll" />
+					<Add directory="../../lib/gcc_dll" />
+					<Add library="wxmsw28u_wxsf" />
+					<Add library="wxmsw28u" />
 				</Linker>
+				<ResourceCompiler>
+					<Add directory="../../include" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswu" />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Debug">
+				<Option output="bin/gcc/wxSFSample2d.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output=".objsud" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-include &quot;wx_pch.h&quot;" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
+					<Add option="-D__WX__" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-DDEBUG" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D__WXDEBUG__" />
+					<Add option="-O0" />
+					<Add directory="../../include" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswud" />
+				</Compiler>
+				<Linker>
+					<Add directory="bin/gcc" />
+					<Add directory="../../build" />
+					<Add directory="$(#WX.lib)/gcc_dll" />
+					<Add directory="../../lib/gcc_dll" />
+					<Add library="wxmsw28ud_wxsf" />
+					<Add library="wxmsw28ud" />
+				</Linker>
+				<ResourceCompiler>
+					<Add directory="../../include" />
+					<Add directory="$(#WX.include)" />
+					<Add directory="$(#WX.lib)/gcc_dll/mswud" />
+				</ResourceCompiler>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-			<Add option="-pipe" />
-			<Add option="-mthreads" />
-			<Add option="-Winvalid-pch" />
-			<Add option="-include wx_pch.h" />
-			<Add option="-D__GNUWIN32__" />
-			<Add option="-D__WXMSW__" />
-			<Add option="-DwxUSE_UNICODE" />
-			<Add option="-DWX_PRECOMP" />
-			<Add directory="$(#wx)\include" />
-			<Add directory="$(#wx)\contrib\include" />
-		</Compiler>
-		<ResourceCompiler>
-			<Add directory="$(#wx)\include" />
-		</ResourceCompiler>
-		<Linker>
-			<Add library="libkernel32.a" />
-			<Add library="libuser32.a" />
-			<Add library="libgdi32.a" />
-			<Add library="libwinspool.a" />
-			<Add library="libcomdlg32.a" />
-			<Add library="libadvapi32.a" />
-			<Add library="libshell32.a" />
-			<Add library="libole32.a" />
-			<Add library="liboleaut32.a" />
-			<Add library="libuuid.a" />
-			<Add library="libcomctl32.a" />
-			<Add library="libwsock32.a" />
-			<Add library="libodbc32.a" />
-		</Linker>
-		<Unit filename="SampleCanvas.cpp" />
-		<Unit filename="SampleCanvas.h" />
-		<Unit filename="resource.rc">
-			<Option compilerVar="WINDRES" />
+		<Unit filename="SampleCanvas.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="wxSFSample2App.cpp" />
-		<Unit filename="wxSFSample2App.h" />
-		<Unit filename="wxSFSample2Main.cpp" />
-		<Unit filename="wxSFSample2Main.h" />
+		<Unit filename="wxSFSample2App.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wxSFSample2Main.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wx_pch.cpp">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="SampleCanvas.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wxSFSample2App.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wxSFSample2Main.h">
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />
+			<Option target="Release" />
+			<Option target="Debug" />
 		</Unit>
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Unit filename="wxSF.rc">
+			<Option compilerVar="WINDRES" />
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
