@@ -27,6 +27,8 @@ end
 addoption( "shared", "Create a dynamic link library (.dll) version" )
 addoption( "static-runtime", "Use static runtime C/C++ libraries" )
 addoption( "no-builtin-wchar", "Do not treat wchar_t as a builtin type" )
+addoption( "unicode", "Use the Unicode character set" )
+addoption( "with-wx-shared", "Link against wxWidgets as a shared library" )
 
 -- Set the name of your package.
 package.name = "wxSF"
@@ -98,8 +100,6 @@ package.pchsource = "wx_pch.cpp"
 --*	on the operating system.
 --*********************************
 -- Package options
-addoption( "unicode", "Use the Unicode character set" )
-addoption( "with-wx-shared", "Link against wxWidgets as a shared library" )
 if ( not windows ) then
 	addoption( "disable-wx-debug", "Compile against a wxWidgets library without debugging" )
 end
@@ -257,6 +257,16 @@ if ( windows ) then
 	else
 		table.insert( package.config["Release"].links, "wxmsw"..wx_ver )
 		table.insert( package.config["Debug"].links, "wxmsw"..wx_ver.."d" )
+	end
+
+	if( ( ( target == "vs2003" ) or ( target == "vs2005" ) ) and not options["with-wx-shared"] ) then
+		if ( options["unicode"] ) then
+			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexud", "rpcrt4", "comctl32" } )
+			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregexu", "rpcrt4", "comctl32" } )
+		else
+			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexd", "rpcrt4", "comctl32" } )
+			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregex", "rpcrt4", "comctl32" } )
+		end
 	end
 	
 	-- Set the Windows defines.
