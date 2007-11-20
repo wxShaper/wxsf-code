@@ -9,13 +9,13 @@ if ! wx-config --debug >/dev/null 2>/dev/null; then
 	debug="--disable-wx-debug"
 fi
 
-sdk/premake/premake-mac --target cb-gcc $unicode $debug --with-wx-shared
+premake/premake-mac --target cb-gcc $unicode $debug --with-wx-shared --shared
 echo done...
 echo 
 #
-sdk/premake/premake-mac --target gnu $unicode $debug --with-wx-shared
+premake/premake-mac --target gnu $unicode $debug --with-wx-shared --shared
 echo done...
 echo 
 #
-echo Done generating all project files for wxFormBuilder.
+echo Done generating all project files for wxShapeFramework.
 #
