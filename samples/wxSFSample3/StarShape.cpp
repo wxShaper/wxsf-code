@@ -1,3 +1,5 @@
+#include "wx_pch.h"
+
 #include "StarShape.h"
 
 // implement RTTI information

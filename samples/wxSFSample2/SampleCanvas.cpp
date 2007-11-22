@@ -1,5 +1,6 @@
-#include "SampleCanvas.h"
+#include "wx_pch.h"
 
+#include "SampleCanvas.h"
 
 SampleCanvas::SampleCanvas(wxSFDiagramManager*manager, wxWindow* parent)
 : wxSFShapeCanvas(manager, parent)
