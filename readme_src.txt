@@ -33,34 +33,37 @@ platform).
 Requirements:
 -------------
 
-- wxSF uses wxWidgets (www.wxwidgets.org) and was tested with version 2.8.4 on MS Windows
+- wxSF uses wxWidgets (www.wxwidgets.org) and was tested with version 2.8.x on MS Windows
   and Linux (Ubuntu 7.04) target platforms.
-- Code::Blocks (www.codeblocks.org) IDE with MinGW C++ compiler is required
-(recommended) for open included workspace/project files.
+- Code::Blocks (www.codeblocks.org) IDE with MinGW C++ compiler or MS Visual Studio 2005/
+  Visual C++ 2005 Express are recommended for opening included workspace/project files.
 
 
 Distribution content:
 ---------------------
 
+.\build		- Premake build system for creation of various project/make files
 .\doc		- wxSF doxygen documentation file (in CHM and HTML format).
-.\example	- Source code and project files of wxSF Demonstration application.
 .\include	- Library headers files (needed for both hosting applications and
 		library itself)
-.\samples	- Sample projects with commented source code.
+.\samples	- Sample and demo projects with commented source code.
 .\src		- Source code ad project files of the wxSF library
 changes.txt	- Information about library version and release changes.
 
-.\obj		- Directory with object files (will be created after library/demo app
-		build)
 .\lib		- Lib files (will be created after library/demo app build)
-.\bin		- Binaries and executables (will be created after library/demo app
-		build)
 
 
-Note:
------
+Build instructions:
+-------------------
+For building of the library files and the sample and demo projects you must 
+create a build/project files first. This task can be done via included premake build
+system located in the ./build directory. Simple run one of the appropriate shell scripts 
+(create_build_files.bat for MS Windows platform, create_build_files.sh for Linux and
+create_build_files_mac.sh for OS X platform). These scripts will create project/make files
+suitable for choosen build targets and IDEs. Currently the Code::Blocks and MS Visual
+Studio 2005/Visual C++ 2005 Express project files for Windows/Linux platforms are
+supported as well as standard GNU makefiles. If you want to change some build target
+properties modify the script files to fulfil your needs.
 
-This package doesn't include any executable (demo app) or pre-built binary files (wxSF,
-wxWidgets and C run-time DLLs). To obtain them you must built it yourself or download
-binary package.
+
 

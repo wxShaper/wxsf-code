@@ -259,15 +259,24 @@ if ( windows ) then
 		table.insert( package.config["Debug"].links, "wxmsw"..wx_ver.."d" )
 	end
 
-	if( ( ( target == "vs2003" ) or ( target == "vs2005" ) ) and not options["with-wx-shared"] ) then
+	if ( not options["with-wx-shared"] ) then
 		if ( options["unicode"] ) then
-			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexud", "rpcrt4", "comctl32" } )
-			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregexu", "rpcrt4", "comctl32" } )
+			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexud" } )
+			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregexu" } )
 		else
-			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexd", "rpcrt4", "comctl32" } )
-			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregex", "rpcrt4", "comctl32" } )
+			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexd" } )
+			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregex" } )
+		end
+
+		if ( target == "cb-gcc" or target == "gnu" ) then
+			table.insert( package.config["Debug"].links, { "winmm", "rpcrt4", "kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32", "shell32", "ole32", "oleaut32", "uuid", "comctl32", "wsock32", "odbc32" } )
+			table.insert( package.config["Release"].links, { "winmm", "rpcrt4", "kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32", "shell32", "ole32", "oleaut32", "uuid", "comctl32", "wsock32", "odbc32" } )
+		else
+			table.insert( package.config["Debug"].links, { "rpcrt4", "comctl32" } )
+			table.insert( package.config["Release"].links, { "rpcrt4", "comctl32" } )
 		end
 	end
+
 	
 	-- Set the Windows defines.
 	table.insert( package.defines, { "__WXMSW__", "WIN32", "_WINDOWS" } )

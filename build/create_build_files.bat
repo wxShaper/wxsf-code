@@ -10,8 +10,8 @@ rem premake\premake-win32.exe --target gnu --unicode --static-runtime
 echo done...
 echo.
 
-rem premake\premake-win32.exe --target vs2005 --unicode --with-wx-shared --shared --no-builtin-wchar
-premake\premake-win32.exe --target vs2005 --unicode --static-runtime --no-builtin-wchar
+premake\premake-win32.exe --target vs2005 --unicode --with-wx-shared --shared --no-builtin-wchar
+rem premake\premake-win32.exe --target vs2005 --unicode --static-runtime --no-builtin-wchar
 echo done...
 echo.
 

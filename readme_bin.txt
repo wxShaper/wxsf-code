@@ -34,14 +34,14 @@ platform).
 Distribution content:
 ---------------------
 
-.\Bin		- Redistributable binary files needed for running of client applications
+.\bin		- Redistributable binary files needed for running of client applications
 		  using the wxSF's Dlls (contains basic wxWidgets library's dlls and
-		  C runtime libraries).
-.\Demo		- Standalone executable of wxShapeFramework demo app.
-.\Include	- wxSF header files.
-.\Lib		- Prebuild wxSF libraries (Release) suitable for both static and dynamic
+		  C runtime libraries for both MINGW and MS VC++ 2005).
+.\demo		- Standalone executable of wxShapeFramework demo app.
+.\include	- wxSF header files.
+.\lib		- Prebuild wxSF libraries suitable for both static and dynamic
 		  linking and supported compilers (MinGW a MSVC8) on MS Windows.
 
 Binaries have been built with GCC 3.4.5, MSVC8 (MS Visual Studio 2005) and unicode release
- of wxWidgets 2.8.4.
+ of wxWidgets 2.8.6.
 
