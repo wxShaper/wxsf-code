@@ -17,11 +17,8 @@
 
 #include "wx/wxxmlserializer/PropertyIO.h"
 
-#include <wx/list.h>
 #include <wx/xml/xml.h>
 
-WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_XS);
-WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_XS);
 
 /*! \brief Macro creates new serialized STRING property */
 #define XS_SERIALIZE_STRING(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
@@ -35,6 +32,15 @@ WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_XS);
 #define XS_SERIALIZE_DOUBLE(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("double"), wxT("Variable is not DOUBLE"));XS_SERIALIZE_PROPERTY(x, wxT("double"), name);
 /*! \brief Macro creates new serialized DOUBLE property with defined default value */
 #define XS_SERIALIZE_DOUBLE_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("double"), wxT("Variable is not DOUBLE"));XS_SERIALIZE_PROPERTY_EX(x, wxT("double"), name, xsDoublePropIO::ToString(def));
+/*! \brief Macro creates new serialized INT property */
+#define XS_SERIALIZE_INT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("int"), name);
+/*! \brief Macro creates new serialized INT property with defined default value */
+#define XS_SERIALIZE_INT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("int"), name, xsIntPropIO::ToString(def));
+/*! \brief Macro creates new serialized FLOAT property */
+#define XS_SERIALIZE_FLOAT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("float"), name);
+/*! \brief Macro creates new serialized FLOAT property with defined default value */
+#define XS_SERIALIZE_FLOAT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("float"), name, xsFloatPropIO::ToString(def));
+
 /*! \brief Macro creates new serialized BOOL property */
 #define XS_SERIALIZE_BOOL(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("bool"), wxT("Variable is not BOOL"));XS_SERIALIZE_PROPERTY(x, wxT("bool"), name);
 /*! \brief Macro creates new serialized BOOL property with defined default value */
@@ -221,6 +227,11 @@ public:
      * \sa xsProperty
      */
     xsProperty* GetProperty(const wxString& field);
+    /*!
+     * \brief Get reference to properties list.
+     * \sa xsProperty
+     */
+	PropertyList& GetProperties(){return m_lstProperties;}
 
     /*!
      * \brief Enable/disable serialization of given property.
@@ -373,10 +384,20 @@ public:
     /*! \brief Constructor for LONG property with defined default value. */
     xsProperty(long* src, const wxString& field, long def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(xsLongPropIO::ToString(def)), m_fSerialize(true) {;}
 
+    /*! \brief Constructor for INY property. */
+    xsProperty(int* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for LONG property with defined default value. */
+    xsProperty(int* src, const wxString& field, int def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(xsIntPropIO::ToString(def)), m_fSerialize(true) {;}
+
     /*! \brief Constructor for DOUBLE property. */
     xsProperty(double* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for DOUBLE property with defined default value. */
     xsProperty(double* src, const wxString& field, double def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(xsDoublePropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for DOUBLE property. */
+    xsProperty(float* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("float")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for DOUBLE property with defined default value. */
+    xsProperty(float* src, const wxString& field, float def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("float")), m_sDefaultValueStr(xsFloatPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxString property. */
     xsProperty(wxString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
@@ -495,7 +516,7 @@ public:
      */
     void SetSerializerRootName(const wxString& name){m_sRootName = name;}
     /*!
-     * \brief Set file versio.
+     * \brief Set file version.
      * \param name File version
      */
     void SetSerializerVersion(const wxString& name){m_sVersion = name;}
@@ -510,7 +531,7 @@ public:
     /*! \brief Get pointer to root serializable object. */
     xsSerializable* GetRootItem(){return m_pRoot;}
     /*!
-     * \brief Get serialzable object with given ID.
+     * \brief Get serializable object with given ID.
      * \param id Object ID
      * \return Pointer to serializable object if exists, otherwise NULL
      */
@@ -521,6 +542,12 @@ public:
      * \param list List with matching serializable objects
      */
     int GetItems(wxClassInfo* type, SerializableList& list);
+    /*!
+     * \brief Check whether given object is included in the serializer.
+     * \param object Pointer to checked object
+     * \return True if the object is included in the serializer, otherwise False
+     */
+    bool Contains(xsSerializable *object);
 
     /*!
      * \brief Set root item.
@@ -640,6 +667,8 @@ private:
     xsSerializable* _GetItem(long id, xsSerializable* parent);
     /*! \brief Auxiliary function */
     void _GetItems(wxClassInfo* type, xsSerializable* parent, SerializableList& list);
+	/*! \brief Auxiliary function */
+    bool _Contains(xsSerializable *object, xsSerializable* parent);
 
 };
 

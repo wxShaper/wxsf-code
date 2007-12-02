@@ -1,3 +1,13 @@
+Changes in version 1.4.1 beta (2007-12-02):
+--------------------------------------------
+- Improved (accelerated) function wxSFShapeCanvas::GetTopmostHandleAtPosition().
+- Improved wxXmlSerializer (XS_DECLARE_IO_HANDLER and XS_DEFINE_IO_HANDLER macros are
+  now available for easy implementation of custom data types I/O handlers)
+- Fixed wxShapeCanvas::Copy() and wxShapeCanvas::Cut() functions. Lines connected to 
+  the copied shapes are copied as well.
+- Fixed possible crash in wxDiagramManager::RemoveShapes() occured when double-linked shapes
+  were removed.
+
 Changes in version 1.4.0 beta (2007-11-22):
 --------------------------------------------
 - New (more flexible) version of wxXmlSerializer (saved files are compatible with the previous version).

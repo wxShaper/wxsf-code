@@ -1554,12 +1554,15 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
     wxSFShapeHandle* pHandle;
 
 	// first test multiedit handles...
-	wxCHandleListNode* hnode = m_shpMultiEdit.GetHandles().GetFirst();
-	while(hnode)
+	if(m_shpMultiEdit.IsVisible())
 	{
-		pHandle = hnode->GetData();
-		if(pHandle->IsVisible() && pHandle->IsInside(pos))return pHandle;
-		hnode = hnode->GetNext();
+		wxCHandleListNode* hnode = m_shpMultiEdit.GetHandles().GetFirst();
+		while(hnode)
+		{
+			pHandle = hnode->GetData();
+			if(pHandle->IsVisible() && pHandle->IsInside(pos))return pHandle;
+			hnode = hnode->GetNext();
+		}
 	}
 
 	// ... then test normal handles
@@ -1745,6 +1748,7 @@ void wxSFShapeCanvas::ValidateSelection(ShapeList& selection)
 void wxSFShapeCanvas::ValidateSelectionForClipboard(ShapeList& list)
 {
     // remove topmost shapes without sfsPARENT_CHANGE style from the selection
+	ShapeList lstConnections;
     wxSFShapeBase* pShape;
     wxShapeListNode* node = list.GetFirst();
     while(node)
@@ -1758,7 +1762,20 @@ void wxSFShapeCanvas::ValidateSelectionForClipboard(ShapeList& list)
             node = list.GetFirst();
         }
         else
+		{
+			// add connections assigned to copied shapes to the list
+			lstConnections.Clear();
+
+			m_pManager->GetAssignedConnections(pShape, CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, lstConnections);
+			wxShapeListNode *lnode = lstConnections.GetFirst();
+			while(lnode)
+			{
+				if( list.IndexOf(lnode->GetData()) == wxNOT_FOUND )list.Append(lnode->GetData());
+				lnode = lnode->GetNext();
+			}
+
             node = node->GetNext();
+		}
     }
 }
 

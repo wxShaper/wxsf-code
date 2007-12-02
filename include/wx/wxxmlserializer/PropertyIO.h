@@ -17,16 +17,25 @@
 
 #include <wx/hashmap.h>
 #include <wx/xml/xml.h>
+#include <wx/tokenzr.h>
+#include <wx/list.h>
 
 #include "wx/wxxmlserializer/Defs.h"
 
 class WXDLLIMPEXP_XS xsProperty;
+class WXDLLIMPEXP_XS xsSerializable;
+
+WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_XS);
+WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_XS);
 
 /*!
  * \brief Base class encapsulating a property I/O handler. The class is used by
  * the xsSerializable class and is responsiblefor reading and writing of an XML node
- * containing property information. Each suppported property (data) type should have
- * its own I/O handler class.
+ * containing property information. Each supported property (data) type should have
+ * its own I/O handler class. Moreover, all derived classes must provide public functions
+ * 'static wxString classname::ToString(datatype value)' and 'static datatype classname::
+ * FromString( const wxString& value )' responsible for conversion between datatype and 
+ * and its string representation (these functions are used internally by class virtual functions.
  */
 class WXDLLIMPEXP_XS xsPropertyIO : public wxObject
 {
@@ -50,6 +59,11 @@ public:
      * \param target Pointer to the target XML node
      */
     virtual void Write(xsProperty *property, wxXmlNode *target){;}
+    /*!
+     * \brief Get textual representation of current property value.
+	 * \param property Pointer to the source property object
+     */
+	virtual wxString GetValueStr(xsProperty *property){return wxT("");}
 
     /*!
      * \brief Create new XML node of given name and value and assign it to the given
@@ -71,382 +85,153 @@ protected:
 };
 
 /*!
- * \brief Property class encapsulating I/O functions used by 'string' properties.
+ * \brief Macro suitable for declaration of new property I/O handler
+ * \param datatype Property's data type
+ * \param name Handler class name
  */
-class WXDLLIMPEXP_XS xsStringPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsLongPropIO);
+#define XS_DECLARE_IO_HANDLER(datatype, name) \
+class WXDLLIMPEXP_XS name : public xsPropertyIO \
+{ \
+public: \
+	DECLARE_DYNAMIC_CLASS(name); \
+	name(){;} \
+	virtual ~name(){;} \
+\
+	virtual void Read(xsProperty *property, wxXmlNode *source); \
+	virtual void Write(xsProperty *property, wxXmlNode *target); \
+	virtual wxString GetValueStr(xsProperty *property); \
+	static wxString ToString(datatype value); \
+	static datatype FromString(const wxString& value); \
+}; \
 
-    /*! \brief Constructor. */
-    xsStringPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsStringPropIO(){;}
+/*!
+ * \brief Macro suitable for implementation of new property I/O handler
+ * \param datatype Property's data type
+ * \param name Handler class name
+ */
+#define XS_DEFINE_IO_HANDLER(datatype, name) \
+IMPLEMENT_DYNAMIC_CLASS(name, xsPropertyIO); \
+\
+void name::Read(xsProperty *property, wxXmlNode *source) \
+{ \
+    *((datatype*)property->m_pSourceVariable) = FromString(source->GetNodeContent()); \
+} \
+\
+void name::Write(xsProperty *property, wxXmlNode *target) \
+{ \
+    wxString val = ToString(*((datatype*)property->m_pSourceVariable)); \
+\
+    if(val != property->m_sDefaultValueStr) \
+    { \
+        wxXmlNode *newNode = AddPropertyNode(target, wxT("property"), val); \
+        AppendPropertyType(property, newNode); \
+    } \
+} \
+\
+wxString name::GetValueStr(xsProperty *property) \
+{ \
+	return ToString(*((datatype*)property->m_pSourceVariable)); \
+} \
 
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-};
+/*!
+ * \brief Property class encapsulating I/O functions used by 'wxString' properties.
+ */
+XS_DECLARE_IO_HANDLER(wxString, xsStringPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'long' properties.
  */
-class WXDLLIMPEXP_XS xsLongPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsLongPropIO);
+XS_DECLARE_IO_HANDLER(long, xsLongPropIO);
 
-    /*! \brief Constructor. */
-    xsLongPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsLongPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(long value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static long FromString(const wxString& value);
-};
+/*!
+ * \brief Property class encapsulating I/O functions used by 'int' properties.
+ */
+XS_DECLARE_IO_HANDLER(int, xsIntPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'bool' properties.
  */
-class WXDLLIMPEXP_XS xsBoolPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsBoolPropIO);
-
-    /*! \brief Constructor. */
-    xsBoolPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsBoolPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(bool value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static bool FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(bool, xsBoolPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'double' properties.
  */
-class WXDLLIMPEXP_XS xsDoublePropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsDoublePropIO);
+XS_DECLARE_IO_HANDLER(double, xsDoublePropIO);
 
-    /*! \brief Constructor. */
-    xsDoublePropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsDoublePropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(double value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static double FromString(const wxString& value);
-};
+/*!
+ * \brief Property class encapsulating I/O functions used by 'float' properties.
+ */
+XS_DECLARE_IO_HANDLER(float, xsFloatPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxPoint' properties.
  */
-class WXDLLIMPEXP_XS xsPointPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsPointPropIO);
-
-    /*! \brief Constructor. */
-    xsPointPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsPointPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(const wxPoint& value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxPoint FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(wxPoint, xsPointPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxSize' properties.
  */
-class WXDLLIMPEXP_XS xsSizePropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsSizePropIO);
-
-    /*! \brief Constructor. */
-    xsSizePropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsSizePropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(const wxSize& value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxSize FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(wxSize, xsSizePropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxRealPoint' properties.
  */
-class WXDLLIMPEXP_XS xsRealPointPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsRealPointPropIO);
-
-    /*! \brief Constructor. */
-    xsRealPointPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsRealPointPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(const wxRealPoint& value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxRealPoint FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(wxRealPoint, xsRealPointPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxColour' properties.
  */
-class WXDLLIMPEXP_XS xsColourPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsColourPropIO);
-
-    /*! \brief Constructor. */
-    xsColourPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsColourPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(const wxColour& value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxColour FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(wxColour, xsColourPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxPen' properties.
  */
-class WXDLLIMPEXP_XS xsPenPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsPenPropIO);
-
-    /*! \brief Constructor. */
-    xsPenPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsPenPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(const wxPen& value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxPen FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(wxPen, xsPenPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxBrush' properties.
  */
-class WXDLLIMPEXP_XS xsBrushPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsBrushPropIO);
-
-    /*! \brief Constructor. */
-    xsBrushPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsBrushPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(const wxBrush& value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxBrush FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(wxBrush, xsBrushPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxFont' properties.
  */
-class WXDLLIMPEXP_XS xsFontPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsFontPropIO);
-
-    /*! \brief Constructor. */
-    xsFontPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsFontPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-
-    /*! \brief Creates a string representation of the given value */
-    static wxString ToString(const wxFont& value);
-    /*! \brief Converts data from given string representation to its relevant value */
-    static wxFont FromString(const wxString& value);
-};
+XS_DECLARE_IO_HANDLER(wxFont, xsFontPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxArrayString' properties.
  */
-class WXDLLIMPEXP_XS xsArrayStringPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsArrayStringPropIO);
-
-    /*! \brief Constructor. */
-    xsArrayStringPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsArrayStringPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-};
+XS_DECLARE_IO_HANDLER(wxArrayString, xsArrayStringPropIO);
 
 /*!
- * \brief Property class encapsulating I/O functions used by 'ArrayRealPoint' (array of
+ * \brief Property class encapsulating I/O functions used by 'RealPointArray' (array of
  * wxRealPoint objects) properties.
  */
-class WXDLLIMPEXP_XS xsArrayRealPointPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsArrayRealPointPropIO);
-
-    /*! \brief Constructor. */
-    xsArrayRealPointPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsArrayRealPointPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-};
+XS_DECLARE_IO_HANDLER(RealPointArray, xsArrayRealPointPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'ListRealPoint' (list of
  * wxRealPoint objects) properties.
  */
-class WXDLLIMPEXP_XS xsListRealPointPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsListRealPointPropIO);
-
-    /*! \brief Constructor. */
-    xsListRealPointPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsListRealPointPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-};
+XS_DECLARE_IO_HANDLER(RealPointList, xsListRealPointPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'serializabledynamic' (xsSerializable
  * dynamic class objects which are created during the deserialization process) properties.
  */
-class WXDLLIMPEXP_XS xsDynObjPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsDynObjPropIO);
-
-    /*! \brief Constructor. */
-    xsDynObjPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsDynObjPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-};
+XS_DECLARE_IO_HANDLER(xsSerializable*, xsDynObjPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'serializabledynamicnocreate' (already
  * existing xsSerializable dynamic class objects) properties.
  */
-class WXDLLIMPEXP_XS xsDynNCObjPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsDynNCObjPropIO);
-
-    /*! \brief Constructor. */
-    xsDynNCObjPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsDynNCObjPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-};
+XS_DECLARE_IO_HANDLER(xsSerializable*, xsDynNCObjPropIO);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'serializablestatic' (static
  * xsSerializable class objects) properties.
  */
-class WXDLLIMPEXP_XS xsStaticObjPropIO : public xsPropertyIO
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsStaticObjPropIO);
-
-    /*! \brief Constructor. */
-    xsStaticObjPropIO(){;}
-    /*! \brief Destructor. */
-    virtual ~xsStaticObjPropIO(){;}
-
-    /*! \sa xsPropertyIO::Read */
-    virtual void Read(xsProperty *prop, wxXmlNode *src);
-    /*! \sa xsPropertyIO::Write */
-    virtual void Write(xsProperty *prop, wxXmlNode *trg);
-};
+XS_DECLARE_IO_HANDLER(xsSerializable, xsStaticObjPropIO);
 
 WX_DECLARE_HASH_MAP( wxString, xsPropertyIO*, wxStringHash, wxStringEqual, PropertyIOMap );
 

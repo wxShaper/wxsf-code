@@ -16,11 +16,8 @@
 #include <wx/wfstream.h>
 #include <wx/arrimpl.cpp>
 
-WX_DEFINE_EXPORTED_OBJARRAY(RealPointArray);
-
 WX_DEFINE_EXPORTED_LIST(PropertyList);
 WX_DEFINE_EXPORTED_LIST(SerializableList);
-WX_DEFINE_EXPORTED_LIST(RealPointList);
 
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
@@ -261,6 +258,10 @@ IMPLEMENT_DYNAMIC_CLASS(wxXmlSerializer, wxObject);
 
 wxXmlSerializer::wxXmlSerializer()
 {
+    m_sOwner = wxT("");
+    m_sRootName = wxT("root");
+    m_sVersion = wxT("");
+
     m_pRoot = new xsSerializable();
 
 	if(m_nRefCounter == 0)
@@ -302,7 +303,9 @@ void wxXmlSerializer::InitializeAllIOHandlers()
 	ClearIOHandlers();
 
     XS_REGISTER_IO_HANDLER(wxT("string"), xsStringPropIO);
+	XS_REGISTER_IO_HANDLER(wxT("int"), xsIntPropIO);
     XS_REGISTER_IO_HANDLER(wxT("long"), xsLongPropIO);
+	XS_REGISTER_IO_HANDLER(wxT("float"), xsFloatPropIO);
     XS_REGISTER_IO_HANDLER(wxT("double"), xsDoublePropIO);
     XS_REGISTER_IO_HANDLER(wxT("bool"), xsBoolPropIO);
     XS_REGISTER_IO_HANDLER(wxT("point"), xsPointPropIO);
@@ -339,6 +342,16 @@ xsSerializable* wxXmlSerializer::GetItem(long id)
     }
 
     return NULL;
+}
+
+bool wxXmlSerializer::Contains(xsSerializable *object)
+{
+    if( m_pRoot )
+    {
+        return _Contains(object, m_pRoot);
+    }
+
+    return false;
 }
 
 int wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list)
@@ -662,4 +675,23 @@ void wxXmlSerializer::_GetItems(wxClassInfo* type, xsSerializable* parent, Seria
         _GetItems(type, node->GetData(), list);
         node = node->GetNext();
     }
+}
+
+bool wxXmlSerializer::_Contains(xsSerializable* object, xsSerializable* parent)
+{
+    wxASSERT(parent);
+
+    if( !parent )return false;
+
+    if( parent == object )return true;
+
+    bool fFound = false;
+    wxSerializableListNode* node = parent->GetChildren().GetFirst();
+    while(node)
+    {
+        fFound = _Contains(object, node->GetData());
+        if( fFound )break;
+        node = node->GetNext();
+    }
+    return fFound;
 }
