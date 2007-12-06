@@ -217,18 +217,13 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 
 void wxSFDiagramManager::RemoveShapes(const ShapeList& selection)
 {
-	//SerializableList lstShapes;
     wxSFShapeBase* pShape;
 	wxShapeListNode *node = selection.GetFirst();
 	while(node)
 	{
 	    pShape = node->GetData();
-	    // one shape can delete also parent or conection shape so it is
-	    // important whether double-linked shapes already exist before
-	    // their deletion
-		//lstShapes.Clear();
-		//GetItems(CLASSINFO(wxSFShapeBase), lstShapes);
-		//if( lstShapes.IndexOf(pShape) != wxNOT_FOUND )RemoveShape(pShape, false);
+	    // is important to check whether double-linked shapes already exist before
+	    // they are deleted
 	    if(Contains(pShape))RemoveShape(pShape, false);
 		node = node->GetNext();
 	}
@@ -311,7 +306,7 @@ void wxSFDiagramManager::DeserializeObjects(xsSerializable* parent, wxXmlNode* n
 
     if( m_pShapeCanvas )
     {
-        m_pShapeCanvas->MoveShapesFromNegatives();
+        //m_pShapeCanvas->MoveShapesFromNegatives();
         m_pShapeCanvas->UpdateVirtualSize();
     }
 }

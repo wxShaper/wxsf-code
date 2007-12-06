@@ -10,6 +10,9 @@
 
 #pragma once
 
+#include <wx/dataobj.h>
+#include <wx/dnd.h>
+
 #include "ShapeBase.h"
 #include "DiagramManager.h"
 #include "MultiSelRect.h"
@@ -40,6 +43,8 @@
 #define sfdvSHAPECANVAS_GRIDCOLOR wxColour(200, 200, 200)
 /*! \brief Default value of wxSFShapeCanvas::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
+/*! \brief Default value of wxSFShapeCanvas::m_fEnableDnD data member */
+#define sfdvSHAPECANVAS_DND true
 
 /*!
  * \brief Auxiliary serializable class encapsulating the canvas properties.
@@ -57,11 +62,14 @@ public:
     bool m_fMultiSizeChange;
     bool m_fShowGrid;
     bool m_fUseGrid;
+	bool m_fEnableDnD;
     wxSize m_nGridSize;
     wxColour m_nGridColor;
     wxArrayString m_arrAcceptedShapes;
     double m_nScale;
 };
+
+class wxSFCanvasDropTarget;
 
 /*!
  * \brief Class encapsulating a Shape canvas. The shape canvas is window control
@@ -82,6 +90,7 @@ class WXDLLIMPEXP_SF wxSFShapeCanvas : public wxScrolledWindow
 public:
 
     friend class wxSFDiagramManager;
+	friend class wxSFCanvasDropTarget;
 
     /*!
      * \brief Constructor
@@ -110,7 +119,9 @@ public:
 		/*! \brief Multiple shape selection is in progess */
 		modeMULTISELECTION,
 		/*! \brief Interactive connection creation is in progress */
-		modeCREATECONNECTION
+		modeCREATECONNECTION,
+		/*! \brief Canvas is in the Drag&Drop mode */
+		modeDND
 	};
 
     /*! \brief Search mode flags for GetShapeAtPosition function */
@@ -205,6 +216,12 @@ public:
 	 */
 	void RefreshCanvas(bool erase, wxRect rct);
 
+	/*!
+	 * \brief Start Drag&Drop process with shapes included in the given list
+	 * \param shapes List of shapes which should be dragged
+	 * \return rct Drag result
+	 */
+	wxDragResult DoDragDrop(ShapeList &shapes, const wxPoint& start = wxPoint(-1, -1));
     /*! \brief Copy selected shapes to the clipboard */
 	void Copy();
 	/*! \brief Copy selected shapes to the clipboard and remove them from the canvas */
@@ -360,6 +377,16 @@ public:
 	 * \return Grid color
 	 */
 	wxColour GetGridColour() const {return m_Settings.m_nGridColor;}
+	/*!
+	 * \brief Enable/disable drag&drop feature.
+	 * \param enab True for enabling of the drag&drop feature, False for disabling.
+	 */
+	void EnableDnD(bool enab){m_Settings.m_fEnableDnD = enab;}
+	/*!
+	 * \brief Get a status of the drag&drop feature.
+	 * \return True if the drag&drop feature is enabled, otherwise false
+	 */
+	bool IsDnDEnabled(){return m_Settings.m_fEnableDnD;}
 	/*!
 	 * \brief Set canvas scale.
 	 * \param scale Scale value.
@@ -553,19 +580,21 @@ public:
 	 */
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
 
+	/*!
+	 * \brief Function is called by the framework after any dragged shapes
+	 * are dropped to the canvas. The default implementation
+     * generates wxEVT_SF_ON_DROP event.
+	 * \param x X-coordinate of a position the data was dropped to
+	 * \param y Y-coordinate of a position the data was dropped to
+	 * \param def Drag result
+	 * \param data Pointer to a data object encapsulating dropped data
+	 * \sa wxSFCanvasDropTarget
+	 */
+	virtual void OnDrop(wxCoord x, wxCoord y, wxDragResult def, const ShapeList& dropped);
+
 protected:
 
 	// protected data members
-	//bool m_fUseGrid;
-	//bool m_fShowGrid;
-	//bool m_fMultiselection;
-	//bool m_fMultiSizeChange;
-	//wxSize m_nGridSize;
-	//wxColour m_nGridColor;
-	//wxColour m_nBackgroundColor;
-	//wxColour m_nCommonHoverColor;
-	//double m_nScale;
-
 	MODE m_nWorkingMode;
 
 	wxSFCanvasSettings m_Settings;
@@ -576,6 +605,9 @@ private:
 
 	// private data members
 	bool m_fCanSaveStateOnMouseUp;
+
+	bool m_fDnDStartedHere;
+	wxPoint m_nDnDStartedAt;
 
 	wxSFCanvasHistory m_CanvasHistory;
 
@@ -592,6 +624,8 @@ private:
 	void DeleteAllTextCtrls();
 	/*! \brief Validate selection so the shapes in the given list can be processed by the clipboard functions */
 	void ValidateSelectionForClipboard(ShapeList& list);
+	/*! \brief Create wxMemoryBuffer from given wxString */
+	wxMemoryBuffer CreateMembufferFromString(const wxString& str);
 
 	// private event handlers
 	/*!
@@ -681,6 +715,28 @@ private:
 	 */
 	void _OnKeyDown(wxKeyEvent& event);
 
+	/*!
+	 * \brief Function is called by associated wxSFCanvasDropTarget after any dragged shapes
+	 * are dropped to the canvas.
+	 * \param x X-coordinate of a position the data was dropped to
+	 * \param y Y-coordinate of a position the data was dropped to
+	 * \param def Drag result
+	 * \param data Pointer to a data object encapsulating dropped data
+	 * \sa wxSFCanvasDropTarget
+	 */
+	void _OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObject *data);
 
 	DECLARE_EVENT_TABLE();
+};
+
+class wxSFCanvasDropTarget : public wxDropTarget
+{
+public:
+	wxSFCanvasDropTarget(wxDataObject *data, wxSFShapeCanvas *parent);
+	virtual ~wxSFCanvasDropTarget();
+
+	virtual wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult def);
+
+protected:
+	wxSFShapeCanvas *m_pParentCanvas;
 };

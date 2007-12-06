@@ -919,7 +919,7 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		bool fUpdateShape = false;
 		wxSFShapeCanvas *pCanvas = m_pParentManager->GetShapeCanvas();
 
-		// send the event to child handles too...
+		// send the event to the shape handles too...
 		wxCHandleListNode *node = m_lstHandles.GetFirst();
 		while(node)
 		{

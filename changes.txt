@@ -5,8 +5,14 @@ Changes in version 1.4.1 beta (2007-12-02):
   now available for easy implementation of custom data types I/O handlers)
 - Fixed wxShapeCanvas::Copy() and wxShapeCanvas::Cut() functions. Lines connected to 
   the copied shapes are copied as well.
-- Fixed possible crash in wxDiagramManager::RemoveShapes() occured when double-linked shapes
+- Fixed potential crash in wxDiagramManager::RemoveShapes() occured when double-linked shapes
   were removed.
+- Improved canvas draving
+- Implemented drag & drop. The D&D operation starts in two cases: if any shape is dragged out of
+  the canvas and if any shape is dragged with CTRL key pressed down (in this case the dragged shapes
+  are copied to the new location). User can handle dropped shapes via wxSFShapeCanvas::OnDrop() virtual
+  function. The function emits new wxEVT_SF_ON_DROP event (encapsulated by new wxSFShapeDropEvent class)
+  in its default implementation.
 
 Changes in version 1.4.0 beta (2007-11-22):
 --------------------------------------------

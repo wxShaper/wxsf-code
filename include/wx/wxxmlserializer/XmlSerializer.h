@@ -505,6 +505,8 @@ public:
     virtual ~wxXmlSerializer();
 
     // public member data accessors
+	/*! \brief Get the library version. */
+	wxString GetLibraryVersion(){return m_sLibraryVersion;}
     /*!
      * \brief Set owner name.
      * \param name Owner name
@@ -661,6 +663,7 @@ private:
     // private data members
     int m_nCounter;
 	static int m_nRefCounter;
+	static wxString m_sLibraryVersion;
 
     // private functions
     /*! \brief Auxiliary function */
