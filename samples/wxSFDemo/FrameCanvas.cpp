@@ -9,8 +9,29 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 : wxSFShapeCanvas(manager, parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
 {
 	// initialize grid
-	UseGrid(true);
-	ShowGrid(true);
+
+	//UseGrid(true); !!! DEPRECATED !!!
+	//ShowGrid(true); !!! DEPRECATED !!!
+
+	AddStyle(sfsGRID_USE);
+	AddStyle(sfsGRID_SHOW);
+
+	// now you can use also these styles...
+	
+	// RemoveStyle(sfsHOVERING);
+	// RemoveStyle(sfsHIGHLIGHTING);
+	// RemoveStyle(sfsUNDOREDO);
+	// RemoveStyle(sfsDND);
+	// RemoveStyle(sfsCLIPBOARD);
+	// RemoveStyle(sfsMULTI_SIZE_CHANGE);
+	// RemoveStyle(sfsMULTI_SELECTION);
+
+	// a style flag presence can be tested like this:
+	// if( ContainsStyle(sfsGRID_USE) ) DoSomething();
+
+	// multiple styles can be set in this way:
+	// SetStyle( sfsGRID_USE | sfsGRID_SHOW ) ... or ...
+	// SetStyle( sfsDEFAULT_CANVAS_STYLE )
 
 	// initialize data members
 	m_pParentFrame = (CMainFrame*)parent;
@@ -263,7 +284,9 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 void CFrameCanvas::OnRightDown(wxMouseEvent& event)
 {
     // try to find shape under cursor
-    wxSFShapeBase *pShape = GetShapeAtPosition(DP2LP(event.GetPosition()), 1, searchBOTH);
+	wxSFShapeBase* pShape = GetShapeUnderCursor();
+	// eventualy you can use:
+    //wxSFShapeBase *pShape = GetShapeAtPosition(DP2LP(event.GetPosition()), 1, searchBOTH);
 
     // print out information about the shape (if found)
     if(pShape)

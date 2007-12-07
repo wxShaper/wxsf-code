@@ -934,9 +934,9 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		    {
             case wxSFShapeCanvas::modeSHAPEMOVE:
                 {
-                    if(ContainsStyle(sfsHIGHLIGHTING))
+					if(ContainsStyle(sfsHIGHLIGHTING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHIGHLIGHTING))
                     {
-                        if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)
+                        if(pCanvas->GetShapeUnderCursor(wxSFShapeCanvas::searchUNSELECTED) == this)
                         {
                             fUpdateShape = m_fHighlighParent = AcceptCurrentlyDraggedShapes();
                         }
@@ -946,9 +946,9 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 
             case wxSFShapeCanvas::modeHANDLEMOVE:
                 {
-                    if(ContainsStyle(sfsHOVERING))
+                    if(ContainsStyle(sfsHOVERING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHOVERING))
                     {
-                        if(pCanvas->GetShapeAtPosition(pos, 1, wxSFShapeCanvas::searchUNSELECTED) == this)fUpdateShape = true;
+                        if(pCanvas->GetShapeUnderCursor(wxSFShapeCanvas::searchUNSELECTED) == this)fUpdateShape = true;
                         m_fHighlighParent = false;
                     }
                 }
@@ -956,9 +956,9 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 
             default:
                 {
-                    if(ContainsStyle(sfsHOVERING))
+                    if(ContainsStyle(sfsHOVERING) && pCanvas->ContainsStyle(wxSFShapeCanvas::sfsHOVERING))
                     {
-                        if(pCanvas->GetShapeAtPosition(pos) == this)fUpdateShape = true;
+                        if(pCanvas->GetShapeUnderCursor() == this)fUpdateShape = true;
                         m_fHighlighParent = false;
                     }
                 }
@@ -1009,7 +1009,7 @@ void wxSFShapeBase::_OnKey(int key)
 		wxRect prevBB;
 
 
-		if(pCanvas->IsGridUsed())
+		if( pCanvas->ContainsStyle(wxSFShapeCanvas::sfsGRID_USE) )
 		{
 			dx = pCanvas->GetGrid().x;
 			dy = pCanvas->GetGrid().y;

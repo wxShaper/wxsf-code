@@ -47,7 +47,7 @@
 /// <summary> Default value of wxSFShapeObject::m_nHBorder data member </summary>
 #define sfdvBASESHAPE_HBORDER 0
 /// <summary> Default value of wxSFShapeObject::m_nStyle data member </summary>
-#define sfdvBASESHAPE_DEFAULT_STYLE 127
+#define sfdvBASESHAPE_DEFAULT_STYLE sfsDEFAULT_SHAPE_STYLE
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 class WXDLLIMPEXP_SF wxSFDiagramManager;
@@ -133,7 +133,9 @@ public:
 	    /*! \brief Shape is always inside its parent */
 	    sfsALWAYS_INSIDE = 32,
 	    /*! \brief User data is destroyed at the shape deletion */
-	    sfsDELETE_USER_DATA = 64
+	    sfsDELETE_USER_DATA = 64,
+		/*! \brief Default shape style. */
+		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
 
     /// <summary> Default constructor </summary>

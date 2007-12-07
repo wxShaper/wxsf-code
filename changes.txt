@@ -1,4 +1,4 @@
-Changes in version 1.4.1 beta (2007-12-02):
+Changes in version 1.4.1 beta (2007-12-07):
 --------------------------------------------
 - Improved (accelerated) function wxSFShapeCanvas::GetTopmostHandleAtPosition().
 - Improved wxXmlSerializer (XS_DECLARE_IO_HANDLER and XS_DEFINE_IO_HANDLER macros are
@@ -13,6 +13,11 @@ Changes in version 1.4.1 beta (2007-12-02):
   are copied to the new location). User can handle dropped shapes via wxSFShapeCanvas::OnDrop() virtual
   function. The function emits new wxEVT_SF_ON_DROP event (encapsulated by new wxSFShapeDropEvent class)
   in its default implementation.
+- Significantly improved library performance/drawing speed (also new function wxSFShapeCanvas::GetShapeUnderCursor()
+  is provided.)
+- Removed accessor functions for partial canvas flags (UseGrid(), ShowGrid(), EnableMultiselection(), EnableMultiSizeChange()).
+  These and some new canvas's flags can be now managed via universal canvas member functions SetStyle(), AddStyle(), RemoveStyle()
+  and ContainsStyle(). See the canvas class's STYLE enumeration for all available flags.
 
 Changes in version 1.4.0 beta (2007-11-22):
 --------------------------------------------

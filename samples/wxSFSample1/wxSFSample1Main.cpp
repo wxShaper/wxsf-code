@@ -70,8 +70,8 @@ wxSFSample1Frame::wxSFSample1Frame(wxFrame *frame, const wxString& title)
     // create shape canvas and associate it with shape manager
     m_pCanvas = new wxSFShapeCanvas(&m_Manager, this);
     // set some shape canvas properties if necessary...
-    m_pCanvas->ShowGrid(true);
-    m_pCanvas->UseGrid(true);
+	m_pCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_SHOW);
+    m_pCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_USE);
 
     // connect event handlers to shape canvas
     m_pCanvas->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(wxSFSample1Frame::OnLeftClickCanvas), NULL, this);

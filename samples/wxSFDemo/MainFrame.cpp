@@ -202,7 +202,7 @@ void CMainFrame::OnLoad(wxCommandEvent& event)
 		shapeCanvas->LoadCanvas(dlg.GetPath());
 		zoomSlider->SetValue(int(shapeCanvas->GetScale()*5));
 		cpicker->SetColour(shapeCanvas->GetHoverColour());
-		m_fShowGrid = shapeCanvas->IsGridShown();
+		// m_fShowGrid = shapeCanvas->IsGridShown(); !!! DEPRECATED !!!
 	}
 }
 
@@ -298,8 +298,18 @@ void CMainFrame::OnTool(wxCommandEvent& event)
     {
         case IDT_GRID:
         	m_fShowGrid = !m_fShowGrid;
-            shapeCanvas->UseGrid(m_fShowGrid);
-            shapeCanvas->ShowGrid(m_fShowGrid);
+			if( m_fShowGrid )
+			{
+				shapeCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_SHOW);
+				shapeCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_USE);
+			}
+			else
+			{
+				shapeCanvas->RemoveStyle(wxSFShapeCanvas::sfsGRID_SHOW);
+				shapeCanvas->RemoveStyle(wxSFShapeCanvas::sfsGRID_USE);
+			}
+            //shapeCanvas->UseGrid(m_fShowGrid); !!! DEPRECATED !!!
+            //shapeCanvas->ShowGrid(m_fShowGrid); !!! DEPRECATED !!!
             shapeCanvas->Refresh(false);
             break;
 

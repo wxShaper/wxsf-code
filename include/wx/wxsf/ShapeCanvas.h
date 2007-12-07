@@ -27,24 +27,16 @@
 #define sfFROM_ANYWHERE false
 
 // default values
-/*! \brief Default value of wxSFShapeCanvas::m_fShowGrid data member */
-#define sfdvSHAPECANVAS_SHOWGRID true
-/*! \brief Default value of wxSFShapeCanvas::m_fUseGrid data member */
-#define sfdvSHAPECANVAS_USEGRID true
-/*! \brief Default value of wxSFShapeCanvas::m_fMultiselection data member */
-#define sfdvSHAPECANVAS_MULTISELECTION true
-/*! \brief Default value of wxSFShapeCanvas::m_fMultiSizeChange data member */
-#define sfdvSHAPECANVAS_MULTISIZECHANGE true
-/*! \brief Default value of wxSFShapeCanvas::m_nBackgroundColor data member */
+/*! \brief Default value of wxSFCanvasSettings::m_nBackgroundColor data member */
 #define sfdvSHAPECANVAS_BACKGROUNDCOLOR wxColour(240, 240, 240)
-/*! \brief Default value of wxSFShapeCanvas::m_nGridSize data member */
+/*! \brief Default value of wxSFCanvasSettings::m_nGridSize data member */
 #define sfdvSHAPECANVAS_GRIDSIZE wxSize(10, 10)
-/*! \brief Default value of wxSFShapeCanvas::m_nGridColor data member */
+/*! \brief Default value of wxSFCanvasSettings::m_nGridColor data member */
 #define sfdvSHAPECANVAS_GRIDCOLOR wxColour(200, 200, 200)
-/*! \brief Default value of wxSFShapeCanvas::m_CommnonHoverColor data member */
+/*! \brief Default value of wxSFCanvasSettings::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
-/*! \brief Default value of wxSFShapeCanvas::m_fEnableDnD data member */
-#define sfdvSHAPECANVAS_DND true
+/*! \brief Default value of wxSFCanvasSettings::m_nStyle data member */
+#define sfdvSHAPECANVAS_STYLE wxSFShapeCanvas::sfsDEFAULT_CANVAS_STYLE
 
 /*!
  * \brief Auxiliary serializable class encapsulating the canvas properties.
@@ -58,15 +50,11 @@ public:
 
     wxColour m_nBackgroundColor;
     wxColour m_nCommonHoverColor;
-    bool m_fMultiselection;
-    bool m_fMultiSizeChange;
-    bool m_fShowGrid;
-    bool m_fUseGrid;
-	bool m_fEnableDnD;
     wxSize m_nGridSize;
     wxColour m_nGridColor;
     wxArrayString m_arrAcceptedShapes;
     double m_nScale;
+	long m_nStyle;
 };
 
 class wxSFCanvasDropTarget;
@@ -151,6 +139,31 @@ public:
 	    halignLEFT,
 	    halignCENTER,
 	    halignRIGHT
+	};
+
+	/*! \brief Style flags */
+	enum STYLE
+	{
+		/*! \brief Allow multiselection box. */
+		sfsMULTI_SELECTION = 1,
+		/*! \brief Allow shapes' size change done via the multiselection box. */
+		sfsMULTI_SIZE_CHANGE = 2,
+		/*! \brief Show grid. */
+		sfsGRID_SHOW = 4,
+		/*! \brief Use grid. */
+		sfsGRID_USE = 8,
+		/*! \brief Enable Drag & Drop operations */
+		sfsDND = 16,
+		/*! \brief Enable Undo/Redo operations */
+		sfsUNDOREDO = 32,
+		/*! \brief Enable the clipboard. */
+		sfsCLIPBOARD = 64,
+		/*! \brief Enable mouse hovering */
+		sfsHOVERING = 128,
+		/*! \brief Enable highligting of shapes able to accept dragged shape(s)*/
+		sfsHIGHLIGHTING = 256,
+		/*! \brief Default canvas style. */
+		sfsDEFAULT_CANVAS_STYLE = sfsMULTI_SELECTION | sfsMULTI_SIZE_CHANGE | sfsDND | sfsUNDOREDO | sfsCLIPBOARD | sfsHOVERING | sfsHIGHLIGHTING
 	};
 
 	// public functions
@@ -272,13 +285,21 @@ public:
 	wxRect LP2DP(const wxRect& rct) const;
 
 	/*!
-	 * \brief Get shape at given logical position.
+	 * \brief Get shape under current mouse cursor position (fast implementation - use everywhere
+	 * it is possible instead of much slower GetShapeAtPosition()).
+	 * \param mode Search mode
+	 * \return Pointer to shape if found, otherwise NULL
+	 * \sa SEARCHMODE, wxSFShapeCanvas::DP2LP, wxSFShapeCanvas::GetShapeAtPosition
+	 */
+	wxSFShapeBase* GetShapeUnderCursor(SEARCHMODE mode = searchBOTH);
+	/*!
+	 * \brief Get shape at given logical position
 	 * \param pos Logical position
 	 * \param zorder Z-order of searched shape (usefull if several shapes are located
 	 * at the given position)
 	 * \param mode Search mode
 	 * \return Pointer to shape if found, otherwise NULL
-	 * \sa SEARCHMODE, wxSFShapeCanvas::DP2LP
+	 * \sa SEARCHMODE, wxSFShapeCanvas::DP2LP,, wxSFShapeCanvas::GetShapeUnderCursor
 	 */
 	wxSFShapeBase* GetShapeAtPosition(const wxPoint& pos, int zorder = 1, SEARCHMODE mode = searchBOTH);
     /*!
@@ -332,6 +353,21 @@ public:
 	 */
 	void AlignSelected(HALIGN halign, VALIGN valign);
 
+    /*!
+     * \brief Set canvas style.
+     * \param style Combination of the canvas styles
+     * \sa STYLE
+     */
+    inline void SetStyle(long style){m_Settings.m_nStyle = style;}
+    /*! \brief Get current canvas style. */
+    inline long GetStyle(){return m_Settings.m_nStyle;}
+	/*! \brief Add new style flag. */
+    inline void AddStyle(STYLE style){m_Settings.m_nStyle |= style;}
+	/*! \brief Remove given style flag. */
+    inline void RemoveStyle(STYLE style){m_Settings.m_nStyle &= ~style;}
+	/*! \brief Check whether given style flag is used. */
+    inline bool ContainsStyle(STYLE style){return (m_Settings.m_nStyle & style) != 0;}
+
 	// public members accessors
 	/*!
 	 * \brief Set canvas background color.
@@ -343,20 +379,6 @@ public:
 	 * \return Background color
 	 */
 	wxColour GetCanvasColour() const {return m_Settings.m_nBackgroundColor;}
-	/*! \brief Function returns TRUE if a canvas grid is used. */
-	bool IsGridUsed(){return m_Settings.m_fUseGrid;}
-	/*!
-	 * \brief Snap shapes to canvas grid On/Off.
-	 * \param use TRUE if the grid should be used, otherwise FALSE.
-	 */
-	void UseGrid(bool use){m_Settings.m_fUseGrid = use;}
-	/*! \brief Functions returns TRUE if the canvas grid is used. */
-	bool IsGridShown(){return m_Settings.m_fShowGrid;}
-	/*!
-	 * \brief Show/hide canvas grid.
-	 * \param show TRUE if the grid should be visible, otherwise FALSE.
-	 */
-	void ShowGrid(bool show){m_Settings.m_fShowGrid = show;}
 	/*!
 	 * \brief Get grid size.
 	 * \return Grid size
@@ -377,16 +399,6 @@ public:
 	 * \return Grid color
 	 */
 	wxColour GetGridColour() const {return m_Settings.m_nGridColor;}
-	/*!
-	 * \brief Enable/disable drag&drop feature.
-	 * \param enab True for enabling of the drag&drop feature, False for disabling.
-	 */
-	void EnableDnD(bool enab){m_Settings.m_fEnableDnD = enab;}
-	/*!
-	 * \brief Get a status of the drag&drop feature.
-	 * \return True if the drag&drop feature is enabled, otherwise false
-	 */
-	bool IsDnDEnabled(){return m_Settings.m_fEnableDnD;}
 	/*!
 	 * \brief Set canvas scale.
 	 * \param scale Scale value.
@@ -413,33 +425,13 @@ public:
 	 * \return Hover color
 	 */
 	wxColour GetHoverColour() const {return m_Settings.m_nCommonHoverColor;}
-	/*!
-	 * \brief Enable/disable shape multiselection.
-	 * \param enable TRUE if the feature should be enabled, otherwise FALSE
-	 */
-	void EnableMultiselection(bool enable){m_Settings.m_fMultiselection = enable;}
-	/*!
-	 * \brief Get state of multiselection flag.
-	 * \return TRUE if shape multiselection is enabled, otherwise FALSE
-	 */
-	bool IsMultiselectionEnable(){return m_Settings.m_fMultiselection;}
-	/*!
-	 * \brief Enable/disable simultaneous shape size changes (via multiselection).
-	 * \param enable TRUE if the feature should be enabled, otherwise FALSE
-	 */
-	void EnableMultiSizeChange(bool enable){m_Settings.m_fMultiSizeChange = enable;}
-	/*!
-	 * \brief Get state of multi size change flag.
-	 * \return TRUE if shape multi change is enabled, otherwise FALSE
-	 */
-	bool IsMultiSizeChangeEnabled(){return m_Settings.m_fMultiSizeChange;}
 
 	/*!
 	 * \brief Update given position so it will fit canvas grid (if enabled).
 	 * \param pos Position which should be updated
 	 * \return Updated position
 	 */
-	wxPoint FitPositionToGrid(const wxPoint& pos) const;
+	wxPoint FitPositionToGrid(const wxPoint& pos);
 	/*! \brief Update size of multi selection rectangle */
 	void UpdateMultieditSize();
 	/*! \brief Update scroll window virtual size so it can display all shape canvas */
@@ -604,19 +596,36 @@ protected:
 private:
 
 	// private data members
-	bool m_fCanSaveStateOnMouseUp;
-
-	bool m_fDnDStartedHere;
-	wxPoint m_nDnDStartedAt;
-
-	wxSFCanvasHistory m_CanvasHistory;
 
 	wxSFMultiSelRect m_shpMultiEdit;
+	bool m_fCanSaveStateOnMouseUp;
+
+	/*! \brief Flag used for determination whether the D&D operation has started and ended in one canvas instance */
+	bool m_fDnDStartedHere;
+	/*! \brief Started position of current D&D operation */
+	wxPoint m_nDnDStartedAt;
+	/*! \brief Custom data format object (used for the clipboard and D&D operations */
 	wxDataFormat m_formatShapes;
 
+	/*! \brief Canvas history manager */
+	wxSFCanvasHistory m_CanvasHistory;
+
+	/*! \brief Pointer to parent data (shapes) manager */
     wxSFDiagramManager* m_pManager;
+
+	/*! \brief Pointer to currently selected shape handle */
 	wxSFShapeHandle* m_pSelectedHandle;
+	/*! \brief Pointer to new line shape under constuction */
 	wxSFLineShape* m_pNewLineShape;
+	/*! \brief Pointer to topmost unselected shape under the mouse cursor */
+	wxSFShapeBase *m_pUnselectedShapeUnderCursor;
+	/*! \brief Pointer to topmost selected shape under the mouse cursor */
+	wxSFShapeBase *m_pSelectedShapeUnderCursor;
+	/*! \brief Pointer to topmost shape under the mouse cursor */
+	wxSFShapeBase *m_pTopmostShapeUnderCursor;
+
+	/*! \brief Current list of all shapes in the canvas updated during mouse movement */
+	ShapeList m_lstCurrentShapes;
 
 	// private functions
 
@@ -729,14 +738,18 @@ private:
 	DECLARE_EVENT_TABLE();
 };
 
+/*!
+ * \brief Auxiliary class encapsulating shape drop target.
+ */
 class wxSFCanvasDropTarget : public wxDropTarget
 {
-public:
+	friend class wxSFShapeCanvas;
+
+protected:
 	wxSFCanvasDropTarget(wxDataObject *data, wxSFShapeCanvas *parent);
 	virtual ~wxSFCanvasDropTarget();
 
 	virtual wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult def);
 
-protected:
 	wxSFShapeCanvas *m_pParentCanvas;
 };

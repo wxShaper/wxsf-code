@@ -6,8 +6,8 @@ SampleCanvas::SampleCanvas(wxSFDiagramManager*manager, wxWindow* parent)
 : wxSFShapeCanvas(manager, parent)
 {
     // set some shape canvas properties if necessary...
-    ShowGrid(true);
-    UseGrid(true);
+	AddStyle(sfsGRID_SHOW);
+    AddStyle(sfsGRID_USE);
 }
 
 SampleCanvas::~SampleCanvas()
