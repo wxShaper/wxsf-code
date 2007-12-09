@@ -22,7 +22,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.0.0 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.0 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -304,6 +304,7 @@ void wxXmlSerializer::InitializeAllIOHandlers()
 	ClearIOHandlers();
 
     XS_REGISTER_IO_HANDLER(wxT("string"), xsStringPropIO);
+	XS_REGISTER_IO_HANDLER(wxT("char"), xsCharPropIO);
 	XS_REGISTER_IO_HANDLER(wxT("int"), xsIntPropIO);
     XS_REGISTER_IO_HANDLER(wxT("long"), xsLongPropIO);
 	XS_REGISTER_IO_HANDLER(wxT("float"), xsFloatPropIO);

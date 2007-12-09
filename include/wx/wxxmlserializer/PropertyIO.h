@@ -139,6 +139,11 @@ wxString name::GetValueStr(xsProperty *property) \
 XS_DECLARE_IO_HANDLER(wxString, xsStringPropIO);
 
 /*!
+ * \brief Property class encapsulating I/O functions used by 'wxChar' properties.
+ */
+XS_DECLARE_IO_HANDLER(wxChar, xsCharPropIO);
+
+/*!
  * \brief Property class encapsulating I/O functions used by 'long' properties.
  */
 XS_DECLARE_IO_HANDLER(long, xsLongPropIO);

@@ -24,6 +24,10 @@
 #define XS_SERIALIZE_STRING(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
 /*! \brief Macro creates new serialized STRING property with defined default value */
 #define XS_SERIALIZE_STRING_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY_EX(x, wxT("string"), name, def);
+/*! \brief Macro creates new serialized STRING property */
+#define XS_SERIALIZE_CHAR(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("char"), wxT("Variable is not wxChar"));XS_SERIALIZE_PROPERTY(x, wxT("char"), name);
+/*! \brief Macro creates new serialized STRING property with defined default value */
+#define XS_SERIALIZE_CHAR_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("char"), wxT("Variable is not wxChar"));XS_SERIALIZE_PROPERTY_EX(x, wxT("char"), name, def);
 /*! \brief Macro creates new serialized LONG property */
 #define XS_SERIALIZE_LONG(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("long"), wxT("Variable is not LONG"));XS_SERIALIZE_PROPERTY(x, wxT("long"), name);
 /*! \brief Macro creates new serialized LONG property with defined default value */
@@ -384,9 +388,9 @@ public:
     /*! \brief Constructor for LONG property with defined default value. */
     xsProperty(long* src, const wxString& field, long def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(xsLongPropIO::ToString(def)), m_fSerialize(true) {;}
 
-    /*! \brief Constructor for INY property. */
+    /*! \brief Constructor for INT property. */
     xsProperty(int* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for LONG property with defined default value. */
+    /*! \brief Constructor for INT property with defined default value. */
     xsProperty(int* src, const wxString& field, int def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(xsIntPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for DOUBLE property. */
@@ -403,6 +407,11 @@ public:
     xsProperty(wxString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
     /*! \brief Constructor for wxString property with defined default value. */
     xsProperty(wxString* src, const wxString& field, const wxString& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(def), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxChar property. */
+    xsProperty(wxChar* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("char")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxChar property with defined default value. */
+	xsProperty(wxChar* src, const wxString& field, wxChar def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("char")), m_sDefaultValueStr(xsCharPropIO::ToString(def)), m_fSerialize(true) {;}
 
     /*! \brief Constructor for wxPoint property. */
     xsProperty(wxPoint* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
