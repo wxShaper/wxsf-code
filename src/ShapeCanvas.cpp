@@ -2268,8 +2268,9 @@ wxDragResult wxSFShapeCanvas::DoDragDrop(ShapeList &shapes, const wxPoint& start
 		m_nDnDStartedAt = start;
 
 		wxSFShapeDataObject dataObj(m_formatShapes, shapes, m_pManager);
-		wxDropSource dndSrc(dataObj);
-
+		wxDropSource dndSrc;
+		
+		dndSrc.SetData(dataObj);
 		result = dndSrc.DoDragDrop(wxDrag_AllowMove);
 		switch(result)
 		{

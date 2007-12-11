@@ -22,7 +22,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.0 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.1 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ wxXmlSerializer::wxXmlSerializer(const wxString& owner, const wxString& root, co
 wxXmlSerializer::~wxXmlSerializer()
 {
     if( m_pRoot ) delete m_pRoot;
-	
+
 	m_nRefCounter--;
 	if(m_nRefCounter == 0)
 	{
