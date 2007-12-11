@@ -16,7 +16,7 @@
 #include <wx/wfstream.h>
 #include <wx/txtstrm.h>
 #include <wx/clipbrd.h>
-#include <limits.h>
+#include <wx/dnd.h>
 
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/DiagramManager.h"
@@ -25,6 +25,85 @@
 #include "wx/wxsf/EditTextShape.h"
 #include "wx/wxsf/BitmapShape.h"
 #include "wx/wxsf/SFEvents.h"
+
+#ifdef __WXGTK__
+
+/* Copyright (c) Julian Smart */
+static const char * page_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"32 32 37 1",
+"5 c #7198D9",
+", c #769CDA",
+"2 c #DCE6F6",
+"i c #FFFFFF",
+"e c #779DDB",
+": c #9AB6E4",
+"9 c #EAF0FA",
+"- c #B1C7EB",
+"$ c #6992D7",
+"y c #F7F9FD",
+"= c #BED0EE",
+"q c #F0F5FC",
+"; c #A8C0E8",
+"@ c #366BC2",
+"  c None",
+"u c #FDFEFF",
+"8 c #5987D3",
+"* c #C4D5F0",
+"7 c #7CA0DC",
+"O c #487BCE",
+"< c #6B94D7",
+"& c #CCDAF2",
+"> c #89A9DF",
+"3 c #5584D1",
+"w c #82A5DE",
+"1 c #3F74CB",
+"+ c #3A70CA",
+". c #3569BF",
+"% c #D2DFF4",
+"# c #3366BB",
+"r c #F5F8FD",
+"0 c #FAFCFE",
+"4 c #DFE8F7",
+"X c #5E8AD4",
+"o c #5282D0",
+"t c #B8CCEC",
+"6 c #E5EDF9",
+/* pixels */
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"       .XXXooOO++@#             ",
+"       $%&*=-;::>,<1            ",
+"       $2%&*=-;::><:3           ",
+"       $42%&*=-;::<&:3          ",
+"       56477<<<<8<<9&:X         ",
+"       59642%&*=-;<09&:5        ",
+"       5q9642%&*=-<<<<<#        ",
+"       5qqw777<<<<<88:>+        ",
+"       erqq9642%&*=t;::+        ",
+"       eyrqq9642%&*=t;:O        ",
+"       eyywwww777<<<<t;O        ",
+"       e0yyrqq9642%&*=to        ",
+"       e00yyrqq9642%&*=o        ",
+"       eu0wwwwwww777<&*X        ",
+"       euu00yyrqq9642%&X        ",
+"       eiuu00yyrqq9642%X        ",
+"       eiiwwwwwwwwww742$        ",
+"       eiiiuu00yyrqq964$        ",
+"       eiiiiuu00yyrqq96$        ",
+"       eiiiiiuu00yyrqq95        ",
+"       eiiiiiiuu00yyrqq5        ",
+"       eeeeeeeeeeeeee55e        ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                "
+};
+#endif
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 
@@ -191,7 +270,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 				fFirstRun = false;
 			}
 			else
-				updRct.Union(DP2LP(upd.GetRect())); 
+				updRct.Union(DP2LP(upd.GetRect()));
 
 			upd++;
 		}
@@ -206,7 +285,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 			{
 				pShape = (wxSFShapeBase*)node->GetData();
 				pParentShape = pShape->GetParentShape();
-				
+
 				if ( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) )
 				{
 					if( pShape->Intersects(updRct) )
@@ -218,7 +297,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 						else if( !pParentShape || (pParentShape && !pParentShape->IsKindOf(CLASSINFO(wxSFLineShape))) )
 						{
 							pShape->Draw(dc, sfWITHOUTCHILDREN);
-						}						
+						}
 					}
 				}
 				else
@@ -2166,7 +2245,9 @@ void wxSFShapeCanvas::Copy()
 	if(!m_pManager)return;
 
 	// copy selected shapes to the clipboard
-	if(wxTheClipboard->Open())
+
+	//if( wxTheClipboard->Open() )
+	if( wxTheClipboard->IsOpened() || ( !wxTheClipboard->IsOpened() && wxTheClipboard->Open()) )
 	{
 		ShapeList lstSelection;
 		GetSelectedShapes(lstSelection);
@@ -2179,7 +2260,7 @@ void wxSFShapeCanvas::Copy()
             wxTheClipboard->SetData(dataObj);
         }
 
-		wxTheClipboard->Close();
+		if( wxTheClipboard->IsOpened() )wxTheClipboard->Close();
 	}
 }
 
@@ -2214,7 +2295,8 @@ void wxSFShapeCanvas::Paste()
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
 
-	if(wxTheClipboard->Open())
+	//if( wxTheClipboard->Open() )
+    if( wxTheClipboard->IsOpened() || ( !wxTheClipboard->IsOpened() && wxTheClipboard->Open()) )
 	{
 		// read data object from the clipboars
 		wxSFShapeDataObject dataObj(m_formatShapes);
@@ -2232,7 +2314,7 @@ void wxSFShapeCanvas::Paste()
 				Refresh();
 			}
 		}
-		wxTheClipboard->Close();
+		if( wxTheClipboard->IsOpened() )wxTheClipboard->Close();
 	}
 }
 
@@ -2268,9 +2350,14 @@ wxDragResult wxSFShapeCanvas::DoDragDrop(ShapeList &shapes, const wxPoint& start
 		m_nDnDStartedAt = start;
 
 		wxSFShapeDataObject dataObj(m_formatShapes, shapes, m_pManager);
-		wxDropSource dndSrc;
-		
+
+		#ifdef __WXGTK__
+		wxDropSource dndSrc(this, wxIcon(page_xpm), wxIcon(page_xpm), wxIcon(page_xpm));
 		dndSrc.SetData(dataObj);
+		#else
+		wxDropSource dndSrc(dataObj);
+		#endif
+
 		result = dndSrc.DoDragDrop(wxDrag_AllowMove);
 		switch(result)
 		{
@@ -2402,10 +2489,11 @@ bool wxSFShapeCanvas::CanPaste()
 
 	bool result = false;
 
-	if(wxTheClipboard->Open())
+    //if( wxTheClipboard->Open() )
+	if( wxTheClipboard->IsOpened() || ( !wxTheClipboard->IsOpened() && wxTheClipboard->Open()) )
 	{
 		result = wxTheClipboard->IsSupported(m_formatShapes);
-		wxTheClipboard->Close();
+		if( wxTheClipboard->IsOpened() )wxTheClipboard->Close();
 	}
 
 	return result;

@@ -292,6 +292,9 @@ void wxSFTextShape::DrawTextContent(wxSFScaledPaintDC& dc)
 	wxString line;
 	int i = 0;
 
+	dc.SetBrush(m_Fill);
+
+    #ifdef __WXMSW__
     if(m_Fill.GetStyle() == wxTRANSPARENT)
     {
         dc.SetBackgroundMode(wxTRANSPARENT);
@@ -301,6 +304,7 @@ void wxSFTextShape::DrawTextContent(wxSFScaledPaintDC& dc)
         dc.SetBackgroundMode(wxSOLID);
         dc.SetTextBackground(m_Fill.GetColour());
     }
+    #endif
 
     dc.SetTextForeground(m_TextColor);
 	dc.SetFont(m_Font);
@@ -317,4 +321,6 @@ void wxSFTextShape::DrawTextContent(wxSFScaledPaintDC& dc)
 	}
 
     dc.SetFont(wxNullFont);
+
+	dc.SetBrush(wxNullBrush);
 }

@@ -17,7 +17,7 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	AddStyle(sfsGRID_SHOW);
 
 	// now you can use also these styles...
-	
+
 	// RemoveStyle(sfsHOVERING);
 	// RemoveStyle(sfsHIGHLIGHTING);
 	// RemoveStyle(sfsUNDOREDO);

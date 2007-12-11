@@ -222,9 +222,11 @@ void wxSFShapeHandle::DrawHover(wxSFScaledPaintDC& dc)
 {
     if(m_pParentShape->ContainsStyle(wxSFShapeBase::sfsSIZE_CHANGE))
     {
+        dc.SetPen(*wxBLACK_PEN);
         dc.SetBrush(wxBrush(m_pParentShape->GetHoverColour()));
-        dc.DrawRectangle(GetHandleRect());
+        dc.DrawRectangle(GetHandleRect().Inflate(1, 1));
         dc.SetBrush(wxNullBrush);
+        dc.SetPen(wxNullPen);
     }
     else
     {
