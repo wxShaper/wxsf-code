@@ -10,6 +10,10 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/SFEvents.h"
 
 DEFINE_EVENT_TYPE( wxEVT_SF_LINE_DONE );

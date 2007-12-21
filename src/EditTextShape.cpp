@@ -10,12 +10,16 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/EditTextShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 
 static int textCtrlId = -1;
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFEditTextShape, wxSFTextShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFEditTextShape, wxSFTextShape);
 
 BEGIN_EVENT_TABLE(wxSFContentCtrl, wxTextCtrl)
 	EVT_KILL_FOCUS(wxSFContentCtrl::OnKillFocus)
@@ -108,6 +112,7 @@ wxSFEditTextShape::wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt
 wxSFEditTextShape::wxSFEditTextShape(wxSFEditTextShape& obj)
 : wxSFTextShape(obj)
 {
+	m_pTextCtrl = NULL;
 }
 
 wxSFEditTextShape::~wxSFEditTextShape(void)

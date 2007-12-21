@@ -17,7 +17,7 @@
 class WXDLLIMPEXP_SF wxSFSquareShape : public wxSFRectShape
 {
 public:
-    DECLARE_DYNAMIC_CLASS(wxSFSquareShape);
+	XS_DECLARE_CLONABLE_CLASS(wxSFSquareShape);
 
     /// <summary> Default constructor </summary>
 	wxSFSquareShape(void);
@@ -31,10 +31,6 @@ public:
 	wxSFSquareShape(wxSFSquareShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFSquareShape();
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFSquareShape* Clone(){return new wxSFSquareShape(*this);}
 
     // public virtual functions
 	/// <summary> Scale the text shape in both directions.

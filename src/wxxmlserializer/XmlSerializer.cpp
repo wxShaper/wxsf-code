@@ -10,6 +10,10 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxxmlserializer/XmlSerializer.h"
 
 #include <wx/listimpl.cpp>
@@ -22,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.1 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.2 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -34,21 +38,25 @@ IMPLEMENT_DYNAMIC_CLASS(xsProperty, wxObject);
 // xsSerializable class /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-IMPLEMENT_DYNAMIC_CLASS(xsSerializable, wxObject);
+XS_IMPLEMENT_CLONABLE_CLASS(xsSerializable, wxObject);
 
 // constructor and destructor ///////////////////////////////////////////////////////
 
 xsSerializable::xsSerializable()
 {
+	m_pParentManager = NULL;
     m_pParentItem = NULL;
     m_fSerialize = true;
+	m_fClone = true;
     m_nId = -1;
 }
 
 xsSerializable::xsSerializable(xsSerializable& obj)
 {
+	m_pParentManager = NULL;
     m_pParentItem = obj.m_pParentItem;
     m_fSerialize = obj.m_fSerialize;
+	m_fClone = obj.m_fClone;
     m_nId = obj.m_nId;
 }
 
@@ -70,6 +78,7 @@ void xsSerializable::AddChild(xsSerializable* child)
     if( child )
     {
         child->m_pParentItem = this;
+		child->m_pParentManager = m_pParentManager;
         m_lstChildItems.Append(child);
     }
 }
@@ -124,6 +133,18 @@ xsSerializable* xsSerializable::GetSibbling()
     }
 
     return NULL;
+}
+
+xsSerializable* xsSerializable::GetChild(long id)
+{
+    wxSerializableListNode* node = m_lstChildItems.GetFirst();
+    while(node)
+    {
+		if( node->GetData()->GetId() == id) return node->GetData();
+        node = node->GetNext();
+    }
+
+	return NULL;
 }
 
 void xsSerializable::AddProperty(xsProperty* property)
@@ -253,7 +274,7 @@ void xsSerializable::Deserialize(wxXmlNode* node)
 // wxXmlSerializer class ////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-IMPLEMENT_DYNAMIC_CLASS(wxXmlSerializer, wxObject);
+XS_IMPLEMENT_CLONABLE_CLASS(wxXmlSerializer, wxObject);
 
 // constructor and destructor ///////////////////////////////////////////////////////
 
@@ -263,7 +284,10 @@ wxXmlSerializer::wxXmlSerializer()
     m_sRootName = wxT("root");
     m_sVersion = wxT("");
 
-    m_pRoot = new xsSerializable();
+	m_fClone = true;
+
+	m_pRoot = NULL;
+    SetRootItem(new xsSerializable());
 
 	if(m_nRefCounter == 0)
 	{
@@ -271,13 +295,33 @@ wxXmlSerializer::wxXmlSerializer()
 	}
 	m_nRefCounter++;
 }
+
+wxXmlSerializer::wxXmlSerializer(wxXmlSerializer &obj)
+{
+	m_sOwner = obj.m_sOwner;
+    m_sRootName = obj.m_sRootName;
+	m_sVersion = obj.m_sVersion;
+
+	m_fClone = obj.m_fClone;
+
+	m_pRoot = NULL;
+	SetRootItem((xsSerializable*)obj.m_pRoot->Clone());
+
+	CopyItems(&obj);
+
+	m_nRefCounter++;
+}
+
 wxXmlSerializer::wxXmlSerializer(const wxString& owner, const wxString& root, const wxString& version)
 {
     m_sOwner = owner;
     m_sRootName = root;
     m_sVersion = version;
 
-    m_pRoot = new xsSerializable();
+	m_fClone = true;
+
+	m_pRoot = NULL;
+    SetRootItem(new xsSerializable());
 
 	if(m_nRefCounter == 0)
 	{
@@ -368,6 +412,14 @@ int wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list)
     return m_nCounter;
 }
 
+void wxXmlSerializer::CopyItems(wxXmlSerializer *src)
+{
+	// create new root (all old serializer's content will be lost)
+	SetRootItem((xsSerializable*)m_pRoot->Clone());
+
+	_CopyItems(m_pRoot, src->GetRootItem());
+}
+
 void wxXmlSerializer::AddItem(long parentId, xsSerializable* item)
 {
     AddItem(GetItem(parentId), item);
@@ -409,13 +461,7 @@ void wxXmlSerializer::RemoveItem(xsSerializable* item)
 
 void wxXmlSerializer::RemoveAll()
 {
-    if( m_pRoot )
-    {
-        delete m_pRoot;
-    }
-
-    //xsSerializable::m_nItemCounter = 0;
-    m_pRoot = new xsSerializable();
+	SetRootItem(new xsSerializable());
 }
 
 void wxXmlSerializer::SetRootItem(xsSerializable* root)
@@ -423,11 +469,16 @@ void wxXmlSerializer::SetRootItem(xsSerializable* root)
     wxASSERT(root);
     wxASSERT(root->IsKindOf(CLASSINFO(xsSerializable)));
 
+	if( m_pRoot )delete m_pRoot;
+
     if(root && root->IsKindOf(CLASSINFO(xsSerializable)))
     {
-        if(m_pRoot)delete m_pRoot;
         m_pRoot = root;
     }
+	else
+		m_pRoot = new xsSerializable();
+
+	m_pRoot->m_pParentManager = this;
 }
 
 void wxXmlSerializer::SerializeToXml(const wxString& file, bool withroot)
@@ -696,4 +747,33 @@ bool wxXmlSerializer::_Contains(xsSerializable* object, xsSerializable* parent)
         node = node->GetNext();
     }
     return fFound;
+}
+
+void wxXmlSerializer::_CopyItems(xsSerializable *dest, xsSerializable *parent)
+{
+	if( !parent || !dest ) return;
+
+	xsSerializable *pSrc, *pCopy, *pChild;
+
+	wxSerializableListNode *node = parent->GetFirstChildNode();
+	while(node)
+	{
+		pSrc = node->GetData();
+		pChild = dest->GetChild(pSrc->GetId());
+		// some children can be added to the data manager by user so you must check it
+		if( !pChild )
+		{
+			pCopy = (xsSerializable*)pSrc->Clone();
+			if( pCopy )
+			{
+				dest->AddChild(pCopy);
+				_CopyItems(pCopy, pSrc);
+			}
+		}
+		else
+			// set correct parent manager in user-added shapes
+			pChild->SetParentManager(this);
+
+		node = node->GetNext();
+	}
 }

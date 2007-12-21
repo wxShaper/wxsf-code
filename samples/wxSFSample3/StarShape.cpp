@@ -2,8 +2,8 @@
 
 #include "StarShape.h"
 
-// implement RTTI information
-IMPLEMENT_DYNAMIC_CLASS(cStarShape, wxSFPolygonShape);
+// implement RTTI information and xsSerializable::Clone() functions
+XS_IMPLEMENT_CLONABLE_CLASS(cStarShape, wxSFPolygonShape);
 
 // define star shape
 const wxRealPoint star[10]={wxRealPoint(0,-50), wxRealPoint(15,-10),
@@ -38,8 +38,16 @@ cStarShape::cStarShape(const wxRealPoint& pos, wxSFDiagramManager* manager)
 cStarShape::cStarShape(cStarShape& obj)
 : wxSFPolygonShape(obj)
 {
-    m_pText = obj.m_pText->Clone();
-    AddChild(m_pText);
+	// clone source child text object..
+    m_pText = (wxSFTextShape*)obj.m_pText->Clone();
+	if( m_pText )
+	{
+		// .. and append it to this shapes as its child
+		AddChild(m_pText);
+		// this object is created by the parent class constructor and not 
+		// by the serializer (only its properties are deserialized)
+		XS_SERIALIZE_DYNAMIC_OBJECT_NO_CREATE(m_pText, wxT("title"));
+	}
 }
 
 cStarShape::~cStarShape()
@@ -65,7 +73,7 @@ void cStarShape::Initialize()
     AcceptTrgNeighbour(wxT("cStarShape"));
 
 	// create associated shape(s)
-    m_pText = new wxSFTextShape();
+	m_pText = new wxSFTextShape();
     // set some properties
     if(m_pText)
     {
@@ -80,10 +88,10 @@ void cStarShape::Initialize()
         m_pText->SetStyle(sfsALWAYS_INSIDE);
 
         // components of composite shapes created at runtime in parent shape's
-        // constructor cannot be serialized in standard way so it is important
-        // to disable their serialization...
+        // constructor cannot be fully serialized (it means created by
+		// the serializer) so it is important to disable their serialization...
         m_pText->EnableSerialization(false);
-        // ... but they can be serialized like other supported data types (class members)
+        // ... but their properties can be serialized in the standard way:
         XS_SERIALIZE_DYNAMIC_OBJECT_NO_CREATE(m_pText, wxT("title"));
 
         // assign the text shape to the parent shape

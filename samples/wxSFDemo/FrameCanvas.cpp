@@ -39,6 +39,17 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	// set accepted shapes
 	GetDiagramManager()->ClearAcceptedShapes();
 	GetDiagramManager()->AcceptShape(wxT("All"));
+
+	// you can set also the canvas history manager working mode:
+	// FASTER, but requires implementation of xsSerializable::Clone() virtual function
+	// in all classes derived from the xsSerializable class
+	GetHistoryManager().SetMode(wxSFCanvasHistory::histUSE_CLONING);
+	// change of the canvas history manager working mode clears the stored states
+	// so we should save initial canvas state manually
+	SaveCanvasState();
+	// SLOWER, but no othet programming overhead is required (except implementing
+	// of standard serialization functionality). This working mode is default.
+	// GetHistoryManager().SetMode(wxSFCanvasHistory::histUSE_SERIALIZATION);
 }
 
 CFrameCanvas::~CFrameCanvas(void)

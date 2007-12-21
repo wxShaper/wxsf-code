@@ -10,13 +10,17 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/RectShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/CommonFcn.h"
 
 // TODO: wxSFShapeBase: Implement LockAspectRation() function
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFRectShape, wxSFShapeBase);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFRectShape, wxSFShapeBase);
 
 wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()
 {
@@ -24,9 +28,7 @@ wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()
 	m_Border = sfdvRECTSHAPE_BORDER;
 	m_Fill = sfdvRECTSHAPE_FILL;
 
-	XS_SERIALIZE_EX(m_nRectSize, wxT("size"),sfdvRECTSHAPE_SIZE);
-	XS_SERIALIZE_EX(m_Border, wxT("border"), sfdvRECTSHAPE_BORDER);
-	XS_SERIALIZE_EX(m_Fill, wxT("fill"),sfdvRECTSHAPE_FILL);
+	MarkSerializableDataMembers();
 }
 
 wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager)
@@ -36,9 +38,7 @@ wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, wx
 	m_Border = sfdvRECTSHAPE_BORDER;
 	m_Fill = sfdvRECTSHAPE_FILL;
 
-	XS_SERIALIZE_EX(m_nRectSize, wxT("size"),sfdvRECTSHAPE_SIZE);
-	XS_SERIALIZE_EX(m_Border, wxT("border"), sfdvRECTSHAPE_BORDER);
-	XS_SERIALIZE_EX(m_Fill, wxT("fill"),sfdvRECTSHAPE_FILL);
+	MarkSerializableDataMembers();
 }
 
 wxSFRectShape::wxSFRectShape(wxSFRectShape& obj) : wxSFShapeBase(obj)
@@ -46,10 +46,19 @@ wxSFRectShape::wxSFRectShape(wxSFRectShape& obj) : wxSFShapeBase(obj)
 	m_nRectSize = obj.m_nRectSize;
 	m_Border = obj.m_Border;
 	m_Fill = obj.m_Fill;
+
+	MarkSerializableDataMembers();
 }
 
 wxSFRectShape::~wxSFRectShape(void)
 {
+}
+
+void wxSFRectShape::MarkSerializableDataMembers()
+{
+	XS_SERIALIZE_EX(m_nRectSize, wxT("size"),sfdvRECTSHAPE_SIZE);
+	XS_SERIALIZE_EX(m_Border, wxT("border"), sfdvRECTSHAPE_BORDER);
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"),sfdvRECTSHAPE_FILL);
 }
 
 //----------------------------------------------------------------------------------//

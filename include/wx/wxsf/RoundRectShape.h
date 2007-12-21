@@ -21,7 +21,7 @@
 class WXDLLIMPEXP_SF wxSFRoundRectShape :	public wxSFRectShape
 {
 public:
-	DECLARE_DYNAMIC_CLASS(wxSFRoundRectShape);
+	XS_DECLARE_CLONABLE_CLASS(wxSFRoundRectShape);
 
     /// <summary> Default constructor </summary>
 	wxSFRoundRectShape(void);
@@ -36,10 +36,6 @@ public:
 	wxSFRoundRectShape(wxSFRoundRectShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFRoundRectShape(void);
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFRoundRectShape* Clone(){return new wxSFRoundRectShape(*this);}
 
 	// public virtual functions
     /// <summary> Test whether the given point is inside the shape. The function
@@ -88,4 +84,11 @@ protected:
 	// protected data members
 	/// <summary> Corner radius </summary>
 	double m_nRadius;
+
+private:
+
+	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 };

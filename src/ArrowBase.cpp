@@ -9,10 +9,14 @@
  **************************************************************/
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/ArrowBase.h"
 #include "wx/wxsf/LineShape.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFArrowBase, xsSerializable);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFArrowBase, xsSerializable);
 
 wxSFArrowBase::wxSFArrowBase(void)
 {

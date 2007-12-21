@@ -10,9 +10,13 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/EllipseShape.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFEllipseShape, wxSFRectShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFEllipseShape, wxSFRectShape);
 
 wxSFEllipseShape::wxSFEllipseShape(void)
 :wxSFRectShape()

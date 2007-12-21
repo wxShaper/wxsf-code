@@ -17,7 +17,7 @@
 class WXDLLIMPEXP_SF wxSFEllipseShape : public wxSFRectShape
 {
 public:
-    DECLARE_DYNAMIC_CLASS(wxSFEllipseShape);
+    XS_DECLARE_CLONABLE_CLASS(wxSFEllipseShape);
 
     /// <summary> Default constructor </summary>
     wxSFEllipseShape(void);
@@ -31,10 +31,6 @@ public:
 	wxSFEllipseShape(wxSFEllipseShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFEllipseShape();
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFEllipseShape* Clone(){return new wxSFEllipseShape(*this);}
 
     // public virtual functions
     /// <summary> Test whether the given point is inside the shape. The function

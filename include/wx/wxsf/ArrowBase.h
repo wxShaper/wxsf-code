@@ -20,7 +20,7 @@ class WXDLLIMPEXP_SF wxSFArrowBase : public xsSerializable
 public:
 	friend class wxSFLineShape;
 
-	DECLARE_DYNAMIC_CLASS(wxSFArrowBase);
+	XS_DECLARE_CLONABLE_CLASS(wxSFArrowBase);
     /// <summary> Default constructor </summary>
 	wxSFArrowBase(void);
 	/// <summary> Constructor </summary>
@@ -41,9 +41,6 @@ public:
 	wxSFShapeBase* GetParentShape(){return m_pParentShape;}
 
 	// public functions
-	/// <summary> Clone the arrow shape </summary>
-	/// <returns> Pointer to a new instace of the arrow shape </returns>
-	wxSFArrowBase* Clone(){return new wxSFArrowBase(*this);}
 
 	// public virtual functions
 	/// <summary> Draw arrow shape at the end of a virtual line </summary>

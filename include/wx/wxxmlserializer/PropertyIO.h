@@ -72,7 +72,7 @@ public:
      * \param name Name of new XML node
      * \param value Content of new XML node
      */
-    static wxXmlNode* AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value);
+     wxXmlNode* AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value);
 
 protected:
 
@@ -81,7 +81,7 @@ protected:
      * \param source Pointer to the source property
      * \param target Pointer to modified XML node
      */
-    static void AppendPropertyType(xsProperty *source, wxXmlNode *target);
+    void AppendPropertyType(xsProperty *source, wxXmlNode *target);
 };
 
 /*!

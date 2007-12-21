@@ -10,18 +10,21 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/PolygonShape.h"
 #include "wx/wxsf/CommonFcn.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFPolygonShape, wxSFRectShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFPolygonShape, wxSFRectShape);
 
 wxSFPolygonShape::wxSFPolygonShape(void)
 : wxSFRectShape()
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
 
-	XS_SERIALIZE_EX(m_fConnectToVertex, wxT("connect_to_vertex"), sfdvPOLYGONSHAPE_VERTEXCONNECTIONS);
-    XS_SERIALIZE(m_arrVertices, wxT("vertices"));
+	MarkSerializableDataMembers();
 }
 
 wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, wxSFDiagramManager* manager)
@@ -29,8 +32,7 @@ wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealP
 {
 	m_fConnectToVertex = sfdvPOLYGONSHAPE_VERTEXCONNECTIONS;
 
-	XS_SERIALIZE_EX(m_fConnectToVertex, wxT("connect_to_vertex"), sfdvPOLYGONSHAPE_VERTEXCONNECTIONS);
-    XS_SERIALIZE(m_arrVertices, wxT("vertices"));
+	MarkSerializableDataMembers();
 
 	SetVertices(n, pts);
 }
@@ -40,12 +42,20 @@ wxSFPolygonShape::wxSFPolygonShape(wxSFPolygonShape& obj)
 {
 	m_fConnectToVertex = obj.m_fConnectToVertex;
 
+	MarkSerializableDataMembers();
+
 	m_arrVertices.Clear();
 	for(size_t i = 0; i < obj.m_arrVertices.Count(); i++)m_arrVertices.Add(obj.m_arrVertices[i]);
 }
 
 wxSFPolygonShape::~wxSFPolygonShape(void)
 {
+}
+
+void wxSFPolygonShape::MarkSerializableDataMembers()
+{
+	XS_SERIALIZE_EX(m_fConnectToVertex, wxT("connect_to_vertex"), sfdvPOLYGONSHAPE_VERTEXCONNECTIONS);
+    XS_SERIALIZE(m_arrVertices, wxT("vertices"));
 }
 
 //----------------------------------------------------------------------------------//

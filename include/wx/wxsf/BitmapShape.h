@@ -21,7 +21,7 @@ class WXDLLIMPEXP_SF wxSFBitmapShape : public wxSFRectShape
 {
 public:
 
-	DECLARE_DYNAMIC_CLASS(wxSFBitmapShape);
+	XS_DECLARE_CLONABLE_CLASS(wxSFBitmapShape);
 
     /// <summary> Default constructor </summary>
 	wxSFBitmapShape(void);
@@ -35,10 +35,6 @@ public:
 	wxSFBitmapShape(wxSFBitmapShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFBitmapShape(void);
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFBitmapShape* Clone(){return new wxSFBitmapShape(*this);}
 
 	// public member data accessors
 	/// <summary> Get full name of a source BMP file </summary>
@@ -120,4 +116,10 @@ protected:
 	/// <param name="node"> Source XML node containig the shape's property nodes</param>
 	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
 	virtual void Deserialize(wxXmlNode* node);
+
+private:
+	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 };

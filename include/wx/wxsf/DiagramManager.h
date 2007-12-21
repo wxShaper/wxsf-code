@@ -44,16 +44,18 @@ WX_DECLARE_LIST(CIDPair, CIDList);
 class WXDLLIMPEXP_SF wxSFDiagramManager : public wxXmlSerializer
 {
 public:
-    DECLARE_DYNAMIC_CLASS(wxSFDiagramManager);
+    XS_DECLARE_CLONABLE_CLASS(wxSFDiagramManager);
 
     /*! \brief Constructor */
     wxSFDiagramManager();
-    /*! \brief DEstructor */
+    /*! \brief Copy constructor */
+	wxSFDiagramManager(wxSFDiagramManager &obj);
+    /*! \brief Destructor */
     virtual ~wxSFDiagramManager();
 
     // public functions
 	/*! \brief Get wxShapeFramework version number */
-	wxString GetVersion() {return m_sVersion;}
+	wxString GetVersion() {return m_sSFVersion;}
 
     /*!
      * \brief Create new direct connection between two shapes.
@@ -239,7 +241,7 @@ private:
 	ShapeList m_lstLinesForUpdate;
 
 	/*! \brief wxSF version number */
-	wxString m_sVersion;
+	wxString m_sSFVersion;
 
 	/*! \brief Update connection shapes after importing/dropping of new shapes */
 	void UpdateConnections();

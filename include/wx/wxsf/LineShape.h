@@ -47,7 +47,7 @@ public:
 
 friend class wxSFShapeCanvas;
 
-	DECLARE_DYNAMIC_CLASS(wxSFLineShape);
+	XS_DECLARE_CLONABLE_CLASS(wxSFLineShape);
 
     /// <summary> Default constructor </summary>
 	wxSFLineShape(void);
@@ -62,10 +62,6 @@ friend class wxSFShapeCanvas;
 	wxSFLineShape(wxSFLineShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFLineShape(void);
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFLineShape* Clone(){return new wxSFLineShape(*this);}
 
 	// public member data accessors
 	/// <summary> Set line source </summary>
@@ -252,4 +248,11 @@ protected:
 	/// <param name="pos"> New potential control point position </param>
 	/// <seealso cref="LINEMODE"></seealso>
 	void SetUnfinishedPoint(const wxPoint& pos){m_nUnfinishedPoint = pos;}
+
+private:
+
+	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 };

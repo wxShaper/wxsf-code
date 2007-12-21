@@ -10,17 +10,20 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/CurveShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFCurveShape, wxSFLineShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFCurveShape, wxSFLineShape);
 
 wxSFCurveShape::wxSFCurveShape() : wxSFLineShape()
 {
     m_nMaxSteps = sfdvCURVESHAPE_MAXSTEPS;
 
-    //XS_SERIALIZE_LONG_EX(m_nMaxSteps, wxT("max_steps"), xsSerializable::LongToString(sfdvCURVESHAPE_MAXSTEPS));
-    XS_SERIALIZE_EX(m_nMaxSteps, wxT("max_steps"), sfdvCURVESHAPE_MAXSTEPS);
+    MarkSerializableDataMembers();
 }
 
 wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
@@ -28,17 +31,25 @@ wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPo
 {
     m_nMaxSteps = maxsteps;
 
-    XS_SERIALIZE_EX(m_nMaxSteps, wxT("max_steps"), sfdvCURVESHAPE_MAXSTEPS);
+    MarkSerializableDataMembers();
 }
 
 wxSFCurveShape::wxSFCurveShape(wxSFCurveShape& obj)
+: wxSFLineShape(obj)
 {
     m_nMaxSteps = obj.m_nMaxSteps;
+
+	MarkSerializableDataMembers();
 }
 
 wxSFCurveShape::~wxSFCurveShape()
 {
 
+}
+
+void wxSFCurveShape::MarkSerializableDataMembers()
+{
+	XS_SERIALIZE_EX(m_nMaxSteps, wxT("max_steps"), sfdvCURVESHAPE_MAXSTEPS);
 }
 
 //----------------------------------------------------------------------------------//
@@ -108,7 +119,7 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
             }
             else if(m_nSrcShapeId != -1)
             {
-                wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
+                wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
                 if(pSrcShape)
                 {
                     wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);
@@ -196,8 +207,8 @@ void wxSFCurveShape::GetUpdatedLineSegment(CLineSegmentArray& segments)
         GetLineSegments(segments);
         if(segments.Count() > 0)
         {
-            wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
-            wxSFShapeBase* pTrgShape = m_pParentManager->FindShape(m_nTrgShapeId);
+            wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
+            wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
 
             // prepend and append new line segmets
             if(pSrcShape)

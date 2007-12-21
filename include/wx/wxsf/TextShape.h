@@ -25,7 +25,7 @@
 class WXDLLIMPEXP_SF wxSFTextShape : public wxSFRectShape
 {
 public:
-    DECLARE_DYNAMIC_CLASS(wxSFTextShape);
+    XS_DECLARE_CLONABLE_CLASS(wxSFTextShape);
 
     /*! \brief Default constructor. */
     wxSFTextShape(void);
@@ -43,10 +43,6 @@ public:
 	wxSFTextShape(wxSFTextShape& obj);
 	/*! \brief Destructor */
     virtual ~wxSFTextShape();
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFTextShape* Clone(){return new wxSFTextShape(*this);}
 
     // public member data accessors
     /*!
@@ -156,6 +152,11 @@ protected:
 	void DrawTextContent(wxSFScaledPaintDC& dc);
 
 private:
+
+	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 
 	wxCoord m_nLineHeight;
 };

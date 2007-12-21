@@ -13,6 +13,7 @@
 #include <wx/wxprec.h>
 
 #include "Defs.h"
+#include "DiagramManager.h"
 
 class wxSFShapeCanvas;
 /// <summary> Class which stores one saved state of the shape canvas. The instaces of this
@@ -24,9 +25,12 @@ class wxSFCanvasState : public wxObject
 friend class wxSFCanvasHistory;
 
 public:
-    /// <summary> Default constructor </summary>
+    /// <summary> Constructor for 'histUSE_SERIALIZATION' mode</summary>
     /// <param name="data"> Pointer to the stream buffer containig serialized content of the shape canvas </param>
 	wxSFCanvasState(wxStreamBuffer* data);
+	/// <summary> Constructor for 'histUSE_CLONING' mode</summary>
+    /// <param name="data"> Pointer to temporal data manager </param>
+	wxSFCanvasState(wxSFDiagramManager *data);
 	/// <summary> Destructor </summary>
 	~wxSFCanvasState(void);
 
@@ -40,6 +44,8 @@ protected:
 	// protected data members
 	/// <summary> Memory buffer used during the serialization/deserialization operations. </summary>
 	wxMemoryBuffer m_dataBuffer;
+	/// <summary> Data manager used for storing of temporal canvas state. </summary>
+	wxSFDiagramManager *m_pDataManager;
 };
 
 WX_DECLARE_LIST(wxSFCanvasState, CStateList);

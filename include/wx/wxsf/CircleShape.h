@@ -16,7 +16,7 @@
 class WXDLLIMPEXP_SF wxSFCircleShape : public wxSFSquareShape
 {
 public:
-    DECLARE_DYNAMIC_CLASS(wxSFCircleShape);
+    XS_DECLARE_CLONABLE_CLASS(wxSFCircleShape);
 
     /// <summary> Default constructor </summary>
 	wxSFCircleShape(void);
@@ -30,10 +30,6 @@ public:
 	wxSFCircleShape(wxSFCircleShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFCircleShape();
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFCircleShape* Clone(){return new wxSFCircleShape(*this);}
 
     // public virtual functions
     /// <summary> Test whether the given point is inside the shape. The function

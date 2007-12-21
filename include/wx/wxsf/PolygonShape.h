@@ -23,7 +23,7 @@
 class WXDLLIMPEXP_SF wxSFPolygonShape : public wxSFRectShape
 {
 public:
-	DECLARE_DYNAMIC_CLASS(wxSFPolygonShape);
+	XS_DECLARE_CLONABLE_CLASS(wxSFPolygonShape);
 
     /// <summary> Default constructor </summary>
 	wxSFPolygonShape(void);
@@ -38,10 +38,6 @@ public:
 	wxSFPolygonShape(wxSFPolygonShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFPolygonShape(void);
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFPolygonShape* Clone(){return new wxSFPolygonShape(*this);}
 
     // public data accessors
     /// <summary> Set connecting mode. </summary>
@@ -126,5 +122,12 @@ protected:
 	/// <param name="node"> Source XML node containig the shape's property nodes</param>
 	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
 	virtual void Deserialize(wxXmlNode* node);
+
+private:
+
+	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 };
 

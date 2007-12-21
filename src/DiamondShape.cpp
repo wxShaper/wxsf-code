@@ -10,13 +10,17 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/DiamondShape.h"
 #include "wx/wxsf/CommonFcn.h"
 
 // diamond shape
 const wxRealPoint diamond[4]={wxRealPoint(0,25), wxRealPoint(50,0), wxRealPoint(100, 25), wxRealPoint(50, 50)};
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFDiamondShape, wxSFPolygonShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFDiamondShape, wxSFPolygonShape);
 
 wxSFDiamondShape::wxSFDiamondShape()
 : wxSFPolygonShape()

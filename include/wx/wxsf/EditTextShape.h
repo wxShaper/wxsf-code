@@ -56,7 +56,7 @@ class WXDLLIMPEXP_SF wxSFEditTextShape :	public wxSFTextShape
 public:
 	friend class wxSFContentCtrl;
 
-	DECLARE_DYNAMIC_CLASS(wxSFEditTextShape);
+	XS_DECLARE_CLONABLE_CLASS(wxSFEditTextShape);
 
     /// <summary> Default constructor </summary>
 	wxSFEditTextShape(void);
@@ -70,10 +70,6 @@ public:
 	wxSFEditTextShape(wxSFEditTextShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFEditTextShape(void);
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFEditTextShape* Clone(){return new wxSFEditTextShape(*this);}
 
 	// public member data accessors
 	/// <summary> Get pointer to assigned text control allowing user to change the

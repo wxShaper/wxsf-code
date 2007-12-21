@@ -10,19 +10,23 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include <math.h>
 
 #include "wx/wxsf/RoundRectShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/CommonFcn.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFRoundRectShape, wxSFRectShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFRoundRectShape, wxSFRectShape);
 
 wxSFRoundRectShape::wxSFRoundRectShape(void) : wxSFRectShape()
 {
 	m_nRadius = sfdvROUNDRECTSHAPE_RADIUS;
 
-	XS_SERIALIZE_EX(m_nRadius, wxT("radius"), sfdvROUNDRECTSHAPE_RADIUS);
+	MarkSerializableDataMembers();
 }
 
 wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, wxSFDiagramManager* manager)
@@ -30,16 +34,23 @@ wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint
 {
 	m_nRadius = radius;
 
-	XS_SERIALIZE_EX(m_nRadius, wxT("radius"), sfdvROUNDRECTSHAPE_RADIUS);
+	MarkSerializableDataMembers();
 }
 
 wxSFRoundRectShape::wxSFRoundRectShape(wxSFRoundRectShape& obj) : wxSFRectShape(obj)
 {
 	m_nRadius = obj.m_nRadius;
+
+	MarkSerializableDataMembers();
 }
 
 wxSFRoundRectShape::~wxSFRoundRectShape(void)
 {
+}
+
+void wxSFRoundRectShape::MarkSerializableDataMembers()
+{
+	XS_SERIALIZE_EX(m_nRadius, wxT("radius"), sfdvROUNDRECTSHAPE_RADIUS);
 }
 
 //----------------------------------------------------------------------------------//

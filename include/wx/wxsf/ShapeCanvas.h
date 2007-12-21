@@ -20,7 +20,7 @@
 #include "LineShape.h"
 #include "EditTextShape.h"
 
-#define MEOFFSET 5
+#define sfDEFAULT_ME_OFFSET 5
 #define sfSAVE_STATE true
 #define sfDONT_SAVE_STATE false
 #define sfFROM_PAINT true
@@ -425,6 +425,12 @@ public:
 	 * \return Hover color
 	 */
 	wxColour GetHoverColour() const {return m_Settings.m_nCommonHoverColor;}
+	/*!
+	 * \brief Get canvas hostory manager.
+	 * \return Reference to the canvas history manager
+	 * \sa wxSFCanvasHistory
+	 */	
+	wxSFCanvasHistory& GetHistoryManager(){return m_CanvasHistory;}
 
 	/*!
 	 * \brief Update given position so it will fit canvas grid (if enabled).

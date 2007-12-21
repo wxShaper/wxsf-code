@@ -8,14 +8,16 @@
 class cStarShape : public wxSFPolygonShape
 {
 public:
-    // enable RTTI infomartion
-    DECLARE_DYNAMIC_CLASS(cStarShape);
+    // enable RTTI information and define xsSerializable::Clone() function used by 
+	// wxXmlSerilizer::CopyItems() function, the data (shape) manager's
+	// copy constructor and in some cases also by the canvas history manager.
+    XS_DECLARE_CLONABLE_CLASS(cStarShape);
 
     // default constructor used by RTTI
     cStarShape();
     // user constructor
     cStarShape(const wxRealPoint& pos, wxSFDiagramManager* manager);
-    // copy constructor
+    // copy constructor needed by the xsSerializable::Clone() function
     cStarShape(cStarShape& obj);
     // destructor
     virtual ~cStarShape();

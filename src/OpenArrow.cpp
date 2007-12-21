@@ -10,13 +10,17 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/OpenArrow.h"
 #include "wx/wxsf/CommonFcn.h"
 
 // arrow shape
 const wxRealPoint arrow[3]={wxRealPoint(0,0), wxRealPoint(10,4), wxRealPoint(10,-4)};
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFOpenArrow, wxSFArrowBase);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFOpenArrow, wxSFArrowBase);
 
 wxSFOpenArrow::wxSFOpenArrow(void)
 : wxSFArrowBase()

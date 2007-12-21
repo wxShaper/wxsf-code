@@ -9,12 +9,16 @@
  **************************************************************/
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/BitmapShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 
 #include "res/NoSource.xpm"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFBitmapShape, wxSFRectShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFBitmapShape, wxSFRectShape);
 
 wxSFBitmapShape::wxSFBitmapShape(void)
 : wxSFRectShape()
@@ -24,8 +28,8 @@ wxSFBitmapShape::wxSFBitmapShape(void)
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromXPM(NoSource_xpm);
 
-    XS_SERIALIZE(m_sBitmapPath, wxT("path"));
-    XS_SERIALIZE_EX(m_fCanScale, wxT("scale_image"), sfdvBITMAPSHAPE_SCALEIMAGE);
+	// mark serialized properties
+	MarkSerializableDataMembers();
 }
 
 wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, wxSFDiagramManager* manager)
@@ -36,19 +40,32 @@ wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapP
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromFile(bitmapPath);
 
-    XS_SERIALIZE(m_sBitmapPath, wxT("path"));
-    XS_SERIALIZE_EX(m_fCanScale, wxT("scale_image"), sfdvBITMAPSHAPE_SCALEIMAGE);
+	// mark serialized properties
+	MarkSerializableDataMembers();
 }
 
 wxSFBitmapShape::wxSFBitmapShape(wxSFBitmapShape& obj)
+: wxSFRectShape(obj)
 {
-	m_fCanScale = obj.m_fCanScale;
 	m_sBitmapPath = obj.m_sBitmapPath;
+	m_fRescaleInProgress = false;
+	m_fCanScale = obj.m_fCanScale;
+
 	m_Bitmap = obj.m_Bitmap;
+	m_OriginalBitmap = m_Bitmap;
+
+	// mark serialized properties
+	MarkSerializableDataMembers();
 }
 
 wxSFBitmapShape::~wxSFBitmapShape(void)
 {
+}
+
+void wxSFBitmapShape::MarkSerializableDataMembers()
+{
+    XS_SERIALIZE(m_sBitmapPath, wxT("path"));
+    XS_SERIALIZE_EX(m_fCanScale, wxT("scale_image"), sfdvBITMAPSHAPE_SCALEIMAGE);
 }
 
 //----------------------------------------------------------------------------------//

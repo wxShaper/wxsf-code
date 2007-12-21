@@ -10,9 +10,13 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/FixedRectShape.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFSquareShape, wxSFRectShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFSquareShape, wxSFRectShape);
 
 wxSFSquareShape::wxSFSquareShape(void)
 : wxSFRectShape()

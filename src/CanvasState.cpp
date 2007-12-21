@@ -10,6 +10,10 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include <wx/mstream.h>
 
 #include "wx/wxsf/CanvasState.h"
@@ -28,10 +32,23 @@ wxSFCanvasState::wxSFCanvasState(wxStreamBuffer *data)
 		m_dataBuffer.AppendData(data->GetBufferStart(), data->GetDataLeft());
 		m_dataBuffer.AppendByte(0);
 	}
+
+	m_pDataManager = NULL;
+}
+
+wxSFCanvasState::wxSFCanvasState(wxSFDiagramManager *data)
+{
+	wxASSERT(data);
+
+	m_pDataManager = data;
 }
 
 wxSFCanvasState::~wxSFCanvasState(void)
 {
+	if( m_pDataManager)
+	{
+		delete m_pDataManager;
+	}
 }
 
 //----------------------------------------------------------------------------------//
@@ -43,15 +60,24 @@ void wxSFCanvasState::Restore(wxSFShapeCanvas* canvas)
     wxASSERT(canvas);
     wxASSERT(canvas->GetDiagramManager());
 
-	// create input stream from local memory buffer
-	wxMemoryInputStream instream(m_dataBuffer.GetData(), m_dataBuffer.GetDataLen()-1);
-
-	// deserialize canvas content
-	if(instream.IsOk() && canvas && canvas->GetDiagramManager())
+	if( m_pDataManager )
 	{
-		// clear all previous canvas content
-		canvas->GetDiagramManager()->Clear();
-		canvas->GetDiagramManager()->DeserializeFromXml(instream);
+		// copy content of stored temporal data manager into the currently used one
+		canvas->GetDiagramManager()->CopyItems(m_pDataManager);
 		canvas->Refresh(false);
+	}
+	else
+	{
+		// create input stream from local memory buffer
+		wxMemoryInputStream instream(m_dataBuffer.GetData(), m_dataBuffer.GetDataLen()-1);
+
+		// deserialize canvas content
+		if(instream.IsOk() && canvas && canvas->GetDiagramManager())
+		{
+			// clear all previous canvas content
+			canvas->GetDiagramManager()->Clear();
+			canvas->GetDiagramManager()->DeserializeFromXml(instream);
+			canvas->Refresh(false);
+		}
 	}
 }

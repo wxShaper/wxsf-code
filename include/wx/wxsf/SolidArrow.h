@@ -21,7 +21,7 @@
 class WXDLLIMPEXP_SF wxSFSolidArrow :	public wxSFOpenArrow
 {
 public:
-	DECLARE_DYNAMIC_CLASS(wxSFSolidArrow);
+	XS_DECLARE_CLONABLE_CLASS(wxSFSolidArrow);
 
     /// <summary> Default constructor </summary>
 	wxSFSolidArrow(void);
@@ -35,9 +35,6 @@ public:
 	virtual ~wxSFSolidArrow(void);
 
 	// public functions
-	/// <summary> Clone the arrow shape </summary>
-	/// <returns> Pointer to a new instace of the arrow shape </returns>
-	wxSFSolidArrow* Clone(){return new wxSFSolidArrow(*this);}
 
 	// public member data accessors
 	/// <summary> Set a brush filling the arrow's body </summary>
@@ -58,5 +55,12 @@ protected:
 	/// <param name="pts"> Array of the arrow shape vertices </param>
 	/// <param name="dc"> Device context for drawing </param>
 	virtual void DrawArrowShape(int n, wxRealPoint pts[], wxSFScaledPaintDC& dc);
+
+private:
+
+	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 };
 

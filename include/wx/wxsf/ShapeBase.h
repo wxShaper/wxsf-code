@@ -77,7 +77,7 @@ public:
     friend class wxSFShapeCanvas;
     friend class wxSFShapeHandle;
 
-	DECLARE_DYNAMIC_CLASS(wxSFShapeBase);
+	XS_DECLARE_CLONABLE_CLASS(wxSFShapeBase);
 
     /// <summary> Bit flags for wxSFShapeBase::GetCompleteBoundingBox function </summary>
     enum BBMODE
@@ -150,12 +150,7 @@ public:
 	/// <summary> Destructor </summary>
 	virtual ~wxSFShapeBase(void);
 
-	// public data members
-
 	// public functions
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFShapeBase* Clone(){return new wxSFShapeBase(*this);}
 
     /// <summary> Refresh (redraw) the shape </summary>
 	void Refresh();
@@ -356,6 +351,8 @@ public:
 
     /// <summary> Get pointer to a parent shape </summary>
 	wxSFShapeBase* GetParentShape();
+    /// <summary> Get pointer to the topmost parent shape </summary>
+	wxSFShapeBase* GetGrandParentShape();
 
     /*!
      * \brief Associate user data with the shape.
@@ -373,17 +370,11 @@ public:
     xsSerializable* GetUserData(){return m_pUserData;}
 
 	/*!
-	 * \brief Set shape's parent diagram manager
-	 * \param canvas Pointer to diagram manager
-	 * \sa wxSFDiagramManager
-	 */
-	void SetParentManager(wxSFDiagramManager* manager){m_pParentManager = manager;}
-	/*!
-	 * \brief Get shape's parent diagram manager
+	 * \brief Get shape's parent diagram manager.
 	 * \return Pointer to diagram manager
 	 * \sa wxSFDiagramManager
 	 */
-	wxSFDiagramManager* GetParentManager(){return m_pParentManager;}
+	wxSFDiagramManager* GetShapeManager(){return (wxSFDiagramManager*)m_pParentManager;}
 	/*!
 	 * \brief Get shape's parent canvas
 	 * \return Pointer to shape canvas if assigned via diagram manager, otherwise NULL
@@ -748,8 +739,6 @@ protected:
     /*! \brief Horizontal alignment of child shapes */
     HALIGN m_nHAlign;
 
-    /*! \brief Pointer to parent diagram manager */
-    wxSFDiagramManager *m_pParentManager;
 	/*! \brief Handle list */
 	CHandleList m_lstHandles;
 
@@ -825,6 +814,8 @@ private:
 
     // private functions
 
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 	/*!
 	 * \brief Auxiliary function called by GetNeighbours function.
 	 * \param neighbours List of neighbour shapes

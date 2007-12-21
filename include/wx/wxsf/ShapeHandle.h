@@ -150,6 +150,12 @@ protected:
 	 */
 	void DrawHover(wxSFScaledPaintDC& dc);
 
+	/*!
+	 * \brief Set parent shape.
+	 * \param parent Pointer to parent shape
+	 */
+	 void SetParentShape(wxSFShapeBase *parent){m_pParentShape = parent;}
+
     /*!
      * \brief Get handle rectangle.
      * \return Handle rectangle

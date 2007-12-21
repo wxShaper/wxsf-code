@@ -52,6 +52,9 @@ if ( target == "vs2005" ) then
 	-- Windows and Visual C++ 2005
 	table.insert(package.defines,"_CRT_SECURE_NO_DEPRECATE" )
 end
+if( ( target == "vs2003" ) or ( target == "vs2005" ) ) then
+	table.insert(package.config["Debug"].defines, "_DEBUG_MSVC")
+end
 if( ( ( target == "vs2003" ) or ( target == "vs2005" ) ) and options["no-builtin-wchar"] ) then
 	table.insert(package.buildoptions, "/Zc:wchar_t-")
 end

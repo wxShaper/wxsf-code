@@ -20,8 +20,7 @@
 class WXDLLIMPEXP_SF wxSFCurveShape : public wxSFLineShape
 {
 public:
-
-    DECLARE_DYNAMIC_CLASS(wxSFCurveShape);
+    XS_DECLARE_CLONABLE_CLASS(wxSFCurveShape);
 
     /// <summary> Default constructor </summary>
     wxSFCurveShape();
@@ -37,10 +36,6 @@ public:
 	wxSFCurveShape(wxSFCurveShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFCurveShape();
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFCurveShape* Clone(){return new wxSFCurveShape(*this);}
 
     // public virtual function
     /// <summary> Get line's bounding box. The function can be overrided
@@ -83,6 +78,9 @@ protected:
 private:
 
 	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
 	/// <summary> Auxiliary drawing function </summary>
 	void GetUpdatedLineSegment(CLineSegmentArray& segments);
 	/// <summary> Auxiliary drawing function </summary>

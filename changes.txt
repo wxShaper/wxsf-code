@@ -1,6 +1,6 @@
-Changes in version 1.5.0 beta (2007-12-09):
+Changes in version 1.5.0 beta (2007-12-18):
 --------------------------------------------
-- Switched to use wxXmlSerializer (wxXS) 1.1.1
+- Switched to use wxXmlSerializer (wxXS) 1.1.2
 - Implemented drag & drop. The D&D operation starts in two cases: if any shape is dragged out of
   the canvas and if any shape is dragged with CTRL key pressed down (in this case the dragged shapes
   are copied to the new location). User can handle dropped shapes via wxSFShapeCanvas::OnDrop() virtual
@@ -8,6 +8,14 @@ Changes in version 1.5.0 beta (2007-12-09):
   in its default implementation.
 - Significantly improved library performance/drawing speed (also new function wxSFShapeCanvas::GetShapeUnderCursor()
   is provided.)
+- Significantly improved Undo/Redo speed. The canvas history manager (wxSFCanvasHistory) now can
+  work in two modes: using standard serialization (default, no extra code needed) or using canvas clonning
+  (fast, small extra code overhead is needed). See the documentation and samples for more details.
+- Fixed some issues in shapes' and shape manager's copy constructors (all diagram manager's content can be now 
+  copied via its copy constructor or function wxXmlSerializer::CopyItems() - please, for more information
+  see the library documentation).
+- Fixed code so it doesn't generate assertion messages on Linux with debug version of wxWidgets anymore.
+- Updated samples to reflect new features.
 
 Changes in version 1.4.1 beta (2007-12-07):
 --------------------------------------------

@@ -107,8 +107,26 @@
 /*! \brief Macro registers new IO handler for specified data type (handler class must exist) */
 #define XS_REGISTER_IO_HANDLER(type, class) wxXmlSerializer::m_mapPropertyIOHandlers[type] = new class();
 
+/*! \brief Enable RTTI (the same as DECLARE_DYNAMIC_CLASS) and declare xsSerializable::Clone() function */
+#define XS_DECLARE_CLONABLE_CLASS(name) \
+public: \
+	DECLARE_DYNAMIC_CLASS(name) \
+	virtual wxObject* Clone(); \
+
+/*! \brief Enable RTTI (the same as IMPLEMENT_DYNAMIC_CLASS) and implement xsSerializable::Clone() function */
+#define XS_IMPLEMENT_CLONABLE_CLASS(name, base) \
+	IMPLEMENT_DYNAMIC_CLASS(name, base) \
+	wxObject* name::Clone() \
+	{ \
+		if( m_fClone ) return new name(*this); \
+		else \
+			return NULL; \
+	} \
+		
+
 class WXDLLIMPEXP_XS xsProperty;
 class WXDLLIMPEXP_XS xsSerializable;
+class WXDLLIMPEXP_XS wxXmlSerializer;
 
 WX_DECLARE_LIST_WITH_DECL(xsProperty, PropertyList, class WXDLLIMPEXP_XS);
 WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_XS);
@@ -125,13 +143,21 @@ WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_XS
  * powerfull data container. All chained serializable class objects can be handled by class
  * member functions or by member functions of wxXmlSerializer class object which should be
  * used as their manager (recommended way).
+ *
+ * Another built-in (optional) functionality is class instaces' cloning. User can use 
+ * XS_DECLARE_CLONABLE_CLASS and XS_IMPLEMENT_CLONABLE_CLASS macros instead of classic
+ * DECLARE_DYNAMIC_CLASS and IMPLEMENT_DYNAMIC_CLASS macros which lead to definition of
+ * xsSerializable::Clone() virtual function used for cloning of current class instance
+ * via its copy constructor (user must define it manually). Virtual xsSerializble::Clone()
+ * function is also used by the wxXmlSerializer::CopyItems() function (used by the
+ * wxXmlSerializer copy constructor).
  */
 class WXDLLIMPEXP_XS xsSerializable : public wxObject
 {
 public:
     friend class wxXmlSerializer;
 
-    DECLARE_DYNAMIC_CLASS(xsSerializable);
+    XS_DECLARE_CLONABLE_CLASS(xsSerializable);
 
     /*! \brief Constructor. */
     xsSerializable();
@@ -141,11 +167,17 @@ public:
     ~xsSerializable();
 
     // public functions
+
     /*!
      * \brief Get serializable parent object.
      * \return Pointer to serializable parent object if exists, otherwise NULL
      */
     xsSerializable* GetParent(){return m_pParentItem;}
+    /*!
+     * \brief Get parent data manager (instance of wxXmlSerializer).
+     * \return Pointer to parent data manager if set, otherwise NULL
+     */
+    wxXmlSerializer* GetParentManager(){return m_pParentManager;}
     /*!
      * \brief Get first serializable child object.
      * \return Pointer to child object if exists, otherwise NULL
@@ -161,6 +193,11 @@ public:
      * \return Pointer to sibbling object if exists, otherwise NULL
      */
     xsSerializable* GetSibbling();
+    /*!
+     * \brief Get child item with given ID if exists.
+     * \return Pointer to child with given ID if pressent, otherwise NULL;
+     */
+	xsSerializable* GetChild(long id);
 
     /*!
      * \brief Get list of all children (serializable objects) of this object.
@@ -181,6 +218,11 @@ public:
      * \param parent Pointer to parent object
      */
     void SetParent(xsSerializable* parent){m_pParentItem = parent;}
+    /*!
+     * \brief Set parent data manager.
+     * \param parent Pointer to parent data manager
+     */
+    void SetParentManager(wxXmlSerializer* parent){m_pParentManager = parent;}
     /*!
      * \brief Add serializable child object to this object.
      * \param child Pointer to added child object (must NOT be NULL)
@@ -254,9 +296,18 @@ public:
      */
     void EnableSerialization(bool enab){m_fSerialize = enab;}
     /*!
-     * \brief Returns information whether the object is serialized or not.
+     * \brief Returns information whether the object can be serialized or not.
      */
     bool IsSerialized(){return m_fSerialize;}
+    /*!
+     * \brief Enable/disable object cloning.
+     * \param enab TRUE if the object can be cloned, otherwise FALSE
+     */
+	void EnableCloning(bool enab){m_fClone = enab;}
+    /*!
+     * \brief Returns information whether the object can be cloned or not.
+     */
+	bool IsCloned(){return m_fClone;}
 
 protected:
     // protected data members
@@ -265,13 +316,17 @@ protected:
     /*! \brief List of child objects */
     SerializableList m_lstChildItems;
 
-    /*! \brief Pointer to parent object */
-    xsSerializable* m_pParentItem;
+    /*! \brief Pointer to parent serializable object */
+    xsSerializable *m_pParentItem;
+	/*! \brief Pointer to parent data manager */
+	wxXmlSerializer *m_pParentManager;
 
     /*! \brief Object ID */
     long m_nId;
     /*! \brief Object serialization flag */
     bool m_fSerialize;
+	/*! \brief Object cloning flag */
+	bool m_fClone;
 
     // protected virtual functions
     /*!
@@ -463,6 +518,8 @@ public:
     /*! \brief Constructor for dynamic serializable property. */
     xsProperty(xsSerializable** src, const wxString& field) : m_pSourceVariable((void**)src), m_sFieldName(field), m_sDataType(wxT("serializabledynamic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
+	/*! \brief Copy constructor. */
+	//xsProperty(xsProperty& obj) : m_pSourceVariable(obj.m_pSourceVariable), m_sFieldName(obj.m_sFieldName), m_sDataType(obj.m_sDataType), m_sDefaultValueStr(obj.m_sDefaultValueStr), m_fSerialize(obj.m_fSerialize) {;}
 
     ~xsProperty(){;}
 
@@ -495,11 +552,17 @@ public:
  * tree structure it is a topmost tree node, in case of list structure all list items are
  * its children). These child object can be handled via xsSerializable and wxXmlSerializer
  * classes' member functions.
+ *
+ * Another built-in (optional) functionality is class instaces' cloning. User can use 
+ * XS_DECLARE_CLONABLE_CLASS and XS_IMPLEMENT_CLONABLE_CLASS macros instead of classic
+ * DECLARE_DYNAMIC_CLASS and IMPLEMENT_DYNAMIC_CLASS macros which lead to definition of
+ * wxXmlSerializer::Clone() virtual function used for cloning of current class instance
+ * via its copy constructor (user must define it manually).
  */
 class WXDLLIMPEXP_XS wxXmlSerializer : public wxObject
 {
 public:
-    DECLARE_DYNAMIC_CLASS(wxXmlSerializer);
+    XS_DECLARE_CLONABLE_CLASS(wxXmlSerializer);
 
     /*! \brief Constructor. */
     wxXmlSerializer();
@@ -510,6 +573,8 @@ public:
      * \param version File version
      */
     wxXmlSerializer(const wxString& owner, const wxString& root, const wxString& version);
+    /*! \brief Copy constructor. */
+    wxXmlSerializer(wxXmlSerializer &obj);
     /*! \brief Destructor. */
     virtual ~wxXmlSerializer();
 
@@ -567,6 +632,15 @@ public:
     void SetRootItem(xsSerializable* root);
 
     /*!
+     * \brief Replace current stored data with a content stored in given source manager.
+	 *
+	 * For proper functionality all stored data items derived from the xsSerializable class
+	 * MUST implement virtual function xsSerializable::Clone() as well as the copy
+	 * constructor. For more details see the xsSerializable::Clone() function documentation.
+     * \param src Pointer to the source data manager
+     */
+	void CopyItems(wxXmlSerializer *src);
+    /*!
      * \brief Add serializable object to the serializer.
      * \param parentId ID of parent serializable object
      * \param item Added serializable object
@@ -591,6 +665,15 @@ public:
     void RemoveItem(xsSerializable* item);
     /*! \brief Remove and destroy all stored serializable objects*/
     void RemoveAll();
+    /*!
+     * \brief Enable/disable object cloning.
+     * \param enab TRUE if the object can be cloned, otherwise FALSE
+     */
+	void EnableCloning(bool enab){m_fClone = enab;}
+    /*!
+     * \brief Returns information whether the object can be cloned or not.
+     */
+	bool IsCloned(){return m_fClone;}
 
     /*!
      * \brief Serialize stored objects to given file.
@@ -668,6 +751,9 @@ protected:
     /*! \brief Pointer to root object */
     xsSerializable* m_pRoot;
 
+	/*! \brief Object cloning flag */
+	bool m_fClone;
+
 private:
     // private data members
     int m_nCounter;
@@ -681,6 +767,8 @@ private:
     void _GetItems(wxClassInfo* type, xsSerializable* parent, SerializableList& list);
 	/*! \brief Auxiliary function */
     bool _Contains(xsSerializable *object, xsSerializable* parent);
+	/*! \brief Auxiliary function. Copy items assigned to given parent to given source item */
+	void _CopyItems(xsSerializable *dest, xsSerializable *parent);
 
 };
 

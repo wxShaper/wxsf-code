@@ -10,6 +10,10 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/ShapeHandle.h"
 #include "wx/wxsf/ShapeBase.h"
@@ -224,7 +228,7 @@ void wxSFShapeHandle::DrawHover(wxSFScaledPaintDC& dc)
     {
         dc.SetPen(*wxBLACK_PEN);
         dc.SetBrush(wxBrush(m_pParentShape->GetHoverColour()));
-        dc.DrawRectangle(GetHandleRect().Inflate(1, 1));
+        dc.DrawRectangle(GetHandleRect());
         dc.SetBrush(wxNullBrush);
         dc.SetPen(wxNullPen);
     }

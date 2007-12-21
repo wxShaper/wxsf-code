@@ -10,6 +10,10 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/LineShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/CommonFcn.h"
@@ -18,7 +22,7 @@
 
 WX_DEFINE_OBJARRAY(CLineSegmentArray);
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFLineShape, wxSFShapeBase);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFLineShape, wxSFShapeBase);
 
 // arrow shape
 const wxRealPoint arrow[3]={wxRealPoint(0,0), wxRealPoint(10,4), wxRealPoint(10,-4)};
@@ -35,13 +39,7 @@ wxSFLineShape::wxSFLineShape(void)
 
 	m_nMode = modeREADY;
 
-	XS_SERIALIZE_EX(m_nSrcShapeId, wxT("source"), sfdvLINESHAPE_UNKNOWNID);
-	XS_SERIALIZE_EX(m_nTrgShapeId, wxT("target"), sfdvLINESHAPE_UNKNOWNID);
-	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), sfdvLINESHAPE_DOCKPOINT);
-	XS_SERIALIZE_EX(m_Pen, wxT("line_style"), sfdvLINESHAPE_PEN);
-	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
-	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
-	XS_SERIALIZE(m_lstPoints, wxT("control_points"));
+	MarkSerializableDataMembers();
 
 	m_lstPoints.DeleteContents(true);
 }
@@ -67,13 +65,7 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSF
 		node = node->GetNext();
 	}
 
-	XS_SERIALIZE_EX(m_nSrcShapeId, wxT("source"), sfdvLINESHAPE_UNKNOWNID);
-	XS_SERIALIZE_EX(m_nTrgShapeId, wxT("target"), sfdvLINESHAPE_UNKNOWNID);
-	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), sfdvLINESHAPE_DOCKPOINT);
-	XS_SERIALIZE_EX(m_Pen, wxT("line_style"), sfdvLINESHAPE_PEN);
-	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
-	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
-	XS_SERIALIZE(m_lstPoints, wxT("control_points"));
+	MarkSerializableDataMembers();
 
 	m_lstPoints.DeleteContents(true);
 }
@@ -87,14 +79,14 @@ wxSFLineShape::wxSFLineShape(wxSFLineShape& obj)
 
 	if(obj.m_pSrcArrow)
 	{
-		m_pSrcArrow = obj.m_pSrcArrow->Clone();
+		m_pSrcArrow = (wxSFArrowBase*)obj.m_pSrcArrow->Clone();
 	}
 	else
 		m_pSrcArrow = NULL;
 
 	if(obj.m_pTrgArrow)
 	{
-		m_pTrgArrow = obj.m_pTrgArrow->Clone();
+		m_pTrgArrow = (wxSFArrowBase*)obj.m_pTrgArrow->Clone();
 	}
 	else
 		m_pTrgArrow = NULL;
@@ -110,6 +102,8 @@ wxSFLineShape::wxSFLineShape(wxSFLineShape& obj)
 		node = node->GetNext();
 	}
 
+	MarkSerializableDataMembers();
+
 	m_lstPoints.DeleteContents(true);
 }
 
@@ -119,6 +113,17 @@ wxSFLineShape::~wxSFLineShape(void)
 
 	if(m_pSrcArrow)delete m_pSrcArrow;
 	if(m_pTrgArrow)delete m_pTrgArrow;
+}
+
+void wxSFLineShape::MarkSerializableDataMembers()
+{
+	XS_SERIALIZE_EX(m_nSrcShapeId, wxT("source"), sfdvLINESHAPE_UNKNOWNID);
+	XS_SERIALIZE_EX(m_nTrgShapeId, wxT("target"), sfdvLINESHAPE_UNKNOWNID);
+	XS_SERIALIZE_LONG_EX(m_nDockPoint, wxT("dock_point"), sfdvLINESHAPE_DOCKPOINT);
+	XS_SERIALIZE_EX(m_Pen, wxT("line_style"), sfdvLINESHAPE_PEN);
+	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
+	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
+	XS_SERIALIZE(m_lstPoints, wxT("control_points"));
 }
 
 //----------------------------------------------------------------------------------//
@@ -220,7 +225,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         if(m_nSrcShapeId != -1)
         {
            // wxRealPoint shpCenter = m_pParentCanvas->FindShape(m_nSrcShapeId)->GetCenter();
-			wxRealPoint shpCenter = m_pParentManager->FindShape(m_nSrcShapeId)->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
+			wxRealPoint shpCenter = GetShapeManager()->FindShape(m_nSrcShapeId)->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)shpCenter.x, (int)shpCenter.y, 1, 1));
@@ -232,7 +237,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         // include ending point
         if(m_nTrgShapeId != -1)
         {
-            wxRealPoint shpCenter = m_pParentManager->FindShape(m_nTrgShapeId)->GetCenter();
+            wxRealPoint shpCenter = GetShapeManager()->FindShape(m_nTrgShapeId)->GetCenter();
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)shpCenter.x, (int)shpCenter.y, 1, 1));
@@ -430,8 +435,8 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
     {
         wxRealPoint *pt, prevPt;
 
-        wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
-        wxSFShapeBase* pTrgShape = m_pParentManager->FindShape(m_nTrgShapeId);
+        wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
+        wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
 
 		if(m_lstPoints.GetCount() > 0)
 		{
@@ -538,7 +543,7 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
             }
             else if(m_nSrcShapeId != -1)
             {
-                wxSFShapeBase* pSrcShape = m_pParentManager->FindShape(m_nSrcShapeId);
+                wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
                 if(pSrcShape)
                 {
                     wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);

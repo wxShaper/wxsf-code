@@ -10,9 +10,9 @@
 
 #include "wx_pch.h"
 
-//#ifdef _DEBUG
-//#define new DEBUG_NEW
-//#endif
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
 
 #include "wx/wxxmlserializer/PropertyIO.h"
 #include "wx/wxxmlserializer/XmlSerializer.h"
@@ -491,9 +491,12 @@ void xsListRealPointPropIO::Read(xsProperty *property, wxXmlNode *source)
 {	
 	RealPointList *list = (RealPointList*)property->m_pSourceVariable;
 	
+	// clear previous list content
+	bool fDelState = list->GetDeleteContents();
+
 	list->DeleteContents(true);
     list->Clear();
-	list->DeleteContents(false);
+	list->DeleteContents(fDelState);
 
     wxXmlNode *listNode = source->GetChildren();
     while(listNode)

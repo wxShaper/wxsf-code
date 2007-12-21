@@ -10,10 +10,14 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/TextShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFTextShape, wxSFRectShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFTextShape, wxSFRectShape);
 
 wxSFTextShape::wxSFTextShape(void)
 : wxSFRectShape()
@@ -29,9 +33,7 @@ wxSFTextShape::wxSFTextShape(void)
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
 
-    XS_SERIALIZE_EX(m_Font, wxT("font"), sfdvTEXTSHAPE_FONT);
-    XS_SERIALIZE_EX(m_TextColor, wxT("color"), sfdvTEXTSHAPE_TEXTCOLOR);
-    XS_SERIALIZE(m_sText, wxT("text"));
+	MarkSerializableDataMembers();
 
     UpdateRectSize();
 }
@@ -50,9 +52,7 @@ wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDi
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
 
-    XS_SERIALIZE_EX(m_Font, wxT("font"), sfdvTEXTSHAPE_FONT);
-    XS_SERIALIZE_EX(m_TextColor, wxT("color"), sfdvTEXTSHAPE_TEXTCOLOR);
-    XS_SERIALIZE(m_sText, wxT("text"));
+	MarkSerializableDataMembers();
 
     UpdateRectSize();
 }
@@ -65,12 +65,21 @@ wxSFTextShape::wxSFTextShape(wxSFTextShape& obj)
     m_TextColor = obj.m_TextColor;
     m_sText = obj.m_sText;
 
+	MarkSerializableDataMembers();
+
     UpdateRectSize();
 }
 
 wxSFTextShape::~wxSFTextShape()
 {
 
+}
+
+void wxSFTextShape::MarkSerializableDataMembers()
+{
+    XS_SERIALIZE_EX(m_Font, wxT("font"), sfdvTEXTSHAPE_FONT);
+    XS_SERIALIZE_EX(m_TextColor, wxT("color"), sfdvTEXTSHAPE_TEXTCOLOR);
+    XS_SERIALIZE(m_sText, wxT("text"));
 }
 
 //----------------------------------------------------------------------------------//

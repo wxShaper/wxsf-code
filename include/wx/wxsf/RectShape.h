@@ -27,7 +27,7 @@
 class WXDLLIMPEXP_SF wxSFRectShape : public wxSFShapeBase
 {
 public:
-	DECLARE_DYNAMIC_CLASS(wxSFRectShape);
+	XS_DECLARE_CLONABLE_CLASS(wxSFRectShape);
 
     /// <summary> Default constructor </summary>
 	wxSFRectShape(void);
@@ -41,10 +41,6 @@ public:
 	wxSFRectShape(wxSFRectShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFRectShape(void);
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFRectShape* Clone(){return new wxSFRectShape(*this);}
 
 	// public virtual functions
     /// <summary> Get shapes's bounding box. The function can be overrided
@@ -153,6 +149,12 @@ protected:
 	virtual void OnBottomHandle(wxSFShapeHandle& handle);
 
 private:
+
+	// private functions
+
+	 /*! \brief Initialize serializable properties. */
+	void MarkSerializableDataMembers();
+
     /// <summary> Auxiliary data member </summary>
     wxRealPoint m_nPrevSize;
     /// <summary> Auxiliary data member </summary>

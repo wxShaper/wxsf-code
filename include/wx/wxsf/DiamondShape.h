@@ -17,7 +17,7 @@
 class WXDLLIMPEXP_SF wxSFDiamondShape : public wxSFPolygonShape
 {
 public:
-    DECLARE_DYNAMIC_CLASS(wxSFDiamondShape);
+    XS_DECLARE_CLONABLE_CLASS(wxSFDiamondShape);
 
     /// <summary> Default constructor </summary>
     wxSFDiamondShape();
@@ -30,10 +30,6 @@ public:
 	wxSFDiamondShape(wxSFDiamondShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFDiamondShape();
-
-	/// <summary> Clone the object itself. </summary>
-	/// <returns> Pointer to a new instace of the shape object</returns>
-	wxSFDiamondShape* Clone(){return new wxSFDiamondShape(*this);}
 
     // public virtual functions
     /// <summary> Test whether the given point is inside the shape. The function

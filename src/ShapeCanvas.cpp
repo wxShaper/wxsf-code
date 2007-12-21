@@ -12,6 +12,10 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include <wx/mstream.h>
 #include <wx/wfstream.h>
 #include <wx/txtstrm.h>
@@ -290,11 +294,12 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 				{
 					if( pShape->Intersects(updRct) )
 					{
-						if( pShape->IsSelected() )
+						/*if( pShape->IsSelected() )
 						{
 							m_lstSelected.Append( pShape );
 						}
-						else if( !pParentShape || (pParentShape && !pParentShape->IsKindOf(CLASSINFO(wxSFLineShape))) )
+						else */
+						if( !pParentShape || (pParentShape && !pParentShape->IsKindOf(CLASSINFO(wxSFLineShape))) )
 						{
 							pShape->Draw(dc, sfWITHOUTCHILDREN);
 						}
@@ -307,7 +312,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 			}
 
 			// draw dragged shapes ...
-			node = m_lstSelected.GetFirst();
+			/*node = m_lstSelected.GetFirst();
 			while(node)
 			{
 				pShape = (wxSFShapeBase*)node->GetData();
@@ -319,7 +324,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
                 }
 
 				node = node->GetNext();
-			}
+			}*/
 
 			// ... and draw connections
 			node = m_lstLinesToDraw.GetFirst();
@@ -1964,7 +1969,7 @@ void wxSFShapeCanvas::UpdateMultieditSize()
 
         node = node->GetNext();
 	}
-	unionRct.Inflate(MEOFFSET, MEOFFSET);
+	unionRct.Inflate(sfDEFAULT_ME_OFFSET, sfDEFAULT_ME_OFFSET);
 
 	// draw rectangle
 	m_shpMultiEdit.SetRelativePosition(wxRealPoint(unionRct.GetPosition().x, unionRct.GetPosition().y));
@@ -2130,7 +2135,7 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
     GetSelectedShapes(lstSelection);
 
     updRct = GetSelectionBB();
-    updRct.Inflate(MEOFFSET, MEOFFSET);
+    updRct.Inflate(sfDEFAULT_ME_OFFSET, sfDEFAULT_ME_OFFSET);
 
     // find most distant position
     wxShapeListNode *node = lstSelection.GetFirst();

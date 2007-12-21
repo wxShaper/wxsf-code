@@ -10,10 +10,14 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/CircleShape.h"
 #include "wx/wxsf/CommonFcn.h"
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFCircleShape, wxSFSquareShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFCircleShape, wxSFSquareShape);
 
 wxSFCircleShape::wxSFCircleShape(void)
 : wxSFSquareShape()

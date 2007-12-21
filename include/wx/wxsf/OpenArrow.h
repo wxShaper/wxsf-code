@@ -18,7 +18,7 @@
 class WXDLLIMPEXP_SF wxSFOpenArrow : public wxSFArrowBase
 {
 public:
-	DECLARE_DYNAMIC_CLASS(wxSFSolidArrow);
+	XS_DECLARE_CLONABLE_CLASS(wxSFOpenArrow);
 
     /// <summary> Default constructor </summary>
 	wxSFOpenArrow(void);
@@ -30,11 +30,6 @@ public:
 	wxSFOpenArrow(wxSFOpenArrow& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFOpenArrow(void);
-
-	// public functions
-	/// <summary> Clone the arrow shape </summary>
-	/// <returns> Pointer to a new instace of the arrow shape </returns>
-	wxSFOpenArrow* Clone(){return new wxSFOpenArrow(*this);}
 
 	// public virtual functions
 	/// <summary> Draw arrow shape at the end of a virtual line </summary>

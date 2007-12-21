@@ -10,6 +10,10 @@
 
 #include "wx_pch.h"
 
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include <wx/wfstream.h>
 #include <wx/mstream.h>
 #include <wx/listimpl.cpp>
@@ -19,18 +23,27 @@
 
 WX_DEFINE_LIST(CIDList);
 
-IMPLEMENT_DYNAMIC_CLASS(wxSFDiagramManager, wxXmlSerializer);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFDiagramManager, wxXmlSerializer);
 
 wxSFDiagramManager::wxSFDiagramManager()
 {
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sVersion =  wxT("1.5.0 beta");
+    m_sSFVersion =  wxT("1.5.0 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
     SetSerializerRootName(wxT("chart"));
+}
+
+wxSFDiagramManager::wxSFDiagramManager(wxSFDiagramManager &obj)
+: wxXmlSerializer(obj)
+{
+	m_pShapeCanvas = NULL;
+	m_sSFVersion = obj.m_sSFVersion;
+
+    m_lstIDPairs.DeleteContents(true);
 }
 
 wxSFDiagramManager::~wxSFDiagramManager()
@@ -65,7 +78,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
         // create shape object from class info
         wxSFShapeBase* pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
 
-        pShape = AddShape(pShape, GetRootItem(), pos, true, saveState);
+		pShape = AddShape(pShape, GetRootItem(), pos, sfINITIALIZE, saveState);
         if(pShape)pShape->Refresh();
 
         return pShape;
@@ -80,7 +93,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 	{
 		if( shape->IsKindOf(CLASSINFO(wxSFShapeBase)) && IsShapeAccepted(shape->GetClassInfo()->GetClassName()) )
 		{
-		    shape->SetParentManager(this);
+		    //shape->SetParentManager(this);
 
 		    if( m_pShapeCanvas )
 		    {
@@ -89,6 +102,14 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 		    }
 		    else
                 shape->SetRelativePosition(wxRealPoint(pos.x, pos.y));
+
+            // add parent shape to the data manager (serializer)
+            if(parent)
+            {
+                AddItem(parent, shape);
+            }
+            else
+                AddItem(GetRootItem(), shape);
 
             // initialize added shape
 			if(initialize)
@@ -126,14 +147,6 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                     }
                 }
 			}
-
-            // add parent shape to the manager (serializer)
-            if(parent)
-            {
-                AddItem(parent, shape);
-            }
-            else
-                AddItem(GetRootItem(), shape);
 
             if( m_pShapeCanvas )
             {
