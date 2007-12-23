@@ -16,6 +16,14 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	AddStyle(sfsGRID_USE);
 	AddStyle(sfsGRID_SHOW);
 
+	// the canvas background can be filled with a solid colour ...
+	//RemoveStyle(sfsGRADIENT_BACKGROUND);
+	//SetBackgroundColour(sfdvSHAPECANVAS_BACKGROUNDCOLOR);
+	// ... or by a gradient fill
+	AddStyle(sfsGRADIENT_BACKGROUND);
+	SetGradientFrom(sfdvSHAPECANVAS_GRADIENT_FROM);
+	SetGradientTo(sfdvSHAPECANVAS_GRADIENT_TO);
+
 	// now you can use also these styles...
 
 	// RemoveStyle(sfsHOVERING);

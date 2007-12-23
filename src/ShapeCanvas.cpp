@@ -118,11 +118,15 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
     m_nCommonHoverColor = sfdvSHAPECANVAS_HOVERCOLOR;
     m_nGridSize = sfdvSHAPECANVAS_GRIDSIZE;
     m_nGridColor = sfdvSHAPECANVAS_GRIDCOLOR;
+	m_nGradientFrom = sfdvSHAPECANVAS_GRADIENT_FROM;
+	m_nGradientTo = sfdvSHAPECANVAS_GRADIENT_TO;
 	m_nStyle = sfdvSHAPECANVAS_STYLE;
 
     XS_SERIALIZE(m_nScale, wxT("scale"));
 	XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvSHAPECANVAS_STYLE);
     XS_SERIALIZE_EX(m_nBackgroundColor, wxT("background_color"), sfdvSHAPECANVAS_BACKGROUNDCOLOR);
+	XS_SERIALIZE_EX(m_nGradientFrom, wxT("gradient_from"), sfdvSHAPECANVAS_GRADIENT_FROM);
+	XS_SERIALIZE_EX(m_nGradientTo, wxT("gradient_to"), sfdvSHAPECANVAS_GRADIENT_TO);
     XS_SERIALIZE_EX(m_nCommonHoverColor, wxT("hover_color"), sfdvSHAPECANVAS_HOVERCOLOR);
     XS_SERIALIZE_EX(m_nGridSize, wxT("grid_size"), sfdvSHAPECANVAS_GRIDSIZE);
     XS_SERIALIZE_EX(m_nGridColor, wxT("grid_color"), sfdvSHAPECANVAS_GRIDCOLOR);
@@ -144,6 +148,7 @@ BEGIN_EVENT_TABLE(wxSFShapeCanvas, wxScrolledWindow)
 	EVT_KEY_DOWN(wxSFShapeCanvas::_OnKeyDown)
 	EVT_ENTER_WINDOW(wxSFShapeCanvas::OnEnterWindow)
 	EVT_LEAVE_WINDOW(wxSFShapeCanvas::OnLeaveWindow)
+	EVT_SIZE(wxSFShapeCanvas::OnResize)
 END_EVENT_TABLE()
 
 wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
@@ -230,8 +235,15 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 	PrepareDC(dc);
 
 	// erase background
-	dc.SetBackground(wxBrush(m_Settings.m_nBackgroundColor));
-	dc.Clear();
+	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
+	{
+		dc.GradientFillLinear(wxRect(wxPoint(0, 0), GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y)), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
+	}
+	else
+	{
+		dc.SetBackground(wxBrush(m_Settings.m_nBackgroundColor));
+		dc.Clear();
+	}
 
 	// show grid
 	if( ContainsStyle(sfsGRID_SHOW) )
@@ -427,6 +439,16 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 void wxSFShapeCanvas::OnEraseBackground(wxEraseEvent &event)
 {
 	// do nothing to suppress window flickering
+}
+
+void wxSFShapeCanvas::OnResize(wxSizeEvent &event)
+{
+	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
+	{
+		Refresh(false);
+	}
+
+	event.Skip();
 }
 
 void wxSFShapeCanvas::RefreshCanvas(bool erase, wxRect rct)

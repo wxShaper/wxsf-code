@@ -21,6 +21,8 @@ Changes in version 1.5.0 beta (2007-12-23):
 - Added shape style sfsSHOW_HANDLES. If used then the shape's handles are shown if the shape is 
   selected (even if the sfsSIZE_CHANGE style is not present).
 - Fixed function wxSFShapeCanvas::GetShapeUnderCursor() (now it omits inactive or invisible shapes).
+- The shape canvas background can be filled with a gradient brush (use canvas style sfsGRADIENT_BACKGROUND and functions
+  wxSFShapeCanvas::SetGradientFrom() and wxSFShapeCanvas::SetGradientTo()).
 
 Changes in version 1.4.1 beta (2007-12-07):
 --------------------------------------------

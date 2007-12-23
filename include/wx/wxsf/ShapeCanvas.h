@@ -35,6 +35,10 @@
 #define sfdvSHAPECANVAS_GRIDCOLOR wxColour(200, 200, 200)
 /*! \brief Default value of wxSFCanvasSettings::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
+/*! \brief Default value of wxSFCanvasSettings::m_nGradientFrom data member */
+#define sfdvSHAPECANVAS_GRADIENT_FROM wxColour(240, 240, 240)
+/*! \brief Default value of wxSFCanvasSettings::m_nGradientTo data member */
+#define sfdvSHAPECANVAS_GRADIENT_TO wxColour(200, 200, 255)
 /*! \brief Default value of wxSFCanvasSettings::m_nStyle data member */
 #define sfdvSHAPECANVAS_STYLE wxSFShapeCanvas::sfsDEFAULT_CANVAS_STYLE
 
@@ -50,6 +54,8 @@ public:
 
     wxColour m_nBackgroundColor;
     wxColour m_nCommonHoverColor;
+	wxColour m_nGradientFrom;
+	wxColour m_nGradientTo;
     wxSize m_nGridSize;
     wxColour m_nGridColor;
     wxArrayString m_arrAcceptedShapes;
@@ -162,6 +168,8 @@ public:
 		sfsHOVERING = 128,
 		/*! \brief Enable highligting of shapes able to accept dragged shape(s)*/
 		sfsHIGHLIGHTING = 256,
+		/*! \brief Use gradient color for the canvas background */
+		sfsGRADIENT_BACKGROUND = 512,
 		/*! \brief Default canvas style. */
 		sfsDEFAULT_CANVAS_STYLE = sfsMULTI_SELECTION | sfsMULTI_SIZE_CHANGE | sfsDND | sfsUNDOREDO | sfsCLIPBOARD | sfsHOVERING | sfsHIGHLIGHTING
 	};
@@ -355,6 +363,8 @@ public:
 
     /*!
      * \brief Set canvas style.
+	 *
+	 * Default value is sfsMULTI_SELECTION | sfsMULTI_SIZE_CHANGE | sfsDND | sfsUNDOREDO | sfsCLIPBOARD | sfsHOVERING | sfsHIGHLIGHTING
      * \param style Combination of the canvas styles
      * \sa STYLE
      */
@@ -379,6 +389,26 @@ public:
 	 * \return Background color
 	 */
 	wxColour GetCanvasColour() const {return m_Settings.m_nBackgroundColor;}
+	/*!
+	 * \brief Set starting gradient color.
+	 * \param col Color
+	 */
+	void SetGradientFrom(const wxColour& col){m_Settings.m_nGradientFrom = col;}
+	/*!
+	 * \brief Get starting gradient color.
+	 * \return Color
+	 */
+	wxColour GetGradientFrom() const {return m_Settings.m_nGradientFrom;}
+	/*!
+	 * \brief Set ending gradient color.
+	 * \param col Color
+	 */
+	void SetGradientTo(const wxColour& col){m_Settings.m_nGradientTo = col;}
+	/*!
+	 * \brief Get ending gradient color.
+	 * \return Color
+	 */
+	wxColour GetGradientTo() const {return m_Settings.m_nGradientTo;}
 	/*!
 	 * \brief Get grid size.
 	 * \return Grid size
@@ -663,6 +693,11 @@ private:
 	 * \param event Mouse event
 	 */
 	void OnEnterWindow(wxMouseEvent& event);
+	/*!
+	 * \brief Event handler called when the canvas size has changed.
+	 * \param event Size event
+	 */
+	void OnResize(wxSizeEvent& event);
 
 	// original private event handlers
 	/*!

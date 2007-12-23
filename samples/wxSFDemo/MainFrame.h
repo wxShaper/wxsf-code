@@ -24,7 +24,7 @@ public:
 		modeCURVE
 	};
 
-    CMainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize, long style=wxDEFAULT_FRAME_STYLE);
+    CMainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize, long style=wxDEFAULT_FRAME_STYLE );
 
 	// public data accessors
 	MODE GetToolMode(){return m_nToolMode;}
