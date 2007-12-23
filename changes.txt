@@ -1,4 +1,4 @@
-Changes in version 1.5.0 beta (2007-12-18):
+Changes in version 1.5.0 beta (2007-12-23):
 --------------------------------------------
 - Switched to use wxXmlSerializer (wxXS) 1.1.2
 - Implemented drag & drop. The D&D operation starts in two cases: if any shape is dragged out of
@@ -20,6 +20,7 @@ Changes in version 1.5.0 beta (2007-12-18):
   the shape is deleted by the shape canvas.
 - Added shape style sfsSHOW_HANDLES. If used then the shape's handles are shown if the shape is 
   selected (even if the sfsSIZE_CHANGE style is not present).
+- Fixed function wxSFShapeCanvas::GetShapeUnderCursor() (now it omits inactive or invisible shapes).
 
 Changes in version 1.4.1 beta (2007-12-07):
 --------------------------------------------

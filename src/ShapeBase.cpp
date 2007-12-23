@@ -892,8 +892,9 @@ void wxSFShapeBase::OnMouseLeave(const wxPoint& pos)
 
 void wxSFShapeBase::_OnBeginDrag(const wxPoint& pos)
 {
-	m_fFirstMove = true;
+	if ( !m_fActive ) return;
 
+	m_fFirstMove = true;
 	this->OnBeginDrag(pos);
 }
 
@@ -934,6 +935,8 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 
 void wxSFShapeBase::_OnEndDrag(const wxPoint& pos)
 {
+	if ( !m_fActive ) return;
+
     this->OnEndDrag(pos);
 }
 

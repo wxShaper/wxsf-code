@@ -1228,7 +1228,7 @@ void wxSFShapeCanvas::_OnMouseMove(wxMouseEvent& event)
 	while( node )
 	{
 		pShape = node->GetData();
-		if( pShape->IsInside(lpos) )
+		if( pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(lpos) )
 		{
 			if( pShape->IsKindOf(CLASSINFO(wxSFLineShape)) )
 			{

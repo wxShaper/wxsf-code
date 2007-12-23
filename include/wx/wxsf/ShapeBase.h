@@ -196,6 +196,8 @@ public:
 
     /*!
      * \brief Set shape's style.
+	 *
+	 * Default value is sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
      * \param style Combination of the shape's styles
      * \sa STYLE
      */
