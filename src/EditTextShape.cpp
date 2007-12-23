@@ -101,18 +101,27 @@ wxSFEditTextShape::wxSFEditTextShape(void)
 : wxSFTextShape()
 {
 	m_pTextCtrl = NULL;
+	m_fForceMultiline = sfdvEDITTEXTSHAPE_FORCEMULTILINE;
+
+	XS_SERIALIZE_EX(m_fForceMultiline, wxT("multiline"), sfdvEDITTEXTSHAPE_FORCEMULTILINE);
 }
 
 wxSFEditTextShape::wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager)
 : wxSFTextShape(pos, txt, manager)
 {
 	m_pTextCtrl = NULL;
+	m_fForceMultiline = sfdvEDITTEXTSHAPE_FORCEMULTILINE;
+
+	XS_SERIALIZE_EX(m_fForceMultiline, wxT("multiline"), sfdvEDITTEXTSHAPE_FORCEMULTILINE);
 }
 
 wxSFEditTextShape::wxSFEditTextShape(wxSFEditTextShape& obj)
 : wxSFTextShape(obj)
 {
 	m_pTextCtrl = NULL;
+	m_fForceMultiline = obj.m_fForceMultiline;
+
+	XS_SERIALIZE_EX(m_fForceMultiline, wxT("multiline"), sfdvEDITTEXTSHAPE_FORCEMULTILINE);
 }
 
 wxSFEditTextShape::~wxSFEditTextShape(void)
@@ -135,7 +144,12 @@ void wxSFEditTextShape::EditLabel()
 		double scale = GetParentCanvas()->GetScale();
 		GetParentCanvas()->CalcUnscrolledPosition(0, 0, &dx, &dy);
 
-		if(m_sText.Contains(wxT("\n")))style = wxTE_MULTILINE;
+		if( m_fForceMultiline || m_sText.Contains(wxT("\n")) )
+		{
+			style = wxTE_MULTILINE;
+			// set minimal control size
+			if( shpBB.GetWidth() < 50 )shpBB.SetWidth(50);
+		}
 
 		m_pTextCtrl = new wxSFContentCtrl(GetParentCanvas(), textCtrlId, this, m_sText, wxPoint(int((shpPos.x * scale) - dx), int((shpPos.y * scale) - dy)), wxSize(int(shpBB.GetWidth() * scale), int(shpBB.GetHeight() * scale)), style);
 

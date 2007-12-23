@@ -1054,6 +1054,7 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
 
+	wxSFShapeBase *pShape;
 	ShapeList m_lstSelection;
 	GetSelectedShapes(m_lstSelection);
 
@@ -1065,8 +1066,15 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 			wxShapeListNode *node = m_lstSelection.GetFirst();
 			while(node)
 			{
-				node->GetData()->_OnKey(event.GetKeyCode());
-				node = node->GetNext();
+				pShape = node->GetData();
+				if( pShape->ContainsStyle(wxSFShapeBase::sfsPROCESS_DEL) )
+				{
+					pShape->_OnKey(event.GetKeyCode());
+					node = node->GetNext();
+					m_lstSelection.DeleteObject(pShape);
+				}
+				else
+					node = node->GetNext();
 			}
 
             // delete selected shapes
@@ -1151,8 +1159,9 @@ void wxSFShapeCanvas::OnTextChange(wxSFEditTextShape* text)
 	long id = -1;
 	if( text ) id = text->GetId();
 
-    wxSFShapeEvent event( wxEVT_SF_TEXT_CHANGE, id);
+    wxSFShapeTextEvent event( wxEVT_SF_TEXT_CHANGE, id);
     event.SetShape( text );
+	event.SetText( text->GetText() );
     ProcessEvent( event );
 }
 

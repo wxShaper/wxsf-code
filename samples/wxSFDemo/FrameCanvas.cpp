@@ -47,7 +47,7 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	// change of the canvas history manager working mode clears the stored states
 	// so we should save initial canvas state manually
 	SaveCanvasState();
-	// SLOWER, but no othet programming overhead is required (except implementing
+	// SLOWER, but no other programming overhead is required (except implementing
 	// of standard serialization functionality). This working mode is default.
 	// GetHistoryManager().SetMode(wxSFCanvasHistory::histUSE_SERIALIZATION);
 }

@@ -41,6 +41,28 @@ wxSFShapeEvent::~wxSFShapeEvent()
 }
 
 //----------------------------------------------------------------------------------//
+// wxSFShapeEvent class
+//----------------------------------------------------------------------------------//
+
+wxSFShapeTextEvent::wxSFShapeTextEvent(wxEventType cmdType, int id)
+: wxEvent(id, cmdType)
+{
+    m_pShape = NULL;
+	m_sText = wxT("");
+}
+
+wxSFShapeTextEvent::wxSFShapeTextEvent(const wxSFShapeTextEvent& obj)
+: wxEvent(obj)
+{
+    m_pShape = obj.m_pShape;
+	m_sText = obj.m_sText;
+}
+
+wxSFShapeTextEvent::~wxSFShapeTextEvent()
+{
+}
+
+//----------------------------------------------------------------------------------//
 // wxSFShapeDropEvent class
 //----------------------------------------------------------------------------------//
 

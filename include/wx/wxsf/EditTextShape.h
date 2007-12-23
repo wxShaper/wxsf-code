@@ -12,6 +12,9 @@
 
 #include "TextShape.h"
 
+/*! \brief Default value of wxSFEditTextShape::m_fForceMultiline data member */
+#define sfdvEDITTEXTSHAPE_FORCEMULTILINE false
+
 class WXDLLIMPEXP_SF wxSFEditTextShape;
 
 /// <summary> Auxiliary class providing neccessary functionality needed for in-place
@@ -80,6 +83,10 @@ public:
 	// public functions
 	/// <summary> Switch the shape to a label editation mode. </summary>
 	void EditLabel();
+	/*! \brienf Force the edit text control to be multiline 
+	 *  \param multiline If TRUE then the associated text control will be allways multiline
+	 */
+	void ForceMultiline(bool multiline){m_fForceMultiline = multiline;}
 
 	// public virtual functions
 	/// <summary> Event handler called when the shape was double-clicked.
@@ -101,5 +108,6 @@ public:
 protected:
 	wxSFContentCtrl* m_pTextCtrl;
 	long m_nCurrentState;
+	bool m_fForceMultiline;
 };
 

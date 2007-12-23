@@ -134,8 +134,12 @@ public:
 	    sfsALWAYS_INSIDE = 32,
 	    /*! \brief User data is destroyed at the shape deletion */
 	    sfsDELETE_USER_DATA = 64,
+	    /*! \brief User data is destroyed at the shape deletion */
+	    sfsPROCESS_DEL = 128,
+	    /*! \brief Show handles if the shape is selected */
+	    sfsSHOW_HANDLES = 256,
 		/*! \brief Default shape style. */
-		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
+		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
 
     /// <summary> Default constructor </summary>
@@ -277,7 +281,7 @@ public:
 	bool IsSelected(){return m_fSelected;}
 	/// <summary> Set the shape as a selected/deselected one </summary>
 	/// <param name="state"> Selection state (TRUE is selected, FALSE is deselected) </param>
-	void Select(bool state){m_fSelected = state; ShowHandles(state && (m_nStyle & sfsSIZE_CHANGE));}
+	void Select(bool state){m_fSelected = state; ShowHandles(state && (m_nStyle & sfsSHOW_HANDLES));}
 
     /// <summary> Set shape's relative position. Absolute shape's position is then calculated
     /// as a sumation of the relative positions of this shape and all parent shapes in the shape's

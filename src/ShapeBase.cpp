@@ -369,7 +369,7 @@ void wxSFShapeBase::ScaleChildren(double x, double y)
 		    pShape->Scale(x, y, sfWITHOUTCHILDREN);
 		}
 
-		if( (pShape->GetVAlign() == valignNONE) || (pShape->GetHAlign() == halignNONE) )
+		if( (pShape->GetStyle() & sfsPOSITION_CHANGE) && ((pShape->GetVAlign() == valignNONE) || (pShape->GetHAlign() == halignNONE)) )
 		{
             pShape->SetRelativePosition(pShape->GetRelativePosition().x*x, pShape->GetRelativePosition().y*y);
 		}
@@ -556,11 +556,14 @@ void wxSFShapeBase::DrawSelected(wxSFScaledPaintDC& dc)
 {
 	// HINT: overload it for custom actions...
 
-	wxCHandleListNode *node = m_lstHandles.GetFirst();
-	while(node)
+	if( m_nStyle & sfsSHOW_HANDLES )
 	{
-		node->GetData()->Draw(dc);
-		node = node->GetNext();
+		wxCHandleListNode *node = m_lstHandles.GetFirst();
+		while(node)
+		{
+			node->GetData()->Draw(dc);
+			node = node->GetNext();
+		}
 	}
 }
 

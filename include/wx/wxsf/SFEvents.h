@@ -18,6 +18,7 @@
 #include "ShapeBase.h"
 
 class WXDLLIMPEXP_SF wxSFShapeEvent;
+class WXDLLIMPEXP_SF wxSFShapeTextEvent;
 class WXDLLIMPEXP_SF wxSFShapeDropEvent;
 
 BEGIN_DECLARE_EVENT_TYPES()
@@ -27,10 +28,14 @@ BEGIN_DECLARE_EVENT_TYPES()
 END_DECLARE_EVENT_TYPES()
 
 typedef void (wxEvtHandler::*wxSFShapeEventFunction)(wxSFShapeEvent&);
+typedef void (wxEvtHandler::*wxSFShapeTextEventFunction)(wxSFShapeTextEvent&);
 typedef void (wxEvtHandler::*wxSFShapeDropEventFunction)(wxSFShapeDropEvent&);
 
 #define wxSFShapeEventHandler(func) \
     (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSFShapeEventFunction, &func)
+
+#define wxSFShapeTextEventHandler(func) \
+    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSFShapeTextEventFunction, &func)
 
 #define wxSFShapeDropEventHandler(func) \
     (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSFShapeDropEventFunction, &func)
@@ -51,7 +56,7 @@ typedef void (wxEvtHandler::*wxSFShapeDropEventFunction)(wxSFShapeDropEvent&);
 #define EVT_SF_TEXT_CHANGE(id, fn) \
     DECLARE_EVENT_TABLE_ENTRY( \
         wxEVT_SF_TEXT_CHANGE, id, wxID_ANY, \
-        (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxSFShapeEventFunction, &fn ), \
+        (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxSFShapeTextEventFunction, &fn ), \
         (wxObject *) NULL \
     ),
 
@@ -97,6 +102,50 @@ private:
     // private data members
     /*! \brief Pointer to stored shape object. */
     wxSFShapeBase* m_pShape;
+};
+
+class WXDLLIMPEXP_SF wxSFShapeTextEvent : public wxEvent
+{
+public:
+    /*! \brief Constructor */
+    wxSFShapeTextEvent(wxEventType cmdType = wxEVT_NULL, int id = 0);
+    /*! \brief Copy constructor */
+    wxSFShapeTextEvent(const wxSFShapeTextEvent& obj);
+    /*! \brief Destructor */
+    virtual ~wxSFShapeTextEvent();
+
+    // public member data accessors
+    /*!
+     * \brief Insert a shape object to the event object.
+     * \param shape Pointer to the shape object
+     */
+    void SetShape(wxSFShapeBase* shape){m_pShape = shape;}
+    /*!
+     * \brief Get a shape object from the event object.
+     * \return Pointer to the shape object.
+     */
+    wxSFShapeBase* GetShape(){return m_pShape;}
+    /*!
+     * \brief Set new text shape.
+     * \param txt New text content.
+     */
+	void SetText(const wxString& txt){m_sText = txt;}
+    /*!
+     * \brief Get a shape text.
+     * \return Shape text content.
+     */
+	wxString GetText(){return m_sText;}
+
+    /*! \brief Clone this event object and return pointer to the new instance. */
+    wxEvent* Clone() const { return new wxSFShapeTextEvent(*this); }
+
+
+private:
+    // private data members
+    /*! \brief Pointer to stored shape object. */
+    wxSFShapeBase* m_pShape;
+	/*! \brief New shape text. */
+	wxString m_sText;
 };
 
 /*!
