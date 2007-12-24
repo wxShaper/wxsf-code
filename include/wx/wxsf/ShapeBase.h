@@ -1,4 +1,4 @@
-﻿/***************************************************************
+/***************************************************************
  * Name:      ShapeBase.h
  * Purpose:   Defines shape base class
  * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
@@ -130,13 +130,13 @@ public:
 	    sfsHOVERING = 8,
 	    /*! \brief Shape is highlighted at shape dragging */
 	    sfsHIGHLIGHTING = 16,
-	    /*! \brief Shape is allways inside its parent */
+	    /*! \brief Shape is always inside its parent */
 	    sfsALWAYS_INSIDE = 32,
 	    /*! \brief User data is destroyed at the shape deletion */
 	    sfsDELETE_USER_DATA = 64,
 	    /*! \brief The DEL key is processed by the shape (not by the shape canvas) */
 	    sfsPROCESS_DEL = 128,
-	    /*! \brief Show handles if the shape is selected (even if the size change is not allowed) */
+	    /*! \brief Show handles if the shape is selected */
 	    sfsSHOW_HANDLES = 256,
 		/*! \brief Default shape style. */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
