@@ -1173,17 +1173,17 @@ void wxSFShapeCanvas::OnConnectionFinished(wxSFLineShape* connection)
     ProcessEvent( event );
 }
 
-void wxSFShapeCanvas::OnTextChange(wxSFEditTextShape* text)
+void wxSFShapeCanvas::OnTextChange(wxSFEditTextShape* shape)
 {
     // HINT: override it for custom actions...
 
 	// ... standard implementation generates the wxEVT_SF_TEXT_CHANGE event.
 	long id = -1;
-	if( text ) id = text->GetId();
+	if( shape ) id = shape->GetId();
 
     wxSFShapeTextEvent event( wxEVT_SF_TEXT_CHANGE, id);
-    event.SetShape( text );
-	event.SetText( text->GetText() );
+    event.SetShape( shape );
+	event.SetText( shape->GetText() );
     ProcessEvent( event );
 }
 

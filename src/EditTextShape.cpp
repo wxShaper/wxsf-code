@@ -54,7 +54,7 @@ wxSFContentCtrl::wxSFContentCtrl(wxWindow* parent, wxWindowID id, wxSFEditTextSh
 
 void wxSFContentCtrl::OnKillFocus(wxFocusEvent& event)
 {
-	Quit();
+	//Quit();
 }
 
 void wxSFContentCtrl::OnKeyDown(wxKeyEvent& event)
@@ -81,6 +81,7 @@ void wxSFContentCtrl::Quit()
 		// save canvas state if the textctrl content has changed...
 		if(m_sPrevContent != GetValue())
 		{
+			m_sPrevContent = GetValue();
 		    // inform parent shape canvas about text change...
             m_pParentShape->GetParentCanvas()->OnTextChange(m_pParentShape);
 		    m_pParentShape->GetParentCanvas()->SaveCanvasState();
@@ -148,8 +149,9 @@ void wxSFEditTextShape::EditLabel()
 		{
 			style = wxTE_MULTILINE;
 			// set minimal control size
-			if( shpBB.GetWidth() < 50 )shpBB.SetWidth(50);
 		}
+
+		if( (m_sText == wxEmptyString) || ((style == wxTE_MULTILINE) && (shpBB.GetWidth() < 50)) )shpBB.SetWidth(50);
 
 		m_pTextCtrl = new wxSFContentCtrl(GetParentCanvas(), textCtrlId, this, m_sText, wxPoint(int((shpPos.x * scale) - dx), int((shpPos.y * scale) - dy)), wxSize(int(shpBB.GetWidth() * scale), int(shpBB.GetHeight() * scale)), style);
 

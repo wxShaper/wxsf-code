@@ -596,9 +596,9 @@ public:
      *
      * The function is called by the framework and its default implementation
      * generates wxEVT_SF_TEXT_CHANGE event.
-     * \param text Changed wxSFEditTestShape object
+     * \param shape Changed wxSFEditTextShape object
      */
-	virtual void OnTextChange(wxSFEditTextShape* text);
+	virtual void OnTextChange(wxSFEditTextShape* shape);
 	/*!
 	 * \brief Event handler called after successfull conection creation. The function
 	 * can be overrided if necessary. The default implementation
