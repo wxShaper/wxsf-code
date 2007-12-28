@@ -51,7 +51,8 @@ wxSFBitmapShape::wxSFBitmapShape(wxSFBitmapShape& obj)
 	m_fRescaleInProgress = false;
 	m_fCanScale = obj.m_fCanScale;
 
-	m_Bitmap = obj.m_Bitmap;
+	// create real bitmap copy
+	m_Bitmap = obj.m_Bitmap.GetSubBitmap(wxRect(0, 0, obj.m_Bitmap.GetWidth(), obj.m_Bitmap.GetHeight()));
 	m_OriginalBitmap = m_Bitmap;
 
 	// mark serialized properties
