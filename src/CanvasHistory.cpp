@@ -81,7 +81,7 @@ void wxSFCanvasHistory::SaveCanvasState()
 			// delete all states newer than the current state
 			if(m_pCurrentCanvasState)
 			{
-				wxCStateListNode* delnode = m_lstCanvasStates.GetLast();
+				StateList::compatibility_iterator delnode = m_lstCanvasStates.GetLast();
 				while(delnode != m_pCurrentCanvasState)
 				{
 					m_lstCanvasStates.DeleteNode(delnode);
@@ -111,7 +111,7 @@ void wxSFCanvasHistory::SaveCanvasState()
 			// delete all states newer than the current state
 			if(m_pCurrentCanvasState)
 			{
-				wxCStateListNode* delnode = m_lstCanvasStates.GetLast();
+				StateList::compatibility_iterator delnode = m_lstCanvasStates.GetLast();
 				while(delnode != m_pCurrentCanvasState)
 				{
 					m_lstCanvasStates.DeleteNode(delnode);

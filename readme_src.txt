@@ -35,8 +35,8 @@ Requirements:
 
 - wxSF uses wxWidgets (www.wxwidgets.org) and was tested with version 2.8.x on MS Windows
   and Linux (Ubuntu 7.04) target platforms.
-- Code::Blocks (www.codeblocks.org) IDE with MinGW C++ compiler or MS Visual Studio 2005/
-  Visual C++ 2005 Express are recommended for opening included workspace/project files.
+- Code::Blocks (www.codeblocks.org) IDE with MinGW C++ compiler or MS Visual Studio 2005/2008
+  Express are recommended for opening included workspace/project files.
 
 
 Distribution content:

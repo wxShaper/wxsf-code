@@ -1,3 +1,8 @@
+Changes in version 1.5.1 beta (2007-12-30):
+--------------------------------------------
+- Updated code to use wxList::compatibility_iterator instead of pointers to wxNode class (so the
+  STL lists are supported now).
+
 Changes in version 1.5.0 beta (2007-12-27):
 --------------------------------------------
 - Switched to use wxXmlSerializer (wxXS) 1.1.2

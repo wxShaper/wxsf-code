@@ -41,7 +41,7 @@ wxString wxSFShapeDataObject::SerializeSelectedShapes(const ShapeList& selection
 	wxXmlNode *root = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("chart"));
 
 	// serialize copied shapes to XML node
-	wxShapeListNode *node = selection.GetFirst();
+	ShapeList::compatibility_iterator node = selection.GetFirst();
 	while(node)
 	{
 		pShape = node->GetData();

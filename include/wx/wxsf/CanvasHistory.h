@@ -102,9 +102,9 @@ protected:
 	wxSFShapeCanvas * m_pParentCanvas;
 	/// <summary> List of stored canvas state instances </summary>
 	/// <seealso cref="wxSFCanvasState"></seealso>
-	CStateList m_lstCanvasStates;
+	StateList m_lstCanvasStates;
 	/// <summary> Auxilary pointer to state list node </summary>
-	wxCStateListNode* m_pCurrentCanvasState;
+	StateList::compatibility_iterator m_pCurrentCanvasState;
 	/*! \brief Canvas history mode */
 	MODE m_nWorkingMode;
 

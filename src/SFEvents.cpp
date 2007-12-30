@@ -86,7 +86,7 @@ wxSFShapeDropEvent::~wxSFShapeDropEvent()
 
 void wxSFShapeDropEvent::SetDroppedShapes(const ShapeList &list)
 {
-	wxShapeListNode *node = list.GetFirst();
+	ShapeList::compatibility_iterator node = list.GetFirst();
 	while(node)
 	{
 		m_lstDroppedShapes.Append(node->GetData());

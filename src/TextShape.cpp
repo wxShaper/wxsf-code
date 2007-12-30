@@ -157,19 +157,12 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 	case wxSFShapeHandle::hndLEFT:
 		{
 		    double dx = m_nRectSize.x - prevSize.x;
-
-            // update position of children
-            /*ShapeList m_lstChildren;
-            GetChildren(m_lstChildren);
-            m_lstChildren.Insert(this);*/
-
-            //wxShapeListNode *node = m_lstChildren.GetFirst();
             MoveBy(-dx, 0);
 
-            wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+            SerializableList::compatibility_iterator node = GetFirstChildNode();
             while(node)
             {
-                node->GetData()->MoveBy(-dx, 0);
+                ((wxSFShapeBase*)node->GetData())->MoveBy(-dx, 0);
                 node = node->GetNext();
             }
 		}
@@ -178,19 +171,12 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 	case wxSFShapeHandle::hndTOP:
 		{
 		    double dy = m_nRectSize.y - prevSize.y;
-
-            // update position of children
-            /*ShapeList m_lstChildren;
-            GetChildren(m_lstChildren);
-            m_lstChildren.Insert(this);
-
-            wxShapeListNode *node = m_lstChildren.GetFirst();*/
             MoveBy(0, -dy);
 
-            wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+            SerializableList::compatibility_iterator node = GetFirstChildNode();
             while(node)
             {
-                node->GetData()->MoveBy(0, -dy);
+                ((wxSFShapeBase*)node->GetData())->MoveBy(0, -dy);
                 node = node->GetNext();
             }
 		}

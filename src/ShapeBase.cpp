@@ -130,7 +130,7 @@ wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj) : xsSerializable(obj)
 
 	// copy handles
 	wxSFShapeHandle *pHandle;
-	wxCHandleListNode *node = obj.m_lstHandles.GetFirst();
+	HandleList::compatibility_iterator node = obj.m_lstHandles.GetFirst();
 	while(node)
 	{
 		pHandle = new wxSFShapeHandle(*node->GetData());
@@ -221,7 +221,7 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
         ShapeList lstLines;
         GetShapeManager()->GetAssignedConnections(this, CLASSINFO(wxSFLineShape), lineBOTH, lstLines);
 
-		wxShapeListNode* node = lstLines.GetFirst();
+		ShapeList::compatibility_iterator node = lstLines.GetFirst();
 		while(node)
 		{
 			pLine = node->GetData();
@@ -242,7 +242,7 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 		this->GetChildren(lstChildren);
 
 		// now, call this function for all children recursively...
-		wxShapeListNode* node = lstChildren.GetFirst();
+		ShapeList::compatibility_iterator node = lstChildren.GetFirst();
 		while(node)
 		{
 		    node->GetData()->_GetCompleteBoundingBox(rct, mask);
@@ -295,7 +295,7 @@ wxRealPoint wxSFShapeBase::GetBorderPoint(const wxRealPoint& to)
 
 void wxSFShapeBase::ShowHandles(bool show)
 {
-	wxCHandleListNode *node = m_lstHandles.GetFirst();
+	HandleList::compatibility_iterator node = m_lstHandles.GetFirst();
 	while(node)
 	{
 		node->GetData()->Show(show);
@@ -359,7 +359,7 @@ void wxSFShapeBase::ScaleChildren(double x, double y)
 	ShapeList m_lstChildren;
 	GetChildren(m_lstChildren, sfRECURSIVE);
 
-	wxShapeListNode *node = m_lstChildren.GetFirst();
+	ShapeList::compatibility_iterator node = m_lstChildren.GetFirst();
 	while(node)
 	{
 		wxSFShapeBase* pShape = node->GetData();
@@ -392,10 +392,10 @@ void wxSFShapeBase::Update()
     // do alignment of shape's children (if required)
     if( !this->IsKindOf(CLASSINFO(wxSFLineShape)) )
     {
-        wxShapeListNode* node = (wxShapeListNode*)GetFirstChildNode();
+        SerializableList::compatibility_iterator node = GetFirstChildNode();
         while(node)
         {
-            node->GetData()->DoAlignment();
+            ((wxSFShapeBase*)node->GetData())->DoAlignment();
             node = node->GetNext();
         }
     }
@@ -416,7 +416,7 @@ bool wxSFShapeBase::AcceptCurrentlyDraggedShapes()
         ShapeList lstSelection;
         GetShapeManager()->GetShapeCanvas()->GetSelectedShapes(lstSelection);
 
-        wxShapeListNode* node = lstSelection.GetFirst();
+        ShapeList::compatibility_iterator node = lstSelection.GetFirst();
         while(node)
         {
             if(m_arrAcceptedChildren.Index(node->GetData()->GetClassInfo()->GetClassName()) == wxNOT_FOUND)return false;
@@ -538,10 +538,10 @@ void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 	// ... then draw child shapes
 	if(children)
 	{
-        wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+        SerializableList::compatibility_iterator node = GetFirstChildNode();
         while(node)
         {
-            node->GetData()->Draw(dc);
+            ((wxSFShapeBase*)node->GetData())->Draw(dc);
             node = node->GetNext();
         }
 	}
@@ -558,7 +558,7 @@ void wxSFShapeBase::DrawSelected(wxSFScaledPaintDC& dc)
 
 	if( m_nStyle & sfsSHOW_HANDLES )
 	{
-		wxCHandleListNode *node = m_lstHandles.GetFirst();
+		HandleList::compatibility_iterator node = m_lstHandles.GetFirst();
 		while(node)
 		{
 			node->GetData()->Draw(dc);
@@ -588,7 +588,7 @@ void wxSFShapeBase::CreateHandles()
 
 void wxSFShapeBase::GetChildren(ShapeList& children, bool recursive)
 {
-    wxSerializableListNode *node = GetFirstChildNode();
+    SerializableList::compatibility_iterator node = GetFirstChildNode();
     while(node)
     {
         wxSFShapeBase *pShape = (wxSFShapeBase*)node->GetData();
@@ -626,7 +626,7 @@ void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo
         GetShapeManager()->GetAssignedConnections(this, shapeInfo, condir, lstConnections);
 
         // find oposite shpes in direct branches
-        wxShapeListNode *node = lstConnections.GetFirst();
+        ShapeList::compatibility_iterator node = lstConnections.GetFirst();
         while(node)
         {
             pLine = (wxSFLineShape*)node->GetData();
@@ -724,7 +724,7 @@ void wxSFShapeBase::Refresh(const wxRect& rct)
 
 wxSFShapeHandle* wxSFShapeBase::GetHandle(wxSFShapeHandle::HANDLETYPE type, long id)
 {
-	wxCHandleListNode *node = m_lstHandles.GetFirst();
+	HandleList::compatibility_iterator node = m_lstHandles.GetFirst();
 	while(node)
 	{
 		wxSFShapeHandle *hnd = node->GetData();
@@ -951,7 +951,7 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		wxSFShapeCanvas *pCanvas = GetShapeManager()->GetShapeCanvas();
 
 		// send the event to the shape handles too...
-		wxCHandleListNode *node = m_lstHandles.GetFirst();
+		HandleList::compatibility_iterator node = m_lstHandles.GetFirst();
 		while(node)
 		{
 			node->GetData()->OnMouseMove(pos);
@@ -1104,14 +1104,14 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 	this->OnHandle(handle);
 
     // align children
-    wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+    SerializableList::compatibility_iterator node = GetFirstChildNode();
     while(node)
     {
-        pChild = node->GetData();
+        pChild = (wxSFShapeBase*)node->GetData();
 
         if((pChild->GetVAlign() != valignNONE) || (pChild->GetHAlign() != halignNONE))
         {
-            node->GetData()->DoAlignment();
+            pChild->DoAlignment();
         }
         node = node->GetNext();
     }

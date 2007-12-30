@@ -48,4 +48,4 @@ protected:
 	wxSFDiagramManager *m_pDataManager;
 };
 
-WX_DECLARE_LIST(wxSFCanvasState, CStateList);
+WX_DECLARE_LIST(wxSFCanvasState, StateList);

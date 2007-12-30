@@ -549,7 +549,7 @@ public:
      * \return Reference to the handle list
      * \sa CHandleList
      */
-	CHandleList& GetHandles() {return m_lstHandles;}
+	HandleList& GetHandles() {return m_lstHandles;}
 	/*!
 	 * \brief Get shape handle.
 	 * \param type Handle type
@@ -746,7 +746,7 @@ protected:
     HALIGN m_nHAlign;
 
 	/*! \brief Handle list */
-	CHandleList m_lstHandles;
+	HandleList m_lstHandles;
 
 	/*! \brief Container for serializable user data associated with the shape */
 	xsSerializable *m_pUserData;

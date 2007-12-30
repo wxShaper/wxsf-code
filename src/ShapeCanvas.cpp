@@ -296,7 +296,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 			ShapeList m_lstSelected;
 
 			// draw unselected non line-based shapes first...
-			wxShapeListNode *node = m_lstToDraw.GetFirst();
+			ShapeList::compatibility_iterator node = m_lstToDraw.GetFirst();
 			while(node)
 			{
 				pShape = (wxSFShapeBase*)node->GetData();
@@ -356,7 +356,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 		else
 		{
 			// draw parent shapes (children are processed by parent objects)
-			wxShapeListNode *node = m_lstToDraw.GetFirst();
+			ShapeList::compatibility_iterator node = m_lstToDraw.GetFirst();
 			while(node)
 			{
 				pShape = node->GetData();
@@ -409,7 +409,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 	else
 	{
 		// draw parent shapes (children are processed by parent objects)
-		wxSerializableListNode *node = m_pManager->GetRootItem()->GetFirstChildNode();
+		SerializableList::compatibility_iterator node = m_pManager->GetRootItem()->GetFirstChildNode();
 		while(node)
 		{
 			pShape = (wxSFShapeBase*)node->GetData();
@@ -530,7 +530,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 					//m_shpMultiEdit.ShowHandles(false);
 
 					// inform selected shapes about begin of dragging...
-					wxShapeListNode *node = m_lstSelection.GetFirst();
+					ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 					while(node)
 					{
 						node->GetData()->_OnBeginDrag(FitPositionToGrid(lpos));
@@ -742,7 +742,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 			ShapeList m_lstSelection;
 			GetSelectedShapes(m_lstSelection);
 
-			wxShapeListNode *node = m_lstSelection.GetFirst();
+			ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 			while(node)
 			{
 				wxSFShapeBase* pShape = node->GetData();
@@ -796,7 +796,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
             m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
 			wxRect selRect(m_shpMultiEdit.GetBoundingBox().GetLeftTop(), m_shpMultiEdit.GetBoundingBox().GetRightBottom());
-			wxShapeListNode *node = shapes.GetFirst();
+			ShapeList::compatibility_iterator node = shapes.GetFirst();
 			while(node)
 			{
 				wxSFShapeBase* pShape = node->GetData();
@@ -972,7 +972,7 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
                 /*ShapeList shapes;
                 m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);*/
 
-				wxShapeListNode* node = m_lstCurrentShapes.GetFirst();
+				ShapeList::compatibility_iterator node = m_lstCurrentShapes.GetFirst();
 				while(node)
 				{
 					node->GetData()->_OnMouseMove(lpos);
@@ -1032,7 +1032,7 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 					wxSFShapeBase* pShape;
 
 					//m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
-					wxShapeListNode* node = m_lstCurrentShapes.GetFirst();
+					ShapeList::compatibility_iterator node = m_lstCurrentShapes.GetFirst();
 					while(node)
 					{
 						pShape = node->GetData();
@@ -1085,7 +1085,7 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 	case WXK_DELETE:
 		{
 		    // send event to selected shapes
-			wxShapeListNode *node = m_lstSelection.GetFirst();
+			ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 			while(node)
 			{
 				pShape = node->GetData();
@@ -1129,7 +1129,7 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 
             default:
                 // send event to selected shapes
-                wxShapeListNode *node = m_lstSelection.GetFirst();
+                ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
                 while(node)
                 {
                     node->GetData()->_OnKey(event.GetKeyCode());
@@ -1144,7 +1144,7 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 
 	default:
 		{
-			wxShapeListNode *node = m_lstSelection.GetFirst();
+			ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 			while(node)
 			{
 				node->GetData()->_OnKey(event.GetKeyCode());
@@ -1246,7 +1246,7 @@ void wxSFShapeCanvas::_OnMouseMove(wxMouseEvent& event)
 	m_lstCurrentShapes.Clear();
 
 	m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), m_lstCurrentShapes);
-	wxShapeListNode *node = m_lstCurrentShapes.GetLast();
+	ShapeList::compatibility_iterator node = m_lstCurrentShapes.GetLast();
 	while( node )
 	{
 		pShape = node->GetData();
@@ -1448,7 +1448,7 @@ void wxSFShapeCanvas::SetScale(double scale)
 	ShapeList lstBitmaps;
 	m_pManager->GetShapes(CLASSINFO(wxSFBitmapShape), lstBitmaps);
 
-	wxShapeListNode* node = lstBitmaps.GetFirst();
+	ShapeList::compatibility_iterator node = lstBitmaps.GetFirst();
 	while(node)
 	{
 		node->GetData()->Scale(1, 1);
@@ -1633,7 +1633,7 @@ int wxSFShapeCanvas::GetSelectedShapes(ShapeList& selection)
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	wxShapeListNode* node = shapes.GetFirst();
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
 	while(node)
 	{
 		wxSFShapeBase* pShape = node->GetData();
@@ -1675,7 +1675,7 @@ wxSFShapeBase* wxSFShapeCanvas::GetShapeAtPosition(const wxPoint& pos, int zorde
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	wxShapeListNode *node = shapes.GetFirst();
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
 	while(node)
 	{
 	    pShape = node->GetData();
@@ -1741,7 +1741,7 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
 	// first test multiedit handles...
 	if(m_shpMultiEdit.IsVisible())
 	{
-		wxCHandleListNode* hnode = m_shpMultiEdit.GetHandles().GetFirst();
+		HandleList::compatibility_iterator hnode = m_shpMultiEdit.GetHandles().GetFirst();
 		while(hnode)
 		{
 			pHandle = hnode->GetData();
@@ -1754,13 +1754,14 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	wxShapeListNode *node = shapes.GetFirst();
+	HandleList::compatibility_iterator hnode;
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
 	while(node)
 	{
 		// iterate through all shape's handles
 		if(node->GetData()->ContainsStyle(wxSFShapeBase::sfsSIZE_CHANGE))
 		{
-            wxCHandleListNode* hnode = node->GetData()->GetHandles().GetFirst();
+            hnode = node->GetData()->GetHandles().GetFirst();
             while(hnode)
             {
                 pHandle = hnode->GetData();
@@ -1785,7 +1786,7 @@ int wxSFShapeCanvas::GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes)
     ShapeList lstShapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), lstShapes);
 
-	wxShapeListNode *node = lstShapes.GetFirst();
+	ShapeList::compatibility_iterator node = lstShapes.GetFirst();
 	while(node)
 	{
 		pShape = node->GetData();
@@ -1807,7 +1808,7 @@ int wxSFShapeCanvas::GetShapesInside(const wxRect& rct, ShapeList& shapes)
     ShapeList lstShapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), lstShapes);
 
-	wxShapeListNode *node = lstShapes.GetFirst();
+	ShapeList::compatibility_iterator node = lstShapes.GetFirst();
 	while(node)
 	{
 		pShape = node->GetData();
@@ -1826,7 +1827,7 @@ void wxSFShapeCanvas::DeselectAll()
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	wxShapeListNode *node = shapes.GetFirst();
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
 	while(node)
 	{
 		node->GetData()->Select(false);
@@ -1848,7 +1849,7 @@ void wxSFShapeCanvas::SelectAll()
 
 	if(shapes.GetCount() > 0)
 	{
-		wxShapeListNode *node = shapes.GetFirst();
+		ShapeList::compatibility_iterator node = shapes.GetFirst();
 		while(node)
 		{
 			node->GetData()->Select(true);
@@ -1877,7 +1878,7 @@ void wxSFShapeCanvas::HideAllHandles()
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	wxShapeListNode *node = shapes.GetFirst();
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
 	while(node)
 	{
 		node->GetData()->ShowHandles(false);
@@ -1893,7 +1894,7 @@ void wxSFShapeCanvas::ValidateSelection(ShapeList& selection)
 	ShapeList m_lstShapesToRemove;
 
 	// find child shapes that have parents in the list
-	wxShapeListNode *node = selection.GetFirst();
+	ShapeList::compatibility_iterator node = selection.GetFirst();
 	while(node)
 	{
 		wxSFShapeBase *pShape = node->GetData();
@@ -1937,7 +1938,7 @@ void wxSFShapeCanvas::ValidateSelectionForClipboard(ShapeList& list)
 	ShapeList lstChildren;
 
     wxSFShapeBase* pShape;
-    wxShapeListNode *lnode, *cnode, *node = list.GetFirst();
+    ShapeList::compatibility_iterator lnode, cnode, node = list.GetFirst();
     while(node)
     {
         pShape = node->GetData();
@@ -1987,7 +1988,7 @@ void wxSFShapeCanvas::UpdateMultieditSize()
 	//bool firstRun = true;
 	ShapeList m_lstSelection;
 	GetSelectedShapes(m_lstSelection);
-	wxShapeListNode *node = m_lstSelection.GetFirst();
+	ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 	while(node)
 	{
 		if(node == m_lstSelection.GetFirst())
@@ -2018,7 +2019,7 @@ void wxSFShapeCanvas::SetHoverColour(const wxColour& col)
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	wxShapeListNode * node = shapes.GetFirst();
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
 	while(node)
 	{
 		node->GetData()->SetHoverColour(col);
@@ -2038,7 +2039,7 @@ wxRect wxSFShapeCanvas::GetTotalBoundingBox() const
         ShapeList shapes;
         m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-        wxShapeListNode* node = shapes.GetFirst();
+        ShapeList::compatibility_iterator node = shapes.GetFirst();
         while(node)
         {
             if(node == shapes.GetFirst())
@@ -2063,7 +2064,7 @@ wxRect wxSFShapeCanvas::GetSelectionBB()
     ShapeList lstSelection;
     GetSelectedShapes(lstSelection);
 
-    wxShapeListNode *node = lstSelection.GetFirst();
+    ShapeList::compatibility_iterator node = lstSelection.GetFirst();
     while(node)
     {
         node->GetData()->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN | wxSFShapeBase::bbCONNECTIONS);
@@ -2095,7 +2096,7 @@ void wxSFShapeCanvas::DeleteAllTextCtrls()
 	ShapeList lstShapes;
 	m_pManager->GetShapes(CLASSINFO(wxSFEditTextShape), lstShapes);
 
-	wxShapeListNode* node = lstShapes.GetFirst();
+	ShapeList::compatibility_iterator node = lstShapes.GetFirst();
 	while(node)
 	{
 		pTextCtrl = ((wxSFEditTextShape*)node->GetData())->GetTextCtrl();
@@ -2117,7 +2118,7 @@ void wxSFShapeCanvas::MoveShapesFromNegatives()
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	wxShapeListNode* node = shapes.GetFirst();
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
 	while(node)
 	{
 		shapePos = node->GetData()->GetAbsolutePosition();
@@ -2169,7 +2170,7 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
     updRct.Inflate(sfDEFAULT_ME_OFFSET, sfDEFAULT_ME_OFFSET);
 
     // find most distant position
-    wxShapeListNode *node = lstSelection.GetFirst();
+    ShapeList::compatibility_iterator node = lstSelection.GetFirst();
     while(node)
     {
         pShape = node->GetData();
@@ -2441,7 +2442,7 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 
 			// find dropped shapes
 			m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), lstCurrContent);
-			wxShapeListNode *node = lstCurrContent.GetFirst();
+			ShapeList::compatibility_iterator node = lstCurrContent.GetFirst();
 			while(node)
 			{
 				pShape = node->GetData();

@@ -517,7 +517,7 @@ void xsListRealPointPropIO::Write(xsProperty *property, wxXmlNode *target)
     if(list->GetCount() > 0)
     {
         wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
-        wxRealPointListNode* listNode = list->GetFirst();
+		RealPointList::compatibility_iterator listNode = list->GetFirst();
         while(listNode)
         {
             AddPropertyNode(newNode, wxT("item"), xsRealPointPropIO::ToString(*(wxRealPoint*)listNode->GetData()));
@@ -538,7 +538,7 @@ wxString xsListRealPointPropIO::ToString(RealPointList value)
 {
 	wxString out = wxT("[ ");
 
-	wxRealPointListNode *node = value.GetFirst();
+	RealPointList::compatibility_iterator node = value.GetFirst();
 	while( node )
 	{
 		out << xsRealPointPropIO::ToString(*(wxRealPoint*)node->GetData());

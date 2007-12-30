@@ -93,10 +93,10 @@ void wxSFRectShape::FitToChildren()
     // get bounding box of the shape and children set be inside it
     wxRect chBB = GetBoundingBox();
 
-    wxShapeListNode* node = (wxShapeListNode*)GetFirstChildNode();
+    SerializableList::compatibility_iterator node = GetFirstChildNode();
     while(node)
     {
-        pChild = node->GetData();
+        pChild = (wxSFShapeBase*)node->GetData();
 
         if( pChild->GetStyle() & sfsALWAYS_INSIDE )
         {
@@ -124,10 +124,10 @@ void wxSFRectShape::FitToChildren()
 			// move its "1st level" children if neccessary
 			if((dx < 0) || (dy < 0))
 			{
-				node = (wxShapeListNode*)GetFirstChildNode();
+				node = GetFirstChildNode();
 				while(node)
 				{
-					pChild = node->GetData();
+					pChild = (wxSFShapeBase*)node->GetData();
 					if(dx < 0)pChild->MoveBy(abs((int)dx), 0);
 					if(dy < 0)pChild->MoveBy(0, abs((int)dy));
 
@@ -195,10 +195,10 @@ void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
 	double dx = (double)handle.GetPosition().x - GetAbsolutePosition().x;
 
 	// update position of children
-	wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+	SerializableList::compatibility_iterator node = GetFirstChildNode();
 	while(node)
 	{
-	    pChild = node->GetData();
+	    pChild = (wxSFShapeBase*)node->GetData();
 	    if( pChild->GetHAlign() == halignNONE )
 	    {
             pChild->MoveBy(-dx, 0);
@@ -219,10 +219,10 @@ void wxSFRectShape::OnTopHandle(wxSFShapeHandle& handle)
 	double dy = (double)handle.GetPosition().y - GetAbsolutePosition().y;
 
 	// update position of children
-	wxShapeListNode *node = (wxShapeListNode*)GetFirstChildNode();
+	SerializableList::compatibility_iterator node = GetFirstChildNode();
 	while(node)
 	{
-	    pChild = node->GetData();
+	    pChild = (wxSFShapeBase*)node->GetData();
 	    if( pChild->GetVAlign() == valignNONE )
 	    {
             pChild->MoveBy(0, -dy);

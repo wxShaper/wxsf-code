@@ -42,7 +42,7 @@ void wxSFMultiSelRect::OnBeginHandle(wxSFShapeHandle& handle)
 		ShapeList lstShapes;
 		GetParentCanvas()->GetSelectedShapes(lstShapes);
 
-		wxShapeListNode* node = lstShapes.GetFirst();
+		ShapeList::compatibility_iterator node = lstShapes.GetFirst();
 		while(node)
 		{
 			node->GetData()->OnBeginHandle(handle);
@@ -60,7 +60,7 @@ void wxSFMultiSelRect::OnEndHandle(wxSFShapeHandle& handle)
 		ShapeList lstShapes;
 		GetParentCanvas()->GetSelectedShapes(lstShapes);
 
-		wxShapeListNode* node = lstShapes.GetFirst();
+		ShapeList::compatibility_iterator node = lstShapes.GetFirst();
 		while(node)
 		{
 			node->GetData()->OnEndHandle(handle);
@@ -82,7 +82,7 @@ bool wxSFMultiSelRect::AnyWidthExceeded(const wxPoint& delta)
 		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		// first determine whether any shape in the selection exceeds its bounds
-		wxShapeListNode *node = m_lstSelection.GetFirst();
+		ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 		while(node)
 		{
 		    pShape = node->GetData();
@@ -106,7 +106,7 @@ bool wxSFMultiSelRect::AnyHeightExceeded(const wxPoint& delta)
 		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
 		// first determine whether any shape in the selection exceeds its bounds
-		wxShapeListNode *node = m_lstSelection.GetFirst();
+		ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 		while(node)
 		{
 		    pShape = node->GetData();
@@ -129,7 +129,7 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas() && !AnyWidthExceeded(handle.GetDelta()))
 	{
-	    wxRealPointListNode* ptnode;
+	    RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 
@@ -138,7 +138,7 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 		ShapeList m_lstSelection;
 		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
-		wxShapeListNode *node = m_lstSelection.GetFirst();
+		ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 		while(node)
 		{
 			wxSFShapeBase* pShape = node->GetData();
@@ -177,7 +177,7 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas() && !AnyWidthExceeded(wxPoint(-handle.GetDelta().x, 0)))
 	{
-	    wxRealPointListNode* ptnode;
+	    RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 
@@ -186,7 +186,7 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 		ShapeList m_lstSelection;
 		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
-		wxShapeListNode *node = m_lstSelection.GetFirst();
+		ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 		while(node)
 		{
 			wxSFShapeBase* pShape = node->GetData();
@@ -235,7 +235,7 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas()  && !AnyHeightExceeded(handle.GetDelta()))
 	{
-        wxRealPointListNode* ptnode;
+        RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 
@@ -244,7 +244,7 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 		ShapeList m_lstSelection;
 		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
-		wxShapeListNode *node = m_lstSelection.GetFirst();
+		ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 		while(node)
 		{
 			wxSFShapeBase* pShape = node->GetData();
@@ -282,7 +282,7 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas()  && !AnyHeightExceeded(wxPoint(0, -handle.GetDelta().y)))
 	{
-	    wxRealPointListNode* ptnode;
+	    RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 
@@ -291,7 +291,7 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
 		ShapeList m_lstSelection;
 		GetParentCanvas()->GetSelectedShapes(m_lstSelection);
 
-		wxShapeListNode *node = m_lstSelection.GetFirst();
+		ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
 		while(node)
 		{
 			wxSFShapeBase* pShape = node->GetData();

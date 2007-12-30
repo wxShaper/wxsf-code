@@ -58,7 +58,7 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSF
 
 	m_nMode = modeREADY;
 
-	wxRealPointListNode* node = path.GetFirst();
+	RealPointList::compatibility_iterator node = path.GetFirst();
 	while(node)
 	{
 		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
@@ -95,7 +95,7 @@ wxSFLineShape::wxSFLineShape(wxSFLineShape& obj)
 
 	m_nMode = obj.m_nMode;
 
-	wxRealPointListNode* node = obj.m_lstPoints.GetFirst();
+	RealPointList::compatibility_iterator node = obj.m_lstPoints.GetFirst();
 	while(node)
 	{
 		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
@@ -172,7 +172,7 @@ wxSFArrowBase* wxSFLineShape::SetTrgArrow(wxClassInfo* arrowInfo)
 
 wxRealPoint wxSFLineShape::GetAbsolutePosition()
 {
-    wxRealPointListNode* ptnode;
+	RealPointList::compatibility_iterator ptnode;
 
 	int ptsCnt = (int)m_lstPoints.GetCount();
 
@@ -286,7 +286,7 @@ void wxSFLineShape::Scale(double x, double y, bool children)
 {
 	wxRealPoint *pt;
 
-	wxRealPointListNode* node = m_lstPoints.GetFirst();
+	RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 	while(node)
 	{
 		pt = node->GetData();
@@ -312,7 +312,7 @@ void wxSFLineShape::MoveBy(double x, double y)
 {
 	wxRealPoint *pt;
 
-	wxRealPointListNode* node = m_lstPoints.GetFirst();
+	RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 	while(node)
 	{
 		pt = node->GetData();
@@ -343,7 +343,7 @@ void wxSFLineShape::OnHandle(wxSFShapeHandle& handle)
     {
     case wxSFShapeHandle::hndLINECTRL:
         {
-            wxRealPointListNode* node = m_lstPoints.Item(handle.GetId());
+            RealPointList::compatibility_iterator node = m_lstPoints.Item(handle.GetId());
             if(node)
             {
                 wxRealPoint* pt = node->GetData();
@@ -440,7 +440,7 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 
 		if(m_lstPoints.GetCount() > 0)
 		{
-			wxRealPointListNode* node = m_lstPoints.GetFirst();
+			RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 			while(node)
 			{
 				pt = node->GetData();

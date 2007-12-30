@@ -22,7 +22,7 @@
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFShapeHandle, wxObject);
 
-WX_DEFINE_LIST(CHandleList);
+WX_DEFINE_LIST(HandleList);
 
 wxSFShapeHandle::wxSFShapeHandle(void)
 {

@@ -21,16 +21,16 @@ class WXDLLIMPEXP_SF wxSFShapeCanvas;
 
 /*! \brief Auxiliary class encapsulation two variables suitable for shape IDs. It is
  * used for storing infomation about various relevant shape IDs */
-class CIDPair : public wxObject
+class IDPair : public wxObject
 {
 public:
     /*! \brief Constructor */
-	CIDPair(long oldId, long newId){m_nOldID = oldId; m_nNewID = newId;}
+	IDPair(long oldId, long newId){m_nOldID = oldId; m_nNewID = newId;}
 	long m_nNewID;
 	long m_nOldID;
 };
 
-WX_DECLARE_LIST(CIDPair, CIDList);
+WX_DECLARE_LIST(IDPair, IDList);
 
 /*! \brief Class encapsulating framework's data layer. Its functions are responsible
  * for managing shape objects and their serialialization/deserialization. Presentation
@@ -236,7 +236,7 @@ protected:
 private:
 
     /*! \brief Auxiliary list */
-    CIDList m_lstIDPairs;
+    IDList m_lstIDPairs;
     /*! \brief Auxiliary list */
 	ShapeList m_lstLinesForUpdate;
 

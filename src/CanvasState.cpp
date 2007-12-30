@@ -21,7 +21,7 @@
 
 #include <wx/listimpl.cpp>
 
-WX_DEFINE_LIST(CStateList);
+WX_DEFINE_LIST(StateList);
 
 wxSFCanvasState::wxSFCanvasState(wxStreamBuffer *data)
 {

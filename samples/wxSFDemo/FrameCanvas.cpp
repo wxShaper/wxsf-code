@@ -324,7 +324,7 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
         if( lstShapes.GetCount() > 0 )
         {
             msg += wxT("\nChildren:\n");
-            wxShapeListNode* node = lstShapes.GetFirst();
+            ShapeList::compatibility_iterator node = lstShapes.GetFirst();
             while(node)
             {
                 pChild = node->GetData();
@@ -343,7 +343,7 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
         if( lstShapes.GetCount() > 0 )
         {
             msg += wxT("\nNeighbours:\n");
-            wxShapeListNode *node = lstShapes.GetFirst();
+            ShapeList::compatibility_iterator node = lstShapes.GetFirst();
             while(node)
             {
                 pChild = node->GetData();

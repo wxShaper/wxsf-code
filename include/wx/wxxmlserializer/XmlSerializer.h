@@ -207,11 +207,11 @@ public:
     /*!
      * \brief Get pointer to list node containing first serializable child object.
      */
-    wxSerializableListNode* GetFirstChildNode(){return m_lstChildItems.GetFirst();}
+	SerializableList::compatibility_iterator GetFirstChildNode(){return m_lstChildItems.GetFirst();}
     /*!
      * \brief Get pointer to list node containing last serializable child object.
      */
-    wxSerializableListNode* GetLastChildNode(){return m_lstChildItems.GetLast();}
+    SerializableList::compatibility_iterator GetLastChildNode(){return m_lstChildItems.GetLast();}
 
     /*!
      * \brief Set serializable parent object.

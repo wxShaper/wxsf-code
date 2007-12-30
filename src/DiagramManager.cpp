@@ -21,7 +21,7 @@
 #include "wx/wxsf/DiagramManager.h"
 #include "wx/wxsf/ShapeCanvas.h"
 
-WX_DEFINE_LIST(CIDList);
+WX_DEFINE_LIST(IDList);
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFDiagramManager, wxXmlSerializer);
 
@@ -30,7 +30,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.5.0 beta");
+    m_sSFVersion =  wxT("1.5.1 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -128,7 +128,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                     // get shape's children (if exist)
                     shape->GetChildren(lstChildren, sfRECURSIVE);
                     // initialize shape's children
-                    wxShapeListNode* node = lstChildren.GetFirst();
+                    ShapeList::compatibility_iterator node = lstChildren.GetFirst();
                     while(node)
                     {
                         pChild = node->GetData();
@@ -158,7 +158,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 		}
 		else
 		{
-			wxMessageBox(wxString::Format(wxT("Unable to add '%s' class object to the canvas"), shape->GetClassInfo()->GetClassName()), wxT("ShapeFramework"), wxICON_WARNING);
+			//wxMessageBox(wxString::Format(wxT("Unable to add '%s' class object to the canvas"), shape->GetClassInfo()->GetClassName()), wxT("ShapeFramework"), wxICON_WARNING);
 
 			delete shape;
 			shape = NULL;
@@ -201,7 +201,7 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
         lstChildren.Append(shape);
 
         // retrieve all assigned lines
-        wxShapeListNode* snode = lstChildren.GetFirst();
+        ShapeList::compatibility_iterator snode = lstChildren.GetFirst();
         while(snode)
         {
             GetAssignedConnections(snode->GetData(), CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, lstConnections);
@@ -209,7 +209,7 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
         }
 
 		// remove all assigne lines
-		wxShapeListNode *node = lstConnections.GetFirst();
+		ShapeList::compatibility_iterator node = lstConnections.GetFirst();
 		while(node)
 		{
 		    // one connection may be used by the parent and also by his child
@@ -231,7 +231,7 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 void wxSFDiagramManager::RemoveShapes(const ShapeList& selection)
 {
     wxSFShapeBase* pShape;
-	wxShapeListNode *node = selection.GetFirst();
+	ShapeList::compatibility_iterator node = selection.GetFirst();
 	while(node)
 	{
 	    pShape = node->GetData();
@@ -351,7 +351,7 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				if(GetIDCount(pShape->GetId()) > 1)
 				{
 					// store information about ID's change and re-assign shape's id
-					m_lstIDPairs.Append(new CIDPair(pShape->GetId(), newId));
+					m_lstIDPairs.Append(new IDPair(pShape->GetId(), newId));
 					pShape->SetId(newId);
 				}
 
@@ -389,7 +389,7 @@ int wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxClassInf
     ShapeList m_lstLines;
     if(GetShapes(shapeInfo, m_lstLines))
     {
-        wxShapeListNode *node = m_lstLines.GetFirst();
+        ShapeList::compatibility_iterator node = m_lstLines.GetFirst();
         while(node)
         {
             pLine = (wxSFLineShape*)node->GetData();
@@ -439,7 +439,7 @@ void wxSFDiagramManager::GetNeighbours(wxSFShapeBase* parent, ShapeList& neighbo
 
 		wxSFShapeBase* pShape;
 
-		wxSerializableListNode *node = GetRootItem()->GetFirstChildNode();
+		SerializableList::compatibility_iterator node = GetRootItem()->GetFirstChildNode();
 		while(node)
 		{
 			pShape = (wxSFShapeBase*)node->GetData();
@@ -459,12 +459,12 @@ bool wxSFDiagramManager::HasChildren(wxSFShapeBase* parent)
 void wxSFDiagramManager::UpdateConnections()
 {
 	wxSFLineShape* pLine;
-	CIDPair* pIDPair;
+	IDPair* pIDPair;
 
 	if(m_lstLinesForUpdate.GetCount() > 0)
 	{
 	    // check whether line's src and trg shapes realy exists
-        wxShapeListNode* node = m_lstLinesForUpdate.GetFirst();
+        ShapeList::compatibility_iterator node = m_lstLinesForUpdate.GetFirst();
         while(node)
         {
             pLine = (wxSFLineShape*)node->GetData();
@@ -480,13 +480,13 @@ void wxSFDiagramManager::UpdateConnections()
         }
 
         // now check ids
-	    wxCIDListNode* idnode = m_lstIDPairs.GetFirst();
+	    IDList::compatibility_iterator idnode = m_lstIDPairs.GetFirst();
 	    while(idnode)
 	    {
 	        pIDPair = idnode->GetData();
 	        if(pIDPair->m_nNewID != pIDPair->m_nOldID)
 	        {
-                wxShapeListNode* node = m_lstLinesForUpdate.GetFirst();
+                node = m_lstLinesForUpdate.GetFirst();
                 while(node)
                 {
                     pLine = (wxSFLineShape*)node->GetData();

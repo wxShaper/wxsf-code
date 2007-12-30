@@ -192,4 +192,4 @@ private:
 	long m_nId;
 };
 
-WX_DECLARE_LIST(wxSFShapeHandle, CHandleList);
+WX_DECLARE_LIST(wxSFShapeHandle, HandleList);
