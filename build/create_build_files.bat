@@ -1,12 +1,12 @@
 @echo off
 
-rem premake\premake-win32.exe --target cb-gcc --unicode --with-wx-shared --shared
-premake\premake-win32.exe --target cb-gcc --unicode --static-runtime
+premake\premake-win32.exe --target cb-gcc --unicode --with-wx-shared --shared
+rem premake\premake-win32.exe --target cb-gcc --unicode --static-runtime
 echo done...
 echo.
 
-rem premake\premake-win32.exe --target gnu --unicode --with-wx-shared --shared
-premake\premake-win32.exe --target gnu --unicode --static-runtime
+premake\premake-win32.exe --target gnu --unicode --with-wx-shared --shared
+rem premake\premake-win32.exe --target gnu --unicode --static-runtime
 echo done...
 echo.
 

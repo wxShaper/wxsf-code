@@ -24,7 +24,7 @@ wxSFCanvasHistory::wxSFCanvasHistory(MODE hmode)
 	m_nWorkingMode = hmode;
 
 	m_pParentCanvas = NULL;
-	m_pCurrentCanvasState = NULL;
+    m_pCurrentCanvasState = NULL;
 	m_nHistoryDepth = sfDEFAULT_MAX_CANVAS_STATES;
 
 	m_lstCanvasStates.DeleteContents(true);
@@ -79,10 +79,10 @@ void wxSFCanvasHistory::SaveCanvasState()
 			if( !pDataManager ) return;
 
 			// delete all states newer than the current state
-			if(m_pCurrentCanvasState)
+			if( m_pCurrentCanvasState )
 			{
 				StateList::compatibility_iterator delnode = m_lstCanvasStates.GetLast();
-				while(delnode != m_pCurrentCanvasState)
+				while(delnode->GetData() != m_pCurrentCanvasState)
 				{
 					m_lstCanvasStates.DeleteNode(delnode);
 					delnode = m_lstCanvasStates.GetLast();
@@ -90,7 +90,8 @@ void wxSFCanvasHistory::SaveCanvasState()
 			}
 
 			// create and append new canvas state
-			m_pCurrentCanvasState =  m_lstCanvasStates.Append(new wxSFCanvasState(pDataManager));
+			m_pCurrentCanvasState = new wxSFCanvasState(pDataManager);
+			m_lstCanvasStates.Append(m_pCurrentCanvasState);
 
 			// check the history bounds
 			if(m_lstCanvasStates.GetCount() > m_nHistoryDepth)
@@ -109,10 +110,10 @@ void wxSFCanvasHistory::SaveCanvasState()
 			m_pParentCanvas->GetDiagramManager()->SerializeToXml(outstream);
 
 			// delete all states newer than the current state
-			if(m_pCurrentCanvasState)
+			if( m_pCurrentCanvasState )
 			{
 				StateList::compatibility_iterator delnode = m_lstCanvasStates.GetLast();
-				while(delnode != m_pCurrentCanvasState)
+				while(delnode->GetData() != m_pCurrentCanvasState)
 				{
 					m_lstCanvasStates.DeleteNode(delnode);
 					delnode = m_lstCanvasStates.GetLast();
@@ -120,7 +121,8 @@ void wxSFCanvasHistory::SaveCanvasState()
 			}
 
 			// create and append new canvas state
-			m_pCurrentCanvasState =  m_lstCanvasStates.Append(new wxSFCanvasState(outstream.GetOutputStreamBuffer()));
+			m_pCurrentCanvasState = new wxSFCanvasState(outstream.GetOutputStreamBuffer());
+			m_lstCanvasStates.Append(m_pCurrentCanvasState);
 
 			// check the history bounds
 			if(m_lstCanvasStates.GetCount() > m_nHistoryDepth)
@@ -133,30 +135,42 @@ void wxSFCanvasHistory::SaveCanvasState()
 
 void wxSFCanvasHistory::RestoreOlderState()
 {
+	if( !m_pCurrentCanvasState ) return;
+
 	// move to previous canvas state and restore it if exists
-	m_pCurrentCanvasState = m_pCurrentCanvasState->GetPrevious();
-	if(m_pCurrentCanvasState)
+	StateList::compatibility_iterator node = m_lstCanvasStates.Find(m_pCurrentCanvasState)->GetPrevious();
+	if( node ) m_pCurrentCanvasState = node->GetData();
+	else
+        m_pCurrentCanvasState = NULL;
+
+	if( m_pCurrentCanvasState )
 	{
-		m_pCurrentCanvasState->GetData()->Restore(m_pParentCanvas);
+		m_pCurrentCanvasState->Restore(m_pParentCanvas);
 	}
 }
 
 void wxSFCanvasHistory::RestoreNewerState()
 {
+    if( !m_pCurrentCanvasState ) return;
+
 	// move to next canvas state and restore it if exists
-	m_pCurrentCanvasState = m_pCurrentCanvasState->GetNext();
-	if(m_pCurrentCanvasState)
+	StateList::compatibility_iterator node = m_lstCanvasStates.Find(m_pCurrentCanvasState)->GetNext();
+	if( node ) m_pCurrentCanvasState = node->GetData();
+	else
+        m_pCurrentCanvasState = NULL;
+
+	if( m_pCurrentCanvasState )
 	{
-		m_pCurrentCanvasState->GetData()->Restore(m_pParentCanvas);
+		m_pCurrentCanvasState->Restore(m_pParentCanvas);
 	}
 }
 
 bool wxSFCanvasHistory::CanUndo()
 {
-	return ((m_pCurrentCanvasState != NULL) && (m_pCurrentCanvasState != m_lstCanvasStates.GetFirst()));
+	return ((m_pCurrentCanvasState != NULL) && (m_pCurrentCanvasState != m_lstCanvasStates.GetFirst()->GetData()));
 }
 
 bool wxSFCanvasHistory::CanRedo()
 {
-	return ((m_pCurrentCanvasState != NULL) && (m_pCurrentCanvasState != m_lstCanvasStates.GetLast()));
+	return ((m_pCurrentCanvasState != NULL) && (m_pCurrentCanvasState != m_lstCanvasStates.GetLast()->GetData()));
 }

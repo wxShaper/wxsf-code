@@ -127,7 +127,7 @@ void wxSFScaledPaintDC::DrawLines(wxList* points, wxCoord xoffset, wxCoord yoffs
 
         wxPoint* pts = new wxPoint[pointCnt];
 
-        wxNode* node = points->GetFirst();
+        wxList::compatibility_iterator node = points->GetFirst();
         while(node)
         {
             pt = (wxRealPoint*)node->GetData();
@@ -172,7 +172,7 @@ void wxSFScaledPaintDC::DrawPolygon(wxList *points, wxCoord xoffset, wxCoord yof
 
         wxPoint* pts = new wxPoint[pointCnt];
 
-        wxNode* node = points->GetFirst();
+        wxList::compatibility_iterator node = points->GetFirst();
         while(node)
         {
             pt = (wxRealPoint*)node->GetData();

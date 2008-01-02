@@ -22,10 +22,10 @@ class WXDLLIMPEXP_SF wxSFShapeCanvas;
  *
  * Two different working modes are available: 'histUSE_SERIALIZATION' mode uses basic
  * serialization functionality encapsulated by a diagram manager for storing
- * of current canvas content, but in the 'histUSE_CLONING' mode full copy of 
+ * of current canvas content, but in the 'histUSE_CLONING' mode full copy of
  * diagram manager content is done via its copy constructor. The first mode is
  * slower than the second one, but do not require implementation of xsSerializable::Clone()
- * virtual function in all classes derived from xsSerializable like the second 
+ * virtual function in all classes derived from xsSerializable like the second
  * posible working mode.
  * \sa wxSFCanvasState, wxSFCanvasHistory::MODE, xsSerializable::Clone, wxXmlSerializer::CopyItems
  */
@@ -103,8 +103,8 @@ protected:
 	/// <summary> List of stored canvas state instances </summary>
 	/// <seealso cref="wxSFCanvasState"></seealso>
 	StateList m_lstCanvasStates;
-	/// <summary> Auxilary pointer to state list node </summary>
-	StateList::compatibility_iterator m_pCurrentCanvasState;
+	/*! \brief Auxilary pointer to current canvas state */
+	wxSFCanvasState *m_pCurrentCanvasState;
 	/*! \brief Canvas history mode */
 	MODE m_nWorkingMode;
 
