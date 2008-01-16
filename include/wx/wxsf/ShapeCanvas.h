@@ -615,10 +615,20 @@ public:
 	 * \param x X-coordinate of a position the data was dropped to
 	 * \param y Y-coordinate of a position the data was dropped to
 	 * \param def Drag result
-	 * \param data Pointer to a data object encapsulating dropped data
+	 * \param dropped Reference to a list containing the dropped data
 	 * \sa wxSFCanvasDropTarget
 	 */
 	virtual void OnDrop(wxCoord x, wxCoord y, wxDragResult def, const ShapeList& dropped);
+
+	/*!
+	 * \brief Function is called by the framework after pasting of shapes
+	 * from the clipboard to the canvas. The default implementation
+     * generates wxEVT_SF_ON_PASTE event.
+	 * \param pasted Reference to a list containing the pasted data
+	 * \sa wxSFShapeCanvas::Paste()
+	 */
+	virtual void OnPaste(const ShapeList& pasted);
+
 
 protected:
 

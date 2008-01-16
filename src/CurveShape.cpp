@@ -93,10 +93,16 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
     case modeREADY:
         {
             // draw basic line parts
-            for(i = 0; i < (int)arrLines.Count()-2; i++)
-            {
-                Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
-            }
+			if( arrLines.Count() > 3 )
+			{
+				for(i = 0; i < (int)arrLines.Count()-2; i++)
+				{
+					Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
+				}
+			}
+			else
+                dc.DrawLine(arrLines.Item(1).m_nSrc, arrLines.Item(1).m_nTrg);
+
             // draw source arrow
             if(m_pSrcArrow)m_pSrcArrow->Draw(arrLines[1].m_nTrg, arrLines[1].m_nSrc, dc);
             // draw target arrow
@@ -180,7 +186,7 @@ int wxSFCurveShape::GetHitLinesegment(const wxPoint& pos)
 
         // calculate line segment bounding box
         lsBB = wxRect(wxPoint((int)ptSrc.x, (int)ptSrc.y), wxPoint((int)ptTrg.x, (int)ptTrg.y));
-        lsBB.Inflate(15);
+        if( (i > 1) && (i < (int)m_arrLineSegments.Count()-2) )lsBB.Inflate(10);
 
         // convert line segment to its parametric form
         a = ptTrg.y - ptSrc.y;
@@ -189,7 +195,7 @@ int wxSFCurveShape::GetHitLinesegment(const wxPoint& pos)
 
         // calculate distance of the line and give point
         d = (a*pos.x + b*pos.y + c)/sqrt(a*a + b*b);
-        if((abs((int)d) <= 30) && lsBB.Contains(pos)) return i-1;
+        if((abs((int)d) <= 10) && lsBB.Contains(pos)) return i-1;
     }
     return -1;
 }

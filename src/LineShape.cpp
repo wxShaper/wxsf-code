@@ -605,7 +605,7 @@ int wxSFLineShape::GetHitLinesegment(const wxPoint& pos)
 
         // calculate line segment bounding box
         lsBB = wxRect(wxPoint((int)ptSrc.x, (int)ptSrc.y), wxPoint((int)ptTrg.x, (int)ptTrg.y));
-        lsBB.Inflate(10);
+        if( (i > 0) && (i < (int)m_arrLineSegments.Count()-1) )lsBB.Inflate(10);
 
         // convert line segment to its parametric form
         a = ptTrg.y - ptSrc.y;

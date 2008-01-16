@@ -20,16 +20,19 @@
 class WXDLLIMPEXP_SF wxSFShapeEvent;
 class WXDLLIMPEXP_SF wxSFShapeTextEvent;
 class WXDLLIMPEXP_SF wxSFShapeDropEvent;
+class WXDLLIMPEXP_SF wxSFShapePasteEvent;
 
 BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_LINE_DONE, 7770)
     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_TEXT_CHANGE, 7771)
 	DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_ON_DROP, 7772)
+	DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_ON_PASTE, 7773)
 END_DECLARE_EVENT_TYPES()
 
 typedef void (wxEvtHandler::*wxSFShapeEventFunction)(wxSFShapeEvent&);
 typedef void (wxEvtHandler::*wxSFShapeTextEventFunction)(wxSFShapeTextEvent&);
 typedef void (wxEvtHandler::*wxSFShapeDropEventFunction)(wxSFShapeDropEvent&);
+typedef void (wxEvtHandler::*wxSFShapePasteEventFunction)(wxSFShapePasteEvent&);
 
 #define wxSFShapeEventHandler(func) \
     (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSFShapeEventFunction, &func)
@@ -39,6 +42,9 @@ typedef void (wxEvtHandler::*wxSFShapeDropEventFunction)(wxSFShapeDropEvent&);
 
 #define wxSFShapeDropEventHandler(func) \
     (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSFShapeDropEventFunction, &func)
+
+#define wxSFShapePasteEventHandler(func) \
+    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxSFShapePasteEventFunction, &func)
 
 
 /*! \brief Event table macro mapping event wxEVT_SF_LINE_DONE. This event occures
@@ -66,6 +72,15 @@ typedef void (wxEvtHandler::*wxSFShapeDropEventFunction)(wxSFShapeDropEvent&);
     DECLARE_EVENT_TABLE_ENTRY( \
         wxEVT_SF_ON_DROP, id, wxID_ANY, \
         (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxSFShapeDropEventFunction, &fn ), \
+        (wxObject *) NULL \
+    ),
+
+/*! \brief Event table macro mapping event wxEVT_SF_ON_PASTE. This event occures
+ * when shapes stored in the clipboard are pasted to a canvas. */
+#define EVT_SF_ON_PASTE(id, fn) \
+    DECLARE_EVENT_TABLE_ENTRY( \
+        wxEVT_SF_ON_PASTE, id, wxID_ANY, \
+        (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxSFShapePasteEventFunction, &fn ), \
         (wxObject *) NULL \
     ),
 
@@ -205,6 +220,41 @@ private:
 	wxPoint m_nDropPosition;
 	/*! \brief Drag result. */
 	wxDragResult m_nDragResult;
+};
+
+/*!
+ * \brief Class encapsulating wxEVT_SF_ON_PASTE event.
+ */
+class WXDLLIMPEXP_SF wxSFShapePasteEvent : public wxEvent
+{
+public:
+    /*! \brief Constructor */
+    wxSFShapePasteEvent(wxEventType cmdType = wxEVT_NULL, int id = 0);
+    /*! \brief Copy constructor */
+    wxSFShapePasteEvent(const wxSFShapePasteEvent& obj);
+    /*! \brief Destructor */
+    virtual ~wxSFShapePasteEvent();
+
+    // public member data accessors
+    /*!
+     * \brief Insert a shape object to the event object.
+     * \param shape Pointer to the shape object
+     */
+    void SetPastedShapes(const ShapeList& list);
+    /*!
+     * \brief Get a shape object from the event object.
+     * \return Pointer to the shape object.
+     */
+    ShapeList& GetPastedShapes(){return m_lstPastedShapes;}
+
+    /*! \brief Clone this event object and return pointer to the new instance. */
+    wxEvent* Clone() const { return new wxSFShapePasteEvent(*this); }
+
+
+private:
+    // private data members
+    /*! \brief List of pasted shapes. */
+    ShapeList m_lstPastedShapes;
 };
 
 #endif // SF_EVENTS_H

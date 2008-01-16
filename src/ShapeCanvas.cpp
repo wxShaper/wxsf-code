@@ -1240,7 +1240,8 @@ void wxSFShapeCanvas::_OnMouseMove(wxMouseEvent& event)
 	wxSFShapeBase *pShape;
 	wxPoint lpos = DP2LP(event.GetPosition());
 
-	wxSFShapeBase *selLine = NULL, *unselLine = NULL, *selShape = NULL, *unselShape = NULL, *topLine = NULL, *topShape = NULL;
+	wxSFShapeBase *selShape = NULL, *unselShape = NULL, *topShape = NULL;
+	wxSFLineShape *selLine = NULL, *unselLine = NULL, *topLine = NULL;
 
 	m_pTopmostShapeUnderCursor = NULL;
 	m_lstCurrentShapes.Clear();
@@ -1254,14 +1255,14 @@ void wxSFShapeCanvas::_OnMouseMove(wxMouseEvent& event)
 		{
 			if( pShape->IsKindOf(CLASSINFO(wxSFLineShape)) )
 			{
-				if( !topLine ) topLine = pShape;
+				if( !topLine ) topLine = (wxSFLineShape*)pShape;
 				if( pShape->IsSelected() )
 				{
-					if( !selLine ) selLine = pShape;
+					if( !selLine ) selLine = (wxSFLineShape*)pShape;
 				}
 				else
 				{
-					if (!unselLine ) unselLine = pShape;
+					if (!unselLine ) unselLine = (wxSFLineShape*)pShape;
 				}
 			}
 			else
@@ -1282,7 +1283,10 @@ void wxSFShapeCanvas::_OnMouseMove(wxMouseEvent& event)
 	}
 
 	// set pointer to logically topmost selected and unselected shape under the mouse cursor
-	if( topLine ) m_pTopmostShapeUnderCursor = topLine;
+	if( topLine )
+	{
+		m_pTopmostShapeUnderCursor = topLine;
+	}
 	else
 		m_pTopmostShapeUnderCursor = topShape;
 
@@ -2332,9 +2336,12 @@ void wxSFShapeCanvas::Paste()
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
 
-	//if( wxTheClipboard->Open() )
     if( wxTheClipboard->IsOpened() || ( !wxTheClipboard->IsOpened() && wxTheClipboard->Open()) )
 	{
+		// store previous canvas content
+		ShapeList lstOldContent;
+		m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), lstOldContent);
+
 		// read data object from the clipboars
 		wxSFShapeDataObject dataObj(m_formatShapes);
 		if(wxTheClipboard->GetData(dataObj))
@@ -2347,6 +2354,23 @@ void wxSFShapeCanvas::Paste()
 				// deserialize XML data
 				m_pManager->DeserializeFromXml(instream);
 
+				// find dropped shapes
+				ShapeList lstNewContent;
+				ShapeList lstCurrContent;
+
+				m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), lstCurrContent);
+				ShapeList::compatibility_iterator node = lstCurrContent.GetFirst();
+				while( node )
+				{
+					wxSFShapeBase *pShape = node->GetData();
+					if( lstOldContent.IndexOf(pShape) == wxNOT_FOUND  ) lstNewContent.Append(pShape);
+
+					node = node->GetNext();
+				}
+
+				// call user-defined handler
+				this->OnPaste(lstNewContent);
+
 				SaveCanvasState();
 				Refresh();
 			}
@@ -2355,11 +2379,26 @@ void wxSFShapeCanvas::Paste()
 	}
 }
 
+void wxSFShapeCanvas::OnPaste(const ShapeList& pasted)
+{
+    // HINT: override it for custom actions...
+
+	// ... standard implementation generates the wxEVT_SF_ON_PASTE event.
+
+	if( !ContainsStyle(sfsCLIPBOARD) )return;
+
+	// create the drop event and process it
+    wxSFShapePasteEvent event( wxEVT_SF_ON_PASTE, wxID_ANY);
+    event.SetPastedShapes( pasted );
+    ProcessEvent( event );
+}
+
 void wxSFShapeCanvas::Undo()
 {
 	if( !ContainsStyle(sfsUNDOREDO) )return;
 
 	m_CanvasHistory.RestoreOlderState();
+	m_shpMultiEdit.Show(false);
 }
 
 void wxSFShapeCanvas::Redo()
@@ -2367,6 +2406,7 @@ void wxSFShapeCanvas::Redo()
 	if( !ContainsStyle(sfsUNDOREDO) )return;
 
 	m_CanvasHistory.RestoreNewerState();
+	m_shpMultiEdit.Show(false);
 }
 
 wxDragResult wxSFShapeCanvas::DoDragDrop(ShapeList &shapes, const wxPoint& start)
@@ -2478,7 +2518,7 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 			}
 
 			// call user-defined drop handler
-			OnDrop(x, y, def, lstNewContent);
+			this->OnDrop(x, y, def, lstNewContent);
 		}
 	}
 }

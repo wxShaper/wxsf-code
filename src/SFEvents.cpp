@@ -19,6 +19,7 @@
 DEFINE_EVENT_TYPE( wxEVT_SF_LINE_DONE );
 DEFINE_EVENT_TYPE( wxEVT_SF_TEXT_CHANGE );
 DEFINE_EVENT_TYPE( wxEVT_SF_ON_DROP );
+DEFINE_EVENT_TYPE( wxEVT_SF_ON_PASTE );
 
 //----------------------------------------------------------------------------------//
 // wxSFShapeEvent class
@@ -90,6 +91,36 @@ void wxSFShapeDropEvent::SetDroppedShapes(const ShapeList &list)
 	while(node)
 	{
 		m_lstDroppedShapes.Append(node->GetData());
+		node = node->GetNext();
+	}
+}
+
+//----------------------------------------------------------------------------------//
+// wxSFShapeDropEvent class
+//----------------------------------------------------------------------------------//
+
+wxSFShapePasteEvent::wxSFShapePasteEvent(wxEventType cmdType, int id)
+: wxEvent(id, cmdType)
+{
+}
+
+wxSFShapePasteEvent::wxSFShapePasteEvent(const wxSFShapePasteEvent& obj)
+: wxEvent(obj)
+{
+	SetPastedShapes(obj.m_lstPastedShapes);
+}
+
+wxSFShapePasteEvent::~wxSFShapePasteEvent()
+{
+	m_lstPastedShapes.Clear();
+}
+
+void wxSFShapePasteEvent::SetPastedShapes(const ShapeList &list)
+{
+	ShapeList::compatibility_iterator node = list.GetFirst();
+	while(node)
+	{
+		m_lstPastedShapes.Append(node->GetData());
 		node = node->GetNext();
 	}
 }
