@@ -19,6 +19,8 @@
 
 #include <wx/xml/xml.h>
 
+#define xsWITH_ROOT true
+#define xsWITHOUT_ROOT false
 
 /*! \brief Macro creates new serialized STRING property */
 #define XS_SERIALIZE_STRING(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
