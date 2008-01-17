@@ -122,7 +122,7 @@ public: \
 		else \
 			return NULL; \
 	} \
-		
+
 
 class WXDLLIMPEXP_XS xsProperty;
 class WXDLLIMPEXP_XS xsSerializable;
@@ -144,7 +144,7 @@ WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_XS
  * member functions or by member functions of wxXmlSerializer class object which should be
  * used as their manager (recommended way).
  *
- * Another built-in (optional) functionality is class instaces' cloning. User can use 
+ * Another built-in (optional) functionality is class instaces' cloning. User can use
  * XS_DECLARE_CLONABLE_CLASS and XS_IMPLEMENT_CLONABLE_CLASS macros instead of classic
  * DECLARE_DYNAMIC_CLASS and IMPLEMENT_DYNAMIC_CLASS macros which lead to definition of
  * xsSerializable::Clone() virtual function used for cloning of current class instance
@@ -553,7 +553,7 @@ public:
  * its children). These child object can be handled via xsSerializable and wxXmlSerializer
  * classes' member functions.
  *
- * Another built-in (optional) functionality is class instaces' cloning. User can use 
+ * Another built-in (optional) functionality is class instaces' cloning. User can use
  * XS_DECLARE_CLONABLE_CLASS and XS_IMPLEMENT_CLONABLE_CLASS macros instead of classic
  * DECLARE_DYNAMIC_CLASS and IMPLEMENT_DYNAMIC_CLASS macros which lead to definition of
  * wxXmlSerializer::Clone() virtual function used for cloning of current class instance
