@@ -1462,6 +1462,28 @@ void wxSFShapeCanvas::SetScale(double scale)
     UpdateVirtualSize();
 }
 
+void wxSFShapeCanvas::SetScaleToViewAll()
+{
+	wxSize physRct = GetClientSize();
+	wxRect virtRct = GetTotalBoundingBox();
+
+	double hz = (double)physRct.GetWidth() / virtRct.GetWidth();
+	double vz = (double)physRct.GetHeight() / virtRct.GetHeight();
+
+	if( hz < vz )
+	{
+		if( hz < 1 ) SetScale(hz);
+		else
+			SetScale(1);
+	}
+	else
+	{
+		if( vz < 1 )SetScale(vz);
+		else
+			SetScale(1);
+	}
+}
+
 wxPoint wxSFShapeCanvas::FitPositionToGrid(const wxPoint& pos)
 {
 	if( ContainsStyle(sfsGRID_USE) )

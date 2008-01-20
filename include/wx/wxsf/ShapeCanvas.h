@@ -435,15 +435,20 @@ public:
 	 */
 	void SetScale(double scale);
 	/*!
-	 * \brief Get canvas scale.
+	 * \brief Get the canvas scale.
 	 * \return Canvas scale
 	 */
 	double GetScale(){return m_Settings.m_nScale;}
+	/*!
+	 * \brief Set the canvas scale so a whole diagram is visible.
+	 */
+	void SetScaleToViewAll();
 	/*!
 	 * \brief Get canvas workind mode.
 	 * \return Working mode
 	 * \sa MODE
 	 */
+
 	MODE GetMode(){return m_nWorkingMode;}
 	/*!
 	 * \brief Set default hover color.
