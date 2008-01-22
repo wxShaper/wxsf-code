@@ -8,7 +8,7 @@
 CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id)
 : wxSFShapeCanvas(manager, parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
 {
-	// initialize grid
+	// initialize grid 
 
 	//UseGrid(true); !!! DEPRECATED !!!
 	//ShowGrid(true); !!! DEPRECATED !!!

@@ -1,4 +1,4 @@
-Changes in version 1.5.1 beta (2008-01-20):
+Changes in version 1.5.1 beta (2008-01-22):
 --------------------------------------------
 - Switched to use wxXmlSerializer (wxXS) 1.1.3
 - Updated code to use wxList::compatibility_iterator instead of pointers to wxNode class (so the
@@ -10,6 +10,7 @@ Changes in version 1.5.1 beta (2008-01-20):
   generated when shapes are pasted from the clipboard to a canvas.
 - Added function wxSFShapeCanvas::SetScaleToViewAll() which adjusts the diagram scale so all
   elements are visible.
+- Improved testing whether the interactive line shape creation process can be started.
 
 Changes in version 1.5.0 beta (2007-12-27):
 --------------------------------------------

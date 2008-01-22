@@ -613,7 +613,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                 //if(pShapeUnder && !pShapeUnder->IsKindOf(CLASSINFO(wxSFLineShape)))
 				if(pShapeUnder)
                 {
-					if((m_pNewLineShape->GetSrcShapeId() == -1) &&
+					/*if((m_pNewLineShape->GetSrcShapeId() == -1) &&
                         (pShapeUnder->IsConnectionAccepted(m_pNewLineShape->GetClassInfo()->GetClassName())))
                         //(!pShapeUnder->GetAcceptedTrgNeighbours().IsEmpty()))
                     {
@@ -622,7 +622,8 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 						// swith on the "under-construcion" mode
 						m_pNewLineShape->SetUnfinishedPoint(lpos);
                     }
-                    else if((m_pNewLineShape->GetTrgShapeId() == -1) &&
+                    else */
+					if((m_pNewLineShape->GetTrgShapeId() == -1) &&
                             (pShapeUnder != m_pNewLineShape) &&
                             (pShapeUnder->IsConnectionAccepted(m_pNewLineShape->GetClassInfo()->GetClassName())))
                     {
@@ -1589,26 +1590,23 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
 
+	wxPoint lpos = DP2LP(pos);
+
     if((m_nWorkingMode == modeREADY) && shapeInfo->IsKindOf(CLASSINFO(wxSFLineShape)))
     {
-        m_pNewLineShape = (wxSFLineShape*)m_pManager->AddShape(shapeInfo, sfDONT_SAVE_STATE);
-        if(m_pNewLineShape)
-        {
-            wxPoint lpos = DP2LP(pos);
+        wxSFShapeBase* pShapeUnder = GetShapeAtPosition(lpos);
+		if( pShapeUnder && pShapeUnder->IsConnectionAccepted(shapeInfo->GetClassName()) )
+		{
+			m_pNewLineShape = (wxSFLineShape*)m_pManager->AddShape(shapeInfo, sfDONT_SAVE_STATE);
+			if(m_pNewLineShape)
+			{
+				m_nWorkingMode = modeCREATECONNECTION;
+				m_pNewLineShape->SetLineMode(wxSFLineShape::modeUNDERCONSTRUCTION);
 
-            m_nWorkingMode = modeCREATECONNECTION;
-            m_pNewLineShape->SetLineMode(wxSFLineShape::modeUNDERCONSTRUCTION);
+                 m_pNewLineShape->SetSrcShapeId(pShapeUnder->GetId());
 
-            wxSFShapeBase* pShapeUnder = GetShapeAtPosition(lpos);
-            if(pShapeUnder)
-            {
-                if((m_pNewLineShape->GetSrcShapeId() == -1) && (pShapeUnder->IsConnectionAccepted(m_pNewLineShape->GetClassInfo()->GetClassName())))
-                {
-                    m_pNewLineShape->SetSrcShapeId(pShapeUnder->GetId());
-
-                    // swith on the "under-construcion" mode
-                    m_pNewLineShape->SetUnfinishedPoint(lpos);
-                }
+                 // swith on the "under-construcion" mode
+                 m_pNewLineShape->SetUnfinishedPoint(lpos);
             }
         }
     }
