@@ -54,6 +54,7 @@ end
 
 -- Set the files to include.
 package.files = { matchrecursive( "*.cpp", "*.h" ) }
+
 if ( target == "vs2005" ) then
 	table.insert(package.files, "wxSFvs2005.rc" )
 else
@@ -61,7 +62,7 @@ else
 end
 
 -- Set the include paths.
-package.includepaths = { "../../include" }
+package.includepaths = { "../../include", "../../src"  }
 
 -- Set the libraries it links to.
 package.links = { "wxSF" }
