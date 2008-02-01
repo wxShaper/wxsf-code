@@ -46,7 +46,7 @@ end
 
 -- Setup the package compiler settings.
 if( options["shared"] ) then
-	package.defines = { "WXMAKINGDLL_SF", "WXMAKINGDLL_XS" }
+	package.defines = { "WXMAKINGDLL_WXSF", "WXMAKINGDLL_WXXS" }
 end
 if ( target == "vs2005" ) then
 	-- Windows and Visual C++ 2005

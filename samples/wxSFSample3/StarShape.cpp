@@ -15,7 +15,7 @@ const wxRealPoint star[10]={wxRealPoint(0,-50), wxRealPoint(15,-10),
 cStarShape::cStarShape()
 {
     // disable serialization of polygon vertices, because they are always set
-    // in constructor
+    // in this constructor
 	EnablePropertySerialization(wxT("vertices"), false);
     // set polygon vertices
 	SetVertices(10, star);
@@ -39,7 +39,7 @@ cStarShape::cStarShape(cStarShape& obj)
 : wxSFPolygonShape(obj)
 {
 	// clone source child text object..
-    m_pText = (wxSFTextShape*)obj.m_pText->Clone();
+    m_pText = (wxSFEditTextShape*)obj.m_pText->Clone();
 	if( m_pText )
 	{
 		// .. and append it to this shapes as its child
@@ -63,7 +63,7 @@ void cStarShape::Initialize()
     // macros (supported data types))
     XS_SERIALIZE(m_sDescription, wxT("description"));
 
-    // polygon-based shapes can be connected both to the vertices and to the
+    // polygon-based shapes can be connected either to the vertices or to the
     // nearest border point (default value is TRUE).
     SetConnectToVertex(false);
 
@@ -73,7 +73,7 @@ void cStarShape::Initialize()
     AcceptTrgNeighbour(wxT("cStarShape"));
 
 	// create associated shape(s)
-	m_pText = new wxSFTextShape();
+	m_pText = new wxSFEditTextShape();
     // set some properties
     if(m_pText)
     {
@@ -85,7 +85,10 @@ void cStarShape::Initialize()
         m_pText->SetHAlign(wxSFShapeBase::halignCENTER);
 
         // set required shape style(s)
-        m_pText->SetStyle(sfsALWAYS_INSIDE);
+		m_pText->SetStyle(sfsALWAYS_INSIDE | sfsHOVERING);
+		// you can also force displaying of the shapes handles even if the interactive
+		// size change is not allowed:
+		//m_pText->AddStyle(sfsSHOW_HANDLES);
 
         // components of composite shapes created at runtime in parent shape's
         // constructor cannot be fully serialized (it means created by

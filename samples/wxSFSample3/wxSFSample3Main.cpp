@@ -82,10 +82,11 @@ wxSFSample3Frame::wxSFSample3Frame(wxFrame *frame, const wxString& title)
 	m_pCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_SHOW);
     m_pCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_USE);
 
-    // connect event handlers to the shape canvas
+    // connect some event handlers...
     m_pCanvas->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(wxSFSample3Frame::OnLeftClickCanvas), NULL, this);
     m_pCanvas->Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(wxSFSample3Frame::OnRightClickCanvas), NULL, this);
     m_pCanvas->Connect(wxEVT_SF_LINE_DONE, wxSFShapeEventHandler(wxSFSample3Frame::OnLineDone), NULL, this);
+	m_pCanvas->Connect(wxEVT_SF_TEXT_CHANGE, wxSFShapeTextEventHandler(wxSFSample3Frame::OnTextChanged), NULL, this);
 
 #if wxUSE_STATUSBAR
     // create a status bar with some information about the used wxWidgets version
@@ -141,6 +142,22 @@ void wxSFSample3Frame::OnLineDone(wxSFShapeEvent& event)
     }
 }
 
+// Event handler called when a text inside the star was changed.
+// Alternatively you can override virtual function wxSFShapeCanvas::OnTextChange().
+void wxSFSample3Frame::OnTextChanged(wxSFShapeTextEvent& event)
+{
+    // get changed text shape
+    wxSFEditTextShape* pText = (wxSFEditTextShape*)event.GetShape();
+
+    if( pText )
+    {
+		// update the text shape and its parent(s)
+		pText->Update();
+		// diplay some info...
+		wxLogMessage(wxString::Format(wxT("New text of the star with ID %d is : '%s'"), pText->GetParentShape()->GetId(), event.GetText()));
+    }
+}
+
 void wxSFSample3Frame::OnOpen(wxCommandEvent &event)
 {
 	wxFileDialog dlg(this, wxT("Load diagram from XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxOPEN);
@@ -190,6 +207,7 @@ void wxSFSample3Frame::OnAbout(wxCommandEvent &event)
     msg += wxT(" - Left mouse click operates with inserted shapes\n");
     msg += wxT(" - Right mouse click inserts a custom shape to the canvas or starts\n");
     msg += wxT("   interactive connection line's creation process\n");
+	msg += wxT(" - You can modify the star's text (double click it by the left mouse button)\n");
     msg += wxT(" - DEL key removes selected shape(s)\n");
 
     wxMessageBox(msg, wxT("wxShapeFramework Sample 3"));

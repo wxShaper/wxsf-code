@@ -1,3 +1,8 @@
+Changes in version 1.5.2 beta (2008-01-25):
+--------------------------------------------
+- Enhanced wxSFSample3 project to show some usefull features (some of new shape events, shapes' behaviour
+  customizations, etc...).
+
 Changes in version 1.5.1 beta (2008-01-22):
 --------------------------------------------
 - Switched to use wxXmlSerializer (wxXS) 1.1.3

@@ -24,7 +24,7 @@ public:
 
 protected:
     // protected data members
-    wxSFTextShape* m_pText;
+    wxSFEditTextShape* m_pText;
     wxString m_sDescription;
 
     // protected functions;

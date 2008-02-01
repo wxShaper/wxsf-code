@@ -49,6 +49,7 @@ class wxSFSample3Frame: public wxFrame
         void OnRightClickCanvas(wxMouseEvent& event);
         // declare wxSF specific event handler for wxShapeCanvas
         void OnLineDone(wxSFShapeEvent& event);
+		void OnTextChanged(wxSFShapeTextEvent& event);
 
         DECLARE_EVENT_TABLE()
 };

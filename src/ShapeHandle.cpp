@@ -51,6 +51,7 @@ wxSFShapeHandle::wxSFShapeHandle(wxSFShapeBase* parent, HANDLETYPE type, long id
 }
 
 wxSFShapeHandle::wxSFShapeHandle(wxSFShapeHandle& obj)
+: wxObject(obj)
 {
 	// initialize data members
 	m_nType = obj.m_nType;

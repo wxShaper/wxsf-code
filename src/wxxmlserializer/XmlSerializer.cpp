@@ -52,6 +52,7 @@ xsSerializable::xsSerializable()
 }
 
 xsSerializable::xsSerializable(xsSerializable& obj)
+: wxObject(obj)
 {
 	m_pParentManager = NULL;
     m_pParentItem = obj.m_pParentItem;
@@ -297,6 +298,7 @@ wxXmlSerializer::wxXmlSerializer()
 }
 
 wxXmlSerializer::wxXmlSerializer(wxXmlSerializer &obj)
+: wxObject(obj)
 {
 	m_sOwner = obj.m_sOwner;
     m_sRootName = obj.m_sRootName;

@@ -507,7 +507,7 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Mouse event
-     * \sa _OnLeftDown
+     * \sa _OnLeftDown()
      */
 	virtual void OnLeftDown(wxMouseEvent& event);
     /*!
@@ -519,7 +519,7 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Mouse event
-     * \sa _OnLeftDoubleClick
+     * \sa _OnLeftDoubleClick()
      */
 	virtual void OnLeftDoubleClick(wxMouseEvent& event);
     /*!
@@ -531,7 +531,7 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Mouse event
-     * \sa _OnLeftUp
+     * \sa _OnLeftUp()
      */
 	virtual void OnLeftUp(wxMouseEvent& event);
     /*!
@@ -543,7 +543,7 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Mouse event
-     * \sa _OnRightDown
+     * \sa _OnRightDown()
      */
 	virtual void OnRightDown(wxMouseEvent& event);
     /*!
@@ -555,7 +555,7 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Mouse event
-     * \sa _OnRightDoubleClick
+     * \sa _OnRightDoubleClick()
      */
 	virtual void OnRightDoubleClick(wxMouseEvent& event);
     /*!
@@ -567,7 +567,7 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Mouse event
-     * \sa _OnRightUp
+     * \sa _OnRightUp()
      */
 	virtual void OnRightUp(wxMouseEvent& event);
     /*!
@@ -579,7 +579,7 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Mouse event
-     * \sa _OnMouseMove
+     * \sa _OnMouseMove()
      */
 	virtual void OnMouseMove(wxMouseEvent& event);
     /*!
@@ -591,17 +591,17 @@ public:
      * this function from overrided methods if the default canvas behaviour
      * should be preserved.
      * \param event Keyboard event
-     * \sa _OnKeyDown
+     * \sa _OnKeyDown()
      */
 	virtual void OnKeyDown(wxKeyEvent& event);
 
     /*!
      * \brief Event handler call when any editable text shape is changed.
      * The function can be overrided if necessary.
-     *
-     * The function is called by the framework and its default implementation
+	 * The function is called by the framework and its default implementation
      * generates wxEVT_SF_TEXT_CHANGE event.
      * \param shape Changed wxSFEditTextShape object
+	 * \sa wxSFEditTextShape::EditLabel(), wxSFShapeTextEvent
      */
 	virtual void OnTextChange(wxSFEditTextShape* shape);
 	/*!
@@ -609,28 +609,28 @@ public:
 	 * can be overrided if necessary. The default implementation
      * generates wxEVT_SF_LINE_DONE event.
 	 * \param connection Pointer to new connection object
-	 * \sa StartInteractiveConnection
+	 * \sa StartInteractiveConnection(), wxSFShapeEvent
 	 */
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
 
 	/*!
-	 * \brief Function is called by the framework after any dragged shapes
+	 * \brief Event handler called by the framework after any dragged shapes
 	 * are dropped to the canvas. The default implementation
      * generates wxEVT_SF_ON_DROP event.
 	 * \param x X-coordinate of a position the data was dropped to
 	 * \param y Y-coordinate of a position the data was dropped to
 	 * \param def Drag result
 	 * \param dropped Reference to a list containing the dropped data
-	 * \sa wxSFCanvasDropTarget
+	 * \sa wxSFCanvasDropTarget, wxSFShapeDropEvent
 	 */
 	virtual void OnDrop(wxCoord x, wxCoord y, wxDragResult def, const ShapeList& dropped);
 
 	/*!
-	 * \brief Function is called by the framework after pasting of shapes
+	 * \brief Event handler called by the framework after pasting of shapes
 	 * from the clipboard to the canvas. The default implementation
      * generates wxEVT_SF_ON_PASTE event.
 	 * \param pasted Reference to a list containing the pasted data
-	 * \sa wxSFShapeCanvas::Paste()
+	 * \sa wxSFShapeCanvas::Paste(), wxSFShapePasteEvent
 	 */
 	virtual void OnPaste(const ShapeList& pasted);
 

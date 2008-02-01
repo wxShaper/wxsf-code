@@ -6,7 +6,7 @@ echo done...
 echo.
 
 rem premake\premake-win32.exe --target gnu --unicode --with-wx-shared --shared
-premake\premake-win32.exe --target gnu --unicode --static-runtime
+rem premake\premake-win32.exe --target gnu --unicode --static-runtime
 echo done...
 echo.
 

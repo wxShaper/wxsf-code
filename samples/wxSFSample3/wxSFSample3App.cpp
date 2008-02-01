@@ -12,16 +12,16 @@
 #include "wxSFSample3App.h"
 #include "wxSFSample3Main.h"
 
+#include "res/wx.xpm"    
+
 IMPLEMENT_APP(wxSFSample3App);
 
 bool wxSFSample3App::OnInit()
 {
     wxSFSample3Frame* frame = new wxSFSample3Frame(0L, _("wxShapeFramework Sample 3"));
-
     // To Set App Icon
-    #ifdef __WXMSW__
-    frame->SetIcon(wxICON(aaaa));
-    #endif
+    frame->SetIcon(wxIcon(wx_xpm));  
+    
     frame->Show();
 
     return true;

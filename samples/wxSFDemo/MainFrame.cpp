@@ -74,9 +74,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
     do_layout();
 
 	// set icon
-	#ifdef __WXMSW__
-	SetIcon(wxICON(amain));
-	#endif
+	SetIcon(wxIcon(wx_xpm));
 
 	// create zoom slider
 	zoomSlider = new wxSlider(toolBar, wxID_ZOOM_FIT, 5, 2, 9, wxDefaultPosition, wxSize(200, -1));

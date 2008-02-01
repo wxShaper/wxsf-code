@@ -7,7 +7,7 @@
 #elif defined( LIB_USINGDLL )
     #define WXDLLIMPEXP_XS
     #define WXDLLIMPEXP_DATA_XS(type)
-#elif defined( WXMAKINGDLL_XS )
+#elif defined( WXMAKINGDLL_WXXS )
     #define WXDLLIMPEXP_XS WXEXPORT
     #define WXDLLIMPEXP_DATA_XS(type) WXEXPORT type
 #elif defined(WXUSINGDLL)

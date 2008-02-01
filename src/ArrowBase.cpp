@@ -29,6 +29,7 @@ wxSFArrowBase::wxSFArrowBase(wxSFShapeBase* parent)
 }
 
 wxSFArrowBase::wxSFArrowBase(wxSFArrowBase& obj)
+: xsSerializable(obj)
 {
 	m_pParentShape = obj.m_pParentShape;
 }
@@ -45,4 +46,3 @@ void wxSFArrowBase::Draw(const wxRealPoint &from, const wxRealPoint &to, wxSFSca
 {
 	// HINT: override it for custom drawing...
 }
-
