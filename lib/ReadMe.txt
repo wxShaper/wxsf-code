@@ -1,0 +1,1 @@
+This is only a dummy file needed by the CVS/SVN. Do not remove it if necessary.

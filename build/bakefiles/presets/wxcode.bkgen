@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!-- $Id: wxcode.bkgen 688 2007-11-17 12:54:37Z frm $ -->
+
+<bakefile-gen xmlns="http://www.bakefile.org/schema/bakefile-gen">
+
+    <!-- List of the default output formats to generate: 
+
+         NOTE: you may prefer e.g. 'gnu' over autoconf and/or
+               want to e.g. enable msvs2005prj output.
+               In this case, you can simply do, in your Bakefiles.bkgen:
+
+                 <disable-formats>autoconf</disable-formats>
+                 <add-formats>gnu,msvs2005prj</add-formats>
+    -->
+    <add-formats>autoconf,borland,mingw,msvc,watcom,gnu,msvc6prj,msvs2005prj</add-formats>
+
+
+    <!-- wxCode presets do need wxWidgets presets.
+
+         However to make sure all components get a similar build system
+         and that it is a _working_ build system, we won't include the
+         wxpresets in the
+
+            %WXWIN%\build\bakefiles\wxpresets
+
+         folder (whose version maybe old or which may be missing).
+
+         We rather keep the very latest version of wxpresets in a "presets"
+         subfolder of wxCode and we tell Bakefile to look at that folder.
+    -->
+    <add-flags>-I../../../build/bakefiles -I../../../../build/bakefiles</add-flags>
+
+
+    <!-- since it's standard on Unix to have Makefile.in and the configure script in
+         the root folder of the component to build, we put Makefile.in one directory up -->
+    <add-flags formats="autoconf">
+        -o../Makefile.in
+    </add-flags>
+    <add-flags formats="autoconf">
+        -DAUTOCONF_MACROS_FILE=autoconf_inc.m4
+    </add-flags>
+
+</bakefile-gen>
