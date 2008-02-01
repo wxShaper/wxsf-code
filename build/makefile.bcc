@@ -80,7 +80,7 @@ WX_DIR = $(WXWIN)
 WXSF_LIB_CXXFLAGS = -I$(BCCDIR)\include $(____WX_SHARED) \
 	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
-	$(VAR_7) -I..\include -I..\src $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_7) -I..\include -I..\src -I.\src $(CPPFLAGS) $(CXXFLAGS)
 WXSF_LIB_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ArrowBase.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_BitmapShape.obj \
@@ -122,7 +122,7 @@ WXSF_LIB_OBJECTS =  \
 WXSF_DLL_CXXFLAGS = -I$(BCCDIR)\include $(____WX_SHARED) \
 	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
-	$(VAR_7) -I..\include -DWXMAKINGDLL_WXSF -I..\src -DWXMAKINGDLL_WXXS \
+	$(VAR_7) -I..\include -DWXMAKINGDLL_WXSF -I..\src -I.\src -DWXMAKINGDLL_WXXS \
 	$(CPPFLAGS) $(CXXFLAGS)
 WXSF_DLL_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ArrowBase.obj \

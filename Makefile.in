@@ -49,8 +49,8 @@ WX_PORT = @WX_PORT@
 ### Variables: ###
 
 DESTDIR = 
-WXSF_LIB_CXXFLAGS = -I$(srcdir)/include -I../src $(WX_CXXFLAGS) $(CPPFLAGS) \
-	$(CXXFLAGS)
+WXSF_LIB_CXXFLAGS = -I$(srcdir)/include -I../src -I./src $(WX_CXXFLAGS) \
+	$(CPPFLAGS) $(CXXFLAGS)
 WXSF_LIB_OBJECTS =  \
 	wxsf_lib_ArrowBase.o \
 	wxsf_lib_BitmapShape.o \
@@ -89,7 +89,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_wx_pch.o \
 	wxsf_lib_PropertyIO.o \
 	wxsf_lib_XmlSerializer.o
-WXSF_DLL_CXXFLAGS = -I$(srcdir)/include -DWXMAKINGDLL_WXSF -I../src \
+WXSF_DLL_CXXFLAGS = -I$(srcdir)/include -DWXMAKINGDLL_WXSF -I../src -I./src \
 	-DWXMAKINGDLL_WXXS $(PIC_FLAG) $(WX_CXXFLAGS) $(CPPFLAGS) $(CXXFLAGS)
 WXSF_DLL_OBJECTS =  \
 	wxsf_dll_ArrowBase.o \

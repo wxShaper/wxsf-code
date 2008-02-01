@@ -97,6 +97,7 @@
         <sources>src/wxxmlserializer/XmlSerializer.cpp</sources>
         
         <include>../src</include>
+	<include>./src</include>
     </lib>
     <dll id="wxsf_dll" template="wxcode-dll" cond="WX_SHARED=='1'">
         <!-- Remove the libraries which are not required by your project.
@@ -109,6 +110,7 @@
         <sources>src/wxxmlserializer/XmlSerializer.cpp</sources>
         
         <include>../src</include> 
+	<include>./src</include>
          
         <define>WXMAKINGDLL_WXXS</define> 
         

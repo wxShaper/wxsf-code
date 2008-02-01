@@ -72,8 +72,8 @@ WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_DEBUG_FLAG) $(WX_CONFIG_UNICODE_FLAG) \
 	$(WX_CONFIG_SHARED_FLAG) --toolkit=$(WX_PORT) \
 	--version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-WXSF_LIB_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../src `$(WX_CONFIG) \
-	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
+WXSF_LIB_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../src -I./src \
+	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ArrowBase.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_BitmapShape.o \
@@ -113,7 +113,7 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PropertyIO.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_XmlSerializer.o
 WXSF_DLL_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -DWXMAKINGDLL_WXSF \
-	-I../src -DWXMAKINGDLL_WXXS -fPIC -DPIC `$(WX_CONFIG) --cxxflags \
+	-I../src -I./src -DWXMAKINGDLL_WXXS -fPIC -DPIC `$(WX_CONFIG) --cxxflags \
 	$(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_ArrowBase.o \
