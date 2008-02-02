@@ -10,7 +10,7 @@
 #ifndef WX_PCH_H_INCLUDED
 #define WX_PCH_H_INCLUDED
 
-#ifdef __WXMSW__
+#ifdef _DISWARNINGS_MSVC
 #pragma warning( disable : 4100 )
 #pragma warning( disable : 4251 )
 #pragma warning( disable : 4275 )

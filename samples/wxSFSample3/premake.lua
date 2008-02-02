@@ -45,7 +45,7 @@ end
 -- Setup the package compiler settings.
 if ( target == "vs2005" ) then
 	-- Windows and Visual C++ 2005
-	package.defines = { "_CRT_SECURE_NO_DEPRECATE" }
+	package.defines = { "_CRT_SECURE_NO_DEPRECATE", "_DISWARNINGS_MSVC" }
 	package.buildflags = { "no-main" }
 end
 if( ( ( target == "vs2003" ) or ( target == "vs2005" ) ) and options["no-builtin-wchar"] ) then
