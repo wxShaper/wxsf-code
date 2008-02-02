@@ -10,9 +10,11 @@
 #ifndef WX_PCH_H_INCLUDED
 #define WX_PCH_H_INCLUDED
 
+#ifdef __WXMSW__
 #pragma warning( disable : 4100 )
 #pragma warning( disable : 4251 )
 #pragma warning( disable : 4275 )
+#endif
 
 // basic wxWidgets headers
 #include <wx/wxprec.h>

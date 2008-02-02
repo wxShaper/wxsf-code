@@ -7,6 +7,10 @@
 --*		- use the '/' slash for all paths.
 --*****************************************************************************
 
+function trim (s)
+    return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
+end
+
 -- wxWidgets version
 local wx_ver = "28"
 
@@ -62,6 +66,9 @@ end
 
 -- Set the files to include.
 package.files = { matchrecursive( "*.cpp", "*.h", "*.rc", "../include/*.h" ) }
+if ( not windows ) then
+	table.insert( package.excludes, matchrecursive( "*.rc" ) )
+end
 
 -- Set the include paths.
 package.includepaths = { "../include", "../src" }
@@ -133,17 +140,35 @@ if ( string.len( targetName ) == 0 ) then
 	targetName = package.name
 end
 
--- Set the targets.
+-- Set the target names
 if ( package.kind == "winexe" or package.kind == "exe" ) then
 	package.config["Release"].target = targetName
 	package.config["Debug"].target = targetName.."d"
 else
-	local usign = ""
-	if( options["unicode"] ) then
-		usign = "u" 
+	if( windows ) then
+		local usign = ""
+		if( options["unicode"] ) then
+			usign = "u" 
+		end
+		package.config["Release"].target = wx_target..wx_ver..usign.."_"..targetName
+		package.config["Debug"].target = wx_target..wx_ver..usign.."d_"..targetName
+	else
+		-- Get wxWidgets lib names
+		local wxconfig = io.popen("wx-config " .. debug_option .. " --basename")
+		local debugBasename = trim( wxconfig:read("*a") )
+		wxconfig:close()
+			
+		wxconfig = io.popen("wx-config --debug=no --basename")
+		local basename = trim( wxconfig:read("*a") )
+		wxconfig:close()
+			
+		wxconfig = io.popen("wx-config --release")
+		local release = trim( wxconfig:read("*a") )
+		wxconfig:close()
+	
+		package.config["Debug"].target = debugBasename .. "_" .. targetName .. "-" .. release
+		package.config["Release"].target = basename .. "_" .. targetName .. "-" .. release
 	end
-	package.config["Release"].target = wx_target..wx_ver..usign.."_"..targetName
-	package.config["Debug"].target = wx_target..wx_ver..usign.."d_"..targetName
 end
 
 -- Set the build options.
