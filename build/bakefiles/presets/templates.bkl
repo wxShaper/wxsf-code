@@ -148,9 +148,11 @@
             <dirname>$(SRCDIR)/$(value)</dirname>
             <res-include>$(SRCDIR)/$(value)</res-include>
 
-            <sources>$(fileList(value + '/*.c*'))</sources>
-            <headers>$(fileList(value + '/*.h*'))</headers>
-
+            <sources>$(fileList(value + '/*.c'))</sources>
+            <sources>$(fileList(value + '/*.cpp'))</sources>
+            <sources>$(fileList(value + '/*.cxx'))</sources>
+            <headers>$(fileList(value + '/*.h'))</headers>
+            <headers>$(fileList(value + '/*.hxx'))</headers>
 
             <!-- unlike win compilers, Unix's LD linker supports the -rpath option to insert
                 in the generated ELF files an hint to the OS about where to search the required

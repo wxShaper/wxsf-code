@@ -27,8 +27,6 @@
 
              <add-formats>yyy</add-formats>
     -->
-    <disable-formats>msvc6prj</disable-formats>
-    <disable-formats>msvs2003prj</disable-formats>
-    <disable-formats>msvs2005prj</disable-formats>
+    <disable-formats>msvc6prj,msvs2003prj,msvs2005prj</disable-formats>
 
 </bakefile-gen>

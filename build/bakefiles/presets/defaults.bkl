@@ -22,8 +22,15 @@
          instead of repeating them twice in the wxcode-lib and wxcode-dll targets,
          you can set them once in these vars and wxcode-* templates will automatically
          use them. -->
-    <set var="COMP_SRC" overwrite="0">$(fileList('src/*.c*'))</set>
-    <set var="COMP_HDR" overwrite="0">$(fileList('include/wx/*.h'))</set>
+    <set var="COMP_SRC" overwrite="0">
+    	$(fileList('src/*.c'))
+         $(fileList('src/*.cpp'))
+         $(fileList('src/*.cxx'))
+    </set>
+    <set var="COMP_HDR" overwrite="0">
+    	$(fileList('include/wx/*.h'))
+         $(fileList('include/wx/*.hxx'))
+    </set>
 
 
     <!--    A simple variable used to understand if we are          -->
