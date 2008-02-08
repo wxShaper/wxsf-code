@@ -71,7 +71,7 @@ void wxSFOpenArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxSFSca
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFOpenArrow::DrawArrowShape(int n, wxRealPoint pts[], wxSFScaledPaintDC &dc)
+void wxSFOpenArrow::DrawArrowShape(int WXUNUSED(n), wxRealPoint pts[], wxSFScaledPaintDC &dc)
 {
 	dc.DrawLine(pts[0], pts[1]);
     dc.DrawLine(pts[0], pts[2]);

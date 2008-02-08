@@ -202,7 +202,7 @@ wxSFShapeCanvas::~wxSFShapeCanvas(void)
 // Painting functions
 //----------------------------------------------------------------------------------//
 
-void wxSFShapeCanvas::OnPaint(wxPaintEvent& event)
+void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
 	// use double-buffered painting
 	int sx, sy, x, y;
@@ -436,7 +436,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 	}
 }
 
-void wxSFShapeCanvas::OnEraseBackground(wxEraseEvent &event)
+void wxSFShapeCanvas::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 {
 	// do nothing to suppress window flickering
 }

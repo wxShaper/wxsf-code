@@ -115,17 +115,17 @@ void wxSFSample1Frame::OnRightClickCanvas(wxMouseEvent& event)
     event.Skip();
 }
 
-void wxSFSample1Frame::OnClose(wxCloseEvent &event)
+void wxSFSample1Frame::OnClose(wxCloseEvent& WXUNUSED(event))
 {
     Destroy();
 }
 
-void wxSFSample1Frame::OnQuit(wxCommandEvent &event)
+void wxSFSample1Frame::OnQuit(wxCommandEvent& WXUNUSED(event))
 {
     Destroy();
 }
 
-void wxSFSample1Frame::OnAbout(wxCommandEvent &event)
+void wxSFSample1Frame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg = wxbuildinfo(long_f);
 

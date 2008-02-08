@@ -86,17 +86,17 @@ wxSFSample2Frame::~wxSFSample2Frame()
 {
 }
 
-void wxSFSample2Frame::OnClose(wxCloseEvent &event)
+void wxSFSample2Frame::OnClose(wxCloseEvent& WXUNUSED(event))
 {
     Destroy();
 }
 
-void wxSFSample2Frame::OnQuit(wxCommandEvent &event)
+void wxSFSample2Frame::OnQuit(wxCommandEvent& WXUNUSED(event))
 {
     Destroy();
 }
 
-void wxSFSample2Frame::OnAbout(wxCommandEvent &event)
+void wxSFSample2Frame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg = wxbuildinfo(long_f);
 

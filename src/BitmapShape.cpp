@@ -163,7 +163,7 @@ void wxSFBitmapShape::Scale(double x, double y, bool children)
 	}
 }
 
-void wxSFBitmapShape::OnBeginHandle(wxSFShapeHandle& handle)
+void wxSFBitmapShape::OnBeginHandle(wxSFShapeHandle& WXUNUSED(handle))
 {
 	if(m_fCanScale)
 	{
@@ -184,7 +184,7 @@ void wxSFBitmapShape::OnHandle(wxSFShapeHandle& handle)
 		//EnableSizeChange(false);
 }
 
-void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& handle)
+void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& WXUNUSED(handle))
 {
 	if(m_fCanScale)
 	{

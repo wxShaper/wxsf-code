@@ -353,7 +353,7 @@ void wxSFRectShape::OnHandle(wxSFShapeHandle& handle)
 	}
 }
 
-void wxSFRectShape::OnBeginHandle(wxSFShapeHandle& handle)
+void wxSFRectShape::OnBeginHandle(wxSFShapeHandle& WXUNUSED(handle))
 {
     m_nPrevPosition = m_nRelativePosition;
     m_nPrevSize = m_nRectSize;

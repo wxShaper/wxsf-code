@@ -158,7 +158,7 @@ void wxSFSample3Frame::OnTextChanged(wxSFShapeTextEvent& event)
     }
 }
 
-void wxSFSample3Frame::OnOpen(wxCommandEvent &event)
+void wxSFSample3Frame::OnOpen(wxCommandEvent& WXUNUSED(event))
 {
 	wxFileDialog dlg(this, wxT("Load diagram from XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxOPEN);
 
@@ -171,7 +171,7 @@ void wxSFSample3Frame::OnOpen(wxCommandEvent &event)
 	}
 }
 
-void wxSFSample3Frame::OnSave(wxCommandEvent &event)
+void wxSFSample3Frame::OnSave(wxCommandEvent& WXUNUSED(event))
 {
 	wxFileDialog dlg(this, wxT("Save diagram to XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxSAVE);
 
@@ -184,17 +184,17 @@ void wxSFSample3Frame::OnSave(wxCommandEvent &event)
 	}
 }
 
-void wxSFSample3Frame::OnClose(wxCloseEvent &event)
+void wxSFSample3Frame::OnClose(wxCloseEvent& WXUNUSED(event))
 {
     Destroy();
 }
 
-void wxSFSample3Frame::OnQuit(wxCommandEvent &event)
+void wxSFSample3Frame::OnQuit(wxCommandEvent& WXUNUSED(event))
 {
     Destroy();
 }
 
-void wxSFSample3Frame::OnAbout(wxCommandEvent &event)
+void wxSFSample3Frame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg = wxbuildinfo(long_f);
 

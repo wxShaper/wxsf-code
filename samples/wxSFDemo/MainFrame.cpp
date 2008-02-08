@@ -31,7 +31,7 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 END_EVENT_TABLE()
 
 CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
-    wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE)
+    wxFrame(parent, id, title, pos, size, style)
 {
     mainMenu = new wxMenuBar();
 
@@ -170,12 +170,12 @@ void CMainFrame::do_layout()
 
 // menu events
 
-void CMainFrame::OnExit(wxCommandEvent& event)
+void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event))
 {
 	Destroy();
 }
 
-void CMainFrame::OnNew(wxCommandEvent& event)
+void CMainFrame::OnNew(wxCommandEvent& WXUNUSED(event))
 {
 	if(wxMessageBox(wxT("Current chart will be lost. Do you want to proceed?"), wxT("ShapeFramework"), wxYES_NO | wxICON_QUESTION) == wxYES)
 	{
@@ -191,7 +191,7 @@ void CMainFrame::OnNew(wxCommandEvent& event)
 	}
 }
 
-void CMainFrame::OnLoad(wxCommandEvent& event)
+void CMainFrame::OnLoad(wxCommandEvent& WXUNUSED(event))
 {
 	wxFileDialog dlg(this, wxT("Load canvas from XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxOPEN);
 
@@ -204,7 +204,7 @@ void CMainFrame::OnLoad(wxCommandEvent& event)
 	}
 }
 
-void CMainFrame::OnSave(wxCommandEvent& event)
+void CMainFrame::OnSave(wxCommandEvent& WXUNUSED(event))
 {
 	wxFileDialog dlg(this, wxT("Save canvas to XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxSAVE);
 
@@ -216,7 +216,7 @@ void CMainFrame::OnSave(wxCommandEvent& event)
 	}
 }
 
-void CMainFrame::OnUndo(wxCommandEvent& event)
+void CMainFrame::OnUndo(wxCommandEvent& WXUNUSED(event))
 {
 	shapeCanvas->Undo();
 }
@@ -226,7 +226,7 @@ void CMainFrame::OnUpdateUndo(wxUpdateUIEvent& event)
 	event.Enable(shapeCanvas->CanUndo());
 }
 
-void CMainFrame::OnRedo(wxCommandEvent& event)
+void CMainFrame::OnRedo(wxCommandEvent& WXUNUSED(event))
 {
 	shapeCanvas->Redo();
 }
@@ -236,7 +236,7 @@ void CMainFrame::OnUpdateRedo(wxUpdateUIEvent& event)
 	event.Enable(shapeCanvas->CanRedo());
 }
 
-void CMainFrame::OnCopy(wxCommandEvent& event)
+void CMainFrame::OnCopy(wxCommandEvent& WXUNUSED(event))
 {
 	shapeCanvas->Copy();
 }
@@ -246,7 +246,7 @@ void CMainFrame::OnUpdateCopy(wxUpdateUIEvent& event)
 	event.Enable(shapeCanvas->CanCopy());
 }
 
-void CMainFrame::OnCut(wxCommandEvent& event)
+void CMainFrame::OnCut(wxCommandEvent& WXUNUSED(event))
 {
 	shapeCanvas->Cut();
 }
@@ -256,7 +256,7 @@ void CMainFrame::OnUpdateCut(wxUpdateUIEvent& event)
 	event.Enable(shapeCanvas->CanCut());
 }
 
-void CMainFrame::OnPaste(wxCommandEvent& event)
+void CMainFrame::OnPaste(wxCommandEvent& WXUNUSED(event))
 {
 	shapeCanvas->Paste();
 }
@@ -266,17 +266,17 @@ void CMainFrame::OnUpdatePaste(wxUpdateUIEvent& event)
 	event.Enable(shapeCanvas->CanPaste());
 }
 
-void CMainFrame::OnSelectAll(wxCommandEvent& event)
+void CMainFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 {
 	shapeCanvas->SelectAll();
 }
 
-void CMainFrame::OnAbout(wxCommandEvent& event)
+void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.2 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
-void CMainFrame::OnExportToBMP(wxCommandEvent& event)
+void CMainFrame::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
 {
 	wxFileDialog dlg(this, wxT("Export canvas to BMP..."), wxGetCwd(), wxT(""), wxT("BMP Files (*.bmp) | *.bmp"), wxSAVE);
 
@@ -462,7 +462,7 @@ void CMainFrame::OnUpdateTool(wxUpdateUIEvent& event)
 
 // other events
 
-void CMainFrame::OnSlider(wxScrollEvent& event)
+void CMainFrame::OnSlider(wxScrollEvent& WXUNUSED(event))
 {
 	shapeCanvas->SetScale(double(zoomSlider->GetValue())/5);
 	shapeCanvas->Refresh(false);

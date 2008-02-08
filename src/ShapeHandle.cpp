@@ -197,7 +197,7 @@ void wxSFShapeHandle::OnDragging(const wxPoint& pos)
 	}
 }
 
-void wxSFShapeHandle::OnEndDrag(const wxPoint& pos)
+void wxSFShapeHandle::OnEndDrag(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: override it if neccessary...
 

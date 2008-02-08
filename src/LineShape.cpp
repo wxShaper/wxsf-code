@@ -190,7 +190,7 @@ wxRealPoint wxSFLineShape::GetAbsolutePosition()
     return GetCenter();
 }
 
-wxRealPoint wxSFLineShape::GetBorderPoint(const wxRealPoint& to)
+wxRealPoint wxSFLineShape::GetBorderPoint(const wxRealPoint& WXUNUSED(to))
 {
 	return GetAbsolutePosition();
 }
@@ -365,7 +365,7 @@ void wxSFLineShape::OnHandle(wxSFShapeHandle& handle)
     }
 }
 
-void wxSFLineShape::OnBeginDrag(const wxPoint& pos)
+void wxSFLineShape::OnBeginDrag(const wxPoint& WXUNUSED(pos))
 {
 	m_nPrevPosition = GetAbsolutePosition();
 }

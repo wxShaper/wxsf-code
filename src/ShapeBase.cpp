@@ -286,7 +286,7 @@ wxRealPoint wxSFShapeBase::GetCenter()
     return wxRealPoint(shpBB.GetLeft() + shpBB.GetWidth()/2, shpBB.GetTop() + shpBB.GetHeight()/2);
 }
 
-wxRealPoint wxSFShapeBase::GetBorderPoint(const wxRealPoint& to)
+wxRealPoint wxSFShapeBase::GetBorderPoint(const wxRealPoint& WXUNUSED(to))
 {
     // HINT: override it for custom actions
 
@@ -547,7 +547,7 @@ void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 	}
 }
 
-void wxSFShapeBase::DrawNormal(wxSFScaledPaintDC& dc)
+void wxSFShapeBase::DrawNormal(wxSFScaledPaintDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }
@@ -567,12 +567,12 @@ void wxSFShapeBase::DrawSelected(wxSFScaledPaintDC& dc)
 	}
 }
 
-void wxSFShapeBase::DrawHover(wxSFScaledPaintDC& dc)
+void wxSFShapeBase::DrawHover(wxSFScaledPaintDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::DrawHighlighted(wxSFScaledPaintDC& dc)
+void wxSFShapeBase::DrawHighlighted(wxSFScaledPaintDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }
@@ -815,74 +815,74 @@ void wxSFShapeBase::DoAlignment()
 //----------------------------------------------------------------------------------//
 // Public virtual event handlers
 
-void wxSFShapeBase::OnLeftClick(const wxPoint& pos)
+void wxSFShapeBase::OnLeftClick(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnRightClick(const wxPoint& pos)
+void wxSFShapeBase::OnRightClick(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnLeftDoubleClick(const wxPoint& pos)
+void wxSFShapeBase::OnLeftDoubleClick(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnRightDoubleClick(const wxPoint& pos)
+void wxSFShapeBase::OnRightDoubleClick(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnBeginDrag(const wxPoint& pos)
+void wxSFShapeBase::OnBeginDrag(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnDragging(const wxPoint& pos)
+void wxSFShapeBase::OnDragging(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnEndDrag(const wxPoint& pos)
+void wxSFShapeBase::OnEndDrag(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnHandle(wxSFShapeHandle& handle)
+void wxSFShapeBase::OnHandle(wxSFShapeHandle& WXUNUSED(handle))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnBeginHandle(wxSFShapeHandle& handle)
+void wxSFShapeBase::OnBeginHandle(wxSFShapeHandle& WXUNUSED(handle))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnEndHandle(wxSFShapeHandle& handle)
+void wxSFShapeBase::OnEndHandle(wxSFShapeHandle& WXUNUSED(handle))
 {
 	// HINT: overload it for custom actions...
 }
 
-bool wxSFShapeBase::OnKey(int key)
+bool wxSFShapeBase::OnKey(int WXUNUSED(key))
 {
 	// HINT: overload it for custom actions...
 
     return TRUE;
 }
 
-void wxSFShapeBase::OnMouseEnter(const wxPoint& pos)
+void wxSFShapeBase::OnMouseEnter(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnMouseOver(const wxPoint& pos)
+void wxSFShapeBase::OnMouseOver(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::OnMouseLeave(const wxPoint& pos)
+void wxSFShapeBase::OnMouseLeave(const wxPoint& WXUNUSED(pos))
 {
 	// HINT: overload it for custom actions...
 }
