@@ -1468,8 +1468,8 @@ void wxSFShapeCanvas::SetScaleToViewAll()
 	wxSize physRct = GetClientSize();
 	wxRect virtRct = GetTotalBoundingBox();
 
-	double hz = (double)physRct.GetWidth() / virtRct.GetWidth();
-	double vz = (double)physRct.GetHeight() / virtRct.GetHeight();
+	double hz = (double)physRct.GetWidth() / virtRct.GetRight();
+	double vz = (double)physRct.GetHeight() / virtRct.GetBottom();
 
 	if( hz < vz )
 	{

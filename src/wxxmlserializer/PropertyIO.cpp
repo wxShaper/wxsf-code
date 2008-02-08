@@ -151,7 +151,12 @@ XS_DEFINE_IO_HANDLER(double, xsDoublePropIO);
 
 wxString xsDoublePropIO::ToString(double value)
 {
-    return wxString::Format(wxT("%lf"), value);
+    wxString sVal = wxString::Format(wxT("%lf"), value);
+    sVal.Replace(wxT(","), wxT("."));
+
+    return sVal;
+
+    //return wxString::Format(wxT("%lf"), value);
 }
 
 double xsDoublePropIO::FromString(const wxString& value)
@@ -172,7 +177,12 @@ XS_DEFINE_IO_HANDLER(float, xsFloatPropIO);
 
 wxString xsFloatPropIO::ToString(float value)
 {
-    return wxString::Format(wxT("%f"), value);
+    wxString sVal = wxString::Format(wxT("%f"), value);
+    sVal.Replace(wxT(","), wxT("."));
+
+    return sVal;
+
+    //return wxString::Format(wxT("%f"), value);
 }
 
 float xsFloatPropIO::FromString(const wxString& value)
@@ -239,7 +249,7 @@ XS_DEFINE_IO_HANDLER(wxRealPoint, xsRealPointPropIO);
 
 wxString xsRealPointPropIO::ToString(wxRealPoint value)
 {
-    return wxString::Format(wxT("%lf,%lf"), value.x, value.y);
+    return wxString::Format(wxT("%s,%s"), xsDoublePropIO::ToString(value.x).c_str(), xsDoublePropIO::ToString(value.y).c_str());
 }
 
 wxRealPoint xsRealPointPropIO::FromString(const wxString& value)
@@ -488,9 +498,9 @@ RealPointArray xsArrayRealPointPropIO::FromString(const wxString& value)
 IMPLEMENT_DYNAMIC_CLASS(xsListRealPointPropIO, xsPropertyIO);
 
 void xsListRealPointPropIO::Read(xsProperty *property, wxXmlNode *source)
-{	
+{
 	RealPointList *list = (RealPointList*)property->m_pSourceVariable;
-	
+
 	// clear previous list content
 	bool fDelState = list->GetDeleteContents();
 
