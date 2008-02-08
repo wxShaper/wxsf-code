@@ -52,18 +52,18 @@ public:
      * \param property Pointer to the target property object
      * \param source Pointer to the source XML node
      */
-    virtual void Read(xsProperty *property, wxXmlNode *source){;}
+    virtual void Read(xsProperty *property, wxXmlNode *source){wxUnusedVar(property);wxUnusedVar(source);}
     /*!
      * \brief Write content of given property object to target XML node.
      * \param property Pointer to the source property object
      * \param target Pointer to the target XML node
      */
-    virtual void Write(xsProperty *property, wxXmlNode *target){;}
+    virtual void Write(xsProperty *property, wxXmlNode *target){wxUnusedVar(property);wxUnusedVar(target);}
     /*!
      * \brief Get textual representation of current property value.
 	 * \param property Pointer to the source property object
      */
-	virtual wxString GetValueStr(xsProperty *property){return wxT("");}
+	virtual wxString GetValueStr(xsProperty *property){wxUnusedVar(property);return wxT("");}
 
     /*!
      * \brief Create new XML node of given name and value and assign it to the given

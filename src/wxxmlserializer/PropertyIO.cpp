@@ -155,8 +155,6 @@ wxString xsDoublePropIO::ToString(double value)
     sVal.Replace(wxT(","), wxT("."));
 
     return sVal;
-
-    //return wxString::Format(wxT("%lf"), value);
 }
 
 double xsDoublePropIO::FromString(const wxString& value)
@@ -181,8 +179,6 @@ wxString xsFloatPropIO::ToString(float value)
     sVal.Replace(wxT(","), wxT("."));
 
     return sVal;
-
-    //return wxString::Format(wxT("%f"), value);
 }
 
 float xsFloatPropIO::FromString(const wxString& value)
@@ -421,7 +417,7 @@ wxString xsArrayStringPropIO::ToString(wxArrayString value)
 	return out;
 }
 
-wxArrayString xsArrayStringPropIO::FromString(const wxString& value)
+wxArrayString xsArrayStringPropIO::FromString(const wxString& WXUNUSED(value))
 {
 	return wxArrayString();
 }
@@ -486,7 +482,7 @@ wxString xsArrayRealPointPropIO::ToString(RealPointArray value)
 	return out;
 }
 
-RealPointArray xsArrayRealPointPropIO::FromString(const wxString& value)
+RealPointArray xsArrayRealPointPropIO::FromString(const wxString& WXUNUSED(value))
 {
 	return RealPointArray();
 }
@@ -562,7 +558,7 @@ wxString xsListRealPointPropIO::ToString(RealPointList value)
 	return out;
 }
 
-RealPointList xsListRealPointPropIO::FromString(const wxString& value)
+RealPointList xsListRealPointPropIO::FromString(const wxString& WXUNUSED(value))
 {
 	return RealPointList();
 }
@@ -613,7 +609,7 @@ wxString xsDynObjPropIO::ToString(xsSerializable* value)
 	return wxString::Format(wxT("Dynamic object at address 0x%x"), value);
 }
 
-xsSerializable* xsDynObjPropIO::FromString(const wxString& value)
+xsSerializable* xsDynObjPropIO::FromString(const wxString& WXUNUSED(value))
 {
 	return NULL;
 }
@@ -662,7 +658,7 @@ wxString xsDynNCObjPropIO::ToString(xsSerializable* value)
 	return wxString::Format(wxT("Dynamic object at address 0x%x"), value);
 }
 
-xsSerializable* xsDynNCObjPropIO::FromString(const wxString& value)
+xsSerializable* xsDynNCObjPropIO::FromString(const wxString& WXUNUSED(value))
 {
 	return NULL;
 }
@@ -702,10 +698,11 @@ wxString xsStaticObjPropIO::ToString(xsSerializable value)
 	return wxString::Format(wxT("Static object at address 0x%x"), &value);
 }
 
-xsSerializable xsStaticObjPropIO::FromString(const wxString& value)
+xsSerializable xsStaticObjPropIO::FromString(const wxString& WXUNUSED(value))
 {
 	xsSerializable dummy;
 	return dummy;
 }
+
 
 
