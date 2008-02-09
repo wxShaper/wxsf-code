@@ -7,7 +7,7 @@ Changes in version 1.5.2 beta (2008-02-08):
 - Enhanced wxSFSample3 project to show some usefull features (some of new shape events, shapes' behaviour
   customizations, etc...).
 - Fixed function wxSFShapeCanvas::SetScaleToViewAll()
-- Suppressed compiler warnings dealings with unused function arguments (patch from fantaz).
+- Suppressed compiler warnings dealing with unused function arguments (patch from fantaz).
 
 Changes in version 1.5.1 beta (2008-01-22):
 --------------------------------------------

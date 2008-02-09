@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           = wxShapeFramework
-PROJECT_NUMBER         = "1.5.1 beta"
+PROJECT_NUMBER         = "1.5.2 beta"
 OUTPUT_DIRECTORY       = .
 CREATE_SUBDIRS         = YES
 OUTPUT_LANGUAGE        = English
