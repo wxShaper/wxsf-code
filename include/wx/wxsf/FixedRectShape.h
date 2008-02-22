@@ -28,7 +28,7 @@ public:
 	wxSFSquareShape(const wxRealPoint& pos, double size, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFSquareShape(wxSFSquareShape& obj);
+	wxSFSquareShape(const wxSFSquareShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFSquareShape();
 

@@ -30,7 +30,7 @@ public:
 	wxSFSolidArrow(wxSFShapeBase* parent);
     /// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFSolidArrow(wxSFSolidArrow& obj);
+	wxSFSolidArrow(const wxSFSolidArrow& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFSolidArrow(void);
 

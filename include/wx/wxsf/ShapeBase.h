@@ -150,7 +150,7 @@ public:
 	wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFShapeBase(wxSFShapeBase& obj);
+	wxSFShapeBase(const wxSFShapeBase& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFShapeBase(void);
 

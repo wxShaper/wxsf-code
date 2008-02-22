@@ -58,7 +58,7 @@ public:
 	 * \brief Copy constructor
 	 * \param obj Source object
 	 */
-	wxSFShapeHandle(wxSFShapeHandle& obj);
+	wxSFShapeHandle(const wxSFShapeHandle& obj);
 	/*! \brief Destructor */
 	virtual ~wxSFShapeHandle(void);
 

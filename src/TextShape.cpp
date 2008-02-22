@@ -57,7 +57,7 @@ wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDi
     UpdateRectSize();
 }
 
-wxSFTextShape::wxSFTextShape(wxSFTextShape& obj)
+wxSFTextShape::wxSFTextShape(const wxSFTextShape& obj)
 : wxSFRectShape(obj)
 {
     m_Font = obj.m_Font;

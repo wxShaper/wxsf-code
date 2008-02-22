@@ -41,7 +41,7 @@ wxSFRectShape::wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, wx
 	MarkSerializableDataMembers();
 }
 
-wxSFRectShape::wxSFRectShape(wxSFRectShape& obj) : wxSFShapeBase(obj)
+wxSFRectShape::wxSFRectShape(const wxSFRectShape& obj) : wxSFShapeBase(obj)
 {
 	m_nRectSize = obj.m_nRectSize;
 	m_Border = obj.m_Border;

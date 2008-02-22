@@ -34,7 +34,7 @@ wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPo
     MarkSerializableDataMembers();
 }
 
-wxSFCurveShape::wxSFCurveShape(wxSFCurveShape& obj)
+wxSFCurveShape::wxSFCurveShape(const wxSFCurveShape& obj)
 : wxSFLineShape(obj)
 {
     m_nMaxSteps = obj.m_nMaxSteps;
@@ -67,7 +67,7 @@ wxRect wxSFCurveShape::GetBoundingBox()
 
 wxRealPoint wxSFCurveShape::GetPoint(size_t segment, double offset)
 {
-    CLineSegmentArray arrLines;
+    LineSegmentArray arrLines;
     GetUpdatedLineSegment(arrLines);
 
     if((segment < arrLines.Count()-1) && (segment > 0))
@@ -85,7 +85,7 @@ wxRealPoint wxSFCurveShape::GetPoint(size_t segment, double offset)
 void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
 {
     int i = 0;
-    CLineSegmentArray arrLines;
+    LineSegmentArray arrLines;
     GetUpdatedLineSegment(arrLines);
 
     switch(m_nMode)
@@ -175,7 +175,7 @@ int wxSFCurveShape::GetHitLinesegment(const wxPoint& pos)
     double d, a, b, c;
 
     // Get all polyline segments
-    CLineSegmentArray m_arrLineSegments;
+    LineSegmentArray m_arrLineSegments;
     GetUpdatedLineSegment(m_arrLineSegments);
 
     // test whether given point lies near the line segment
@@ -205,7 +205,7 @@ int wxSFCurveShape::GetHitLinesegment(const wxPoint& pos)
 // private functions
 //----------------------------------------------------------------------------------//
 
-void wxSFCurveShape::GetUpdatedLineSegment(CLineSegmentArray& segments)
+void wxSFCurveShape::GetUpdatedLineSegment(LineSegmentArray& segments)
 {
     if(m_pParentManager)
     {
@@ -219,16 +219,16 @@ void wxSFCurveShape::GetUpdatedLineSegment(CLineSegmentArray& segments)
             // prepend and append new line segmets
             if(pSrcShape)
             {
-                segments.Insert(new CLineSegment(pSrcShape->GetCenter(), segments.Item(0).m_nSrc), 0);
+                segments.Insert(new LineSegment(pSrcShape->GetCenter(), segments.Item(0).m_nSrc), 0);
             }
 
             if(m_nMode == modeUNDERCONSTRUCTION)
             {
-                segments.Add(new CLineSegment(segments.Item(segments.Count()-1).m_nTrg, wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y)));
+                segments.Add(new LineSegment(segments.Item(segments.Count()-1).m_nTrg, wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y)));
             }
             else if(pTrgShape)
             {
-                segments.Add(new CLineSegment(segments.Item(segments.Count()-1).m_nTrg, pTrgShape->GetCenter()));
+                segments.Add(new LineSegment(segments.Item(segments.Count()-1).m_nTrg, pTrgShape->GetCenter()));
             }
 
         }

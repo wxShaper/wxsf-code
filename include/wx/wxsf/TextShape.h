@@ -40,7 +40,7 @@ public:
 	 * \brief Copy constructor.
 	 * \param obj Source objct
 	 */
-	wxSFTextShape(wxSFTextShape& obj);
+	wxSFTextShape(const wxSFTextShape& obj);
 	/*! \brief Destructor */
     virtual ~wxSFTextShape();
 

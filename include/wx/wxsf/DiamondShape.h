@@ -27,7 +27,7 @@ public:
 	wxSFDiamondShape(const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFDiamondShape(wxSFDiamondShape& obj);
+	wxSFDiamondShape(const wxSFDiamondShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFDiamondShape();
 

@@ -37,7 +37,7 @@ wxSFRoundRectShape::wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint
 	MarkSerializableDataMembers();
 }
 
-wxSFRoundRectShape::wxSFRoundRectShape(wxSFRoundRectShape& obj) : wxSFRectShape(obj)
+wxSFRoundRectShape::wxSFRoundRectShape(const wxSFRoundRectShape& obj) : wxSFRectShape(obj)
 {
 	m_nRadius = obj.m_nRadius;
 

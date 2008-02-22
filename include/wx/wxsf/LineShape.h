@@ -25,20 +25,20 @@
 
 /// <summary> Auxiliary class encapsulating the line segment. </summary>
 /// <seealso cref="wxSFLineShape"></seealso>
-class CLineSegment : public wxObject
+class LineSegment : public wxObject
 {
 public:
     /// <summary> Default constructor </summary>
     /// <param name="src"> Starting point of the line segment </param>
     /// <param name="trg"> Ending point of the line segmetn </param>
-    CLineSegment(wxRealPoint src, wxRealPoint trg){m_nSrc = src; m_nTrg = trg;}
+    LineSegment(wxRealPoint src, wxRealPoint trg){m_nSrc = src; m_nTrg = trg;}
     /// <summary> Starting segment position </summary>
     wxRealPoint m_nSrc;
     /// <summary> Ending segment position </summary>
     wxRealPoint m_nTrg;
 };
 
-WX_DECLARE_OBJARRAY(CLineSegment, CLineSegmentArray);
+WX_DECLARE_OBJARRAY(LineSegment, LineSegmentArray);
 
 /// <summary> Basic class encapsulating the multiline consisting of several line segments. </summary>
 class WXDLLIMPEXP_SF wxSFLineShape : public wxSFShapeBase
@@ -59,7 +59,7 @@ friend class wxSFShapeCanvas;
 	wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object</param>
-	wxSFLineShape(wxSFLineShape& obj);
+	wxSFLineShape(const wxSFLineShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFLineShape(void);
 
@@ -176,8 +176,8 @@ friend class wxSFShapeCanvas;
 	// public functions
 	/// <summary> Get a list of the line segments</summary>
 	/// <param name="segments"> Reference to the list which will contain the line segments </param>
-	/// <seealso cref="CLineSegment"></seealso>
-    void GetLineSegments(CLineSegmentArray& segments);
+	/// <seealso cref="LineSegment"></seealso>
+    void GetLineSegments(LineSegmentArray& segments);
 
 protected:
 

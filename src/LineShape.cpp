@@ -20,7 +20,7 @@
 
 #include <wx/arrimpl.cpp>
 
-WX_DEFINE_OBJARRAY(CLineSegmentArray);
+WX_DEFINE_OBJARRAY(LineSegmentArray);
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFLineShape, wxSFShapeBase);
 
@@ -70,7 +70,7 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSF
 	m_lstPoints.DeleteContents(true);
 }
 
-wxSFLineShape::wxSFLineShape(wxSFLineShape& obj)
+wxSFLineShape::wxSFLineShape(const wxSFLineShape& obj)
 : wxSFShapeBase(obj)
 {
 	m_nSrcShapeId = obj.m_nSrcShapeId;
@@ -201,7 +201,7 @@ wxRect wxSFLineShape::GetBoundingBox()
 
 	wxRect lineRct(0, 0, 0, 0);
 
-    CLineSegmentArray m_arrSegments;
+    LineSegmentArray m_arrSegments;
     GetLineSegments(m_arrSegments);
 
     // calculate control points area if they exist
@@ -422,7 +422,7 @@ void wxSFLineShape::DrawHighlighted(wxSFScaledPaintDC& dc)
 // protected functions
 //----------------------------------------------------------------------------------//
 
-void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
+void wxSFLineShape::GetLineSegments(LineSegmentArray& segments)
 {
     //wxASSERT(m_pParentManager);
 
@@ -447,18 +447,18 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
 
 				if(node == m_lstPoints.GetFirst())
 				{
-					if(pSrcShape)segments.Add(new CLineSegment(pSrcShape->GetBorderPoint(*pt), *pt));
+					if(pSrcShape)segments.Add(new LineSegment(pSrcShape->GetBorderPoint(*pt), *pt));
 				}
 				else
 				{
-					segments.Add(new CLineSegment(prevPt, *pt));
+					segments.Add(new LineSegment(prevPt, *pt));
 				}
 				prevPt = *pt;
 
 				node = node->GetNext();
 			}
 
-			if(pTrgShape)segments.Add(new CLineSegment(prevPt, pTrgShape->GetBorderPoint(prevPt)));
+			if(pTrgShape)segments.Add(new LineSegment(prevPt, pTrgShape->GetBorderPoint(prevPt)));
 		}
 		else
 		{
@@ -475,29 +475,29 @@ void wxSFLineShape::GetLineSegments(CLineSegmentArray& segments)
                     {
                         if( srcCenter.y > trgCenter.y )
                         {
-                            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetBottom()), wxRealPoint(srcCenter.x, trgBB.GetBottom())));
+                            segments.Add(new LineSegment(wxRealPoint(srcCenter.x, srcBB.GetBottom()), wxRealPoint(srcCenter.x, trgBB.GetBottom())));
                         }
                         else
                         {
-                            segments.Add(new CLineSegment(wxRealPoint(srcCenter.x, srcBB.GetTop()), wxRealPoint(srcCenter.x, trgBB.GetTop())));
+                            segments.Add(new LineSegment(wxRealPoint(srcCenter.x, srcBB.GetTop()), wxRealPoint(srcCenter.x, trgBB.GetTop())));
                         }
                     }
                     else if( srcBB.Contains((int)trgCenter.x, (int)trgCenter.y) )
                     {
                         if( trgCenter.y > srcCenter.y )
                         {
-                            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetBottom()), wxRealPoint(trgCenter.x, trgBB.GetBottom())));
+                            segments.Add(new LineSegment(wxRealPoint(trgCenter.x, srcBB.GetBottom()), wxRealPoint(trgCenter.x, trgBB.GetBottom())));
                         }
                         else
                         {
-                            segments.Add(new CLineSegment(wxRealPoint(trgCenter.x, srcBB.GetTop()), wxRealPoint(trgCenter.x, trgBB.GetTop())));
+                            segments.Add(new LineSegment(wxRealPoint(trgCenter.x, srcBB.GetTop()), wxRealPoint(trgCenter.x, trgBB.GetTop())));
                         }
                     }
                     else
-                        segments.Add(new CLineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
+                        segments.Add(new LineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
                 }
                 else
-                    segments.Add(new CLineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
+                    segments.Add(new LineSegment(pSrcShape->GetBorderPoint(pTrgShape->GetCenter()), pTrgShape->GetBorderPoint(pSrcShape->GetCenter())));
 			}
 		}
     }
@@ -508,7 +508,7 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
     if(!m_pParentManager)return;
 
     size_t i;
-	CLineSegmentArray arrLines;
+	LineSegmentArray arrLines;
 	GetLineSegments(arrLines);
 
     switch(m_nMode)
@@ -594,7 +594,7 @@ int wxSFLineShape::GetHitLinesegment(const wxPoint& pos)
     wxRect lsBB;
 
     // Get all polyline segments
-    CLineSegmentArray m_arrLineSegments;
+    LineSegmentArray m_arrLineSegments;
     GetLineSegments(m_arrLineSegments);
 
     // test whether given point lies near the line segment

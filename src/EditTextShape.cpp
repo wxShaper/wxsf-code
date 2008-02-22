@@ -116,7 +116,7 @@ wxSFEditTextShape::wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt
 	XS_SERIALIZE_EX(m_fForceMultiline, wxT("multiline"), sfdvEDITTEXTSHAPE_FORCEMULTILINE);
 }
 
-wxSFEditTextShape::wxSFEditTextShape(wxSFEditTextShape& obj)
+wxSFEditTextShape::wxSFEditTextShape(const wxSFEditTextShape& obj)
 : wxSFTextShape(obj)
 {
 	m_pTextCtrl = NULL;

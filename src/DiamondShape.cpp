@@ -36,7 +36,7 @@ wxSFDiamondShape::wxSFDiamondShape(const wxRealPoint& pos, wxSFDiagramManager* m
 	EnablePropertySerialization(wxT("vertices"), false);
 }
 
-wxSFDiamondShape::wxSFDiamondShape(wxSFDiamondShape& obj)
+wxSFDiamondShape::wxSFDiamondShape(const wxSFDiamondShape& obj)
 : wxSFPolygonShape(obj)
 {
 

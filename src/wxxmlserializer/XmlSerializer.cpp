@@ -51,7 +51,7 @@ xsSerializable::xsSerializable()
     m_nId = -1;
 }
 
-xsSerializable::xsSerializable(xsSerializable& obj)
+xsSerializable::xsSerializable(const xsSerializable& obj)
 : wxObject(obj)
 {
 	m_pParentManager = NULL;
@@ -297,7 +297,7 @@ wxXmlSerializer::wxXmlSerializer()
 	m_nRefCounter++;
 }
 
-wxXmlSerializer::wxXmlSerializer(wxXmlSerializer &obj)
+wxXmlSerializer::wxXmlSerializer(const wxXmlSerializer &obj)
 : wxObject(obj)
 {
 	m_sOwner = obj.m_sOwner;
@@ -414,7 +414,7 @@ int wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list)
     return m_nCounter;
 }
 
-void wxXmlSerializer::CopyItems(wxXmlSerializer *src)
+void wxXmlSerializer::CopyItems(const wxXmlSerializer* src)
 {
 	// create new root (all old serializer's content will be lost)
 	SetRootItem((xsSerializable*)m_pRoot->Clone());
@@ -751,7 +751,7 @@ bool wxXmlSerializer::_Contains(xsSerializable* object, xsSerializable* parent)
     return fFound;
 }
 
-void wxXmlSerializer::_CopyItems(xsSerializable *dest, xsSerializable *parent)
+void wxXmlSerializer::_CopyItems(xsSerializable *dest, const xsSerializable *parent)
 {
 	if( !parent || !dest ) return;
 

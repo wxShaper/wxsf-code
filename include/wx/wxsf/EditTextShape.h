@@ -70,7 +70,7 @@ public:
 	wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFEditTextShape(wxSFEditTextShape& obj);
+	wxSFEditTextShape(const wxSFEditTextShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFEditTextShape(void);
 
@@ -83,7 +83,7 @@ public:
 	// public functions
 	/// <summary> Switch the shape to a label editation mode. </summary>
 	void EditLabel();
-	/*! \brienf Force the edit text control to be multiline 
+	/*! \brienf Force the edit text control to be multiline
 	 *  \param multiline If TRUE then the associated text control will be allways multiline
 	 */
 	void ForceMultiline(bool multiline){m_fForceMultiline = multiline;}

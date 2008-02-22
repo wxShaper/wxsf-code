@@ -164,7 +164,7 @@ public:
     /*! \brief Constructor. */
     xsSerializable();
     /*! \brief Copy constructor. */
-    xsSerializable(xsSerializable& obj);
+    xsSerializable(const xsSerializable& obj);
     /*! \brief Destructor. */
     ~xsSerializable();
 
@@ -209,11 +209,11 @@ public:
     /*!
      * \brief Get pointer to list node containing first serializable child object.
      */
-	SerializableList::compatibility_iterator GetFirstChildNode(){return m_lstChildItems.GetFirst();}
+	SerializableList::compatibility_iterator GetFirstChildNode() const {return m_lstChildItems.GetFirst();}
     /*!
      * \brief Get pointer to list node containing last serializable child object.
      */
-    SerializableList::compatibility_iterator GetLastChildNode(){return m_lstChildItems.GetLast();}
+    SerializableList::compatibility_iterator GetLastChildNode() const {return m_lstChildItems.GetLast();}
 
     /*!
      * \brief Set serializable parent object.
@@ -521,7 +521,7 @@ public:
     xsProperty(xsSerializable** src, const wxString& field) : m_pSourceVariable((void**)src), m_sFieldName(field), m_sDataType(wxT("serializabledynamic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
 	/*! \brief Copy constructor. */
-	//xsProperty(xsProperty& obj) : m_pSourceVariable(obj.m_pSourceVariable), m_sFieldName(obj.m_sFieldName), m_sDataType(obj.m_sDataType), m_sDefaultValueStr(obj.m_sDefaultValueStr), m_fSerialize(obj.m_fSerialize) {;}
+	xsProperty(const xsProperty& obj) : m_pSourceVariable(obj.m_pSourceVariable), m_sFieldName(obj.m_sFieldName), m_sDataType(obj.m_sDataType), m_sDefaultValueStr(obj.m_sDefaultValueStr), m_fSerialize(obj.m_fSerialize) {;}
 
     ~xsProperty(){;}
 
@@ -576,7 +576,7 @@ public:
      */
     wxXmlSerializer(const wxString& owner, const wxString& root, const wxString& version);
     /*! \brief Copy constructor. */
-    wxXmlSerializer(wxXmlSerializer &obj);
+    wxXmlSerializer(const wxXmlSerializer &obj);
     /*! \brief Destructor. */
     virtual ~wxXmlSerializer();
 
@@ -607,7 +607,7 @@ public:
 
     // public functions
     /*! \brief Get pointer to root serializable object. */
-    xsSerializable* GetRootItem(){return m_pRoot;}
+    xsSerializable* GetRootItem() const {return m_pRoot;}
     /*!
      * \brief Get serializable object with given ID.
      * \param id Object ID
@@ -641,7 +641,7 @@ public:
 	 * constructor. For more details see the xsSerializable::Clone() function documentation.
      * \param src Pointer to the source data manager
      */
-	void CopyItems(wxXmlSerializer *src);
+	void CopyItems(const wxXmlSerializer* src);
     /*!
      * \brief Add serializable object to the serializer.
      * \param parentId ID of parent serializable object
@@ -770,7 +770,7 @@ private:
 	/*! \brief Auxiliary function */
     bool _Contains(xsSerializable *object, xsSerializable* parent);
 	/*! \brief Auxiliary function. Copy items assigned to given parent to given source item */
-	void _CopyItems(xsSerializable *dest, xsSerializable *parent);
+	void _CopyItems(xsSerializable *dest, const xsSerializable *parent);
 
 };
 

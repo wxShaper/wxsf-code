@@ -30,7 +30,7 @@ wxSFSquareShape::wxSFSquareShape(const wxRealPoint& pos, double size, wxSFDiagra
 
 }
 
-wxSFSquareShape::wxSFSquareShape(wxSFSquareShape& obj)
+wxSFSquareShape::wxSFSquareShape(const wxSFSquareShape& obj)
 : wxSFRectShape(obj)
 {
 

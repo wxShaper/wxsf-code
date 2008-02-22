@@ -44,7 +44,7 @@ wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapP
 	MarkSerializableDataMembers();
 }
 
-wxSFBitmapShape::wxSFBitmapShape(wxSFBitmapShape& obj)
+wxSFBitmapShape::wxSFBitmapShape(const wxSFBitmapShape& obj)
 : wxSFRectShape(obj)
 {
 	m_sBitmapPath = obj.m_sBitmapPath;

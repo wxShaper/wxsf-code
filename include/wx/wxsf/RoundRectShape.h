@@ -33,7 +33,7 @@ public:
 	wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Refernce to the source object </param>
-	wxSFRoundRectShape(wxSFRoundRectShape& obj);
+	wxSFRoundRectShape(const wxSFRoundRectShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFRoundRectShape(void);
 

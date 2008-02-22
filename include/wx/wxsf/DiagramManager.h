@@ -49,7 +49,7 @@ public:
     /*! \brief Constructor */
     wxSFDiagramManager();
     /*! \brief Copy constructor */
-	wxSFDiagramManager(wxSFDiagramManager &obj);
+	wxSFDiagramManager(const wxSFDiagramManager &obj);
     /*! \brief Destructor */
     virtual ~wxSFDiagramManager();
 

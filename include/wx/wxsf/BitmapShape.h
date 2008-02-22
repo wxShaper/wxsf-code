@@ -32,7 +32,7 @@ public:
 	wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapPath, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Source shape </param>
-	wxSFBitmapShape(wxSFBitmapShape& obj);
+	wxSFBitmapShape(const wxSFBitmapShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFBitmapShape(void);
 

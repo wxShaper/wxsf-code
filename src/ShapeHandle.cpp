@@ -50,7 +50,7 @@ wxSFShapeHandle::wxSFShapeHandle(wxSFShapeBase* parent, HANDLETYPE type, long id
 	m_fMouseOver = false;
 }
 
-wxSFShapeHandle::wxSFShapeHandle(wxSFShapeHandle& obj)
+wxSFShapeHandle::wxSFShapeHandle(const wxSFShapeHandle& obj)
 : wxObject(obj)
 {
 	// initialize data members
@@ -282,7 +282,7 @@ wxRect wxSFShapeHandle::GetHandleRect() const
             {
                 wxSFLineShape *pLine = (wxSFLineShape*)m_pParentShape;
                 // Get all polyline segments
-                CLineSegmentArray m_arrLineSegments;
+                LineSegmentArray m_arrLineSegments;
                 pLine->GetLineSegments(m_arrLineSegments);
 
                 wxRealPoint pt;

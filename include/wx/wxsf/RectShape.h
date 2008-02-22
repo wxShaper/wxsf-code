@@ -38,7 +38,7 @@ public:
 	wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Refernce to the source object </param>
-	wxSFRectShape(wxSFRectShape& obj);
+	wxSFRectShape(const wxSFRectShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFRectShape(void);
 

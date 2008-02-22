@@ -32,7 +32,7 @@ wxSFOpenArrow::wxSFOpenArrow(wxSFShapeBase* parent)
 {
 }
 
-wxSFOpenArrow::wxSFOpenArrow(wxSFOpenArrow& obj)
+wxSFOpenArrow::wxSFOpenArrow(const wxSFOpenArrow& obj)
 : wxSFArrowBase(obj)
 {
 }

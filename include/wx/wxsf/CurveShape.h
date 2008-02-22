@@ -33,7 +33,7 @@ public:
 	wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFCurveShape(wxSFCurveShape& obj);
+	wxSFCurveShape(const wxSFCurveShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFCurveShape();
 
@@ -82,7 +82,7 @@ private:
 	 /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
 	/// <summary> Auxiliary drawing function </summary>
-	void GetUpdatedLineSegment(CLineSegmentArray& segments);
+	void GetUpdatedLineSegment(LineSegmentArray& segments);
 	/// <summary> Auxiliary drawing function </summary>
 	void Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint&D, wxSFScaledPaintDC& dc);
 	/// <summary> Auxiliary drawing function </summary>

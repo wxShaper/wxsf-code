@@ -28,7 +28,7 @@ public:
 	wxSFEllipseShape(const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source shape </param>
-	wxSFEllipseShape(wxSFEllipseShape& obj);
+	wxSFEllipseShape(const wxSFEllipseShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFEllipseShape();
 

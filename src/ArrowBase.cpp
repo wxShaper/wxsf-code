@@ -28,7 +28,7 @@ wxSFArrowBase::wxSFArrowBase(wxSFShapeBase* parent)
 	m_pParentShape = parent;
 }
 
-wxSFArrowBase::wxSFArrowBase(wxSFArrowBase& obj)
+wxSFArrowBase::wxSFArrowBase(const wxSFArrowBase& obj)
 : xsSerializable(obj)
 {
 	m_pParentShape = obj.m_pParentShape;

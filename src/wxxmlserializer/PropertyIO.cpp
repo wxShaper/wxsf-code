@@ -1,9 +1,9 @@
 /***************************************************************
  * Name:      PropertyIO.cpp
  * Purpose:   Implements data types I/O and conversion functions
- * Author:    Michal BliûÚ·k (michal.bliznak@tiscali.cz)
+ * Author:    Michal Bli≈æ≈à√°k (michal.bliznak@tiscali.cz)
  * Created:   2007-10-28
- * Copyright: Michal BliûÚ·k
+ * Copyright: Michal Bli≈à√°k
  * License:   wxWidgets license (www.wxwidgets.org)
  * Notes:
  **************************************************************/

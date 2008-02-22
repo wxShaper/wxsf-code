@@ -30,7 +30,7 @@ wxSFEllipseShape::wxSFEllipseShape(const wxRealPoint& pos, const wxRealPoint& si
 
 }
 
-wxSFEllipseShape::wxSFEllipseShape(wxSFEllipseShape& obj)
+wxSFEllipseShape::wxSFEllipseShape(const wxSFEllipseShape& obj)
 : wxSFRectShape(obj)
 {
 

@@ -35,7 +35,7 @@ wxSFSolidArrow::wxSFSolidArrow(wxSFShapeBase* parent)
 	MarkSerializableDataMembers();
 }
 
-wxSFSolidArrow::wxSFSolidArrow(wxSFSolidArrow& obj)
+wxSFSolidArrow::wxSFSolidArrow(const wxSFSolidArrow& obj)
 : wxSFOpenArrow(obj)
 {
 	m_Fill = obj.m_Fill;

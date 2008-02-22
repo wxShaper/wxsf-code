@@ -30,14 +30,14 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.5.2 beta");
+    m_sSFVersion =  wxT("1.6.0 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
     SetSerializerRootName(wxT("chart"));
 }
 
-wxSFDiagramManager::wxSFDiagramManager(wxSFDiagramManager &obj)
+wxSFDiagramManager::wxSFDiagramManager(const wxSFDiagramManager &obj)
 : wxXmlSerializer(obj)
 {
 	m_pShapeCanvas = NULL;

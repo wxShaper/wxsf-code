@@ -1,13 +1,16 @@
-Changes in version 1.5.2 beta (2008-02-08):
+Changes in version 1.5.2 beta (2008-02-22):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.4
-- Decimal point in stored real values is allways converted to character "." (locale settings are
+- Decimal point in stored real values is always converted to character "." (locale settings are
   ignored). This change may cause some previously saved project unreadable (if your default decimal
   point character is set to ",").
 - Enhanced wxSFSample3 project to show some usefull features (some of new shape events, shapes' behaviour
   customizations, etc...).
 - Fixed function wxSFShapeCanvas::SetScaleToViewAll()
 - Suppressed compiler warnings dealing with unused function arguments (patch from fantaz).
+- Added bakefiles-based build system. Also prebuilt makefiles for several platforms have beed 
+  included into the release package.
+- Source object references in the copy constructors are static now.
 
 Changes in version 1.5.1 beta (2008-01-22):
 --------------------------------------------

@@ -37,7 +37,7 @@ wxSFPolygonShape::wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealP
 	SetVertices(n, pts);
 }
 
-wxSFPolygonShape::wxSFPolygonShape(wxSFPolygonShape& obj)
+wxSFPolygonShape::wxSFPolygonShape(const wxSFPolygonShape& obj)
 : wxSFRectShape(obj)
 {
 	m_fConnectToVertex = obj.m_fConnectToVertex;

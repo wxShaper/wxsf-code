@@ -97,7 +97,7 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager
 	m_lstHandles.DeleteContents(true);
 }
 
-wxSFShapeBase::wxSFShapeBase(wxSFShapeBase& obj) : xsSerializable(obj)
+wxSFShapeBase::wxSFShapeBase(const wxSFShapeBase& obj) : xsSerializable(obj)
 {
 	// initialize data members
 	m_fSelected = false;
@@ -483,7 +483,7 @@ wxSFShapeBase* wxSFShapeBase::GetGrandParentShape()
 	wxSFShapeBase *pGrandPa = NULL;
 
     if(m_pParentManager)
-	{	
+	{
 		if( m_pParentItem && (m_pParentManager->GetRootItem() != m_pParentItem) )
 		{
 			pGrandPa = ((wxSFShapeBase*)m_pParentItem)->GetGrandParentShape();

@@ -31,7 +31,7 @@ wxSFCircleShape::wxSFCircleShape(const wxRealPoint& pos, double radius, wxSFDiag
 
 }
 
-wxSFCircleShape::wxSFCircleShape(wxSFCircleShape& obj)
+wxSFCircleShape::wxSFCircleShape(const wxSFCircleShape& obj)
 : wxSFSquareShape(obj)
 {
 

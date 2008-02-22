@@ -27,7 +27,7 @@ public:
 	wxSFCircleShape(const wxRealPoint& pos, double radius, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFCircleShape(wxSFCircleShape& obj);
+	wxSFCircleShape(const wxSFCircleShape& obj);
 	/// <summary> Destructor </summary>
     virtual ~wxSFCircleShape();
 

@@ -28,7 +28,7 @@ public:
 	wxSFArrowBase(wxSFShapeBase* parent);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Source base arrow shape </param>
-	wxSFArrowBase(wxSFArrowBase& obj);
+	wxSFArrowBase(const wxSFArrowBase& obj);
 	/// <summary> Destructor </summary>
 	~wxSFArrowBase(void);
 

@@ -35,7 +35,7 @@ public:
 	wxSFPolygonShape(int n, const wxRealPoint pts[], const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to a source object </param>
-	wxSFPolygonShape(wxSFPolygonShape& obj);
+	wxSFPolygonShape(const wxSFPolygonShape& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFPolygonShape(void);
 

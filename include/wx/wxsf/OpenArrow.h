@@ -27,7 +27,7 @@ public:
 	wxSFOpenArrow(wxSFShapeBase* parent);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>
-	wxSFOpenArrow(wxSFOpenArrow& obj);
+	wxSFOpenArrow(const wxSFOpenArrow& obj);
 	/// <summary> Destructor </summary>
 	virtual ~wxSFOpenArrow(void);
 
