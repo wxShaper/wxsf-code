@@ -151,6 +151,14 @@ BEGIN_EVENT_TABLE(wxSFShapeCanvas, wxScrolledWindow)
 	EVT_SIZE(wxSFShapeCanvas::OnResize)
 END_EVENT_TABLE()
 
+wxSFShapeCanvas::wxSFShapeCanvas()
+{
+    // NOTE: user must call wxSFShapeCanvas::SetDiagramManager() to complete
+    // canvas initialization!
+
+    Create(NULL, wxID_ANY);
+}
+
 wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 : wxScrolledWindow(parent, id, pos, size, style)
 {
@@ -196,6 +204,57 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
 	//Clear();
+}
+bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+{
+    // perform basic window initialization
+    if( parent )Reparent(parent);
+    SetId(id);
+    Move(pos);
+    SetSize(size);
+    SetStyle(style);
+
+    // NOTE: user must call wxSFShapeCanvas::SetDiagramManager() to complete
+    // canvas initialization!
+
+	// set drop target
+	m_formatShapes.SetId(dataFormatID);
+	SetDropTarget(new wxSFCanvasDropTarget(new wxSFShapeDataObject(m_formatShapes), this));
+	m_fDnDStartedHere = false;
+
+	SetScrollbars(5, 5, 100, 100);
+	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+
+	// initialize data members
+	m_fCanSaveStateOnMouseUp = false;
+
+	m_nWorkingMode = modeREADY;
+	m_pSelectedHandle = NULL;
+	m_pNewLineShape = NULL;
+	m_pUnselectedShapeUnderCursor = NULL;
+	m_pSelectedShapeUnderCursor = NULL;
+	m_pTopmostShapeUnderCursor = NULL;
+
+	// initialize multiedit rectangle
+	m_shpMultiEdit.SetId(0);
+	m_shpMultiEdit.CreateHandles();
+	m_shpMultiEdit.Select(true);
+	m_shpMultiEdit.Show(false);
+	m_shpMultiEdit.ShowHandles(true);
+
+	m_CanvasHistory.SetParentCanvas(this);
+
+    return true;
+}
+
+void wxSFShapeCanvas::SetDiagramManager(wxSFDiagramManager *manager)
+{
+    m_pManager = manager;
+    if( m_pManager )
+    {
+        m_pManager->SetShapeCanvas(this);
+        m_shpMultiEdit.SetParentManager(m_pManager);
+    }
 }
 
 //----------------------------------------------------------------------------------//

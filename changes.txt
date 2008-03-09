@@ -1,3 +1,11 @@
+Changes in version 1.5.3 beta (2008-03-09):
+--------------------------------------------
+- Added default constructor for wxSFShapeCanvas class. Note that the user must call 
+  wxSFShapeCanvas::SetDiagramManager() function later to complete the canvas' initilization.
+- Implemented virtual bool wxScrolledWindow::Create() function for two-step canvas window construction.
+- Fixed compilation problem which occured in wxSFDemo and wxSFSample3 if the wx2.6.x compatibility is switched off
+  (due to unknown wxSAVE and wxOPEN defines previously declared in the wxFileDialog).
+
 Changes in version 1.5.2 beta (2008-02-22):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.4
@@ -10,7 +18,7 @@ Changes in version 1.5.2 beta (2008-02-22):
 - Suppressed compiler warnings dealing with unused function arguments (patch from fantaz).
 - Added bakefiles-based build system. Also prebuilt makefiles for several platforms have beed 
   included into the release package.
-- Source object references in the copy constructors are static now.
+- Source object references in the copy constructors are constant now.
 
 Changes in version 1.5.1 beta (2008-01-22):
 --------------------------------------------

@@ -12,6 +12,14 @@
 #include "wxSFSample3Main.h"
 #include "StarShape.h"
 
+// wx backward compatibility hack...
+#ifndef wxSAVE
+#define wxSAVE wxFD_SAVE
+#endif
+#ifndef wxOPEN
+#define wxOPEN wxFD_OPEN
+#endif
+
 //helper functions
 enum wxbuildinfoformat {
     short_f, long_f };

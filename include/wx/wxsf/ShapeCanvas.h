@@ -87,6 +87,10 @@ public:
 	friend class wxSFCanvasDropTarget;
 
     /*!
+     * \brief Default constructor
+     */
+    wxSFShapeCanvas();
+    /*!
      * \brief Constructor
      * \param manager Pointer to shape manager
      * \param parent Parent window
@@ -98,6 +102,17 @@ public:
 	wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxHSCROLL | wxVSCROLL);
 	/*! \brief Destructor */
 	~wxSFShapeCanvas(void);
+
+    /*!
+     * \brief Creates the window for two-step construction.
+     * \param parent Parent window
+     * \param id Window ID
+     * \param pos Initial position
+     * \param size Initial size
+     * \param style Window style
+     * \param name Window name
+     */
+    virtual bool Create(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxHSCROLL | wxVSCROLL, const wxString& name = wxT("scrolledWindow"));
 
     /*! \brief Working modes */
 	enum MODE
@@ -187,7 +202,7 @@ public:
      * \param manager Pointer to diagram manager instance
      * \sa wxSFDiagramManager
      */
-    void SetDiagramManager(wxSFDiagramManager* manager){m_pManager = manager;}
+    void SetDiagramManager(wxSFDiagramManager* manager);
 
     /*!
      * \brief Load serialized canvas content (diagrams) from given file.
@@ -464,7 +479,7 @@ public:
 	 * \brief Get canvas hostory manager.
 	 * \return Reference to the canvas history manager
 	 * \sa wxSFCanvasHistory
-	 */	
+	 */
 	wxSFCanvasHistory& GetHistoryManager(){return m_CanvasHistory;}
 
 	/*!
