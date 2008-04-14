@@ -213,7 +213,7 @@ public:
     /// <param name="children"> List of child shapes </param>
     /// <param name="recursive"> Set this flag TRUE if also children of children of ... should be found
     /// (also sfRECURSIVE a sfNORECURSIVE constants can be used). </param>
-	void GetChildren(ShapeList& children, bool recursive = false);
+	void GetChildShapes(ShapeList& children, bool recursive = false);
 	/*!
 	 * \brief Get neighbour shapes connected to this shape.
 	 * \param neighbours List of neighbour shapes

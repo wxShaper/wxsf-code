@@ -8,7 +8,7 @@
 CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id)
 : wxSFShapeCanvas(manager, parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
 {
-	// initialize grid 
+	// initialize grid
 
 	//UseGrid(true); !!! DEPRECATED !!!
 	//ShowGrid(true); !!! DEPRECATED !!!
@@ -320,7 +320,7 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
 
         // show info about shape's children
         counter = 1;
-        pShape->GetChildren(lstShapes, sfRECURSIVE);
+        pShape->GetChildShapes(lstShapes, sfRECURSIVE);
         if( lstShapes.GetCount() > 0 )
         {
             msg += wxT("\nChildren:\n");

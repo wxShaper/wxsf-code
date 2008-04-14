@@ -2007,8 +2007,8 @@ void wxSFShapeCanvas::ValidateSelection(ShapeList& selection)
 	{
 		wxSFShapeBase* pShape = node->GetData();
 
-        ((xsSerializable*)pShape->GetParent())->GetChildren().DeleteObject(pShape);
-        ((xsSerializable*)pShape->GetParent())->GetChildren().Append(pShape);
+        ((xsSerializable*)pShape->GetParent())->GetChildrenList().DeleteObject(pShape);
+        ((xsSerializable*)pShape->GetParent())->GetChildrenList().Append(pShape);
 
 		node = node->GetNext();
 	}
@@ -2038,7 +2038,7 @@ void wxSFShapeCanvas::ValidateSelectionForClipboard(ShapeList& list)
 			lstConnections.Clear();
 			lstChildren.Clear();
 
-			pShape->GetChildren(lstChildren, sfRECURSIVE);
+			pShape->GetChildShapes(lstChildren, sfRECURSIVE);
 
 			// get connections assigned to the parent shape
 			m_pManager->GetAssignedConnections(pShape, CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, lstConnections);

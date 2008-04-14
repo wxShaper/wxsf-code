@@ -197,15 +197,27 @@ public:
     xsSerializable* GetSibbling();
     /*!
      * \brief Get child item with given ID if exists.
-     * \return Pointer to child with given ID if pressent, otherwise NULL;
+     * \return Pointer to child with given ID if pressent, otherwise NULL
      */
 	xsSerializable* GetChild(long id);
 
     /*!
-     * \brief Get list of all children (serializable objects) of this object.
-     * \return List with child serializable objects (can be empty)
+     * \brief Get list of children (serializable objects) of this object.
+     * \return Reference to a list with child serializable objects (can be empty)
      */
-    SerializableList& GetChildren(){return m_lstChildItems;}
+    SerializableList& GetChildrenList(){return m_lstChildItems;}
+    /*!
+     * \brief Get children of given type.
+     * \param type Child object type (if NULL then all children are returned)
+     * \param list Reference to a list where all found child objects will be appended
+     */
+    void GetChildren(wxClassInfo *type, SerializableList& list);
+    /*!
+     * \brief Get all children of given type recursively (i.e. children of children of .... ).
+     * \param type Get only children of given type (if NULL then all children are returned)
+     * \param list Reference to a list where all found child objects will be appended
+     */
+    void GetChildrenRecursively(wxClassInfo *type, SerializableList& list);
     /*!
      * \brief Get pointer to list node containing first serializable child object.
      */
@@ -228,8 +240,9 @@ public:
     /*!
      * \brief Add serializable child object to this object.
      * \param child Pointer to added child object (must NOT be NULL)
+     * \return Pointer to to the added child object
      */
-    void AddChild(xsSerializable* child);
+    xsSerializable* AddChild(xsSerializable* child);
     /*!
      * \brief Assign this object as a child to given parent object.
      * \param parent Pointer to new parent object (must NOT be NULL)
@@ -619,7 +632,7 @@ public:
      * \param type Class type
      * \param list List with matching serializable objects
      */
-    int GetItems(wxClassInfo* type, SerializableList& list);
+    void GetItems(wxClassInfo* type, SerializableList& list);
     /*!
      * \brief Check whether given object is included in the serializer.
      * \param object Pointer to checked object
@@ -758,7 +771,7 @@ protected:
 
 private:
     // private data members
-    int m_nCounter;
+    //int m_nCounter;
 	static int m_nRefCounter;
 	static wxString m_sLibraryVersion;
 
@@ -766,7 +779,7 @@ private:
     /*! \brief Auxiliary function */
     xsSerializable* _GetItem(long id, xsSerializable* parent);
     /*! \brief Auxiliary function */
-    void _GetItems(wxClassInfo* type, xsSerializable* parent, SerializableList& list);
+    /*void _GetItems(wxClassInfo* type, xsSerializable* parent, SerializableList& list); */
 	/*! \brief Auxiliary function */
     bool _Contains(xsSerializable *object, xsSerializable* parent);
 	/*! \brief Auxiliary function. Copy items assigned to given parent to given source item */

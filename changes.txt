@@ -1,10 +1,26 @@
 Changes in version 1.5.3 beta (2008-03-09):
 --------------------------------------------
+- Switched to use wxXmlSerializer 1.1.5:
+  - Function xsSerializable::AddChild() returns pointer to the added child item. It also sets
+    new unique ID to the added object if its previous ID was undefined (in the previous library
+    version the ID was assigned by wxXmlSerializer::AddItem() function only).
+  - Added support for NaN and INF values for double and float data types (proposed by fantaz).
+  - Modified Sample1 code to demonstrate the ability to handle NaN and INF values.
+  - Name of function xsSerializable::GetChildren() changed to xsSerializable::GetChildrenList().
+  - Added function xsSerializable::GetChildren(wxClassInfo *type, SerializableList& list) returning
+    the child objects of given type (or all children if type is NULL).
+  - Added function xsSerializable::GetChildrenRecursively(wxClassInfo *type, SerializableList& list) returning
+    all child objects of given type recursively (or all children recursively if type is NULL).
+  - Function wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list) doesn't return
+    the number of found items anymore.
+
 - Added default constructor for wxSFShapeCanvas class. Note that the user must call 
   wxSFShapeCanvas::SetDiagramManager() function later to complete the canvas' initilization.
 - Implemented virtual bool wxScrolledWindow::Create() function for two-step canvas window construction.
 - Fixed compilation problem which occured in wxSFDemo and wxSFSample3 if the wx2.6.x compatibility is switched off
   (due to unknown wxSAVE and wxOPEN defines previously declared in the wxFileDialog).
+- Function name wxSFShapeBase::GetChildren(ShapeList& children, bool recursive) changed to
+  wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive)
 
 Changes in version 1.5.2 beta (2008-02-22):
 --------------------------------------------

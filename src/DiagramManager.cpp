@@ -126,7 +126,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                     ShapeList lstChildren;
 
                     // get shape's children (if exist)
-                    shape->GetChildren(lstChildren, sfRECURSIVE);
+                    shape->GetChildShapes(lstChildren, sfRECURSIVE);
                     // initialize shape's children
                     ShapeList::compatibility_iterator node = lstChildren.GetFirst();
                     while(node)
@@ -197,7 +197,7 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
         ShapeList lstRemovedConnections;
 
         // get all shape's children
-        shape->GetChildren(lstChildren, sfRECURSIVE);
+        shape->GetChildShapes(lstChildren, sfRECURSIVE);
         lstChildren.Append(shape);
 
         // retrieve all assigned lines
@@ -417,7 +417,8 @@ int wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxClassInf
 
 int wxSFDiagramManager::GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes)
 {
-	return GetItems(shapeInfo, (SerializableList&)shapes);;
+    GetItems(shapeInfo, (SerializableList&)shapes);
+	return (int)shapes.GetCount();
 }
 
 wxSFShapeBase* wxSFDiagramManager::FindShape(long id)

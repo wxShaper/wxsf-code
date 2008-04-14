@@ -19,6 +19,9 @@
 
 #include <wx/listimpl.cpp>
 #include <wx/arrimpl.cpp>
+#include <limits>
+
+using namespace std;
 
 WX_DEFINE_EXPORTED_OBJARRAY(RealPointArray);
 WX_DEFINE_EXPORTED_LIST(RealPointList);
@@ -151,8 +154,21 @@ XS_DEFINE_IO_HANDLER(double, xsDoublePropIO);
 
 wxString xsDoublePropIO::ToString(double value)
 {
-    wxString sVal = wxString::Format(wxT("%lf"), value);
-    sVal.Replace(wxT(","), wxT("."));
+    wxString sVal;
+
+    if( wxIsNaN(value) )
+    {
+        sVal = wxT("NAN");
+    }
+    else if( wxFinite(value) == 0 )
+    {
+        sVal = wxT("INF");
+    }
+    else
+    {
+        sVal= wxString::Format(wxT("%lf"), value);
+        sVal.Replace(wxT(","), wxT("."));
+    }
 
     return sVal;
 }
@@ -162,7 +178,16 @@ double xsDoublePropIO::FromString(const wxString& value)
 	double num = 0;
 	if(!value.IsEmpty())
 	{
-		value.ToDouble(&num);
+	    if( value == wxT("NAN") )
+	    {
+	        num = numeric_limits<double>::quiet_NaN();
+	    }
+	    else if( value == wxT("INF") )
+	    {
+	        num = numeric_limits<double>::infinity();
+	    }
+	    else
+            value.ToDouble(&num);
 	}
 	return num;
 }
@@ -175,8 +200,20 @@ XS_DEFINE_IO_HANDLER(float, xsFloatPropIO);
 
 wxString xsFloatPropIO::ToString(float value)
 {
-    wxString sVal = wxString::Format(wxT("%f"), value);
-    sVal.Replace(wxT(","), wxT("."));
+    wxString sVal;
+    if( wxIsNaN(value) )
+    {
+        sVal = wxT("NAN");
+    }
+    else if( wxFinite(value) == 0 )
+    {
+        sVal = wxT("INF");
+    }
+    else
+    {
+        sVal = wxString::Format(wxT("%f"), value);
+        sVal.Replace(wxT(","), wxT("."));
+    }
 
     return sVal;
 }
@@ -186,7 +223,16 @@ float xsFloatPropIO::FromString(const wxString& value)
 	double num = 0;
 	if(!value.IsEmpty())
 	{
-		value.ToDouble(&num);
+	    if( value == wxT("NAN") )
+	    {
+	        num = numeric_limits<float>::quiet_NaN();
+	    }
+	    else if( value == wxT("INF") )
+	    {
+	        num = numeric_limits<float>::infinity();
+	    }
+	    else
+            value.ToDouble(&num);
 	}
 	return (float)num;
 }
