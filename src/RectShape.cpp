@@ -68,7 +68,14 @@ void wxSFRectShape::MarkSerializableDataMembers()
 wxRect wxSFRectShape::GetBoundingBox()
 {
     wxRealPoint apos = GetAbsolutePosition();
-	return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y ));
+    wxRealPoint offset = GetParentCanvas()->GetShadowOffset();
+
+    if( !m_fSelected && (m_nStyle & sfsSHOW_SHADOW) )
+    {
+        return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x + (int)offset.x, (int)m_nRectSize.y + (int)offset.y ));
+    }
+    else
+        return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y ));
 }
 
 void wxSFRectShape::Scale(double x, double y, bool children)
@@ -175,6 +182,17 @@ void wxSFRectShape::DrawHighlighted(wxSFScaledPaintDC &dc)
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(m_Fill);
 	dc.DrawRectangle(GetAbsolutePosition(), m_nRectSize);
+	dc.SetBrush(wxNullBrush);
+	dc.SetPen(wxNullPen);
+}
+
+void wxSFRectShape::DrawShadow(wxSFScaledPaintDC &dc)
+{
+	// HINT: overload it for custom actions...
+
+	dc.SetPen(*wxTRANSPARENT_PEN);
+	dc.SetBrush(GetParentCanvas()->GetShadowFill());
+	dc.DrawRectangle(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset(), m_nRectSize);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }

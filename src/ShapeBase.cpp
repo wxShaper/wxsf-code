@@ -521,6 +521,12 @@ void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 	if(!m_pParentManager || !GetShapeManager()->GetShapeCanvas())return;
     if(!m_fVisible)return;
 
+    // draw the shape shadow if required
+    if( !m_fSelected && (m_nStyle & sfsSHOW_SHADOW) )
+    {
+        this->DrawShadow(dc);
+    }
+
 	// first, draw itself
 	if(m_fMouseOver && ( m_fHighlighParent || (m_nStyle & sfsHOVERING) ))
 	{
@@ -531,7 +537,8 @@ void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 		else
 			this->DrawHover(dc);
 	}
-	else this->DrawNormal(dc);
+	else
+	    this->DrawNormal(dc);
 
 	if(m_fSelected)this->DrawSelected(dc);
 
@@ -573,6 +580,11 @@ void wxSFShapeBase::DrawHover(wxSFScaledPaintDC& WXUNUSED(dc))
 }
 
 void wxSFShapeBase::DrawHighlighted(wxSFScaledPaintDC& WXUNUSED(dc))
+{
+	// HINT: overload it for custom actions...
+}
+
+void wxSFShapeBase::DrawShadow(wxSFScaledPaintDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }

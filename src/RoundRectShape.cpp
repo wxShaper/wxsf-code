@@ -87,7 +87,7 @@ void wxSFRoundRectShape::DrawNormal(wxSFScaledPaintDC& dc)
 {
 	dc.SetPen(m_Border);
 	dc.SetBrush(m_Fill);
-	dc.DrawRoundedRectangle(GetAbsolutePosition(), GetRectSize(), m_nRadius);
+	dc.DrawRoundedRectangle(GetAbsolutePosition(), m_nRectSize, m_nRadius);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
@@ -96,7 +96,7 @@ void wxSFRoundRectShape::DrawHover(wxSFScaledPaintDC& dc)
 {
 	dc.SetPen(wxPen(m_nHoverColor, 1));
 	dc.SetBrush(m_Fill);
-	dc.DrawRoundedRectangle(GetAbsolutePosition(), GetRectSize(), m_nRadius);
+	dc.DrawRoundedRectangle(GetAbsolutePosition(), m_nRectSize, m_nRadius);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
@@ -106,6 +106,17 @@ void wxSFRoundRectShape::DrawHighlighted(wxSFScaledPaintDC& dc)
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(m_Fill);
 	dc.DrawRoundedRectangle(GetAbsolutePosition(), GetRectSize(), m_nRadius);
+	dc.SetBrush(wxNullBrush);
+	dc.SetPen(wxNullPen);
+}
+
+void wxSFRoundRectShape::DrawShadow(wxSFScaledPaintDC &dc)
+{
+	// HINT: overload it for custom actions...
+
+	dc.SetPen(*wxTRANSPARENT_PEN);
+	dc.SetBrush(GetParentCanvas()->GetShadowFill());
+	dc.DrawRoundedRectangle(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset(), m_nRectSize, m_nRadius);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }

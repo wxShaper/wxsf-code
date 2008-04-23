@@ -16,6 +16,7 @@
 
 #include "wx/wxsf/PolygonShape.h"
 #include "wx/wxsf/CommonFcn.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFPolygonShape, wxSFRectShape);
 
@@ -287,6 +288,23 @@ void wxSFPolygonShape::DrawHighlighted(wxSFScaledPaintDC &dc)
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(m_Fill);
 	DrawPolygonShape(dc);
+	dc.SetBrush(wxNullBrush);
+	dc.SetPen(wxNullPen);
+}
+
+void wxSFPolygonShape::DrawShadow(wxSFScaledPaintDC &dc)
+{
+	// HINT: overload it for custom actions...
+
+	dc.SetPen(*wxTRANSPARENT_PEN);
+	dc.SetBrush(GetParentCanvas()->GetShadowFill());
+
+	wxRealPoint nOffset = GetParentCanvas()->GetShadowOffset();
+
+	MoveBy(nOffset);
+	DrawPolygonShape(dc);
+	MoveBy(-nOffset.x, -nOffset.y);
+
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }

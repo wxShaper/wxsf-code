@@ -14,12 +14,13 @@
 
 #include "Defs.h"
 
-/// <summary> Class extends buffered memory DC (wxMemoryDC) and provides modified
-/// drawing functions cooperating with the shape canvas able to draw scaled graphics.
-/// All drawing operations performed by the shapes should be done via this class otherwise
-/// the global scalling capabilities provided by the shape canvas wont be available. </summary>
-/// <seealso cref="wxSFShapeCanvas"></seealso>
-class WXDLLIMPEXP_SF wxSFScaledPaintDC :	public wxMemoryDC
+/*! \brief Class extends buffered memory DC (wxMemoryDC) and provides modified
+ * drawing functions cooperating with the shape canvas able to draw scaled graphics.
+ * All drawing operations performed by the shapes should be done via this class otherwise
+ * the global scalling capabilities provided by the shape canvas wont be available.
+ * \sa wxSFShapeCanvas
+ */
+class WXDLLIMPEXP_SF wxSFScaledPaintDC : public wxMemoryDC
 {
 public:
     /// <summary> Constructor </summary>

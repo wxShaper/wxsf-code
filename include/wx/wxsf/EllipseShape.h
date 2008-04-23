@@ -56,6 +56,11 @@ protected:
 	/// <summary> Draw the shape in the highlighted mode (another shape is dragged over this shape and this shape will accept the dragged one if it will be dropped on it). The function can be overrided if neccessary. </summary>
 	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
 	virtual void DrawHighlighted(wxSFScaledPaintDC& dc);
+	/*!
+	 * \brief Draw shadow under the shape. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shadow will be drawn to
+	 */
+	virtual void DrawShadow(wxSFScaledPaintDC& dc);
 };
 
 

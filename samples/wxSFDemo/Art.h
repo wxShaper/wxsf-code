@@ -1,7 +1,7 @@
 #ifndef ART_H_INCLUDED
 #define ART_H_INCLUDED
 
-#include "res/wx.xpm"  
+#include "res/wx.xpm"
 
 #include "res/Rect.xpm"
 #include "res/Tool.xpm"
@@ -22,5 +22,6 @@
 #include "res/AlignBottom.xpm"
 #include "res/AlignMiddle.xpm"
 #include "res/AlignCenter.xpm"
+#include "res/Shadow.xpm"
 
 #endif // ART_H_INCLUDED

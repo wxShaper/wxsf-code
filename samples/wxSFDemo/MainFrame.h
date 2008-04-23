@@ -30,6 +30,9 @@ public:
 	MODE GetToolMode(){return m_nToolMode;}
 	void SetToolMode(MODE m){m_nToolMode = m;}
 
+	// public data members
+	bool m_fShowShadows;
+
 private:
     void set_properties();
     void do_layout();

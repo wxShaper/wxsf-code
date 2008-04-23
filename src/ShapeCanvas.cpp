@@ -109,6 +109,28 @@ static const char * page_xpm[] = {
 };
 #endif
 
+const char* wxSFShadowBrush_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 2 1",
+"  c None",
+". c #C0C0C0",
+". . . . . . . . ",
+" . . . . . . . .",
+". . . . . . . . ",
+" . . . . . . . .",
+". . . . . . . . ",
+" . . . . . . . .",
+". . . . . . . . ",
+" . . . . . . . .",
+". . . . . . . . ",
+" . . . . . . . .",
+". . . . . . . . ",
+" . . . . . . . .",
+". . . . . . . . ",
+" . . . . . . . .",
+". . . . . . . . ",
+" . . . . . . . ."};
+
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 
 wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
@@ -121,6 +143,9 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
 	m_nGradientFrom = sfdvSHAPECANVAS_GRADIENT_FROM;
 	m_nGradientTo = sfdvSHAPECANVAS_GRADIENT_TO;
 	m_nStyle = sfdvSHAPECANVAS_STYLE;
+	m_nShadowOffset = sfdvSHAPECANVAS_SHADOW_OFFSET;
+	m_ShadowFill = sfdvSHAPECANVAS_SHADOW_BRUSH;
+	m_nShadowTextColor = sfdvSHAPECANVAS_SHADOW_TEXT_COLOR;
 
     XS_SERIALIZE(m_nScale, wxT("scale"));
 	XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvSHAPECANVAS_STYLE);
@@ -130,6 +155,9 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
     XS_SERIALIZE_EX(m_nCommonHoverColor, wxT("hover_color"), sfdvSHAPECANVAS_HOVERCOLOR);
     XS_SERIALIZE_EX(m_nGridSize, wxT("grid_size"), sfdvSHAPECANVAS_GRIDSIZE);
     XS_SERIALIZE_EX(m_nGridColor, wxT("grid_color"), sfdvSHAPECANVAS_GRIDCOLOR);
+    XS_SERIALIZE_EX(m_nShadowOffset, wxT("shadow_offset"), sfdvSHAPECANVAS_SHADOW_OFFSET);
+    XS_SERIALIZE_EX(m_ShadowFill, wxT("shadow_fill"), sfdvSHAPECANVAS_SHADOW_BRUSH);
+    XS_SERIALIZE_EX(m_nShadowTextColor, wxT("shadow_text_color"), sfdvSHAPECANVAS_SHADOW_TEXT_COLOR);
     XS_SERIALIZE(m_arrAcceptedShapes, wxT("accepted_shapes"));
 }
 
@@ -1965,6 +1993,42 @@ void wxSFShapeCanvas::HideAllHandles()
 	while(node)
 	{
 		node->GetData()->ShowHandles(false);
+		node = node->GetNext();
+	}
+}
+
+void wxSFShapeCanvas::ShowShadows(bool show, SHADOWSTYLE style)
+{
+	wxASSERT(m_pManager);
+	if(!m_pManager)return;
+
+    wxSFShapeBase *pShape;
+    ShapeList shapes;
+    m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
+
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
+	while(node)
+	{
+	    pShape = node->GetData();
+
+        if( show )pShape->RemoveStyle(wxSFShapeBase::sfsSHOW_SHADOW);
+
+	    switch(style)
+	    {
+	        case shadowTOPMOST:
+                if( !pShape->GetParentShape() )
+                    if( show )pShape->AddStyle(wxSFShapeBase::sfsSHOW_SHADOW);
+                    else
+                        pShape->RemoveStyle(wxSFShapeBase::sfsSHOW_SHADOW);
+                break;
+
+            case shadowALL:
+                if( show )pShape->AddStyle(wxSFShapeBase::sfsSHOW_SHADOW);
+                else
+                    pShape->RemoveStyle(wxSFShapeBase::sfsSHOW_SHADOW);
+                break;
+	    }
+
 		node = node->GetNext();
 	}
 }

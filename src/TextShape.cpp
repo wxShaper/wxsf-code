@@ -264,6 +264,21 @@ void wxSFTextShape::DrawHighlighted(wxSFScaledPaintDC& dc)
     DrawTextContent(dc);
 }
 
+void wxSFTextShape::DrawShadow(wxSFScaledPaintDC &dc)
+{
+	// HINT: overload it for custom actions...
+
+	wxColor nCurrColor = m_TextColor;
+	m_TextColor = GetParentCanvas()->GetShadowTextColour();
+	wxRealPoint nOffset = GetParentCanvas()->GetShadowOffset();
+
+	MoveBy(nOffset);
+	DrawTextContent(dc);
+	MoveBy(-nOffset.x, -nOffset.y);
+
+	m_TextColor = nCurrColor;
+}
+
 void wxSFTextShape::OnLeftHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...

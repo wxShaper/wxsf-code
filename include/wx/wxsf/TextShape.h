@@ -125,6 +125,11 @@ protected:
 	 * \param dc Reference to device context where the shape will be drawn to
 	 */
 	virtual void DrawHighlighted(wxSFScaledPaintDC& dc);
+	/*!
+	 * \brief Draw shadow under the shape. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shadow will be drawn to
+	 */
+	virtual void DrawShadow(wxSFScaledPaintDC& dc);
 
 	/// <summary> Serialize shape's properties to the given XML node </summary>
 	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>

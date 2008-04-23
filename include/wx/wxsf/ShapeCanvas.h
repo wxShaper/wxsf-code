@@ -20,11 +20,16 @@
 #include "LineShape.h"
 #include "EditTextShape.h"
 
+/*! \brief XPM (mono-)bitmap which can be used in shape's shadow brush */
+extern const char* wxSFShadowBrush_xpm[];
+
 #define sfDEFAULT_ME_OFFSET 5
 #define sfSAVE_STATE true
 #define sfDONT_SAVE_STATE false
 #define sfFROM_PAINT true
 #define sfFROM_ANYWHERE false
+#define sfTOPMOST_SHAPES true
+#define sfALL_SHAPES false
 
 // default values
 /*! \brief Default value of wxSFCanvasSettings::m_nBackgroundColor data member */
@@ -41,6 +46,12 @@
 #define sfdvSHAPECANVAS_GRADIENT_TO wxColour(200, 200, 255)
 /*! \brief Default value of wxSFCanvasSettings::m_nStyle data member */
 #define sfdvSHAPECANVAS_STYLE wxSFShapeCanvas::sfsDEFAULT_CANVAS_STYLE
+/*! \brief Default value of wxSFCanvasSettings::m_nShadowOffset data member */
+#define sfdvSHAPECANVAS_SHADOW_OFFSET wxRealPoint(4, 4)
+/*! \brief Default value of wxSFCanvasSettings::m_ShadowFill data member */
+#define sfdvSHAPECANVAS_SHADOW_BRUSH wxBrush(wxBitmap(wxSFShadowBrush_xpm))
+/*! \brief Default value of wxSFCanvasSettings::m_nShadowTextColor data member */
+#define sfdvSHAPECANVAS_SHADOW_TEXT_COLOR wxColour(150, 150, 150)
 
 /*!
  * \brief Auxiliary serializable class encapsulating the canvas properties.
@@ -54,12 +65,21 @@ public:
 
     wxColour m_nBackgroundColor;
     wxColour m_nCommonHoverColor;
+
 	wxColour m_nGradientFrom;
 	wxColour m_nGradientTo;
+
     wxSize m_nGridSize;
     wxColour m_nGridColor;
+
+    wxRealPoint m_nShadowOffset;
+    wxBrush m_ShadowFill;
+    wxColour m_nShadowTextColor;
+
     wxArrayString m_arrAcceptedShapes;
+
     double m_nScale;
+
 	long m_nStyle;
 };
 
@@ -189,6 +209,15 @@ public:
 		sfsDEFAULT_CANVAS_STYLE = sfsMULTI_SELECTION | sfsMULTI_SIZE_CHANGE | sfsDND | sfsUNDOREDO | sfsCLIPBOARD | sfsHOVERING | sfsHIGHLIGHTING
 	};
 
+    /*! \brief Flags for ShowShadow function */
+	enum SHADOWSTYLE
+	{
+	    /*! \brief Show/hide shadow under topmost shapes only. */
+	    shadowTOPMOST,
+	    /*! \brief Show/hide shadow under all shapes in the diagram. */
+	    shadowALL
+	};
+
 	// public functions
 
     /*!
@@ -251,6 +280,15 @@ public:
 	 * \param rct Refreshed region (rectangle)
 	 */
 	void RefreshCanvas(bool erase, wxRect rct);
+	/*!
+	 * \brief Show shapes shadows (only current digram shapes are affected).
+	 *
+	 * The functions sets/unsets sfsSHOW_SHADOW flag for all shapes currently included in the diagram.
+	 * \param show TRUE if the shadow shoud be shown, otherwise FALSE
+	 * \param style Shadow style
+	 * \sa SHADOWSTYLE
+	 */
+	void ShowShadows(bool show, SHADOWSTYLE style);
 
 	/*!
 	 * \brief Start Drag&Drop process with shapes included in the given list
@@ -431,12 +469,12 @@ public:
 	wxSize GetGrid() const {return m_Settings.m_nGridSize;}
 	/*!
 	 * \brief Set grid size.
-	 * \param grid Grid size.
+	 * \param grid Grid size
 	 */
 	void SetGrid(wxSize grid){m_Settings.m_nGridSize = grid;}
 	/*!
 	 * \brief Set grid color.
-	 * \param col Grid color.
+	 * \param col Grid color
 	 */
 	void SetGridColour(const wxColour& col){m_Settings.m_nGridColor = col;}
 	/*!
@@ -445,8 +483,39 @@ public:
 	 */
 	wxColour GetGridColour() const {return m_Settings.m_nGridColor;}
 	/*!
+	 * \brief Set shadow offset.
+	 * \param pos Shadow offset
+	 */
+	void SetShadowOffset(const wxRealPoint& offset){m_Settings.m_nShadowOffset = offset;}
+	/*!
+	 * \brief Get shadow offset.
+	 * \return Shadow offset
+	 */
+	wxRealPoint GetShadowOffset() const {return m_Settings.m_nShadowOffset;}
+	/*!
+	 * \brief Set shadow fill (used for shadows of non-text shapes only).
+	 * \param brush Reference to brush object
+	 */
+	void SetShadowFill(const wxBrush& brush){m_Settings.m_ShadowFill = brush;}
+	/*!
+	 * \brief Get shadow fill.
+	 * \return Current shadow brush
+	 */
+	wxBrush GetShadowFill() const {return m_Settings.m_ShadowFill;}
+	/*!
+	 * \brief Set shadow text colour (used for shadows of text shapes only).
+	 * \param pos Shadow offset
+	 */
+	void SetShadowTextColour(const wxColour& col){m_Settings.m_nShadowTextColor = col;}
+	/*!
+	 * \brief Get shadow text colour.
+	 * \return Colour of a text shadow.
+	 */
+	wxColour GetShadowTextColour() const {return m_Settings.m_nShadowTextColor;}
+
+	/*!
 	 * \brief Set canvas scale.
-	 * \param scale Scale value.
+	 * \param scale Scale value
 	 */
 	void SetScale(double scale);
 	/*!

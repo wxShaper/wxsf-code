@@ -110,6 +110,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	toolBar->AddTool(wxID_REDO, wxT("Redo"), wxArtProvider::GetBitmap(wxART_REDO, wxART_MENU), wxT("Redo"));
 	toolBar->AddSeparator();
 	toolBar->AddCheckTool(IDT_GRID, wxT("Grid"), wxBitmap(Grid_xpm), wxNullBitmap, wxT("Show/hide grid"));
+	toolBar->AddCheckTool(IDT_SHADOW, wxT("Shadows"), wxBitmap(Shadow_xpm), wxNullBitmap, wxT("Show/hide shadows"));
 	toolBar->AddSeparator();
 	toolBar->AddRadioTool(IDT_TOOL, wxT("Tool"), wxBitmap(Tool_xpm), wxNullBitmap, wxT("Design tool"));
 	toolBar->AddRadioTool(IDT_RECTSHP, wxT("Rectangle"), wxBitmap(Rect_xpm), wxNullBitmap, wxT("Rectangle"));
@@ -139,6 +140,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	// initialize data members
 	m_nToolMode = modeDESIGN;
 	m_fShowGrid = true;
+	m_fShowShadows = false;
 }
 
 //----------------------------------------------------------------------------------//
@@ -281,7 +283,7 @@ void CMainFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.2 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.3 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void CMainFrame::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -316,6 +318,16 @@ void CMainFrame::OnTool(wxCommandEvent& event)
 			}
             //shapeCanvas->UseGrid(m_fShowGrid); !!! DEPRECATED !!!
             //shapeCanvas->ShowGrid(m_fShowGrid); !!! DEPRECATED !!!
+            shapeCanvas->Refresh(false);
+            break;
+
+        case IDT_SHADOW:
+        	m_fShowShadows = !m_fShowShadows;
+
+        	shapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowALL);
+        	// also shadows for topmost shapes only are allowed:
+        	//shapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowTOPMOST);
+
             shapeCanvas->Refresh(false);
             break;
 

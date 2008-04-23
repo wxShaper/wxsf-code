@@ -30,23 +30,23 @@
 #define sfWITHOUTCHILDREN false
 
 // default values
-/// <summary> Default value of wxSFShapeObject::m_fVisible data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_fVisible data member */
 #define sfdvBASESHAPE_VISIBILITY true
-/// <summary> Default value of wxSFShapeObject::m_fActive data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_fActive data member */
 #define sfdvBASESHAPE_ACTIVITY true
-/// <summary> Default value of wxSFShapeObject::m_nHoverColor data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_nHoverColor data member */
 #define sfdvBASESHAPE_HOVERCOLOUR wxColor(120, 120, 255)
-/// <summary> Default value of wxSFShapeObject::m_nRelativePosition data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_nRelativePosition data member */
 #define sfdvBASESHAPE_POSITION wxRealPoint(0, 0)
-/// <summary> Default value of wxSFShapeObject::m_nVAlign data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_nVAlign data member */
 #define sfdvBASESHAPE_VALIGN valignNONE
-/// <summary> Default value of wxSFShapeObject::m_nHAlign data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_nHAlign data member */
 #define sfdvBASESHAPE_HALIGN halignNONE
-/// <summary> Default value of wxSFShapeObject::m_nVBorder data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_nVBorder data member */
 #define sfdvBASESHAPE_VBORDER 0
-/// <summary> Default value of wxSFShapeObject::m_nHBorder data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_nHBorder data member */
 #define sfdvBASESHAPE_HBORDER 0
-/// <summary> Default value of wxSFShapeObject::m_nStyle data member </summary>
+/*! \brief Default value of wxSFShapeObject::m_nStyle data member */
 #define sfdvBASESHAPE_DEFAULT_STYLE sfsDEFAULT_SHAPE_STYLE
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
@@ -55,21 +55,20 @@ class WXDLLIMPEXP_SF wxSFShapeBase;
 
 WX_DECLARE_LIST_WITH_DECL(wxSFShapeBase, ShapeList, class WXDLLIMPEXP_SF);
 
-/// <summary>
-/// Base class for all shapes providing fundamental functionality and publishing set
-/// of virtual functions which must be defined by the user in derived shapes. This class
-/// shouldn't be used as it is.
-///
-/// Shape objects derived from this class use hierarchical approach. It means that every
-/// shape must have defined parent shape (can be NULL for topmost shapes). An absolute
-/// shape position is then calculated as a sumation of all relative positions of all parent
-/// shapes. Also the size of the parent shape can be limited be a boundind box of all
-/// children shapes.
-///
-/// This class also declares set of virtual functions used as event handlers for various
-/// events (moving, sizing, drawing, mouse events, serialization and deserialization requests, ...)
-/// mostly triggered by a parent shape canvas.
-/// </summary>
+/*! \brief Base class for all shapes providing fundamental functionality and publishing set
+ *  of virtual functions which must be defined by the user in derived shapes. This class
+ *  shouldn't be used as it is.
+ *
+ *  Shape objects derived from this class use hierarchical approach. It means that every
+ *  shape must have defined parent shape (can be NULL for topmost shapes). An absolute
+ *  shape position is then calculated as a sumation of all relative positions of all parent
+ *  shapes. Also the size of the parent shape can be limited be a boundind box of all
+ *  children shapes.
+ *
+ *  This class also declares set of virtual functions used as event handlers for various
+ *  events (moving, sizing, drawing, mouse events, serialization and deserialization requests, ...)
+ *  mostly triggered by a parent shape canvas.
+ */
 class WXDLLIMPEXP_SF wxSFShapeBase : public xsSerializable
 {
 public:
@@ -79,7 +78,7 @@ public:
 
 	XS_DECLARE_CLONABLE_CLASS(wxSFShapeBase);
 
-    /// <summary> Bit flags for wxSFShapeBase::GetCompleteBoundingBox function </summary>
+    /*! \brief Bit flags for wxSFShapeBase::GetCompleteBoundingBox function */
     enum BBMODE
     {
 		bbSELF = 1,
@@ -138,60 +137,82 @@ public:
 	    sfsPROCESS_DEL = 128,
 	    /*! \brief Show handles if the shape is selected */
 	    sfsSHOW_HANDLES = 256,
+	    /*! \brief Show shadow under the shape */
+	    sfsSHOW_SHADOW = 512,
 		/*! \brief Default shape style. */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
 
-    /// <summary> Default constructor </summary>
+    /*! \brief constructor */
 	wxSFShapeBase(void);
-	/// <summary> User constructor </summary>
-	/// <param name="pos"> Initial relative position </param>
-	/// <param name="manager"> Pointer to parent diagram manager </param>
+	/*!
+	 * \brief User constructor
+	 * \param pos Initial relative position
+	 * \param manager Pointer to parent diagram manager
+     */
 	wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Reference to the source object </param>
+	/*!
+	 * \brief Copy constructor
+	 * \param obj Reference to the source object
+     */
 	wxSFShapeBase(const wxSFShapeBase& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor */
 	virtual ~wxSFShapeBase(void);
 
 	// public functions
 
-    /// <summary> Refresh (redraw) the shape </summary>
+    /*! \brief Refresh (redraw) the shape */
 	void Refresh();
-	/// <summary> Draw shape. Default implementation tests basic shape visual states
-	/// (normal/ready, mouse is over the shape, dragged shape can be accepted) and
-	/// call appropriate virtual functions (DrawNormal, DrawHover, DrawHighlighted)
-	/// for its visualisation. The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to a device context where the shape will be drawn to </param>
-	/// <param name="children"> TRUE if the shape's children should be drawn as well </param>
+	/*!
+	 * \brief Draw shape. Default implementation tests basic shape visual states
+	 * (normal/ready, mouse is over the shape, dragged shape can be accepted) and
+	 * call appropriate virtual functions (DrawNormal, DrawHover, DrawHighlighted)
+	 * for its visualisation. The function can be overrided if neccessary.
+	 * \param dc Reference to a device context where the shape will be drawn to
+	 * \param children TRUE if the shape's children should be drawn as well
+	 */
 	virtual void Draw(wxSFScaledPaintDC& dc, bool children = sfWITHCHILDREN);
-    /// <summary> Test whether the given point is inside the shape. The function
-    /// can be overrided if neccessary. </summary>
-    /// <param name="pos"> Examined point </param>
-    /// <returns> TRUE if the point is inside the shape area, otherwise FALSE </returns>
+    /*!
+	 * \brief Test whether the given point is inside the shape. The function
+     * can be overrided if neccessary.
+     * \param pos Examined point
+     * \return TRUE if the point is inside the shape area, otherwise FALSE
+     */
 	virtual bool IsInside(const wxPoint& pos);
-	/// <summary> Test whether the given rectangle intersects the shape. </summary>
-	/// <param name="rct"> Examined rectangle </param>
-	/// <returns> TRUE if the examined rectangle intersects the shape, otherwise FALSE </returns>
+	/*!
+	 * \brief Test whether the given rectangle intersects the shape.
+	 * \param rct Examined rectangle
+	 * \return TRUE if the examined rectangle intersects the shape, otherwise FALSE
+	 */
 	virtual bool Intersects(const wxRect& rct);
-	/// <summary> Get the shape's absolute position in the canvas (calculated as a sumation
-	/// of all relative positions in the shapes' hierarchy. The function can be overrided if neccessary. </summary>
-	/// <returns> Shape's position </returns>
+	/*!
+	 * \brief Get the shape's absolute position in the canvas (calculated as a sumation
+	 * of all relative positions in the shapes' hierarchy. The function can be overrided if neccessary.
+	 * \return Shape's position
+	 */
 	virtual wxRealPoint GetAbsolutePosition();
-	/// <summary> Get intersection point of the shape border and a line leading from
-	/// the shape's center to the given point.  Default implementation does nothing. The function can be overrided if neccessary. </summary>
-	/// <param name="to"> Ending point of the virtual intersection line </param>
-	/// <returns> Intersection point </returns>
+	/*!
+	 * \brief Get intersection point of the shape border and a line leading from
+	 * the shape's center to the given point.  Default implementation does nothing. The function can be overrided if neccessary.
+	 * \param to Ending point of the virtual intersection line
+	 * \return Intersection point
+	 */
 	virtual wxRealPoint GetBorderPoint(const wxRealPoint& to);
-	/// <summary> Get shape's center.  Default implementation does nothing. The function can be overrided if neccessary. </summary>
-	/// <returns> Center point </returns>
+	/*!
+	 * \brief Get shape's center. Default implementation does nothing. The function can be overrided if neccessary.
+	 * \return Center point
+	 */
 	virtual wxRealPoint GetCenter();
 
-	/// <summary> Function called by the framework responsible for creation of shape handles
-    /// at the creation time. Default implementation does nothing. The function can be overrided if neccesary </summary>
+	/*!
+	 * \brief Function called by the framework responsible for creation of shape handles
+     * at the creation time. Default implementation does nothing. The function can be overrided if neccesary.
+     */
 	virtual void CreateHandles();
-	/// <summary> Show/hide shape handles. Hidden handles are inactive. </summary>
-	/// <param name="show"> TRUE for showing, FALSE for hidding </param>
+	/*!
+	 * \brief Show/hide shape handles. Hidden handles are inactive.
+	 * \param show TRUE for showing, FALSE for hidding
+	 */
 	void ShowHandles(bool show);
 
     /*!
@@ -209,10 +230,11 @@ public:
     inline bool ContainsStyle(STYLE style){return (m_nStyle & style) != 0;}
 
 
-    /// <summary> Get child shapes associated with this (parent) shape. </summary>
-    /// <param name="children"> List of child shapes </param>
-    /// <param name="recursive"> Set this flag TRUE if also children of children of ... should be found
-    /// (also sfRECURSIVE a sfNORECURSIVE constants can be used). </param>
+    /*!
+	 * \brief Get child shapes associated with this (parent) shape.
+     * \param children List of child shapes
+     * \param recursive Set this flag TRUE if also children of children of ... should be found (also sfRECURSIVE a sfNORECURSIVE constants can be used).
+     */
 	void GetChildShapes(ShapeList& children, bool recursive = false);
 	/*!
 	 * \brief Get neighbour shapes connected to this shape.
@@ -226,27 +248,32 @@ public:
 	 */
 	void GetNeighbours(ShapeList& neighbours, wxClassInfo* shapeInfo, CONNECTMODE condir, bool direct = true);
 
-    /// <summary> Get shapes's bounding box. The function can be overrided
-    /// if neccessary. </summary>
-    /// <returns> Bounding rectangle </returns>
+    /*!
+	 * \brief Get shapes's bounding box. The function can be overrided if neccessary.
+     * \return Bounding rectangle
+     */
 	virtual wxRect GetBoundingBox();
-	/// <summary> Get shape's bounding box which includes also associated child shapes and connections </summary>
-	/// <param name="rct"> Returned bounding rectangle </param>
-	/// <param name="mask"> Bit mask of object types which should be included into calculation </param>
-	/// <seealso cref="BBMODE"></seealso>
+	/*!
+	 * \brief Get shape's bounding box which includes also associated child shapes and connections.
+	 * \param rct Returned bounding rectangle
+	 * \param mask Bit mask of object types which should be included into calculation
+	 * \sa BBMODE
+	 */
 	void GetCompleteBoundingBox(wxRect& rct, int mask = bbALL);
 
-    /// <summary> Scale the shape size by in both directions. The function can be overrided if necessary
-    /// (new implementation should call default one ore scale shape's children manualy if neccesary). </summary>
-    /// <param name="x"> Horizontal scale factor </param>
-    /// <param name="y"> Vertical scale factor </param>
-    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
-    /// the shape will be updated after scaling via Update() function. </param>
+    /*!
+	 * \brief Scale the shape size by in both directions. The function can be overrided if necessary
+     * (new implementation should call default one ore scale shape's children manualy if neccesary).
+     * \param x Horizontal scale factor
+     * \param y Vertical scale factor
+     * \param children TRUE if the shape's children shoould be scaled as well, otherwise the shape will be updated after scaling via Update() function.
+     */
 	virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
-    /// <summary> Scale the shape size by in both directions. </summary>
-    /// <param name="scale"> Scaling factor </param>
-    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
-    /// the shape will be updated after scaling via Update() function. </param>
+    /*!
+	 * \brief Scale the shape size by in both directions.
+     * \param scale Scaling factor
+     * \param children TRUE if the shape's children shoould be scaled as well, otherwise the shape will be updated after scaling via Update() function.
+     */
 	void Scale(const wxRealPoint& scale, bool children = sfWITHCHILDREN);
     /*!
      * \brief Scale shape's children
@@ -255,20 +282,27 @@ public:
      * \sa Scale
      */
 	void ScaleChildren(double x, double y);
-	/// <summary> Move the shape to the given absolute position. The function can be overrided if necessary. </summary>
-	/// <param name="x"> X coordinate </param>
-	/// <param name="y"> Y coordinate </param>
+	/*!
+	 * \brief Move the shape to the given absolute position. The function can be overrided if necessary.
+	 * \param x X coordinate
+	 * \param y Y coordinate
+	 */
 	virtual void MoveTo(double x, double y);
-	/// <summary> Move the shape to the given absolute position. </summary>
-	/// <param name="pos"> New absolute position </param>
+	/*!
+	 * \brief Move the shape to the given absolute position.
+	 * \param pos New absolute position
+	 */
 	void MoveTo(const wxRealPoint& pos);
-	/// <summary> Move the shape by the given offset. The function
-    /// can be overrided if neccessary. </summary>
-	/// <param name="x"> X offset </param>
-	/// <param name="y"> Y offset </param>
+	/*!
+	 * \brief Move the shape by the given offset. The function can be overrided if neccessary.
+	 * \param x X offset
+	 * \param y Y offset
+	 */
 	virtual void MoveBy(double x, double y);
-	/// <summary> Move the shape by the given offset. </summary>
-	/// <param name="delta"> Offset </param>
+	/*!
+	 * \brief Move the shape by the given offset.
+	 * \param delta Offset
+	 */
 	void MoveBy(const wxRealPoint& delta);
 
 	/*! \brief Update shape position in order to its alignment */
@@ -279,28 +313,36 @@ public:
 	virtual void FitToChildren();
 
 	// public member data accessors
-	/// <summary> Function returns TRUE if the shape is selected, otherwise returns FALSE. </summary>
+	/*! \brief Function returns TRUE if the shape is selected, otherwise returns FALSE */
 	bool IsSelected(){return m_fSelected;}
-	/// <summary> Set the shape as a selected/deselected one </summary>
-	/// <param name="state"> Selection state (TRUE is selected, FALSE is deselected) </param>
+	/*!
+	 * \brief Set the shape as a selected/deselected one
+	 * \param state Selection state (TRUE is selected, FALSE is deselected)
+	 */
 	void Select(bool state){m_fSelected = state; ShowHandles(state && (m_nStyle & sfsSHOW_HANDLES));}
 
-    /// <summary> Set shape's relative position. Absolute shape's position is then calculated
-    /// as a sumation of the relative positions of this shape and all parent shapes in the shape's
-    /// hierarchy. </summary>
-    /// <param name="pos"> New relative position </param>
-    /// <seealso cref="MoveTo"></seealso>
+    /*!
+	 * \brief Set shape's relative position. Absolute shape's position is then calculated
+     * as a sumation of the relative positions of this shape and all parent shapes in the shape's
+     * hierarchy.
+     * \param pos New relative position
+     * \sa MoveTo
+     */
 	void SetRelativePosition(const wxRealPoint& pos){m_nRelativePosition = pos;}
-    /// <summary> Set shape's relative position. Absolute shape's position is then calculated
-    /// as a sumation of the relative positions of this shape and all parent shapes in the shape's
-    /// hierarchy. </summary>
-    /// <param name="x"> Horizontal coordinate of new relative position </param>
-    /// <param name="y"> Vertical coordinate of new relative position </param>
-    /// <seealso cref="MoveTo"></seealso>
+    /*!
+	 * \brief Set shape's relative position. Absolute shape's position is then calculated
+     * as a sumation of the relative positions of this shape and all parent shapes in the shape's
+     * hierarchy.
+     * \param x Horizontal coordinate of new relative position
+     * \param y Vertical coordinate of new relative position
+     * \sa MoveTo
+     */
 	void SetRelativePosition(double x, double y){m_nRelativePosition.x = x; m_nRelativePosition.y = y;}
-    /// <summary> Get shape's relative position </summary>
-    /// <returns> Current relative position </returns>
-    /// <seealso cref="GetAbsolutePosition"></seealso>
+    /*!
+	 * \brief Get shape's relative position.
+     * \return Current relative position
+     * \sa GetAbsolutePosition
+     */
 	wxRealPoint GetRelativePosition() const {return m_nRelativePosition;}
 	/*!
 	 * \brief Set vertical alignment of this shape inside its parent
@@ -355,9 +397,9 @@ public:
 	 */
 	double GetHBorder(){return m_nHBorder;}
 
-    /// <summary> Get pointer to a parent shape </summary>
+    /*! \brief Get pointer to a parent shape */
 	wxSFShapeBase* GetParentShape();
-    /// <summary> Get pointer to the topmost parent shape </summary>
+    /*! \brief Get pointer to the topmost parent shape */
 	wxSFShapeBase* GetGrandParentShape();
 
     /*!
@@ -775,6 +817,11 @@ protected:
 	 * \param dc Reference to device context where the shape will be drawn to
 	 */
 	virtual void DrawHighlighted(wxSFScaledPaintDC& dc);
+	/*!
+	 * \brief Draw shadow under the shape. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shadow will be drawn to
+	 */
+	virtual void DrawShadow(wxSFScaledPaintDC& dc);
 
     /*!
      * \brief Serialize shape's properties to the given XML node. The serialization
@@ -833,10 +880,12 @@ private:
 	 * \sa GetNeighbours
 	 */
 	void _GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo, CONNECTMODE condir, bool direct);
-	/// <summary> Auxiliary function called by GetCompleteBoundingBox function. </summary>
-	/// <param name="rct"> Returned bounding rectangle </param>
-	/// <param name="mask"> Bit mask of object types which should be included into calculation </param>
-	/// <seealso cref="BBMODE"></seealso>
+	/*!
+	 * \brief Auxiliary function called by GetCompleteBoundingBox function.
+	 * \param rct Returned bounding rectangle
+	 * \param mask Bit mask of object types which should be included into calculation
+	 * \sa BBMODE
+	 */
 	void _GetCompleteBoundingBox(wxRect& rct, int mask = bbALL);
 
 	// private event handlers

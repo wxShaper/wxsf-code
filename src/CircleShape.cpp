@@ -16,6 +16,7 @@
 
 #include "wx/wxsf/CircleShape.h"
 #include "wx/wxsf/CommonFcn.h"
+#include "wx/wxsf/ShapeCanvas.h"
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFCircleShape, wxSFSquareShape);
 
@@ -111,6 +112,19 @@ void wxSFCircleShape::DrawHighlighted(wxSFScaledPaintDC& dc)
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(m_Fill);
 	dc.DrawCircle(pos.x + m_nRectSize.x/2, pos.y + m_nRectSize.y/2, m_nRectSize.x/2);
+	dc.SetBrush(wxNullBrush);
+	dc.SetPen(wxNullPen);
+}
+
+void wxSFCircleShape::DrawShadow(wxSFScaledPaintDC &dc)
+{
+	// HINT: overload it for custom actions...
+
+	wxRealPoint pos = GetAbsolutePosition();
+
+	dc.SetPen(*wxTRANSPARENT_PEN);
+	dc.SetBrush(GetParentCanvas()->GetShadowFill());
+	dc.DrawCircle(pos.x + m_nRectSize.x/2 + GetParentCanvas()->GetShadowOffset().x, pos.y + m_nRectSize.y/2 + GetParentCanvas()->GetShadowOffset().y, m_nRectSize.x/2);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }

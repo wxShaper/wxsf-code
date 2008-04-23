@@ -1,4 +1,4 @@
-Changes in version 1.5.3 beta (2008-03-09):
+Changes in version 1.6.0 beta (2008-04-23):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.5:
   - Function xsSerializable::AddChild() returns pointer to the added child item. It also sets
@@ -21,6 +21,12 @@ Changes in version 1.5.3 beta (2008-03-09):
   (due to unknown wxSAVE and wxOPEN defines previously declared in the wxFileDialog).
 - Function name wxSFShapeBase::GetChildren(ShapeList& children, bool recursive) changed to
   wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive)
+
+- Implemented shadows under shapes. Class wxSFShapeBase has a new style sfsSHOW_SHADOW which causes
+  appearance of a shadow under this shape. Shadows can be collectively set by wxSFShapeCanvas::ShowShadows()
+  function and the shadow style can be modified by functions SetShadowOffset(), SetShadowFill() and SetShadowTextColour()
+  which are member functions of wxSFShapeCanvas class. Also analogical GetXXX() functions are available there.
+- Enhanced wxSFDemo sample to show the new shadowing feature.
 
 Changes in version 1.5.2 beta (2008-02-22):
 --------------------------------------------
