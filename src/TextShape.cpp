@@ -269,7 +269,7 @@ void wxSFTextShape::DrawShadow(wxSFScaledPaintDC &dc)
 	// HINT: overload it for custom actions...
 
 	wxColor nCurrColor = m_TextColor;
-	m_TextColor = GetParentCanvas()->GetShadowTextColour();
+	m_TextColor = GetParentCanvas()->GetShadowFill().GetColour();
 	wxRealPoint nOffset = GetParentCanvas()->GetShadowOffset();
 
 	MoveBy(nOffset);

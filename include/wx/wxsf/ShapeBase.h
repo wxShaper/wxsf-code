@@ -84,7 +84,8 @@ public:
 		bbSELF = 1,
         bbCHILDREN = 2,
         bbCONNECTIONS = 4,
-        bbALL = 7
+        bbSHADOW = 8,
+        bbALL = 15
     };
 
     /*! \brief Search mode flags for GetAssignedConnections function */

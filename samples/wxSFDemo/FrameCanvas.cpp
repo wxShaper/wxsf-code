@@ -24,7 +24,7 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	SetGradientFrom(sfdvSHAPECANVAS_GRADIENT_FROM);
 	SetGradientTo(sfdvSHAPECANVAS_GRADIENT_TO);
 	// also shadows style can be set here:
-	//SetShadowFill(wxBrush(GetShadowTextColour(), wxSOLID)); // standard value is sfdvSHAPECANVAS_SHADOW_BRUSH
+	//SetShadowFill(wxBrush(wxColour(100, 100, 100), wxCROSSDIAG_HATCH)); // standard values can be sfdvSHAPECANVAS_SHADOWBRUSH or sfdvSHAPECANVAS_SHADOWCOLOR
 	//SetShadowOffset(wxRealPoint(7, 7));
 
 	// now you can use also these styles...

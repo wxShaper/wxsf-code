@@ -47,11 +47,11 @@ extern const char* wxSFShadowBrush_xpm[];
 /*! \brief Default value of wxSFCanvasSettings::m_nStyle data member */
 #define sfdvSHAPECANVAS_STYLE wxSFShapeCanvas::sfsDEFAULT_CANVAS_STYLE
 /*! \brief Default value of wxSFCanvasSettings::m_nShadowOffset data member */
-#define sfdvSHAPECANVAS_SHADOW_OFFSET wxRealPoint(4, 4)
+#define sfdvSHAPECANVAS_SHADOWOFFSET wxRealPoint(4, 4)
+/*! \brief Default shadow colour */
+#define sfdvSHAPECANVAS_SHADOWCOLOR wxColour(150, 150, 150)
 /*! \brief Default value of wxSFCanvasSettings::m_ShadowFill data member */
-#define sfdvSHAPECANVAS_SHADOW_BRUSH wxBrush(wxBitmap(wxSFShadowBrush_xpm))
-/*! \brief Default value of wxSFCanvasSettings::m_nShadowTextColor data member */
-#define sfdvSHAPECANVAS_SHADOW_TEXT_COLOR wxColour(150, 150, 150)
+#define sfdvSHAPECANVAS_SHADOWBRUSH wxBrush(sfdvSHAPECANVAS_SHADOWCOLOR, wxSOLID)
 
 /*!
  * \brief Auxiliary serializable class encapsulating the canvas properties.
@@ -74,7 +74,6 @@ public:
 
     wxRealPoint m_nShadowOffset;
     wxBrush m_ShadowFill;
-    wxColour m_nShadowTextColor;
 
     wxArrayString m_arrAcceptedShapes;
 
@@ -502,16 +501,6 @@ public:
 	 * \return Current shadow brush
 	 */
 	wxBrush GetShadowFill() const {return m_Settings.m_ShadowFill;}
-	/*!
-	 * \brief Set shadow text colour (used for shadows of text shapes only).
-	 * \param pos Shadow offset
-	 */
-	void SetShadowTextColour(const wxColour& col){m_Settings.m_nShadowTextColor = col;}
-	/*!
-	 * \brief Get shadow text colour.
-	 * \return Colour of a text shadow.
-	 */
-	wxColour GetShadowTextColour() const {return m_Settings.m_nShadowTextColor;}
 
 	/*!
 	 * \brief Set canvas scale.

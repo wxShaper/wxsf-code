@@ -209,6 +209,28 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 		if(rct.IsEmpty())rct = this->GetBoundingBox().Inflate((int)m_nHBorder, (int)m_nVBorder);
 		else
 			rct.Union(this->GetBoundingBox().Inflate((int)m_nHBorder, (int)m_nVBorder));
+
+		// add also shadow offset if neccessary
+        if( (mask & bbSHADOW) && (m_nStyle & sfsSHOW_SHADOW) && GetParentCanvas() )
+        {
+            wxRealPoint nOffset = GetParentCanvas()->GetShadowOffset();
+
+            if( nOffset.x < 0 )
+            {
+                rct.SetX(rct.GetX() + (int)nOffset.x);
+                rct.SetWidth(rct.GetWidth() - (int)nOffset.x);
+            }
+            else
+                rct.SetWidth(rct.GetWidth() + (int)nOffset.x);
+
+            if( nOffset.y < 0 )
+            {
+                rct.SetY(rct.GetY() + (int)nOffset.y);
+                rct.SetHeight(rct.GetHeight() - (int)nOffset.y);
+            }
+            else
+                rct.SetHeight(rct.GetHeight() + (int)nOffset.y);;
+        }
 	}
 	else
 		mask |= bbSELF;
@@ -929,14 +951,14 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 
         // get shape BB BEFORE movement and combine it with BB of assigned lines
 		wxRect prevBB;
-		GetCompleteBoundingBox(prevBB, bbSELF | bbCONNECTIONS | bbCHILDREN);
+		GetCompleteBoundingBox(prevBB, bbSELF | bbCONNECTIONS | bbCHILDREN | bbSHADOW);
 
 		this->MoveTo(pos.x - m_nMouseOffset.x, pos.y - m_nMouseOffset.y);
         this->OnDragging(pos);
 
         // get shape BB AFTER movement and combine it with BB of assigned lines
 		wxRect currBB;
-		GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN);
+		GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN | bbSHADOW);
 
 		// update canvas
 		if(GetShapeManager()->GetShapeCanvas())
@@ -1071,7 +1093,7 @@ void wxSFShapeBase::_OnKey(int key)
 
 		if(!fRefreshAll)
 		{
-            GetCompleteBoundingBox(prevBB, bbSELF | bbCONNECTIONS | bbCHILDREN);
+            GetCompleteBoundingBox(prevBB, bbSELF | bbCONNECTIONS | bbCHILDREN | bbSHADOW);
 		}
 
         if(this->OnKey(key))
@@ -1099,7 +1121,7 @@ void wxSFShapeBase::_OnKey(int key)
         if(!fRefreshAll)
         {
             wxRect currBB;
-            GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN);
+            GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN | bbSHADOW);
 
             prevBB.Union(currBB);
             Refresh(prevBB);

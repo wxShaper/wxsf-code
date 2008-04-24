@@ -68,14 +68,7 @@ void wxSFRectShape::MarkSerializableDataMembers()
 wxRect wxSFRectShape::GetBoundingBox()
 {
     wxRealPoint apos = GetAbsolutePosition();
-    wxRealPoint offset = GetParentCanvas()->GetShadowOffset();
-
-    if( !m_fSelected && (m_nStyle & sfsSHOW_SHADOW) )
-    {
-        return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x + (int)offset.x, (int)m_nRectSize.y + (int)offset.y ));
-    }
-    else
-        return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y ));
+    return wxRect(wxPoint((int)apos.x, (int)apos.y), wxSize((int)m_nRectSize.x, (int)m_nRectSize.y ));
 }
 
 void wxSFRectShape::Scale(double x, double y, bool children)
@@ -193,7 +186,7 @@ void wxSFRectShape::DrawShadow(wxSFScaledPaintDC &dc)
 	dc.SetPen(*wxTRANSPARENT_PEN);
 	dc.SetBrush(GetParentCanvas()->GetShadowFill());
 	dc.DrawRectangle(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset(), m_nRectSize);
-	dc.SetBrush(wxNullBrush);
+	dc.SetBrush(m_Fill);
 	dc.SetPen(wxNullPen);
 }
 

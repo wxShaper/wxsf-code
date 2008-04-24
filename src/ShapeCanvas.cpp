@@ -143,9 +143,8 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
 	m_nGradientFrom = sfdvSHAPECANVAS_GRADIENT_FROM;
 	m_nGradientTo = sfdvSHAPECANVAS_GRADIENT_TO;
 	m_nStyle = sfdvSHAPECANVAS_STYLE;
-	m_nShadowOffset = sfdvSHAPECANVAS_SHADOW_OFFSET;
-	m_ShadowFill = sfdvSHAPECANVAS_SHADOW_BRUSH;
-	m_nShadowTextColor = sfdvSHAPECANVAS_SHADOW_TEXT_COLOR;
+	m_nShadowOffset = sfdvSHAPECANVAS_SHADOWOFFSET;
+	m_ShadowFill = sfdvSHAPECANVAS_SHADOWBRUSH;
 
     XS_SERIALIZE(m_nScale, wxT("scale"));
 	XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvSHAPECANVAS_STYLE);
@@ -155,9 +154,8 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
     XS_SERIALIZE_EX(m_nCommonHoverColor, wxT("hover_color"), sfdvSHAPECANVAS_HOVERCOLOR);
     XS_SERIALIZE_EX(m_nGridSize, wxT("grid_size"), sfdvSHAPECANVAS_GRIDSIZE);
     XS_SERIALIZE_EX(m_nGridColor, wxT("grid_color"), sfdvSHAPECANVAS_GRIDCOLOR);
-    XS_SERIALIZE_EX(m_nShadowOffset, wxT("shadow_offset"), sfdvSHAPECANVAS_SHADOW_OFFSET);
-    XS_SERIALIZE_EX(m_ShadowFill, wxT("shadow_fill"), sfdvSHAPECANVAS_SHADOW_BRUSH);
-    XS_SERIALIZE_EX(m_nShadowTextColor, wxT("shadow_text_color"), sfdvSHAPECANVAS_SHADOW_TEXT_COLOR);
+    XS_SERIALIZE_EX(m_nShadowOffset, wxT("shadow_offset"), sfdvSHAPECANVAS_SHADOWOFFSET);
+    XS_SERIALIZE_EX(m_ShadowFill, wxT("shadow_fill"), sfdvSHAPECANVAS_SHADOWBRUSH);
     XS_SERIALIZE(m_arrAcceptedShapes, wxT("accepted_shapes"));
 }
 
@@ -431,7 +429,7 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
 			{
 				pShape = node->GetData();
 
-                pShape->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
+                pShape->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN | wxSFShapeBase::bbSHADOW);
                 if( bbRct.Intersects(updRct) )
                 {
 					pShape->Draw(dc);
@@ -2214,7 +2212,7 @@ wxRect wxSFShapeCanvas::GetSelectionBB()
     ShapeList::compatibility_iterator node = lstSelection.GetFirst();
     while(node)
     {
-        node->GetData()->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN | wxSFShapeBase::bbCONNECTIONS);
+        node->GetData()->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN | wxSFShapeBase::bbCONNECTIONS | wxSFShapeBase::bbSHADOW);
         node = node->GetNext();
     }
 
