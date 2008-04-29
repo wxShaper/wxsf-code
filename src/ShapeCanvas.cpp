@@ -229,8 +229,9 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
-	//Clear();
+    if( m_pManager )m_pManager->SetShapeCanvas(NULL);
 }
+
 bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     // perform basic window initialization

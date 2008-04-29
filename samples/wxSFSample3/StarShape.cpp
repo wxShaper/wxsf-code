@@ -44,7 +44,7 @@ cStarShape::cStarShape(cStarShape& obj)
 	{
 		// .. and append it to this shapes as its child
 		AddChild(m_pText);
-		// this object is created by the parent class constructor and not 
+		// this object is created by the parent class constructor and not
 		// by the serializer (only its properties are deserialized)
 		XS_SERIALIZE_DYNAMIC_OBJECT_NO_CREATE(m_pText, wxT("title"));
 	}
