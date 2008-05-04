@@ -10,4 +10,5 @@ dopackage( "../samples/wxSFDemo" )
 dopackage( "../samples/wxSFSample1" )
 dopackage( "../samples/wxSFSample2" )
 dopackage( "../samples/wxSFSample3" )
+dopackage( "../samples/wxSFSample4" )
 

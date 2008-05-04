@@ -104,6 +104,7 @@ public:
 
     friend class wxSFDiagramManager;
 	friend class wxSFCanvasDropTarget;
+	friend class wxSFControlShape;
 
     /*!
      * \brief Default constructor

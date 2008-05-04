@@ -23,6 +23,7 @@
 #include "EditTextShape.h"
 #include "BitmapShape.h"
 #include "PolygonShape.h"
+#include "ControlShape.h"
 
 #include "OpenArrow.h"
 #include "SolidArrow.h"
