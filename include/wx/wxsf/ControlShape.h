@@ -16,7 +16,7 @@
 #define sfFIT_SHAPE_TO_CONTROL true
 #define sfFIT_CONTROL_TO_SHAPE false
 
-#define sfdvCONTROLSHAPE_WIDGETOFFSET 5
+#define sfdvCONTROLSHAPE_WIDGETOFFSET 0
 #define sfdvCONTROLSHAPE_PROCESSEVENTS true
 
 class WXDLLIMPEXP_SF wxSFControlShape;
@@ -36,17 +36,17 @@ public:
 
     // public functions
 	/*!
-     * \brief Event handler used for delayed processing of a mouse event (left mouse button click).
+     * \brief Event handler used for delayed processing of a mouse button events.
 	 * The handler creates new key event instance and sends it to a shape canvas for further processing.
 	 * \param event Mouse event
 	 */
-	void _OnLeftDown(wxMouseEvent &event);
+	void _OnMouseButton(wxMouseEvent &event);
 	/*!
-     * \brief Event handler used for delayed processing of a mouse event (right mouse button click).
+     * \brief Event handler used for delayed processing of a mouse event (mouse movement).
 	 * The handler creates new key event instance and sends it to a shape canvas for further processing.
 	 * \param event Mouse event
 	 */
-	void _OnRightDown(wxMouseEvent &event);
+	void _OnMouseMove(wxMouseEvent &event);
 	/*!
 	 * \brief Event handler used for delayed processing of a key event.
 	 * The handler creates new key event instance and sends it to a shape canvas for further processing.
@@ -60,6 +60,7 @@ protected:
 
     // protected functions
     void SendEvent(wxEvent &event);
+    void UpdateMouseEvent(wxMouseEvent &event);
 };
 
 class WXDLLIMPEXP_SF wxSFControlShape : public wxSFRectShape
@@ -181,16 +182,7 @@ public:
 	 * Default implementation does nothing.
 	 * \param handle Reference to dragged handle
 	 */
-	//virtual void OnEndHandle(wxSFShapeHandle& handle);
-	/*!
-	 * \brief Event handler called when a mouse pointer enters the shape area.
-	 * The function can be overrided if necessary.
-	 *
-	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
-	 * \param pos Current mouse position
-	 */
-	//virtual void OnMouseEnter(const wxPoint& pos);
+	virtual void OnEndHandle(wxSFShapeHandle& handle);
 
 protected:
 

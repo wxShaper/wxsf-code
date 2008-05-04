@@ -578,8 +578,8 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 
 			if(!m_pSelectedHandle)
 			{
-				//wxSFShapeBase* pSelectedShape = GetShapeAtPosition(lpos);
-				wxSFShapeBase* pSelectedShape = GetShapeUnderCursor();
+				wxSFShapeBase* pSelectedShape = GetShapeAtPosition(lpos);
+				//wxSFShapeBase* pSelectedShape = GetShapeUnderCursor();
 
 				if(pSelectedShape)
 				{

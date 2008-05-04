@@ -22,7 +22,6 @@ wxSFControlShape::wxSFControlShape() : wxSFRectShape()
     m_pEventSink = new EventSink(this);
 
     m_Fill = *wxTRANSPARENT_BRUSH;
-    //m_Border = wxPen(*wxRED, 1, wxDOT);
     m_Border = *wxTRANSPARENT_PEN;
 
     XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
@@ -37,7 +36,6 @@ wxSFControlShape::wxSFControlShape(wxWindow *ctrl, const wxRealPoint& pos, const
     m_pEventSink = new EventSink(this);
 
     m_Fill = *wxTRANSPARENT_BRUSH;
-    //m_Border = wxPen(*wxRED, 1, wxDOT);
     m_Border = *wxTRANSPARENT_PEN;
 
     XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
@@ -87,8 +85,13 @@ void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
                 m_pControl->Reparent( (wxWindow*)pCanvas );
 
             // redirect mouse events to the event sink for their delayed processing
-            m_pControl->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(EventSink::_OnLeftDown), NULL, m_pEventSink);
-            m_pControl->Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(EventSink::_OnRightDown), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_RIGHT_UP, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_RIGHT_DCLICK, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_MOTION, wxMouseEventHandler(EventSink::_OnMouseMove), NULL, m_pEventSink);
             m_pControl->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(EventSink::_OnKeyDown), NULL, m_pEventSink);
         }
 
@@ -128,6 +131,8 @@ void wxSFControlShape::MoveBy(double x, double y)
 
 void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
 {
+    m_Fill = wxBrush(*wxBLUE, wxBDIAGONAL_HATCH);
+
     if( m_pParentManager )
     {
         wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentManager)->GetShapeCanvas();
@@ -141,8 +146,7 @@ void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
 
     if( m_pControl )
     {
-        m_pControl->Raise();
-        m_pControl->SetFocus();
+        m_pControl->Hide();
     }
 }
 
@@ -159,25 +163,32 @@ void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
 
 void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
 {
+    m_Fill = *wxTRANSPARENT_BRUSH;
+
     if( m_pParentManager )
     {
         wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentManager)->GetShapeCanvas();
 
         if( pCanvas ) pCanvas->SetStyle(m_nPrevStyle);
     }
+
+    if( m_pControl )
+    {
+        m_pControl->Show();
+    }
 }
 
 void wxSFControlShape::OnBeginHandle(wxSFShapeHandle& handle)
 {
-    //m_Border = wxPen(*wxRED, 1, wxDOT);
+    m_Border = wxPen(*wxBLUE, 1, wxSOLID);
+    m_Fill = wxBrush(*wxBLUE, wxBDIAGONAL_HATCH);
 
     // call default handler
     wxSFRectShape::OnBeginHandle(handle);
 
     if( m_pControl )
     {
-        m_pControl->Raise();
-        m_pControl->SetFocus();
+        m_pControl->Hide();
     }
 }
 
@@ -189,18 +200,19 @@ void wxSFControlShape::OnHandle(wxSFShapeHandle& handle)
     UpdateControl();
 }
 
-/*void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
+void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
 {
     m_Border = *wxTRANSPARENT_PEN;
+    m_Fill = *wxTRANSPARENT_BRUSH;
 
     // call default handler
     wxSFRectShape::OnEndHandle(handle);
-}*/
 
-/*void wxSFControlShape::OnMouseEnter(const wxPoint& pos)
-{
-    if( m_pControl ) m_pControl->Lower();
-}*/
+    if( m_pControl )
+    {
+        m_pControl->Show();
+    }
+}
 
 //----------------------------------------------------------------------------------//
 // protected functions
@@ -246,19 +258,36 @@ EventSink::~EventSink()
 // public functions
 //----------------------------------------------------------------------------------//
 
-void EventSink::_OnLeftDown(wxMouseEvent &event)
+void EventSink::_OnMouseButton(wxMouseEvent &event)
 {
-    SendEvent(event);
+    wxMouseEvent updatedEvent(event);
+
+    UpdateMouseEvent(updatedEvent);
+    SendEvent(updatedEvent);
+
+    // process the event also by an original handler if requested
+    if( m_pParentShape->GetEventProcessing() ) event.Skip();
+
+    m_pParentShape->GetControl()->SetFocus();
 }
 
-void EventSink::_OnRightDown(wxMouseEvent &event)
+void EventSink::_OnMouseMove(wxMouseEvent &event)
 {
-    SendEvent(event);
+    wxMouseEvent updatedEvent(event);
+
+    UpdateMouseEvent(updatedEvent);
+    SendEvent(updatedEvent);
+
+    // process the event also by an original handler if requested
+    if( m_pParentShape->GetEventProcessing() ) event.Skip();
 }
 
 void EventSink::_OnKeyDown(wxKeyEvent &event)
 {
     SendEvent(event);
+
+    // process the event also by an original handler if requested
+    if( m_pParentShape->GetEventProcessing() ) event.Skip();
 }
 
 //----------------------------------------------------------------------------------//
@@ -271,10 +300,15 @@ void EventSink::SendEvent(wxEvent &event)
     {
         wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentShape->GetParentManager())->GetShapeCanvas();
 
-        // send new copy of the event to the shape canvas
+        // send copy of the event to the shape canvas
         if( pCanvas ) pCanvas->AddPendingEvent(event);
-
-        // process the event also by an original handler if requested
-        if( m_pParentShape->GetEventProcessing() ) event.Skip();
     }
+}
+
+void EventSink::UpdateMouseEvent(wxMouseEvent &event)
+{
+    wxRealPoint nAbsPos = m_pParentShape->GetAbsolutePosition();
+
+    event.m_x += (int)nAbsPos.x;
+    event.m_y += (int)nAbsPos.y;
 }
