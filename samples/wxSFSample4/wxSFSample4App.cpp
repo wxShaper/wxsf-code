@@ -14,11 +14,11 @@
 
 #include "res/wx.xpm"
 
-IMPLEMENT_APP(wxSFSample1App);
+IMPLEMENT_APP(wxSFSample4App);
 
-bool wxSFSample1App::OnInit()
+bool wxSFSample4App::OnInit()
 {
-    wxSFSample1Frame* frame = new wxSFSample1Frame(0L, _("wxShapeFramework Sample 4"));
+    wxSFSample4Frame* frame = new wxSFSample4Frame(0L, _("wxShapeFramework Sample 4"));
     // To Set App Icon
     frame->SetIcon(wxIcon(wx_xpm));
 

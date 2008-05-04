@@ -12,7 +12,7 @@
 
 #include <wx/app.h>
 
-class wxSFSample1App : public wxApp
+class wxSFSample4App : public wxApp
 {
     public:
         virtual bool OnInit();

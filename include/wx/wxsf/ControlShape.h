@@ -13,6 +13,9 @@
 
 #include "wx/wxsf/RectShape.h"
 
+#define sfFIT_SHAPE_TO_CONTROL true
+#define sfFIT_CONTROL_TO_SHAPE false
+
 #define sfdvCONTROLSHAPE_WIDGETOFFSET 5
 #define sfdvCONTROLSHAPE_PROCESSEVENTS true
 
@@ -44,12 +47,6 @@ public:
 	 * \param event Mouse event
 	 */
 	void _OnRightDown(wxMouseEvent &event);
-	/*!
-     * \brief Event handler used for delayed processing of a mouse event (mouse cursor motion).
-	 * The handler creates new key event instance and sends it to a shape canvas for further processing.
-	 * \param event Mouse event
-	 */
-	void _OnMouseMove(wxMouseEvent &event);
 	/*!
 	 * \brief Event handler used for delayed processing of a key event.
 	 * The handler creates new key event instance and sends it to a shape canvas for further processing.
@@ -90,10 +87,11 @@ public:
 
     // member data accessors
     /*!
-     * \brief Set m_pControl.
+     * \brief Set managed GUI control.
      * \param ctrl Pointer to existing manager GUI control
+     * \param fit TRUE if the control shape should be resized in accordance to the given GUI control
      */
-    void SetControl(wxWindow * ctrl);
+    void SetControl(wxWindow * ctrl, bool fit = sfFIT_SHAPE_TO_CONTROL);
 
     /*!
      * \brief Get pointer to managed GUI control.
@@ -129,6 +127,15 @@ public:
 	virtual void MoveBy(double x, double y);
 
 	/*!
+	 * \brief Event handler called at the begining of the shape dragging process.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnBeginDrag(const wxPoint& pos);
+	/*!
 	 * \brief Event handler called during the shape dragging process.
 	 * The function can be overrided if necessary.
 	 *
@@ -139,6 +146,25 @@ public:
 	 */
 	virtual void OnDragging(const wxPoint& pos);
 	/*!
+	 * \brief Event handler called at the end of the shape dragging process.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
+	virtual void OnEndDrag(const wxPoint& pos);
+	/*!
+	 * \brief Event handler called when the user started to drag the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param handle Reference to dragged handle
+	 */
+	virtual void OnBeginHandle(wxSFShapeHandle& handle);
+	/*!
 	 * \brief Event handler called during dragging of the shape handle.
 	 * The function can be overrided if necessary.
 	 *
@@ -148,16 +174,23 @@ public:
 	 */
 	virtual void OnHandle(wxSFShapeHandle& handle);
 	/*!
-	 * \brief Event handler called when any key is pressed (in the shape canvas).
+	 * \brief Event handler called when the user finished dragging of the shape handle.
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * \param key The key code
-	 * \return The function must return TRUE if the default event routine should be called
-	 * as well, otherwise FALSE
-	 * \sa wxSFShapeBase::_OnKey
+	 * Default implementation does nothing.
+	 * \param handle Reference to dragged handle
 	 */
-	//virtual bool OnKey(int key);
+	//virtual void OnEndHandle(wxSFShapeHandle& handle);
+	/*!
+	 * \brief Event handler called when a mouse pointer enters the shape area.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param pos Current mouse position
+	 */
+	//virtual void OnMouseEnter(const wxPoint& pos);
 
 protected:
 
@@ -177,8 +210,9 @@ private:
 
     /*! \brief Pointer to parent window */
     wxWindow * m_pPrevParent;
-
     EventSink * m_pEventSink;
+    long m_nPrevStyle;
+
 };
 
 #endif // WXSFCONTROLSHAPE_H

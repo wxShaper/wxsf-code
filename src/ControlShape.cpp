@@ -22,11 +22,10 @@ wxSFControlShape::wxSFControlShape() : wxSFRectShape()
     m_pEventSink = new EventSink(this);
 
     m_Fill = *wxTRANSPARENT_BRUSH;
+    //m_Border = wxPen(*wxRED, 1, wxDOT);
     m_Border = *wxTRANSPARENT_PEN;
-    /*m_Fill = wxBrush(wxColour(200, 200, 200), wxSOLID);
-    m_Border = wxPen(wxColour(200, 200, 200), 1, wxSOLID);*/
 
-    XS_SERIALIZE_EX(m_fProcessEvents, wxT("forward_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
+    XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
 }
 
 wxSFControlShape::wxSFControlShape(wxWindow *ctrl, const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager)
@@ -38,11 +37,10 @@ wxSFControlShape::wxSFControlShape(wxWindow *ctrl, const wxRealPoint& pos, const
     m_pEventSink = new EventSink(this);
 
     m_Fill = *wxTRANSPARENT_BRUSH;
+    //m_Border = wxPen(*wxRED, 1, wxDOT);
     m_Border = *wxTRANSPARENT_PEN;
-    /*m_Fill = wxBrush(wxColour(200, 200, 200), wxSOLID);
-    m_Border = wxPen(wxColour(200, 200, 200), 1, wxSOLID);*/
 
-    XS_SERIALIZE_EX(m_fProcessEvents, wxT("forward_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
+    XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
 }
 
 wxSFControlShape::wxSFControlShape(const wxSFControlShape& other)
@@ -53,19 +51,12 @@ wxSFControlShape::wxSFControlShape(const wxSFControlShape& other)
 
     m_pEventSink = new EventSink(this);
 
-    XS_SERIALIZE_EX(m_fProcessEvents, wxT("forward_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
+    XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
 }
 
 wxSFControlShape::~wxSFControlShape()
 {
-    if( m_pControl )
-    {
-        /*m_pControl->Disconnect(wxEVT_LEFT_DOWN, wxMouseEventHandler(wxSFShapeCanvas::_OnLeftDown), NULL, pCanvas);
-        m_pControl->Disconnect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(wxSFShapeCanvas::_OnRightDown), NULL, pCanvas);
-        m_pControl->Disconnect(wxEVT_KEY_DOWN, wxKeyEventHandler(wxSFShapeCanvas::_OnKeyDown), NULL, pCanvas);*/
-
-        m_pControl->Destroy();
-    }
+    if( m_pControl ) m_pControl->Destroy();
 
     if( m_pEventSink ) delete m_pEventSink;
 }
@@ -74,7 +65,7 @@ wxSFControlShape::~wxSFControlShape()
 // public functions
 //----------------------------------------------------------------------------------//
 
-void wxSFControlShape::SetControl(wxWindow *ctrl)
+void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
 {
     if( m_pControl )
     {
@@ -98,8 +89,15 @@ void wxSFControlShape::SetControl(wxWindow *ctrl)
             // redirect mouse events to the event sink for their delayed processing
             m_pControl->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(EventSink::_OnLeftDown), NULL, m_pEventSink);
             m_pControl->Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(EventSink::_OnRightDown), NULL, m_pEventSink);
-            //m_pControl->Connect(wxEVT_MOTION, wxMouseEventHandler(EventSink::_OnMouseMove), NULL, m_pEventSink);
             m_pControl->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(EventSink::_OnKeyDown), NULL, m_pEventSink);
+        }
+
+        if( fit )
+        {
+            wxSize nCtrlSize = m_pControl->GetSize();
+
+            m_nRectSize.x = nCtrlSize.x + 2*sfdvCONTROLSHAPE_WIDGETOFFSET;
+            m_nRectSize.y = nCtrlSize.y + 2*sfdvCONTROLSHAPE_WIDGETOFFSET;
         }
 
         UpdateControl();
@@ -128,6 +126,26 @@ void wxSFControlShape::MoveBy(double x, double y)
     UpdateControl();
 }
 
+void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
+{
+    if( m_pParentManager )
+    {
+        wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentManager)->GetShapeCanvas();
+
+        if( pCanvas )
+        {
+            m_nPrevStyle = pCanvas->GetStyle();
+            pCanvas->RemoveStyle(wxSFShapeCanvas::sfsDND);
+        }
+    }
+
+    if( m_pControl )
+    {
+        m_pControl->Raise();
+        m_pControl->SetFocus();
+    }
+}
+
 void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
 {
     if( m_pControl )
@@ -139,6 +157,30 @@ void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
     }
 }
 
+void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
+{
+    if( m_pParentManager )
+    {
+        wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentManager)->GetShapeCanvas();
+
+        if( pCanvas ) pCanvas->SetStyle(m_nPrevStyle);
+    }
+}
+
+void wxSFControlShape::OnBeginHandle(wxSFShapeHandle& handle)
+{
+    //m_Border = wxPen(*wxRED, 1, wxDOT);
+
+    // call default handler
+    wxSFRectShape::OnBeginHandle(handle);
+
+    if( m_pControl )
+    {
+        m_pControl->Raise();
+        m_pControl->SetFocus();
+    }
+}
+
 void wxSFControlShape::OnHandle(wxSFShapeHandle& handle)
 {
     // call default handler
@@ -147,14 +189,17 @@ void wxSFControlShape::OnHandle(wxSFShapeHandle& handle)
     UpdateControl();
 }
 
-/*bool wxSFControlShape::OnKey(int key)
+/*void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
 {
-    if( key == WXK_DELETE)
-    {
-        return false;
-    }
-    else
-        return true;
+    m_Border = *wxTRANSPARENT_PEN;
+
+    // call default handler
+    wxSFRectShape::OnEndHandle(handle);
+}*/
+
+/*void wxSFControlShape::OnMouseEnter(const wxPoint& pos)
+{
+    if( m_pControl ) m_pControl->Lower();
 }*/
 
 //----------------------------------------------------------------------------------//
@@ -168,8 +213,8 @@ void wxSFControlShape::UpdateControl()
         wxRect rctBB = GetBoundingBox().Deflate(sfdvCONTROLSHAPE_WIDGETOFFSET, sfdvCONTROLSHAPE_WIDGETOFFSET);
 
         // set the control's dimensions and position according to the parent control shape
-        m_pControl->Move(rctBB.GetLeft(), rctBB.GetTop());
         m_pControl->SetSize(rctBB.GetWidth(), rctBB.GetHeight());
+        m_pControl->Move(rctBB.GetLeft(), rctBB.GetTop());
     }
 }
 
@@ -207,11 +252,6 @@ void EventSink::_OnLeftDown(wxMouseEvent &event)
 }
 
 void EventSink::_OnRightDown(wxMouseEvent &event)
-{
-    SendEvent(event);
-}
-
-void EventSink::_OnMouseMove(wxMouseEvent &event)
 {
     SendEvent(event);
 }

@@ -18,11 +18,11 @@
 // add wxShapeFramework include file
 #include "wx/wxsf/wxShapeFramework.h"
 
-class wxSFSample1Frame: public wxFrame
+class wxSFSample4Frame: public wxFrame
 {
     public:
-        wxSFSample1Frame(wxFrame *frame, const wxString& title);
-        ~wxSFSample1Frame();
+        wxSFSample4Frame(wxFrame *frame, const wxString& title);
+        ~wxSFSample4Frame();
 
     private:
         enum
@@ -31,10 +31,14 @@ class wxSFSample1Frame: public wxFrame
             idMenuAbout
         };
 
+        int m_nControlType;
+
         // create wxSF diagram manager
         wxSFDiagramManager m_Manager;
         // create pointer to wxSF shape canvas
         wxSFShapeCanvas* m_pCanvas;
+
+        wxWindow* CreateGUIControl();
 
         void OnClose(wxCloseEvent& event);
         void OnQuit(wxCommandEvent& event);
