@@ -229,9 +229,8 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
-    if( m_pManager )m_pManager->SetShapeCanvas(NULL);
+	//Clear();
 }
-
 bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
     // perform basic window initialization
@@ -1399,53 +1398,22 @@ void wxSFShapeCanvas::_OnKeyDown(wxKeyEvent& event)
 
 void wxSFShapeCanvas::OnEnterWindow(wxMouseEvent& event)
 {
-	event.Skip();
-}
-
-void wxSFShapeCanvas::OnLeaveWindow(wxMouseEvent& event)
-{
-	wxPoint lpos = DP2LP(event.GetPosition());
+    wxPoint lpos = DP2LP(event.GetPosition());
 
 	switch(m_nWorkingMode)
 	{
 	case modeMULTISELECTION:
-		UpdateMultieditSize();
-		m_shpMultiEdit.Show(false);
-        m_nWorkingMode = modeREADY;
-        Refresh(false);
+        if( !event.LeftIsDown() )
+        {
+            UpdateMultieditSize();
+            m_shpMultiEdit.Show(false);
+            m_nWorkingMode = modeREADY;
+            Refresh(false);
+        }
 		break;
-
-	case modeSHAPEMOVE:
-		{
-			ShapeList m_lstSelection;
-			GetSelectedShapes(m_lstSelection);
-
-			if( ContainsStyle(sfsDND) )
-			{
-				DoDragDrop(m_lstSelection, lpos);
-			}
-			else
-			{
-				MoveShapesFromNegatives();
-				UpdateVirtualSize();
-
-				if(m_lstSelection.GetCount() > 1)
-				{
-					UpdateMultieditSize();
-					m_shpMultiEdit.Show(true);
-					m_shpMultiEdit.ShowHandles(true);
-				}
-
-				m_nWorkingMode = modeREADY;
-				Refresh(false);
-			}
-		}
-		break;
-
-    case modeCREATECONNECTION:
-        break;
 
     case modeHANDLEMOVE:
+        if( !event.LeftIsDown() )
         {
             if(m_pSelectedHandle)
             {
@@ -1453,7 +1421,6 @@ void wxSFShapeCanvas::OnLeaveWindow(wxMouseEvent& event)
 				{
 					wxSFLineShape* pLine = (wxSFLineShape*)m_pSelectedHandle->GetParentShape();
 					pLine->SetLineMode(wxSFLineShape::modeREADY);
-
 				}
 				else if(m_pSelectedHandle->GetParentShape()->IsKindOf(CLASSINFO(wxSFBitmapShape)))
 				{
@@ -1469,16 +1436,90 @@ void wxSFShapeCanvas::OnLeaveWindow(wxMouseEvent& event)
         break;
 
 	case modeMULTIHANDLEMOVE:
-		{
-			if(m_pSelectedHandle)
-			{
-				m_pSelectedHandle->OnEndDrag(lpos);
+        if( !event.LeftIsDown() )
+        {
+            if(m_pSelectedHandle)
+            {
+                m_pSelectedHandle->OnEndDrag(lpos);
 
                 SaveCanvasState();
-				m_nWorkingMode = modeREADY;
+                m_nWorkingMode = modeREADY;
                 Refresh(false);
+            }
+        }
+		break;
+
+    case modeSHAPEMOVE:
+        if( !event.LeftIsDown() )
+        {
+			ShapeList m_lstSelection;
+			GetSelectedShapes(m_lstSelection);
+
+            MoveShapesFromNegatives();
+            UpdateVirtualSize();
+
+            if(m_lstSelection.GetCount() > 1)
+            {
+                UpdateMultieditSize();
+                m_shpMultiEdit.Show(true);
+                m_shpMultiEdit.ShowHandles(true);
+            }
+
+            m_nWorkingMode = modeREADY;
+            Refresh(false);
+        }
+        break;
+
+    default:
+        break;
+	}
+
+	event.Skip();
+}
+
+void wxSFShapeCanvas::OnLeaveWindow(wxMouseEvent& event)
+{
+	wxPoint lpos = DP2LP(event.GetPosition());
+
+	switch(m_nWorkingMode)
+	{
+	case modeMULTISELECTION:
+		break;
+
+	case modeSHAPEMOVE:
+		{
+			ShapeList m_lstSelection;
+			GetSelectedShapes(m_lstSelection);
+
+			if( ContainsStyle(sfsDND) )
+			{
+				DoDragDrop(m_lstSelection, lpos);
 			}
+			/*else
+			{
+				MoveShapesFromNegatives();
+				UpdateVirtualSize();
+
+				if(m_lstSelection.GetCount() > 1)
+				{
+					UpdateMultieditSize();
+					m_shpMultiEdit.Show(true);
+					m_shpMultiEdit.ShowHandles(true);
+				}
+
+				m_nWorkingMode = modeREADY;
+				Refresh(false);
+			}*/
 		}
+		break;
+
+    case modeCREATECONNECTION:
+        break;
+
+    case modeHANDLEMOVE:
+        break;
+
+	case modeMULTIHANDLEMOVE:
 		break;
 
 	default:
