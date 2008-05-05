@@ -7,141 +7,93 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="bin\gcc\wxSFSample4.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/gcc/wxSFSample4" prefix_auto="0" extension_auto="0" />
 				<Option object_output=".objsu" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-O3" />
 					<Add option="-Winvalid-pch" />
-					<Add option='-include &quot;wx_pch.h&quot;' />
+					<Add option="-include &quot;wx_pch.h&quot;" />
 					<Add option="-DUNICODE" />
 					<Add option="-D_UNICODE" />
 					<Add option="-D__WX__" />
-					<Add option="-D__WXMSW__" />
-					<Add option="-DWIN32" />
-					<Add option="-D_WINDOWS" />
 					<Add option="-DNDEBUG" />
 					<Add option="-fno-strict-aliasing" />
-					<Add directory="..\..\include" />
-					<Add directory="..\..\src" />
-					<Add directory="$(#WX.include)" />
-					<Add directory="$(#WX.lib)\gcc_lib\mswu" />
+					<Add option="`wx-config --debug=no --cflags`" />
+					<Add directory="../../include" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="..\..\include" />
-					<Add directory="..\..\src" />
-					<Add directory="$(#WX.include)" />
-					<Add directory="$(#WX.lib)\gcc_lib\mswu" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="wxmsw28u_wxsf" />
-					<Add library="wxmsw28u" />
-					<Add library="wxexpat" />
-					<Add library="wxjpeg" />
-					<Add library="wxpng" />
-					<Add library="wxtiff" />
-					<Add library="wxregexu" />
-					<Add library="winmm" />
-					<Add library="rpcrt4" />
-					<Add library="kernel32" />
-					<Add library="user32" />
-					<Add library="gdi32" />
-					<Add library="winspool" />
-					<Add library="comdlg32" />
-					<Add library="advapi32" />
-					<Add library="shell32" />
-					<Add library="ole32" />
-					<Add library="oleaut32" />
-					<Add library="uuid" />
-					<Add library="comctl32" />
-					<Add library="wsock32" />
-					<Add library="odbc32" />
-					<Add directory="bin\gcc" />
-					<Add directory="..\..\build" />
-					<Add directory="$(#WX.lib)\gcc_lib" />
-					<Add directory="..\..\lib\gcc_lib" />
+					<Add option="`wx-config --libs std richtext`" />
+					<Add directory="bin/gcc" />
+					<Add directory="../../build" />
+					<Add directory="../../lib/gcc_lib" />
+					<Add library="wx_gtk2u_wxsf-2.8" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
-				<Option output="bin\gcc\wxSFSample4.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin/gcc/wxSFSample4d" prefix_auto="0" extension_auto="0" />
 				<Option object_output=".objsud" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Winvalid-pch" />
-					<Add option='-include &quot;wx_pch.h&quot;' />
+					<Add option="-include &quot;wx_pch.h&quot;" />
 					<Add option="-DUNICODE" />
 					<Add option="-D_UNICODE" />
 					<Add option="-D__WX__" />
-					<Add option="-D__WXMSW__" />
-					<Add option="-DWIN32" />
-					<Add option="-D_WINDOWS" />
 					<Add option="-DDEBUG" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D__WXDEBUG__" />
 					<Add option="-O0" />
-					<Add directory="..\..\include" />
-					<Add directory="..\..\src" />
-					<Add directory="$(#WX.include)" />
-					<Add directory="$(#WX.lib)\gcc_lib\mswud" />
+					<Add option="`wx-config --debug=yes --cflags`" />
+					<Add directory="../../include" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="..\..\include" />
-					<Add directory="..\..\src" />
-					<Add directory="$(#WX.include)" />
-					<Add directory="$(#WX.lib)\gcc_lib\mswud" />
-				</ResourceCompiler>
 				<Linker>
-					<Add library="wxmsw28ud_wxsf" />
-					<Add library="wxmsw28ud" />
-					<Add library="wxexpatd" />
-					<Add library="wxjpegd" />
-					<Add library="wxpngd" />
-					<Add library="wxtiffd" />
-					<Add library="wxregexud" />
-					<Add library="winmm" />
-					<Add library="rpcrt4" />
-					<Add library="kernel32" />
-					<Add library="user32" />
-					<Add library="gdi32" />
-					<Add library="winspool" />
-					<Add library="comdlg32" />
-					<Add library="advapi32" />
-					<Add library="shell32" />
-					<Add library="ole32" />
-					<Add library="oleaut32" />
-					<Add library="uuid" />
-					<Add library="comctl32" />
-					<Add library="wsock32" />
-					<Add library="odbc32" />
-					<Add directory="bin\gcc" />
-					<Add directory="..\..\build" />
-					<Add directory="$(#WX.lib)\gcc_lib" />
-					<Add directory="..\..\lib\gcc_lib" />
+					<Add option="`wx-config --debug=yes --libs std richtext`" />
+					<Add directory="bin/gcc" />
+					<Add directory="../../build" />
+					<Add directory="../../lib/gcc_lib" />
+					<Add library="wx_gtk2ud_wxsf-2.8" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="wxSF.rc">
-			<Option compilerVar="WINDRES" />
+		<Unit filename="wxSFSample4Main.cpp">
+			<Option compilerVar="CPP" />
+			<Option target="Release" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="wxSFSample4App.cpp" />
-		<Unit filename="wxSFSample4App.h" />
-		<Unit filename="wxSFSample4Main.cpp" />
-		<Unit filename="wxSFSample4Main.h" />
-		<Unit filename="wx_pch.cpp" />
+		<Unit filename="wxSFSample4App.cpp">
+			<Option compilerVar="CPP" />
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wx_pch.cpp">
+			<Option compilerVar="CPP" />
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wxSFSample4App.h">
+			<Option compilerVar="CPP" />
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="wxSFSample4Main.h">
+			<Option compilerVar="CPP" />
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="wx_pch.h">
+			<Option compilerVar="CPP" />
 			<Option compile="1" />
 			<Option weight="0" />
+			<Option target="Release" />
+			<Option target="Debug" />
 		</Unit>
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
