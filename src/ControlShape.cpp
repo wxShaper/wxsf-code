@@ -227,7 +227,20 @@ void wxSFControlShape::UpdateControl()
 {
     if( m_pControl )
     {
+        wxRect minBB = m_pControl->GetMinSize();
         wxRect rctBB = GetBoundingBox().Deflate(m_nControlOffset, m_nControlOffset);
+
+        if( rctBB.GetWidth() < minBB.GetWidth() )
+        {
+            rctBB.SetWidth(minBB.GetWidth());
+            m_nRectSize.x = minBB.GetWidth() + 2*m_nControlOffset;
+        }
+
+        if( rctBB.GetHeight() < minBB.GetHeight() )
+        {
+            rctBB.SetHeight(minBB.GetHeight());
+            m_nRectSize.y = minBB.GetHeight() + 2*m_nControlOffset;
+        }
 
         // set the control's dimensions and position according to the parent control shape
         m_pControl->SetSize(rctBB.GetWidth(), rctBB.GetHeight());
