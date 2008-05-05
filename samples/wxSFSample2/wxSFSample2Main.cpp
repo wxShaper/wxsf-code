@@ -74,7 +74,7 @@ wxSFSample2Frame::wxSFSample2Frame(wxFrame *frame, const wxString& title)
 #if wxUSE_STATUSBAR
     // create a status bar with some information about the used wxWidgets version
     CreateStatusBar(2);
-    SetStatusText(_("Hello Code::Blocks user!"),0);
+    SetStatusText(_("Hello wxShapeFramework user!"),0);
     SetStatusText(wxbuildinfo(short_f), 1);
 #endif // wxUSE_STATUSBAR
 

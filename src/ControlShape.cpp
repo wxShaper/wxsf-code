@@ -17,39 +17,48 @@ XS_IMPLEMENT_CLONABLE_CLASS(wxSFControlShape, wxSFRectShape);
 wxSFControlShape::wxSFControlShape() : wxSFRectShape()
 {
     m_pControl = NULL;
-    m_fProcessEvents = sfdvCONTROLSHAPE_PROCESSEVENTS;
+    m_nProcessEvents = sfdvCONTROLSHAPE_PROCESSEVENTS;
+    m_ModFill = sfdvCONTROLSHAPE_MODFILL;
+    m_ModBorder = sfdvCONTROLSHAPE_MODBORDER;
+    m_nControlOffset = sfdvCONTROLSHAPE_CONTROLOFFSET;
 
     m_pEventSink = new EventSink(this);
 
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
 
-    XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
+    MarkSerializableDataMembers();
 }
 
 wxSFControlShape::wxSFControlShape(wxWindow *ctrl, const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager)
 : wxSFRectShape(pos, size, manager)
 {
     SetControl(ctrl);
-    m_fProcessEvents = sfdvCONTROLSHAPE_PROCESSEVENTS;
+    m_nProcessEvents = sfdvCONTROLSHAPE_PROCESSEVENTS;
+    m_ModFill = sfdvCONTROLSHAPE_MODFILL;
+    m_ModBorder = sfdvCONTROLSHAPE_MODBORDER;
+    m_nControlOffset = sfdvCONTROLSHAPE_CONTROLOFFSET;
 
     m_pEventSink = new EventSink(this);
 
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
 
-    XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
+    MarkSerializableDataMembers();
 }
 
-wxSFControlShape::wxSFControlShape(const wxSFControlShape& other)
-: wxSFRectShape(other)
+wxSFControlShape::wxSFControlShape(const wxSFControlShape& obj)
+: wxSFRectShape(obj)
 {
     m_pControl = NULL;
-    m_fProcessEvents = other.m_fProcessEvents;
+    m_nProcessEvents = obj.m_nProcessEvents;
+    m_ModFill = obj.m_ModFill;
+    m_ModBorder = obj.m_ModBorder;
+    m_nControlOffset = obj.m_nControlOffset;
 
     m_pEventSink = new EventSink(this);
 
-    XS_SERIALIZE_EX(m_fProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
+    MarkSerializableDataMembers();
 }
 
 wxSFControlShape::~wxSFControlShape()
@@ -59,16 +68,21 @@ wxSFControlShape::~wxSFControlShape()
     if( m_pEventSink ) delete m_pEventSink;
 }
 
+void wxSFControlShape::MarkSerializableDataMembers()
+{
+    XS_SERIALIZE_EX(m_nProcessEvents, wxT("process_events"), sfdvCONTROLSHAPE_PROCESSEVENTS);
+    XS_SERIALIZE_EX(m_nControlOffset, wxT("offset"), sfdvCONTROLSHAPE_CONTROLOFFSET);
+    XS_SERIALIZE_EX(m_ModFill, wxT("modification_fill"), sfdvCONTROLSHAPE_MODFILL);
+    XS_SERIALIZE_EX(m_ModBorder, wxT("modification_border"), sfdvCONTROLSHAPE_MODBORDER);
+}
+
 //----------------------------------------------------------------------------------//
 // public functions
 //----------------------------------------------------------------------------------//
 
 void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
 {
-    if( m_pControl )
-    {
-        m_pControl->Reparent( m_pPrevParent );
-    }
+    if( m_pControl ) m_pControl->Reparent( m_pPrevParent );
 
     m_pControl = ctrl;
 
@@ -81,8 +95,7 @@ void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
             wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentManager)->GetShapeCanvas();
 
             // reparent GUI control if necessary
-            if( pCanvas && ( (wxWindow*)pCanvas != m_pPrevParent ) )
-                m_pControl->Reparent( (wxWindow*)pCanvas );
+            if( pCanvas && ( (wxWindow*)pCanvas != m_pPrevParent ) ) m_pControl->Reparent( (wxWindow*)pCanvas );
 
             // redirect mouse events to the event sink for their delayed processing
             m_pControl->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
@@ -99,8 +112,8 @@ void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
         {
             wxSize nCtrlSize = m_pControl->GetSize();
 
-            m_nRectSize.x = nCtrlSize.x + 2*sfdvCONTROLSHAPE_WIDGETOFFSET;
-            m_nRectSize.y = nCtrlSize.y + 2*sfdvCONTROLSHAPE_WIDGETOFFSET;
+            m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
+            m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
         }
 
         UpdateControl();
@@ -131,7 +144,8 @@ void wxSFControlShape::MoveBy(double x, double y)
 
 void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
 {
-    m_Fill = wxBrush(*wxBLUE, wxBDIAGONAL_HATCH);
+    m_PrevFill = m_Fill;
+    m_Fill = m_ModFill;
 
     if( m_pParentManager )
     {
@@ -144,10 +158,7 @@ void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
         }
     }
 
-    if( m_pControl )
-    {
-        m_pControl->Hide();
-    }
+    if( m_pControl ) m_pControl->Hide();
 }
 
 void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
@@ -157,13 +168,13 @@ void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
         wxRealPoint absPos = GetAbsolutePosition();
 
         // set the control's position according to the parent control shape
-        m_pControl->Move((int)absPos.x + sfdvCONTROLSHAPE_WIDGETOFFSET, (int)absPos.y + sfdvCONTROLSHAPE_WIDGETOFFSET);
+        m_pControl->Move((int)absPos.x + m_nControlOffset, (int)absPos.y + m_nControlOffset);
     }
 }
 
 void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
 {
-    m_Fill = *wxTRANSPARENT_BRUSH;
+    m_Fill = m_PrevFill;
 
     if( m_pParentManager )
     {
@@ -172,24 +183,21 @@ void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
         if( pCanvas ) pCanvas->SetStyle(m_nPrevStyle);
     }
 
-    if( m_pControl )
-    {
-        m_pControl->Show();
-    }
+    if( m_pControl ) m_pControl->Show();
 }
 
 void wxSFControlShape::OnBeginHandle(wxSFShapeHandle& handle)
 {
-    m_Border = wxPen(*wxBLUE, 1, wxSOLID);
-    m_Fill = wxBrush(*wxBLUE, wxBDIAGONAL_HATCH);
+    m_PrevBorder = m_Border;
+    m_Border = m_ModBorder;
+
+    m_PrevFill = m_Fill;
+    m_Fill = m_ModFill;
 
     // call default handler
     wxSFRectShape::OnBeginHandle(handle);
 
-    if( m_pControl )
-    {
-        m_pControl->Hide();
-    }
+    if( m_pControl ) m_pControl->Hide();
 }
 
 void wxSFControlShape::OnHandle(wxSFShapeHandle& handle)
@@ -202,16 +210,13 @@ void wxSFControlShape::OnHandle(wxSFShapeHandle& handle)
 
 void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
 {
-    m_Border = *wxTRANSPARENT_PEN;
-    m_Fill = *wxTRANSPARENT_BRUSH;
+    m_Border = m_PrevBorder;
+    m_Fill = m_PrevFill;
 
     // call default handler
     wxSFRectShape::OnEndHandle(handle);
 
-    if( m_pControl )
-    {
-        m_pControl->Show();
-    }
+    if( m_pControl ) m_pControl->Show();
 }
 
 //----------------------------------------------------------------------------------//
@@ -222,7 +227,7 @@ void wxSFControlShape::UpdateControl()
 {
     if( m_pControl )
     {
-        wxRect rctBB = GetBoundingBox().Deflate(sfdvCONTROLSHAPE_WIDGETOFFSET, sfdvCONTROLSHAPE_WIDGETOFFSET);
+        wxRect rctBB = GetBoundingBox().Deflate(m_nControlOffset, m_nControlOffset);
 
         // set the control's dimensions and position according to the parent control shape
         m_pControl->SetSize(rctBB.GetWidth(), rctBB.GetHeight());
@@ -260,34 +265,40 @@ EventSink::~EventSink()
 
 void EventSink::_OnMouseButton(wxMouseEvent &event)
 {
-    wxMouseEvent updatedEvent(event);
+    if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtMOUSE2CANVAS )
+    {
+        wxMouseEvent updatedEvent(event);
 
-    UpdateMouseEvent(updatedEvent);
-    SendEvent(updatedEvent);
+        UpdateMouseEvent(updatedEvent);
+        SendEvent(updatedEvent);
+    }
 
     // process the event also by an original handler if requested
-    if( m_pParentShape->GetEventProcessing() ) event.Skip();
+    if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtMOUSE2GUI ) event.Skip();
 
     m_pParentShape->GetControl()->SetFocus();
 }
 
 void EventSink::_OnMouseMove(wxMouseEvent &event)
 {
-    wxMouseEvent updatedEvent(event);
+    if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtMOUSE2CANVAS )
+    {
+        wxMouseEvent updatedEvent(event);
 
-    UpdateMouseEvent(updatedEvent);
-    SendEvent(updatedEvent);
+        UpdateMouseEvent(updatedEvent);
+        SendEvent(updatedEvent);
+    }
 
     // process the event also by an original handler if requested
-    if( m_pParentShape->GetEventProcessing() ) event.Skip();
+    if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtMOUSE2GUI ) event.Skip();
 }
 
 void EventSink::_OnKeyDown(wxKeyEvent &event)
 {
-    SendEvent(event);
+    if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtKEY2CANVAS ) SendEvent(event);
 
     // process the event also by an original handler if requested
-    if( m_pParentShape->GetEventProcessing() ) event.Skip();
+    if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtKEY2GUI ) event.Skip();
 }
 
 //----------------------------------------------------------------------------------//
