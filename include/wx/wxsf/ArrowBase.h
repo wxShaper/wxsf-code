@@ -47,7 +47,7 @@ public:
 	/// <param name="from"> Start of the virtual line </param>
 	/// <param name="to"> End of the virtual line </param>
 	/// <param name="dc"> Device context for drawing </param>
-	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxSFScaledPaintDC& dc);
+	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxDC& dc);
 
 protected:
 

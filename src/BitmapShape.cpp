@@ -15,6 +15,7 @@
 
 #include "wx/wxsf/BitmapShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/CommonFcn.h"
 
 #include "res/NoSource.xpm"
 
@@ -211,50 +212,48 @@ void wxSFBitmapShape::RescaleImage(const wxRealPoint& size)
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFBitmapShape::DrawNormal(wxSFScaledPaintDC &dc)
+void wxSFBitmapShape::DrawNormal(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	if(m_fRescaleInProgress)
 	{
-		dc.DrawBitmap(m_Bitmap, m_nPrevPos.x, m_nPrevPos.y);
+		dc.DrawBitmap(m_Bitmap, Conv2Point(m_nPrevPos));
 
 		dc.SetBrush(*wxTRANSPARENT_BRUSH);
 		dc.SetPen(wxPen(wxColour(100, 100, 100), 1, wxDOT));
-		dc.DrawRectangle(GetAbsolutePosition(), m_nRectSize);
+		dc.DrawRectangle(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize));
 		dc.SetPen(wxNullPen);
 		dc.SetBrush(wxNullBrush);
 	}
 	else
-	{
-		dc.DrawBitmap(m_Bitmap, GetAbsolutePosition());
-	}
+		dc.DrawBitmap(m_Bitmap, Conv2Point(GetAbsolutePosition()));
 }
 
-void wxSFBitmapShape::DrawHover(wxSFScaledPaintDC &dc)
+void wxSFBitmapShape::DrawHover(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	wxRealPoint pos = GetAbsolutePosition();
-	dc.DrawBitmap(m_Bitmap, pos.x, pos.y);
+	dc.DrawBitmap(m_Bitmap, Conv2Point(pos));
 
 	dc.SetPen(wxPen(m_nHoverColor, 1));
 	dc.SetBrush(*wxTRANSPARENT_BRUSH);
-	dc.DrawRectangle(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawRectangle(Conv2Point(pos), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFBitmapShape::DrawHighlighted(wxSFScaledPaintDC &dc)
+void wxSFBitmapShape::DrawHighlighted(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	wxRealPoint pos = GetAbsolutePosition();
-	dc.DrawBitmap(m_Bitmap, pos.x, pos.y);
+	dc.DrawBitmap(m_Bitmap, Conv2Point(pos));
 
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(*wxTRANSPARENT_BRUSH);
-	dc.DrawRectangle(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawRectangle(Conv2Point(pos), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }

@@ -138,17 +138,17 @@ protected:
 	 * \brief Draw handle.
 	 * \param dc Device context where the handle will be drawn
 	 */
-	void Draw(wxSFScaledPaintDC& dc);
+	void Draw(wxDC& dc);
 	/*!
 	 * \brief Draw handle in the normal way.
 	 * \param dc Device context where the handle will be drawn
 	 */
-	void DrawNormal(wxSFScaledPaintDC& dc);
+	void DrawNormal(wxDC& dc);
 	/*!
 	 * \brief Draw handle in the "hover" way (the mouse pointer is above the handle area).
 	 * \param dc Device context where the handle will be drawn
 	 */
-	void DrawHover(wxSFScaledPaintDC& dc);
+	void DrawHover(wxDC& dc);
 
 	/*!
 	 * \brief Set parent shape.

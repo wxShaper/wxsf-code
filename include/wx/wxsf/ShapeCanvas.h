@@ -19,17 +19,26 @@
 #include "CanvasHistory.h"
 #include "LineShape.h"
 #include "EditTextShape.h"
+#include "Printout.h"
 
 /*! \brief XPM (mono-)bitmap which can be used in shape's shadow brush */
 extern const char* wxSFShadowBrush_xpm[];
+
+/*! \brief Global page setup data */
+extern wxPageSetupDialogData* g_pageSetupData;
+
+/*! \brief Global print data, to remember settings during the session */
+extern wxPrintData *g_printData;
 
 #define sfDEFAULT_ME_OFFSET 5
 #define sfSAVE_STATE true
 #define sfDONT_SAVE_STATE false
 #define sfFROM_PAINT true
-#define sfFROM_ANYWHERE false
+#define sfNOT_FROM_PAINT false
 #define sfTOPMOST_SHAPES true
 #define sfALL_SHAPES false
+#define sfPROMPT true
+#define sfNO_PROMPT false
 
 // default values
 /*! \brief Default value of wxSFCanvasSettings::m_nBackgroundColor data member */
@@ -104,7 +113,6 @@ public:
 
     friend class wxSFDiagramManager;
 	friend class wxSFCanvasDropTarget;
-	friend class wxSFControlShape;
 
     /*!
      * \brief Default constructor
@@ -193,18 +201,20 @@ public:
 		sfsGRID_SHOW = 4,
 		/*! \brief Use grid. */
 		sfsGRID_USE = 8,
-		/*! \brief Enable Drag & Drop operations */
+		/*! \brief Enable Drag & Drop operations. */
 		sfsDND = 16,
-		/*! \brief Enable Undo/Redo operations */
+		/*! \brief Enable Undo/Redo operations. */
 		sfsUNDOREDO = 32,
 		/*! \brief Enable the clipboard. */
 		sfsCLIPBOARD = 64,
 		/*! \brief Enable mouse hovering */
 		sfsHOVERING = 128,
-		/*! \brief Enable highligting of shapes able to accept dragged shape(s)*/
+		/*! \brief Enable highligting of shapes able to accept dragged shape(s). */
 		sfsHIGHLIGHTING = 256,
-		/*! \brief Use gradient color for the canvas background */
+		/*! \brief Use gradient color for the canvas background. */
 		sfsGRADIENT_BACKGROUND = 512,
+		/*! \brief Print also canvas background. */
+		sfsPRINT_BACKGROUND = 1024,
 		/*! \brief Default canvas style. */
 		sfsDEFAULT_CANVAS_STYLE = sfsMULTI_SELECTION | sfsMULTI_SIZE_CHANGE | sfsDND | sfsUNDOREDO | sfsCLIPBOARD | sfsHOVERING | sfsHIGHLIGHTING
 	};
@@ -325,6 +335,20 @@ public:
 	void SaveCanvasState();
 	/*! \brief Clear all stored canvas states (no Undo/Redo operations will be available) */
 	void ClearCanvasHistory();
+
+	/*!
+	 * \brief Print current canvas content.
+	 * \param promp If TRUE (sfPROMT) then the print dialog will be displayed before printing
+	 */
+	void Print(bool prompt = sfPROMPT);
+	/*! \brief Show print preview. */
+	void PrintPreview();
+	/*! \brief Show page setup dialog for printing. */
+	void PageSetup();
+	#ifdef __WXMAC__
+	/*! \brief Show page margins setup dialog (available only for MAC). */
+	void PageMargins();
+	#endif
 
     /*!
      * \brief Convert device position to logical position.
@@ -563,7 +587,7 @@ public:
 	 * \brief Function responsible for drawing of the canvas's content to given DC.
 	 * \param dc Reference to device context where the shapes will be drawn to
 	 */
-	void DrawContent(wxSFScaledPaintDC& dc, bool fromPaint);
+	void DrawContent(wxDC& dc, bool fromPaint);
 
     /*!
      * \brief Get reference to multiselection box
@@ -724,6 +748,7 @@ private:
 
 	wxSFMultiSelRect m_shpMultiEdit;
 	bool m_fCanSaveStateOnMouseUp;
+	static int m_nRefCounter;
 
 	/*! \brief Flag used for determination whether the D&D operation has started and ended in one canvas instance */
 	bool m_fDnDStartedHere;
@@ -760,6 +785,10 @@ private:
 	void ValidateSelectionForClipboard(ShapeList& list);
 	/*! \brief Create wxMemoryBuffer from given wxString */
 	wxMemoryBuffer CreateMembufferFromString(const wxString& str);
+	/*! \brief Initialize printing framework */
+	void InitializePrinting();
+	/*! \brief Deinitialize prnting framework */
+	void DeinitializePrinting();
 
 	// private event handlers
 	/*!

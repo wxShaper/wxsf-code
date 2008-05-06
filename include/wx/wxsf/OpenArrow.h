@@ -36,7 +36,7 @@ public:
 	/// <param name="from"> Start of the virtual line </param>
 	/// <param name="to"> End of the virtual line </param>
 	/// <param name="dc"> Device context for drawing </param>
-	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxSFScaledPaintDC& dc);
+	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxDC& dc);
 
 protected:
 	// protected virtual functions
@@ -44,6 +44,6 @@ protected:
 	/// <param name="n"> Number of the array items </param>
 	/// <param name="pts"> Array of the arrow shape vertices </param>
 	/// <param name="dc"> Device context for drawing </param>
-	virtual void DrawArrowShape(int n, wxRealPoint pts[], wxSFScaledPaintDC& dc);
+	virtual void DrawArrowShape(int n, wxPoint pts[], wxDC& dc);
 };
 

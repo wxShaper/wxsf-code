@@ -56,7 +56,7 @@ void wxSFSolidArrow::MarkSerializableDataMembers()
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFSolidArrow::DrawArrowShape(int n, wxRealPoint pts[], wxSFScaledPaintDC &dc)
+void wxSFSolidArrow::DrawArrowShape(int n, wxPoint pts[], wxDC& dc)
 {
     dc.SetBrush(m_Fill);
     dc.DrawPolygon(n, pts);

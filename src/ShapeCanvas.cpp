@@ -131,6 +131,14 @@ const char* wxSFShadowBrush_xpm[] = {
 ". . . . . . . . ",
 " . . . . . . . ."};
 
+// global page setup data
+wxPageSetupDialogData* g_pageSetupData = (wxPageSetupDialogData*) NULL;
+// global print data, to remember settings during the session
+wxPrintData *g_printData = (wxPrintData*) NULL ;
+
+// static data
+int wxSFShapeCanvas::m_nRefCounter = 0;
+
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 
 wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
@@ -225,10 +233,13 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 
 	m_CanvasHistory.SetParentCanvas(this);
 	if( m_pManager )SaveCanvasState();
+
+	if( ++m_nRefCounter == 1 ) InitializePrinting();
 }
 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
+    if( --m_nRefCounter == 0) DeinitializePrinting();
 	//Clear();
 }
 bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
@@ -300,6 +311,9 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 
 	if(dc.IsOk())
 	{
+        // prepare window dc
+        PrepareDC(dc);
+
         DrawContent(dc, sfFROM_PAINT);
         dc.GetDeviceOrigin(&x, &y);
 
@@ -307,7 +321,7 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 	}
 }
 
-void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
+void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 {
     wxASSERT( m_pManager );
     if(!m_pManager)return;
@@ -315,9 +329,6 @@ void wxSFShapeCanvas::DrawContent(wxSFScaledPaintDC& dc, bool fromPaint)
     if(!m_pManager->GetRootItem())return;
 
     wxSFShapeBase *pShape = NULL, *pParentShape = NULL;
-
-	// prepare window dc
-	PrepareDC(dc);
 
 	// erase background
 	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
@@ -1766,7 +1777,7 @@ void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
 
     if(outdc.IsOk())
     {
-        DrawContent(outdc, sfFROM_ANYWHERE);
+        DrawContent(outdc, sfNOT_FROM_PAINT);
         outbmp.SaveFile(file, wxBITMAP_TYPE_BMP);
         wxMessageBox(wxString::Format(wxT("The chart has been saved to '%s'."), file.GetData()), wxT("ShapeFramework"));
     }
@@ -2799,6 +2810,93 @@ wxMemoryBuffer wxSFShapeCanvas::CreateMembufferFromString(const wxString& str)
 
 	return dataBuffer;
 }
+
+//----------------------------------------------------------------------------------//
+// printing functions
+//----------------------------------------------------------------------------------//
+
+void wxSFShapeCanvas::InitializePrinting()
+{
+    g_printData = new wxPrintData;
+    // You could set an initial paper size here
+//    g_printData->SetPaperId(wxPAPER_LETTER); // for Americans
+    g_printData->SetPaperId(wxPAPER_A4);    // for everyone else
+
+    g_pageSetupData = new wxPageSetupDialogData;
+    // copy over initial paper size from print record
+    (*g_pageSetupData) = *g_printData;
+    // Set some initial page margins in mm.
+    g_pageSetupData->SetMarginTopLeft(wxPoint(15, 15));
+    g_pageSetupData->SetMarginBottomRight(wxPoint(15, 15));
+}
+
+void wxSFShapeCanvas::DeinitializePrinting()
+{
+    delete g_printData;
+    delete g_pageSetupData;
+}
+
+void wxSFShapeCanvas::Print(bool prompt)
+{
+    wxPrintDialogData printDialogData(* g_printData);
+
+    wxPrinter printer(& printDialogData);
+    wxSFPrintout *pPrintout = new wxSFPrintout(wxT("wxSF printout"), this);
+
+    if (!printer.Print(this, pPrintout, prompt))
+    {
+        if (wxPrinter::GetLastError() == wxPRINTER_ERROR)
+            wxMessageBox(wxT("There was a problem printing.\nPerhaps your current printer is not set correctly?"), _T("wxSF Printing"), wxOK | wxICON_ERROR);
+        /*else
+            wxMessageBox(wxT("You canceled printing"), _T("wxSF Printing"), wxOK | wxICON_WARNING);*/
+    }
+    else
+    {
+        (*g_printData) = printer.GetPrintDialogData().GetPrintData();
+    }
+}
+
+void wxSFShapeCanvas::PrintPreview()
+{
+    // Pass two printout objects: for preview, and possible printing.
+    wxPrintDialogData printDialogData(* g_printData);
+    wxPrintPreview *preview = new wxPrintPreview(new wxSFPrintout(wxT(""), this), new wxSFPrintout(wxT(""), this), &printDialogData);
+    if (!preview->Ok())
+    {
+        delete preview;
+        wxMessageBox(wxT("There was a problem previewing.\nPerhaps your current printer is not set correctly?"), _T("wxSF Previewing"), wxOK | wxICON_ERROR);
+        return;
+    }
+
+    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, wxT("wxSF Print Preview"), wxPoint(100, 100), wxSize(600, 650));
+    frame->Centre(wxBOTH);
+    frame->Initialize();
+    frame->Show();
+}
+
+void wxSFShapeCanvas::PageSetup()
+{
+    (*g_pageSetupData) = *g_printData;
+
+    wxPageSetupDialog pageSetupDialog(this, g_pageSetupData);
+    pageSetupDialog.ShowModal();
+
+    (*g_printData) = pageSetupDialog.GetPageSetupDialogData().GetPrintData();
+    (*g_pageSetupData) = pageSetupDialog.GetPageSetupDialogData();
+}
+
+#ifdef __WXMAC__
+void wxSFShapeCanvas::PageMargins()
+{
+    (*g_pageSetupData) = *g_printData;
+
+    wxMacPageMarginsDialog pageMarginsDialog(this, g_pageSetupData);
+    pageMarginsDialog.ShowModal();
+
+    (*g_printData) = pageMarginsDialog.GetPageSetupDialogData().GetPrintData();
+    (*g_pageSetupData) = pageMarginsDialog.GetPageSetupDialogData();
+}
+#endif
 
 //----------------------------------------------------------------------------------//
 // wxSFCanvasDropTarget class

@@ -77,7 +77,7 @@ bool wxSFShapeHandle::IsInside(const wxPoint& pos)
 	return GetHandleRect().Contains(pos);
 }
 
-void wxSFShapeHandle::Draw(wxSFScaledPaintDC& dc)
+void wxSFShapeHandle::Draw(wxDC& dc)
 {
 	if(m_fVisible && m_pParentShape)
 	{
@@ -208,7 +208,7 @@ void wxSFShapeHandle::OnEndDrag(const wxPoint& WXUNUSED(pos))
 // Protected functions functions
 //----------------------------------------------------------------------------------//
 
-void wxSFShapeHandle::DrawNormal(wxSFScaledPaintDC& dc)
+void wxSFShapeHandle::DrawNormal(wxDC& dc)
 {
     #ifdef __WXGTK__
     dc.SetPen(*wxTRANSPARENT_PEN);
@@ -225,7 +225,7 @@ void wxSFShapeHandle::DrawNormal(wxSFScaledPaintDC& dc)
     dc.SetBrush(wxNullBrush);
 }
 
-void wxSFShapeHandle::DrawHover(wxSFScaledPaintDC& dc)
+void wxSFShapeHandle::DrawHover(wxDC& dc)
 {
     if(m_pParentShape->ContainsStyle(wxSFShapeBase::sfsSIZE_CHANGE))
     {

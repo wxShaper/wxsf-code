@@ -27,6 +27,9 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
 	EVT_MENU(wxID_SELECTALL, CMainFrame::OnSelectAll)
 	EVT_MENU(IDM_SAVEASBITMAP, CMainFrame::OnExportToBMP)
+	EVT_MENU(IDM_PRINT, CMainFrame::OnPrint)
+	EVT_MENU(IDM_PRINTPREVIEW, CMainFrame::OnPrintPreview)
+	EVT_MENU(IDM_PAGESETUP, CMainFrame::OnPageSetup)
 	EVT_COMMAND_SCROLL(wxID_ZOOM_FIT, CMainFrame::OnSlider)
 	EVT_TOOL_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnTool)
 	EVT_COLOURPICKER_CHANGED(IDT_COLORPICKER, CMainFrame::OnHowerColor)
@@ -51,6 +54,10 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	fileMenu->Append(wxID_SAVE, wxT("&Save as...\tCtrl+Shift+S"), wxT("Save the chart to XML file"), wxITEM_NORMAL);
 	fileMenu->AppendSeparator();
 	fileMenu->Append(IDM_SAVEASBITMAP, wxT("&Export to BMP..."), wxT("Export the chart to BMP file"), wxITEM_NORMAL);
+	fileMenu->AppendSeparator();
+	fileMenu->Append(IDM_PRINT, wxT("&Print...\tCtrl+P"), wxT("Open pring dialog"), wxITEM_NORMAL);
+	fileMenu->Append(IDM_PRINTPREVIEW, wxT("Print pre&view...\tAlt+P"), wxT("Open print preview window"), wxITEM_NORMAL);
+	fileMenu->Append(IDM_PAGESETUP, wxT("Pa&ge setup..."), wxT("Set print page properties"), wxITEM_NORMAL);
 	fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+X"), wxT("Close application"), wxITEM_NORMAL);
     mainMenu->Append(fileMenu, wxT("&File"));
@@ -101,6 +108,8 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	toolBar->AddTool(wxID_NEW, wxT("New"), wxArtProvider::GetBitmap(wxART_NEW, wxART_MENU), wxT("New"));
 	toolBar->AddTool(wxID_OPEN, wxT("Load"), wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_MENU), wxT("Open file..."));
 	toolBar->AddTool(wxID_SAVE, wxT("Save"), wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_MENU), wxT("Save file..."));
+	toolBar->AddSeparator();
+	toolBar->AddTool(IDM_PRINT, wxT("Print"), wxArtProvider::GetBitmap(wxART_PRINT, wxART_MENU), wxT("Print drawing..."));
 	toolBar->AddSeparator();
 	toolBar->AddTool(wxID_COPY, wxT("Copy"), wxArtProvider::GetBitmap(wxART_COPY, wxART_MENU), wxT("Copy to clipboard"));
 	toolBar->AddTool(wxID_CUT, wxT("Cut"), wxArtProvider::GetBitmap(wxART_CUT, wxART_MENU), wxT("Cut to clipboard"));
@@ -178,7 +187,9 @@ void CMainFrame::do_layout()
 // protected event handlers
 //----------------------------------------------------------------------------------//
 
+//----------------------------------------------------------------------------------//
 // menu events
+//----------------------------------------------------------------------------------//
 
 void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event))
 {
@@ -283,7 +294,7 @@ void CMainFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.3 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.4 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void CMainFrame::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -296,7 +307,9 @@ void CMainFrame::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
 	}
 }
 
+//----------------------------------------------------------------------------------//
 // tool events
+//----------------------------------------------------------------------------------//
 
 void CMainFrame::OnTool(wxCommandEvent& event)
 {
@@ -480,7 +493,29 @@ void CMainFrame::OnUpdateTool(wxUpdateUIEvent& event)
     }
 }
 
+
+//----------------------------------------------------------------------------------//
+// printing functions
+//----------------------------------------------------------------------------------//
+
+void CMainFrame::OnPrint(wxCommandEvent& WXUNUSED(event))
+{
+    shapeCanvas->Print();
+}
+
+void CMainFrame::OnPrintPreview(wxCommandEvent& WXUNUSED(event))
+{
+    shapeCanvas->PrintPreview();
+}
+
+void CMainFrame::OnPageSetup(wxCommandEvent& WXUNUSED(event))
+{
+    shapeCanvas->PageSetup();
+}
+
+//----------------------------------------------------------------------------------//
 // other events
+//----------------------------------------------------------------------------------//
 
 void CMainFrame::OnSlider(wxScrollEvent& WXUNUSED(event))
 {

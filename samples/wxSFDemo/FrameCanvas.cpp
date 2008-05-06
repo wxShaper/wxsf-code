@@ -16,6 +16,9 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	AddStyle(sfsGRID_USE);
 	AddStyle(sfsGRID_SHOW);
 
+	// canvas background can be printed/ommited during the canvas printing job
+    //AddStyle(sfsPRINT_BACKGROUND);
+
 	// the canvas background can be filled with a solid colour ...
 	//RemoveStyle(sfsGRADIENT_BACKGROUND);
 	//SetBackgroundColour(sfdvSHAPECANVAS_BACKGROUNDCOLOR);

@@ -28,186 +28,65 @@ wxSFScaledPaintDC::~wxSFScaledPaintDC(void)
 }
 
 //----------------------------------------------------------------------------------//
-// public functions
+// protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFScaledPaintDC::DrawCircle(double x, double y, double radius)
+void wxSFScaledPaintDC::DoDrawPoint(wxCoord x, wxCoord y)
 {
-    wxMemoryDC::DrawCircle(int(x*m_nScale) , int(y*m_nScale), int(radius*m_nScale));
+    wxMemoryDC::DoDrawPoint(Scale(x), Scale(y));
 }
 
-void wxSFScaledPaintDC::DrawCircle(const wxRealPoint& pt, double radius)
+void wxSFScaledPaintDC::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
 {
-    DrawCircle(pt.x, pt.y, radius);
+    wxMemoryDC::DoDrawLine(Scale(x1), Scale(y1), Scale(x2), Scale(y2));
 }
 
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawEllipse(double x, double y, double width, double height)
+void wxSFScaledPaintDC::DoDrawArc(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc)
 {
-	wxMemoryDC::DrawEllipse(int(x*m_nScale), int(y*m_nScale), int(width*m_nScale), int(height*m_nScale));
+    wxMemoryDC::DoDrawArc(Scale(x1), Scale(y1), Scale(x2), Scale(y2), Scale(xc), Scale(yc));
 }
 
-void wxSFScaledPaintDC::DrawEllipse(const wxRealPoint& pt, const wxRealPoint& size)
+void wxSFScaledPaintDC::DoDrawCheckMark(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-	DrawEllipse(pt.x, pt.y, size.x, size.y);
+    wxMemoryDC::DoDrawCheckMark(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
-void wxSFScaledPaintDC::DrawEllipse(const wxRect& rct)
+void wxSFScaledPaintDC::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord w, wxCoord h, double sa, double ea)
 {
-	DrawEllipse(rct.GetLeft(), rct.GetTop(), rct.GetWidth(), rct.GetHeight());
+    wxMemoryDC::DoDrawEllipticArc(Scale(x), Scale(y), Scale(w), Scale(h), sa, ea);
 }
 
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawRectangle(double x, double y, double width, double height)
+void wxSFScaledPaintDC::DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-	wxMemoryDC::DrawRectangle(int(x*m_nScale), int(y*m_nScale), int(width*m_nScale), int(height*m_nScale));
+    wxMemoryDC::DoDrawRectangle(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
-void wxSFScaledPaintDC::DrawRectangle(const wxRealPoint& pos, const wxRealPoint& size)
+void wxSFScaledPaintDC::DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double radius)
 {
-	DrawRectangle(pos.x, pos.y, size.x, size.y);
+    wxMemoryDC::DoDrawRoundedRectangle(Scale(x), Scale(y), Scale(width), Scale(height), radius*m_nScale);
 }
 
-void wxSFScaledPaintDC::DrawRectangle(const wxRect& rct)
+void wxSFScaledPaintDC::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-	DrawRectangle(rct.GetLeft(), rct.GetTop(), rct.GetWidth(), rct.GetHeight());
+    wxMemoryDC::DoDrawEllipse(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawRoundedRectangle(double x, double y, double width, double height, double radius)
+void wxSFScaledPaintDC::DoCrossHair(wxCoord x, wxCoord y)
 {
-	wxMemoryDC::DrawRoundedRectangle(int(x*m_nScale), int(y*m_nScale), int(width*m_nScale), int(height*m_nScale), radius*m_nScale);
+    wxMemoryDC::DoCrossHair(Scale(x), Scale(y));
 }
 
-void wxSFScaledPaintDC::DrawRoundedRectangle(const wxRealPoint& pos, const wxRealPoint& size, double radius)
+void wxSFScaledPaintDC::DoDrawIcon(const wxIcon& icon, wxCoord x, wxCoord y)
 {
-	DrawRoundedRectangle(pos.x, pos.y, size.x, size.y, radius);
+    wxMemoryDC::DoDrawIcon(icon, Scale(x), Scale(y));
 }
 
-void wxSFScaledPaintDC::DrawRoundedRectangle(const wxRect& rct, double radius)
+void wxSFScaledPaintDC::DoDrawBitmap(const wxBitmap &bmp, wxCoord x, wxCoord y, bool useMask)
 {
-	DrawRoundedRectangle(rct.GetLeft(), rct.GetTop(), rct.GetWidth(), rct.GetHeight(), radius);
+    wxMemoryDC::DoDrawBitmap(bmp, Scale(x), Scale(y), useMask);
 }
 
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawPoint(double x, double y)
-{
-	wxMemoryDC::DrawPoint(int(x*m_nScale), int(y*m_nScale));
-}
-
-void wxSFScaledPaintDC::DrawPoint(const wxRealPoint& pt)
-{
-	DrawPoint(pt.x, pt.y);
-}
-
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawLine(double x1, double y1, double x2, double y2)
-{
-	wxMemoryDC::DrawLine(int(x1*m_nScale), int(y1*m_nScale), int(x2*m_nScale), int(y2*m_nScale));
-}
-
-void wxSFScaledPaintDC::DrawLine(const wxRealPoint& pt1, const wxRealPoint& pt2)
-{
-	DrawLine(pt1.x, pt1.y, pt2.x, pt2.y);
-}
-
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawLines(wxList* points, wxCoord xoffset, wxCoord yoffset)
-{
-    if(points && (points->GetCount() > 0))
-    {
-        wxRealPoint* pt;
-        size_t i = 0, pointCnt = points->GetCount();
-
-        wxPoint* pts = new wxPoint[pointCnt];
-
-        wxList::compatibility_iterator node = points->GetFirst();
-        while(node)
-        {
-            pt = (wxRealPoint*)node->GetData();
-            pts[i].x = int(pt->x*m_nScale);
-            pts[i].y = int(pt->y*m_nScale);
-            node = node->GetNext();
-        }
-
-        wxMemoryDC::DrawLines((int)pointCnt, pts, xoffset, yoffset);
-
-        delete [] pts;
-    }
-}
-
-void wxSFScaledPaintDC::DrawLines(int n, wxRealPoint points[], wxCoord xoffset, wxCoord yoffset)
-{
-	if(n > 0)
-	{
-		wxPoint* pts = new wxPoint[n];
-
-        for(int i = 0; i < n; i++)
-        {
-            pts[i].x = int(points[i].x*m_nScale);
-            pts[i].y = int(points[i].y*m_nScale);
-        }
-
-        wxMemoryDC::DrawLines(n, pts, xoffset, yoffset);
-
-        delete [] pts;
-	}
-}
-
-
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawPolygon(wxList *points, wxCoord xoffset, wxCoord yoffset, int fill_style)
-{
-	if(points && (points->GetCount() > 0))
-	{
-		wxRealPoint* pt;
-        size_t i = 0, pointCnt = points->GetCount();
-
-        wxPoint* pts = new wxPoint[pointCnt];
-
-        wxList::compatibility_iterator node = points->GetFirst();
-        while(node)
-        {
-            pt = (wxRealPoint*)node->GetData();
-            pts[i].x = int(pt->x*m_nScale);
-            pts[i].y = int(pt->y*m_nScale);
-            node = node->GetNext();
-        }
-
-        wxMemoryDC::DrawPolygon((int)pointCnt, pts, xoffset, yoffset, fill_style);
-
-        delete [] pts;
-	}
-}
-
-void wxSFScaledPaintDC::DrawPolygon(size_t n, wxRealPoint points[], wxCoord xoffset, wxCoord yoffset,int fill_style)
-{
-    if(n > 0)
-    {
-        wxPoint* pts = new wxPoint[n];
-
-        for( size_t i = 0; i < n; i ++ )
-        {
-            pts[i].x = int(points[i].x * m_nScale);
-            pts[i].y = int(points[i].y * m_nScale);
-        }
-
-        wxMemoryDC::DrawPolygon((int)n, pts, xoffset, yoffset, fill_style);
-
-        delete [] pts;
-    }
-}
-
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawText(const wxString& txt, double x, double y)
+void wxSFScaledPaintDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
 {
 	wxFont font = GetFont();
 	wxFont prevfont = font;
@@ -217,36 +96,74 @@ void wxSFScaledPaintDC::DrawText(const wxString& txt, double x, double y)
 		font.SetPointSize(int(font.GetPointSize()*m_nScale));
 		SetFont(font);
 	}
-    wxMemoryDC::DrawText(txt, int(x*m_nScale), int(y*m_nScale));
+    wxMemoryDC::DoDrawText(text, Scale(x), Scale(y));
 
     SetFont(prevfont);
 }
 
-void wxSFScaledPaintDC::DrawText(const wxString& txt, const wxRealPoint& pos)
+void wxSFScaledPaintDC::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, double angle)
 {
-	DrawText(txt, pos.x, pos.y);
+	wxFont font = GetFont();
+	wxFont prevfont = font;
+
+	if(font != wxNullFont)
+	{
+		font.SetPointSize(int(font.GetPointSize()*m_nScale));
+		SetFont(font);
+	}
+    wxMemoryDC::DoDrawRotatedText(text, Scale(x), Scale(y), angle);
+
+    SetFont(prevfont);
 }
 
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawBitmap(const wxBitmap& bitmap, double x, double y, bool useMask)
+void wxSFScaledPaintDC::DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset)
 {
-	wxMemoryDC::DrawBitmap(bitmap, int(x*m_nScale), int(y*m_nScale), useMask);
+    wxPoint *updPoints = new wxPoint[n];
+
+    memcpy(updPoints, points, n*sizeof(wxPoint));
+    for(int i = 0; i < n; i++)
+    {
+        updPoints[i].x = (int)((double)updPoints[i].x*m_nScale);
+        updPoints[i].y = (int)((double)updPoints[i].y*m_nScale);
+    }
+
+    wxMemoryDC::DoDrawLines(n, updPoints, Scale(xoffset), Scale(yoffset));
+
+    delete [] updPoints;
 }
 
-void wxSFScaledPaintDC::DrawBitmap(const wxBitmap& bitmap, const wxRealPoint& pt, bool useMask)
+void wxSFScaledPaintDC::DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle)
 {
-	DrawBitmap(bitmap, pt.x, pt.y, useMask);
+    wxPoint *updPoints = new wxPoint[n];
+
+    memcpy(updPoints, points, n*sizeof(wxPoint));
+    for(int i = 0; i < n; i++)
+    {
+        updPoints[i].x = (int)((double)updPoints[i].x*m_nScale);
+        updPoints[i].y = (int)((double)updPoints[i].y*m_nScale);
+    }
+
+    wxMemoryDC::DoDrawPolygon(n, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
+
+    delete [] updPoints;
 }
 
-//----------------------------------------------------------------------------------//
-
-void wxSFScaledPaintDC::DrawArc(double x1, double y1, double x2, double y2, double xc, double yc)
+void wxSFScaledPaintDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle)
 {
-	wxMemoryDC::DrawArc(int(x1*m_nScale), int(y1*m_nScale), int(x2*m_nScale), int(y2*m_nScale), int(xc*m_nScale), int(yc*m_nScale));
-}
+    int nTotalPoints = 0;
 
-void wxSFScaledPaintDC::DrawArc(const wxRealPoint& pt1, const wxRealPoint& pt2, const wxRealPoint& center)
-{
-	DrawArc(pt1.x, pt1.y, pt2.x, pt2.y, center.x, center.y);
+    for(int i = 0; i < n; i++)nTotalPoints += count[i];
+
+    wxPoint *updPoints = new wxPoint[nTotalPoints];
+
+    memcpy(updPoints, points, nTotalPoints*sizeof(wxPoint));
+    for(int i = 0; i < nTotalPoints; i++)
+    {
+        updPoints[i].x = (int)((double)updPoints[i].x*m_nScale);
+        updPoints[i].y = (int)((double)updPoints[i].y*m_nScale);
+    }
+
+    wxMemoryDC::DoDrawPolyPolygon(n, count, updPoints, Scale(xoffset), Scale(yoffset));
+
+    delete [] updPoints;
 }

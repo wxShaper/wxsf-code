@@ -16,6 +16,7 @@
 
 #include "wx/wxsf/EllipseShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/CommonFcn.h"
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFEllipseShape, wxSFRectShape);
 
@@ -78,46 +79,46 @@ bool wxSFEllipseShape::IsInside(const wxPoint& pos)
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFEllipseShape::DrawNormal(wxSFScaledPaintDC& dc)
+void wxSFEllipseShape::DrawNormal(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(m_Border);
 	dc.SetBrush(m_Fill);
-	dc.DrawEllipse(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawEllipse(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFEllipseShape::DrawHover(wxSFScaledPaintDC& dc)
+void wxSFEllipseShape::DrawHover(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(wxPen(m_nHoverColor, 1));
 	dc.SetBrush(m_Fill);
-	dc.DrawEllipse(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawEllipse(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFEllipseShape::DrawHighlighted(wxSFScaledPaintDC& dc)
+void wxSFEllipseShape::DrawHighlighted(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(m_Fill);
-	dc.DrawEllipse(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawEllipse(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFEllipseShape::DrawShadow(wxSFScaledPaintDC &dc)
+void wxSFEllipseShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(*wxTRANSPARENT_PEN);
 	dc.SetBrush(GetParentCanvas()->GetShadowFill());
-	dc.DrawEllipse(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset(), m_nRectSize);
+	dc.DrawEllipse(Conv2Point(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset()), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }

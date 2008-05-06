@@ -57,18 +57,18 @@ protected:
 	// protected virtual functions
 	/// <summary> Draw the shape in the normal way. The function can be overrided if neccessary. </summary>
 	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
-	virtual void DrawNormal(wxSFScaledPaintDC& dc);
+	virtual void DrawNormal(wxDC& dc);
 	/// <summary> Draw the shape in the hower mode (the mouse cursor is above the shape). The function can be overrided if neccessary. </summary>
 	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
-	virtual void DrawHover(wxSFScaledPaintDC& dc);
+	virtual void DrawHover(wxDC& dc);
 	/// <summary> Draw the shape in the highlighted mode (another shape is dragged over this shape and this shape will accept the dragged one if it will be dropped on it). The function can be overrided if neccessary. </summary>
 	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
-	virtual void DrawHighlighted(wxSFScaledPaintDC& dc);
+	virtual void DrawHighlighted(wxDC& dc);
 	/*!
 	 * \brief Draw shadow under the shape. The function can be overrided if neccessary.
 	 * \param dc Reference to device context where the shadow will be drawn to
 	 */
-	virtual void DrawShadow(wxSFScaledPaintDC& dc);
+	virtual void DrawShadow(wxDC& dc);
 
 	/// <summary> Serialize shape's properties to the given XML node </summary>
 	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>

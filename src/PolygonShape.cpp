@@ -200,6 +200,13 @@ void wxSFPolygonShape::GetTranslatedVerices(wxRealPoint pts[])
 	for(size_t i = 0; i < m_arrVertices.Count(); i++)pts[i] = absPos + m_arrVertices[i];
 }
 
+void wxSFPolygonShape::GetTranslatedVerices(wxPoint pts[])
+{
+	wxPoint absPos = Conv2Point(GetAbsolutePosition());
+
+	for(size_t i = 0; i < m_arrVertices.Count(); i++)pts[i] = absPos + Conv2Point(m_arrVertices[i]);
+}
+
 void wxSFPolygonShape::NormalizeVertices()
 {
 	// move all vertices so the polygon's relative bounding box will be located in the origin
@@ -244,10 +251,10 @@ void wxSFPolygonShape::FitBoundingBoxToVertices()
 	m_nRectSize.y = maxy - miny;
 }
 
-void wxSFPolygonShape::DrawPolygonShape(wxSFScaledPaintDC &dc)
+void wxSFPolygonShape::DrawPolygonShape(wxDC& dc)
 {
 	size_t vcount = m_arrVertices.Count();
-	wxRealPoint *pts = new wxRealPoint[vcount];
+	wxPoint *pts = new wxPoint[vcount];
 
 	GetTranslatedVerices(pts);
 	dc.DrawPolygon(vcount, pts);
@@ -259,7 +266,7 @@ void wxSFPolygonShape::DrawPolygonShape(wxSFScaledPaintDC &dc)
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFPolygonShape::DrawNormal(wxSFScaledPaintDC &dc)
+void wxSFPolygonShape::DrawNormal(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
@@ -270,7 +277,7 @@ void wxSFPolygonShape::DrawNormal(wxSFScaledPaintDC &dc)
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFPolygonShape::DrawHover(wxSFScaledPaintDC &dc)
+void wxSFPolygonShape::DrawHover(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
@@ -281,7 +288,7 @@ void wxSFPolygonShape::DrawHover(wxSFScaledPaintDC &dc)
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFPolygonShape::DrawHighlighted(wxSFScaledPaintDC &dc)
+void wxSFPolygonShape::DrawHighlighted(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
@@ -292,7 +299,7 @@ void wxSFPolygonShape::DrawHighlighted(wxSFScaledPaintDC &dc)
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFPolygonShape::DrawShadow(wxSFScaledPaintDC &dc)
+void wxSFPolygonShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 

@@ -83,40 +83,40 @@ bool wxSFRoundRectShape::IsInside(const wxPoint &pos)
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFRoundRectShape::DrawNormal(wxSFScaledPaintDC& dc)
+void wxSFRoundRectShape::DrawNormal(wxDC& dc)
 {
 	dc.SetPen(m_Border);
 	dc.SetBrush(m_Fill);
-	dc.DrawRoundedRectangle(GetAbsolutePosition(), m_nRectSize, m_nRadius);
+	dc.DrawRoundedRectangle(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize), m_nRadius);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFRoundRectShape::DrawHover(wxSFScaledPaintDC& dc)
+void wxSFRoundRectShape::DrawHover(wxDC& dc)
 {
 	dc.SetPen(wxPen(m_nHoverColor, 1));
 	dc.SetBrush(m_Fill);
-	dc.DrawRoundedRectangle(GetAbsolutePosition(), m_nRectSize, m_nRadius);
+	dc.DrawRoundedRectangle(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize), m_nRadius);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFRoundRectShape::DrawHighlighted(wxSFScaledPaintDC& dc)
+void wxSFRoundRectShape::DrawHighlighted(wxDC& dc)
 {
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(m_Fill);
-	dc.DrawRoundedRectangle(GetAbsolutePosition(), GetRectSize(), m_nRadius);
+	dc.DrawRoundedRectangle(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize), m_nRadius);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFRoundRectShape::DrawShadow(wxSFScaledPaintDC &dc)
+void wxSFRoundRectShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(*wxTRANSPARENT_PEN);
 	dc.SetBrush(GetParentCanvas()->GetShadowFill());
-	dc.DrawRoundedRectangle(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset(), m_nRectSize, m_nRadius);
+	dc.DrawRoundedRectangle(Conv2Point(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset()), Conv2Size(m_nRectSize), m_nRadius);
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
@@ -127,5 +127,5 @@ void wxSFRoundRectShape::DrawShadow(wxSFScaledPaintDC &dc)
 
 bool wxSFRoundRectShape::IsInCircle(const wxPoint& pos, const wxPoint& center)
 {
-    return (Distance(wxRealPoint(center.x, center.y), wxRealPoint(pos.x, pos.y)) <= m_nRadius);
+    return (Distance(Conv2RealPoint(center), Conv2RealPoint(pos)) <= m_nRadius);
 }

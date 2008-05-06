@@ -211,12 +211,10 @@ wxRect wxSFLineShape::GetBoundingBox()
         {
             if(lineRct.IsEmpty())
             {
-                lineRct = wxRect(wxPoint((int)m_arrSegments[i].m_nSrc.x, (int)m_arrSegments[i].m_nSrc.y),
-                                 wxPoint((int)m_arrSegments[i].m_nTrg.x, (int)m_arrSegments[i].m_nTrg.y));
+                lineRct = wxRect(Conv2Point(m_arrSegments[i].m_nSrc), Conv2Point(m_arrSegments[i].m_nTrg));
             }
             else
-                lineRct.Union(wxRect(wxPoint((int)m_arrSegments[i].m_nSrc.x, (int)m_arrSegments[i].m_nSrc.y),
-                              wxPoint((int)m_arrSegments[i].m_nTrg.x, (int)m_arrSegments[i].m_nTrg.y)));
+                lineRct.Union(wxRect(Conv2Point(m_arrSegments[i].m_nSrc), Conv2Point(m_arrSegments[i].m_nTrg)));
         }
     }
     else
@@ -397,21 +395,21 @@ void wxSFLineShape::OnLeftDoubleClick(const wxPoint& pos)
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFLineShape::DrawNormal(wxSFScaledPaintDC& dc)
+void wxSFLineShape::DrawNormal(wxDC& dc)
 {
 	dc.SetPen(m_Pen);
 	DrawCompleteLine(dc);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFLineShape::DrawHover(wxSFScaledPaintDC& dc)
+void wxSFLineShape::DrawHover(wxDC& dc)
 {
 	dc.SetPen(wxPen(m_nHoverColor, 1));
 	DrawCompleteLine(dc);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFLineShape::DrawHighlighted(wxSFScaledPaintDC& dc)
+void wxSFLineShape::DrawHighlighted(wxDC& dc)
 {
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	DrawCompleteLine(dc);
@@ -503,7 +501,7 @@ void wxSFLineShape::GetLineSegments(LineSegmentArray& segments)
     }
 }
 
-void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
+void wxSFLineShape::DrawCompleteLine(wxDC& dc)
 {
     if(!m_pParentManager)return;
 
@@ -518,9 +516,8 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
         {
             // draw basic line parts
             for(i = 0; i < arrLines.Count(); i++)
-            {
-                dc.DrawLine(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg);
-            }
+                dc.DrawLine(Conv2Point(arrLines.Item(i).m_nSrc), Conv2Point(arrLines.Item(i).m_nTrg));
+
             // draw source arrow
 			if(m_pSrcArrow)m_pSrcArrow->Draw(arrLines[0].m_nTrg, arrLines[0].m_nSrc, dc);
             // draw target arrow
@@ -532,23 +529,15 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
         {
             // draw basic line parts
             for(i = 0; i < arrLines.Count(); i++)
-            {
-                dc.DrawLine(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg);
-            }
+                dc.DrawLine(Conv2Point(arrLines[i].m_nSrc), Conv2Point(arrLines[i].m_nTrg));
+
             // draw unfinished line segment if any (for interactive line creation)
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            if(arrLines.Count() > 0)
-            {
-                dc.DrawLine(arrLines.Item(i-1).m_nTrg, wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
-            }
+            if(arrLines.Count() > 0) dc.DrawLine(Conv2Point(arrLines[i-1].m_nTrg), m_nUnfinishedPoint);
             else if(m_nSrcShapeId != -1)
             {
                 wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-                if(pSrcShape)
-                {
-                    wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);
-                    dc.DrawLine(pSrcShape->GetBorderPoint(rpt), rpt);
-                }
+                if( pSrcShape ) dc.DrawLine(Conv2Point(pSrcShape->GetBorderPoint(Conv2RealPoint(m_nUnfinishedPoint))), m_nUnfinishedPoint);
             }
             dc.SetPen(wxNullPen);
         }
@@ -558,12 +547,11 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
         {
             // draw basic line parts
             for(i = 1; i < arrLines.Count(); i++)
-            {
-                dc.DrawLine(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg);
-            }
+                dc.DrawLine(Conv2Point(arrLines[i].m_nSrc), Conv2Point(arrLines[i].m_nTrg));
+
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            dc.DrawLine(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y), arrLines.Item(0).m_nTrg);
+            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(arrLines[0].m_nTrg));
             dc.SetPen(wxNullPen);
         }
         break;
@@ -572,12 +560,11 @@ void wxSFLineShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
         {
             // draw basic line parts
             for(i = 0; i < arrLines.Count()-1; i++)
-            {
-                dc.DrawLine(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg);
-            }
+                dc.DrawLine(Conv2Point(arrLines[i].m_nSrc), Conv2Point(arrLines[i].m_nTrg));
+
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            dc.DrawLine(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y), arrLines.Item(arrLines.Count()-1).m_nSrc);
+            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(arrLines[arrLines.Count()-1].m_nSrc));
             dc.SetPen(wxNullPen);
         }
         break;
@@ -600,11 +587,11 @@ int wxSFLineShape::GetHitLinesegment(const wxPoint& pos)
     // test whether given point lies near the line segment
     for(size_t i=0; i < m_arrLineSegments.Count(); i++)
     {
-        ptSrc = m_arrLineSegments.Item(i).m_nSrc;
-        ptTrg = m_arrLineSegments.Item(i).m_nTrg;
+        ptSrc = m_arrLineSegments[i].m_nSrc;
+        ptTrg = m_arrLineSegments[i].m_nTrg;
 
         // calculate line segment bounding box
-        lsBB = wxRect(wxPoint((int)ptSrc.x, (int)ptSrc.y), wxPoint((int)ptTrg.x, (int)ptTrg.y));
+        lsBB = wxRect(Conv2Point(ptSrc), Conv2Point(ptTrg));
         if( (i > 0) && (i < (int)m_arrLineSegments.Count()-1) )lsBB.Inflate(10);
 
         // convert line segment to its parametric form

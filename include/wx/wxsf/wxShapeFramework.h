@@ -33,4 +33,6 @@
 
 #include "SFEvents.h"
 
+#include "Printout.h"
+
 #include "../wxxmlserializer/XmlSerializer.h"

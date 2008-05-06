@@ -20,6 +20,9 @@ Changes in version 1.6.0 beta (2008-05-05):
   which are member functions of wxSFShapeCanvas class. Also analogical GetXXX() functions are available there.
 - Enhanced wxSFDemo sample to show the new shadowing feature.
 
+- Implemented printing support.
+- Enhanced wxSFDemo sample to demonstrate this new feature.
+
 - Added new shape (wxSFControlShape) able to manage GUI controls (widgets). Assigned GUI controls can be resized and
   positioned via parent control shape. For more details see the library reference.
 - Added new sample project (wxSFSample4) demostrating a usage of wxSFControlShape.
@@ -27,10 +30,15 @@ Changes in version 1.6.0 beta (2008-05-05):
 - Added default constructor for wxSFShapeCanvas class. Note that the user must call 
   wxSFShapeCanvas::SetDiagramManager() function later to complete the canvas' initilization.
 - Implemented virtual bool wxScrolledWindow::Create() function for two-step canvas window construction.
-- Fixed compilation problem which occured in wxSFDemo and wxSFSample3 if the wx2.6.x compatibility is switched off
-  (due to unknown wxSAVE and wxOPEN defines previously declared in the wxFileDialog).
+
 - Function name wxSFShapeBase::GetChildren(ShapeList& children, bool recursive) changed to
   wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive)
+
+- All drawing (virtual) functions now use reference to wxDC instead of WXSFScaledPaintDC which leads
+  to more universal drawing approach.
+
+- Fixed compilation problem which occured in wxSFDemo and wxSFSample3 if the wx2.6.x compatibility is switched off
+  (due to unknown wxSAVE and wxOPEN defines previously declared in the wxFileDialog).
 
 
 Changes in version 1.5.2 beta (2008-02-22):

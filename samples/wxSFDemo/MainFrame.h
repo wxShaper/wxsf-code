@@ -63,6 +63,9 @@ protected:
 	void OnAbout(wxCommandEvent& event);
 	void OnSelectAll(wxCommandEvent& event);
 	void OnExportToBMP(wxCommandEvent& event);
+	void OnPrint(wxCommandEvent& event);
+	void OnPrintPreview(wxCommandEvent& event);
+	void OnPageSetup(wxCommandEvent& event);
 
     // toolbar event handlers
 	void OnSlider(wxScrollEvent& event);

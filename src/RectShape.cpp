@@ -146,46 +146,46 @@ void wxSFRectShape::FitToChildren()
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFRectShape::DrawNormal(wxSFScaledPaintDC &dc)
+void wxSFRectShape::DrawNormal(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(m_Border);
 	dc.SetBrush(m_Fill);
-	dc.DrawRectangle(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawRectangle(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFRectShape::DrawHover(wxSFScaledPaintDC &dc)
+void wxSFRectShape::DrawHover(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(wxPen(m_nHoverColor, 1));
 	dc.SetBrush(m_Fill);
-	dc.DrawRectangle(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawRectangle(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFRectShape::DrawHighlighted(wxSFScaledPaintDC &dc)
+void wxSFRectShape::DrawHighlighted(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(wxPen(m_nHoverColor, 2));
 	dc.SetBrush(m_Fill);
-	dc.DrawRectangle(GetAbsolutePosition(), m_nRectSize);
+	dc.DrawRectangle(Conv2Point(GetAbsolutePosition()), Conv2Size(m_nRectSize));
 	dc.SetBrush(wxNullBrush);
 	dc.SetPen(wxNullPen);
 }
 
-void wxSFRectShape::DrawShadow(wxSFScaledPaintDC &dc)
+void wxSFRectShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
 	dc.SetPen(*wxTRANSPARENT_PEN);
 	dc.SetBrush(GetParentCanvas()->GetShadowFill());
-	dc.DrawRectangle(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset(), m_nRectSize);
+	dc.DrawRectangle(Conv2Point(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset()), Conv2Size(m_nRectSize));
 	dc.SetBrush(m_Fill);
 	dc.SetPen(wxNullPen);
 }
@@ -284,12 +284,12 @@ wxRealPoint wxSFRectShape::GetBorderPoint(const wxRealPoint& to)
     }*/
 
     if(LinesIntersection(wxRealPoint(bbRct.GetTopLeft().x, bbRct.GetTopLeft().y),
-                             wxRealPoint(bbRct.GetTopRight().x, bbRct.GetTopRight().y), center, to, intersection)) return intersection;
+                             wxRealPoint(bbRct.GetTopRight().x + 1, bbRct.GetTopRight().y), center, to, intersection)) return intersection;
 
-    else if(LinesIntersection(wxRealPoint(bbRct.GetTopRight().x, bbRct.GetTopRight().y),
-                                  wxRealPoint(bbRct.GetBottomRight().x, bbRct.GetBottomRight().y + 1), center, to, intersection)) return intersection;
+    else if(LinesIntersection(wxRealPoint(bbRct.GetTopRight().x + 1, bbRct.GetTopRight().y),
+                                  wxRealPoint(bbRct.GetBottomRight().x + 1, bbRct.GetBottomRight().y + 1), center, to, intersection)) return intersection;
 
-    else if(LinesIntersection(wxRealPoint(bbRct.GetBottomRight().x, bbRct.GetBottomRight().y + 1),
+    else if(LinesIntersection(wxRealPoint(bbRct.GetBottomRight().x + 1, bbRct.GetBottomRight().y + 1),
                                   wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1), center, to, intersection)) return intersection;
 
     else if(LinesIntersection(wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1),

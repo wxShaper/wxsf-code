@@ -16,6 +16,7 @@
 
 #include "wx/wxsf/CurveShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/CommonFcn.h"
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFCurveShape, wxSFLineShape);
 
@@ -82,7 +83,7 @@ wxRealPoint wxSFCurveShape::GetPoint(size_t segment, double offset)
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
+void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 {
     int i = 0;
     LineSegmentArray arrLines;
@@ -96,12 +97,10 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
 			if( arrLines.Count() > 3 )
 			{
 				for(i = 0; i < (int)arrLines.Count()-2; i++)
-				{
 					Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
-				}
 			}
 			else
-                dc.DrawLine(arrLines.Item(1).m_nSrc, arrLines.Item(1).m_nTrg);
+                dc.DrawLine(Conv2Point(arrLines[1].m_nSrc), Conv2Point(arrLines[1].m_nTrg));
 
             // draw source arrow
             if(m_pSrcArrow)m_pSrcArrow->Draw(arrLines[1].m_nTrg, arrLines[1].m_nSrc, dc);
@@ -114,23 +113,15 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
         {
             // draw basic line parts
             for(i = 0; i < (int)arrLines.Count()-2; i++)
-            {
                 Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
-            }
+
             // draw unfinished line segment if any (for interactive line creation)
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            if(arrLines.Count() > 1)
-            {
-                dc.DrawLine(arrLines.Item(i).m_nTrg, wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y));
-            }
+            if( arrLines.Count() > 1 ) dc.DrawLine(Conv2Point(arrLines[i].m_nTrg), m_nUnfinishedPoint);
             else if(m_nSrcShapeId != -1)
             {
                 wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-                if(pSrcShape)
-                {
-                    wxRealPoint rpt = wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y);
-                    dc.DrawLine(pSrcShape->GetBorderPoint(rpt), rpt);
-                }
+                if( pSrcShape ) dc.DrawLine( Conv2Point(pSrcShape->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y))), m_nUnfinishedPoint);
             }
             dc.SetPen(wxNullPen);
         }
@@ -140,12 +131,11 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
         {
             // draw basic line parts
             for(i = 1; i < (int)arrLines.Count()-2; i++)
-            {
                 Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
-            }
+
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            dc.DrawLine(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y), arrLines.Item(1).m_nTrg);
+            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(arrLines[1].m_nTrg));
             dc.SetPen(wxNullPen);
         }
         break;
@@ -154,12 +144,11 @@ void wxSFCurveShape::DrawCompleteLine(wxSFScaledPaintDC& dc)
         {
             // draw basic line parts
             for(i = 0; i < (int)arrLines.Count()-3; i++)
-            {
                 Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
-            }
+
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            dc.DrawLine(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y), arrLines.Item(arrLines.Count()-2).m_nSrc);
+            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(arrLines[arrLines.Count()-2].m_nSrc));
             dc.SetPen(wxNullPen);
         }
         break;
@@ -185,7 +174,7 @@ int wxSFCurveShape::GetHitLinesegment(const wxPoint& pos)
         ptTrg = m_arrLineSegments[i].m_nTrg;
 
         // calculate line segment bounding box
-        lsBB = wxRect(wxPoint((int)ptSrc.x, (int)ptSrc.y), wxPoint((int)ptTrg.x, (int)ptTrg.y));
+        lsBB = wxRect(Conv2Point(ptSrc), Conv2Point(ptTrg));
         if( (i > 1) && (i < (int)m_arrLineSegments.Count()-2) )lsBB.Inflate(10);
 
         // convert line segment to its parametric form
@@ -235,7 +224,7 @@ void wxSFCurveShape::GetUpdatedLineSegment(LineSegmentArray& segments)
     }
 }
 
-void wxSFCurveShape::Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint& D, wxSFScaledPaintDC& dc)
+void wxSFCurveShape::Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint& D, wxDC& dc)
 {
 	// The begginig of the curve is in the B point
 	wxRealPoint point0=B;
@@ -246,11 +235,11 @@ void wxSFCurveShape::Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& 
 	for(double t = 0; t <= (1 + (1.0f / m_nMaxSteps)); t += 1.0f / (m_nMaxSteps-1))
 	{
 		point1 = Coord_Catmul_Rom_Kubika(A,B,C,D,t);
-		dc.DrawLine(point0.x, point0.y, point1.x, point1.y);
+		dc.DrawLine((int)point0.x, (int)point0.y, (int)point1.x, (int)point1.y);
 		point0 = point1;
 	}
 	point1 = Coord_Catmul_Rom_Kubika(A,B,C,D,1);
-	dc.DrawLine(point0.x, point0.y, point1.x, point1.y);
+	dc.DrawLine((int)point0.x, (int)point0.y, (int)point1.x, (int)point1.y);
 }
 
 wxRealPoint wxSFCurveShape::Coord_Catmul_Rom_Kubika(const wxRealPoint& p1, const wxRealPoint& p2, const wxRealPoint& p3, const wxRealPoint& p4, double t)

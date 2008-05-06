@@ -69,7 +69,7 @@ protected:
 
     /// <summary> Internal function used for drawing of completed line shape. </summary>
     /// <param name="dc"> Refernce of the device context where the shape will be darwn to </param>
-	virtual void DrawCompleteLine(wxSFScaledPaintDC& dc);
+	virtual void DrawCompleteLine(wxDC& dc);
     /// <summary> Get zero-based index of the line segment laying under given point. </summary>
     /// <param name="pos"> Search point </param>
     /// <returns> Zero-based line segment index </returns>
@@ -84,7 +84,7 @@ private:
 	/// <summary> Auxiliary drawing function </summary>
 	void GetUpdatedLineSegment(LineSegmentArray& segments);
 	/// <summary> Auxiliary drawing function </summary>
-	void Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint&D, wxSFScaledPaintDC& dc);
+	void Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint&D, wxDC& dc);
 	/// <summary> Auxiliary drawing function </summary>
 	wxRealPoint Coord_Catmul_Rom_Kubika(const wxRealPoint& p1, const wxRealPoint& p2, const wxRealPoint& p3, const wxRealPoint& p4, double t);
 

@@ -246,25 +246,25 @@ void wxSFTextShape::SetFont(const wxFont& font)
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFTextShape::DrawNormal(wxSFScaledPaintDC& dc)
+void wxSFTextShape::DrawNormal(wxDC& dc)
 {
     wxSFRectShape::DrawNormal(dc);
     DrawTextContent(dc);
 }
 
-void wxSFTextShape::DrawHover(wxSFScaledPaintDC& dc)
+void wxSFTextShape::DrawHover(wxDC& dc)
 {
     wxSFRectShape::DrawHover(dc);
     DrawTextContent(dc);
 }
 
-void wxSFTextShape::DrawHighlighted(wxSFScaledPaintDC& dc)
+void wxSFTextShape::DrawHighlighted(wxDC& dc)
 {
     wxSFRectShape::DrawHighlighted(dc);
     DrawTextContent(dc);
 }
 
-void wxSFTextShape::DrawShadow(wxSFScaledPaintDC &dc)
+void wxSFTextShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
@@ -297,7 +297,7 @@ void wxSFTextShape::OnTopHandle(wxSFShapeHandle& handle)
 // protected functions
 //----------------------------------------------------------------------------------//
 
-void wxSFTextShape::DrawTextContent(wxSFScaledPaintDC& dc)
+void wxSFTextShape::DrawTextContent(wxDC& dc)
 {
 	wxString line;
 	int i = 0;
@@ -326,7 +326,7 @@ void wxSFTextShape::DrawTextContent(wxSFScaledPaintDC& dc)
     while(tokens.HasMoreTokens())
     {
         line = tokens.GetNextToken();
-		dc.DrawText(line, pos.x, pos.y + i*m_nLineHeight);
+		dc.DrawText(line, (int)pos.x, (int)pos.y + i*m_nLineHeight);
 		i++;
 	}
 

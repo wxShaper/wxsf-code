@@ -538,7 +538,7 @@ void wxSFShapeBase::Refresh()
     Refresh(this->GetBoundingBox());
 }
 
-void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
+void wxSFShapeBase::Draw(wxDC& dc, bool children)
 {
 	if(!m_pParentManager || !GetShapeManager()->GetShapeCanvas())return;
     if(!m_fVisible)return;
@@ -576,12 +576,12 @@ void wxSFShapeBase::Draw(wxSFScaledPaintDC& dc, bool children)
 	}
 }
 
-void wxSFShapeBase::DrawNormal(wxSFScaledPaintDC& WXUNUSED(dc))
+void wxSFShapeBase::DrawNormal(wxDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::DrawSelected(wxSFScaledPaintDC& dc)
+void wxSFShapeBase::DrawSelected(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
@@ -596,17 +596,17 @@ void wxSFShapeBase::DrawSelected(wxSFScaledPaintDC& dc)
 	}
 }
 
-void wxSFShapeBase::DrawHover(wxSFScaledPaintDC& WXUNUSED(dc))
+void wxSFShapeBase::DrawHover(wxDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::DrawHighlighted(wxSFScaledPaintDC& WXUNUSED(dc))
+void wxSFShapeBase::DrawHighlighted(wxDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::DrawShadow(wxSFScaledPaintDC& WXUNUSED(dc))
+void wxSFShapeBase::DrawShadow(wxDC& WXUNUSED(dc))
 {
 	// HINT: overload it for custom actions...
 }

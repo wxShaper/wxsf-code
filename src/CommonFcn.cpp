@@ -22,6 +22,21 @@
 // conversion functions
 //----------------------------------------------------------------------------------//
 
+wxPoint Conv2Point(const wxRealPoint& pt)
+{
+    return wxPoint((int)pt.x, (int)pt.y);
+}
+
+wxSize Conv2Size(const wxRealPoint& pt)
+{
+    return wxSize((int)pt.x, (int)pt.y);
+}
+
+wxRealPoint Conv2RealPoint(const wxPoint& pt)
+{
+    return wxRealPoint((double)pt.x, (double)pt.y);
+}
+
 //----------------------------------------------------------------------------------//
 // graphical functions
 //----------------------------------------------------------------------------------//

@@ -45,9 +45,9 @@ wxSFOpenArrow::~wxSFOpenArrow(void)
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFOpenArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxSFScaledPaintDC &dc)
+void wxSFOpenArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxDC& dc)
 {
-	wxRealPoint rarrow[3];
+	wxPoint rarrow[3];
 	double cosa, sina, dist;
 
 	// calculate distance between line points
@@ -60,8 +60,8 @@ void wxSFOpenArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxSFSca
     // rotate arrow
 	for(int i = 0; i<3; i++)
 	{
-		rarrow[i].x = ((arrow[i].x*cosa-arrow[i].y*sina)+to.x);
-		rarrow[i].y = ((arrow[i].x*sina+arrow[i].y*cosa)+to.y);
+		rarrow[i].x = (int)((arrow[i].x*cosa-arrow[i].y*sina)+to.x);
+		rarrow[i].y = (int)((arrow[i].x*sina+arrow[i].y*cosa)+to.y);
 	}
 
 	DrawArrowShape(3, rarrow, dc);
@@ -71,7 +71,7 @@ void wxSFOpenArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxSFSca
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFOpenArrow::DrawArrowShape(int WXUNUSED(n), wxRealPoint pts[], wxSFScaledPaintDC &dc)
+void wxSFOpenArrow::DrawArrowShape(int WXUNUSED(n), wxPoint pts[], wxDC& dc)
 {
 	dc.DrawLine(pts[0], pts[1]);
     dc.DrawLine(pts[0], pts[2]);
