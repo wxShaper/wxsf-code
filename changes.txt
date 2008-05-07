@@ -34,7 +34,7 @@ Changes in version 1.6.0 beta (2008-05-05):
 - Function name wxSFShapeBase::GetChildren(ShapeList& children, bool recursive) changed to
   wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive)
 
-- All drawing (virtual) functions now use reference to wxDC instead of WXSFScaledPaintDC which leads
+- All drawing (virtual) functions now use reference to wxDC instead of wxSFScaledPaintDC which leads
   to more universal drawing approach.
 
 - Fixed compilation problem which occured in wxSFDemo and wxSFSample3 if the wx2.6.x compatibility is switched off

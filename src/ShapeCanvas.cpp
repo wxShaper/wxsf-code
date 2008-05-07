@@ -153,6 +153,9 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
 	m_nStyle = sfdvSHAPECANVAS_STYLE;
 	m_nShadowOffset = sfdvSHAPECANVAS_SHADOWOFFSET;
 	m_ShadowFill = sfdvSHAPECANVAS_SHADOWBRUSH;
+	m_nPrintHAlign = sfdvSHAPECANVAS_PRINT_HALIGN;
+	m_nPrintVAlign = sfdvSHAPECANVAS_PRINT_VALIGN;
+	m_nPrintMode = sfdvSHAPECANVAS_PRINT_MODE;
 
     XS_SERIALIZE(m_nScale, wxT("scale"));
 	XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvSHAPECANVAS_STYLE);
@@ -164,6 +167,9 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
     XS_SERIALIZE_EX(m_nGridColor, wxT("grid_color"), sfdvSHAPECANVAS_GRIDCOLOR);
     XS_SERIALIZE_EX(m_nShadowOffset, wxT("shadow_offset"), sfdvSHAPECANVAS_SHADOWOFFSET);
     XS_SERIALIZE_EX(m_ShadowFill, wxT("shadow_fill"), sfdvSHAPECANVAS_SHADOWBRUSH);
+    XS_SERIALIZE_EX(m_nPrintHAlign, wxT("print_halign"), sfdvSHAPECANVAS_PRINT_HALIGN);
+    XS_SERIALIZE_EX(m_nPrintVAlign, wxT("print_valign"), sfdvSHAPECANVAS_PRINT_VALIGN);
+    XS_SERIALIZE_EX(m_nPrintMode, wxT("print_mode"), sfdvSHAPECANVAS_PRINT_MODE);
     XS_SERIALIZE(m_arrAcceptedShapes, wxT("accepted_shapes"));
 }
 
@@ -2048,7 +2054,7 @@ void wxSFShapeCanvas::HideAllHandles()
 	}
 }
 
-void wxSFShapeCanvas::ShowShadows(bool show, SHADOWSTYLE style)
+void wxSFShapeCanvas::ShowShadows(bool show, SHADOWMODE style)
 {
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
@@ -2838,12 +2844,17 @@ void wxSFShapeCanvas::DeinitializePrinting()
 
 void wxSFShapeCanvas::Print(bool prompt)
 {
+    Print(new wxSFPrintout(wxT("wxSF Printout"), this), prompt);
+}
+
+void wxSFShapeCanvas::Print(wxSFPrintout *printout, bool prompt)
+{
+    wxASSERT(printout);
+
     wxPrintDialogData printDialogData(* g_printData);
-
     wxPrinter printer(& printDialogData);
-    wxSFPrintout *pPrintout = new wxSFPrintout(wxT("wxSF printout"), this);
 
-    if (!printer.Print(this, pPrintout, prompt))
+    if (!printer.Print(this, printout, prompt))
     {
         if (wxPrinter::GetLastError() == wxPRINTER_ERROR)
             wxMessageBox(wxT("There was a problem printing.\nPerhaps your current printer is not set correctly?"), _T("wxSF Printing"), wxOK | wxICON_ERROR);
@@ -2851,24 +2862,29 @@ void wxSFShapeCanvas::Print(bool prompt)
             wxMessageBox(wxT("You canceled printing"), _T("wxSF Printing"), wxOK | wxICON_WARNING);*/
     }
     else
-    {
         (*g_printData) = printer.GetPrintDialogData().GetPrintData();
-    }
 }
 
 void wxSFShapeCanvas::PrintPreview()
 {
+    PrintPreview(new wxSFPrintout(wxT("wxSF Preview"), this), new wxSFPrintout(wxT("wxSF Printout"), this));
+}
+
+void wxSFShapeCanvas::PrintPreview(wxSFPrintout *preview, wxSFPrintout *printout)
+{
+    wxASSERT(preview);
+
     // Pass two printout objects: for preview, and possible printing.
     wxPrintDialogData printDialogData(* g_printData);
-    wxPrintPreview *preview = new wxPrintPreview(new wxSFPrintout(wxT(""), this), new wxSFPrintout(wxT(""), this), &printDialogData);
-    if (!preview->Ok())
+    wxPrintPreview *prnPreview = new wxPrintPreview(preview, printout, &printDialogData);
+    if (!prnPreview->Ok())
     {
-        delete preview;
+        delete prnPreview;
         wxMessageBox(wxT("There was a problem previewing.\nPerhaps your current printer is not set correctly?"), _T("wxSF Previewing"), wxOK | wxICON_ERROR);
         return;
     }
 
-    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, wxT("wxSF Print Preview"), wxPoint(100, 100), wxSize(600, 650));
+    wxPreviewFrame *frame = new wxPreviewFrame(prnPreview, this, wxT("wxSF Print Preview"), wxPoint(100, 100), wxSize(800, 700));
     frame->Centre(wxBOTH);
     frame->Initialize();
     frame->Show();

@@ -20,7 +20,8 @@ class WXDLLIMPEXP_SF wxSFShapeCanvas;
 
 /*!
  * \brief Auxiliary class encapsulating wxSF printout class providing all necessary functions needed for canvas printing.
- * This class is used directly by the wxSFShapeCanvas and wxWidgets printing framework.
+ * This class is used internally by the wxSFShapeCanvas class. It can be also used as a base class for other modified
+ * printout classes.
  */
 class WXDLLIMPEXP_SF wxSFPrintout : public wxPrintout
 {
@@ -30,15 +31,25 @@ public:
     /*! \brief Default destructor */
     virtual ~wxSFPrintout();
 
+    // public member data accessors
+    /*!
+     * \brief Set shape canvas which content should be printed.
+     * \param canvas Pointer to shape canvas
+     */
+    void SetPrintedCanvas( wxSFShapeCanvas *canvas ){m_pCanvas = canvas;}
+
     // public virtual functions
 
-    /*! \brief Called by printing framework. Functions TRUE if a page of given index already exists in printed document. */
+    /*! \brief Called by printing framework. Functions TRUE if a page of given index already exists in printed document.
+     * This function can be overrided if necessary. */
     virtual bool HasPage(int page);
-    /*! \brief Called by printing framework. Initialize print job. */
+    /*! \brief Called by printing framework. Initialize print job. This function can be overrided if necessary. */
     virtual bool OnBeginDocument(int startPage, int endPage);
-    /*! \brief Called by printing framework. Do print job. */
+    /*! \brief Called by printing framework. Deinitialize print job. This function can be overrided if necessary. */
+    virtual void OnEndDocument();
+    /*! \brief Called by printing framework. Do print job. This function can be overrided if necessary. */
     virtual bool OnPrintPage(int page);
-    /*! \brief Called by printing framework. Supply information about printed pages. */
+    /*! \brief Called by printing framework. Supply information about printed pages. This function can be overrided if necessary. */
     virtual void GetPageInfo(int *minPage, int *maxPage, int *selPageFrom, int *selPageTo);
 
 protected:

@@ -61,6 +61,30 @@ extern wxPrintData *g_printData;
 #define sfdvSHAPECANVAS_SHADOWCOLOR wxColour(150, 150, 150)
 /*! \brief Default value of wxSFCanvasSettings::m_ShadowFill data member */
 #define sfdvSHAPECANVAS_SHADOWBRUSH wxBrush(sfdvSHAPECANVAS_SHADOWCOLOR, wxSOLID)
+/*! \brief Default value of wxSFCanvasSettings::m_nPrintHAlign data member */
+#define sfdvSHAPECANVAS_PRINT_HALIGN wxSFShapeCanvas::halignCENTER
+/*! \brief Default value of wxSFCanvasSettings::m_nPrintVAlign data member */
+#define sfdvSHAPECANVAS_PRINT_VALIGN wxSFShapeCanvas::valignMIDDLE
+/*! \brief Default value of wxSFCanvasSettings::m_nPrintMode data member */
+#define sfdvSHAPECANVAS_PRINT_MODE wxSFShapeCanvas::prnFIT_TO_MARGINS
+
+class wxSFCanvasDropTarget;
+
+/*!
+ * \brief Auxiliary class encapsulating shape drop target.
+ */
+class wxSFCanvasDropTarget : public wxDropTarget
+{
+	friend class wxSFShapeCanvas;
+
+protected:
+	wxSFCanvasDropTarget(wxDataObject *data, wxSFShapeCanvas *parent);
+	virtual ~wxSFCanvasDropTarget();
+
+	virtual wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult def);
+
+	wxSFShapeCanvas *m_pParentCanvas;
+};
 
 /*!
  * \brief Auxiliary serializable class encapsulating the canvas properties.
@@ -89,9 +113,11 @@ public:
     double m_nScale;
 
 	long m_nStyle;
-};
 
-class wxSFCanvasDropTarget;
+	int m_nPrintHAlign;
+	int m_nPrintVAlign;
+	int m_nPrintMode;
+};
 
 /*!
  * \brief Class encapsulating a Shape canvas. The shape canvas is window control
@@ -219,13 +245,48 @@ public:
 		sfsDEFAULT_CANVAS_STYLE = sfsMULTI_SELECTION | sfsMULTI_SIZE_CHANGE | sfsDND | sfsUNDOREDO | sfsCLIPBOARD | sfsHOVERING | sfsHIGHLIGHTING
 	};
 
-    /*! \brief Flags for ShowShadow function */
-	enum SHADOWSTYLE
+    /*! \brief Flags for ShowShadow function. */
+	enum SHADOWMODE
 	{
 	    /*! \brief Show/hide shadow under topmost shapes only. */
 	    shadowTOPMOST,
 	    /*! \brief Show/hide shadow under all shapes in the diagram. */
 	    shadowALL
+	};
+
+	/*! \brief Printing modes used by SetPrintMode() function. */
+	enum PRINTMODE
+	{
+	    /*! \brief This sets the user scale and origin of the DC so that the image fits
+         * within the paper rectangle (but the edges could be cut off by printers
+         * that can't print to the edges of the paper -- which is most of them. Use
+         * this if your image already has its own margins. */
+	    prnFIT_TO_PAPER,
+        /*! \brief This sets the user scale and origin of the DC so that the image fits
+         * within the page rectangle, which is the printable area on Mac and MSW
+         * and is the entire page on other platforms. */
+	    prnFIT_TO_PAGE,
+        /*! \brief This sets the user scale and origin of the DC so that the image fits
+         * within the page margins as specified by g_PageSetupData, which you can
+         * change (on some platforms, at least) in the Page Setup dialog. Note that
+         * on Mac, the native Page Setup dialog doesn't let you change the margins
+         * of a wxPageSetupDialogData object, so you'll have to write your own dialog or
+         * use the Mac-only wxMacPageMarginsDialog, as we do in this program. */
+	    prnFIT_TO_MARGINS,
+	    /*! \brief This sets the user scale and origin of the DC so that you could map the
+	     * screen image to the entire paper at the same size as it appears on screen. */
+	    prnMAP_TO_PAPER,
+	    /*! \brief This sets the user scale and origin of the DC so that the image appears
+         * on the paper at the same size that it appears on screen (i.e., 10-point
+         * type on screen is 10-point on the printed page). */
+	    prnMAP_TO_PAGE,
+	    /*! \brief This sets the user scale and origin of the DC so that you could map the
+	     * screen image to the page margins specified by the native Page Setup dialog at the same
+	     * size as it appears on screen. */
+	    prnMAP_TO_MARGINS,
+	     /*! \brief This sets the user scale and origin of the DC so that you can to do you own
+	      * scaling in order to draw objects at full native device resolution. */
+	    prnMAP_TO_DEVICE
 	};
 
 	// public functions
@@ -296,9 +357,9 @@ public:
 	 * The functions sets/unsets sfsSHOW_SHADOW flag for all shapes currently included in the diagram.
 	 * \param show TRUE if the shadow shoud be shown, otherwise FALSE
 	 * \param style Shadow style
-	 * \sa SHADOWSTYLE
+	 * \sa SHADOWMODE
 	 */
-	void ShowShadows(bool show, SHADOWSTYLE style);
+	void ShowShadows(bool show, SHADOWMODE style);
 
 	/*!
 	 * \brief Start Drag&Drop process with shapes included in the given list
@@ -338,11 +399,28 @@ public:
 
 	/*!
 	 * \brief Print current canvas content.
-	 * \param promp If TRUE (sfPROMT) then the print dialog will be displayed before printing
+	 * \param promp If TRUE (sfPROMT) then the the native print dialog will be displayed before printing
 	 */
 	void Print(bool prompt = sfPROMPT);
+	/*!
+	 * \brief Print current canvas content by user defined printout class.
+	 * \param printout Pointer to user-defined printout object (inherited from wxSFPrintout class). Do not delete this object explicitly.
+	 * \param promp If TRUE (sfPROMT) then the native print dialog will be displayed before printing
+	 * \sa wxSFPrintout
+	 */
+	void Print(wxSFPrintout *printout, bool prompt = sfPROMPT);
 	/*! \brief Show print preview. */
 	void PrintPreview();
+	/*!
+	 * \brief Show print preview using user-defined printout classes.
+     * \param preview Pointer to user-defined printout object (inherited from wxSFPrintout class) used for print preview.
+     * Do not delete this object explicitly.
+     * \param printout Pointer to user-defined printout class (inherited from wxSFPrintout class) used for printing.
+     * Do not delete this object explicitly. This parameter can be NULL (in this case a print button will not be available
+     * in the print preview window).
+     * \sa wxSFPrintout
+	 */
+	void PrintPreview(wxSFPrintout *preview, wxSFPrintout *printout = NULL);
 	/*! \brief Show page setup dialog for printing. */
 	void PageSetup();
 	#ifdef __WXMAC__
@@ -526,7 +604,42 @@ public:
 	 * \return Current shadow brush
 	 */
 	wxBrush GetShadowFill() const {return m_Settings.m_ShadowFill;}
-
+	/*!
+	 * \brief Set horizontal align of printed drawing.
+	 * \param val Horizontal align
+	 * \sa HALIGN
+	 */
+	void SetPrintHAlign(HALIGN val){m_Settings.m_nPrintHAlign = (int)val;}
+	/*!
+	 * \brief Get horizontal align of printed drawing.
+	 * \return Current horizontal align
+	 * \sa HALIGN
+	 */
+	HALIGN GetPrintHAlign() const {return (HALIGN)m_Settings.m_nPrintHAlign;}
+	/*!
+	 * \brief Set vertical align of printed drawing.
+	 * \param val Verical align
+	 * \sa VALIGN
+	 */
+	void SetPrintVAlign(VALIGN val){m_Settings.m_nPrintVAlign = (int)val;}
+	/*!
+	 * \brief Get vertical align of printed drawing.
+	 * \return Current vertical align
+	 * \sa VALIGN
+	 */
+	VALIGN GetPrintVAlign() const {return (VALIGN)m_Settings.m_nPrintVAlign;}
+	/*!
+	 * \brief Set printing mode for this canvas.
+	 * \param mode Printing mode
+	 * \sa PRINTMODE
+	 */
+	void SetPrintMode(PRINTMODE mode){m_Settings.m_nPrintMode = (int)mode;}
+	/*!
+	 * \brief Get printing mode for this canvas.
+	 * \return Current printing mode
+	 * \sa PRINTMODE
+	 */
+	PRINTMODE GetPrintMode() const {return (PRINTMODE)m_Settings.m_nPrintMode;}
 	/*!
 	 * \brief Set canvas scale.
 	 * \param scale Scale value
@@ -737,7 +850,6 @@ protected:
 
 	// protected data members
 	MODE m_nWorkingMode;
-
 	wxSFCanvasSettings m_Settings;
 
 	// protected functions
@@ -895,20 +1007,4 @@ private:
 	void _OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObject *data);
 
 	DECLARE_EVENT_TABLE();
-};
-
-/*!
- * \brief Auxiliary class encapsulating shape drop target.
- */
-class wxSFCanvasDropTarget : public wxDropTarget
-{
-	friend class wxSFShapeCanvas;
-
-protected:
-	wxSFCanvasDropTarget(wxDataObject *data, wxSFShapeCanvas *parent);
-	virtual ~wxSFCanvasDropTarget();
-
-	virtual wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult def);
-
-	wxSFShapeCanvas *m_pParentCanvas;
 };
