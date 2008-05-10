@@ -1,5 +1,5 @@
 /* XPM */
-static char * AlignMiddle_xpm[] = {
+static const char * AlignMiddle_xpm[] = {
 "16 16 16 1",
 " 	c #000000",
 ".	c #800000",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * Shadow_xpm[] = {
+static const char * Shadow_xpm[] = {
 "16 16 4 1",
 " 	c None",
 ".	c #000000",

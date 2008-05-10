@@ -1,5 +1,5 @@
 /* XPM */
-static char * AlignCenter_xpm[] = {
+static const char * AlignCenter_xpm[] = {
 "16 16 16 1",
 " 	c #000000",
 ".	c #800000",

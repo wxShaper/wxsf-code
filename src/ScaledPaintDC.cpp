@@ -163,7 +163,7 @@ void wxSFScaledPaintDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], 
         updPoints[i].y = (int)((double)updPoints[i].y*m_nScale);
     }
 
-    wxMemoryDC::DoDrawPolyPolygon(n, count, updPoints, Scale(xoffset), Scale(yoffset));
+    wxMemoryDC::DoDrawPolyPolygon(n, count, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
 
     delete [] updPoints;
 }
