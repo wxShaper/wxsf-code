@@ -403,7 +403,7 @@ public:
 	 */
 	void Print(bool prompt = sfPROMPT);
 	/*!
-	 * \brief Print current canvas content by user defined printout class.
+	 * \brief Print current canvas content using user-defined printout class.
 	 * \param printout Pointer to user-defined printout object (inherited from wxSFPrintout class). Do not delete this object explicitly.
 	 * \param promp If TRUE (sfPROMT) then the native print dialog will be displayed before printing
 	 * \sa wxSFPrintout

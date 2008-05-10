@@ -19,7 +19,7 @@
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 
 /*!
- * \brief Auxiliary class encapsulating wxSF printout class providing all necessary functions needed for canvas printing.
+ * \brief Auxiliary printout class providing all necessary functions needed for canvas printing.
  * This class is used internally by the wxSFShapeCanvas class. It can be also used as a base class for other modified
  * printout classes.
  */
@@ -45,9 +45,9 @@ public:
     virtual bool HasPage(int page);
     /*! \brief Called by printing framework. Initialize print job. This function can be overrided if necessary. */
     virtual bool OnBeginDocument(int startPage, int endPage);
-    /*! \brief Called by printing framework. Deinitialize print job. This function can be overrided if necessary. */
+    /*! \brief Called by printing framework. Deinitialize the print job. This function can be overrided if necessary. */
     virtual void OnEndDocument();
-    /*! \brief Called by printing framework. Do print job. This function can be overrided if necessary. */
+    /*! \brief Called by printing framework. It does the print job. This function can be overrided if necessary. */
     virtual bool OnPrintPage(int page);
     /*! \brief Called by printing framework. Supply information about printed pages. This function can be overrided if necessary. */
     virtual void GetPageInfo(int *minPage, int *maxPage, int *selPageFrom, int *selPageTo);
