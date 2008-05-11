@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFCANVASSTATE_H
+#define _WXSFCANVASSTATE_H
 
 #include <wx/wxprec.h>
 
@@ -49,3 +50,5 @@ protected:
 };
 
 WX_DECLARE_LIST(wxSFCanvasState, StateList);
+
+#endif //_WXSFCANVASSTATE_H

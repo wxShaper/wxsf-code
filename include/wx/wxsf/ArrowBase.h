@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFARROWBASE_H
+#define _WXSFARROWBASE_H
 
 #include "ShapeBase.h"
 
@@ -57,3 +58,4 @@ protected:
 
 };
 
+#endif //_WXSFARROWBASE_H

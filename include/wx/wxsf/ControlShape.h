@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#ifndef WXSFCONTROLSHAPE_H
-#define WXSFCONTROLSHAPE_H
+#ifndef _WXSFCONTROLSHAPE_H
+#define _WXSFCONTROLSHAPE_H
 
 #include "wx/wxsf/RectShape.h"
 
@@ -303,4 +303,4 @@ private:
 
 };
 
-#endif // WXSFCONTROLSHAPE_H
+#endif //_WXSFCONTROLSHAPE_H

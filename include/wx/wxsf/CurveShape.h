@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFCURVESHAPE_H
+#define _WXSFCURVESHAPE_H
 
 #include "LineShape.h"
 
@@ -89,3 +90,5 @@ private:
 	wxRealPoint Coord_Catmul_Rom_Kubika(const wxRealPoint& p1, const wxRealPoint& p2, const wxRealPoint& p3, const wxRealPoint& p4, double t);
 
 };
+
+#endif //_WXSFCURVESHAPE_H

@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFDIAGRAMMANAGER_H
+#define _WXSFDIAGRAMMANAGER_H
 
 #include "ShapeBase.h"
 
@@ -255,4 +256,4 @@ private:
 
 };
 
-
+#endif //_WXSFDIAGRAMMANAGER_H

@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFLINESHAPE_H
+#define _WXSFLINESHAPE_H
 
 #include "ShapeBase.h"
 #include "ArrowBase.h"
@@ -256,3 +257,5 @@ private:
 	 /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
 };
+
+#endif //_WXSFLINESHAPE_H

@@ -1,5 +1,5 @@
-#ifndef XSDEFS_H
-#define XSDEFS_H
+#ifndef _XSDEFS_H
+#define _XSDEFS_H
 
 #ifdef USING_SOURCE_XS
 	#define WXDLLIMPEXP_XS
@@ -18,4 +18,4 @@
     #define WXDLLIMPEXP_DATA_XS(type) type
 #endif
 
-#endif//XSDEFS_H
+#endif//_XSDEFS_H

@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#ifndef XSPROPERTYIO_H
-#define XSPROPERTYIO_H
+#ifndef _XSPROPERTYIO_H
+#define _XSPROPERTYIO_H
 
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
@@ -261,4 +261,4 @@ XS_DECLARE_EXPORTED_IO_HANDLER(xsSerializable, xsStaticObjPropIO, WXDLLIMPEXP_XS
 
 WX_DECLARE_HASH_MAP( wxString, xsPropertyIO*, wxStringHash, wxStringEqual, PropertyIOMap );
 
-#endif // XSPROPERTYIO_H
+#endif //_XSPROPERTYIO_H

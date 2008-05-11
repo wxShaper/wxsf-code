@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFEDITTEXTSHAPE_H
+#define _WXSFEDITTEXTSHAPE_H
 
 #include "TextShape.h"
 
@@ -111,3 +112,4 @@ protected:
 	bool m_fForceMultiline;
 };
 
+#endif //_WXSFEDITTEXTSHAPE_H

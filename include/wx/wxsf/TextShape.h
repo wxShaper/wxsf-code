@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFTEXTSHAPE_H
+#define _WXSFTEXTSHAPE_H
 
 #include "RectShape.h"
 
@@ -166,4 +167,4 @@ private:
 	wxCoord m_nLineHeight;
 };
 
-
+#endif //_WXSFTEXTSHAPE_H

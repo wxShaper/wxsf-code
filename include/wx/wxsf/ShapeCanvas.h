@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFSHAPECANVAS_H
+#define _WXSFSHAPECANVAS_H
 
 #include <wx/dataobj.h>
 #include <wx/dnd.h>
@@ -1008,3 +1009,5 @@ private:
 
 	DECLARE_EVENT_TABLE();
 };
+
+#endif //_WXSFSHAPECANVAS_H

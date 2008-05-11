@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFSCALEDPAINTDC_H
+#define _WXSFSCALEDPAINTDC_H
 
 #include <wx/dcmemory.h>
 
@@ -79,3 +80,5 @@ protected:
 
     virtual void DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle = wxODDEVEN_RULE);
 };
+
+#endif //_WXSFSCALEDPAINTDC_H

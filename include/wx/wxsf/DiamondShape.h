@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFDIAMONDSHAPE_H
+#define _WXSFDIAMONDSHAPE_H
 
 #include "PolygonShape.h"
 
@@ -39,4 +40,4 @@ public:
     virtual bool IsInside(const wxPoint& pos);
 };
 
-
+#endif //_WXSFDIAMONDSHAPE_H

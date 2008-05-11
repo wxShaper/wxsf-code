@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFBITMAPSHAPE_H
+#define _WXSFBITMAPSHAPE_H
 
 #include "RectShape.h"
 
@@ -123,3 +124,5 @@ private:
 	 /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
 };
+
+#endif //_WXSFBITMAPSHAPE_H

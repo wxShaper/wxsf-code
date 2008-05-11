@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFSQUARESHAPE_H
+#define _WXSFSQUARESHAPE_H
 
 #include "RectShape.h"
 
@@ -46,4 +47,4 @@ public:
     virtual void OnHandle(wxSFShapeHandle& handle);
 };
 
-
+#endif //_WXSFSQUARESHAPE_H

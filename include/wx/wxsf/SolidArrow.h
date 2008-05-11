@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFSOLIDARROW_H
+#define _WXSFSOLIDARROW_H
 
 #include "OpenArrow.h"
 
@@ -64,3 +65,4 @@ private:
 	void MarkSerializableDataMembers();
 };
 
+#endif //_WXSFSOLIDARROW_H

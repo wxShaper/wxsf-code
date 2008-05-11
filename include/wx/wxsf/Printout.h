@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#ifndef WXSFPRINTOUT_H
-#define WXSFPRINTOUT_H
+#ifndef _WXSFPRINTOUT_H
+#define _WXSFPRINTOUT_H
 
 #include <wx/print.h>
 #include <wx/printdlg.h>
@@ -59,4 +59,4 @@ protected:
     wxSFShapeCanvas *m_pCanvas;
 };
 
-#endif // WXSFPRINTOUT_H
+#endif // _WXSFPRINTOUT_H

@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFROUNDRECTSHAPE_H
+#define _WXSFROUNDRECTSHAPE_H
 
 #include "RectShape.h"
 
@@ -97,3 +98,5 @@ private:
 	 /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
 };
+
+#endif //_WXSFROUNDRECTSHAPE_H

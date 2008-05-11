@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFSHAPEBASE_H
+#define _WXSFSHAPEBASE_H
 
 #include <wx/wxprec.h>
 
@@ -950,3 +951,5 @@ private:
 };
 
 extern ShapeList m_lstProcessed;
+
+#endif //_WXSFSHAPEBASE_H

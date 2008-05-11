@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#ifndef XMLSERIALIZE_H
-#define XMLSERIALIZE_H
+#ifndef _XSXMLSERIALIZE_H
+#define _XSXMLSERIALIZE_H
 
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
@@ -787,4 +787,4 @@ private:
 
 };
 
-#endif // XMLSERIALIZE_H
+#endif //_XSXMLSERIALIZE_H

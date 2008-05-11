@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFRECTSHAPE_H
+#define _WXSFRECTSHAPE_H
 
 #include "ShapeBase.h"
 
@@ -165,3 +166,5 @@ private:
     /// <summary> Auxiliary data member </summary>
     wxRealPoint m_nPrevPosition;
 };
+
+#endif //_WXSFRECTSHAPE_H

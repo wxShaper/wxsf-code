@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFSHAPEHANDLE_H
+#define _WXSFSHAPEHANDLE_H
 
 #include <wx/list.h>
 
@@ -193,3 +194,5 @@ private:
 };
 
 WX_DECLARE_LIST(wxSFShapeHandle, HandleList);
+
+#endif //_WXSFSHAPEHANDLE_H

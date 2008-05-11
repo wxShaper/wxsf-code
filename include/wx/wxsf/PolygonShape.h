@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFPOLYGONSHAPE_H
+#define _WXSFPOLYGONSHAPE_H
 
 #include "RectShape.h"
 
@@ -139,3 +140,4 @@ private:
 	void MarkSerializableDataMembers();
 };
 
+#endif //_WXSFPOLYGONSHAPE_H

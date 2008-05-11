@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFCANVASHISTORY_H
+#define _WXSFCANVASHISTORY_H
 
 #include "CanvasState.h"
 
@@ -111,3 +112,5 @@ protected:
     /// <summary> Total allowed amount of stored canvas states </summary>
 	size_t m_nHistoryDepth;
 };
+
+#endif //_WXSFCANVASHISTORY_H

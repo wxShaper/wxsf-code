@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFCOMMONFCN_H
+#define _WXSFCOMMONFCN_H
 
 #include <wx/wxprec.h>
 #include <wx/xml/xml.h>
@@ -25,3 +26,5 @@ WXDLLIMPEXP_SF wxRealPoint Conv2RealPoint(const wxPoint& pt);
 WXDLLIMPEXP_SF wxColour GetHybridColour(const wxColour& orig, const wxColour& modificator);
 WXDLLIMPEXP_SF bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const wxRealPoint& from2, const wxRealPoint& to2, wxRealPoint& i);
 WXDLLIMPEXP_SF double Distance(const wxRealPoint& pt1, const wxRealPoint& pt2);
+
+#endif //_WXSFCOMMONFCN_H

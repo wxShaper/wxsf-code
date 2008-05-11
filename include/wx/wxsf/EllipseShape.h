@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFELLIPSESHAPE_H
+#define _WXSFELLIPSESHAPE_H
 
 #include "RectShape.h"
 
@@ -63,4 +64,4 @@ protected:
 	virtual void DrawShadow(wxDC& dc);
 };
 
-
+#endif //_WXSFELLIPSESHAPE_H

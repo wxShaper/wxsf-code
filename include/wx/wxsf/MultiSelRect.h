@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFMULTIRECT_H
+#define _WXSFMULTIRECT_H
 
 #include "RectShape.h"
 
@@ -60,3 +61,5 @@ private:
 	/// <summary> Auxiliary function </summary>
 	bool AnyHeightExceeded(const wxPoint& delta);
 };
+
+#endif //_WXSFMULTIRECT_H

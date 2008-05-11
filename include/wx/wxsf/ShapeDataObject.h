@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFSHAPEDATAOBJECT_H
+#define _WXSFSHAPEDATAOBJECT_H
 
 #include "DiagramManager.h"
 
@@ -62,3 +63,5 @@ protected:
 	wxString SerializeSelectedShapes(const ShapeList& selection, wxSFDiagramManager* manager);
 
 };
+
+#endif //_WXSFSHAPEDATAOBJECT_H

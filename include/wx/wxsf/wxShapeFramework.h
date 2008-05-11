@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSF_H
+#define _WXSF_H
 
 #include "DiagramManager.h"
 #include "ShapeCanvas.h"
@@ -36,3 +37,5 @@
 #include "Printout.h"
 
 #include "../wxxmlserializer/XmlSerializer.h"
+
+#endif //_WXSF_H

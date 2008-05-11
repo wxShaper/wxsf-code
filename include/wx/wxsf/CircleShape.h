@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFCIRCLESHAPE_H
+#define _WXSFCIRCLESHAPE_H
 
 #include "FixedRectShape.h"
 
@@ -62,4 +63,4 @@ protected:
 	virtual void DrawShadow(wxDC& dc);
 };
 
-
+#endif //_WXSFCIRCLESHAPE_H

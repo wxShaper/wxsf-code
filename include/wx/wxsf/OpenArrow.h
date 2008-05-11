@@ -8,7 +8,8 @@
  * Notes:
  **************************************************************/
 
-#pragma once
+#ifndef _WXSFOPENARROW_H
+#define _WXSFOPENARROW_H
 
 #include "ArrowBase.h"
 
@@ -47,3 +48,4 @@ protected:
 	virtual void DrawArrowShape(int n, wxPoint pts[], wxDC& dc);
 };
 
+#endif //_WXSFOPENARROW_H

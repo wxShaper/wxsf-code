@@ -8,8 +8,8 @@
  * Notes:
  **************************************************************/
 
-#ifndef SF_EVENTS_H
-#define SF_EVENTS_H
+#ifndef _WXSFEVENTS_H
+#define _WXSFEVENTS_H
 
 #include <wx/event.h>
 #include <wx/dnd.h>
@@ -257,4 +257,4 @@ private:
     ShapeList m_lstPastedShapes;
 };
 
-#endif // SF_EVENTS_H
+#endif // _WXSFEVENTS_H

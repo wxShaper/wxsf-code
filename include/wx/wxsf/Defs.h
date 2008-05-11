@@ -1,5 +1,5 @@
-#ifndef SFDEFS_H
-#define SFDEFS_H
+#ifndef _WXSFDEFS_H
+#define _WXSFDEFS_H
 
 #ifdef USING_SOURCE_SF
 	#define WXDLLIMPEXP_SF
@@ -18,4 +18,4 @@
     #define WXDLLIMPEXP_DATA_SF(type) type
 #endif
 
-#endif//SFDEFS_H
+#endif//_WXSFDEFS_H
