@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _FRAMECANVAS_H
+#define _FRAMECANVAS_H
 
 #include "wx/wxsf/wxShapeFramework.h"
 
@@ -24,3 +25,5 @@ protected:
 	CMainFrame *m_pParentFrame;
 
 };
+
+#endif //_FRAMECANVAS_H
