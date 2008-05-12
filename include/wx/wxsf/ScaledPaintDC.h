@@ -12,6 +12,7 @@
 #define _WXSFSCALEDPAINTDC_H
 
 #include <wx/dcmemory.h>
+#include <math.h>
 
 #include "Defs.h"
 
@@ -44,7 +45,7 @@ protected:
 
     // protected function
 
-    wxCoord Scale(wxCoord val){return (wxCoord)((double)val*m_nScale);}
+    wxCoord Scale(wxCoord val){return (wxCoord)ceil((double)val*m_nScale);}
 
 	// protected virtual functions
 

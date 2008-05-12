@@ -860,6 +860,8 @@ private:
 	// private data members
 
 	wxSFMultiSelRect m_shpMultiEdit;
+	wxBitmap m_OutBMP;
+
 	bool m_fCanSaveStateOnMouseUp;
 	static int m_nRefCounter;
 

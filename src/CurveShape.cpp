@@ -14,6 +14,8 @@
 #define new DEBUG_NEW
 #endif
 
+#include <math.h>
+
 #include "wx/wxsf/CurveShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/CommonFcn.h"
@@ -226,13 +228,20 @@ void wxSFCurveShape::GetUpdatedLineSegment(LineSegmentArray& segments)
 
 void wxSFCurveShape::Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint& D, wxDC& dc)
 {
-	// The begginig of the curve is in the B point
+	// the begginig of the curve is in the B point
 	wxRealPoint point0=B;
 	wxRealPoint point1;
+	int nMaxPPI = 72;
 
-	if(m_nMaxSteps<2)m_nMaxSteps=2;
+    // optimize step count due to smooth curve drawing even on DC with high PPI and the scale value.
+	wxSize ppi = dc.GetPPI();
+	if( ppi.x > ppi.y )nMaxPPI = ppi.x; else nMaxPPI = ppi.y;
 
-	for(double t = 0; t <= (1 + (1.0f / m_nMaxSteps)); t += 1.0f / (m_nMaxSteps-1))
+	long nOptimSteps = (int)((double)m_nMaxSteps * (double)(nMaxPPI/72) * GetParentCanvas()->GetScale());
+	if(nOptimSteps<2)nOptimSteps=2;
+
+    // draw the curve
+	for(double t = 0; t <= (1 + (1.0f / nOptimSteps)); t += 1.0f / (nOptimSteps-1))
 	{
 		point1 = Coord_Catmul_Rom_Kubika(A,B,C,D,t);
 		dc.DrawLine((int)point0.x, (int)point0.y, (int)point1.x, (int)point1.y);
@@ -248,17 +257,17 @@ wxRealPoint wxSFCurveShape::Coord_Catmul_Rom_Kubika(const wxRealPoint& p1, const
 	double C1,C2,C3,C4;
     wxRealPoint point;
 
-	// Auxiliary variables
+	// auxiliary variables
 	pom1 = t - 1;
 	pom2 = t * t;
 
-	// Used polynoms
+	// used polynoms
     C1 = (-pom2*t + 2*pom2 - t)  / 2;
     C2 = (3*pom2*t - 5*pom2 + 2) / 2;
     C3 = (-3*pom2*t + 4*pom2 +t) / 2;
     C4 = pom1*pom2 / 2;
 
-	// Calculation of curve point for t = <0,1>
+	// calculation of curve point for t = <0,1>
 	point.x = C1*p1.x + C2*p2.x + C3*p3.x + C4*p4.x;
     point.y = C1*p1.y + C2*p2.y + C3*p3.y + C4*p4.y;
 	//point.z = C1*p1.z + C2*p2.z + C3*p3.z + C4*p4.z;

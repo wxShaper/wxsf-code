@@ -216,6 +216,12 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 	SetDropTarget(new wxSFCanvasDropTarget(new wxSFShapeDataObject(m_formatShapes), this));
 	m_fDnDStartedHere = false;
 
+	// initialize output bitmap
+	int nWidth, nHeight;
+	wxDisplaySize(&nWidth, &nHeight);
+
+	if( !m_OutBMP.Create(nWidth, nHeight) )wxLogError(wxT("Couldn't create output bitmap."));
+
 	SetScrollbars(5, 5, 100, 100);
 	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
@@ -265,6 +271,12 @@ bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
 	SetDropTarget(new wxSFCanvasDropTarget(new wxSFShapeDataObject(m_formatShapes), this));
 	m_fDnDStartedHere = false;
 
+	// initialize output bitmap
+	int nWidth, nHeight;
+	wxDisplaySize(&nWidth, &nHeight);
+
+	if( !m_OutBMP.Create(nWidth, nHeight) ) wxLogError(wxT("Couldn't create output bitmap."));
+
 	SetScrollbars(5, 5, 100, 100);
 	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
@@ -312,8 +324,8 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 	wxPaintDC paintDC(this);
 	GetClientSize(&sx, &sy);
 
-	wxBitmap outbmp(sx, sy);
-	wxSFScaledPaintDC dc(outbmp, m_Settings.m_nScale);
+	//wxBitmap outbmp(sx, sy);
+	wxSFScaledPaintDC dc(m_OutBMP, m_Settings.m_nScale);
 
 	if(dc.IsOk())
 	{
@@ -339,7 +351,15 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 	// erase background
 	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
 	{
-		dc.GradientFillLinear(wxRect(wxPoint(0, 0), GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y)), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
+	    #ifndef __WXMSW__
+	    wxSize nBcgSize = GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y);
+	    if( m_Settings.m_nScale != 1.f )
+            dc.GradientFillLinear(wxRect(wxPoint(0, 0), wxSize( nBcgSize.x/m_Settings.m_nScale, nBcgSize.y/m_Settings.m_nScale )), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
+        else
+            dc.GradientFillLinear(wxRect(wxPoint(0, 0),  GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y)), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
+		#else
+		dc.GradientFillLinear(wxRect(wxPoint(0, 0),  GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y)), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
+		#endif
 	}
 	else
 	{
@@ -408,11 +428,6 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 				{
 					if( pShape->Intersects(updRct) )
 					{
-						/*if( pShape->IsSelected() )
-						{
-							m_lstSelected.Append( pShape );
-						}
-						else */
 						if( !pParentShape || (pParentShape && !pParentShape->IsKindOf(CLASSINFO(wxSFLineShape))) )
 						{
 							pShape->Draw(dc, sfWITHOUTCHILDREN);
@@ -424,21 +439,6 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 
 				node = node->GetNext();
 			}
-
-			// draw dragged shapes ...
-			/*node = m_lstSelected.GetFirst();
-			while(node)
-			{
-				pShape = (wxSFShapeBase*)node->GetData();
-				pParentShape = pShape->GetParentShape();
-
-                if( !pParentShape || (pParentShape && !pParentShape->IsKindOf(CLASSINFO(wxSFLineShape))) )
-                {
-                    pShape->Draw(dc);
-                }
-
-				node = node->GetNext();
-			}*/
 
 			// ... and draw connections
 			node = m_lstLinesToDraw.GetFirst();
