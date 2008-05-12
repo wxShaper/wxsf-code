@@ -106,19 +106,19 @@ VAR = -ot -ox
 !ifeq WX_DEBUG 1
 VAR = -od
 !endif
-VAR_6 =
+VAR_8 =
 !ifeq WX_DEBUG 0
-VAR_6 = -d0
+VAR_8 = -d0
 !endif
 !ifeq WX_DEBUG 1
-VAR_6 = -d2
+VAR_8 = -d2
 !endif
-VAR_7 =
+VAR_9 =
 !ifeq WX_DEBUG 0
-VAR_7 = 
+VAR_9 = 
 !endif
 !ifeq WX_DEBUG 1
-VAR_7 = debug all
+VAR_9 = debug all
 !endif
 __WXLIB_XML_NAME_p =
 !ifeq WX_DEBUG 0
@@ -279,7 +279,7 @@ WXLIBPATH = \lib\wat_dll
 WXSF_LIB_CXXFLAGS = $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) &
 	$(__WXDEBUG_DEFINE_p) -d__WXMSW__ &
 	-i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include $(VAR) &
-	$(VAR_6) -wx -i=..\include -i=..\src -i=.\src $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_8) -wx -i=..\include -i=..\src -i=.\src $(CPPFLAGS) $(CXXFLAGS)
 WXSF_LIB_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ArrowBase.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_BitmapShape.obj &
@@ -288,6 +288,7 @@ WXSF_LIB_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CanvasState.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CircleShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CommonFcn.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ControlShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CurveShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CurveShapeXml.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_DiagramManager.obj &
@@ -301,6 +302,7 @@ WXSF_LIB_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_OpenArrow.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_PolygonShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_PolygonShapeXml.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_Printout.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RectShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RectShapeXml.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RoundRectShape.obj &
@@ -321,7 +323,7 @@ WXSF_LIB_OBJECTS =  &
 WXSF_DLL_CXXFLAGS = -bd $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) &
 	$(__WXDEBUG_DEFINE_p) -d__WXMSW__ &
 	-i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include $(VAR) &
-	$(VAR_6) -wx -i=..\include -dWXMAKINGDLL_WXSF -i=..\src -i=.\src &
+	$(VAR_8) -wx -i=..\include -dWXMAKINGDLL_WXSF -i=..\src -i=.\src &
 	-dWXMAKINGDLL_WXXS $(CPPFLAGS) $(CXXFLAGS)
 WXSF_DLL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ArrowBase.obj &
@@ -331,6 +333,7 @@ WXSF_DLL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CanvasState.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CircleShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CommonFcn.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ControlShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CurveShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CurveShapeXml.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_DiagramManager.obj &
@@ -344,6 +347,7 @@ WXSF_DLL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_OpenArrow.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_PolygonShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_PolygonShapeXml.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_Printout.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RectShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RectShapeXml.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RoundRectShape.obj &
@@ -364,7 +368,7 @@ WXSF_DLL_OBJECTS =  &
 SFDEMO_CXXFLAGS = $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) &
 	$(__WXDEBUG_DEFINE_p) -d__WXMSW__ &
 	-i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include $(VAR) &
-	$(VAR_6) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_8) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
 SFDEMO_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_FrameCanvas.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_MainApp.obj &
@@ -373,7 +377,7 @@ SFDEMO_OBJECTS =  &
 SFSAMPLE1_CXXFLAGS = $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) &
 	$(__WXDEBUG_DEFINE_p) -d__WXMSW__ &
 	-i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include $(VAR) &
-	$(VAR_6) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_8) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
 SFSAMPLE1_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1_wxSFSample1App.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1_wxSFSample1Main.obj &
@@ -381,7 +385,7 @@ SFSAMPLE1_OBJECTS =  &
 SFSAMPLE2_CXXFLAGS = $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) &
 	$(__WXDEBUG_DEFINE_p) -d__WXMSW__ &
 	-i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include $(VAR) &
-	$(VAR_6) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_8) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
 SFSAMPLE2_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2_SampleCanvas.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2_wxSFSample2App.obj &
@@ -390,12 +394,20 @@ SFSAMPLE2_OBJECTS =  &
 SFSAMPLE3_CXXFLAGS = $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) &
 	$(__WXDEBUG_DEFINE_p) -d__WXMSW__ &
 	-i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include $(VAR) &
-	$(VAR_6) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_8) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
 SFSAMPLE3_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3_StarShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3_wxSFSample3App.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3_wxSFSample3Main.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3_wx_pch.obj
+SFSAMPLE4_CXXFLAGS = $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) &
+	$(__WXDEBUG_DEFINE_p) -d__WXMSW__ &
+	-i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include $(VAR) &
+	$(VAR_8) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
+SFSAMPLE4_OBJECTS =  &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wxSFSample4App.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wxSFSample4Main.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wx_pch.obj
 
 
 all : watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)
@@ -404,7 +416,7 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX) :
 
 ### Targets: ###
 
-all : .SYMBOLIC test_for_selected_wxbuild $(__wxsf_lib___depname) $(__wxsf_dll___depname) ..\samples\wxSFDemo\sfdemo.exe ..\samples\wxSFSample1\sfsample1.exe ..\samples\wxSFSample2\sfsample2.exe ..\samples\wxSFSample3\sfsample3.exe
+all : .SYMBOLIC test_for_selected_wxbuild $(__wxsf_lib___depname) $(__wxsf_dll___depname) ..\samples\wxSFDemo\sfdemo.exe ..\samples\wxSFSample1\sfsample1.exe ..\samples\wxSFSample2\sfsample2.exe ..\samples\wxSFSample3\sfsample3.exe ..\samples\wxSFSample4\sfsample4.exe
 
 clean : .SYMBOLIC 
 	-if exist watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.obj del watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.obj
@@ -419,6 +431,7 @@ clean : .SYMBOLIC
 	-if exist ..\samples\wxSFSample1\sfsample1.exe del ..\samples\wxSFSample1\sfsample1.exe
 	-if exist ..\samples\wxSFSample2\sfsample2.exe del ..\samples\wxSFSample2\sfsample2.exe
 	-if exist ..\samples\wxSFSample3\sfsample3.exe del ..\samples\wxSFSample3\sfsample3.exe
+	-if exist ..\samples\wxSFSample4\sfsample4.exe del ..\samples\wxSFSample4\sfsample4.exe
 
 test_for_selected_wxbuild :  
 	@if not exist $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h \
@@ -448,7 +461,7 @@ make_dir_wxsf_lib :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH)
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_9) libpath ..$(WXLIBPATH)
 	@for %i in ($(WXSF_DLL_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc file %i
 	@for %i in ( $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib odbc32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll.lbc
@@ -465,7 +478,7 @@ make_dir_wxsf_dll :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_9) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
 	@for %i in ($(SFDEMO_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc file %i
 	@for %i in ( ..\lib\wat_$(____wxsf_3)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_wxsf.lib $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib odbc32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_wxSF.res
@@ -480,7 +493,7 @@ make_sample_dir_sfdemo :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_9) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
 	@for %i in ($(SFSAMPLE1_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc file %i
 	@for %i in ( ..\lib\wat_$(____wxsf_3)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_wxsf.lib $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib odbc32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample1_wxSF.res
@@ -495,7 +508,7 @@ make_sample_dir_sfsample1 :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_9) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
 	@for %i in ($(SFSAMPLE2_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc file %i
 	@for %i in ( ..\lib\wat_$(____wxsf_3)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_wxsf.lib $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib odbc32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample2_wxSF.res
@@ -510,7 +523,7 @@ make_sample_dir_sfsample2 :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_9) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
 	@for %i in ($(SFSAMPLE3_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc file %i
 	@for %i in ( ..\lib\wat_$(____wxsf_3)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_wxsf.lib $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib odbc32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3_wxSF.res
@@ -519,6 +532,21 @@ make_sample_dir_sfsample2 :
 
 make_sample_dir_sfsample3 :  
 	if not exist ..\samples\wxSFSample3 mkdir ..\samples\wxSFSample3
+
+..\samples\wxSFSample4\sfsample4.exe :  $(SFSAMPLE4_OBJECTS) make_sample_dir_sfsample4 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wxSF.res $(__wxsf_lib___depname)
+	@%create watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc option quiet
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc name $^@
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc option caseexact
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc $(LDFLAGS) libpath $(WX_DIR)$(WXLIBPATH) $(VAR_9) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16'
+	@for %i in ($(SFSAMPLE4_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc file %i
+	@for %i in ( ..\lib\wat_$(____wxsf_3)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_wxsf.lib $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib odbc32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc library %i
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wxSF.res
+	@for %i in () do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc option stack=%i
+	wlink @watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4.lbc
+
+make_sample_dir_sfsample4 :  
+	if not exist ..\samples\wxSFSample4 mkdir ..\samples\wxSFSample4
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ArrowBase.obj :  .AUTODEPEND ..\src\ArrowBase.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
@@ -539,6 +567,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CircleShape.obj :  .AUT
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CommonFcn.obj :  .AUTODEPEND ..\src\CommonFcn.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ControlShape.obj :  .AUTODEPEND ..\src\ControlShape.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CurveShape.obj :  .AUTODEPEND ..\src\CurveShape.cpp
@@ -578,6 +609,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_PolygonShape.obj :  .AU
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_PolygonShapeXml.obj :  .AUTODEPEND ..\src\PolygonShapeXml.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_Printout.obj :  .AUTODEPEND ..\src\Printout.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RectShape.obj :  .AUTODEPEND ..\src\RectShape.cpp
@@ -652,6 +686,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CircleShape.obj :  .AUT
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CommonFcn.obj :  .AUTODEPEND ..\src\CommonFcn.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
 
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ControlShape.obj :  .AUTODEPEND ..\src\ControlShape.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
+
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CurveShape.obj :  .AUTODEPEND ..\src\CurveShape.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
 
@@ -689,6 +726,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_PolygonShape.obj :  .AU
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_PolygonShapeXml.obj :  .AUTODEPEND ..\src\PolygonShapeXml.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_Printout.obj :  .AUTODEPEND ..\src\Printout.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RectShape.obj :  .AUTODEPEND ..\src\RectShape.cpp
@@ -798,4 +838,16 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3_wx_pch.obj :  .AUTODEP
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample3_wxSF.res :  .AUTODEPEND ..\samples\wxSFSample3\wxSF.rc
 	wrc -q -ad -bt=nt -r -fo=$^@  $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) -d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include -i=..\include -i=..\samples\wxSFSample3 $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wxSFSample4App.obj :  .AUTODEPEND ..\samples\wxSFSample4\wxSFSample4App.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(SFSAMPLE4_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wxSFSample4Main.obj :  .AUTODEPEND ..\samples\wxSFSample4\wxSFSample4Main.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(SFSAMPLE4_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wx_pch.obj :  .AUTODEPEND ..\samples\wxSFSample4\wx_pch.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(SFSAMPLE4_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfsample4_wxSF.res :  .AUTODEPEND ..\samples\wxSFSample4\wxSF.rc
+	wrc -q -ad -bt=nt -r -fo=$^@  $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) -d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include -i=..\include -i=..\samples\wxSFSample4 $<
 

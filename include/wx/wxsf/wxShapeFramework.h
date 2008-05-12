@@ -36,6 +36,8 @@
 
 #include "Printout.h"
 
+#include "CommonFcn.h"
+
 #include "../wxxmlserializer/XmlSerializer.h"
 
 #endif //_WXSF_H

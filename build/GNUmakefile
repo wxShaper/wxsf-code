@@ -72,7 +72,7 @@ WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_DEBUG_FLAG) $(WX_CONFIG_UNICODE_FLAG) \
 	$(WX_CONFIG_SHARED_FLAG) --toolkit=$(WX_PORT) \
 	--version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-WXSF_LIB_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../src -I./src \
+WXSF_LIB_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include -I../src -I./src \
 	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ArrowBase.o \
@@ -82,6 +82,7 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CanvasState.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CircleShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CommonFcn.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ControlShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CurveShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CurveShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_DiagramManager.o \
@@ -95,6 +96,7 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_OpenArrow.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PolygonShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PolygonShapeXml.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_Printout.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RectShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RectShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RoundRectShape.o \
@@ -112,7 +114,7 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_wx_pch.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PropertyIO.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_XmlSerializer.o
-WXSF_DLL_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -DWXMAKINGDLL_WXSF \
+WXSF_DLL_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include -DWXMAKINGDLL_WXSF \
 	-I../src -I./src -DWXMAKINGDLL_WXXS -fPIC -DPIC `$(WX_CONFIG) --cxxflags \
 	$(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 WXSF_DLL_OBJECTS =  \
@@ -123,6 +125,7 @@ WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CanvasState.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CircleShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CommonFcn.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_ControlShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CurveShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CurveShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_DiagramManager.o \
@@ -136,6 +139,7 @@ WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_OpenArrow.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_PolygonShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_PolygonShapeXml.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_Printout.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RectShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RectShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RoundRectShape.o \
@@ -153,33 +157,39 @@ WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_wx_pch.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_PropertyIO.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_XmlSerializer.o
-SFDEMO_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include `$(WX_CONFIG) --cxxflags \
+SFDEMO_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include `$(WX_CONFIG) --cxxflags \
 	$(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 SFDEMO_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_FrameCanvas.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_MainApp.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_MainFrame.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_wx_pch.o
-SFSAMPLE1_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include `$(WX_CONFIG) \
+SFSAMPLE1_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 SFSAMPLE1_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample1_wxSFSample1App.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample1_wxSFSample1Main.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample1_wx_pch.o
-SFSAMPLE2_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include `$(WX_CONFIG) \
+SFSAMPLE2_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 SFSAMPLE2_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample2_SampleCanvas.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample2_wxSFSample2App.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample2_wxSFSample2Main.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample2_wx_pch.o
-SFSAMPLE3_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include `$(WX_CONFIG) \
+SFSAMPLE3_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 SFSAMPLE3_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample3_StarShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample3_wxSFSample3App.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample3_wxSFSample3Main.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample3_wx_pch.o
+SFSAMPLE4_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include `$(WX_CONFIG) \
+	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
+SFSAMPLE4_OBJECTS =  \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample4_wxSFSample4App.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample4_wxSFSample4Main.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample4_wx_pch.o
 
 ### Conditionally set variables: ###
 
@@ -255,10 +265,10 @@ ifeq ($(WX_SHARED),1)
 __sf = -Wl,-rpath,../../lib/gcc_dll
 endif
 ifeq ($(WX_DEBUG),0)
-VAR_7 = 
+VAR_9 = 
 endif
 ifeq ($(WX_DEBUG),1)
-VAR_7 = -g
+VAR_9 = -g
 endif
 
 
@@ -268,7 +278,7 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX):
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild $(__wxsf_lib___depname) $(__wxsf_dll___depname) ../samples/wxSFDemo/sfdemo ../samples/wxSFSample1/sfsample1 ../samples/wxSFSample2/sfsample2 ../samples/wxSFSample3/sfsample3
+all: test_for_selected_wxbuild $(__wxsf_lib___depname) $(__wxsf_dll___depname) ../samples/wxSFDemo/sfdemo ../samples/wxSFSample1/sfsample1 ../samples/wxSFSample2/sfsample2 ../samples/wxSFSample3/sfsample3 ../samples/wxSFSample4/sfsample4
 
 install: all $(__install_wxsf_lib___depname) $(__install_wxsf_lib_headers___depname) $(__install_wxsf_dll___depname) $(__install_wxsf_dll_headers___depname)
 
@@ -284,6 +294,7 @@ clean:
 	rm -f ../samples/wxSFSample1/sfsample1
 	rm -f ../samples/wxSFSample2/sfsample2
 	rm -f ../samples/wxSFSample3/sfsample3
+	rm -f ../samples/wxSFSample4/sfsample4
 
 test_for_selected_wxbuild: 
 	@$(WX_CONFIG) $(WX_CONFIG_FLAGS)
@@ -329,7 +340,7 @@ endif
 
 ifeq ($(WX_SHARED),1)
 ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so: make_dir_wxsf_dll  $(WXSF_DLL_OBJECTS)
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(WXSF_DLL_OBJECTS) $(LDFLAGS) $(VAR_7) -L../lib  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(WXSF_DLL_OBJECTS) $(LDFLAGS) $(VAR_9) -L../lib  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 endif
 
 ifeq ($(WX_SHARED),1)
@@ -367,28 +378,34 @@ uninstall_wxsf_dll_headers:
 endif
 
 ../samples/wxSFDemo/sfdemo: $(SFDEMO_OBJECTS) make_sample_dir_sfdemo $(__wxsf_lib___depname)
-	$(CXX) -o $@ $(SFDEMO_OBJECTS) $(LDFLAGS) $(VAR_7) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(SFDEMO_OBJECTS) $(LDFLAGS) $(VAR_9) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 make_sample_dir_sfdemo: 
 	@mkdir -p ../samples/wxSFDemo
 
 ../samples/wxSFSample1/sfsample1: $(SFSAMPLE1_OBJECTS) make_sample_dir_sfsample1 $(__wxsf_lib___depname)
-	$(CXX) -o $@ $(SFSAMPLE1_OBJECTS) $(LDFLAGS) $(VAR_7) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(SFSAMPLE1_OBJECTS) $(LDFLAGS) $(VAR_9) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 make_sample_dir_sfsample1: 
 	@mkdir -p ../samples/wxSFSample1
 
 ../samples/wxSFSample2/sfsample2: $(SFSAMPLE2_OBJECTS) make_sample_dir_sfsample2 $(__wxsf_lib___depname)
-	$(CXX) -o $@ $(SFSAMPLE2_OBJECTS) $(LDFLAGS) $(VAR_7) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(SFSAMPLE2_OBJECTS) $(LDFLAGS) $(VAR_9) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 make_sample_dir_sfsample2: 
 	@mkdir -p ../samples/wxSFSample2
 
 ../samples/wxSFSample3/sfsample3: $(SFSAMPLE3_OBJECTS) make_sample_dir_sfsample3 $(__wxsf_lib___depname)
-	$(CXX) -o $@ $(SFSAMPLE3_OBJECTS) $(LDFLAGS) $(VAR_7) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(SFSAMPLE3_OBJECTS) $(LDFLAGS) $(VAR_9) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 make_sample_dir_sfsample3: 
 	@mkdir -p ../samples/wxSFSample3
+
+../samples/wxSFSample4/sfsample4: $(SFSAMPLE4_OBJECTS) make_sample_dir_sfsample4 $(__wxsf_lib___depname)
+	$(CXX) -o $@ $(SFSAMPLE4_OBJECTS) $(LDFLAGS) $(VAR_9) -L../lib  $(__sf)  ../lib/gcc_$(__wxsf)/libwxcode_$(WX_PORT)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+
+make_sample_dir_sfsample4: 
+	@mkdir -p ../samples/wxSFSample4
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ArrowBase.o: ../src/ArrowBase.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
@@ -409,6 +426,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CircleShape.o: ../src/CircleSha
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CommonFcn.o: ../src/CommonFcn.cpp
+	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ControlShape.o: ../src/ControlShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CurveShape.o: ../src/CurveShape.cpp
@@ -448,6 +468,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PolygonShape.o: ../src/PolygonS
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PolygonShapeXml.o: ../src/PolygonShapeXml.cpp
+	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_Printout.o: ../src/Printout.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RectShape.o: ../src/RectShape.cpp
@@ -522,6 +545,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CircleShape.o: ../src/CircleSha
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CommonFcn.o: ../src/CommonFcn.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_ControlShape.o: ../src/ControlShape.cpp
+	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
+
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CurveShape.o: ../src/CurveShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -559,6 +585,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_PolygonShape.o: ../src/PolygonS
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_PolygonShapeXml.o: ../src/PolygonShapeXml.cpp
+	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_Printout.o: ../src/Printout.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RectShape.o: ../src/RectShape.cpp
@@ -656,6 +685,15 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample3_wxSFSample3Main.o: ../samples/
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample3_wx_pch.o: ../samples/wxSFSample3/wx_pch.cpp
 	$(CXX) -c -o $@ $(SFSAMPLE3_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample4_wxSFSample4App.o: ../samples/wxSFSample4/wxSFSample4App.cpp
+	$(CXX) -c -o $@ $(SFSAMPLE4_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample4_wxSFSample4Main.o: ../samples/wxSFSample4/wxSFSample4Main.cpp
+	$(CXX) -c -o $@ $(SFSAMPLE4_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfsample4_wx_pch.o: ../samples/wxSFSample4/wx_pch.cpp
+	$(CXX) -c -o $@ $(SFSAMPLE4_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean install_wxsf_lib uninstall_wxsf_lib install_wxsf_lib_headers uninstall_wxsf_lib_headers install_wxsf_dll uninstall_wxsf_dll install_wxsf_dll_headers uninstall_wxsf_dll_headers
 

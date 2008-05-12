@@ -3,6 +3,7 @@
 # Author: Francesco Montorsi
 # RCS-ID: $Id: acregen.sh 505 2007-03-31 10:31:46Z frm $
 # Creation date: 14/9/2005
+# Modification date: 12/5/2008 (Michal Bliznak)
 #
 # A simple script to generate the configure script for a wxCode component
 # Some features of this version:
@@ -30,9 +31,19 @@ aclocal_minimal_maj=1
 aclocal_minimal_min=9
 aclocal_minimal_rel=6
 
-majok=$(expr $aclocal_maj \>= $aclocal_minimal_maj)
-minok=$(expr $aclocal_min \>= $aclocal_minimal_min)
-relok=$(expr $aclocal_rel \>= $aclocal_minimal_rel)
+if [[ $(expr $aclocal_maj \> $aclocal_minimal_maj) = "1" ]]; then
+    majok="1"; minok="1"; relok="1";
+else
+    majok=$(expr $aclocal_maj \>= $aclocal_minimal_maj);
+
+    if [[ $(expr $aclocal_min \> $aclocal_minimal_min) = "1" ]]; then
+
+        minok="1"; relok="1";
+    else
+        minok=$(expr $aclocal_min \>= $aclocal_minimal_min);
+	relok=$(expr $aclocal_rel \>= $aclocal_minimal_rel);
+    fi
+fi
 
 if [[ "$majok" = "0" ]]; then aclocalold; fi
 if [[ "$majok" = "1" && "$minok" = "0" ]]; then aclocalold; fi
@@ -48,5 +59,6 @@ cd $path
 #       because usually bakefile gets installed into /usr/local prefix but
 #       by default aclocal only looks into /usr/share/aclocal
 #       (you can test this doing `aclocal --print-ac-dir`)
-aclocal -I /usr/local/share/aclocal && autoconf && mv configure ..
+# aclocal -I /usr/local/share/aclocal && autoconf && mv configure ..
+aclocal && autoconf && mv configure ..
 cd $current

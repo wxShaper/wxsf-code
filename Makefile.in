@@ -59,6 +59,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_CanvasState.o \
 	wxsf_lib_CircleShape.o \
 	wxsf_lib_CommonFcn.o \
+	wxsf_lib_ControlShape.o \
 	wxsf_lib_CurveShape.o \
 	wxsf_lib_CurveShapeXml.o \
 	wxsf_lib_DiagramManager.o \
@@ -72,6 +73,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_OpenArrow.o \
 	wxsf_lib_PolygonShape.o \
 	wxsf_lib_PolygonShapeXml.o \
+	wxsf_lib_Printout.o \
 	wxsf_lib_RectShape.o \
 	wxsf_lib_RectShapeXml.o \
 	wxsf_lib_RoundRectShape.o \
@@ -99,6 +101,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_CanvasState.o \
 	wxsf_dll_CircleShape.o \
 	wxsf_dll_CommonFcn.o \
+	wxsf_dll_ControlShape.o \
 	wxsf_dll_CurveShape.o \
 	wxsf_dll_CurveShapeXml.o \
 	wxsf_dll_DiagramManager.o \
@@ -112,6 +115,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_OpenArrow.o \
 	wxsf_dll_PolygonShape.o \
 	wxsf_dll_PolygonShapeXml.o \
+	wxsf_dll_Printout.o \
 	wxsf_dll_RectShape.o \
 	wxsf_dll_RectShapeXml.o \
 	wxsf_dll_RoundRectShape.o \
@@ -156,6 +160,12 @@ SFSAMPLE3_OBJECTS =  \
 	sfsample3_wxSFSample3Main.o \
 	sfsample3_wx_pch.o \
 	$(__sfsample3___win32rc)
+SFSAMPLE4_CXXFLAGS = -I$(srcdir)/include $(WX_CXXFLAGS) $(CPPFLAGS) $(CXXFLAGS)
+SFSAMPLE4_OBJECTS =  \
+	sfsample4_wxSFSample4App.o \
+	sfsample4_wxSFSample4Main.o \
+	sfsample4_wx_pch.o \
+	$(__sfsample4___win32rc)
 
 ### Conditionally set variables: ###
 
@@ -266,11 +276,19 @@ COND_PLATFORM_OS2_1___sfsample3___os2_emxbindcmd = $(NM) sfsample3$(EXEEXT) | \
 	if grep -q pmwin.763 ; then emxbind -ep sfsample3$(EXEEXT) ; fi
 @COND_PLATFORM_OS2_1@__sfsample3___os2_emxbindcmd = $(COND_PLATFORM_OS2_1___sfsample3___os2_emxbindcmd)
 @COND_PLATFORM_WIN32_1@__sfsample3___win32rc = sfsample3_wxSF_rc.o
+@COND_PLATFORM_MAC_0@__sfsample4___mac_setfilecmd = @true
+@COND_PLATFORM_MAC_1@__sfsample4___mac_setfilecmd = \
+@COND_PLATFORM_MAC_1@	$(SETFILE) -t APPL \
+@COND_PLATFORM_MAC_1@	$(srcdir)/samples/wxSFSample4/sfsample4$(EXEEXT)
+COND_PLATFORM_OS2_1___sfsample4___os2_emxbindcmd = $(NM) sfsample4$(EXEEXT) | \
+	if grep -q pmwin.763 ; then emxbind -ep sfsample4$(EXEEXT) ; fi
+@COND_PLATFORM_OS2_1@__sfsample4___os2_emxbindcmd = $(COND_PLATFORM_OS2_1___sfsample4___os2_emxbindcmd)
+@COND_PLATFORM_WIN32_1@__sfsample4___win32rc = sfsample4_wxSF_rc.o
 @COND_WX_SHARED_1@__sf = -Wl,-rpath,../../lib
 
 ### Targets: ###
 
-all: $(__wxsf_lib___depname) $(__wxsf_dll___depname) $(srcdir)/samples/wxSFDemo/sfdemo$(EXEEXT) $(srcdir)/samples/wxSFSample1/sfsample1$(EXEEXT) $(srcdir)/samples/wxSFSample2/sfsample2$(EXEEXT) $(srcdir)/samples/wxSFSample3/sfsample3$(EXEEXT)
+all: $(__wxsf_lib___depname) $(__wxsf_dll___depname) $(srcdir)/samples/wxSFDemo/sfdemo$(EXEEXT) $(srcdir)/samples/wxSFSample1/sfsample1$(EXEEXT) $(srcdir)/samples/wxSFSample2/sfsample2$(EXEEXT) $(srcdir)/samples/wxSFSample3/sfsample3$(EXEEXT) $(srcdir)/samples/wxSFSample4/sfsample4$(EXEEXT)
 
 install: all $(__install_wxsf_lib___depname) $(__install_wxsf_lib_headers___depname) $(__install_wxsf_dll___depname) $(__install_wxsf_dll_headers___depname)
 
@@ -290,6 +308,7 @@ clean:
 	rm -f $(srcdir)/samples/wxSFSample1/sfsample1$(EXEEXT)
 	rm -f $(srcdir)/samples/wxSFSample2/sfsample2$(EXEEXT)
 	rm -f $(srcdir)/samples/wxSFSample3/sfsample3$(EXEEXT)
+	rm -f $(srcdir)/samples/wxSFSample4/sfsample4$(EXEEXT)
 
 distclean: clean
 	rm -f config.cache config.log config.status bk-deps bk-make-pch shared-ld-sh Makefile
@@ -386,6 +405,15 @@ $(srcdir)/samples/wxSFSample3/sfsample3$(EXEEXT): $(SFSAMPLE3_OBJECTS) make_samp
 make_sample_dir_sfsample3: 
 	@mkdir -p $(srcdir)/samples/wxSFSample3
 
+$(srcdir)/samples/wxSFSample4/sfsample4$(EXEEXT): $(SFSAMPLE4_OBJECTS) make_sample_dir_sfsample4 $(__sfsample4___win32rc) $(__wxsf_lib___depname)
+	$(CXX) -o $@ $(SFSAMPLE4_OBJECTS) -L$(srcdir)/lib $(LDFLAGS) -L$(srcdir)/lib $(LDFLAGS_GUI) $(__sf)  $(LIBS) -lwxcode_$(WX_PORT)$(WXLIBPOSTFIX)_wxsf-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR) $(WX_LIBS)
+	
+	$(__sfsample4___mac_setfilecmd)
+	$(__sfsample4___os2_emxbindcmd)
+
+make_sample_dir_sfsample4: 
+	@mkdir -p $(srcdir)/samples/wxSFSample4
+
 wxsf_lib_ArrowBase.o: $(srcdir)/src/ArrowBase.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/ArrowBase.cpp
 
@@ -406,6 +434,9 @@ wxsf_lib_CircleShape.o: $(srcdir)/src/CircleShape.cpp
 
 wxsf_lib_CommonFcn.o: $(srcdir)/src/CommonFcn.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/CommonFcn.cpp
+
+wxsf_lib_ControlShape.o: $(srcdir)/src/ControlShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/ControlShape.cpp
 
 wxsf_lib_CurveShape.o: $(srcdir)/src/CurveShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/CurveShape.cpp
@@ -445,6 +476,9 @@ wxsf_lib_PolygonShape.o: $(srcdir)/src/PolygonShape.cpp
 
 wxsf_lib_PolygonShapeXml.o: $(srcdir)/src/PolygonShapeXml.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/PolygonShapeXml.cpp
+
+wxsf_lib_Printout.o: $(srcdir)/src/Printout.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/Printout.cpp
 
 wxsf_lib_RectShape.o: $(srcdir)/src/RectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RectShape.cpp
@@ -518,6 +552,9 @@ wxsf_dll_CircleShape.o: $(srcdir)/src/CircleShape.cpp
 wxsf_dll_CommonFcn.o: $(srcdir)/src/CommonFcn.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/CommonFcn.cpp
 
+wxsf_dll_ControlShape.o: $(srcdir)/src/ControlShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/ControlShape.cpp
+
 wxsf_dll_CurveShape.o: $(srcdir)/src/CurveShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/CurveShape.cpp
 
@@ -556,6 +593,9 @@ wxsf_dll_PolygonShape.o: $(srcdir)/src/PolygonShape.cpp
 
 wxsf_dll_PolygonShapeXml.o: $(srcdir)/src/PolygonShapeXml.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/PolygonShapeXml.cpp
+
+wxsf_dll_Printout.o: $(srcdir)/src/Printout.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/Printout.cpp
 
 wxsf_dll_RectShape.o: $(srcdir)/src/RectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RectShape.cpp
@@ -664,6 +704,18 @@ sfsample3_wx_pch.o: $(srcdir)/samples/wxSFSample3/wx_pch.cpp
 
 sfsample3_wxSF_rc.o: $(srcdir)/samples/wxSFSample3/wxSF.rc
 	$(WX_RESCOMP) -i$< -o$@  --include-dir $(srcdir)/include --include-dir $(srcdir)/samples/wxSFSample3
+
+sfsample4_wxSFSample4App.o: $(srcdir)/samples/wxSFSample4/wxSFSample4App.cpp
+	$(CXXC) -c -o $@ $(SFSAMPLE4_CXXFLAGS) $(srcdir)/samples/wxSFSample4/wxSFSample4App.cpp
+
+sfsample4_wxSFSample4Main.o: $(srcdir)/samples/wxSFSample4/wxSFSample4Main.cpp
+	$(CXXC) -c -o $@ $(SFSAMPLE4_CXXFLAGS) $(srcdir)/samples/wxSFSample4/wxSFSample4Main.cpp
+
+sfsample4_wx_pch.o: $(srcdir)/samples/wxSFSample4/wx_pch.cpp
+	$(CXXC) -c -o $@ $(SFSAMPLE4_CXXFLAGS) $(srcdir)/samples/wxSFSample4/wx_pch.cpp
+
+sfsample4_wxSF_rc.o: $(srcdir)/samples/wxSFSample4/wxSF.rc
+	$(WX_RESCOMP) -i$< -o$@  --include-dir $(srcdir)/include --include-dir $(srcdir)/samples/wxSFSample4
 
 
 # Include dependency info, if present:
