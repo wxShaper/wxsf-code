@@ -237,7 +237,7 @@ void wxSFCurveShape::Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& 
 	wxSize ppi = dc.GetPPI();
 	if( ppi.x > ppi.y )nMaxPPI = ppi.x; else nMaxPPI = ppi.y;
 
-	long nOptimSteps = (int)((double)m_nMaxSteps * (double)(nMaxPPI/72) * GetParentCanvas()->GetScale());
+	long nOptimSteps = (int)((double)m_nMaxSteps * (double)(nMaxPPI/72));// * GetParentCanvas()->GetScale());
 	if(nOptimSteps<2)nOptimSteps=2;
 
     // draw the curve

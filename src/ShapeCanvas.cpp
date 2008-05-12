@@ -200,7 +200,6 @@ wxSFShapeCanvas::wxSFShapeCanvas()
 }
 
 wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
-: wxScrolledWindow(parent, id, pos, size, style)
 {
     // initialize shape manager
     wxASSERT_MSG( manager, wxT("Shape manager has not been properly set in shape canvas's constructor."));
@@ -211,42 +210,11 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
     m_pManager = manager;
     m_pManager->SetShapeCanvas(this);
 
-	// set drop target
-	m_formatShapes.SetId(dataFormatID);
-	SetDropTarget(new wxSFCanvasDropTarget(new wxSFShapeDataObject(m_formatShapes), this));
-	m_fDnDStartedHere = false;
+    Create(parent, id, pos, size, style);
 
-	// initialize output bitmap
-	int nWidth, nHeight;
-	wxDisplaySize(&nWidth, &nHeight);
+    m_shpMultiEdit.SetParentManager(m_pManager);
 
-	if( !m_OutBMP.Create(nWidth, nHeight) )wxLogError(wxT("Couldn't create output bitmap."));
-
-	SetScrollbars(5, 5, 100, 100);
-	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-
-	// initialize data members
-	m_fCanSaveStateOnMouseUp = false;
-
-	m_nWorkingMode = modeREADY;
-	m_pSelectedHandle = NULL;
-	m_pNewLineShape = NULL;
-	m_pUnselectedShapeUnderCursor = NULL;
-	m_pSelectedShapeUnderCursor = NULL;
-	m_pTopmostShapeUnderCursor = NULL;
-
-	// initialize multiedit rectangle
-	m_shpMultiEdit.SetParentManager(m_pManager);
-	m_shpMultiEdit.SetId(0);
-	m_shpMultiEdit.CreateHandles();
-	m_shpMultiEdit.Select(true);
-	m_shpMultiEdit.Show(false);
-	m_shpMultiEdit.ShowHandles(true);
-
-	m_CanvasHistory.SetParentCanvas(this);
-	if( m_pManager )SaveCanvasState();
-
-	if( ++m_nRefCounter == 1 ) InitializePrinting();
+    SaveCanvasState();
 }
 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
@@ -256,15 +224,11 @@ wxSFShapeCanvas::~wxSFShapeCanvas(void)
 }
 bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-    // perform basic window initialization
-    if( parent )Reparent(parent);
-    SetId(id);
-    Move(pos);
-    SetSize(size);
-    SetStyle(style);
-
     // NOTE: user must call wxSFShapeCanvas::SetDiagramManager() to complete
     // canvas initialization!
+
+    // perform basic window initialization
+    wxScrolledWindow::Create(parent, id, pos, size, style, name);
 
 	// set drop target
 	m_formatShapes.SetId(dataFormatID);
@@ -298,6 +262,8 @@ bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
 	m_shpMultiEdit.ShowHandles(true);
 
 	m_CanvasHistory.SetParentCanvas(this);
+
+	if( ++m_nRefCounter == 1 ) InitializePrinting();
 
     return true;
 }

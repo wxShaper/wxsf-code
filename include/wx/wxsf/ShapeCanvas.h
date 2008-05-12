@@ -159,7 +159,7 @@ public:
 	~wxSFShapeCanvas(void);
 
     /*!
-     * \brief Creates the window for two-step construction.
+     * \brief Creates the window in two-step construction mode. SetDiagramManager() function must be also called to complete the canvas initialization.
      * \param parent Parent window
      * \param id Window ID
      * \param pos Initial position
