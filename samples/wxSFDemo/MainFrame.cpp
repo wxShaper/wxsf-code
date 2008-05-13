@@ -29,7 +29,7 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(IDM_SAVEASBITMAP, CMainFrame::OnExportToBMP)
 	EVT_MENU(wxID_PRINT, CMainFrame::OnPrint)
 	EVT_MENU(wxID_PREVIEW, CMainFrame::OnPrintPreview)
-	EVT_MENU(wxID_PRINT_SETUP, CMainFrame::OnPageSetup)
+	EVT_MENU(wxID_PAGE_SETUP, CMainFrame::OnPageSetup)
 	EVT_COMMAND_SCROLL(wxID_ZOOM_FIT, CMainFrame::OnSlider)
 	EVT_TOOL_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnTool)
 	EVT_COLOURPICKER_CHANGED(IDT_COLORPICKER, CMainFrame::OnHowerColor)
@@ -57,7 +57,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	fileMenu->AppendSeparator();
 	fileMenu->Append(wxID_PRINT, wxT("&Print...\tCtrl+P"), wxT("Open pring dialog"), wxITEM_NORMAL);
 	fileMenu->Append(wxID_PREVIEW, wxT("Print pre&view...\tAlt+P"), wxT("Open print preview window"), wxITEM_NORMAL);
-	fileMenu->Append(wxID_PRINT_SETUP, wxT("Pa&ge setup..."), wxT("Set print page properties"), wxITEM_NORMAL);
+	fileMenu->Append(wxID_PAGE_SETUP, wxT("Pa&ge setup..."), wxT("Set print page properties"), wxITEM_NORMAL);
 	fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+X"), wxT("Close application"), wxITEM_NORMAL);
     mainMenu->Append(fileMenu, wxT("&File"));
