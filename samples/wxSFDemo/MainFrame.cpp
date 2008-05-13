@@ -81,9 +81,8 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
     toolBar = new wxToolBar(this, -1, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL|wxTB_FLAT);
     SetToolBar(toolBar);
 
-    // set shape canvas and associate it wirh diagram manager
-    //m_DiagramManager.Initialize();
-    shapeCanvas = new CFrameCanvas(&m_DiagramManager, this, -1);
+    // set shape canvas and associate it with diagram manager
+    shapeCanvas = new CFrameCanvas(&m_DiagramManager, this, wxID_ANY);
 
     set_properties();
     do_layout();

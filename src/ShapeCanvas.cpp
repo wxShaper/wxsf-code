@@ -138,6 +138,7 @@ wxPrintData *g_printData = (wxPrintData*) NULL ;
 
 // static data
 int wxSFShapeCanvas::m_nRefCounter = 0;
+wxBitmap wxSFShapeCanvas::m_OutBMP;
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 
@@ -193,14 +194,15 @@ END_EVENT_TABLE()
 
 wxSFShapeCanvas::wxSFShapeCanvas()
 {
-    // NOTE: user must call wxSFShapeCanvas::SetDiagramManager() to complete
+    // NOTE: user must call Create() and wxSFShapeCanvas::SetDiagramManager() to complete
     // canvas initialization!
-
-    Create(NULL, wxID_ANY);
 }
 
 wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 {
+    // NOTE: user must call wxSFShapeCanvas::SetDiagramManager() to complete
+    // canvas initialization!
+
     // initialize shape manager
     wxASSERT_MSG( manager, wxT("Shape manager has not been properly set in shape canvas's constructor."));
     if(!manager)return;
@@ -235,15 +237,6 @@ bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
 	SetDropTarget(new wxSFCanvasDropTarget(new wxSFShapeDataObject(m_formatShapes), this));
 	m_fDnDStartedHere = false;
 
-	// initialize output bitmap
-	int nWidth, nHeight;
-	wxDisplaySize(&nWidth, &nHeight);
-
-	if( !m_OutBMP.Create(nWidth, nHeight) ) wxLogError(wxT("Couldn't create output bitmap."));
-
-	SetScrollbars(5, 5, 100, 100);
-	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-
 	// initialize data members
 	m_fCanSaveStateOnMouseUp = false;
 
@@ -263,7 +256,20 @@ bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
 
 	m_CanvasHistory.SetParentCanvas(this);
 
-	if( ++m_nRefCounter == 1 ) InitializePrinting();
+	if( ++m_nRefCounter == 1 )
+	{
+	    // initialize printing
+	    InitializePrinting();
+
+        // initialize output bitmap
+        int nWidth, nHeight;
+        wxDisplaySize(&nWidth, &nHeight);
+
+        if( !m_OutBMP.Create(nWidth, nHeight) ) wxLogError(wxT("Couldn't create output bitmap."));
+	}
+
+    SetScrollbars(5, 5, 100, 100);
+	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     return true;
 }
