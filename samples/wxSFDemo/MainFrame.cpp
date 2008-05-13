@@ -27,9 +27,9 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
 	EVT_MENU(wxID_SELECTALL, CMainFrame::OnSelectAll)
 	EVT_MENU(IDM_SAVEASBITMAP, CMainFrame::OnExportToBMP)
-	EVT_MENU(IDM_PRINT, CMainFrame::OnPrint)
-	EVT_MENU(IDM_PRINTPREVIEW, CMainFrame::OnPrintPreview)
-	EVT_MENU(IDM_PAGESETUP, CMainFrame::OnPageSetup)
+	EVT_MENU(wxID_PRINT, CMainFrame::OnPrint)
+	EVT_MENU(wxID_PREVIEW, CMainFrame::OnPrintPreview)
+	EVT_MENU(wxID_PRINT_SETUP, CMainFrame::OnPageSetup)
 	EVT_COMMAND_SCROLL(wxID_ZOOM_FIT, CMainFrame::OnSlider)
 	EVT_TOOL_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, CMainFrame::OnTool)
 	EVT_COLOURPICKER_CHANGED(IDT_COLORPICKER, CMainFrame::OnHowerColor)
@@ -55,9 +55,9 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	fileMenu->AppendSeparator();
 	fileMenu->Append(IDM_SAVEASBITMAP, wxT("&Export to BMP..."), wxT("Export the chart to BMP file"), wxITEM_NORMAL);
 	fileMenu->AppendSeparator();
-	fileMenu->Append(IDM_PRINT, wxT("&Print...\tCtrl+P"), wxT("Open pring dialog"), wxITEM_NORMAL);
-	fileMenu->Append(IDM_PRINTPREVIEW, wxT("Print pre&view...\tAlt+P"), wxT("Open print preview window"), wxITEM_NORMAL);
-	fileMenu->Append(IDM_PAGESETUP, wxT("Pa&ge setup..."), wxT("Set print page properties"), wxITEM_NORMAL);
+	fileMenu->Append(wxID_PRINT, wxT("&Print...\tCtrl+P"), wxT("Open pring dialog"), wxITEM_NORMAL);
+	fileMenu->Append(wxID_PREVIEW, wxT("Print pre&view...\tAlt+P"), wxT("Open print preview window"), wxITEM_NORMAL);
+	fileMenu->Append(wxID_PRINT_SETUP, wxT("Pa&ge setup..."), wxT("Set print page properties"), wxITEM_NORMAL);
 	fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+X"), wxT("Close application"), wxITEM_NORMAL);
     mainMenu->Append(fileMenu, wxT("&File"));
@@ -104,11 +104,12 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 
 	// add toolbar tools
 	toolBar->SetToolBitmapSize(wxSize(16, 15));
-	toolBar->AddTool(wxID_NEW, wxT("New"), wxArtProvider::GetBitmap(wxART_NEW, wxART_MENU), wxT("New"));
+	toolBar->AddTool(wxID_NEW, wxT("New"), wxArtProvider::GetBitmap(wxART_NEW, wxART_MENU), wxT("New diagram"));
 	toolBar->AddTool(wxID_OPEN, wxT("Load"), wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_MENU), wxT("Open file..."));
 	toolBar->AddTool(wxID_SAVE, wxT("Save"), wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_MENU), wxT("Save file..."));
 	toolBar->AddSeparator();
-	toolBar->AddTool(IDM_PRINT, wxT("Print"), wxArtProvider::GetBitmap(wxART_PRINT, wxART_MENU), wxT("Print drawing..."));
+	toolBar->AddTool(wxID_PRINT, wxT("Print"), wxArtProvider::GetBitmap(wxART_PRINT, wxART_MENU), wxT("Print..."));
+	toolBar->AddTool(wxID_PREVIEW, wxT("Preview"), wxArtProvider::GetBitmap(wxART_FIND, wxART_MENU), wxT("Print preview..."));
 	toolBar->AddSeparator();
 	toolBar->AddTool(wxID_COPY, wxT("Copy"), wxArtProvider::GetBitmap(wxART_COPY, wxART_MENU), wxT("Copy to clipboard"));
 	toolBar->AddTool(wxID_CUT, wxT("Cut"), wxArtProvider::GetBitmap(wxART_CUT, wxART_MENU), wxT("Cut to clipboard"));

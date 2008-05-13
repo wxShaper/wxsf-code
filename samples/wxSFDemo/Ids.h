@@ -6,9 +6,6 @@ enum APPIDS
     // menu IDs
     //---------------------------------------------------------------//
     IDM_SAVEASBITMAP = wxID_HIGHEST + 1,
-    IDM_PRINT,
-    IDM_PRINTPREVIEW,
-    IDM_PAGESETUP,
 
     // tool IDs
     //---------------------------------------------------------------//
