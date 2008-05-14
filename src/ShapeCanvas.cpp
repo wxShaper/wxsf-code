@@ -2835,6 +2835,8 @@ void wxSFShapeCanvas::Print(wxSFPrintout *printout, bool prompt)
     }
     else
         (*g_printData) = printer.GetPrintDialogData().GetPrintData();
+
+	delete printout;
 }
 
 void wxSFShapeCanvas::PrintPreview()

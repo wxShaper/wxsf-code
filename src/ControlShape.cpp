@@ -8,6 +8,12 @@
  * Notes:
  **************************************************************/
 
+#include "wx_pch.h"
+
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
+
 #include "wx/wxsf/ControlShape.h"
 #include "wx/wxsf/DiagramManager.h"
 #include "wx/wxsf/ShapeCanvas.h"

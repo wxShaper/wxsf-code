@@ -7,6 +7,11 @@
  * License:   wxWidgets license (www.wxwidgets.org)
  * Notes:
  **************************************************************/
+#include "wx_pch.h"
+
+#ifdef _DEBUG_MSVC
+#define new DEBUG_NEW
+#endif
 
 #include "wx/wxsf/Printout.h"
 #include "wx/wxsf/ShapeCanvas.h"
