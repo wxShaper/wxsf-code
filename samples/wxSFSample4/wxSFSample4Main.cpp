@@ -127,7 +127,6 @@ void wxSFSample4Frame::OnRightClickCanvas(wxMouseEvent& event)
         // so the behaviour can be different for various widgets.
         pShape->SetEventProcessing(wxSFControlShape::evtMOUSE2CANVAS | wxSFControlShape::evtKEY2CANVAS);
         //pShape->SetEventProcessing(wxSFControlShape::evtMOUSE2GUI | wxSFControlShape::evtKEY2GUI);
-
     }
 
     // ... and process standard canvas operations

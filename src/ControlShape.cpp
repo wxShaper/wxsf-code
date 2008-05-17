@@ -189,7 +189,11 @@ void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
         if( pCanvas ) pCanvas->SetStyle(m_nPrevStyle);
     }
 
-    if( m_pControl ) m_pControl->Show();
+    if( m_pControl )
+    {
+        m_pControl->Show();
+        m_pControl->SetFocus();
+    }
 }
 
 void wxSFControlShape::OnBeginHandle(wxSFShapeHandle& handle)
@@ -222,7 +226,11 @@ void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
     // call default handler
     wxSFRectShape::OnEndHandle(handle);
 
-    if( m_pControl ) m_pControl->Show();
+    if( m_pControl )
+    {
+        m_pControl->Show();
+        m_pControl->SetFocus();
+    }
 }
 
 //----------------------------------------------------------------------------------//
@@ -295,7 +303,7 @@ void EventSink::_OnMouseButton(wxMouseEvent &event)
     // process the event also by an original handler if requested
     if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtMOUSE2GUI ) event.Skip();
 
-    m_pParentShape->GetControl()->SetFocus();
+    //m_pParentShape->GetControl()->SetFocus();
 }
 
 void EventSink::_OnMouseMove(wxMouseEvent &event)

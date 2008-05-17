@@ -1454,6 +1454,13 @@ void wxSFShapeCanvas::OnEnterWindow(wxMouseEvent& event)
                 m_shpMultiEdit.ShowHandles(true);
             }
 
+            ShapeList::compatibility_iterator node = m_lstSelection.GetFirst();
+            while( node )
+            {
+                node->GetData()->_OnEndDrag(lpos);
+                node = node->GetNext();
+            }
+
             m_nWorkingMode = modeREADY;
             Refresh(false);
         }
