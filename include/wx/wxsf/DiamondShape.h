@@ -13,18 +13,22 @@
 
 #include "PolygonShape.h"
 
-/// <summary> Class encapsulating the diamond shape. It extends the basic polygon shape. </summary>
-/// <seealso cref="wxSFPolygonShape"></seealso>
+/*!
+ * \brief Class encapsulating the diamond shape. It extends the basic polygon shape.
+ * \sa wxSFPolygonShape
+ */
 class WXDLLIMPEXP_SF wxSFDiamondShape : public wxSFPolygonShape
 {
 public:
     XS_DECLARE_CLONABLE_CLASS(wxSFDiamondShape);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
     wxSFDiamondShape();
-    /// <summary> User constructor </summary>
-    /// <param name="pos"> Initial position </param>
-    /// <param name="manager"> Pointer to parent diagram manager </param>
+    /*!
+	 * \brief User constructor.
+     * \param pos Initial position
+     * \param manager Pointer to parent diagram manager
+     */
 	wxSFDiamondShape(const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/// <summary> Copy constructor </summary>
 	/// <param name="obj"> Reference to the source object </param>

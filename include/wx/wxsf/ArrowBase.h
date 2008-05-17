@@ -15,45 +15,55 @@
 
 class WXDLLIMPEXP_SF wxSFLineShape;
 
-/// <summary> Base class for a line arrows </summary>
+/*! \brief Base class for a line arrows */
 class WXDLLIMPEXP_SF wxSFArrowBase : public xsSerializable
 {
 public:
 	friend class wxSFLineShape;
 
 	XS_DECLARE_CLONABLE_CLASS(wxSFArrowBase);
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor */
 	wxSFArrowBase(void);
-	/// <summary> Constructor </summary>
-	/// <param name="parent"> Pointer to a parent shape </param>
+	/*!
+	 * \brief Constructor.
+	 * \param parent Pointer to a parent shape
+	 */
 	wxSFArrowBase(wxSFShapeBase* parent);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Source base arrow shape </param>
+	/*!
+	 * \brief Copy constructor.
+	 * \param obj Source base arrow shape
+	 */
 	wxSFArrowBase(const wxSFArrowBase& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	~wxSFArrowBase(void);
 
 	// public member data accessors
-	/// <summary> Set a parent of the arrow shape </summary>
-	/// <param name="parent"> Pointer to the parent shape </param>
+	/*!
+	 * \brief Set a parent of the arrow shape.
+	 * \param parent Pointer to the parent shape
+	 */
 	void SetParentShape(wxSFShapeBase* parent){m_pParentShape = parent;}
-	/// <summary> Get pointer to a parent shape </summary>
-	/// <returns> Pointer to a parent shape if exists, otherwise NULL </returns>
+	/*!
+	 * \brief Get pointer to a parent shape.
+	 * \return Pointer to a parent shape if exists, otherwise NULL
+	 */
 	wxSFShapeBase* GetParentShape(){return m_pParentShape;}
 
 	// public functions
 
 	// public virtual functions
-	/// <summary> Draw arrow shape at the end of a virtual line </summary>
-	/// <param name="from"> Start of the virtual line </param>
-	/// <param name="to"> End of the virtual line </param>
-	/// <param name="dc"> Device context for drawing </param>
+	/*!
+	 * \brief Draw arrow shape at the end of a virtual line.
+	 * \param from Start of the virtual line
+	 * \param to End of the virtual line
+	 * \param dc Device context for drawing
+	 */
 	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxDC& dc);
 
 protected:
 
 	// protected member data
-	/// <summary> Pointer to a parent shape </summary>
+	/*! \brief Pointer to a parent shape. */
 	wxSFShapeBase* m_pParentShape;
 
 };

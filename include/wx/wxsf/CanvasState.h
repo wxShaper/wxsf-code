@@ -17,35 +17,43 @@
 #include "DiagramManager.h"
 
 class wxSFShapeCanvas;
-/// <summary> Class which stores one saved state of the shape canvas. The instaces of this
-/// class are managed by the wxSFCanvasHistory class which performs all related Undo/Redo
-/// operations. </summary>
-/// <seealso cref="wxSFShapeCanvas"></seealso>
+/*! \brief
+ * Class which stores one saved state of the shape canvas. The instaces of this
+ * class are managed by the wxSFCanvasHistory class which performs all related Undo/Redo
+ * operations.
+ * \sa wxSFShapeCanvas
+ */
 class wxSFCanvasState : public wxObject
 {
 friend class wxSFCanvasHistory;
 
 public:
-    /// <summary> Constructor for 'histUSE_SERIALIZATION' mode</summary>
-    /// <param name="data"> Pointer to the stream buffer containig serialized content of the shape canvas </param>
+    /*! \brief
+     * Constructor for 'histUSE_SERIALIZATION' mode.
+     * \param data Pointer to the stream buffer containig serialized content of the shape canvas
+     */
 	wxSFCanvasState(wxStreamBuffer* data);
-	/// <summary> Constructor for 'histUSE_CLONING' mode</summary>
-    /// <param name="data"> Pointer to temporal data manager </param>
+	/*! \brief
+     * Constructor for 'histUSE_CLONING' mode.
+     * \param data Pointer to temporal data manager
+     */
 	wxSFCanvasState(wxSFDiagramManager *data);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	~wxSFCanvasState(void);
 
 protected:
 
 	// protected functions
-	/// <summary> Restore stored canvas state. </summary>
-	/// <param name="canvas"> Pointer to the shape canvas which content will be replaced by the stored one </param>
+	/*! \brief
+     * Restore stored canvas state.
+	 * \param canvas Pointer to the shape canvas which content will be replaced by the stored one
+	 */
 	void Restore(wxSFShapeCanvas* canvas);
 
 	// protected data members
-	/// <summary> Memory buffer used during the serialization/deserialization operations. </summary>
+	/*! \brief Memory buffer used during the serialization/deserialization operations. */
 	wxMemoryBuffer m_dataBuffer;
-	/// <summary> Data manager used for storing of temporal canvas state. </summary>
+	/*! \brief Data manager used for storing of temporal canvas state. */
 	wxSFDiagramManager *m_pDataManager;
 };
 

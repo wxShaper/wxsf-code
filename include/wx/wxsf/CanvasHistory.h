@@ -42,11 +42,16 @@ public:
 		histUSE_CLONING
 	};
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
 	wxSFCanvasHistory(MODE hnode = histUSE_SERIALIZATION);
-    /// <summary> User constructor </summary>
+    /*!
+     * \brief User constructor.
+     * \param canvas Pointer to managed canvas
+     * \param Working mode (see MODE enumeration for more details)
+     * \sa MODE
+     */
 	wxSFCanvasHistory(wxSFShapeCanvas *canvas, MODE hnode = histUSE_SERIALIZATION);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	~wxSFCanvasHistory(void);
 
 	// public member data accessors
@@ -61,55 +66,67 @@ public:
      * \sa MODE
      */
 	void SetMode(MODE hmode);
-	/// <summary> Set total number of stored canvas states. </summary>
-	/// <param name="depth"> Number of stored canvas states </param>
-	/// <seealso cref="GetHistoryDepth"></seealso>
+	/*! \brief
+     * Set total number of stored canvas states.
+	 * \param depth Number of stored canvas states
+	 * \sa GetHistoryDepth
+	 */
 	void SetHistoryDepth(size_t depth){m_nHistoryDepth = depth;}
-	/// <summary> Set pointer to the parent shapes canvas. All Undo/Redo operation defined by this class
-	/// will be performed on this shape canvas instance. </summary>
-	/// <param name="canvas"> Pointer to parent shape canvas </param>
+	/*! \brief
+     * Set pointer to the parent shapes canvas. All Undo/Redo operation defined by this class
+	 * will be performed on this shape canvas instance.
+	 * \param canvas Pointer to parent shape canvas
+	 */
 	void SetParentCanvas(wxSFShapeCanvas* canvas){m_pParentCanvas = canvas;}
 
 	/*! \brief Get currently used working mode */
 	MODE GetMode(){return m_nWorkingMode;}
-	/// <summary> Get total number of canvas states which can be stored at the same time. </summary>
-	/// <returns> Number of allowed concuretly stored canvas states </returns>
-	/// <seealso cref="SetHistoryDepth"></seealso>
+	/*! \brief
+     * Get total number of canvas states which can be stored at the same time.
+	 * \return Number of allowed concuretly stored canvas states
+	 * \sa SetHistoryDepth
+	 */
 	size_t GetHistoryDepth(){return m_nHistoryDepth;}
 
 	// public functions
-	/// <summary> Save current canvas state </summary>
+	/*! \brief Save current canvas state. */
 	void SaveCanvasState();
-	/// <summary> Perform the 'Undo' operation </summary>
+	/*! \brief Perform the 'Undo' operation. */
 	void RestoreOlderState();
-	/// <summary> Perform the 'Redo' operation </summary>
+	/*! \brief Perform the 'Redo' operation. */
 	void RestoreNewerState();
-	/// <summary> Clear all canvas history. </summary>
+	/*! \brief Clear all canvas history. */
 	void Clear();
 
-    /// <summary> The function gives information whether the 'Undo' operation is available
-    /// (exists any stored canvas state older than the current one. </summary>
-    /// <returns> TRUE if the 'Undo' operation can be performed, otherwise FALSE </returns>
+    /*! \brief
+     * The function gives information whether the 'Undo' operation is available
+     * (exists any stored canvas state older than the current one.
+     * \return TRUE if the 'Undo' operation can be performed, otherwise FALSE
+     */
 	bool CanUndo();
-	/// <summary> The function gives information whether the 'Redo' operation is available
-	/// (exists any stored canvas state newer than the current one. </summary>
-	/// <returns> TRUE if the 'Undo' operation can be performed, otherwise FALSE </returns>
+	/*! \brief
+     * The function gives information whether the 'Redo' operation is available
+	 * (exists any stored canvas state newer than the current one.
+	 * \return TRUE if the 'Undo' operation can be performed, otherwise FALSE
+	 */
 	bool CanRedo();
 
 protected:
 
 	// protected data members
-	/// <summary> Pointer to the parent canvas </summary>
+	/*! \brief Pointer to the parent canvas. */
 	wxSFShapeCanvas * m_pParentCanvas;
-	/// <summary> List of stored canvas state instances </summary>
-	/// <seealso cref="wxSFCanvasState"></seealso>
+	/*! \brief
+     * List of stored canvas state instances.
+	 * \sa wxSFCanvasState
+	 */
 	StateList m_lstCanvasStates;
-	/*! \brief Auxilary pointer to current canvas state */
+	/*! \brief Auxilary pointer to current canvas state. */
 	wxSFCanvasState *m_pCurrentCanvasState;
 	/*! \brief Canvas history mode */
 	MODE m_nWorkingMode;
 
-    /// <summary> Total allowed amount of stored canvas states </summary>
+    /*! \brief Total allowed amount of stored canvas states. */
 	size_t m_nHistoryDepth;
 };
 
