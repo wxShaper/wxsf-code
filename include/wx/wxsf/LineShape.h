@@ -15,33 +15,39 @@
 #include "ArrowBase.h"
 
 // default values
-/// <summary> Default value of undefined ID </summary>
+/*! \brief Default value of undefined ID. */
 #define sfdvLINESHAPE_UNKNOWNID -1
-/// <summary> Default value of wxSFLineShape::m_Pen data member </summary>
+/*! \brief Default value of wxSFLineShape::m_Pen data member. */
 #define sfdvLINESHAPE_PEN *wxBLACK_PEN
-/// <summary> Default value of wxSFLineShape::m_nDockPoint data member </summary>
+/*! \brief Default value of wxSFLineShape::m_nDockPoint data member. */
 #define sfdvLINESHAPE_DOCKPOINT 0
 
 //WX_DECLARE_LIST(wxRealPoint, CPointList);
 
-/// <summary> Auxiliary class encapsulating the line segment. </summary>
-/// <seealso cref="wxSFLineShape"></seealso>
+/*!
+ * \brief Auxiliary class encapsulating the line segment.
+ * \sa wxSFLineShape
+ */
 class LineSegment : public wxObject
 {
 public:
-    /// <summary> Default constructor </summary>
-    /// <param name="src"> Starting point of the line segment </param>
-    /// <param name="trg"> Ending point of the line segmetn </param>
+    /*!
+	 * \brief Default constructor.
+     * \param src Starting point of the line segment
+     * \param trg Ending point of the line segmetn
+     */
     LineSegment(wxRealPoint src, wxRealPoint trg){m_nSrc = src; m_nTrg = trg;}
-    /// <summary> Starting segment position </summary>
+    /*! \brief Starting segment position. */
     wxRealPoint m_nSrc;
-    /// <summary> Ending segment position </summary>
+    /*! \brief Ending segment position. */
     wxRealPoint m_nTrg;
 };
 
 WX_DECLARE_OBJARRAY(LineSegment, LineSegmentArray);
 
-/// <summary> Basic class encapsulating the multiline consisting of several line segments. </summary>
+/*!
+ * \brief Basic class encapsulating the multiline consisting of several line segments.
+ */
 class WXDLLIMPEXP_SF wxSFLineShape : public wxSFShapeBase
 {
 public:
@@ -50,139 +56,200 @@ friend class wxSFShapeCanvas;
 
 	XS_DECLARE_CLONABLE_CLASS(wxSFLineShape);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
 	wxSFLineShape(void);
-	/// <summary> User constructor </summary>
-	/// <param name="src"> ID of the source shape </param>
-	/// <param name="trg"> ID of the target shape </param>
-	/// <param name="path"> List of the line control points (can be empty) </param>
-	/// <param name="manager"> Pointer to parent shape manager </param>
+	/*!
+	 * \brief User constructor.
+	 * \param src ID of the source shape
+	 * \param trg ID of the target shape
+	 * \param path List of the line control points (can be empty)
+	 * \param manager Pointer to parent shape manager
+	 */
 	wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Reference to the source object</param>
+	/*!
+	 * \brief Copy constructor.
+	 * \param obj Reference to the source object
+	 */
 	wxSFLineShape(const wxSFLineShape& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	virtual ~wxSFLineShape(void);
 
 	// public member data accessors
-	/// <summary> Set line source </summary>
-	/// <param name="id"> ID of the source shape </param>
+	/*!
+	 * \brief Set line source.
+	 * \param id ID of the source shape
+	 */
 	void SetSrcShapeId(long id){m_nSrcShapeId = id;}
-	/// <summary> Get line source </summary>
-	/// <returns> ID of the source shape </returns>
+	/*!
+	 * \brief Get line source.
+	 * \return ID of the source shape
+	 */
 	long GetSrcShapeId(){return m_nSrcShapeId;}
-	/// <summary> Set line target </summary>
-	/// <param name="id"> ID of the target shape </param>
+    /*!
+	 * \brief Set line target.
+	 * \param id ID of the target shape
+	 */
 	void SetTrgShapeId(long id){m_nTrgShapeId = id;}
-	/// <summary> Get line target </summary>
-	/// <returns> ID of the target shape </returns>
+	/*!
+	 * \brief Get line target.
+	 * \return  ID of the target shape
+	 */
 	long GetTrgShapeId(){return m_nTrgShapeId;}
-	/// <summary> Set source arrow object </summary>
-	/// <param name="arrow"> Pointer to the arrow object which will be
-	/// assigned to the begin of the line </param>
+	/*!
+	 * \brief Set source arrow object.
+	 * \param arrow Pointer to the arrow object which will be assigned to the begin of the line
+	 */
 	void SetSrcArrow(wxSFArrowBase* arrow);
-    /// <summary> Set target arrow object </summary>
-	/// <param name="arrow"> Pointer to the arrow object which will be
-	/// assigned to the end of the line </param>
+    /*!
+	 * \brief Set target arrow object.
+	 * \param arrow Pointer to the arrow object which will be assigned to the end of the line
+	 */
 	void SetTrgArrow(wxSFArrowBase* arrow);
-	/// <summary> Set source arrow object created from its class info </summary>
-	/// <param name="arrowInfo"> Class info of the arrow class </param>
-	/// <returns> New arrow object </returns>
+	/*!
+	 * \brief Set source arrow object created from its class info.
+	 * \param arrowInfo Class info of the arrow class
+	 * \return New arrow object
+	 */
 	wxSFArrowBase* SetSrcArrow(wxClassInfo* arrowInfo);
-	/// <summary> Get object of source arrow </summary>
-	/// <returns> Pointer to the arrow object if exists, otherwise NULL </returns>
+	/*!
+	 * \brief Get object of source arrow.
+	 * \return Pointer to the arrow object if exists, otherwise NULL
+	 */
 	wxSFArrowBase* GetSrcArrow(){return m_pSrcArrow;}
-	/// <summary> Set target arrow object created from its class info </summary>
-	/// <param name="arrowInfo"> Class info of the arrow class </param>
-	/// <returns> New arrow object </returns>
+	/*!
+	 * \brief Set target arrow object created from its class info.
+	 * \param arrowInfo Class info of the arrow class
+	 * \return New arrow object
+	 */
 	wxSFArrowBase* SetTrgArrow(wxClassInfo* arrowInfo);
-	/// <summary> Get object of target arrow </summary>
-	/// <returns> Pointer to the arrow object if exists, otherwise NULL </returns>
+	/*!
+	 * \brief Get object of target arrow.
+	 * \return Pointer to the arrow object if exists, otherwise NULL
+	 */
 	wxSFArrowBase* GetTrgArrow(){return m_pTrgArrow;}
-	/// <summary> Set line style </summary>
-	/// <param name="pen"> Reference to wxPen object </param>
+	/*!
+	 * \brief Set line style.
+	 * \param pen Reference to wxPen object
+	 */
 	void SetLinePen(const wxPen& pen){m_Pen = pen;}
-	/// <summary> Get line style </summary>
-	/// <returns> wxPen class </returns>
+	/*!
+	 * \brief Get line style.
+	 * \return wxPen class
+	 */
 	wxPen GetLinePen() const {return m_Pen;}
-	/// <summary> Set the line dock point. It is a zerro based index of the line
-	/// control point which will act as the shape position (value returned by GetRelativePosition() function). </summary>
-	/// <param name="index"> Zerro based index of the line control point (-1 means UNDEFINED)</param>
+	/*!
+	 * \brief Set the line dock point. It is a zerro based index of the line
+	 * control point which will act as the shape position (value returned by GetRelativePosition() function).
+	 * \param index Zerro based index of the line control point (-1 means UNDEFINED)
+	 */
 	void SetDockPoint(int index){m_nDockPoint = index;}
-	/// <summary> Get the line dock point. It is a zerro based index of the line
-	/// control point which will act as the shape position (value returned by GetRelativePosition() function). </summary>
-	/// <returns> Zerro based index of the line control point (-1 means UNDEFINED) </returns>
+	/*!
+	 * \brief Get the line dock point. It is a zerro based index of the line
+	 * control point which will act as the shape position (value returned by GetRelativePosition() function).
+	 * \return Zerro based index of the line control point (-1 means UNDEFINED)
+	 */
 	int GetDockPoint(){return m_nDockPoint;}
-	/// <summary> Get a list of the line's contol points (their positions). </summary>
-	/// <returns> List of control points' positions </returns>
+	/*!
+	 * \brief Get a list of the line's contol points (their positions).
+	 * \return List of control points' positions
+	 */
 	RealPointList& GetControlPoints() {return m_lstPoints;}
-	/// <summary> Get a position of the line dock point. </summary>
-	/// <returns> The dock point's position </returns>
+	/*!
+	 * \brief Get a position of the line dock point.
+	 * \return The dock point's position
+	 */
 	wxRealPoint GetDockPointPosition();
 
 	// public virtual functions
-    /// <summary> Get line's bounding box. The function can be overrided
-    /// if neccessary. </summary>
-    /// <returns> Bounding rectangle </returns>
+    /*!
+	 * \brief Get line's bounding box. The function can be overrided if neccessary.
+     * \return Bounding rectangle
+     */
 	virtual wxRect GetBoundingBox();
-	/// <summary> Get the shape's absolute position in the canvas </summary>
-	/// <returns> Shape's position </returns>
+	/*!
+	 * \brief Get the shape's absolute position in the canvas.
+	 * \return Shape's position
+	 */
 	virtual wxRealPoint GetAbsolutePosition();
-	/// <summary> Get intersection point of the shape border and a line leading from
-	/// the shape's center to the given point. The function can be overrided if neccessary. </summary>
-	/// <param name="to"> Ending point of the virtual intersection line </param>
-	/// <returns> Intersection point </returns>
+	/*!
+	 * \brief Get intersection point of the shape border and a line leading from
+	 * the shape's center to the given point. The function can be overrided if neccessary.
+	 * \param to Ending point of the virtual intersection line
+	 * \return Intersection point
+	 */
 	virtual wxRealPoint GetBorderPoint(const wxRealPoint& to);
-    /// <summary> Test whether the given point is inside the shape. The function
-    /// can be overrided if neccessary. </summary>
-    /// <param name="pos"> Examined point </param>
-    /// <returns> TRUE if the point is inside the shape area, otherwise FALSE </returns>
+    /*!
+	 * \brief Test whether the given point is inside the shape. The function
+     * can be overrided if neccessary.
+     * \param pos Examined point
+     * \return TRUE if the point is inside the shape area, otherwise FALSE
+     */
 	virtual bool IsInside(const wxPoint& pos);
-	/// <summary> Move the shape to the given absolute position. The function
-    /// can be overrided if neccessary. </summary>
-	/// <param name="x"> X coordinate </param>
-	/// <param name="y"> Y coordinate </param>
+	/*!
+	 * \brief Move the shape to the given absolute position. The function
+     * can be overrided if neccessary.
+	 * \param x X coordinate
+	 * \param y Y coordinate
+	 */
 	virtual void MoveTo(double x, double y);
-	/// <summary> Move the shape by the given offset. The function
-    /// can be overrided if neccessary. </summary>
-	/// <param name="x"> X offset </param>
-	/// <param name="y"> Y offset </param>
+	/*!
+	 * \brief Move the shape by the given offset. The function
+     *  can be overrided if neccessary.
+	 * \param x X offset
+	 * \param y Y offset
+	 */
 	virtual void MoveBy(double x, double y);
 
-    /// <summary> Function called by the framework responsible for creation
-    /// of the shape's handles. The function can be overrided if neccessary. </summary>
+	/*!
+	 * \brief Function called by the framework responsible for creation of shape handles
+     * at the creation time. The function can be overrided if neccesary.
+     */
 	virtual void CreateHandles();
-	/// <summary> Event 	/// <summary> Move the shape by the given offset. The function
-    /// can be overrided if neccessary. </summary>
-	/// <param name="x"> X offset </param>
-	/// <param name="y"> Y offset </param>handler called during dragging of the shape handle.
-	/// The function can be overrided if necessary. </summary>
-	/// <param name="handle"> Reference to the dragged shape handle </param>
+	/*!
+	 * \brief Event handler called during dragging of the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \param handle Reference to dragged handle
+	 */
 	virtual void OnHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called at the begining of the shape dragging process.
-	/// The function can be overrided if necessary </summary>
-	/// <param name="pos"> Current mouse position </param>
+	/*!
+	 * \brief Event handler called at the begining of the shape dragging process.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \sa wxSFShapeCanvas
+	 */
 	virtual void OnBeginDrag(const wxPoint& pos);
-	/// <summary> Event handler called when the shape is double-clicked by
-	/// the left mouse button. The function can be overrided if necessary </summary>
-	/// <param name="pos"> Current mouse position </param>
+	/*!
+	 * \brief Event handler called when the shape is double-clicked by
+	 * the left mouse button. The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \param pos Current mouse position
+	 * \sa wxSFShapeCanvas
+	 */
 	virtual void OnLeftDoubleClick(const wxPoint& pos);
-    /// <summary> Scale the shape size by in both directions. The function can be overrided if necessary </summary>
-    /// <param name="x"> Horizontal scale factor </param>
-    /// <param name="y"> Vertical scale factor </param>
-    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
-    /// the shape will be updated after scaling via Update() function. </param>
+    /*!
+	 * \brief Scale the shape size by in both directions. The function can be overrided if necessary
+     * (new implementation should call default one ore scale shape's children manualy if neccesary).
+     * \param x Horizontal scale factor
+     * \param y Vertical scale factor
+     * \param children TRUE if the shape's children shoould be scaled as well, otherwise the shape will be updated after scaling via Update() function.
+     */
 	virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
 
 	// public functions
-	/// <summary> Get a list of the line segments</summary>
-	/// <param name="segments"> Reference to the list which will contain the line segments </param>
-	/// <seealso cref="LineSegment"></seealso>
+	/*!
+	 * \brief Get a list of the line segments.
+	 * \param segments Reference to the list which will contain the line segments
+	 * \sa LineSegment
+	 */
     void GetLineSegments(LineSegmentArray& segments);
 
 protected:
 
-    /// <summary> The modes in which the line shape can stay </summary>
+    /*! \brief The modes in which the line shape can stay. */
     enum LINEMODE
     {
         modeREADY,
@@ -192,12 +259,12 @@ protected:
     };
 
 	// protected data members
-	/// <summary> List of the line's control points </summary>
+	/*! \brief List of the line's control points. */
 	RealPointList m_lstPoints;
 	wxRealPoint m_nPrevPosition;
 	wxPoint m_nUnfinishedPoint;
 	LINEMODE m_nMode;
-	/// <summary> Index of the line dock point </summary>
+	/*! \brief Index of the line dock point. */
 	int m_nDockPoint;
 
 	long m_nSrcShapeId;
@@ -208,46 +275,80 @@ protected:
 	wxPen m_Pen;
 
 	// protected virtual functions
-	/// <summary> Draw the shape in the normal way. The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the normal way. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawNormal(wxDC& dc);
-	/// <summary> Draw the shape in the hower mode (the mouse cursor is above the shape). The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the hower mode (the mouse cursor is above the shape).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawHover(wxDC& dc);
-	/// <summary> Draw the shape in the highlighted mode (another shape is dragged over this shape and this shape will accept the dragged one if it will be dropped on it). The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the highlighted mode (another shape is dragged over this
+	 * shape and this shape will accept the dragged one if it will be dropped on it).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawHighlighted(wxDC& dc);
 
-	/// <summary> Serialize shape's properties to the given XML node </summary>
-	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>
-	/// <seealso cref="wxSFShapeBase::Serialize"></seealso>
+    /*!
+     * \brief Serialize shape's properties to the given XML node. The serialization
+     * routine is automatically called by the framework and should take care about serialization
+     * of all specific (non-standard) shape's properties.
+     *
+     * Note, that the shape serialization is used not only for saving canvas's content to a file
+     * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
+     * function otherwise all mentioned operations wont be available for this shape.
+     *
+     * \param node Pointer to XML node where the shape's property nodes will be appended to
+     * \sa xsSerializable::Serialize
+     */
 	virtual wxXmlNode* Serialize(wxXmlNode* node);
-	/// <summary> Deserialize shape's properties from the given XML node </summary>
-	/// <param name="node"> Source XML node containig the shape's property nodes</param>
-	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
+    /*!
+     * \brief Deserialize shape's properties from the given XML node. The
+     * routine is automatically called by the framework and should take care about deserialization
+     * of all specific (non-standard) shape's properties.
+     *
+     * Note, that the shape serialization is used not only for saving canvas's content to a file
+     * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
+     * function otherwise all mentioned operations wont be available for this shape.
+     *
+     * \param node Pointer to a source XML node containig the shape's property nodes
+     * \sa xsSerializable::Deserialize
+     */
 	virtual void Deserialize(wxXmlNode* node);
 
-    /// <summary> Draw completed line </summary>
+    /*! \brief Draw completed line. */
 	virtual void DrawCompleteLine(wxDC& dc);
 
 	// protected functions
-	/// <summary> Get index of the line segment intersecting the given point </summary>
-	/// <param name="pos"> Examined point </param>
-	/// <returns> Zero-based index of line segment located under the given point </returns>
+	/*!
+     * \brief Get index of the line segment intersecting the given point.
+	 * \param pos Examined point
+	 * \return Zero-based index of line segment located under the given point
+	 */
 	virtual int GetHitLinesegment(const wxPoint& pos);
 
-    /// <summary> Set line shape's working mode </summary>
-    /// <param name="mode"> Working mode </param>
-    /// <seealso cref="LINEMODE"></seealso>
+    /*!
+     * \brief Set line shape's working mode.
+     * \param mode Working mode
+     * \sa LINEMODE
+     */
 	void SetLineMode(LINEMODE mode){m_nMode = mode;}
-	/// <summary> Get current working mode </summary>
-	/// <returns> Current working mode </returns>
-	/// <seealso cref="LINEMODE"></seealso>
+	/*!
+     * \brief Get current working mode.
+	 * \return Current working mode
+	 * \sa LINEMODE
+	 */
 	LINEMODE GetLineMpode(){return m_nMode;}
-	/// <summary> Set next potential control point position (usefull in modeUNDERCONSTRUCTION
-	/// working mode) </summary>
-	/// <param name="pos"> New potential control point position </param>
-	/// <seealso cref="LINEMODE"></seealso>
+	/*!
+     * \brief Set next potential control point position (usefull in modeUNDERCONSTRUCTION working mode).
+	 * \param pos New potential control point position
+	 * \sa LINEMODE
+	 */
 	void SetUnfinishedPoint(const wxPoint& pos){m_nUnfinishedPoint = pos;}
 
 private:

@@ -14,9 +14,9 @@
 #include "RectShape.h"
 
 // default values
-/// <summary> Default value of wxSFTextShape::m_Font data member </summary>
+/*! \brief Default value of wxSFTextShape::m_Font data member. */
 #define sfdvTEXTSHAPE_FONT *wxSWISS_FONT
-/// <summary> Default value of wxSFTextShape::m_TextColor data member </summary>
+/*! \brief Default value of wxSFTextShape::m_TextColor data member. */
 #define sfdvTEXTSHAPE_TEXTCOLOR *wxBLACK
 
 /*! \brief Class encapsulates basic non-editable text shape which is suitable for
@@ -78,11 +78,13 @@ public:
     wxColour GetTextColour() const {return m_TextColor;}
 
     // public virtual functions
-    /// <summary> Scale the shape size by in both directions. The function can be overrided if necessary. </summary>
-    /// <param name="x"> Horizontal scale factor </param>
-    /// <param name="y"> Vertical scale factor </param>
-    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
-    /// the shape will be updated after scaling via Update() function. </param>
+    /*!
+	 * \brief Scale the shape size by in both directions. The function can be overrided if necessary
+     * (new implementation should call default one ore scale shape's children manualy if neccesary).
+     * \param x Horizontal scale factor
+     * \param y Vertical scale factor
+     * \param children TRUE if the shape's children shoould be scaled as well, otherwise the shape will be updated after scaling via Update() function.
+     */
     virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
 	/*!
 	 * \brief Event handler called during dragging of the shape handle.
@@ -132,22 +134,34 @@ protected:
 	 */
 	virtual void DrawShadow(wxDC& dc);
 
-	/// <summary> Serialize shape's properties to the given XML node </summary>
-	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>
-	/// <seealso cref="wxSFShapeBase::Serialize"></seealso>
+    /*!
+     * \brief Serialize shape's properties to the given XML node. The serialization
+     * routine is automatically called by the framework and should take care about serialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to XML node where the shape's property nodes will be appended to
+     * \sa xsSerializable::Serialize
+     */
 	virtual wxXmlNode* Serialize(wxXmlNode* node);
-	/// <summary> Deserialize shape's properties from the given XML node </summary>
-	/// <param name="node"> Source XML node containig the shape's property nodes</param>
-	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
+    /*!
+     * \brief Deserialize shape's properties from the given XML node. The
+     * routine is automatically called by the framework and should take care about deserialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to a source XML node containig the shape's property nodes
+     * \sa xsSerializable::Deserialize
+     */
 	virtual void Deserialize(wxXmlNode* node);
 
-	/// <summary> Event handler called during dragging of the left shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the left shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnLeftHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called during dragging of the top shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the top shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnTopHandle(wxSFShapeHandle& handle);
 
 	// protected functions

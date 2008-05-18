@@ -18,23 +18,27 @@
 
 class WXDLLIMPEXP_SF wxSFEditTextShape;
 
-/// <summary> Auxiliary class providing neccessary functionality needed for in-place
-/// modification of a content of the text shape. </summary>
-/// <seealso cref="wxSFEditTextShape"></seealso>
+/*!
+ * \brief Auxiliary class providing neccessary functionality needed for in-place
+ * modification of a content of the text shape. </summary>
+ * \sa wxSFEditTextShape
+ */
 class wxSFContentCtrl : public wxTextCtrl
 {
 public:
-    /// <summary> Constructor </summary>
-    /// <param name="parent"> Pointer to the parent window </param>
-    /// <param name="id"> ID of the text control window </param>
-    /// <param name="parentShape"> Pointer to the parent editable text shape </param>
-    /// <param name="content"> Initial content of the text control </param>
-    /// <param name="pos"> Initial position </param>
-    /// <param name="size"> Initial size </param>
-    /// <param name="style"> Window style </param>
+    /*!
+	 * \brief Constructor.
+     * \param parent Pointer to the parent window
+     * \param id ID of the text control window
+     * \param parentShape Pointer to the parent editable text shape
+     * \param content Initial content of the text control
+     * \param pos Initial position
+     * \param size Initial size
+     * \param style Window style
+     */
 	wxSFContentCtrl(wxWindow* parent, wxWindowID id, wxSFEditTextShape* parentShape, const wxString& content, wxPoint pos, wxSize size, int style);
 
-    /// <summary> Abort the editing process </summary>
+    /*! \brief Abort the editing process/ */
 	void Quit();
 
 protected:
@@ -43,18 +47,24 @@ protected:
 	wxSFEditTextShape* m_pParentShape;
 	wxString m_sPrevContent;
 
-    /// <summary> Event handler called if the text control lost the focus </summary>
-    /// <param name="event"> Reference to the event class instance </param>
+    /*!
+	 * \brief Event handler called if the text control lost the focus.
+     * \param event Reference to the event class instance
+     */
 	void OnKillFocus(wxFocusEvent& event);
-	/// <summary> Event handler called if the key was pressed in the text control </summary>
-	/// <param name="event"> Reference to the event class instance </param>
+	/*!
+	 * \brief Event handler called if the key was pressed in the text control.
+	 * \param event Reference to the event class instance
+	 */
 	void OnKeyDown(wxKeyEvent& event);
 
 	DECLARE_EVENT_TABLE();
 };
 
-/// <summary> Class encapsulating the editable text shape. It extends the basic text shape. </summary>
-/// <seealso cref="wxSFTextShape"></seealso>
+/*!
+ * \brief Class encapsulating the editable text shape. It extends the basic text shape.
+ * \sa wxSFTextShape
+ */
 class WXDLLIMPEXP_SF wxSFEditTextShape :	public wxSFTextShape
 {
 public:
@@ -62,37 +72,45 @@ public:
 
 	XS_DECLARE_CLONABLE_CLASS(wxSFEditTextShape);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
 	wxSFEditTextShape(void);
-	/// <summary> User constructor </summary>
-	/// <param name="pos"> Initial position </param>
-	/// <param name="txt"> Text content </param>
-	/// <param name="manager"> Pointer to the parent canvas </param>
+    /*!
+	 * \brief User constructor.
+	 * \param pos Initial position
+	 * \param txt Text content
+	 * \param manager Pointer to the parent canvas
+	 */
 	wxSFEditTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Reference to the source object </param>
+	/*!
+	 * \brief Copy constructor.
+	 * \param obj Reference to the source object
+	 */
 	wxSFEditTextShape(const wxSFEditTextShape& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	virtual ~wxSFEditTextShape(void);
 
 	// public member data accessors
-	/// <summary> Get pointer to assigned text control allowing user to change the
-	/// shape's content directly in the canvas </summary>
-	/// <returns> Pointer to instance of wxSFContentCtrl class </returns>
+	/*!
+	 * \brief Get pointer to assigned text control allowing user to change the
+	 * shape's content directly in the canvas.
+	 * \return Pointer to instance of wxSFContentCtrl class
+	 */
 	wxSFContentCtrl* GetTextCtrl() {return m_pTextCtrl;}
 
 	// public functions
-	/// <summary> Switch the shape to a label editation mode. </summary>
+	/*! \brief Switch the shape to a label editation mode. */
 	void EditLabel();
-	/*! \brienf Force the edit text control to be multiline
+	/*! \brief Force the edit text control to be multiline
 	 *  \param multiline If TRUE then the associated text control will be allways multiline
 	 */
 	void ForceMultiline(bool multiline){m_fForceMultiline = multiline;}
 
 	// public virtual functions
-	/// <summary> Event handler called when the shape was double-clicked.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="pos"> Mouse position </param>
+	/*!
+	 * \brief Event handler called when the shape was double-clicked.
+	 * The function can be overrided if neccessary.
+	 * \param pos Mouse position.
+	 */
 	virtual void OnLeftDoubleClick(const wxPoint& pos);
 	/*!
 	 * \brief Event handler called when any key is pressed (in the shape canvas).

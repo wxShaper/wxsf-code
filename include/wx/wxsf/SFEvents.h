@@ -178,8 +178,8 @@ public:
 
     // public member data accessors
     /*!
-     * \brief Insert a shape object to the event object.
-     * \param shape Pointer to the shape object
+     * \brief Copy given shapes to the internal list of dropped shapes.
+     * \param list Reference to a list of copied shapes
      */
     void SetDroppedShapes(const ShapeList& list);
 	 /*!
@@ -237,8 +237,8 @@ public:
 
     // public member data accessors
     /*!
-     * \brief Insert a shape object to the event object.
-     * \param shape Pointer to the shape object
+     * \brief Copy given shapes to the internal list of pasted shapes.
+     * \param list Reference to a list of copied shapes
      */
     void SetPastedShapes(const ShapeList& list);
     /*!

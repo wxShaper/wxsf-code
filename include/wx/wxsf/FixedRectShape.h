@@ -13,37 +13,49 @@
 
 #include "RectShape.h"
 
-/// <summary> Class encapsulating the square shape. It extends the basic rectangular shape. </summary>
-/// <seealso cref="wxSFRectShape"></seealso>
+/*!
+ * \brief Class encapsulating the square shape. It extends the basic rectangular shape.
+ * \sa wxSFRectShape
+ */
 class WXDLLIMPEXP_SF wxSFSquareShape : public wxSFRectShape
 {
 public:
 	XS_DECLARE_CLONABLE_CLASS(wxSFSquareShape);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief  Default constructor. */
 	wxSFSquareShape(void);
-	/// <summary> User constructor </summary>
-	/// <param name="pos"> Initial position </param>
-	/// <param name="size"> Initial size </param>
-	/// <param name="manager"> Pointer to parent diagram manager </param>
+	/*!
+	 * \brief User constructor.
+	 * \param pos Initial position
+	 * \param size Initial size
+	 * \param manager Pointer to parent diagram manager
+	 */
 	wxSFSquareShape(const wxRealPoint& pos, double size, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Reference to the source object </param>
+	/*!
+	 * \brief Copy constructor.
+	 * \param obj Reference to the source object
+	 */
 	wxSFSquareShape(const wxSFSquareShape& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
     virtual ~wxSFSquareShape();
 
     // public virtual functions
-	/// <summary> Scale the text shape in both directions.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="x"> Scale ratio in the horizontal direction </param>
-	/// <param name="y"> Scale ratio in the vertical direction </param>
-    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
-    /// the shape will be updated after scaling via Update() function. </param>
+    /*!
+	 * \brief Scale the shape size by in both directions. The function can be overrided if necessary
+     * (new implementation should call default one ore scale shape's children manualy if neccesary).
+     * \param x Horizontal scale factor
+     * \param y Vertical scale factor
+     * \param children TRUE if the shape's children shoould be scaled as well, otherwise the shape will be updated after scaling via Update() function.
+     */
     virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
-	/// <summary> Event handler called during dragging of the shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+	 * \brief Event handler called during dragging of the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param handle Reference to dragged handle
+	 */
     virtual void OnHandle(wxSFShapeHandle& handle);
 };
 

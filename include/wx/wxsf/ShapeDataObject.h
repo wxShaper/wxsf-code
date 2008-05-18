@@ -57,7 +57,7 @@ protected:
     /*!
      * \brief Serialize shapes to data object.
      * \param selection List of shapes which should be serialized
-     * \param canvas Parent shape canvas
+     * \param manager Parent diagram manager
      * \return String containing serialized information
      */
 	wxString SerializeSelectedShapes(const ShapeList& selection, wxSFDiagramManager* manager);

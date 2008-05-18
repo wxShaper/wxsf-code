@@ -42,15 +42,18 @@ public:
 		histUSE_CLONING
 	};
 
-    /*! \brief Default constructor. */
-	wxSFCanvasHistory(MODE hnode = histUSE_SERIALIZATION);
+    /*!
+     * \brief Default constructor.
+     * \param hmode Working mode (see MODE enumeration for more details)
+     */
+	wxSFCanvasHistory(MODE hmode = histUSE_SERIALIZATION);
     /*!
      * \brief User constructor.
      * \param canvas Pointer to managed canvas
-     * \param Working mode (see MODE enumeration for more details)
+     * \param hmode Working mode (see MODE enumeration for more details)
      * \sa MODE
      */
-	wxSFCanvasHistory(wxSFShapeCanvas *canvas, MODE hnode = histUSE_SERIALIZATION);
+	wxSFCanvasHistory(wxSFShapeCanvas *canvas, MODE hmode = histUSE_SERIALIZATION);
 	/*! \brief Destructor. */
 	~wxSFCanvasHistory(void);
 

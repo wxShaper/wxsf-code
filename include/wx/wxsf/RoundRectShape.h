@@ -15,55 +15,76 @@
 
 // default values
 
-/// <summary> Default value of wxSFRoundRectShape::m_nRadius data member </summary>
+/*! \brief Default value of wxSFRoundRectShape::m_nRadius data member. */
 #define sfdvROUNDRECTSHAPE_RADIUS 20
 
-/// <summary> Class ecapsulating rounded rectangle. It extends the basic rectangular shape.</summary>
+/*!
+ * \brief Class ecapsulating rounded rectangle. It extends the basic rectangular shape.
+ */
 class WXDLLIMPEXP_SF wxSFRoundRectShape :	public wxSFRectShape
 {
 public:
 	XS_DECLARE_CLONABLE_CLASS(wxSFRoundRectShape);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
 	wxSFRoundRectShape(void);
-	/// <summary> User constructor </summary>
-	/// <param name="pos"> Initial position </param>
-	/// <param name="size"> Initial size </param>
-	/// <param name="radius"> Corner radius </param>
-	/// <param name="manager"> Pointer of parent diagram manager </param>
+	/*!
+     * \brief User constructor.
+	 * \param pos Initial position
+	 * \param size Initial size
+	 * \param radius Corner radius
+	 * \param manager Pointer of parent diagram manager
+	 */
 	wxSFRoundRectShape(const wxRealPoint& pos, const wxRealPoint &size, double radius, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Refernce to the source object </param>
+	/*!
+     * \brief Copy constructor.
+	 * \param obj Refernce to the source object.
+	 */
 	wxSFRoundRectShape(const wxSFRoundRectShape& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	virtual ~wxSFRoundRectShape(void);
 
 	// public virtual functions
-    /// <summary> Test whether the given point is inside the shape. The function
-    /// can be overrided if neccessary. </summary>
-    /// <param name="pos"> Examined point </param>
-    /// <returns> TRUE if the point is inside the shape area, otherwise FALSE </returns>
+    /*!
+	 * \brief Test whether the given point is inside the shape. The function
+     * can be overrided if neccessary.
+     * \param pos Examined point
+     * \return TRUE if the point is inside the shape area, otherwise FALSE
+     */
 	virtual bool IsInside(const wxPoint &pos);
 
 	// public member data accessors
-	/// <summary> Set corner radius </summary>
-	/// <param name="radius"> New corner radius </param>
+	/*!
+	 * \brief Set corner radius.
+	 * \param radius New corner radius
+	 */
 	void SetRadius(double radius){m_nRadius = radius;}
-	/// <summary> Get current corner radius </summary>
-	/// <returns>  </returns>
+	/*!
+	 * \brief Get current corner radius.
+	 * \return Current corner radius
+	 */
 	double GetRadius(){return m_nRadius;}
 
 protected:
 
 	// protected virtual functions
-	/// <summary> Draw the shape in the normal way. The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the normal way. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawNormal(wxDC& dc);
-	/// <summary> Draw the shape in the hower mode (the mouse cursor is above the shape). The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the hower mode (the mouse cursor is above the shape).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawHover(wxDC& dc);
-	/// <summary> Draw the shape in the highlighted mode (another shape is dragged over this shape and this shape will accept the dragged one if it will be dropped on it). The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the highlighted mode (another shape is dragged over this
+	 * shape and this shape will accept the dragged one if it will be dropped on it).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawHighlighted(wxDC& dc);
 	/*!
 	 * \brief Draw shadow under the shape. The function can be overrided if neccessary.
@@ -71,24 +92,34 @@ protected:
 	 */
 	virtual void DrawShadow(wxDC& dc);
 
-	/// <summary> Serialize shape's properties to the given XML node </summary>
-	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>
-	/// <seealso cref="wxSFShapeBase::Serialize"></seealso>
+    /*!
+     * \brief Serialize shape's properties to the given XML node. The serialization
+     * routine is automatically called by the framework and should take care about serialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to XML node where the shape's property nodes will be appended to
+     * \sa xsSerializable::Serialize
+     */
 	virtual wxXmlNode* Serialize(wxXmlNode* node);
-	/// <summary> Deserialize shape's properties from the given XML node </summary>
-	/// <param name="node"> Source XML node containig the shape's property nodes</param>
-	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
+    /*!
+     * \brief Deserialize shape's properties from the given XML node. The
+     * routine is automatically called by the framework and should take care about deserialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to a source XML node containig the shape's property nodes
+     * \sa xsSerializable::Deserialize
+     */
 	virtual void Deserialize(wxXmlNode* node);
 
 	// protected functions
-	/// <summary> Auxiliary function. Checks whether the point is inside a circle with given center. The circle's radius
-	/// is the roundrect corner radius. </summary>
-	/// <param name="pos"> Examined point </param>
-	/// <param name="center"> Circle center </param>
+	/*!
+     * \brief Auxiliary function. Checks whether the point is inside a circle with given center. The circle's radius
+	 * is the roundrect corner radius.
+	 * \param pos Examined point
+	 * \param center Circle center
+	 */
 	bool IsInCircle(const wxPoint& pos, const wxPoint& center);
 
 	// protected data members
-	/// <summary> Corner radius </summary>
+	/*! \brief Corner radius. */
 	double m_nRadius;
 
 private:

@@ -13,38 +13,48 @@
 
 #include "ArrowBase.h"
 
-/// <summary> Class extends the wxSFArrowBase class and encapsulates
-/// arrow shape consisting of single two lines leading from the end of the
-/// parent line shape </summary>
+/*!
+ * \brief Class extends the wxSFArrowBase class and encapsulates
+ * arrow shape consisting of single two lines leading from the end of the
+ * parent line shape.
+ */
 class WXDLLIMPEXP_SF wxSFOpenArrow : public wxSFArrowBase
 {
 public:
 	XS_DECLARE_CLONABLE_CLASS(wxSFOpenArrow);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
 	wxSFOpenArrow(void);
-	/// <summary> User constructor </summary>
-	/// <param name="parent"> Pointer to the parent shape </param>
+	/*!
+     * \brief User constructor.
+	 * \param parent"> Pointer to the parent shape
+	 */
 	wxSFOpenArrow(wxSFShapeBase* parent);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Reference to the source object </param>
+	/*!
+     * \brief Copy constructor.
+	 * \param obj Reference to the source object
+	 */
 	wxSFOpenArrow(const wxSFOpenArrow& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	virtual ~wxSFOpenArrow(void);
 
 	// public virtual functions
-	/// <summary> Draw arrow shape at the end of a virtual line </summary>
-	/// <param name="from"> Start of the virtual line </param>
-	/// <param name="to"> End of the virtual line </param>
-	/// <param name="dc"> Device context for drawing </param>
+	/*!
+     * \brief Draw arrow shape at the end of a virtual line.
+	 * \param from Start of the virtual line
+	 * \param to End of the virtual line
+	 * \param dc Device context for drawing
+	 */
 	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxDC& dc);
 
 protected:
 	// protected virtual functions
-	/// <summary> Draw arrow shape defined by array of its vertices </summary>
-	/// <param name="n"> Number of the array items </param>
-	/// <param name="pts"> Array of the arrow shape vertices </param>
-	/// <param name="dc"> Device context for drawing </param>
+    /*!
+     * \brief Draw arrow shape defined by array of its vertices.
+	 * \param n Number of the array items
+	 * \param pts Array of the arrow shape vertices
+	 * \param dc Device context for drawing
+	 */
 	virtual void DrawArrowShape(int n, wxPoint pts[], wxDC& dc);
 };
 

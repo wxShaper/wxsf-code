@@ -16,41 +16,50 @@
 // default values
 #define sfdvCURVESHAPE_MAXSTEPS 20
 
-/// <summary> Interpolation line shape. The class extends wxSFLineShape class and allows
-/// user to create curved connection line.</summary>
+/*!
+ * \brief Interpolation line shape. The class extends wxSFLineShape class and allows
+ * user to create curved connection line.
+ */
 class WXDLLIMPEXP_SF wxSFCurveShape : public wxSFLineShape
 {
 public:
     XS_DECLARE_CLONABLE_CLASS(wxSFCurveShape);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
     wxSFCurveShape();
-    /// <summary> User constructor </summary>
-    /// <param name="maxsteps"> Number of curve elements between two control points </param>
-    /// <param name="src"> ID of the source shape </param>
-    /// <param name="trg"> ID of the target shape </param>
-    /// <param name="path"> Array of line's control points </param>
-    /// <param name="manager"> Parent parent diagram manager </param>
+    /*!
+     * \brief User constructor.
+     * \param maxsteps Number of curve elements between two control points
+     * \param src ID of the source shape
+     * \param trg ID of the target shape
+     * \param path Array of line's control points
+     * \param manager Parent parent diagram manager
+     */
 	wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Reference to the source object </param>
+	/*!
+     * \brief Copy constructor.
+	 * \param obj Reference to the source object
+	 */
 	wxSFCurveShape(const wxSFCurveShape& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
     virtual ~wxSFCurveShape();
 
     // public virtual function
-    /// <summary> Get line's bounding box. The function can be overrided
-    /// if neccessary. </summary>
-    /// <returns> Bounding rectangle </returns>
+    /*!
+     * \brief Get line's bounding box. The function can be overrided if neccessary.
+     * \return Bounding rectangle
+     */
     virtual wxRect GetBoundingBox();
 
     // public functions
-    /// <summary> Get a line point laying on the given line segment and shifted
-    /// from the beggining of the segment by given offset. </summary>
-    /// <param name="segment"> Zero-based index of the line segment </param>
-    /// <param name="offset"> Real value in the range from 0 to 1 which determines
-    /// the linepoint offset inside the line segment </param>
-    /// <returns> Line point </returns>
+    /*!
+     * \brief Get a line point laying on the given line segment and shifted
+     * from the beggining of the segment by given offset.
+     * \param segment Zero-based index of the line segment
+     * \param offset Real value in the range from 0 to 1 which determines
+     * the linepoint offset inside the line segment
+     * \return Line point
+     */
     wxRealPoint GetPoint(size_t segment, double offset);
 
 protected:
@@ -59,34 +68,46 @@ protected:
     long m_nMaxSteps;
 
     // protected virtual functions
-	/// <summary> Serialize shape's properties to the given XML node. </summary>
-	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>
-	/// <seealso cref="wxSFShapeBase::Serialize"></seealso>
+    /*!
+     * \brief Serialize shape's properties to the given XML node. The serialization
+     * routine is automatically called by the framework and should take care about serialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to XML node where the shape's property nodes will be appended to
+     * \sa xsSerializable::Serialize
+     */
 	virtual wxXmlNode* Serialize(wxXmlNode* node);
-	/// <summary> Deserialize shape's properties from the given XML node. </summary>
-	/// <param name="node"> Source XML node containig the shape's property nodes</param>
-	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
+    /*!
+     * \brief Deserialize shape's properties from the given XML node. The
+     * routine is automatically called by the framework and should take care about deserialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to a source XML node containig the shape's property nodes
+     * \sa xsSerializable::Deserialize
+     */
 	virtual void Deserialize(wxXmlNode* node);
 
-    /// <summary> Internal function used for drawing of completed line shape. </summary>
-    /// <param name="dc"> Refernce of the device context where the shape will be darwn to </param>
+    /*!
+     * \brief Internal function used for drawing of completed line shape.
+     * \param dc Refernce of the device context where the shape will be darwn to
+     */
 	virtual void DrawCompleteLine(wxDC& dc);
-    /// <summary> Get zero-based index of the line segment laying under given point. </summary>
-    /// <param name="pos"> Search point </param>
-    /// <returns> Zero-based line segment index </returns>
+    /*!
+     * \brief Get zero-based index of the line segment laying under given point.
+     * \param pos Search point
+     * \return Zero-based line segment index
+     */
 	virtual int GetHitLinesegment(const wxPoint& pos);
 
 private:
 
 	// private functions
 
-	 /*! \brief Initialize serializable properties. */
+    /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
-	/// <summary> Auxiliary drawing function </summary>
+	/*! \brief Auxiliary drawing function. */
 	void GetUpdatedLineSegment(LineSegmentArray& segments);
-	/// <summary> Auxiliary drawing function </summary>
+	/*! \brief Auxiliary drawing function. */
 	void Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint&D, wxDC& dc);
-	/// <summary> Auxiliary drawing function </summary>
+	/*! \brief Auxiliary drawing function. */
 	wxRealPoint Coord_Catmul_Rom_Kubika(const wxRealPoint& p1, const wxRealPoint& p2, const wxRealPoint& p3, const wxRealPoint& p4, double t);
 
 };

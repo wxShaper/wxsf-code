@@ -30,17 +30,21 @@ public:
      * \param manager Pointer to parent diagram manager
      */
 	wxSFDiamondShape(const wxRealPoint& pos, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Reference to the source object </param>
+	/*!
+	 * \brief Copy constructor.
+	 * \param obj Reference to the source object
+	 */
 	wxSFDiamondShape(const wxSFDiamondShape& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
     virtual ~wxSFDiamondShape();
 
     // public virtual functions
-    /// <summary> Test whether the given point is inside the shape. The function
-    /// can be overrided if neccessary. </summary>
-    /// <param name="pos"> Examined point </param>
-    /// <returns> TRUE if the point is inside the shape area, otherwise FALSE </returns>
+    /*!
+	 * \brief Test whether the given point is inside the shape. The function
+     * can be overrided if neccessary.
+     * \param pos Examined point
+     * \return TRUE if the point is inside the shape area, otherwise FALSE
+     */
     virtual bool IsInside(const wxPoint& pos);
 };
 

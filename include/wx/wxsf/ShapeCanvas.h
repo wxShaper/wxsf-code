@@ -363,8 +363,9 @@ public:
 	void ShowShadows(bool show, SHADOWMODE style);
 
 	/*!
-	 * \brief Start Drag&Drop process with shapes included in the given list
+	 * \brief Start Drag&Drop process with shapes included in the given list.
 	 * \param shapes List of shapes which should be dragged
+	 * \param start A point where the dragging process has started
 	 * \return rct Drag result
 	 */
 	wxDragResult DoDragDrop(ShapeList &shapes, const wxPoint& start = wxPoint(-1, -1));
@@ -400,13 +401,13 @@ public:
 
 	/*!
 	 * \brief Print current canvas content.
-	 * \param promp If TRUE (sfPROMT) then the the native print dialog will be displayed before printing
+	 * \param prompt If TRUE (sfPROMT) then the the native print dialog will be displayed before printing
 	 */
 	void Print(bool prompt = sfPROMPT);
 	/*!
 	 * \brief Print current canvas content using user-defined printout class.
 	 * \param printout Pointer to user-defined printout object (inherited from wxSFPrintout class). Do not delete this object explicitly.
-	 * \param promp If TRUE (sfPROMT) then the native print dialog will be displayed before printing
+	 * \param prompt If TRUE (sfPROMT) then the native print dialog will be displayed before printing
 	 * \sa wxSFPrintout
 	 */
 	void Print(wxSFPrintout *printout, bool prompt = sfPROMPT);
@@ -587,7 +588,7 @@ public:
 	wxColour GetGridColour() const {return m_Settings.m_nGridColor;}
 	/*!
 	 * \brief Set shadow offset.
-	 * \param pos Shadow offset
+	 * \param offset Shadow offset
 	 */
 	void SetShadowOffset(const wxRealPoint& offset){m_Settings.m_nShadowOffset = offset;}
 	/*!
@@ -700,6 +701,7 @@ public:
 	/*!
 	 * \brief Function responsible for drawing of the canvas's content to given DC.
 	 * \param dc Reference to device context where the shapes will be drawn to
+	 * \param fromPaint Set the argument to TRUE if the dc argument refers to the wxPaintDC instance
 	 */
 	void DrawContent(wxDC& dc, bool fromPaint);
 

@@ -14,113 +14,155 @@
 #include "ShapeBase.h"
 
 // default values
-/// <summary> Default value of wxSFRectShape::m_nRectSize data member </summary>
+/*! \brief Default value of wxSFRectShape::m_nRectSize data member. */
 #define sfdvRECTSHAPE_SIZE wxRealPoint(100, 50)
-/// <summary> Default value of wxSFRectShape::m_Fill data member </summary>
+/*! \brief Default value of wxSFRectShape::m_Fill data member. */
 #define sfdvRECTSHAPE_FILL *wxWHITE_BRUSH
-/// <summary> Default value of wxSFRectShape::m_Border data member </summary>
+/*! \brief Default value of wxSFRectShape::m_Border data member. */
 #define sfdvRECTSHAPE_BORDER *wxBLACK_PEN
 
-/// <summary> Class encapsulates basic rectangle shape which is used as a base class
-/// for many other shapes that can be bounded by a simple rectangle. The class
-/// provides all functionality needed for manipulating the rectangle's (bounding box)
-/// size and position. </summary>
+/*!
+ * \brief Class encapsulates basic rectangle shape which is used as a base class
+ * for many other shapes that can be bounded by a simple rectangle. The class
+ * provides all functionality needed for manipulating the rectangle's (bounding box)
+ * size and position.
+ */
 class WXDLLIMPEXP_SF wxSFRectShape : public wxSFShapeBase
 {
 public:
 	XS_DECLARE_CLONABLE_CLASS(wxSFRectShape);
 
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
 	wxSFRectShape(void);
-	/// <summary> User constructor </summary>
-	/// <param name="pos"> Initial position </param>
-	/// <param name="size"> Initial size </param>
-	/// <param name="manager"> Pointer to parent diagram manager </param>
+	/*!
+     * \brief User constructor.
+	 * \param pos Initial position
+	 * \param size Initial size
+	 * \param manager Pointer to parent diagram manager
+	 */
 	wxSFRectShape(const wxRealPoint& pos, const wxRealPoint& size, wxSFDiagramManager* manager);
-	/// <summary> Copy constructor </summary>
-	/// <param name="obj"> Refernce to the source object </param>
+	/*!
+     * \brief Copy constructor.
+	 * \param obj Reference to the source object
+	 */
 	wxSFRectShape(const wxSFRectShape& obj);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	virtual ~wxSFRectShape(void);
 
 	// public virtual functions
-    /// <summary> Get shapes's bounding box. The function can be overrided
-    /// if neccessary. </summary>
-    /// <returns> Bounding rectangle </returns>
+    /*!
+	 * \brief Get shapes's bounding box. The function can be overrided if neccessary.
+     * \return Bounding rectangle
+     */
 	virtual wxRect GetBoundingBox();
-	/// <summary> Get intersection point of the shape's border and a line leading from
-	/// the shape's center to the given point. The function can be overrided if neccessary. </summary>
-	/// <param name="to"> Ending point of the virtual intersection line </param>
-	/// <returns> Intersection point </returns>
+	/*!
+	 * \brief Get intersection point of the shape border and a line leading from
+	 * the shape's center to the given point. The function can be overrided if neccessary.
+	 * \param to Ending point of the virtual intersection line
+	 * \return Intersection point
+	 */
 	virtual wxRealPoint GetBorderPoint(const wxRealPoint& to);
 
-    /// <summary> Function called by the framework responsible for creation
-    /// of the shape's handles. The function can be overrided if neccessary. </summary>
+	/*!
+	 * \brief Function called by the framework responsible for creation of shape handles
+     * at the creation time. The function can be overrided if neccesary.
+     */
 	virtual void CreateHandles();
-	/// <summary> Event handler called during dragging of the shape handle.
-	/// The function can be overrided if necessary. </summary>
-	/// <param name="handle"> Reference to the dragged shape handle </param>
+	/*!
+	 * \brief Event handler called during dragging of the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \param handle Reference to dragged handle
+	 */
 	virtual void OnHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called when the user started to drag the shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to the dragged shape handle </param>
+	/*!
+	 * \brief Event handler called when the user started to drag the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \param handle Reference to dragged handle
+	 */
 	virtual void OnBeginHandle(wxSFShapeHandle& handle);
 
-    /// <summary> Resize the rectangle to bound all child shapes.
-    /// The function can be overrided if neccessary. </summary>
+    /*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
 	virtual void FitToChildren();
-	/// <summary> Scale the shape in both directions.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="x"> Scale ratio in the horizontal direction </param>
-	/// <param name="y"> Scale ratio in the vertical direction </param>
-    /// <param name="children"> TRUE if the shape's children shoould be scaled as well, otherwise
-    /// the shape will be updated after scaling via Update() function. </param>
+    /*!
+	 * \brief Scale the shape size by in both directions. The function can be overrided if necessary
+     * (new implementation should call default one ore scale shape's children manualy if neccesary).
+     * \param x Horizontal scale factor
+     * \param y Vertical scale factor
+     * \param children TRUE if the shape's children shoould be scaled as well, otherwise the shape will be updated after scaling via Update() function.
+     */
 	virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
 
 	// public data accessors
-	/// <summary> Set rectangle's fill style </summary>
-	/// <param name="brush"> Refernce to a brush object </param>
+	/*!
+	 * \brief Set rectangle's fill style.
+	 * \param brush Refernce to a brush object
+	 */
 	void SetFill(const wxBrush& brush){m_Fill = brush;}
-	/// <summary> Get current fill style </summary>
-	/// <returns> Current brush </returns>
+	/*!
+	 * \brief Get current fill style.
+	 * \return Current brush
+	 */
 	wxBrush GetFill() const {return m_Fill;}
-	/// <summary> Set rectangle's border style </summary>
-	/// <param name="pen"> Refernce to a pen object </param>
+	/*!
+	 * \brief Set rectangle's border style.
+	 * \param pen Refernce to a pen object
+	 */
 	void SetBorder(const wxPen& pen){m_Border = pen;}
-	/// <summary> Get current border style </summary>
-	/// <returns> Current pen </returns>
+	/*!
+	 * \brief Get current border style.
+	 * \return Current pen
+	 */
 	wxPen GetBorder() const {return m_Border;}
-	/// <summary> Set the rectangle size </summary>
-	/// <param name="size"> New size </param>
+	/*!
+	 * \brief Set the rectangle size.
+	 * \param size New size
+	 */
 	void SetRectSize(const wxRealPoint& size){m_nRectSize = size;}
-	/// <summary> Set the rectangle size </summary>
-	/// <param name="x"> Horizontal size </param>
-	/// <param name="y"> Verical size </param>
+	/*!
+	 * \brief Set the rectangle size.
+	 * \param x Horizontal size
+	 * \param y Verical size
+	 */
 	void SetRectSize(double x, double y){m_nRectSize.x = x; m_nRectSize.y = y;}
-	/// <summary> Get the rectangle size </summary>
-	/// <returns> Current size </returns>
+	/*!
+	 * \brief Get the rectangle size.
+	 * \return Current size
+	 */
 	wxRealPoint GetRectSize() const {return m_nRectSize;}
 
 
 protected:
 
 	// protected data members
-	/// <summary> Pen object used for drawing of the rectangle border </summary>
+	/*! \brief Pen object used for drawing of the rectangle border. */
 	wxPen m_Border;
-	/// <summary> Brush object used for drawing of the rectangle body </summary>
+	/*! \brief Brush object used for drawing of the rectangle body. */
 	wxBrush m_Fill;
-	/// <summary> The rectangle size </summary>
+	/*! \brief The rectangle size. */
 	wxRealPoint m_nRectSize;
 
 	// protected virtual functions
-	/// <summary> Draw the shape in the normal way. The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the normal way. The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawNormal(wxDC& dc);
-	/// <summary> Draw the shape in the hower mode (the mouse cursor is above the shape). The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the hower mode (the mouse cursor is above the shape).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawHover(wxDC& dc);
-	/// <summary> Draw the shape in the highlighted mode (another shape is dragged over this shape and this shape will accept the dragged one if it will be dropped on it). The function can be overrided if neccessary. </summary>
-	/// <param name="dc"> Reference to device context where the shape will be drawn to </param>
+	/*!
+	 * \brief Draw the shape in the highlighted mode (another shape is dragged over this
+	 * shape and this shape will accept the dragged one if it will be dropped on it).
+	 * The function can be overrided if neccessary.
+	 * \param dc Reference to device context where the shape will be drawn to
+	 */
 	virtual void DrawHighlighted(wxDC& dc);
 	/*!
 	 * \brief Draw shadow under the shape. The function can be overrided if neccessary.
@@ -128,30 +170,46 @@ protected:
 	 */
 	virtual void DrawShadow(wxDC& dc);
 
-	/// <summary> Serialize shape's properties to the given XML node </summary>
-	/// <param name="node"> Pointer to XML node where the shape's property nodes will be append to </param>
-	/// <seealso cref="wxSFShapeBase::Serialize"></seealso>
+    /*!
+     * \brief Serialize shape's properties to the given XML node. The serialization
+     * routine is automatically called by the framework and should take care about serialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to XML node where the shape's property nodes will be appended to
+     * \sa xsSerializable::Serialize
+     */
 	virtual wxXmlNode* Serialize(wxXmlNode* node);
-	/// <summary> Deserialize shape's properties from the given XML node </summary>
-	/// <param name="node"> Source XML node containig the shape's property nodes</param>
-	/// <seealso cref="wxSFShapeBase::Deserialize"></seealso>
+    /*!
+     * \brief Deserialize shape's properties from the given XML node. The
+     * routine is automatically called by the framework and should take care about deserialization
+     * of all specific (non-standard) shape's properties.
+     * \param node Pointer to a source XML node containig the shape's property nodes
+     * \sa xsSerializable::Deserialize
+     */
 	virtual void Deserialize(wxXmlNode* node);
 
-	/// <summary> Event handler called during dragging of the right shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the right shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnRightHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called during dragging of the left shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the left shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnLeftHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called during dragging of the top shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the top shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnTopHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called during dragging of the bottom shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the bottom shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnBottomHandle(wxSFShapeHandle& handle);
 
 private:
@@ -161,9 +219,9 @@ private:
 	 /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
 
-    /// <summary> Auxiliary data member </summary>
+    /*! \brief Auxiliary data member. */
     wxRealPoint m_nPrevSize;
-    /// <summary> Auxiliary data member </summary>
+    /*! \brief Auxiliary data member. */
     wxRealPoint m_nPrevPosition;
 };
 

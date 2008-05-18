@@ -13,52 +13,66 @@
 
 #include "RectShape.h"
 
-/// <summary> Auxiliary class encapsulating multiselection rectangle used
-/// in the shape canvas. The class shouldn't be used directly. </summary>
-/// <seealso cref="wxSFShapeCanvas"></seealso>
+/*!
+ * \brief Auxiliary class encapsulating multiselection rectangle used
+ * in the shape canvas. The class shouldn't be used directly.
+ * \sa wxSFShapeCanvas
+ */
 class WXDLLIMPEXP_SF wxSFMultiSelRect : public wxSFRectShape
 {
 public:
-    /// <summary> Default constructor </summary>
+    /*! \brief Default constructor. */
 	wxSFMultiSelRect(void);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	virtual ~wxSFMultiSelRect(void);
 
 	// public virtual functions
-	/// <summary> Event handler called at the begining of the shape handle dragging process.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called at the begining of the shape handle dragging process.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnBeginHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called at the end of the shape handle dragging process.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called at the end of the shape handle dragging process.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnEndHandle(wxSFShapeHandle& handle);
 
 protected:
 	// protected virtual functions
-	/// <summary> Event handler called during dragging of the right shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the right shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnRightHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called during dragging of the left shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the left shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnLeftHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called during dragging of the top shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the top shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnTopHandle(wxSFShapeHandle& handle);
-	/// <summary> Event handler called during dragging of the bottom shape handle.
-	/// The function can be overrided if neccessary. </summary>
-	/// <param name="handle"> Reference to dragged shape handle </param>
+	/*!
+     * \brief Event handler called during dragging of the bottom shape handle.
+	 * The function can be overrided if neccessary.
+	 * \param handle Reference to dragged shape handle
+	 */
 	virtual void OnBottomHandle(wxSFShapeHandle& handle);
 
 private:
 
 	// private functions
-	/// <summary> Auxiliary function </summary>
+	/*! \brief Auxiliary function. */
 	bool AnyWidthExceeded(const wxPoint& delta);
-	/// <summary> Auxiliary function </summary>
+	/*! \brief Auxiliary function. */
 	bool AnyHeightExceeded(const wxPoint& delta);
 };
 

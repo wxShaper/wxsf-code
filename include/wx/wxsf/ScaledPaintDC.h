@@ -25,22 +25,26 @@
 class WXDLLIMPEXP_SF wxSFScaledPaintDC : public wxMemoryDC
 {
 public:
-    /// <summary> Constructor </summary>
-    /// <param name="outbmp"> Reference to a bitmap where all graphics is drawn to. </param>
-    /// <param name="scale"> Global graphics scale </param>
+    /*!
+     * \brief Constructor.
+     * \param outbmp Reference to a bitmap where all graphics is drawn to
+     * \param scale Global graphics scale
+     */
 	wxSFScaledPaintDC(wxBitmap& outbmp, double scale);
-	/// <summary> Destructor </summary>
+	/*! \brief Destructor. */
 	virtual ~wxSFScaledPaintDC(void);
 
 	// public member data accessors
-	/// <summary> Set the global graphics scale </summary>
-	/// <param name="scale"> Scale </param>
+	/*!
+     * \brief Set the global graphics scale.
+	 * \param scale Scale
+	 */
 	void SetScale(double scale){m_nScale = scale;}
 
 protected:
 
 	// protected data members
-	/// <summary> Global graphics scale </summary>
+	/*! \brief Global graphics scale. */
 	double m_nScale;
 
     // protected function

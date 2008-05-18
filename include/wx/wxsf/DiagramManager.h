@@ -89,7 +89,7 @@ public:
     /*!
      * \brief Add an existing shape to the canvas.
      * \param shape Pointer to the shape
-     * \param shape Pointer to the parent shape
+     * \param parent Pointer to the parent shape
      * \param pos Position
      * \param initialize TRUE if the shape should be reinitilialized, otherwise FALSE
      * \param saveState TRUE if the canvas state should be saved
