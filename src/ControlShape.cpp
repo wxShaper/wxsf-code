@@ -347,6 +347,6 @@ void EventSink::UpdateMouseEvent(wxMouseEvent &event)
 {
     wxRealPoint nAbsPos = m_pParentShape->GetAbsolutePosition();
 
-    event.m_x += (int)nAbsPos.x;
-    event.m_y += (int)nAbsPos.y;
+    event.m_x += ( (int)nAbsPos.x + m_pParentShape->GetControlOffset() );
+    event.m_y += ( (int)nAbsPos.y + m_pParentShape->GetControlOffset() );
 }
