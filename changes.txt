@@ -1,4 +1,4 @@
-Changes in version 1.6.0 beta (2008-05-05):
+Changes in version 1.6.0 beta (2008-06-02):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.5:
   - Function xsSerializable::AddChild() returns pointer to the added child item. It also sets
@@ -35,10 +35,13 @@ Changes in version 1.6.0 beta (2008-05-05):
   wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive)
 
 - All drawing (virtual) functions now use reference to wxDC instead of wxSFScaledPaintDC which leads
-  to more universal drawing approach.
+  to more universal drawing approach. In addition new global conversion functions called Conv2Point(), Conv2Size()
+  and Conv2RealPoint() have been added for easy conversion between wxPoint, wxSize and wxRealPoint() objects
+  (these functions are usefull especialy in user-defined drawing routines).
 
 - Fixed compilation problem which occured in wxSFDemo and wxSFSample3 if the wx2.6.x compatibility is switched off
   (due to unknown wxSAVE and wxOPEN defines previously declared in the wxFileDialog).
+- Fixed segmentation fault in wxSFDemo3 occured when the DEL key was pressed together with a star title selected.
 
 
 Changes in version 1.5.2 beta (2008-02-22):
