@@ -1086,6 +1086,8 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 			}
 			else
 			{
+			    if( m_pSelectedHandle ) m_pSelectedHandle->OnEndDrag(lpos);
+
 				m_pSelectedHandle = NULL;
 				m_nWorkingMode = modeREADY;
 			}
@@ -1199,8 +1201,12 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
                 {
                     if(m_pSelectedHandle && m_pSelectedHandle->GetParentShape()->IsKindOf(CLASSINFO(wxSFLineShape)))
                     {
+                        m_pSelectedHandle->OnEndDrag(wxPoint(0, 0));
+
                         wxSFLineShape* pLine = (wxSFLineShape*)m_pSelectedHandle->GetParentShape();
                         pLine->SetLineMode(wxSFLineShape::modeREADY);
+
+                        m_pSelectedHandle = NULL;
                     }
                 }
                 break;
@@ -1420,8 +1426,12 @@ void wxSFShapeCanvas::OnEnterWindow(wxMouseEvent& event)
 					pBitmap->OnEndHandle(*m_pSelectedHandle);
 				}
 
+                m_pSelectedHandle->OnEndDrag(lpos);
+
                 SaveCanvasState();
 				m_nWorkingMode = modeREADY;
+				m_pSelectedHandle = NULL;
+
                 Refresh(false);
             }
         }

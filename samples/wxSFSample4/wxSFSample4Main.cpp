@@ -181,16 +181,12 @@ wxWindow* wxSFSample4Frame::CreateGUIControl()
         }
 
         case 4:
-        {
-            TestPanel *pCtrl = new TestPanel(m_pCanvas);
-            return pCtrl;
-        }
+            return new TestPanel(m_pCanvas);
 
         default:
             return NULL;
     }
 }
-
 BEGIN_EVENT_TABLE(TestPanel, wxPanel)
     EVT_BUTTON(idResize, TestPanel::OnBtnResize)
 END_EVENT_TABLE()

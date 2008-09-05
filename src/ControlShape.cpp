@@ -169,18 +169,22 @@ void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
         }
     }
 
-    if( m_pControl ) m_pControl->Hide();
+    if( m_pControl )
+    {
+        m_pControl->Hide();
+        m_pControl->Disconnect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
+    }
 }
 
 void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
 {
-    if( m_pControl )
+    /*if( m_pControl )
     {
         wxRealPoint absPos = GetAbsolutePosition();
 
         // set the control's position according to the parent control shape
         m_pControl->Move((int)absPos.x + m_nControlOffset, (int)absPos.y + m_nControlOffset);
-    }
+    }*/
 }
 
 void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
@@ -194,8 +198,12 @@ void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
         if( pCanvas ) pCanvas->SetStyle(m_nPrevStyle);
     }
 
+    UpdateControl();
+
     if( m_pControl )
     {
+        m_pControl->Connect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
+
         m_pControl->Show();
         m_pControl->SetFocus();
     }
@@ -212,7 +220,11 @@ void wxSFControlShape::OnBeginHandle(wxSFShapeHandle& handle)
     // call default handler
     wxSFRectShape::OnBeginHandle(handle);
 
-    if( m_pControl ) m_pControl->Hide();
+    if( m_pControl )
+    {
+        m_pControl->Hide();
+        m_pControl->Disconnect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
+    }
 }
 
 void wxSFControlShape::OnHandle(wxSFShapeHandle& handle)
@@ -235,6 +247,8 @@ void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
     {
         m_pControl->Show();
         m_pControl->SetFocus();
+
+        m_pControl->Connect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
     }
 }
 
@@ -246,6 +260,7 @@ void wxSFControlShape::UpdateControl()
 {
     if( m_pControl )
     {
+        int x = 0, y = 0;
         wxRect minBB = m_pControl->GetMinSize();
         wxRect rctBB = GetBoundingBox().Deflate(m_nControlOffset, m_nControlOffset);
 
@@ -261,15 +276,18 @@ void wxSFControlShape::UpdateControl()
             m_nRectSize.y = minBB.GetHeight() + 2*m_nControlOffset;
         }
 
+        GetParentCanvas()->CalcUnscrolledPosition(0, 0, &x, &y);
+
         // set the control's dimensions and position according to the parent control shape
         m_pControl->SetSize(rctBB.GetWidth(), rctBB.GetHeight());
-        m_pControl->Move(rctBB.GetLeft(), rctBB.GetTop());
+        m_pControl->Move(rctBB.GetLeft() - x, rctBB.GetTop() - y);
     }
 }
 
 void wxSFControlShape::UpdateShape()
 {
     wxSize nCtrlSize = m_pControl->GetSize();
+    wxPoint nCtrlPos = m_pControl->GetPosition();
 
     m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
     m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
@@ -289,16 +307,12 @@ void wxSFControlShape::UpdateShape()
 EventSink::EventSink()
 {
     m_pParentShape = NULL;
-    m_nPrevSize = wxSize(0, 0);
 }
 
 EventSink::EventSink(wxSFControlShape *parent)
 {
     wxASSERT(parent);
-
     m_pParentShape = parent;
-
-    if( m_pParentShape && m_pParentShape->GetControl() ) m_nPrevSize = m_pParentShape->GetControl()->GetSize();
 }
 
 EventSink::~EventSink()
@@ -351,16 +365,7 @@ void EventSink::_OnSize(wxSizeEvent &event)
 {
     event.Skip();
 
-    if( m_pParentShape && m_pParentShape->GetControl() )
-    {
-        wxSize newSize = m_pParentShape->GetControl()->GetSize();
-
-        if(newSize != m_nPrevSize)
-        {
-            m_pParentShape->UpdateShape();
-            m_nPrevSize = newSize;
-        }
-    }
+    m_pParentShape->UpdateShape();
 }
 
 //----------------------------------------------------------------------------------//
@@ -380,8 +385,11 @@ void EventSink::SendEvent(wxEvent &event)
 
 void EventSink::UpdateMouseEvent(wxMouseEvent &event)
 {
+    int x = 0, y = 0;
     wxRealPoint nAbsPos = m_pParentShape->GetAbsolutePosition();
 
-    event.m_x += ( (int)nAbsPos.x + m_pParentShape->GetControlOffset() );
-    event.m_y += ( (int)nAbsPos.y + m_pParentShape->GetControlOffset() );
+    m_pParentShape->GetParentCanvas()->CalcUnscrolledPosition(0, 0, &x, &y);
+
+    event.m_x += ( (int)nAbsPos.x + m_pParentShape->GetControlOffset() - x );
+    event.m_y += ( (int)nAbsPos.y + m_pParentShape->GetControlOffset() - y );
 }
