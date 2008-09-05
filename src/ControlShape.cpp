@@ -273,6 +273,8 @@ void wxSFControlShape::UpdateShape()
 
     m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
     m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
+
+    GetShapeManager()->GetShapeCanvas()->Refresh(false);
 }
 
 //----------------------------------------------------------------------------------//
@@ -342,8 +344,8 @@ void EventSink::_OnKeyDown(wxKeyEvent &event)
 
 void EventSink::_OnSize(wxSizeEvent &event)
 {
-    m_pParentShape->UpdateShape();
     event.Skip();
+    m_pParentShape->UpdateShape();
 }
 
 //----------------------------------------------------------------------------------//

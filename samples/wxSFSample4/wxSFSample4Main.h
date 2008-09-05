@@ -51,5 +51,23 @@ class wxSFSample4Frame: public wxFrame
         DECLARE_EVENT_TABLE()
 };
 
+class TestPanel : public wxPanel
+{
+    public:
+        TestPanel(wxWindow *parent);
+
+    protected:
+        enum
+        {
+            idResize = 1002
+        };
+
+        wxButton *btnResize;
+        bool fBig;
+
+        void OnBtnResize(wxCommandEvent& event);
+
+        DECLARE_EVENT_TABLE();
+};
 
 #endif // WXSFSAMPLE1MAIN_H
