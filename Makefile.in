@@ -67,6 +67,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_EditTextShape.o \
 	wxsf_lib_EllipseShape.o \
 	wxsf_lib_FixedRectShape.o \
+	wxsf_lib_GridShape.o \
 	wxsf_lib_LineShape.o \
 	wxsf_lib_LineShapeXml.o \
 	wxsf_lib_MultiSelRect.o \
@@ -109,6 +110,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_EditTextShape.o \
 	wxsf_dll_EllipseShape.o \
 	wxsf_dll_FixedRectShape.o \
+	wxsf_dll_GridShape.o \
 	wxsf_dll_LineShape.o \
 	wxsf_dll_LineShapeXml.o \
 	wxsf_dll_MultiSelRect.o \
@@ -459,6 +461,9 @@ wxsf_lib_EllipseShape.o: $(srcdir)/src/EllipseShape.cpp
 wxsf_lib_FixedRectShape.o: $(srcdir)/src/FixedRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/FixedRectShape.cpp
 
+wxsf_lib_GridShape.o: $(srcdir)/src/GridShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/GridShape.cpp
+
 wxsf_lib_LineShape.o: $(srcdir)/src/LineShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/LineShape.cpp
 
@@ -575,6 +580,9 @@ wxsf_dll_EllipseShape.o: $(srcdir)/src/EllipseShape.cpp
 
 wxsf_dll_FixedRectShape.o: $(srcdir)/src/FixedRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/FixedRectShape.cpp
+
+wxsf_dll_GridShape.o: $(srcdir)/src/GridShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/GridShape.cpp
 
 wxsf_dll_LineShape.o: $(srcdir)/src/LineShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/LineShape.cpp

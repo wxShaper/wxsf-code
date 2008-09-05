@@ -90,6 +90,7 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_EditTextShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_EllipseShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_FixedRectShape.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_GridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_MultiSelRect.o \
@@ -133,6 +134,7 @@ WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_EditTextShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_EllipseShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_FixedRectShape.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_GridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_MultiSelRect.o \
@@ -452,6 +454,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_EllipseShape.o: ../src/EllipseS
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_FixedRectShape.o: ../src/FixedRectShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_GridShape.o: ../src/GridShape.cpp
+	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
+
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShape.o: ../src/LineShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -567,6 +572,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_EllipseShape.o: ../src/EllipseS
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_FixedRectShape.o: ../src/FixedRectShape.cpp
+	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_GridShape.o: ../src/GridShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShape.o: ../src/LineShape.cpp

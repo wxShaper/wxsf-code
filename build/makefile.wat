@@ -296,6 +296,7 @@ WXSF_LIB_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_EditTextShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_EllipseShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_FixedRectShape.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_GridShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShapeXml.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_MultiSelRect.obj &
@@ -341,6 +342,7 @@ WXSF_DLL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_EditTextShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_EllipseShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_FixedRectShape.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_GridShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShape.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShapeXml.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_MultiSelRect.obj &
@@ -593,6 +595,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_EllipseShape.obj :  .AU
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_FixedRectShape.obj :  .AUTODEPEND ..\src\FixedRectShape.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
 
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_GridShape.obj :  .AUTODEPEND ..\src\GridShape.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
+
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShape.obj :  .AUTODEPEND ..\src\LineShape.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_LIB_CXXFLAGS) $<
 
@@ -708,6 +713,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_EllipseShape.obj :  .AU
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_FixedRectShape.obj :  .AUTODEPEND ..\src\FixedRectShape.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_GridShape.obj :  .AUTODEPEND ..\src\GridShape.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXSF_DLL_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShape.obj :  .AUTODEPEND ..\src\LineShape.cpp
