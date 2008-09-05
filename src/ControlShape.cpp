@@ -112,15 +112,10 @@ void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
             m_pControl->Connect(wxEVT_RIGHT_DCLICK, wxMouseEventHandler(EventSink::_OnMouseButton), NULL, m_pEventSink);
             m_pControl->Connect(wxEVT_MOTION, wxMouseEventHandler(EventSink::_OnMouseMove), NULL, m_pEventSink);
             m_pControl->Connect(wxEVT_KEY_DOWN, wxKeyEventHandler(EventSink::_OnKeyDown), NULL, m_pEventSink);
+            m_pControl->Connect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
         }
 
-        if( fit )
-        {
-            wxSize nCtrlSize = m_pControl->GetSize();
-
-            m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
-            m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
-        }
+        if( fit ) UpdateShape();
 
         UpdateControl();
     }
@@ -129,6 +124,16 @@ void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
 //----------------------------------------------------------------------------------//
 // public virtual functions
 //----------------------------------------------------------------------------------//
+
+void wxSFControlShape::FitToChildren()
+{
+    wxRect ctrlRct = wxRect(m_pControl->GetPosition(), m_pControl->GetSize());
+    wxRect bbRct = GetBoundingBox();
+
+    wxSFRectShape::FitToChildren();
+
+    if( bbRct.Intersects(ctrlRct) && !bbRct.Contains(ctrlRct) ) UpdateShape();
+}
 
 void wxSFControlShape::Scale(double x, double y, bool children)
 {
@@ -262,6 +267,13 @@ void wxSFControlShape::UpdateControl()
     }
 }
 
+void wxSFControlShape::UpdateShape()
+{
+    wxSize nCtrlSize = m_pControl->GetSize();
+
+    m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
+    m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
+}
 
 //----------------------------------------------------------------------------------//
 // private functions
@@ -326,6 +338,12 @@ void EventSink::_OnKeyDown(wxKeyEvent &event)
 
     // process the event also by an original handler if requested
     if( m_pParentShape->GetEventProcessing() & wxSFControlShape::evtKEY2GUI ) event.Skip();
+}
+
+void EventSink::_OnSize(wxSizeEvent &event)
+{
+    m_pParentShape->UpdateShape();
+    event.Skip();
 }
 
 //----------------------------------------------------------------------------------//

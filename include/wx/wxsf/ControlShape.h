@@ -61,6 +61,9 @@ public:
 	 */
 	void _OnKeyDown(wxKeyEvent &event);
 
+    /*! \brief Event handler used for adjusting the parent shape's size in accordance to size of managed GUI control. */
+	void _OnSize(wxSizeEvent &event);
+
 protected:
     // protected data members
     /*! \brief Poineter to parent contol shape. */
@@ -92,6 +95,8 @@ protected:
 class WXDLLIMPEXP_SF wxSFControlShape : public wxSFRectShape
 {
 public:
+    friend class EventSink;
+
     XS_DECLARE_CLONABLE_CLASS(wxSFControlShape)
 
     /*! \brief Way of processing of GUI control's events. */
@@ -205,6 +210,9 @@ public:
 	 */
 	virtual void MoveBy(double x, double y);
 
+    /*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
+	virtual void FitToChildren();
+
 	/*!
 	 * \brief Event handler called at the begining of the shape dragging process.
 	 * The function can be overrided if necessary.
@@ -281,6 +289,8 @@ protected:
     // protected functions
     /*! \brief Update size and position of the managed control according to the parent shape. */
     void UpdateControl();
+    /*! \brief Update size of the shape position according to the managed control. */
+    void UpdateShape();
 
 private:
 

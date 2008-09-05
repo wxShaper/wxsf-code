@@ -368,7 +368,7 @@ void wxSFShapeBase::Scale(double x, double y, bool children)
 	    ScaleChildren(x, y);
 	}
 
-    Update();
+    this->Update();
 }
 
 void wxSFShapeBase::Scale(const wxRealPoint& scale, bool children)
@@ -408,9 +408,6 @@ void wxSFShapeBase::Update()
     // do self-alignment
     DoAlignment();
 
-    // fit the shape to its children
-    this->FitToChildren();
-
     // do alignment of shape's children (if required)
     if( !this->IsKindOf(CLASSINFO(wxSFLineShape)) )
     {
@@ -421,6 +418,9 @@ void wxSFShapeBase::Update()
             node = node->GetNext();
         }
     }
+
+    // fit the shape to its children
+    this->FitToChildren();
 
     // do it recursively on all parent shapes
     if( GetParentShape() )GetParentShape()->Update();
@@ -797,6 +797,7 @@ void wxSFShapeBase::DoAlignment()
     if(pParent)
     {
         wxRect parentBB;
+
         if(pParent->IsKindOf(CLASSINFO(wxSFLineShape)))
         {
             wxRealPoint pos = pParent->GetAbsolutePosition();
@@ -806,7 +807,6 @@ void wxSFShapeBase::DoAlignment()
             parentBB = pParent->GetBoundingBox();
 
         wxRect shapeBB = this->GetBoundingBox();
-
 
         // do vertical alignment
         switch(m_nVAlign)
@@ -921,6 +921,11 @@ void wxSFShapeBase::OnMouseOver(const wxPoint& WXUNUSED(pos))
 }
 
 void wxSFShapeBase::OnMouseLeave(const wxPoint& WXUNUSED(pos))
+{
+	// HINT: overload it for custom actions...
+}
+
+void wxSFShapeBase::OnChildDropped(const wxRealPoint& WXUNUSED(pos), wxSFShapeBase* WXUNUSED(child))
 {
 	// HINT: overload it for custom actions...
 }
@@ -1154,7 +1159,7 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
         node = node->GetNext();
     }
     // update shape
-    Update();
+    this->Update();
 
     // refresh canvas
     if( GetShapeManager()->GetShapeCanvas() )GetShapeManager()->GetShapeCanvas()->Refresh(false);

@@ -56,9 +56,9 @@ wxSFRectShape::~wxSFRectShape(void)
 
 void wxSFRectShape::MarkSerializableDataMembers()
 {
-	XS_SERIALIZE_EX(m_nRectSize, wxT("size"),sfdvRECTSHAPE_SIZE);
+	XS_SERIALIZE_EX(m_nRectSize, wxT("size"), sfdvRECTSHAPE_SIZE);
 	XS_SERIALIZE_EX(m_Border, wxT("border"), sfdvRECTSHAPE_BORDER);
-	XS_SERIALIZE_EX(m_Fill, wxT("fill"),sfdvRECTSHAPE_FILL);
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvRECTSHAPE_FILL);
 }
 
 //----------------------------------------------------------------------------------//

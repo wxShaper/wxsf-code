@@ -833,6 +833,9 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
                         pShape->Reparent(pParentShape);
 
 						pShape->DoAlignment();
+
+                        // notify the parent shape about dropped child
+                        pParentShape->OnChildDropped(apos, pShape);
 					}
 					else
 					{

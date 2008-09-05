@@ -307,8 +307,9 @@ public:
 	 */
 	void MoveBy(const wxRealPoint& delta);
 
-	/*! \brief Update shape position in order to its alignment */
+	/*! \brief Update the shape's position in order to its alignment */
 	void DoAlignment();
+
 	/*! \brief Upate shape (align all child shapes an resize it to fit them) */
 	virtual void Update();
 	/*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
@@ -757,6 +758,15 @@ public:
 	 * \sa wxSFShapeBase::_OnKey
 	 */
 	virtual bool OnKey(int key);
+	/*!
+	 * \brief Event handler called when any shape is dropped above this shape (and the dropped
+	 * shape is accepted as a child of this shape). The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * \param pos Relative position of dropped shape
+	 * \param child Pointer to dropped shape
+	 */
+	virtual void OnChildDropped(const wxRealPoint& pos, wxSFShapeBase *child);
 
 protected:
 

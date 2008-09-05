@@ -25,6 +25,7 @@
 #include "BitmapShape.h"
 #include "PolygonShape.h"
 #include "ControlShape.h"
+#include "GridShape.h"
 
 #include "OpenArrow.h"
 #include "SolidArrow.h"
