@@ -289,11 +289,16 @@ void wxSFControlShape::UpdateShape()
 EventSink::EventSink()
 {
     m_pParentShape = NULL;
+    m_nPrevSize = wxSize(0, 0);
 }
 
 EventSink::EventSink(wxSFControlShape *parent)
 {
+    wxASSERT(parent);
+
     m_pParentShape = parent;
+
+    if( m_pParentShape && m_pParentShape->GetControl() ) m_nPrevSize = m_pParentShape->GetControl()->GetSize();
 }
 
 EventSink::~EventSink()
@@ -345,7 +350,17 @@ void EventSink::_OnKeyDown(wxKeyEvent &event)
 void EventSink::_OnSize(wxSizeEvent &event)
 {
     event.Skip();
-    m_pParentShape->UpdateShape();
+
+    if( m_pParentShape && m_pParentShape->GetControl() )
+    {
+        wxSize newSize = m_pParentShape->GetControl()->GetSize();
+
+        if(newSize != m_nPrevSize)
+        {
+            m_pParentShape->UpdateShape();
+            m_nPrevSize = newSize;
+        }
+    }
 }
 
 //----------------------------------------------------------------------------------//

@@ -81,6 +81,11 @@ protected:
 	 * \param event Mouse event to be updated;
 	 */
     void UpdateMouseEvent(wxMouseEvent &event);
+
+private:
+    /*! \brief Previous size of managed GUI control used by _OnSize event handler. */
+    wxSize m_nPrevSize;
+
 };
 
 /*!
