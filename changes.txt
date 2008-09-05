@@ -4,6 +4,7 @@ Changes in version 1.6.1 beta (2008-09-05):
   dragged shape(s) are dropped above target shape (the dropped shapes must be accepted by the target).
 - Fixed control shape to proper set its size in accordance to managed GUI control (virtual function wxSFShapeBase::Update
   () should works now).
+- Slightly updated wxSFSample4 (added possibility to create a gui control consisting of wxPanel and wxButton used for the real-time panel resizing).
 
 Changes in version 1.6.0 beta (2008-06-02):
 --------------------------------------------
