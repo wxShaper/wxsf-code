@@ -191,6 +191,8 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 {
 	if(shape)
 	{
+	    wxSFShapeBase *pParent = shape->GetParentShape();
+
         // remove connected lines (to all children)
         ShapeList lstChildren;
         ShapeList lstConnections;
@@ -224,7 +226,9 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
         // remove the shape
 		RemoveItem(shape);
 
-		if(refresh && m_pShapeCanvas)m_pShapeCanvas->Refresh();
+        if( pParent ) pParent->Update();
+
+		if( refresh && m_pShapeCanvas ) m_pShapeCanvas->Refresh();
 	}
 }
 

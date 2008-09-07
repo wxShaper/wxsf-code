@@ -53,11 +53,24 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
 
         // public member data accessors
 
+        void SetDimensions(int rows, int cols);
+
+        void GetDimensions(int *rows, int *cols);
+
         // public functions
+
+        void ClearGrid();
+
+        bool AppendToGrid(wxSFShapeBase *shape);
+
+        bool InsertToGrid(int row, int col, wxSFShapeBase *shape);
 
         // public virtual functions
         /*! \brief Upate shape (align all child shapes an resize it to fit them) */
         virtual void Update();
+
+        /*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
+        virtual void FitToChildren();
 
         /*! \brief Do layout of assigned child shapes */
         virtual void DoChildrenLayout();
@@ -80,13 +93,13 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
         int m_nCols;
         /*! \brief Space additional space between managed shapes. */
         int m_nCellSpace;
+        /*! \brief Array containing the IDs of managed shapes. */
+        IntArray m_arrCells;
 
-
+        // protected virtual functions
 
     private:
-
         // private functions
-
          /*! \brief Initialize serializable properties. */
         void MarkSerializableDataMembers();
 };

@@ -105,8 +105,6 @@ void wxSFRectShape::FitToChildren()
         node = node->GetNext();
     }
 
-	//GetCompleteBoundingBox(chBB, bbSELF | bbCHILDREN);
-
 	if(!chBB.IsEmpty())
 	{
 		wxRect shpBB = GetBoundingBox();
@@ -135,10 +133,6 @@ void wxSFRectShape::FitToChildren()
 				}
 			}
 		}
-
-		// perform the action recursively
-		/*wxSFShapeBase* m_pParentShape = GetParentShape();
-		if(m_pParentShape)m_pParentShape->FitToChildren();*/
 	}
 }
 
@@ -194,7 +188,8 @@ void wxSFRectShape::OnRightHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	m_nRectSize.x = handle.GetPosition().x - GetAbsolutePosition().x;
+	//m_nRectSize.x = handle.GetPosition().x - GetAbsolutePosition().x;
+	m_nRectSize.x += handle.GetDelta().x;
 }
 
 void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
@@ -203,7 +198,8 @@ void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
 
     wxSFShapeBase *pChild;
 
-	double dx = (double)handle.GetPosition().x - GetAbsolutePosition().x;
+	//double dx = (double)handle.GetPosition().x - GetAbsolutePosition().x;
+	double dx = (double)handle.GetDelta().x;
 
 	// update position of children
 	SerializableList::compatibility_iterator node = GetFirstChildNode();
@@ -227,7 +223,8 @@ void wxSFRectShape::OnTopHandle(wxSFShapeHandle& handle)
 
     wxSFShapeBase *pChild;
 
-	double dy = (double)handle.GetPosition().y - GetAbsolutePosition().y;
+	//double dy = (double)handle.GetPosition().y - GetAbsolutePosition().y;
+	double dy = (double)handle.GetDelta().y;
 
 	// update position of children
 	SerializableList::compatibility_iterator node = GetFirstChildNode();
@@ -249,7 +246,8 @@ void wxSFRectShape::OnBottomHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 
-	m_nRectSize.y = handle.GetPosition().y - GetAbsolutePosition().y;
+	//m_nRectSize.y = handle.GetPosition().y - GetAbsolutePosition().y;
+	m_nRectSize.y += handle.GetDelta().y;
 }
 
 wxRealPoint wxSFRectShape::GetBorderPoint(const wxRealPoint& to)

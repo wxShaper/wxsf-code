@@ -469,6 +469,71 @@ wxArrayString xsArrayStringPropIO::FromString(const wxString& WXUNUSED(value))
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
+// xsArrayIntPropIO class ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC_CLASS(xsArrayIntPropIO, xsPropertyIO);
+
+void xsArrayIntPropIO::Read(xsProperty *property, wxXmlNode *source)
+{
+    ((IntArray*)property->m_pSourceVariable)->Clear();
+
+    wxXmlNode *listNode = source->GetChildren();
+    while(listNode)
+    {
+        if(listNode->GetName() == wxT("item"))
+        {
+            ((IntArray*)property->m_pSourceVariable)->Add(xsIntPropIO::FromString(listNode->GetNodeContent()));
+        }
+
+        listNode = listNode->GetNext();
+    }
+}
+
+void xsArrayIntPropIO::Write(xsProperty *property, wxXmlNode *target)
+{
+    IntArray array(*((IntArray*)property->m_pSourceVariable));
+
+    size_t cnt = array.GetCount();
+    if(cnt > 0)
+    {
+        wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
+        for(size_t i = 0; i < cnt; i++)
+        {
+            AddPropertyNode(newNode, wxT("item"), xsIntPropIO::ToString(array[i]));
+        }
+
+        target->AddChild(newNode);
+        AppendPropertyType(property, newNode);
+    }
+}
+
+wxString xsArrayIntPropIO::GetValueStr(xsProperty *property)
+{
+	return ToString(*((IntArray*)property->m_pSourceVariable));
+}
+
+wxString xsArrayIntPropIO::ToString(IntArray value)
+{
+ 	wxString out = wxT("[ ");
+
+	for( size_t i = 0; i < value.GetCount(); i++)
+	{
+		out << xsIntPropIO::ToString(value[i]);
+		if( i < value.GetCount()-1 ) out << wxT(" | ");
+	}
+
+	out << wxT(" ]");
+
+	return out;
+}
+
+IntArray xsArrayIntPropIO::FromString(const wxString& WXUNUSED(value))
+{
+	return IntArray();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
 // xsArrayRealPointPropIO class /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 

@@ -20,15 +20,17 @@ XS_IMPLEMENT_CLONABLE_CLASS(wxSFGridShape, wxSFRectShape);
 
 wxSFGridShape::wxSFGridShape() : wxSFRectShape()
 {
-    #ifdef __WXDEBUG__
+    /*#ifdef __WXDEBUG__
     wxASSERT_MSG(NULL, wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"));
     #else
     wxMessageBox(wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"), wxT("wxShapeFramework"), wxICON_ERROR | wxOK);
-    #endif
+    #endif*/
 
     m_nRows = sfdvGRIDSHAPE_ROWS;
     m_nCols = sfdvGRIDSHAPE_COLS;
     m_nCellSpace = sfdvGRIDSHAPE_CELLSPACE;
+
+    RemoveStyle(sfsSIZE_CHANGE);
 
     MarkSerializableDataMembers();
 }
@@ -36,30 +38,36 @@ wxSFGridShape::wxSFGridShape() : wxSFRectShape()
 wxSFGridShape::wxSFGridShape(const wxRealPoint& pos, const wxRealPoint& size, int rows, int cols, int cellspace, wxSFDiagramManager* manager)
 : wxSFRectShape(pos, size, manager)
 {
-    #ifdef __WXDEBUG__
+    /*#ifdef __WXDEBUG__
     wxASSERT_MSG(NULL, wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"));
     #else
     wxMessageBox(wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"), wxT("wxShapeFramework"), wxICON_ERROR | wxOK);
-    #endif
+    #endif*/
 
     m_nRows = rows;
     m_nCols = cols;
     m_nCellSpace = cellspace;
+
+    RemoveStyle(sfsSIZE_CHANGE);
+
+    m_arrCells.Alloc( rows * cols );
 
     MarkSerializableDataMembers();
 }
 
 wxSFGridShape::wxSFGridShape(const wxSFGridShape& obj) : wxSFRectShape(obj)
 {
-    #ifdef __WXDEBUG__
+    /*#ifdef __WXDEBUG__
     wxASSERT_MSG(NULL, wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"));
     #else
     wxMessageBox(wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"), wxT("wxShapeFramework"), wxICON_ERROR | wxOK);
-    #endif
+    #endif*/
 
     m_nRows = obj.m_nRows;
     m_nCols = obj.m_nCols;
     m_nCellSpace = obj.m_nCellSpace;
+
+    RemoveStyle(sfsSIZE_CHANGE);
 
     MarkSerializableDataMembers();
 }
@@ -74,12 +82,77 @@ void wxSFGridShape::MarkSerializableDataMembers()
     XS_SERIALIZE_EX(m_nRows, wxT("rows"), sfdvGRIDSHAPE_ROWS);
 	XS_SERIALIZE_EX(m_nCols, wxT("cols"), sfdvGRIDSHAPE_COLS);
 	XS_SERIALIZE_EX(m_nCellSpace, wxT("cell_space"), sfdvGRIDSHAPE_CELLSPACE);
+	XS_SERIALIZE(m_arrCells, wxT("cells"));
 }
 
 //----------------------------------------------------------------------------------//
 // public functions
 //----------------------------------------------------------------------------------//
 
+void wxSFGridShape::SetDimensions(int rows, int cols)
+{
+    wxASSERT(rows);
+    wxASSERT(cols);
+
+    if( !(rows * cols) ) return;
+
+    m_nRows = rows;
+    m_nCols = cols;
+
+    m_arrCells.Alloc( rows * cols );
+}
+
+void wxSFGridShape::GetDimensions(int *rows, int *cols)
+{
+    *rows = m_nRows;
+    *cols = m_nCols;
+}
+
+void wxSFGridShape::ClearGrid()
+{
+    m_nRows = 0;
+    m_nCols = 0;
+
+    m_arrCells.Clear();
+}
+
+bool wxSFGridShape::AppendToGrid(wxSFShapeBase *shape)
+{
+    int row = m_arrCells.GetCount() / m_nCols;
+    int col = m_arrCells.GetCount() - row*m_nCols;
+
+    return InsertToGrid( row, col, shape );
+}
+
+bool wxSFGridShape::InsertToGrid(int row, int col, wxSFShapeBase *shape)
+{
+    wxASSERT(shape);
+
+    if( shape && shape->IsKindOf(CLASSINFO(wxSFShapeBase)) && IsChildAccepted(shape->GetClassInfo()->GetClassName()) )
+    {
+        // add the shape to the children list if neccessary
+        if( GetChildrenList().IndexOf(shape) == wxNOT_FOUND )
+        {
+            shape->Reparent(this);
+        }
+
+        // protect duplicated occurences
+        if( m_arrCells.Index(shape->GetId()) != wxNOT_FOUND) return false;
+
+        // protect unbounded horizontal index (grid can grow in a vertical direction only)
+        if( row >= m_nRows ) return false;
+
+        m_arrCells.SetCount(row * m_nCols + col + 1);
+        m_arrCells[row * m_nCols + col] = shape->GetId();
+
+        //if( m_nRows <= row ) m_nRows = row + 1;
+        if( m_nCols <= col ) m_nCols = col + 1;
+
+        return true;
+    }
+
+    return false;
+}
 
 
 //----------------------------------------------------------------------------------//
@@ -111,32 +184,48 @@ void wxSFGridShape::DoChildrenLayout()
     if( !maxRect.IsEmpty() && m_nCols && m_nRows )
     {
         // put managed shapes to appropriate positions
-        node = GetFirstChildNode();
-
         nIndex = nCol = 0;
         nRow = -1;
 
-        while(node)
+        for(size_t i = 0; i < m_arrCells.GetCount(); i++ )
         {
-            pShape = (wxSFShapeBase*)node->GetData();
-
-            if( nIndex++ % m_nCols == 0 )
+            pShape = (wxSFShapeBase*)GetChild(m_arrCells[i]);
+            if( pShape )
             {
-                nCol = 0; nRow++;
+                 if( nIndex++ % m_nCols == 0 )
+                {
+                    nCol = 0; nRow++;
+                }
+                else
+                    nCol++;
+
+                pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + m_nCellSpace,
+                                nAbsPos.y + nRow*maxRect.GetHeight() + m_nCellSpace);
             }
-            else
-                nCol++;
-
-            pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + m_nCellSpace,
-                            nAbsPos.y + nRow*maxRect.GetHeight() + m_nCellSpace);
-
-            node = node->GetNext();
         }
     }
 }
 
 void wxSFGridShape::Update()
 {
+    wxSFShapeBase *pShape;
+
+    // check an existence of already assigned shapes
+    for(size_t i = 0; i < m_arrCells.GetCount(); i++ )
+    {
+        if( !GetChild(m_arrCells[i])) m_arrCells.RemoveAt(i);
+    }
+
+    // check whether all child shapes' IDs are present in the cells array...
+    SerializableList::compatibility_iterator node = GetFirstChildNode();
+    while(node)
+    {
+        pShape = (wxSFShapeBase*)node->GetData();
+        if( m_arrCells.Index(pShape->GetId()) == wxNOT_FOUND ) m_arrCells.Add(pShape->GetId());
+
+        node = node->GetNext();
+    }
+
     // do self-alignment
     DoAlignment();
 
@@ -150,8 +239,41 @@ void wxSFGridShape::Update()
     if( GetParentShape() )GetParentShape()->Update();
 }
 
+void wxSFGridShape::FitToChildren()
+{
+// HINT: overload it for custom actions...
+
+    wxSFShapeBase* pChild;
+
+    // get bounding box of the shape and children set be inside it
+    wxRealPoint nAbsPos = GetAbsolutePosition();
+    wxRect chBB = wxRect(nAbsPos.x, nAbsPos.y, 0, 0);
+
+    SerializableList::compatibility_iterator node = GetFirstChildNode();
+    while(node)
+    {
+        pChild = (wxSFShapeBase*)node->GetData();
+
+        if( pChild->GetStyle() & sfsALWAYS_INSIDE )
+        {
+            pChild->GetCompleteBoundingBox(chBB, bbSELF | bbCHILDREN);
+        }
+        node = node->GetNext();
+    }
+
+    m_nRectSize = wxRealPoint(chBB.GetSize().x + 2*m_nCellSpace, chBB.GetSize().y + 2*m_nCellSpace);
+}
+
 void  wxSFGridShape::OnChildDropped(const wxRealPoint& pos, wxSFShapeBase *child)
 {
+    wxASSERT(child);
 
+    if( child ) AppendToGrid( child );
 }
+
+//----------------------------------------------------------------------------------//
+// public virtual functions
+//----------------------------------------------------------------------------------//
+
+
 

@@ -187,7 +187,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeRECT:
+	/*case CMainFrame::modeRECT:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
@@ -198,6 +198,34 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+			}
+		}
+		break;*/
+
+	case CMainFrame::modeRECT:
+		{
+			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFGridShape), event.GetPosition(), sfDONT_SAVE_STATE);
+			if(pShape)
+			{
+			    wxSFGridShape *pGrid = (wxSFGridShape*)pShape;
+
+			    pGrid->SetFill(*wxTRANSPARENT_BRUSH);
+			    pGrid->SetBorder(wxPen(*wxBLACK, 1, wxDOT));
+
+			    // set shape policy
+				pGrid->AcceptChild(wxT("All"));
+
+				pGrid->AcceptConnection(wxT("All"));
+                pGrid->AcceptSrcNeighbour(wxT("All"));
+                pGrid->AcceptTrgNeighbour(wxT("All"));
+
+			    // insert some shapes into the grid
+			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), sfDONT_SAVE_STATE));
+			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), sfDONT_SAVE_STATE));
+			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), sfDONT_SAVE_STATE));
+			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), sfDONT_SAVE_STATE));
+
+			    pGrid->Update();
 			}
 		}
 		break;

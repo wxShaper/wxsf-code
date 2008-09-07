@@ -826,13 +826,14 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 				// set new parent
 				if((pShape->ContainsStyle(wxSFShapeBase::sfsPARENT_CHANGE)) && !pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
 				{
+				    wxSFShapeBase *pPrevParent = pShape->GetParentShape();
+
 					if(pParentShape)
 					{
 					    wxRealPoint apos = pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition();
                         pShape->SetRelativePosition(apos);
-                        pShape->Reparent(pParentShape);
 
-						pShape->DoAlignment();
+                        pShape->Reparent(pParentShape);
 
                         // notify the parent shape about dropped child
                         pParentShape->OnChildDropped(apos, pShape);
@@ -845,12 +846,13 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 						}
 						pShape->Reparent(m_pManager->GetRootItem());
 					}
+
+					if( pPrevParent ) pPrevParent->Update();
 				}
 				node = node->GetNext();
 			}
 
 			// resize parent shape to fit all its children
-			//if(pParentShape)pParentShape->FitToChildren();
 			if(pParentShape)pParentShape->Update();
 
 			if(m_lstSelection.GetCount()>1)

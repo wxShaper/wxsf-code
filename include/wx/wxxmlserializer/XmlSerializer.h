@@ -84,6 +84,8 @@
 
 /*! \brief Macro creates new serialized property (type 'array of strings (wxArrayString)') */
 #define XS_SERIALIZE_ARRAYSTRING(x, name) XS_SERIALIZE_PROPERTY(x, wxT("arraystring"), name);
+/*! \brief Macro creates new serialized property (type 'array of strings (wxArrayString)') */
+#define XS_SERIALIZE_ARRAYINT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("arrayint"), name);
 /*! \brief Macro creates new serialized property (type 'array of wxRealPoint objects') */
 #define XS_SERIALIZE_ARRAYREALPOINT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("arrayrealpoint"), name);
 /*! \brief Macro creates new serialized property (type 'list of wxRealPoint objects') */
@@ -520,6 +522,9 @@ public:
 
     /*! \brief Constructor for wxArrayString property. */
     xsProperty(wxArrayString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraystring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxArrayInt property. */
+    xsProperty(IntArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for RealPointArray property. */
     xsProperty(RealPointArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}

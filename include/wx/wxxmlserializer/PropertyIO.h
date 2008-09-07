@@ -28,6 +28,11 @@ class WXDLLIMPEXP_XS xsSerializable;
 WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_XS);
 WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_XS);
 
+//WX_DEFINE_ARRAY_CHAR(char, WXDLLIMPEXP_XS CharArray);
+WX_DEFINE_ARRAY_INT(int, WXDLLIMPEXP_XS IntArray);
+//WX_DEFINE_ARRAY_LONG(long, WXDLLIMPEXP_XS LongArray);
+//WX_DEFINE_ARRAY_DOUBLE(double, WXDLLIMPEXP_XS DoubleArray);
+
 /*!
  * \brief Base class encapsulating a property I/O handler. The class is used by
  * the xsSerializable class and is responsiblefor reading and writing of an XML node
@@ -230,8 +235,13 @@ XS_DECLARE_EXPORTED_IO_HANDLER(wxFont, xsFontPropIO, WXDLLIMPEXP_XS);
 XS_DECLARE_EXPORTED_IO_HANDLER(wxArrayString, xsArrayStringPropIO, WXDLLIMPEXP_XS);
 
 /*!
+ * \brief Property class encapsulating I/O functions used by 'IntArray' properties.
+ */
+XS_DECLARE_EXPORTED_IO_HANDLER(IntArray, xsArrayIntPropIO, WXDLLIMPEXP_XS);
+
+/*!
  * \brief Property class encapsulating I/O functions used by 'RealPointArray' (array of
- * wxRealPoint objects) properties.
+ * integer values) properties.
  */
 XS_DECLARE_EXPORTED_IO_HANDLER(RealPointArray, xsArrayRealPointPropIO, WXDLLIMPEXP_XS);
 
