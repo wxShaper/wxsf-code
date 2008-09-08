@@ -115,23 +115,49 @@ bool wxSFGridShape::InsertToGrid(int row, int col, wxSFShapeBase *shape)
 
     if( shape && shape->IsKindOf(CLASSINFO(wxSFShapeBase)) && IsChildAccepted(shape->GetClassInfo()->GetClassName()) )
     {
+        // protect duplicated occurences
+        if( m_arrCells.Index(shape->GetId()) != wxNOT_FOUND) return false;
+
+        // protect unbounded horizontal index (grid can grow in a vertical direction only)
+        if( col >= m_nCols ) return false;
+
         // add the shape to the children list if neccessary
         if( GetChildrenList().IndexOf(shape) == wxNOT_FOUND )
         {
             shape->Reparent(this);
         }
 
-        // protect duplicated occurences
-        if( m_arrCells.Index(shape->GetId()) != wxNOT_FOUND) return false;
-
-        // protect unbounded horizontal index (grid can grow in a vertical direction only)
-        if( row >= m_nRows ) return false;
-
         m_arrCells.SetCount(row * m_nCols + col + 1);
         m_arrCells[row * m_nCols + col] = shape->GetId();
 
-        //if( m_nRows <= row ) m_nRows = row + 1;
-        if( m_nCols <= col ) m_nCols = col + 1;
+        if( m_nRows <= row ) m_nRows = row + 1;
+
+        return true;
+    }
+
+    return false;
+}
+
+bool wxSFGridShape::InsertToGrid(int index, wxSFShapeBase *shape)
+{
+    wxASSERT(shape);
+
+    if( shape && shape->IsKindOf(CLASSINFO(wxSFShapeBase)) && IsChildAccepted(shape->GetClassInfo()->GetClassName()) )
+    {
+        // protect duplicated occurences
+        if( m_arrCells.Index(shape->GetId()) != wxNOT_FOUND) return false;
+
+        // protect unbounded index
+        if( index >= (m_nRows * m_nCols) ) return false;
+
+        // add the shape to the children list if neccessary
+        if( GetChildrenList().IndexOf(shape) == wxNOT_FOUND )
+        {
+            shape->Reparent(this);
+        }
+
+        m_arrCells.SetCount(index + 1);
+        m_arrCells.Insert(shape->GetId(), index);
 
         return true;
     }
@@ -214,7 +240,7 @@ void wxSFGridShape::Update()
     DoAlignment();
 
     // do alignment of shape's children
-    DoChildrenLayout();
+    this->DoChildrenLayout();
 
     // fit the shape to its children
     this->FitToChildren();

@@ -53,21 +53,68 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
 
         // public member data accessors
 
+        /*!
+        * \brief Set grid dimensions.
+        * \param rows Number of rows
+        * \param cols Number of columns
+        */
         void SetDimensions(int rows, int cols);
-
+        /*!
+        * \brief Set space between grid cells (managed shapes).
+        * \param cellspace Cellspace size
+        */
         void SetCellSpace(int cellspace){m_nCellSpace = cellspace;}
-
+        /*!
+        * \brief Get grid dimensions.
+        * \param rows Pointer to variable where number of rows will be stored
+        * \param cols Pointer to variable where number of columns will be stored
+        */
         void GetDimensions(int *rows, int *cols);
-
+        /*!
+        * \brief Get space between grid cells (managed shapes).
+        * \return Cellspace size
+        */
         int GetCellSpace(){return m_nCellSpace;}
 
         // public functions
 
+        /*!
+         * \brief Clear information about managed shapes and set number of rows and columns to zero.
+         *
+         * Note that this function doesn't remove managed (child) shapes from the parent grid shape
+         * (they are still its child shapes but aren't managed anymore).
+         */
         void ClearGrid();
-
+        /*!
+        * \brief Append given shape to the grid at the last managed position.
+        * \param shape Pointer to appended shape
+        */
         bool AppendToGrid(wxSFShapeBase *shape);
-
+        /*!
+        * \brief Insert given shape to the grid at the given position.
+        *
+        * Note that the grid can grow in a vertical direction only, so if the user specify desired
+        * horizontal position bigger than the current number of columns is then this function exits with
+        * an error (false) return value. If specified vertical position exceeds the number or grid rows than
+        * the grid is resized. If the given position (grid cell) is already occupied by some shape then the previous
+        * one will be moved to the grid's last lexicographic position.
+        * \param row Vertical position
+        * \param col Horizontal position
+        * \param shape Pointer to inserted shape
+        * \return True on success, otherwise False
+        */
         bool InsertToGrid(int row, int col, wxSFShapeBase *shape);
+        /*!
+        * \brief Insert given shape to the grid at the given position.
+        *
+        * Note that the given index is a lexicographic position of inserted shape. The given shape is inserted before
+        * the existing item 'index', thus InsertToGrid(0, something) will insert an item in such way that it will become
+        * the first grid element.
+        * \param index Lexicographic position of inserted shape
+        * \param shape Pointer to inserted shape
+        * \return True on successe, otherwise False
+        */
+        bool InsertToGrid(int index, wxSFShapeBase *shape);
 
         // public virtual functions
         /*! \brief Upate shape (align all child shapes an resize it to fit them) */

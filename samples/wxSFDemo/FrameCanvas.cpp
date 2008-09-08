@@ -213,10 +213,10 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 			    pGrid->SetFill(*wxTRANSPARENT_BRUSH);
 			    pGrid->SetBorder(wxPen(*wxBLACK, 1, wxDOT));
 
-			    // number of rows and columns cas be set here ...
+			    // number of rows and columns cas be set here (default grid dimension is 3x3) ...
 			    //pGrid->SetDimensions(2, 2);
 
-			    // ... as well as the cell spaces.
+			    // ... as well as the cell spaces (default grid cellspace is 5).
 			    //pGrid->SetCellSpace(0);
 
 			    // set shape policy
@@ -227,10 +227,13 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
                 pGrid->AcceptTrgNeighbour(wxT("All"));
 
 			    // insert some shapes into the grid programmably (it can be also done interactively by drag'n'drop operations)
-			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), sfDONT_SAVE_STATE));
 			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), sfDONT_SAVE_STATE));
 			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), sfDONT_SAVE_STATE));
-			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), sfDONT_SAVE_STATE));
+                // shapes can be also inserted before given lexicographic position (at the first position in this case) in this way ...
+			    pGrid->InsertToGrid(0, GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), sfDONT_SAVE_STATE));
+			    // ... or can replace previously assigned shape at the position specified by row and column indexes
+			    // (note that the previous shape at the given position (if exists) will be moved to the grid's last lexicographic position).
+			    pGrid->InsertToGrid(1, 0, GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), sfDONT_SAVE_STATE));
 
                 // update the grid
 			    pGrid->Update();
