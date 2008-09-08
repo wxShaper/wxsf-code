@@ -187,7 +187,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	/*case CMainFrame::modeRECT:
+	case CMainFrame::modeRECT:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
@@ -200,17 +200,24 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
                 pShape->AcceptTrgNeighbour(wxT("All"));
 			}
 		}
-		break;*/
+		break;
 
-	case CMainFrame::modeRECT:
+	case CMainFrame::modeGRID:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFGridShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
 			    wxSFGridShape *pGrid = (wxSFGridShape*)pShape;
 
+                // set visual style
 			    pGrid->SetFill(*wxTRANSPARENT_BRUSH);
 			    pGrid->SetBorder(wxPen(*wxBLACK, 1, wxDOT));
+
+			    // number of rows and columns cas be set here ...
+			    //pGrid->SetDimensions(2, 2);
+
+			    // ... as well as the cell spaces.
+			    //pGrid->SetCellSpace(0);
 
 			    // set shape policy
 				pGrid->AcceptChild(wxT("All"));
@@ -219,12 +226,13 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
                 pGrid->AcceptSrcNeighbour(wxT("All"));
                 pGrid->AcceptTrgNeighbour(wxT("All"));
 
-			    // insert some shapes into the grid
+			    // insert some shapes into the grid programmably (it can be also done interactively by drag'n'drop operations)
 			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), sfDONT_SAVE_STATE));
 			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), sfDONT_SAVE_STATE));
 			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), sfDONT_SAVE_STATE));
 			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), sfDONT_SAVE_STATE));
 
+                // update the grid
 			    pGrid->Update();
 			}
 		}

@@ -404,7 +404,10 @@ void wxXmlSerializer::InitializeAllIOHandlers()
     XS_REGISTER_IO_HANDLER(wxT("pen"), xsPenPropIO);
     XS_REGISTER_IO_HANDLER(wxT("font"), xsFontPropIO);
     XS_REGISTER_IO_HANDLER(wxT("arraystring"), xsArrayStringPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("arraychar"), xsArrayCharPropIO);
     XS_REGISTER_IO_HANDLER(wxT("arrayint"), xsArrayIntPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("arraylong"), xsArrayLongPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("arraydouble"), xsArrayDoublePropIO);
     XS_REGISTER_IO_HANDLER(wxT("arrayrealpoint"), xsArrayRealPointPropIO);
     XS_REGISTER_IO_HANDLER(wxT("listrealpoint"), xsListRealPointPropIO);
     XS_REGISTER_IO_HANDLER(wxT("serializablestatic"), xsStaticObjPropIO);

@@ -131,6 +131,7 @@ CMainFrame::CMainFrame(wxWindow* parent, int id, const wxString& title, const wx
 	toolBar->AddRadioTool(IDT_TEXTSHP, wxT("Text"), wxBitmap(Text_xpm), wxNullBitmap, wxT("Text"));
 	toolBar->AddRadioTool(IDT_EDITTEXTSHP, wxT("Editable text"), wxBitmap(EditText_xpm), wxNullBitmap, wxT("Editable text"));
 	toolBar->AddRadioTool(IDT_BITMAPSHP, wxT("Bitmap"), wxBitmap(Bitmap_xpm), wxNullBitmap, wxT("Bitmap"));
+	toolBar->AddRadioTool(IDT_GRIDSHP, wxT("Grid shape"), wxBitmap(Grid_xpm), wxNullBitmap, wxT("Grid shape"));
 	toolBar->AddSeparator();
 	toolBar->AddRadioTool(IDT_LINESHP, wxT("Line"), wxBitmap(Line_xpm), wxNullBitmap, wxT("Polyline connection"));
 	toolBar->AddRadioTool(IDT_CURVESHP, wxT("Curve"), wxBitmap(Curve_xpm), wxNullBitmap, wxT("Curve connection"));
@@ -294,7 +295,7 @@ void CMainFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void CMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.4 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.5 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2008"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void CMainFrame::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -366,6 +367,10 @@ void CMainFrame::OnTool(wxCommandEvent& event)
 
         case IDT_ELLIPSESHP:
             m_nToolMode = modeELLIPSE;
+            break;
+
+        case IDT_GRIDSHP:
+            m_nToolMode = modeGRID;
             break;
 
         case IDT_LINESHP:
@@ -452,6 +457,10 @@ void CMainFrame::OnUpdateTool(wxUpdateUIEvent& event)
 
         case IDT_ELLIPSESHP:
             event.Check(m_nToolMode == modeELLIPSE);
+            break;
+
+        case IDT_GRIDSHP:
+            event.Check(m_nToolMode == modeGRID);
             break;
 
         case IDT_LINESHP:

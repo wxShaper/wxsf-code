@@ -534,6 +534,203 @@ IntArray xsArrayIntPropIO::FromString(const wxString& WXUNUSED(value))
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
+// xsArrayLongPropIO class ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC_CLASS(xsArrayLongPropIO, xsPropertyIO);
+
+void xsArrayLongPropIO::Read(xsProperty *property, wxXmlNode *source)
+{
+    ((LongArray*)property->m_pSourceVariable)->Clear();
+
+    wxXmlNode *listNode = source->GetChildren();
+    while(listNode)
+    {
+        if(listNode->GetName() == wxT("item"))
+        {
+            ((LongArray*)property->m_pSourceVariable)->Add(xsLongPropIO::FromString(listNode->GetNodeContent()));
+        }
+
+        listNode = listNode->GetNext();
+    }
+}
+
+void xsArrayLongPropIO::Write(xsProperty *property, wxXmlNode *target)
+{
+    LongArray array(*((LongArray*)property->m_pSourceVariable));
+
+    size_t cnt = array.GetCount();
+    if(cnt > 0)
+    {
+        wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
+        for(size_t i = 0; i < cnt; i++)
+        {
+            AddPropertyNode(newNode, wxT("item"), xsLongPropIO::ToString(array[i]));
+        }
+
+        target->AddChild(newNode);
+        AppendPropertyType(property, newNode);
+    }
+}
+
+wxString xsArrayLongPropIO::GetValueStr(xsProperty *property)
+{
+	return ToString(*((LongArray*)property->m_pSourceVariable));
+}
+
+wxString xsArrayLongPropIO::ToString(LongArray value)
+{
+ 	wxString out = wxT("[ ");
+
+	for( size_t i = 0; i < value.GetCount(); i++)
+	{
+		out << xsLongPropIO::ToString(value[i]);
+		if( i < value.GetCount()-1 ) out << wxT(" | ");
+	}
+
+	out << wxT(" ]");
+
+	return out;
+}
+
+LongArray xsArrayLongPropIO::FromString(const wxString& WXUNUSED(value))
+{
+	return LongArray();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+// xsArrayDoublePropIO class ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC_CLASS(xsArrayDoublePropIO, xsPropertyIO);
+
+void xsArrayDoublePropIO::Read(xsProperty *property, wxXmlNode *source)
+{
+    ((DoubleArray*)property->m_pSourceVariable)->Clear();
+
+    wxXmlNode *listNode = source->GetChildren();
+    while(listNode)
+    {
+        if(listNode->GetName() == wxT("item"))
+        {
+            ((DoubleArray*)property->m_pSourceVariable)->Add(xsDoublePropIO::FromString(listNode->GetNodeContent()));
+        }
+
+        listNode = listNode->GetNext();
+    }
+}
+
+void xsArrayDoublePropIO::Write(xsProperty *property, wxXmlNode *target)
+{
+    DoubleArray array(*((DoubleArray*)property->m_pSourceVariable));
+
+    size_t cnt = array.GetCount();
+    if(cnt > 0)
+    {
+        wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
+        for(size_t i = 0; i < cnt; i++)
+        {
+            AddPropertyNode(newNode, wxT("item"), xsDoublePropIO::ToString(array[i]));
+        }
+
+        target->AddChild(newNode);
+        AppendPropertyType(property, newNode);
+    }
+}
+
+wxString xsArrayDoublePropIO::GetValueStr(xsProperty *property)
+{
+	return ToString(*((DoubleArray*)property->m_pSourceVariable));
+}
+
+wxString xsArrayDoublePropIO::ToString(DoubleArray value)
+{
+ 	wxString out = wxT("[ ");
+
+	for( size_t i = 0; i < value.GetCount(); i++)
+	{
+		out << xsDoublePropIO::ToString(value[i]);
+		if( i < value.GetCount()-1 ) out << wxT(" | ");
+	}
+
+	out << wxT(" ]");
+
+	return out;
+}
+
+DoubleArray xsArrayDoublePropIO::FromString(const wxString& WXUNUSED(value))
+{
+	return DoubleArray();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+// xsArrayCharPropIO class ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC_CLASS(xsArrayCharPropIO, xsPropertyIO);
+
+void xsArrayCharPropIO::Read(xsProperty *property, wxXmlNode *source)
+{
+    ((CharArray*)property->m_pSourceVariable)->Clear();
+
+    wxXmlNode *listNode = source->GetChildren();
+    while(listNode)
+    {
+        if(listNode->GetName() == wxT("item"))
+        {
+            ((CharArray*)property->m_pSourceVariable)->Add(xsCharPropIO::FromString(listNode->GetNodeContent()));
+        }
+
+        listNode = listNode->GetNext();
+    }
+}
+
+void xsArrayCharPropIO::Write(xsProperty *property, wxXmlNode *target)
+{
+    CharArray array(*((CharArray*)property->m_pSourceVariable));
+
+    size_t cnt = array.GetCount();
+    if(cnt > 0)
+    {
+        wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
+        for(size_t i = 0; i < cnt; i++)
+        {
+            AddPropertyNode(newNode, wxT("item"), xsCharPropIO::ToString(array[i]));
+        }
+
+        target->AddChild(newNode);
+        AppendPropertyType(property, newNode);
+    }
+}
+
+wxString xsArrayCharPropIO::GetValueStr(xsProperty *property)
+{
+	return ToString(*((CharArray*)property->m_pSourceVariable));
+}
+
+wxString xsArrayCharPropIO::ToString(CharArray value)
+{
+ 	wxString out = wxT("[ ");
+
+	for( size_t i = 0; i < value.GetCount(); i++)
+	{
+		out << xsCharPropIO::ToString(value[i]);
+		if( i < value.GetCount()-1 ) out << wxT(" | ");
+	}
+
+	out << wxT(" ]");
+
+	return out;
+}
+
+CharArray xsArrayCharPropIO::FromString(const wxString& WXUNUSED(value))
+{
+	return CharArray();
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 // xsArrayRealPointPropIO class /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 

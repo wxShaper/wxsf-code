@@ -55,7 +55,11 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
 
         void SetDimensions(int rows, int cols);
 
+        void SetCellSpace(int cellspace){m_nCellSpace = cellspace;}
+
         void GetDimensions(int *rows, int *cols);
+
+        int GetCellSpace(){return m_nCellSpace;}
 
         // public functions
 

@@ -20,12 +20,6 @@ XS_IMPLEMENT_CLONABLE_CLASS(wxSFGridShape, wxSFRectShape);
 
 wxSFGridShape::wxSFGridShape() : wxSFRectShape()
 {
-    /*#ifdef __WXDEBUG__
-    wxASSERT_MSG(NULL, wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"));
-    #else
-    wxMessageBox(wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"), wxT("wxShapeFramework"), wxICON_ERROR | wxOK);
-    #endif*/
-
     m_nRows = sfdvGRIDSHAPE_ROWS;
     m_nCols = sfdvGRIDSHAPE_COLS;
     m_nCellSpace = sfdvGRIDSHAPE_CELLSPACE;
@@ -38,12 +32,6 @@ wxSFGridShape::wxSFGridShape() : wxSFRectShape()
 wxSFGridShape::wxSFGridShape(const wxRealPoint& pos, const wxRealPoint& size, int rows, int cols, int cellspace, wxSFDiagramManager* manager)
 : wxSFRectShape(pos, size, manager)
 {
-    /*#ifdef __WXDEBUG__
-    wxASSERT_MSG(NULL, wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"));
-    #else
-    wxMessageBox(wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"), wxT("wxShapeFramework"), wxICON_ERROR | wxOK);
-    #endif*/
-
     m_nRows = rows;
     m_nCols = cols;
     m_nCellSpace = cellspace;
@@ -57,17 +45,14 @@ wxSFGridShape::wxSFGridShape(const wxRealPoint& pos, const wxRealPoint& size, in
 
 wxSFGridShape::wxSFGridShape(const wxSFGridShape& obj) : wxSFRectShape(obj)
 {
-    /*#ifdef __WXDEBUG__
-    wxASSERT_MSG(NULL, wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"));
-    #else
-    wxMessageBox(wxT("wxSFGridShape is not fully implemented yet! DO NOT USE IT!!!"), wxT("wxShapeFramework"), wxICON_ERROR | wxOK);
-    #endif*/
-
     m_nRows = obj.m_nRows;
     m_nCols = obj.m_nCols;
     m_nCellSpace = obj.m_nCellSpace;
 
     RemoveStyle(sfsSIZE_CHANGE);
+
+    m_arrCells.Clear();
+    WX_APPEND_ARRAY(m_arrCells, obj.m_arrCells);
 
     MarkSerializableDataMembers();
 }
@@ -154,7 +139,6 @@ bool wxSFGridShape::InsertToGrid(int row, int col, wxSFShapeBase *shape)
     return false;
 }
 
-
 //----------------------------------------------------------------------------------//
 // public virtual functions
 //----------------------------------------------------------------------------------//
@@ -199,8 +183,8 @@ void wxSFGridShape::DoChildrenLayout()
                 else
                     nCol++;
 
-                pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + m_nCellSpace,
-                                nAbsPos.y + nRow*maxRect.GetHeight() + m_nCellSpace);
+                pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
+                                nAbsPos.y + nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace);
             }
         }
     }
@@ -241,7 +225,7 @@ void wxSFGridShape::Update()
 
 void wxSFGridShape::FitToChildren()
 {
-// HINT: overload it for custom actions...
+    // HINT: overload it for custom actions...
 
     wxSFShapeBase* pChild;
 
