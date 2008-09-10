@@ -15,6 +15,7 @@
 #endif
 
 BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
+    EVT_CLOSE(CMainFrame::OnClose)
 	EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
 	EVT_MENU(wxID_NEW, CMainFrame::OnNew)
 	EVT_MENU(wxID_OPEN, CMainFrame::OnLoad)
@@ -189,11 +190,26 @@ void CMainFrame::do_layout()
 //----------------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------------//
+// common events
+//----------------------------------------------------------------------------------//
+
+void CMainFrame::OnClose(wxCloseEvent& WXUNUSED(event))
+{
+    m_DiagramManager.Clear();
+    m_DiagramManager.SetShapeCanvas(NULL);
+
+	Destroy();
+}
+
+//----------------------------------------------------------------------------------//
 // menu events
 //----------------------------------------------------------------------------------//
 
 void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event))
 {
+    m_DiagramManager.Clear();
+    m_DiagramManager.SetShapeCanvas(NULL);
+
 	Destroy();
 }
 

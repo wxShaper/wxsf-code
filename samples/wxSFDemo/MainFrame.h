@@ -51,6 +51,9 @@ protected:
 	bool m_fShowGrid;
 	MODE m_nToolMode;
 
+	// common events
+	void OnClose(wxCloseEvent& event);
+
     // menu event handlers
 	void OnExit(wxCommandEvent& event);
 	void OnNew(wxCommandEvent& event);
