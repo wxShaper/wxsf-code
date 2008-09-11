@@ -75,6 +75,7 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 
 CFrameCanvas::~CFrameCanvas(void)
 {
+    SetDiagramManager(NULL);
 }
 
 //----------------------------------------------------------------------------------//

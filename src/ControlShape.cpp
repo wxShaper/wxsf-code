@@ -243,6 +243,7 @@ void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
     // call default handler
     wxSFRectShape::OnEndHandle(handle);
 
+
     if( m_pControl )
     {
         m_pControl->Show();

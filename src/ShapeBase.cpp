@@ -1139,7 +1139,8 @@ void wxSFShapeBase::_OnKey(int key)
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
    // wxASSERT(m_pParentManager);
-    wxSFShapeBase* pChild;
+    wxSFShapeBase *pChild;
+    wxSFShapeCanvas *pCanvas = GetShapeManager()->GetShapeCanvas();
 
     if( !m_pParentManager )return;
 
@@ -1162,6 +1163,6 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
     this->Update();
 
     // refresh canvas
-    if( GetShapeManager()->GetShapeCanvas() )GetShapeManager()->GetShapeCanvas()->Refresh(false);
+    if( pCanvas ) pCanvas->Refresh(false);
 
 }
