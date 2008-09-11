@@ -723,9 +723,11 @@ int wxXmlSerializer::GetIDCount(long id)
 	SerializableList::compatibility_iterator node = items.GetFirst();
 	while(node)
 	{
-		if(node->GetData()->GetId() == id)nCount++;
+		if( node->GetData()->GetId() == id ) nCount++;
 		node = node->GetNext();
 	}
+
+	if( m_pRoot->GetId() == id ) nCount++;
 
 	return nCount;
 }
