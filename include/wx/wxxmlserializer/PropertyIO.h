@@ -28,10 +28,10 @@ class WXDLLIMPEXP_XS xsSerializable;
 WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_XS);
 WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_XS);
 
-WX_DEFINE_ARRAY_CHAR(char, WXDLLIMPEXP_XS CharArray);
-WX_DEFINE_ARRAY_INT(int, WXDLLIMPEXP_XS IntArray);
-WX_DEFINE_ARRAY_LONG(long, WXDLLIMPEXP_XS LongArray);
-WX_DEFINE_ARRAY_DOUBLE(double, WXDLLIMPEXP_XS DoubleArray);
+WX_DEFINE_USER_EXPORTED_ARRAY_CHAR(char, CharArray, class WXDLLIMPEXP_XS);
+WX_DEFINE_USER_EXPORTED_ARRAY_INT(int, IntArray, class WXDLLIMPEXP_XS);
+WX_DEFINE_USER_EXPORTED_ARRAY_LONG(long, LongArray, class WXDLLIMPEXP_XS);
+WX_DEFINE_USER_EXPORTED_ARRAY_DOUBLE(double, DoubleArray, class WXDLLIMPEXP_XS);
 
 /*!
  * \brief Base class encapsulating a property I/O handler. The class is used by
