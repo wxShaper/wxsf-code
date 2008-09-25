@@ -123,7 +123,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
             else if(m_nSrcShapeId != -1)
             {
                 wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-                if( pSrcShape ) dc.DrawLine( Conv2Point(pSrcShape->GetBorderPoint(wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y))), m_nUnfinishedPoint);
+                if( pSrcShape ) dc.DrawLine( Conv2Point(pSrcShape->GetBorderPoint(pSrcShape->GetCenter(), wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y))), m_nUnfinishedPoint);
             }
             dc.SetPen(wxNullPen);
         }

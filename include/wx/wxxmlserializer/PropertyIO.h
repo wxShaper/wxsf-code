@@ -187,12 +187,54 @@ XS_DECLARE_EXPORTED_IO_HANDLER(bool, xsBoolPropIO, WXDLLIMPEXP_XS);
 /*!
  * \brief Property class encapsulating I/O functions used by 'double' properties.
  */
-XS_DECLARE_EXPORTED_IO_HANDLER(double, xsDoublePropIO, WXDLLIMPEXP_XS);
+class WXDLLIMPEXP_XS xsDoublePropIO : public xsPropertyIO
+{
+public:
+	DECLARE_DYNAMIC_CLASS(xsDoublePropIO);
+	xsDoublePropIO()
+	{
+	    // test whether current platform uses '.' or ',' as its decimal point character
+	    if( wxString::Format(wxT("%.2f"), 3.14).Find('.') == wxNOT_FOUND ) m_fChangeDP = true;
+	    else
+            m_fChangeDP = false;
+    }
+	virtual ~xsDoublePropIO(){;}
+
+	virtual void Read(xsProperty *property, wxXmlNode *source);
+	virtual void Write(xsProperty *property, wxXmlNode *target);
+	virtual wxString GetValueStr(xsProperty *property);
+	static wxString ToString(double value);
+	static double FromString(const wxString& value);
+
+protected:
+    static bool m_fChangeDP;
+};
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'float' properties.
  */
-XS_DECLARE_EXPORTED_IO_HANDLER(float, xsFloatPropIO, WXDLLIMPEXP_XS);
+class WXDLLIMPEXP_XS xsFloatPropIO : public xsPropertyIO
+{
+public:
+	DECLARE_DYNAMIC_CLASS(xsFloatPropIO);
+	xsFloatPropIO()
+	{
+	    // test whether current platform uses '.' or ',' as its decimal point character
+	    if( wxString::Format(wxT("%.2f"), 3.14).Find('.') == wxNOT_FOUND ) m_fChangeDP = true;
+	    else
+            m_fChangeDP = false;
+    }
+	virtual ~xsFloatPropIO(){;}
+
+	virtual void Read(xsProperty *property, wxXmlNode *source);
+	virtual void Write(xsProperty *property, wxXmlNode *target);
+	virtual wxString GetValueStr(xsProperty *property);
+	static wxString ToString(float value);
+	static float FromString(const wxString& value);
+
+protected:
+    static bool m_fChangeDP;
+};
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'wxPoint' properties.

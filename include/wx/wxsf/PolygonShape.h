@@ -74,11 +74,12 @@ public:
 	virtual void FitToChildren();
 	/*!
 	 * \brief Get intersection point of the shape border and a line leading from
-	 * the shape's center to the given point. The function can be overrided if neccessary.
-	 * \param to Ending point of the virtual intersection line
+	 * 'start' point to 'end' point. The function can be overrided if neccessary.
+	 * \param start Starting point of the virtual intersection line
+     * \param end Ending point of the virtual intersection line
 	 * \return Intersection point
 	 */
-	virtual wxRealPoint GetBorderPoint(const wxRealPoint& to);
+	virtual wxRealPoint GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end);
     /*!
 	 * \brief Scale the shape size by in both directions. The function can be overrided if necessary
      * (new implementation should call default one ore scale shape's children manualy if neccesary).

@@ -77,30 +77,30 @@ void wxSFPolygonShape::SetVertices(size_t n, const wxRealPoint pts[])
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-wxRealPoint wxSFPolygonShape::GetBorderPoint(const wxRealPoint& to)
+wxRealPoint wxSFPolygonShape::GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end)
 {
     // HINT: override it for custom actions ...
 
 	bool fSuccess = false;
 	double tmpMinDist = 0, minDist = 0;
-	wxRealPoint tmpIntersection, intersection, center;
+	wxRealPoint tmpIntersection, intersection;
 	size_t ptsCnt = m_arrVertices.Count();
 
 	wxRealPoint *pts = new wxRealPoint[ptsCnt];
 	GetTranslatedVerices(pts);
 
-	intersection = center = GetCenter();
+	intersection = start; //GetCenter();
 
-	if(ptsCnt == 0)return center;
+	if(ptsCnt == 0)return GetCenter();
 
 	if(m_fConnectToVertex)
 	{
-		minDist = Distance(pts[0], to);
+		minDist = Distance(pts[0], end);
 		intersection = pts[0];
 
 		for(size_t i = 1; i < ptsCnt; i++)
 		{
-			tmpMinDist = Distance(pts[i], to);
+			tmpMinDist = Distance(pts[i], end);
 			if(tmpMinDist < minDist)
 			{
 				minDist = tmpMinDist;
@@ -115,16 +115,16 @@ wxRealPoint wxSFPolygonShape::GetBorderPoint(const wxRealPoint& to)
 	{
 		for(size_t i = 0; i < ptsCnt; i++)
 		{
-			if(LinesIntersection(pts[i], pts[(i+1) % ptsCnt], center, to, tmpIntersection))
+			if(LinesIntersection(pts[i], pts[(i+1) % ptsCnt], start, end, tmpIntersection))
 			{
 				if(!fSuccess)
 				{
-					minDist = Distance(intersection, to);
+					minDist = Distance(intersection, end);
 					intersection = tmpIntersection;
 				}
 				else
 				{
-					tmpMinDist = Distance(intersection, to);
+					tmpMinDist = Distance(intersection, end);
 					if(tmpMinDist < minDist)
 					{
 						minDist = tmpMinDist;
@@ -143,7 +143,7 @@ wxRealPoint wxSFPolygonShape::GetBorderPoint(const wxRealPoint& to)
 		}
 		else
 		{
-			return center;
+			return GetCenter();
 		}
 	}
 }

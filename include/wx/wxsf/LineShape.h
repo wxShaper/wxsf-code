@@ -21,6 +21,8 @@
 #define sfdvLINESHAPE_PEN *wxBLACK_PEN
 /*! \brief Default value of wxSFLineShape::m_nDockPoint data member. */
 #define sfdvLINESHAPE_DOCKPOINT 0
+/*! \brief Default value of wxSFLineShape::m_nSrcOffset and wxSFLineShape::m_nTrgOffset data members. */
+#define sfdvLINESHAPE_OFFSET wxRealPoint(-1, -1)
 
 //WX_DECLARE_LIST(wxRealPoint, CPointList);
 
@@ -173,11 +175,12 @@ friend class wxSFShapeCanvas;
 	virtual wxRealPoint GetAbsolutePosition();
 	/*!
 	 * \brief Get intersection point of the shape border and a line leading from
-	 * the shape's center to the given point. The function can be overrided if neccessary.
-	 * \param to Ending point of the virtual intersection line
+	 * 'start' point to 'end' point. The function can be overrided if neccessary.
+	 * \param start Starting point of the virtual intersection line
+     * \param end Ending point of the virtual intersection line
 	 * \return Intersection point
 	 */
-	virtual wxRealPoint GetBorderPoint(const wxRealPoint& to);
+	virtual wxRealPoint GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end);
     /*!
 	 * \brief Test whether the given point is inside the shape. The function
      * can be overrided if neccessary.
@@ -213,6 +216,15 @@ friend class wxSFShapeCanvas;
 	 * \param handle Reference to dragged handle
 	 */
 	virtual void OnHandle(wxSFShapeHandle& handle);
+	/*!
+	 * \brief Event handler called when the user finished dragging of the shape handle.
+	 * The function can be overrided if necessary.
+	 *
+	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation does nothing.
+	 * \param handle Reference to dragged handle
+	 */
+	virtual void OnEndHandle(wxSFShapeHandle& handle);
 	/*!
 	 * \brief Event handler called at the begining of the shape dragging process.
 	 * The function can be overrided if necessary.
@@ -343,7 +355,7 @@ protected:
 	 * \return Current working mode
 	 * \sa LINEMODE
 	 */
-	LINEMODE GetLineMpode(){return m_nMode;}
+	LINEMODE GetLineMode(){return m_nMode;}
 	/*!
      * \brief Set next potential control point position (usefull in modeUNDERCONSTRUCTION working mode).
 	 * \param pos New potential control point position
@@ -351,12 +363,19 @@ protected:
 	 */
 	void SetUnfinishedPoint(const wxPoint& pos){m_nUnfinishedPoint = pos;}
 
+	wxRealPoint GetModSrcPoint();
+	wxRealPoint GetModTrgPoint();
+
 private:
+    // private data members
+    wxRealPoint m_nSrcOffset;
+	wxRealPoint m_nTrgOffset;
 
 	// private functions
 
 	 /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
+
 };
 
 #endif //_WXSFLINESHAPE_H

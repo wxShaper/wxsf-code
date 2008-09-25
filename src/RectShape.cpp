@@ -250,50 +250,30 @@ void wxSFRectShape::OnBottomHandle(wxSFShapeHandle& handle)
 	m_nRectSize.y += handle.GetDelta().y;
 }
 
-wxRealPoint wxSFRectShape::GetBorderPoint(const wxRealPoint& to)
+wxRealPoint wxSFRectShape::GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end)
 {
     // HINT: override it for custom actions ...
 
     // the function calculates intesection of line leading from the shape center to
     // given point with the shape's bounding box;
 
-    wxRealPoint intersection, center = GetCenter();
+    wxRealPoint intersection;
     wxRect bbRct = this->GetBoundingBox();
 
-    /*wxRealPoint uto = to;
-
-    if( bbRct.Contains(wxPoint(to.x, to.y)) )
-    {
-        wxRealPoint rp = center - to;
-
-        if( abs(rp.x) > abs(rp.y) )
-        {
-            if( rp.x > 0 )
-                uto = wxRealPoint(bbRct.GetLeft() - 5, to.y);
-            else
-                uto = wxRealPoint(bbRct.GetRight() + 5, to.y);
-        }
-        else
-        {
-            if( rp.y > 0 ) uto = wxRealPoint(to.x, bbRct.GetTop() - 5);
-            else
-                uto = wxRealPoint(to.x, bbRct.GetBottom() + 5);
-        }
-    }*/
 
     if(LinesIntersection(wxRealPoint(bbRct.GetTopLeft().x, bbRct.GetTopLeft().y),
-                             wxRealPoint(bbRct.GetTopRight().x + 1, bbRct.GetTopRight().y), center, to, intersection)) return intersection;
+                             wxRealPoint(bbRct.GetTopRight().x + 1, bbRct.GetTopRight().y), start, end, intersection)) return intersection;
 
     else if(LinesIntersection(wxRealPoint(bbRct.GetTopRight().x + 1, bbRct.GetTopRight().y),
-                                  wxRealPoint(bbRct.GetBottomRight().x + 1, bbRct.GetBottomRight().y + 1), center, to, intersection)) return intersection;
+                                  wxRealPoint(bbRct.GetBottomRight().x + 1, bbRct.GetBottomRight().y + 1), start, end, intersection)) return intersection;
 
     else if(LinesIntersection(wxRealPoint(bbRct.GetBottomRight().x + 1, bbRct.GetBottomRight().y + 1),
-                                  wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1), center, to, intersection)) return intersection;
+                                  wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1), start, end, intersection)) return intersection;
 
     else if(LinesIntersection(wxRealPoint(bbRct.GetBottomLeft().x, bbRct.GetBottomLeft().y + 1),
-                                  wxRealPoint(bbRct.GetTopLeft().x, bbRct.GetTopLeft().y), center, to, intersection)) return intersection;
+                                  wxRealPoint(bbRct.GetTopLeft().x, bbRct.GetTopLeft().y), start, end, intersection)) return intersection;
 
-    return center;
+    return GetCenter();
 }
 
 //----------------------------------------------------------------------------------//

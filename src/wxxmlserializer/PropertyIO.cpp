@@ -152,6 +152,8 @@ bool xsBoolPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(double, xsDoublePropIO);
 
+bool xsDoublePropIO::m_fChangeDP = false;
+
 wxString xsDoublePropIO::ToString(double value)
 {
     wxString sVal;
@@ -167,7 +169,7 @@ wxString xsDoublePropIO::ToString(double value)
     else
     {
         sVal= wxString::Format(wxT("%lf"), value);
-        sVal.Replace(wxT(","), wxT("."));
+        if( m_fChangeDP ) sVal.Replace(wxT(","), wxT("."));
     }
 
     return sVal;
@@ -176,6 +178,7 @@ wxString xsDoublePropIO::ToString(double value)
 double xsDoublePropIO::FromString(const wxString& value)
 {
 	double num = 0;
+
 	if(!value.IsEmpty())
 	{
 	    if( value == wxT("NAN") )
@@ -187,8 +190,19 @@ double xsDoublePropIO::FromString(const wxString& value)
 	        num = numeric_limits<double>::infinity();
 	    }
 	    else
-            value.ToDouble(&num);
+	    {
+	        // decimal point character used in wxXS is strictly '.'...
+            if( m_fChangeDP )
+            {
+                wxString sNum = value;
+                sNum.Replace(wxT("."), wxT(","));
+                sNum.ToDouble(&num);
+            }
+            else
+                value.ToDouble(&num);
+	    }
 	}
+
 	return num;
 }
 
@@ -197,6 +211,8 @@ double xsDoublePropIO::FromString(const wxString& value)
 /////////////////////////////////////////////////////////////////////////////////////
 
 XS_DEFINE_IO_HANDLER(float, xsFloatPropIO);
+
+bool xsFloatPropIO::m_fChangeDP = false;
 
 wxString xsFloatPropIO::ToString(float value)
 {
@@ -212,7 +228,7 @@ wxString xsFloatPropIO::ToString(float value)
     else
     {
         sVal = wxString::Format(wxT("%f"), value);
-        sVal.Replace(wxT(","), wxT("."));
+        if( m_fChangeDP ) sVal.Replace(wxT(","), wxT("."));
     }
 
     return sVal;
@@ -221,6 +237,7 @@ wxString xsFloatPropIO::ToString(float value)
 float xsFloatPropIO::FromString(const wxString& value)
 {
 	double num = 0;
+
 	if(!value.IsEmpty())
 	{
 	    if( value == wxT("NAN") )
@@ -232,8 +249,19 @@ float xsFloatPropIO::FromString(const wxString& value)
 	        num = numeric_limits<float>::infinity();
 	    }
 	    else
-            value.ToDouble(&num);
+	    {
+	        // decimal point character used in wxXS is strictly '.'...
+            if( m_fChangeDP )
+            {
+                wxString sNum = value;
+                sNum.Replace(wxT("."), wxT(","));
+                sNum.ToDouble(&num);
+            }
+            else
+                value.ToDouble(&num);
+	    }
 	}
+
 	return (float)num;
 }
 
@@ -302,8 +330,8 @@ wxRealPoint xsRealPointPropIO::FromString(const wxString& value)
 	{
 		wxStringTokenizer tokens(value, wxT(","), wxTOKEN_STRTOK);
 
-		tokens.GetNextToken().ToDouble(&pt.x);
-		tokens.GetNextToken().ToDouble(&pt.y);
+		pt.x = xsDoublePropIO::FromString(tokens.GetNextToken());
+		pt.y = xsDoublePropIO::FromString(tokens.GetNextToken());
 	}
 
 	return pt;

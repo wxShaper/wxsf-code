@@ -47,19 +47,19 @@ wxSFCircleShape::~wxSFCircleShape()
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-wxRealPoint wxSFCircleShape::GetBorderPoint(const wxRealPoint& to)
+wxRealPoint wxSFCircleShape::GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end)
 {
-    wxRealPoint center = GetAbsolutePosition() + wxRealPoint(m_nRectSize.x/2, m_nRectSize.y/2);
-	double dist = Distance(center, to);
+	double dist = Distance(start, end);
 
 	if(dist)
 	{
-		double srcDx = m_nRectSize.x/2*(to.x-center.x)/dist;
-		double srcDy = m_nRectSize.y/2*(to.y-center.y)/dist;
-		return wxRealPoint(center.x + srcDx, center.y + srcDy);
+		double srcDx = m_nRectSize.x/2*(end.x-start.x)/dist;
+		double srcDy = m_nRectSize.y/2*(end.y-start.y)/dist;
+
+		return wxRealPoint(start.x + srcDx, start.y + srcDy);
 	}
 	else
-		return center;
+		return GetAbsolutePosition() + wxRealPoint(m_nRectSize.x/2, m_nRectSize.y/2); // center
 
 }
 

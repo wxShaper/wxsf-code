@@ -47,13 +47,13 @@ wxSFEllipseShape::~wxSFEllipseShape()
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-wxRealPoint wxSFEllipseShape::GetBorderPoint(const wxRealPoint& to)
+wxRealPoint wxSFEllipseShape::GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end)
 {
     // HINT: overload it for custom actions...
 
     // TODO: wxSFEllipseShape: Improve 'GetBorderPoint' function
 
-    return wxSFRectShape::GetBorderPoint(to);
+    return wxSFRectShape::GetBorderPoint(start, end);
 }
 
 bool wxSFEllipseShape::IsInside(const wxPoint& pos)

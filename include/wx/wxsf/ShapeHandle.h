@@ -162,26 +162,6 @@ protected:
      * \return Handle rectangle
      */
 	wxRect GetHandleRect() const;
-    /*!
-     * \brief Event handler called when the mouse pointer is moving above shape canvas.
-     * \param pos Current mouse position
-     */
-	void OnMouseMove(const wxPoint& pos);
-    /*!
-     * \brief Event handler called when the handle is started to be dragged.
-     * \param pos Current mouse position
-     */
-	void OnBeginDrag(const wxPoint& pos);
-    /*!
-     * \brief Event handler called when the handle is dragged.
-     * \param pos Current mouse position
-     */
-	void OnDragging(const wxPoint& pos);
-    /*!
-     * \brief Event handler called when the handle is released.
-     * \param pos Current mouse position
-     */
-	void OnEndDrag(const wxPoint& pos);
 
 private:
 
@@ -191,6 +171,27 @@ private:
 	wxPoint m_nCurrPos;
 
 	long m_nId;
+
+    /*!
+     * \brief Event handler called when the mouse pointer is moving above shape canvas.
+     * \param pos Current mouse position
+     */
+	void _OnMouseMove(const wxPoint& pos);
+    /*!
+     * \brief Event handler called when the handle is started to be dragged.
+     * \param pos Current mouse position
+     */
+	void _OnBeginDrag(const wxPoint& pos);
+    /*!
+     * \brief Event handler called when the handle is dragged.
+     * \param pos Current mouse position
+     */
+	void _OnDragging(const wxPoint& pos);
+    /*!
+     * \brief Event handler called when the handle is released.
+     * \param pos Current mouse position
+     */
+	void _OnEndDrag(const wxPoint& pos);
 };
 
 WX_DECLARE_LIST(wxSFShapeHandle, HandleList);

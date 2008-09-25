@@ -308,7 +308,7 @@ wxRealPoint wxSFShapeBase::GetCenter()
     return wxRealPoint(shpBB.GetLeft() + shpBB.GetWidth()/2, shpBB.GetTop() + shpBB.GetHeight()/2);
 }
 
-wxRealPoint wxSFShapeBase::GetBorderPoint(const wxRealPoint& WXUNUSED(to))
+wxRealPoint wxSFShapeBase::GetBorderPoint(const wxRealPoint& WXUNUSED(start), const wxRealPoint& WXUNUSED(end))
 {
     // HINT: override it for custom actions
 
@@ -997,7 +997,7 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		HandleList::compatibility_iterator node = m_lstHandles.GetFirst();
 		while(node)
 		{
-			node->GetData()->OnMouseMove(pos);
+			node->GetData()->_OnMouseMove(pos);
 			node = node->GetNext();
 		}
 

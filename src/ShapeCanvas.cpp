@@ -672,7 +672,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                         break;
 					}
 				}
-				m_pSelectedHandle->OnBeginDrag(FitPositionToGrid(lpos));
+				m_pSelectedHandle->_OnBeginDrag(FitPositionToGrid(lpos));
 			}
 		}
 		break;
@@ -754,8 +754,6 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 	case modeMULTIHANDLEMOVE:
 	case modeHANDLEMOVE:
 		{
-		    m_pSelectedHandle->OnEndDrag(lpos);
-
 			// resize parent shape to fit all its children if neccessary
 			if(m_pSelectedHandle->GetParentShape()->GetParentShape())
 			{
@@ -802,6 +800,8 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
             default:
                 break;
 			}
+
+			m_pSelectedHandle->_OnEndDrag(lpos);
 
             m_pSelectedHandle = NULL;
 			if(m_fCanSaveStateOnMouseUp)SaveCanvasState();
@@ -1081,14 +1081,14 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 		{
 			if(event.Dragging())
 			{
-				m_pSelectedHandle->OnDragging(FitPositionToGrid(lpos));
+				m_pSelectedHandle->_OnDragging(FitPositionToGrid(lpos));
 				if(m_nWorkingMode == modeMULTIHANDLEMOVE)UpdateMultieditSize();
 
 				m_fCanSaveStateOnMouseUp = true;
 			}
 			else
 			{
-			    if( m_pSelectedHandle ) m_pSelectedHandle->OnEndDrag(lpos);
+			    if( m_pSelectedHandle ) m_pSelectedHandle->_OnEndDrag(lpos);
 
 				m_pSelectedHandle = NULL;
 				m_nWorkingMode = modeREADY;
@@ -1203,7 +1203,7 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
                 {
                     if(m_pSelectedHandle && m_pSelectedHandle->GetParentShape()->IsKindOf(CLASSINFO(wxSFLineShape)))
                     {
-                        m_pSelectedHandle->OnEndDrag(wxPoint(0, 0));
+                        m_pSelectedHandle->_OnEndDrag(wxPoint(0, 0));
 
                         wxSFLineShape* pLine = (wxSFLineShape*)m_pSelectedHandle->GetParentShape();
                         pLine->SetLineMode(wxSFLineShape::modeREADY);
@@ -1428,7 +1428,7 @@ void wxSFShapeCanvas::OnEnterWindow(wxMouseEvent& event)
 					pBitmap->OnEndHandle(*m_pSelectedHandle);
 				}
 
-                m_pSelectedHandle->OnEndDrag(lpos);
+                m_pSelectedHandle->_OnEndDrag(lpos);
 
                 SaveCanvasState();
 				m_nWorkingMode = modeREADY;
@@ -1444,7 +1444,7 @@ void wxSFShapeCanvas::OnEnterWindow(wxMouseEvent& event)
         {
             if(m_pSelectedHandle)
             {
-                m_pSelectedHandle->OnEndDrag(lpos);
+                m_pSelectedHandle->_OnEndDrag(lpos);
 
                 SaveCanvasState();
                 m_nWorkingMode = modeREADY;

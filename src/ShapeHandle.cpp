@@ -92,120 +92,8 @@ void wxSFShapeHandle::Refresh()
 	if(m_pParentShape)m_pParentShape->Refresh();
 }
 
-void wxSFShapeHandle::OnMouseMove(const wxPoint& pos)
-{
-	if(m_fVisible)
-	{
-		if(IsInside(pos))
-		{
-			if(!m_fMouseOver)
-			{
-				m_fMouseOver = true;
-				Refresh();
-			}
-		}
-		else
-		{
-			if(m_fMouseOver)
-			{
-				m_fMouseOver = false;
-				Refresh();
-			}
-		}
-	}
-}
-
 //----------------------------------------------------------------------------------//
-// Public virtual functions
-//----------------------------------------------------------------------------------//
-
-void wxSFShapeHandle::OnBeginDrag(const wxPoint& pos)
-{
-    // HINT: override it if neccessary...
-
-	m_nPrevPos = m_nStartPos = pos;
-
-	if(m_pParentShape)m_pParentShape->OnBeginHandle(*this);
-}
-
-void wxSFShapeHandle::OnDragging(const wxPoint& pos)
-{
-    // HINT: override it if neccessary...
-
-	if(m_fVisible && m_pParentShape && m_pParentShape->ContainsStyle(wxSFShapeBase::sfsSIZE_CHANGE))
-	{
-		if(pos != m_nPrevPos)
-		{
-		    wxRect prevRct = m_pParentShape->GetBoundingBox();
-
-			m_nCurrPos = pos;
-
-			switch(m_nType)
-			{
-			case hndLEFTTOP:
-				if((pos.x < prevRct.GetRight()) && (pos.y < prevRct.GetBottom()))
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-			case hndTOP:
-				if(pos.y < prevRct.GetBottom())
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-			case hndRIGHTTOP:
-				if((pos.x > prevRct.GetLeft()) && (pos.y < prevRct.GetBottom()))
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-			case hndRIGHT:
-				if(pos.x > prevRct.GetLeft())
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-			case hndRIGHTBOTTOM:
-				if((pos.x > prevRct.GetLeft()) && (pos.y > prevRct.GetTop()))
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-			case hndBOTTOM:
-				if(pos.y > prevRct.GetTop())
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-			case hndLEFTBOTTOM:
-				if((pos.x < prevRct.GetRight()) && (pos.y > prevRct.GetTop()))
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-			case hndLEFT:
-				if(pos.x < prevRct.GetRight())
-					m_pParentShape->_OnHandle(*this);
-				break;
-
-            case hndLINESTART:
-            case hndLINEEND:
-			case hndLINECTRL:
-				m_pParentShape->_OnHandle(*this);
-				break;
-
-            default:
-                break;
-			}
-		}
-
-		m_nPrevPos = pos;
-	}
-}
-
-void wxSFShapeHandle::OnEndDrag(const wxPoint& WXUNUSED(pos))
-{
-	// HINT: override it if neccessary...
-
-	if(m_pParentShape)m_pParentShape->OnEndHandle(*this);
-}
-
-//----------------------------------------------------------------------------------//
-// Protected functions functions
+// Protected functions
 //----------------------------------------------------------------------------------//
 
 void wxSFShapeHandle::DrawNormal(wxDC& dc)
@@ -309,3 +197,110 @@ wxRect wxSFShapeHandle::GetHandleRect() const
 	else
 		return wxRect();
 }
+
+//----------------------------------------------------------------------------------//
+// Private functions
+//----------------------------------------------------------------------------------//
+
+void wxSFShapeHandle::_OnBeginDrag(const wxPoint& pos)
+{
+	m_nPrevPos = m_nStartPos = pos;
+
+	if(m_pParentShape)m_pParentShape->OnBeginHandle(*this);
+}
+
+void wxSFShapeHandle::_OnDragging(const wxPoint& pos)
+{
+	if(m_fVisible && m_pParentShape && m_pParentShape->ContainsStyle(wxSFShapeBase::sfsSIZE_CHANGE))
+	{
+		if(pos != m_nPrevPos)
+		{
+		    wxRect prevRct = m_pParentShape->GetBoundingBox();
+
+			m_nCurrPos = pos;
+
+			switch(m_nType)
+			{
+			case hndLEFTTOP:
+				if((pos.x < prevRct.GetRight()) && (pos.y < prevRct.GetBottom()))
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+			case hndTOP:
+				if(pos.y < prevRct.GetBottom())
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+			case hndRIGHTTOP:
+				if((pos.x > prevRct.GetLeft()) && (pos.y < prevRct.GetBottom()))
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+			case hndRIGHT:
+				if(pos.x > prevRct.GetLeft())
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+			case hndRIGHTBOTTOM:
+				if((pos.x > prevRct.GetLeft()) && (pos.y > prevRct.GetTop()))
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+			case hndBOTTOM:
+				if(pos.y > prevRct.GetTop())
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+			case hndLEFTBOTTOM:
+				if((pos.x < prevRct.GetRight()) && (pos.y > prevRct.GetTop()))
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+			case hndLEFT:
+				if(pos.x < prevRct.GetRight())
+					m_pParentShape->_OnHandle(*this);
+				break;
+
+            case hndLINESTART:
+            case hndLINEEND:
+			case hndLINECTRL:
+				m_pParentShape->_OnHandle(*this);
+				break;
+
+            default:
+                break;
+			}
+		}
+
+		m_nPrevPos = pos;
+	}
+}
+
+void wxSFShapeHandle::_OnEndDrag(const wxPoint& WXUNUSED(pos))
+{
+	if(m_pParentShape)m_pParentShape->OnEndHandle(*this);
+}
+
+void wxSFShapeHandle::_OnMouseMove(const wxPoint& pos)
+{
+	if(m_fVisible)
+	{
+		if(IsInside(pos))
+		{
+			if(!m_fMouseOver)
+			{
+				m_fMouseOver = true;
+				Refresh();
+			}
+		}
+		else
+		{
+			if(m_fMouseOver)
+			{
+				m_fMouseOver = false;
+				Refresh();
+			}
+		}
+	}
+}
+

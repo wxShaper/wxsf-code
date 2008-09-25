@@ -1,10 +1,25 @@
-Changes in version 1.6.1 beta (2008-09-05):
+Changes in version 1.6.1 beta (2008-09-24):
 --------------------------------------------
+- Switched to use wxXmlSerializer 1.1.6:
+  - Added support for new (exported) dynamic data containers (CharArray, IntArray, FloatArray, DoubleArray).
+  - Fixed bug dealing with reading of float and double values on platforms which use ',' decimal character.
+
+- Added a posibility to interactivelly change ending line points connected to shapes (it means that the connection lines
+  do not point to the shape center only anymore). The ending points can be changed by simple placing of the ending line handles somewhere
+  over the shape.
+- Added new wxSFGridShape which has the same behaviour like classic wxGridSizer known from wxWidgets (it means that its child shapes
+  are layouted into a grid defined by number of rows and columns).
 - Added virtual function wxSFShapeBase::OnChildDropped(const wxRealPoint& pos, wxSFShapeBase *child) called when other 
   dragged shape(s) are dropped above target shape (the dropped shapes must be accepted by the target).
+
+- Changed declaration of GetBorderPoint() function. Now it takes two parameters (starting and ending point of a virtual
+  line intersecting the shape's border).
+
 - Fixed control shape to proper set its size in accordance to managed GUI control (virtual function wxSFShapeBase::Update () should works now).
 - Fixed wxSFDiagramManager::GetNewId() function to respect also ID used in the diagram root item.
-- Slightly updated wxSFSample4 (added possibility to create a gui control consisting of wxPanel and wxButton used for the real-time panel resizing).
+
+- Updated wxSFDemo sample projekt to demonstrate the wxSFGridShape.
+- Updated wxSFSample4 (added possibility to create a gui control consisting of wxPanel and wxButton used for the real-time panel resizing).
 
 Changes in version 1.6.0 beta (2008-06-02):
 --------------------------------------------
