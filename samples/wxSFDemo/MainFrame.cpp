@@ -195,6 +195,8 @@ void CMainFrame::do_layout()
 
 void CMainFrame::OnClose(wxCloseEvent& WXUNUSED(event))
 {
+    wxYield();
+
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
 
@@ -207,6 +209,8 @@ void CMainFrame::OnClose(wxCloseEvent& WXUNUSED(event))
 
 void CMainFrame::OnExit(wxCommandEvent& WXUNUSED(event))
 {
+    wxYield();
+
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
 

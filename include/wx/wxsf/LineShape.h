@@ -363,17 +363,27 @@ protected:
 	 */
 	void SetUnfinishedPoint(const wxPoint& pos){m_nUnfinishedPoint = pos;}
 
+	/*!
+     * \brief Get modified starting line point .
+	 * \return Modified starting line point
+	 */
 	wxRealPoint GetModSrcPoint();
+	/*!
+     * \brief Get modified ending line point .
+	 * \return Modified ending line point
+	 */
 	wxRealPoint GetModTrgPoint();
 
 private:
     // private data members
+    /*! \brief Modification offset for starting line point. */
     wxRealPoint m_nSrcOffset;
+    /*! \brief Modification offset for ending line point. */
 	wxRealPoint m_nTrgOffset;
 
 	// private functions
 
-	 /*! \brief Initialize serializable properties. */
+    /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
 
 };
