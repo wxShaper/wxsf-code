@@ -23,13 +23,13 @@
 
 /*!
  * \brief Class encapsulates a rectangular shape derived from wxSFRectShape class which acts as a grid-based
- * container able to manage other assigned child shapes (it can control their position and size). The managed
+ * container able to manage other assigned child shapes (it can control their position). The managed
  * shapes are aligned into defined grid with a behaviour similar to classic wxWidget's wxGridSizer class.
  */
 class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
 {
     public:
-        XS_DECLARE_CLONABLE_CLASS(wxSFRectShape);
+        XS_DECLARE_CLONABLE_CLASS(wxSFGridShape);
 
         /*! \brief Default constructor. */
         wxSFGridShape();
@@ -39,7 +39,7 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
          * \param size Initial size
          * \param rows Number of grid rows
          * \param cols Number of grid columns
-         * \param cols Additional space between managed shapes
+         * \param cellspace Additional space between managed shapes
          * \param manager Pointer to parent diagram manager
          */
         wxSFGridShape(const wxRealPoint& pos, const wxRealPoint& size, int rows, int cols, int cellspace, wxSFDiagramManager* manager);
@@ -155,4 +155,4 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
         void MarkSerializableDataMembers();
 };
 
-#endif // WXSFGRIDSHAPE_H
+#endif // _WXSFGRIDSHAPE_H

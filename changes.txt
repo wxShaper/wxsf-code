@@ -1,3 +1,12 @@
+
+
+
+Changes in version 1.6.2 beta (2008-09-27):
+--------------------------------------------
+- Added wxSFFlexGridShape with a behaviour similar to classic wxFlexGridSizer (each grid's column and row can have different size).
+- Fixed wxSFGridShape's RTTI information
+- Fixed grid shapes minimal size. Even empty grid shape with zero cell space has non-zero size.
+
 Changes in version 1.6.1 beta (2008-09-24):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.6:

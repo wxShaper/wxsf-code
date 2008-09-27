@@ -26,6 +26,7 @@
 #include "PolygonShape.h"
 #include "ControlShape.h"
 #include "GridShape.h"
+#include "FlexGridShape.h"
 
 #include "OpenArrow.h"
 #include "SolidArrow.h"

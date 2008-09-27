@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      GridShape.cpp
- * Purpose:   Implements rectangular shape class
+ * Purpose:   Implements grid shape class
  * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
  * Created:   2008-08-02
  * Copyright: Michal Bližňák
@@ -171,11 +171,12 @@ bool wxSFGridShape::InsertToGrid(int index, wxSFShapeBase *shape)
 
 void wxSFGridShape::DoChildrenLayout()
 {
+    if( !m_nCols || !m_nRows ) return;
+
     wxSFShapeBase *pShape;
     int nIndex, nRow, nCol;
 
     wxRealPoint nAbsPos = GetAbsolutePosition();
-    wxRect nParentRect = GetBoundingBox();
 
     wxRect currRect, maxRect = wxRect(0,0,0,0);
 
@@ -191,27 +192,24 @@ void wxSFGridShape::DoChildrenLayout()
         node = node->GetNext();
     }
 
-    if( !maxRect.IsEmpty() && m_nCols && m_nRows )
+    // put managed shapes to appropriate positions
+    nIndex = nCol = 0;
+    nRow = -1;
+
+    for(size_t i = 0; i < m_arrCells.GetCount(); i++ )
     {
-        // put managed shapes to appropriate positions
-        nIndex = nCol = 0;
-        nRow = -1;
-
-        for(size_t i = 0; i < m_arrCells.GetCount(); i++ )
+        pShape = (wxSFShapeBase*)GetChild(m_arrCells[i]);
+        if( pShape )
         {
-            pShape = (wxSFShapeBase*)GetChild(m_arrCells[i]);
-            if( pShape )
+            if( nIndex++ % m_nCols == 0 )
             {
-                 if( nIndex++ % m_nCols == 0 )
-                {
-                    nCol = 0; nRow++;
-                }
-                else
-                    nCol++;
-
-                pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
-                                nAbsPos.y + nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace);
+                nCol = 0; nRow++;
             }
+            else
+                nCol++;
+
+            pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
+                            nAbsPos.y + nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace);
         }
     }
 }
@@ -269,6 +267,13 @@ void wxSFGridShape::FitToChildren()
             pChild->GetCompleteBoundingBox(chBB, bbSELF | bbCHILDREN);
         }
         node = node->GetNext();
+    }
+
+    // do not let the grid shape 'disappear' due to zero sizes...
+    if( (!chBB.GetWidth() || !chBB.GetHeight()) && !m_nCellSpace )
+    {
+        chBB.SetWidth( 10 );
+        chBB.SetHeight( 10 );
     }
 
     m_nRectSize = wxRealPoint(chBB.GetSize().x + 2*m_nCellSpace, chBB.GetSize().y + 2*m_nCellSpace);
