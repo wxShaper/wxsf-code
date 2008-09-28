@@ -37,7 +37,7 @@ public:
 	bool m_fShowShadows;
 
 protected:
-    FrameCanvas* shapeCanvas;
+    FrameCanvas* m_pShapeCanvas;
 
 	wxColourPickerCtrl* cpicker;
 

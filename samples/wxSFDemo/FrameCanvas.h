@@ -17,14 +17,9 @@ public:
 	virtual void OnKeyDown(wxKeyEvent& event);
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
 
-	// pubic member data accessors
-	MainFrm* GetParentFrame(){return m_pParentFrame;}
-
 protected:
-
 	// protected data members
 	MainFrm *m_pParentFrame;
-
 };
 
 #endif //_FRAMECANVAS_H

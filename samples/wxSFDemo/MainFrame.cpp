@@ -71,10 +71,10 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
     m_pHelpMenu->Append(wxID_ABOUT, wxT("&About..."), wxT("About application..."), wxITEM_NORMAL);
 
     // set shape canvas and associate it with diagram manager
-    shapeCanvas = new FrameCanvas(&m_DiagramManager, m_pCanvasPanel, wxID_ANY);
+    m_pShapeCanvas = new FrameCanvas(&m_DiagramManager, m_pCanvasPanel, wxID_ANY);
 
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
-    mainSizer->Add(shapeCanvas, 1, wxEXPAND, 0);
+    mainSizer->Add(m_pShapeCanvas, 1, wxEXPAND, 0);
     m_pCanvasPanel->SetSizer(mainSizer);
     m_pCanvasPanel->Layout();
 
@@ -177,14 +177,14 @@ void MainFrm::OnNew(wxCommandEvent& WXUNUSED(event))
 	if(wxMessageBox(wxT("Current chart will be lost. Do you want to proceed?"), wxT("ShapeFramework"), wxYES_NO | wxICON_QUESTION) == wxYES)
 	{
 		m_DiagramManager.Clear();
-		shapeCanvas->ClearCanvasHistory();
+		m_pShapeCanvas->ClearCanvasHistory();
 
         // set accepted shapes
         m_DiagramManager.ClearAcceptedShapes();
         m_DiagramManager.AcceptShape(wxT("All"));
 
-        shapeCanvas->SaveCanvasState();
-		shapeCanvas->Refresh();
+        m_pShapeCanvas->SaveCanvasState();
+		m_pShapeCanvas->Refresh();
 	}
 }
 
@@ -194,10 +194,10 @@ void MainFrm::OnLoad(wxCommandEvent& WXUNUSED(event))
 
 	if(dlg.ShowModal() == wxID_OK)
 	{
-		shapeCanvas->LoadCanvas(dlg.GetPath());
-		m_pZoomSlider->SetValue(int(shapeCanvas->GetScale()*5));
-		cpicker->SetColour(shapeCanvas->GetHoverColour());
-		// m_fShowGrid = shapeCanvas->IsGridShown(); !!! DEPRECATED !!!
+		m_pShapeCanvas->LoadCanvas(dlg.GetPath());
+		m_pZoomSlider->SetValue(int(m_pShapeCanvas->GetScale()*5));
+		cpicker->SetColour(m_pShapeCanvas->GetHoverColour());
+		// m_fShowGrid = m_pShapeCanvas->IsGridShown(); !!! DEPRECATED !!!
 	}
 }
 
@@ -207,7 +207,7 @@ void MainFrm::OnSave(wxCommandEvent& WXUNUSED(event))
 
 	if(dlg.ShowModal() == wxID_OK)
 	{
-		shapeCanvas->SaveCanvas(dlg.GetPath());
+		m_pShapeCanvas->SaveCanvas(dlg.GetPath());
 
 		wxMessageBox(wxString::Format(wxT("The chart has been saved to '%s'."), dlg.GetPath().GetData()), wxT("ShapeFramework"));
 	}
@@ -215,57 +215,57 @@ void MainFrm::OnSave(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnUndo(wxCommandEvent& WXUNUSED(event))
 {
-	shapeCanvas->Undo();
+	m_pShapeCanvas->Undo();
 }
 
 void MainFrm::OnUpdateUndo(wxUpdateUIEvent& event)
 {
-	event.Enable(shapeCanvas->CanUndo());
+	event.Enable(m_pShapeCanvas->CanUndo());
 }
 
 void MainFrm::OnRedo(wxCommandEvent& WXUNUSED(event))
 {
-	shapeCanvas->Redo();
+	m_pShapeCanvas->Redo();
 }
 
 void MainFrm::OnUpdateRedo(wxUpdateUIEvent& event)
 {
-	event.Enable(shapeCanvas->CanRedo());
+	event.Enable(m_pShapeCanvas->CanRedo());
 }
 
 void MainFrm::OnCopy(wxCommandEvent& WXUNUSED(event))
 {
-	shapeCanvas->Copy();
+	m_pShapeCanvas->Copy();
 }
 
 void MainFrm::OnUpdateCopy(wxUpdateUIEvent& event)
 {
-	event.Enable(shapeCanvas->CanCopy());
+	event.Enable(m_pShapeCanvas->CanCopy());
 }
 
 void MainFrm::OnCut(wxCommandEvent& WXUNUSED(event))
 {
-	shapeCanvas->Cut();
+	m_pShapeCanvas->Cut();
 }
 
 void MainFrm::OnUpdateCut(wxUpdateUIEvent& event)
 {
-	event.Enable(shapeCanvas->CanCut());
+	event.Enable(m_pShapeCanvas->CanCut());
 }
 
 void MainFrm::OnPaste(wxCommandEvent& WXUNUSED(event))
 {
-	shapeCanvas->Paste();
+	m_pShapeCanvas->Paste();
 }
 
 void MainFrm::OnUpdatePaste(wxUpdateUIEvent& event)
 {
-	event.Enable(shapeCanvas->CanPaste());
+	event.Enable(m_pShapeCanvas->CanPaste());
 }
 
 void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 {
-	shapeCanvas->SelectAll();
+	m_pShapeCanvas->SelectAll();
 }
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
@@ -279,7 +279,7 @@ void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
 
 	if(dlg.ShowModal() == wxID_OK)
 	{
-        shapeCanvas->SaveCanvasToBMP(dlg.GetPath());
+        m_pShapeCanvas->SaveCanvasToBMP(dlg.GetPath());
 	}
 }
 
@@ -289,7 +289,7 @@ void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnTool(wxCommandEvent& event)
 {
-    if(shapeCanvas->GetMode() == FrameCanvas::modeCREATECONNECTION)shapeCanvas->AbortInteractiveConnection();
+    if(m_pShapeCanvas->GetMode() == FrameCanvas::modeCREATECONNECTION)m_pShapeCanvas->AbortInteractiveConnection();
 
     switch(event.GetId())
     {
@@ -297,27 +297,27 @@ void MainFrm::OnTool(wxCommandEvent& event)
         	m_fShowGrid = !m_fShowGrid;
 			if( m_fShowGrid )
 			{
-				shapeCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_SHOW);
-				shapeCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_USE);
+				m_pShapeCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_SHOW);
+				m_pShapeCanvas->AddStyle(wxSFShapeCanvas::sfsGRID_USE);
 			}
 			else
 			{
-				shapeCanvas->RemoveStyle(wxSFShapeCanvas::sfsGRID_SHOW);
-				shapeCanvas->RemoveStyle(wxSFShapeCanvas::sfsGRID_USE);
+				m_pShapeCanvas->RemoveStyle(wxSFShapeCanvas::sfsGRID_SHOW);
+				m_pShapeCanvas->RemoveStyle(wxSFShapeCanvas::sfsGRID_USE);
 			}
-            //shapeCanvas->UseGrid(m_fShowGrid); !!! DEPRECATED !!!
-            //shapeCanvas->ShowGrid(m_fShowGrid); !!! DEPRECATED !!!
-            shapeCanvas->Refresh(false);
+            //m_pShapeCanvas->UseGrid(m_fShowGrid); !!! DEPRECATED !!!
+            //m_pShapeCanvas->ShowGrid(m_fShowGrid); !!! DEPRECATED !!!
+            m_pShapeCanvas->Refresh(false);
             break;
 
         case IDT_SHADOW:
         	m_fShowShadows = !m_fShowShadows;
 
-        	shapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowALL);
+        	m_pShapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowALL);
         	// also shadows for topmost shapes only are allowed:
-        	//shapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowTOPMOST);
+        	//m_pShapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowTOPMOST);
 
-            shapeCanvas->Refresh(false);
+            m_pShapeCanvas->Refresh(false);
             break;
 
         case IDT_BITMAPSHP:
@@ -377,27 +377,27 @@ void MainFrm::OnTool(wxCommandEvent& event)
             break;
 
         case IDT_ALIGN_LEFT:
-            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignLEFT, wxSFShapeCanvas::valignNONE);
+            m_pShapeCanvas->AlignSelected(wxSFShapeCanvas::halignLEFT, wxSFShapeCanvas::valignNONE);
             break;
 
         case IDT_ALIGN_RIGHT:
-            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignRIGHT, wxSFShapeCanvas::valignNONE);
+            m_pShapeCanvas->AlignSelected(wxSFShapeCanvas::halignRIGHT, wxSFShapeCanvas::valignNONE);
             break;
 
         case IDT_ALIGN_CENTER:
-            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignCENTER, wxSFShapeCanvas::valignNONE);
+            m_pShapeCanvas->AlignSelected(wxSFShapeCanvas::halignCENTER, wxSFShapeCanvas::valignNONE);
             break;
 
         case IDT_ALIGN_TOP:
-            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignTOP);
+            m_pShapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignTOP);
             break;
 
         case IDT_ALIGN_BOTTOM:
-            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignBOTTOM);
+            m_pShapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignBOTTOM);
             break;
 
         case IDT_ALIGN_MIDDLE:
-            shapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignMIDDLE);
+            m_pShapeCanvas->AlignSelected(wxSFShapeCanvas::halignNONE, wxSFShapeCanvas::valignMIDDLE);
             break;
 
         default:
@@ -476,7 +476,7 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
         case IDT_ALIGN_BOTTOM:
         case IDT_ALIGN_MIDDLE:
         case IDT_ALIGN_CENTER:
-            event.Enable(shapeCanvas->CanAlignSelected());
+            event.Enable(m_pShapeCanvas->CanAlignSelected());
             break;
 
         default:
@@ -492,17 +492,17 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
 
 void MainFrm::OnPrint(wxCommandEvent& WXUNUSED(event))
 {
-    shapeCanvas->Print();
+    m_pShapeCanvas->Print();
 }
 
 void MainFrm::OnPrintPreview(wxCommandEvent& WXUNUSED(event))
 {
-    shapeCanvas->PrintPreview();
+    m_pShapeCanvas->PrintPreview();
 }
 
 void MainFrm::OnPageSetup(wxCommandEvent& WXUNUSED(event))
 {
-    shapeCanvas->PageSetup();
+    m_pShapeCanvas->PageSetup();
 }
 
 //----------------------------------------------------------------------------------//
@@ -511,11 +511,11 @@ void MainFrm::OnPageSetup(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnSlider(wxScrollEvent& WXUNUSED(event))
 {
-	shapeCanvas->SetScale(double(m_pZoomSlider->GetValue())/50);
-	shapeCanvas->Refresh(false);
+	m_pShapeCanvas->SetScale(double(m_pZoomSlider->GetValue())/50);
+	m_pShapeCanvas->Refresh(false);
 }
 
 void MainFrm::OnHowerColor(wxColourPickerEvent& event)
 {
-	shapeCanvas->SetHoverColour(event.GetColour());
+	m_pShapeCanvas->SetHoverColour(event.GetColour());
 }
