@@ -67,6 +67,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_EditTextShape.o \
 	wxsf_lib_EllipseShape.o \
 	wxsf_lib_FixedRectShape.o \
+	wxsf_lib_FlexGridShape.o \
 	wxsf_lib_GridShape.o \
 	wxsf_lib_LineShape.o \
 	wxsf_lib_LineShapeXml.o \
@@ -110,6 +111,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_EditTextShape.o \
 	wxsf_dll_EllipseShape.o \
 	wxsf_dll_FixedRectShape.o \
+	wxsf_dll_FlexGridShape.o \
 	wxsf_dll_GridShape.o \
 	wxsf_dll_LineShape.o \
 	wxsf_dll_LineShapeXml.o \
@@ -138,6 +140,7 @@ WXSF_DLL_OBJECTS =  \
 SFDEMO_CXXFLAGS = -I$(srcdir)/include $(WX_CXXFLAGS) $(CPPFLAGS) $(CXXFLAGS)
 SFDEMO_OBJECTS =  \
 	sfdemo_FrameCanvas.o \
+	sfdemo_GUI.o \
 	sfdemo_MainApp.o \
 	sfdemo_MainFrame.o \
 	sfdemo_wx_pch.o \
@@ -461,6 +464,9 @@ wxsf_lib_EllipseShape.o: $(srcdir)/src/EllipseShape.cpp
 wxsf_lib_FixedRectShape.o: $(srcdir)/src/FixedRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/FixedRectShape.cpp
 
+wxsf_lib_FlexGridShape.o: $(srcdir)/src/FlexGridShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/FlexGridShape.cpp
+
 wxsf_lib_GridShape.o: $(srcdir)/src/GridShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/GridShape.cpp
 
@@ -581,6 +587,9 @@ wxsf_dll_EllipseShape.o: $(srcdir)/src/EllipseShape.cpp
 wxsf_dll_FixedRectShape.o: $(srcdir)/src/FixedRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/FixedRectShape.cpp
 
+wxsf_dll_FlexGridShape.o: $(srcdir)/src/FlexGridShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/FlexGridShape.cpp
+
 wxsf_dll_GridShape.o: $(srcdir)/src/GridShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/GridShape.cpp
 
@@ -658,6 +667,9 @@ wxsf_dll_XmlSerializer.o: $(srcdir)/src/wxxmlserializer/XmlSerializer.cpp
 
 sfdemo_FrameCanvas.o: $(srcdir)/samples/wxSFDemo/FrameCanvas.cpp
 	$(CXXC) -c -o $@ $(SFDEMO_CXXFLAGS) $(srcdir)/samples/wxSFDemo/FrameCanvas.cpp
+
+sfdemo_GUI.o: $(srcdir)/samples/wxSFDemo/GUI.cpp
+	$(CXXC) -c -o $@ $(SFDEMO_CXXFLAGS) $(srcdir)/samples/wxSFDemo/GUI.cpp
 
 sfdemo_MainApp.o: $(srcdir)/samples/wxSFDemo/MainApp.cpp
 	$(CXXC) -c -o $@ $(SFDEMO_CXXFLAGS) $(srcdir)/samples/wxSFDemo/MainApp.cpp

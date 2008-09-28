@@ -72,6 +72,7 @@ WXSF_LIB_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_EditTextShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_EllipseShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_FixedRectShape.o \
+	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_FlexGridShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_GridShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShapeXml.o \
@@ -118,6 +119,7 @@ WXSF_DLL_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_EditTextShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_EllipseShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_FixedRectShape.o \
+	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_FlexGridShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_GridShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShape.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShapeXml.o \
@@ -149,6 +151,7 @@ SFDEMO_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) \
 	$(VAR_9) -W -Wall -I..\include $(CPPFLAGS) $(CXXFLAGS)
 SFDEMO_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_FrameCanvas.o \
+	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_GUI.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_MainApp.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_MainFrame.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_wx_pch.o \
@@ -513,6 +516,9 @@ gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_EllipseShape.o: ../src/
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_FixedRectShape.o: ../src/FixedRectShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
+gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_FlexGridShape.o: ../src/FlexGridShape.cpp
+	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
+
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_GridShape.o: ../src/GridShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -633,6 +639,9 @@ gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_EllipseShape.o: ../src/
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_FixedRectShape.o: ../src/FixedRectShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
+gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_FlexGridShape.o: ../src/FlexGridShape.cpp
+	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
+
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_GridShape.o: ../src/GridShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -709,6 +718,9 @@ gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_XmlSerializer.o: ../src
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_FrameCanvas.o: ../samples/wxSFDemo/FrameCanvas.cpp
+	$(CXX) -c -o $@ $(SFDEMO_CXXFLAGS) $(CPPDEPS) $<
+
+gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_GUI.o: ../samples/wxSFDemo/GUI.cpp
 	$(CXX) -c -o $@ $(SFDEMO_CXXFLAGS) $(CPPDEPS) $<
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\sfdemo_MainApp.o: ../samples/wxSFDemo/MainApp.cpp

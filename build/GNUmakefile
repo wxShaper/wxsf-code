@@ -90,6 +90,7 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_EditTextShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_EllipseShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_FixedRectShape.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_FlexGridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_GridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShapeXml.o \
@@ -134,6 +135,7 @@ WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_EditTextShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_EllipseShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_FixedRectShape.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_FlexGridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_GridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShapeXml.o \
@@ -163,6 +165,7 @@ SFDEMO_CXXFLAGS = $(VAR) $(VAR_9) -W -Wall -I../include `$(WX_CONFIG) --cxxflags
 	$(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 SFDEMO_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_FrameCanvas.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_GUI.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_MainApp.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_MainFrame.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_wx_pch.o
@@ -454,6 +457,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_EllipseShape.o: ../src/EllipseS
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_FixedRectShape.o: ../src/FixedRectShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_FlexGridShape.o: ../src/FlexGridShape.cpp
+	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
+
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_GridShape.o: ../src/GridShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -574,6 +580,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_EllipseShape.o: ../src/EllipseS
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_FixedRectShape.o: ../src/FixedRectShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_FlexGridShape.o: ../src/FlexGridShape.cpp
+	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
+
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_GridShape.o: ../src/GridShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -650,6 +659,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_XmlSerializer.o: ../src/wxxmlse
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_FrameCanvas.o: ../samples/wxSFDemo/FrameCanvas.cpp
+	$(CXX) -c -o $@ $(SFDEMO_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_GUI.o: ../samples/wxSFDemo/GUI.cpp
 	$(CXX) -c -o $@ $(SFDEMO_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/sfdemo_MainApp.o: ../samples/wxSFDemo/MainApp.cpp
