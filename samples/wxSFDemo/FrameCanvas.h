@@ -3,13 +3,13 @@
 
 #include "wx/wxsf/wxShapeFramework.h"
 
-class CMainFrame;
-class CFrameCanvas : public wxSFShapeCanvas
+class MainFrm;
+class FrameCanvas : public wxSFShapeCanvas
 {
 public:
-    CFrameCanvas(){;}
-	CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id);
-	virtual ~CFrameCanvas(void);
+    FrameCanvas(){;}
+	FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id);
+	virtual ~FrameCanvas(void);
 
 	// public virtual functions
 	virtual void OnLeftDown(wxMouseEvent& event);
@@ -18,12 +18,12 @@ public:
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
 
 	// pubic member data accessors
-	CMainFrame* GetParentFrame(){return m_pParentFrame;}
+	MainFrm* GetParentFrame(){return m_pParentFrame;}
 
 protected:
 
 	// protected data members
-	CMainFrame *m_pParentFrame;
+	MainFrm *m_pParentFrame;
 
 };
 

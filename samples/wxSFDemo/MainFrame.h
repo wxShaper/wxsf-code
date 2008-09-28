@@ -3,9 +3,10 @@
 
 #include <wx/clrpicker.h>
 
+#include "GUI.h"
 #include "FrameCanvas.h"
 
-class CMainFrame: public wxFrame {
+class MainFrm: public _MainFrm {
 public:
 
 	enum MODE
@@ -26,7 +27,7 @@ public:
 		modeFLEXGRID
 	};
 
-    CMainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize, long style=wxDEFAULT_FRAME_STYLE );
+    MainFrm(wxWindow* parent );
 
 	// public data accessors
 	MODE GetToolMode(){return m_nToolMode;}
@@ -35,16 +36,9 @@ public:
 	// public data members
 	bool m_fShowShadows;
 
-private:
-    void set_properties();
-    void do_layout();
-
 protected:
-    wxMenuBar* mainMenu;
-    wxStatusBar* statusBar;
-    wxToolBar* toolBar;
-    CFrameCanvas* shapeCanvas;
-	wxSlider* zoomSlider;
+    FrameCanvas* shapeCanvas;
+
 	wxColourPickerCtrl* cpicker;
 
 	wxSFDiagramManager m_DiagramManager;

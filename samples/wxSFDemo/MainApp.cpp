@@ -4,15 +4,15 @@
 #include "MainFrame.h"
 
 // wxwindows app
-IMPLEMENT_APP( CMainApp )
+IMPLEMENT_APP( MainApp )
 
 // class info
-IMPLEMENT_DYNAMIC_CLASS( CMainApp, wxApp )
+IMPLEMENT_DYNAMIC_CLASS( MainApp, wxApp )
 
-bool CMainApp::OnInit()
+bool MainApp::OnInit()
 {
     // main frame
-    CMainFrame *frame = new CMainFrame(NULL, -1, wxT(""));
+    MainFrm *frame = new MainFrm( NULL );
     SetTopWindow( frame );
     frame->Show( true );
 

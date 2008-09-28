@@ -2,12 +2,16 @@
 
 #include "FrameCanvas.h"
 #include "MainFrame.h"
+#include "MainApp.h"
 
 #include <wx/textdlg.h>
 
-CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id)
+FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id)
 : wxSFShapeCanvas(manager, parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
 {
+    // get pointer to main application frame
+	m_pParentFrame = (MainFrm*)wxGetApp().GetTopWindow();
+
 	// initialize grid
 
 	//UseGrid(true); !!! DEPRECATED !!!
@@ -53,9 +57,6 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	// SetStyle( sfsGRID_USE | sfsGRID_SHOW ) ... or ...
 	// SetStyle( sfsDEFAULT_CANVAS_STYLE )
 
-	// initialize data members
-	m_pParentFrame = (CMainFrame*)parent;
-
 	// set accepted shapes
 	GetDiagramManager()->ClearAcceptedShapes();
 	GetDiagramManager()->AcceptShape(wxT("All"));
@@ -73,7 +74,7 @@ CFrameCanvas::CFrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWind
 	SaveCanvasState();
 }
 
-CFrameCanvas::~CFrameCanvas(void)
+FrameCanvas::~FrameCanvas(void)
 {
 }
 
@@ -81,13 +82,13 @@ CFrameCanvas::~CFrameCanvas(void)
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
+void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 {
     wxSFShapeBase *pShape = NULL;
 
 	switch(m_pParentFrame->GetToolMode())
 	{
-	case CMainFrame::modeBITMAP:
+	case MainFrm::modeBITMAP:
 		{
 			wxFileDialog dlg(this, wxT("Load bitmap image..."), wxGetCwd(), wxT(""), wxT("BMP Files (*.bmp) | *.bmp"), wxOPEN);
 
@@ -106,14 +107,14 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 			}
 		}
 		break;
-	case CMainFrame::modeTEXT:
-	case CMainFrame::modeEDITTEXT:
+	case MainFrm::modeTEXT:
+	case MainFrm::modeEDITTEXT:
 		{
 		    wxTextEntryDialog dlg(this, wxT(""), wxT("Enter text"), wxT("Hello World!"));
 
 		    if(dlg.ShowModal() == wxID_OK)
 		    {
-				if(m_pParentFrame->GetToolMode() == CMainFrame::modeTEXT)
+				if(m_pParentFrame->GetToolMode() == MainFrm::modeTEXT)
 					pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
 				else
 					pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFEditTextShape), event.GetPosition(), sfDONT_SAVE_STATE);
@@ -139,7 +140,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeDIAMOND:
+	case MainFrm::modeDIAMOND:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
@@ -155,7 +156,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeFIXEDRECT:
+	case MainFrm::modeFIXEDRECT:
 		{
 		    pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFSquareShape), event.GetPosition(), sfDONT_SAVE_STATE);
 		    if(pShape)
@@ -171,7 +172,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeROUNDRECT:
+	case MainFrm::modeROUNDRECT:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
@@ -187,7 +188,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeRECT:
+	case MainFrm::modeRECT:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
@@ -202,10 +203,10 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeGRID:
-	case CMainFrame::modeFLEXGRID:
+	case MainFrm::modeGRID:
+	case MainFrm::modeFLEXGRID:
 		{
-		    if( m_pParentFrame->GetToolMode() == CMainFrame::modeGRID )
+		    if( m_pParentFrame->GetToolMode() == MainFrm::modeGRID )
                 pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFGridShape), event.GetPosition(), sfDONT_SAVE_STATE);
 		    else
                 pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFFlexGridShape), event.GetPosition(), sfDONT_SAVE_STATE);
@@ -246,7 +247,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeELLIPSE:
+	case MainFrm::modeELLIPSE:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
@@ -262,7 +263,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-	case CMainFrame::modeCIRCLE:
+	case MainFrm::modeCIRCLE:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
@@ -280,7 +281,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		}
 		break;
 
-    case CMainFrame::modeLINE:
+    case MainFrm::modeLINE:
         {
             if(GetMode() == modeREADY)
             {
@@ -291,7 +292,7 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
         }
         break;
 
-     case CMainFrame::modeCURVE:
+     case MainFrm::modeCURVE:
         {
             if(GetMode() == modeREADY)
             {
@@ -315,12 +316,12 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 
         if(!event.ControlDown())
         {
-            m_pParentFrame->SetToolMode(CMainFrame::modeDESIGN);
+            m_pParentFrame->SetToolMode(MainFrm::modeDESIGN);
         }
 	}
 }
 
-void CFrameCanvas::OnRightDown(wxMouseEvent& event)
+void FrameCanvas::OnRightDown(wxMouseEvent& event)
 {
     // try to find shape under cursor
 	wxSFShapeBase* pShape = GetShapeUnderCursor();
@@ -385,12 +386,12 @@ void CFrameCanvas::OnRightDown(wxMouseEvent& event)
     wxSFShapeCanvas::OnRightDown(event);
 }
 
-void CFrameCanvas::OnKeyDown(wxKeyEvent& event)
+void FrameCanvas::OnKeyDown(wxKeyEvent& event)
 {
 	switch(event.GetKeyCode())
 	{
 	case WXK_ESCAPE:
-		m_pParentFrame->SetToolMode(CMainFrame::modeDESIGN);
+		m_pParentFrame->SetToolMode(MainFrm::modeDESIGN);
 		break;
 	}
 
@@ -398,7 +399,7 @@ void CFrameCanvas::OnKeyDown(wxKeyEvent& event)
 	wxSFShapeCanvas::OnKeyDown(event);
 }
 
-void CFrameCanvas::OnConnectionFinished(wxSFLineShape* connection)
+void FrameCanvas::OnConnectionFinished(wxSFLineShape* connection)
 {
     if(connection)
     {
@@ -412,6 +413,6 @@ void CFrameCanvas::OnConnectionFinished(wxSFLineShape* connection)
         connection->AcceptSrcNeighbour(wxT("All"));
         connection->AcceptTrgNeighbour(wxT("All"));
 
-		m_pParentFrame->SetToolMode(CMainFrame::modeDESIGN);
+		m_pParentFrame->SetToolMode(MainFrm::modeDESIGN);
     }
 }
