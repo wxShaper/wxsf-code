@@ -7,6 +7,7 @@
 #include "res/Tool.xpm"
 #include "res/RoundRect.xpm"
 #include "res/Grid.xpm"
+#include "res/FlexGrid.xpm"
 #include "res/Line.xpm"
 #include "res/Curve.xpm"
 #include "res/Ellipse.xpm"

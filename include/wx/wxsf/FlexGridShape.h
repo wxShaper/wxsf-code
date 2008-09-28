@@ -15,6 +15,8 @@
 
 // default values
 
+WX_DEFINE_ARRAY(wxSFShapeBase*, ShapePtrArray);
+
 /*!
  * \brief Class encapsulates a rectangular shape derived from wxSFGridShape class which acts as a flexible grid-based
  * container able to manage other assigned child shapes (it can control their position). The managed
@@ -49,6 +51,14 @@ class WXDLLIMPEXP_SF wxSFFlexGridShape : public wxSFGridShape
 
         /*! \brief Do layout of assigned child shapes */
         virtual void DoChildrenLayout();
+
+    private:
+
+        // private data members
+        IntArray m_arrRowSizes;
+        IntArray m_arrColSizes;
+
+        ShapePtrArray m_arrChildShapes;
 };
 
 #endif // _WXSFFLEXGRIDSHAPE_H

@@ -203,8 +203,13 @@ void CFrameCanvas::OnLeftDown(wxMouseEvent& event)
 		break;
 
 	case CMainFrame::modeGRID:
+	case CMainFrame::modeFLEXGRID:
 		{
-			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFGridShape), event.GetPosition(), sfDONT_SAVE_STATE);
+		    if( m_pParentFrame->GetToolMode() == CMainFrame::modeGRID )
+                pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFGridShape), event.GetPosition(), sfDONT_SAVE_STATE);
+		    else
+                pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFFlexGridShape), event.GetPosition(), sfDONT_SAVE_STATE);
+
 			if(pShape)
 			{
 			    wxSFGridShape *pGrid = (wxSFGridShape*)pShape;

@@ -22,7 +22,8 @@ public:
 		modeBITMAP,
 		modeLINE,
 		modeCURVE,
-		modeGRID
+		modeGRID,
+		modeFLEXGRID
 	};
 
     CMainFrame(wxWindow* parent, int id, const wxString& title, const wxPoint& pos=wxDefaultPosition, const wxSize& size=wxDefaultSize, long style=wxDEFAULT_FRAME_STYLE );

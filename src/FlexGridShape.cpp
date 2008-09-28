@@ -48,19 +48,20 @@ void wxSFFlexGridShape::DoChildrenLayout()
     int nIndex, nRow, nCol, nTotalX, nTotalY;
     size_t i;
 
-    IntArray arrRowSizes;
-    IntArray arrColSizes;
-
     wxRealPoint nAbsPos = GetAbsolutePosition();
     wxRect nCurrRect;
 
-    arrRowSizes.SetCount( m_nRows );
-    arrColSizes.SetCount( m_nCols );
-    for( i = 0; i < (size_t)m_nRows; i++ ) arrRowSizes[i] = 0;
-    for( i = 0; i < (size_t)m_nCols; i++ ) arrColSizes[i] = 0;
+    // initialize size arrays
+    m_arrRowSizes.SetCount( m_nRows );
+    m_arrColSizes.SetCount( m_nCols );
+    for( i = 0; i < (size_t)m_nRows; i++ ) m_arrRowSizes[i] = 0;
+    for( i = 0; i < (size_t)m_nCols; i++ ) m_arrColSizes[i] = 0;
 
     nIndex = nCol = nTotalX = nTotalY = 0;
     nRow = -1;
+
+    // prepare a storage for processed shapes pointers
+    m_arrChildShapes.SetCount( m_arrCells.GetCount() );
 
     // get maximum size of all managed (child) shapes per row and collumn
     for( i = 0; i < m_arrCells.GetCount(); i++ )
@@ -68,6 +69,9 @@ void wxSFFlexGridShape::DoChildrenLayout()
         pShape = (wxSFShapeBase*)GetChild(m_arrCells[i]);
         if( pShape )
         {
+            // store used shape pointer for further processing (optimization for speed)
+            m_arrChildShapes[i] = pShape;
+
             if( nIndex++ % m_nCols == 0 )
             {
                 nCol = 0; nRow++;
@@ -77,8 +81,9 @@ void wxSFFlexGridShape::DoChildrenLayout()
 
             nCurrRect = pShape->GetBoundingBox();
 
-            if( nCurrRect.GetWidth() > arrColSizes[nCol]) arrColSizes[nCol] = nCurrRect.GetWidth();
-            if( nCurrRect.GetHeight() > arrRowSizes[nRow]) arrRowSizes[nRow] = nCurrRect.GetHeight();
+            // update maximum rows and columns sizes
+            if( nCurrRect.GetWidth() > m_arrColSizes[nCol]) m_arrColSizes[nCol] = nCurrRect.GetWidth();
+            if( nCurrRect.GetHeight() > m_arrRowSizes[nRow]) m_arrRowSizes[nRow] = nCurrRect.GetHeight();
         }
     }
 
@@ -88,18 +93,18 @@ void wxSFFlexGridShape::DoChildrenLayout()
 
     for( i = 0; i < m_arrCells.GetCount(); i++ )
     {
-        pShape = (wxSFShapeBase*)GetChild(m_arrCells[i]);
+        pShape = m_arrChildShapes[i];
         if( pShape )
         {
             if( nIndex++ % m_nCols == 0 )
             {
                 nCol = 0; nTotalX = 0; nRow++;
-                if( nRow > 0 ) nTotalY += arrRowSizes[ nRow-1 ];
+                if( nRow > 0 ) nTotalY += m_arrRowSizes[ nRow-1 ];
             }
             else
             {
                 nCol++;
-                if( nCol > 0 ) nTotalX += arrColSizes[ nCol-1 ];
+                if( nCol > 0 ) nTotalX += m_arrColSizes[ nCol-1 ];
             }
 
             pShape->MoveTo( nAbsPos.x + nTotalX + (nCol+1)*m_nCellSpace,
