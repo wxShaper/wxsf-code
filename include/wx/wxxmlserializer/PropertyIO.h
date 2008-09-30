@@ -76,8 +76,9 @@ public:
      * \param parent Pointer to parent XML node
      * \param name Name of new XML node
      * \param value Content of new XML node
+     * \param type Type of new XML (content) node
      */
-     wxXmlNode* AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value);
+     static wxXmlNode* AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value, wxXmlNodeType type = wxXML_TEXT_NODE );
 
 protected:
 

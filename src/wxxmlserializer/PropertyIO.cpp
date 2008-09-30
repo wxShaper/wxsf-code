@@ -32,12 +32,12 @@ WX_DEFINE_EXPORTED_LIST(RealPointList);
 
 IMPLEMENT_DYNAMIC_CLASS(xsPropertyIO, wxObject);
 
-wxXmlNode* xsPropertyIO::AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value)
+wxXmlNode* xsPropertyIO::AddPropertyNode(wxXmlNode* parent, const wxString& name, const wxString& value, wxXmlNodeType type)
 {
 	if(parent)
 	{
 		wxXmlNode* child = new wxXmlNode(wxXML_ELEMENT_NODE, name);
-		child->AddChild(new wxXmlNode(wxXML_TEXT_NODE, wxT(""), value));
+		child->AddChild(new wxXmlNode(type, wxT(""), value));
 		parent->AddChild(child);
 		return child;
 	}

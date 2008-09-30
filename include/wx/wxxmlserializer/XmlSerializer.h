@@ -373,7 +373,7 @@ protected:
      *         node = xsSeralizable::Serialize(node);
      *
      *         // serialize custom property
-     *         AddPropertyNode(node, wxT("some_property_field_name"), wxT("string_repr_of_its_value"));
+     *         xsPropertyIO::AddPropertyNode(node, wxT("some_property_field_name"), wxT("string_repr_of_its_value"));
      *     }
      *     // return updated node
      *     return node;

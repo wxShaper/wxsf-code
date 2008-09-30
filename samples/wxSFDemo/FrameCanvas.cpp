@@ -5,6 +5,7 @@
 #include "MainApp.h"
 
 #include <wx/textdlg.h>
+#include <wx/filename.h>
 
 FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindowID id)
 : wxSFShapeCanvas(manager, parent, id, wxDefaultPosition, wxDefaultSize, wxHSCROLL | wxVSCROLL | wxSTATIC_BORDER)
@@ -97,12 +98,19 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFBitmapShape), event.GetPosition(), sfDONT_SAVE_STATE);
 				if(pShape)
 				{
-					((wxSFBitmapShape*)pShape)->CreateFromFile(dlg.GetPath());
+				    // create relative path
+				    wxFileName path( dlg.GetPath() );
+				    path.MakeRelativeTo( wxGetCwd() );
+
+                    // create image from BMP file
+					((wxSFBitmapShape*)pShape)->CreateFromFile( path.GetFullPath(), wxBITMAP_TYPE_BMP );
 
 					// set shape policy
 					pShape->AcceptConnection(wxT("All"));
 					pShape->AcceptSrcNeighbour(wxT("All"));
 					pShape->AcceptTrgNeighbour(wxT("All"));
+
+					pShape->Refresh();
 				}
 			}
 		}

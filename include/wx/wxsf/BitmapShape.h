@@ -15,10 +15,12 @@
 
 // default values
 #define sfdvBITMAPSHAPE_SCALEIMAGE true
+#define sfdvBITMAPSHAPE_XPMDATA wxT("")
 
 /*!
- * \brief Class encapsulating the bitmap shape. The shape can display and control the
- * extents of BMP files loaded from a file. */
+ * \brief Class encapsulating the bitmap shape. The shape can display and control
+ * files stored in formats supported by wxBitmap class loaded from a file or created
+ * from XPM image. */
 class WXDLLIMPEXP_SF wxSFBitmapShape : public wxSFRectShape
 {
 public:
@@ -62,13 +64,15 @@ public:
 	// public functions
     /*!
 	 * \brief Load a bitmap from the file.
-     * \param file Full file name
+     * \param file File name (absolute or relative)
+     * \param type Bitmap type (see the wxBitmap class reference)
      * \return TRUE on success, otherwise FALSE
      */
-	bool CreateFromFile(const wxString& file);
+	bool CreateFromFile(const wxString& file, wxBitmapType type = wxBITMAP_TYPE_BMP );
     /*!
 	 * \brief Load a bitmap from the XPM structure.
      * \param bits Buffer with the image bits
+     * \param store Set to TRUE if the XPM content should be serialized.
      * \return TRUE on success, otherwise FALSE
      */
 	bool CreateFromXPM(const char* const* bits);
@@ -103,6 +107,7 @@ protected:
 	// protected data members
 	/*! \brief String containing the full bitmap file name. */
 	wxString m_sBitmapPath;
+
 	/*! \brief Currently processed (modified) bitmap. */
 	wxBitmap m_Bitmap;
 	/*! \brief Original archived bitmap. */

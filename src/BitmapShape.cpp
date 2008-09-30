@@ -25,6 +25,7 @@ wxSFBitmapShape::wxSFBitmapShape(void)
 : wxSFRectShape()
 {
     m_sBitmapPath = wxT("");
+
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromXPM(NoSource_xpm);
@@ -37,6 +38,7 @@ wxSFBitmapShape::wxSFBitmapShape(const wxRealPoint& pos, const wxString& bitmapP
 : wxSFRectShape(pos, wxRealPoint(1, 1), manager)
 {
     m_sBitmapPath = wxT("");
+
 	m_fRescaleInProgress = false;
 	m_fCanScale = sfdvBITMAPSHAPE_SCALEIMAGE;
 	CreateFromFile(bitmapPath);
@@ -49,6 +51,7 @@ wxSFBitmapShape::wxSFBitmapShape(const wxSFBitmapShape& obj)
 : wxSFRectShape(obj)
 {
 	m_sBitmapPath = obj.m_sBitmapPath;
+
 	m_fRescaleInProgress = false;
 	m_fCanScale = obj.m_fCanScale;
 
@@ -74,7 +77,7 @@ void wxSFBitmapShape::MarkSerializableDataMembers()
 // public functions
 //----------------------------------------------------------------------------------//
 
-bool wxSFBitmapShape::CreateFromFile(const wxString& file)
+bool wxSFBitmapShape::CreateFromFile(const wxString& file, wxBitmapType type)
 {
 	bool fSuccess = true;
 
@@ -84,7 +87,7 @@ bool wxSFBitmapShape::CreateFromFile(const wxString& file)
 		m_sBitmapPath = file;
 		if(wxFileExists(m_sBitmapPath))
 		{
-			fSuccess = m_Bitmap.LoadFile(m_sBitmapPath, wxBITMAP_TYPE_BMP);
+			fSuccess = m_Bitmap.LoadFile(m_sBitmapPath, type);
 
 		}
 		else
@@ -101,15 +104,12 @@ bool wxSFBitmapShape::CreateFromFile(const wxString& file)
 	m_nRectSize.x = m_Bitmap.GetWidth();
 	m_nRectSize.y = m_Bitmap.GetHeight();
 
-	//EnableSizeChange(m_fCanScale);
 	if(m_fCanScale)
 	{
 	    AddStyle(sfsSIZE_CHANGE);
-        //SetStyle(GetStyle() | sfsSIZE_CHANGE);
 	}
 	else
         RemoveStyle(sfsSIZE_CHANGE);
-        //SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
 
 	return fSuccess;
 }
@@ -133,15 +133,12 @@ bool wxSFBitmapShape::CreateFromXPM(const char* const* bits)
 	m_nRectSize.x = m_Bitmap.GetWidth();
 	m_nRectSize.y = m_Bitmap.GetHeight();
 
-	//EnableSizeChange(m_fCanScale);
 	if(m_fCanScale)
 	{
-        //SetStyle(GetStyle() | sfsSIZE_CHANGE);
         AddStyle(sfsSIZE_CHANGE);
 	}
 	else
         RemoveStyle(sfsSIZE_CHANGE);
-        //SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
 
 	return fSuccess;
 }
