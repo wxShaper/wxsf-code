@@ -150,8 +150,6 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 
 void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
 {
-    wxYield();
-
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
 
@@ -164,8 +162,6 @@ void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
 
 void MainFrm::OnExit(wxCommandEvent& WXUNUSED(event))
 {
-    wxYield();
-
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
 
@@ -190,20 +186,21 @@ void MainFrm::OnNew(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnLoad(wxCommandEvent& WXUNUSED(event))
 {
-	wxFileDialog dlg(this, wxT("Load canvas from XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxOPEN);
+	wxFileDialog dlg(this, wxT("Load canvas from XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml)|*.xml"), wxOPEN | wxFD_FILE_MUST_EXIST);
 
 	if(dlg.ShowModal() == wxID_OK)
 	{
 		m_pShapeCanvas->LoadCanvas(dlg.GetPath());
-		m_pZoomSlider->SetValue(int(m_pShapeCanvas->GetScale()*5));
+
+		m_pZoomSlider->SetValue(int(m_pShapeCanvas->GetScale()*50));
+
 		cpicker->SetColour(m_pShapeCanvas->GetHoverColour());
-		// m_fShowGrid = m_pShapeCanvas->IsGridShown(); !!! DEPRECATED !!!
 	}
 }
 
 void MainFrm::OnSave(wxCommandEvent& WXUNUSED(event))
 {
-	wxFileDialog dlg(this, wxT("Save canvas to XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxSAVE);
+	wxFileDialog dlg(this, wxT("Save canvas to XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml)|*.xml"), wxSAVE | wxFD_OVERWRITE_PROMPT);
 
 	if(dlg.ShowModal() == wxID_OK)
 	{

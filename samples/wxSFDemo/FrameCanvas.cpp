@@ -91,7 +91,7 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 	{
 	case MainFrm::modeBITMAP:
 		{
-			wxFileDialog dlg(this, wxT("Load bitmap image..."), wxGetCwd(), wxT(""), wxT("BMP Files (*.bmp) | *.bmp"), wxOPEN);
+			wxFileDialog dlg(this, wxT("Load bitmap image..."), wxGetCwd(), wxT(""), wxT("BMP Files (*.bmp)|*.bmp"), wxOPEN  | wxFD_FILE_MUST_EXIST);
 
 			if(dlg.ShowModal() == wxID_OK)
 			{
