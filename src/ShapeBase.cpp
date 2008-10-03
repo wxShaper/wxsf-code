@@ -393,7 +393,7 @@ void wxSFShapeBase::ScaleChildren(double x, double y)
 
 		if( (pShape->GetStyle() & sfsPOSITION_CHANGE) && ((pShape->GetVAlign() == valignNONE) || (pShape->GetHAlign() == halignNONE)) )
 		{
-            pShape->SetRelativePosition(pShape->GetRelativePosition().x*x, pShape->GetRelativePosition().y*y);
+            pShape->SetRelativePosition(pShape->m_nRelativePosition.x*x, pShape->m_nRelativePosition.y*y);
 		}
 
         // re-align shapes which have set any alignment mode
@@ -625,17 +625,6 @@ void wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive)
     if( recursive ) GetChildrenRecursively(NULL, (SerializableList&)children);
     else
         GetChildren(NULL, (SerializableList&)children);
-
-    /*SerializableList::compatibility_iterator node = GetFirstChildNode();
-    while(node)
-    {
-        wxSFShapeBase *pShape = (wxSFShapeBase*)node->GetData();
-
-        children.Append(pShape);
-        if(recursive)pShape->GetChildren(children, recursive);
-
-        node = node->GetNext();
-    }*/
 }
 
 void wxSFShapeBase::GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo, CONNECTMODE condir, bool direct)
@@ -946,7 +935,6 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
     //wxASSERT(m_pParentManager);
     if( !m_pParentManager )return;
 
-//	if(m_fVisible && m_fActive && m_fPositionChange)
 	if(m_fVisible && m_fActive && (m_nStyle & sfsPOSITION_CHANGE))
 	{
 		if(m_fFirstMove)

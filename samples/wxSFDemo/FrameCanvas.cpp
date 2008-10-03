@@ -109,8 +109,6 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 					pShape->AcceptConnection(wxT("All"));
 					pShape->AcceptSrcNeighbour(wxT("All"));
 					pShape->AcceptTrgNeighbour(wxT("All"));
-
-					pShape->Refresh();
 				}
 			}
 		}
@@ -141,8 +139,6 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
                     pShape->AcceptSrcNeighbour(wxT("All"));
                     pShape->AcceptTrgNeighbour(wxT("wxSFTextShape"));
                     pShape->AcceptTrgNeighbour(wxT("wxSFEditTextShape"));
-
-                    pShape->Refresh();
                 }
 		    }
 		}
@@ -326,6 +322,8 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
         {
             m_pParentFrame->SetToolMode(MainFrm::modeDESIGN);
         }
+
+        pShape->Refresh();
 	}
 }
 

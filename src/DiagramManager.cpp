@@ -79,7 +79,6 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
         wxSFShapeBase* pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
 
 		pShape = AddShape(pShape, GetRootItem(), pos, sfINITIALIZE, saveState);
-        if(pShape)pShape->Refresh();
 
         return pShape;
     }
