@@ -2,6 +2,7 @@ Changes in version 1.6.2 beta (2008-09-27):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.7:
   - Function xsPropertyIO::AddPropertyNode() is now static and takes information about xml node type.
+  - Function xsSerializable::GetChild() now allows recursive search.
 
 - Added wxSFFlexGridShape with a behaviour similar to classic wxFlexGridSizer (each grid's column and row can have different size).
 - wxSFShapeBitmap::CreateFromFile() function now takes also bitmap type parameter (use bitmap types supported by wxBitmap class). Previously

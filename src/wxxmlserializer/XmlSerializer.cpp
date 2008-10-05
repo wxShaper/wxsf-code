@@ -145,9 +145,19 @@ xsSerializable* xsSerializable::GetSibbling()
     return NULL;
 }
 
-xsSerializable* xsSerializable::GetChild(long id)
+xsSerializable* xsSerializable::GetChild(long id, bool recursive)
 {
-    SerializableList::compatibility_iterator node = m_lstChildItems.GetFirst();
+    SerializableList lstChildren;
+    SerializableList::compatibility_iterator node = NULL;
+
+    if( recursive )
+    {
+        GetChildrenRecursively( CLASSINFO(xsSerializable), lstChildren );
+        node = lstChildren.GetFirst();
+    }
+    else
+        node = m_lstChildItems.GetFirst();
+
     while(node)
     {
 		if( node->GetData()->GetId() == id) return node->GetData();

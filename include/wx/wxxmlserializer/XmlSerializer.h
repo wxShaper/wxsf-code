@@ -22,6 +22,9 @@
 #define xsWITH_ROOT true
 #define xsWITHOUT_ROOT false
 
+#define xsRECURSIVE true
+#define xsNORECURSIVE false
+
 /*! \brief Macro creates new serialized STRING property */
 #define XS_SERIALIZE_STRING(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
 /*! \brief Macro creates new serialized STRING property with defined default value */
@@ -205,9 +208,11 @@ public:
     xsSerializable* GetSibbling();
     /*!
      * \brief Get child item with given ID if exists.
-     * \return Pointer to child with given ID if pressent, otherwise NULL
+     * \param id ID of searched child item
+     * \param recursive If TRUE then the child shape will be searched recursivelly
+     * \return Pointer to first child with given ID if pressent, otherwise NULL
      */
-	xsSerializable* GetChild(long id);
+	xsSerializable* GetChild(long id, bool recursive = xsNORECURSIVE);
 
     /*!
      * \brief Get list of children (serializable objects) of this object.
