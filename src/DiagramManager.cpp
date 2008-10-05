@@ -130,11 +130,11 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                     ShapeList::compatibility_iterator node = lstChildren.GetFirst();
                     while(node)
                     {
-                        pChild = node->GetData();
+                        pChild = (wxSFShapeBase*)node->GetData();
 
                         // perform standard initialization
                         pChild->SetParentManager(this);
-                        pChild->SetId(GetNewId());
+                        if( pChild->GetId() == -1 ) pChild->SetId( GetNewId() );
                         pChild->CreateHandles();
                         pChild->Update();
                         if( m_pShapeCanvas )
