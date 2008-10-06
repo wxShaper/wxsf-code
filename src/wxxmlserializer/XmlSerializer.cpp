@@ -49,6 +49,8 @@ xsSerializable::xsSerializable()
     m_fSerialize = true;
 	m_fClone = true;
     m_nId = -1;
+
+    XS_SERIALIZE(m_nId, wxT("id"));
 }
 
 xsSerializable::xsSerializable(const xsSerializable& obj)
@@ -59,6 +61,8 @@ xsSerializable::xsSerializable(const xsSerializable& obj)
     m_fSerialize = obj.m_fSerialize;
 	m_fClone = obj.m_fClone;
     m_nId = obj.m_nId;
+
+    XS_SERIALIZE(m_nId, wxT("id"));
 }
 
 xsSerializable::~xsSerializable()

@@ -3,6 +3,8 @@ Changes in version 1.6.2 beta (2008-09-27):
 - Switched to use wxXmlSerializer 1.1.7:
   - Function xsPropertyIO::AddPropertyNode() is now static and takes information about xml node type.
   - Function xsSerializable::GetChild() now allows recursive search.
+  - IDs of managed serialized items are now serialized automatically by default (in previous library version this task had to be
+    done explicitelly by a user).
 
 - Added wxSFFlexGridShape with a behaviour similar to classic wxFlexGridSizer (each grid's column and row can have different size).
 - wxSFShapeBitmap::CreateFromFile() function now takes also bitmap type parameter (use bitmap types supported by wxBitmap class). Previously
@@ -10,7 +12,7 @@ Changes in version 1.6.2 beta (2008-09-27):
 - wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState) function doesn't Refresh() new shape anymore
   (the wxSFShapeBase::wxRefresh() must be called explicitelly if neccessary).
 - Fixed wxSFGridShape's RTTI information
-- Fixed grid shapes minimal size. Even empty grid shape with zero cell space has non-zero size.
+- Fixed grid shapes minimal size. Even empty grid shape with zero cell space has non-zero size now.
 
 Changes in version 1.6.1 beta (2008-09-24):
 --------------------------------------------

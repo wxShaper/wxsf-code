@@ -156,7 +156,6 @@ wxSFShapeBase::~wxSFShapeBase(void)
 void wxSFShapeBase::MarkSerializableDataMembers()
 {
     // mark serialized properties
-    XS_SERIALIZE(m_nId, wxT("id"));
     XS_SERIALIZE_EX(m_fActive, wxT("active"), sfdvBASESHAPE_ACTIVITY);
     XS_SERIALIZE_EX(m_fVisible, wxT("visibility"), sfdvBASESHAPE_VISIBILITY);
     XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvBASESHAPE_DEFAULT_STYLE);
