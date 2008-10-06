@@ -2,7 +2,7 @@
 #define _XSDEFS_H
 
 #ifdef USING_SOURCE_XS
-	#define WXDLLIMPEXP_XS
+    #define WXDLLIMPEXP_XS
     #define WXDLLIMPEXP_DATA_XS(type) type
 #elif defined( LIB_USINGDLL )
     #define WXDLLIMPEXP_XS
