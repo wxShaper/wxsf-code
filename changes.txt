@@ -5,6 +5,7 @@ Changes in version 1.6.2 beta (2008-09-27):
   - Function xsSerializable::GetChild() now allows recursive search.
   - IDs of managed serialized items are now serialized automatically by default (in previous library version this task had to be
     done explicitelly by a user).
+  - Fixed bug dealing with reading of float and double values on platforms which use ',' decimal character (fix no.2).
 
 - Added wxSFFlexGridShape with a behaviour similar to classic wxFlexGridSizer (each grid's column and row can have different size).
 - wxSFShapeBitmap::CreateFromFile() function now takes also bitmap type parameter (use bitmap types supported by wxBitmap class). Previously

@@ -152,8 +152,6 @@ bool xsBoolPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(double, xsDoublePropIO);
 
-bool xsDoublePropIO::m_fChangeDP = false;
-
 wxString xsDoublePropIO::ToString(double value)
 {
     wxString sVal;
@@ -168,8 +166,9 @@ wxString xsDoublePropIO::ToString(double value)
     }
     else
     {
+        // use '.' decimal point character
         sVal= wxString::Format(wxT("%lf"), value);
-        if( m_fChangeDP ) sVal.Replace(wxT(","), wxT("."));
+        sVal.Replace(wxT(","), wxT("."));
     }
 
     return sVal;
@@ -191,8 +190,8 @@ double xsDoublePropIO::FromString(const wxString& value)
 	    }
 	    else
 	    {
-	        // decimal point character used in wxXS is strictly '.'...
-            if( m_fChangeDP )
+	        // decimal point character used in wxXS is strictly '.'
+            if( wxString::Format(wxT("%1.1lf"), 1.1).Find('.') == wxNOT_FOUND )
             {
                 wxString sNum = value;
                 sNum.Replace(wxT("."), wxT(","));
@@ -212,8 +211,6 @@ double xsDoublePropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(float, xsFloatPropIO);
 
-bool xsFloatPropIO::m_fChangeDP = false;
-
 wxString xsFloatPropIO::ToString(float value)
 {
     wxString sVal;
@@ -228,7 +225,7 @@ wxString xsFloatPropIO::ToString(float value)
     else
     {
         sVal = wxString::Format(wxT("%f"), value);
-        if( m_fChangeDP ) sVal.Replace(wxT(","), wxT("."));
+        sVal.Replace(wxT(","), wxT("."));
     }
 
     return sVal;
@@ -251,7 +248,7 @@ float xsFloatPropIO::FromString(const wxString& value)
 	    else
 	    {
 	        // decimal point character used in wxXS is strictly '.'...
-            if( m_fChangeDP )
+            if( wxString::Format(wxT("%1.1f"), 1.1).Find('.') == wxNOT_FOUND )
             {
                 wxString sNum = value;
                 sNum.Replace(wxT("."), wxT(","));
