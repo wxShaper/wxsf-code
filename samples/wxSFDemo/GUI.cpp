@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Apr 21 2008)
+// C++ code generated with wxFormBuilder (version Apr 16 2008)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -42,9 +42,10 @@ _MainFrm::_MainFrm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_pMainSizer->Add( m_pCanvasPanel, 1, wxEXPAND, 5 );
 	
 	m_pZoomSlider = new wxSlider( this, wxID_ZOOM_FIT, 50, 2, 99, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	m_pZoomSlider->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
 	m_pZoomSlider->SetToolTip( wxT("Set canvas scale") );
 	
-	m_pMainSizer->Add( m_pZoomSlider, 0, wxALL|wxEXPAND, 5 );
+	m_pMainSizer->Add( m_pZoomSlider, 0, wxEXPAND, 5 );
 	
 	this->SetSizer( m_pMainSizer );
 	this->Layout();

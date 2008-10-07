@@ -72,7 +72,6 @@ public:
     /*!
 	 * \brief Load a bitmap from the XPM structure.
      * \param bits Buffer with the image bits
-     * \param store Set to TRUE if the XPM content should be serialized.
      * \return TRUE on success, otherwise FALSE
      */
 	bool CreateFromXPM(const char* const* bits);

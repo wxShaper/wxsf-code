@@ -80,7 +80,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 
 	// create colour picker
 	#ifdef __WXMSW__
-	cpicker = new wxColourPickerCtrl(m_pm_pToolBar, IDT_COLORPICKER, wxColor(120, 120, 255), wxDefaultPosition, wxSize(22, 22));
+	cpicker = new wxColourPickerCtrl(m_pToolBar, IDT_COLORPICKER, wxColor(120, 120, 255), wxDefaultPosition, wxSize(22, 22));
 	#else
 	cpicker = new wxColourPickerCtrl(m_pToolBar, IDT_COLORPICKER, wxColor(120, 120, 255), wxDefaultPosition, wxSize(28, 28));
 	#endif

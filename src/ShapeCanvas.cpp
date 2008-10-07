@@ -2068,9 +2068,11 @@ void wxSFShapeCanvas::ShowShadows(bool show, SHADOWMODE style)
 	    {
 	        case shadowTOPMOST:
                 if( !pShape->GetParentShape() )
+                {
                     if( show )pShape->AddStyle(wxSFShapeBase::sfsSHOW_SHADOW);
                     else
                         pShape->RemoveStyle(wxSFShapeBase::sfsSHOW_SHADOW);
+                }
                 break;
 
             case shadowALL:
