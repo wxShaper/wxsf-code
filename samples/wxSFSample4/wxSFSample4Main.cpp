@@ -21,17 +21,17 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     if (format == long_f )
     {
 #if defined(__WXMSW__)
-        wxbuild << _T("-Windows");
+        wxbuild << wxT("-Windows");
 #elif defined(__WXMAC__)
-        wxbuild << _T("-Mac");
+        wxbuild << wxT("-Mac");
 #elif defined(__UNIX__)
-        wxbuild << _T("-Linux");
+        wxbuild << wxT("-Linux");
 #endif
 
 #if wxUSE_UNICODE
-        wxbuild << _T("-Unicode build");
+        wxbuild << wxT("-Unicode build");
 #else
-        wxbuild << _T("-ANSI build");
+        wxbuild << wxT("-ANSI build");
 #endif // wxUSE_UNICODE
     }
 
@@ -52,13 +52,13 @@ wxSFSample4Frame::wxSFSample4Frame(wxFrame *frame, const wxString& title)
 #if wxUSE_MENUS
     // create a menu bar
     wxMenuBar* mbar = new wxMenuBar();
-    wxMenu* fileMenu = new wxMenu(_T(""));
-    fileMenu->Append(idMenuQuit, _("&Quit\tAlt-F4"), _("Quit the application"));
-    mbar->Append(fileMenu, _("&File"));
+    wxMenu* fileMenu = new wxMenu(wxT(""));
+    fileMenu->Append(idMenuQuit, wxT("&Quit\tAlt-F4"), wxT("Quit the application"));
+    mbar->Append(fileMenu, wxT("&File"));
 
-    wxMenu* helpMenu = new wxMenu(_T(""));
-    helpMenu->Append(idMenuAbout, _("&About\tF1"), _("Show info about this application"));
-    mbar->Append(helpMenu, _("&Help"));
+    wxMenu* helpMenu = new wxMenu(wxT(""));
+    helpMenu->Append(idMenuAbout, wxT("&About\tF1"), wxT("Show info about this application"));
+    mbar->Append(helpMenu, wxT("&Help"));
 
     SetMenuBar(mbar);
 #endif // wxUSE_MENUS
@@ -81,7 +81,7 @@ wxSFSample4Frame::wxSFSample4Frame(wxFrame *frame, const wxString& title)
 #if wxUSE_STATUSBAR
     // create a status bar with some information about the used wxWidgets version
     CreateStatusBar(2);
-    SetStatusText(_("Hello wxShapeFramework user!"),0);
+    SetStatusText(wxT("Hello wxShapeFramework user!"),0);
     SetStatusText(wxbuildinfo(short_f), 1);
 #endif // wxUSE_STATUSBAR
 
@@ -187,14 +187,13 @@ wxWindow* wxSFSample4Frame::CreateGUIControl()
             return NULL;
     }
 }
-BEGIN_EVENT_TABLE(TestPanel, wxPanel)
-    EVT_BUTTON(idResize, TestPanel::OnBtnResize)
-END_EVENT_TABLE()
 
 TestPanel::TestPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(150, 100))
 {
     fBig = false;
     btnResize = new wxButton(this, idResize, wxT("Resize me!!!"), wxPoint(10, 10), wxDefaultSize);
+
+    Connect( idResize, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TestPanel::OnBtnResize ) );
 
     SetBackgroundColour(wxColour(100, 100, 200));
 }

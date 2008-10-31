@@ -279,6 +279,13 @@ bool wxSFShapeBase::IsInside(const wxPoint& pos)
 	return this->GetBoundingBox().Contains(pos);
 }
 
+bool wxSFShapeBase::IsInside(const wxRect& rct)
+{
+	// HINT: overload it for custom actions...
+
+	return rct.Contains(this->GetBoundingBox());
+}
+
 bool wxSFShapeBase::Intersects(const wxRect& rct)
 {
 	// HINT: overload it for custom actions...

@@ -29,6 +29,7 @@
 #include "wx/wxsf/EditTextShape.h"
 #include "wx/wxsf/BitmapShape.h"
 #include "wx/wxsf/SFEvents.h"
+#include "wx/wxsf/CommonFcn.h"
 
 #ifdef __WXGTK__
 
@@ -810,9 +811,8 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 
 	case modeSHAPEMOVE:
 		{
-			// are shapes dropped into accepting shape?
-			wxSFShapeBase* pParentShape = GetShapeAtPosition(lpos, 1, searchUNSELECTED);
-			if(pParentShape && !pParentShape->AcceptCurrentlyDraggedShapes())pParentShape = NULL;
+		    wxRect rctParentBB;
+		    wxSFShapeBase* pParentShape = NULL;
 
 			ShapeList m_lstSelection;
 			GetSelectedShapes(m_lstSelection);
@@ -823,6 +823,14 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 				wxSFShapeBase* pShape = node->GetData();
 				pShape->_OnEndDrag(lpos);
 
+                // is shape dropped into accepting shape?
+                pParentShape = GetShapeAtPosition(Conv2Point(pShape->GetAbsolutePosition()), 1, searchUNSELECTED);
+                if(pParentShape && !pParentShape->IsChildAccepted( pShape->GetClassInfo()->GetClassName() ))pParentShape = NULL;
+                //if(pParentShape && !pParentShape->AcceptCurrentlyDraggedShapes())pParentShape = NULL;
+
+
+                if( pParentShape ) rctParentBB = pParentShape->GetBoundingBox();
+
 				// set new parent
 				if((pShape->ContainsStyle(wxSFShapeBase::sfsPARENT_CHANGE)) && !pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
 				{
@@ -830,7 +838,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 
 					if(pParentShape)
 					{
-					    wxRealPoint apos = pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition();
+                        wxRealPoint apos = pShape->GetAbsolutePosition() - pParentShape->GetAbsolutePosition();
                         pShape->SetRelativePosition(apos);
 
                         pShape->Reparent(pParentShape);
@@ -1824,75 +1832,6 @@ wxSFShapeBase* wxSFShapeCanvas::GetShapeUnderCursor(SEARCHMODE mode)
 	}
 }
 
-wxSFShapeBase* wxSFShapeCanvas::GetShapeAtPosition(const wxPoint& pos, int zorder, SEARCHMODE mode)
-{
-	wxASSERT(m_pManager);
-	if(!m_pManager)return NULL;
-
-	int nCounter = 0;
-	ShapeList m_lstSortedShapes;
-	wxSFShapeBase* pShape;
-
-    // sort shapes list in the way that the line shapes will be at the top of the list
-    ShapeList shapes;
-    m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
-
-	ShapeList::compatibility_iterator node = shapes.GetFirst();
-	while(node)
-	{
-	    pShape = node->GetData();
-	    if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
-	    {
-	        m_lstSortedShapes.Insert(pShape);
-	        nCounter++;
-	    }
-	    else
-            m_lstSortedShapes.Insert(nCounter, pShape);
-
-        node = node->GetNext();
-	}
-
-    // find the topmost shape according to the given rules
-    nCounter = 1;
-	node = m_lstSortedShapes.GetFirst();
-	while(node)
-	{
-		pShape = (wxSFShapeBase*)node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))
-		{
-			switch(mode)
-			{
-			case searchSELECTED:
-				if(pShape->IsSelected())
-				{
-					if(nCounter == zorder)return pShape;
-					else
-						nCounter++;
-				}
-				break;
-
-			case searchUNSELECTED:
-				if(!pShape->IsSelected())
-				{
-					if(nCounter == zorder)return pShape;
-					else
-						nCounter++;
-				}
-				break;
-
-			case searchBOTH:
-				if(nCounter == zorder)return pShape;
-				else
-					nCounter++;
-				break;
-			}
-		}
-		node = node->GetNext();
-	}
-
-	return NULL;
-}
-
 wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
 {
 	wxASSERT(m_pManager);
@@ -1937,26 +1876,20 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
 	return NULL;
 }
 
+wxSFShapeBase* wxSFShapeCanvas::GetShapeAtPosition(const wxPoint& pos, int zorder, SEARCHMODE mode)
+{
+	wxASSERT(m_pManager);
+	if(!m_pManager)return NULL;
+
+    return m_pManager->GetShapeAtPosition(pos, zorder, (wxSFDiagramManager::SEARCHMODE)mode);
+}
+
 int wxSFShapeCanvas::GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes)
 {
 	wxASSERT(m_pManager);
 	if(!m_pManager)return 0;
 
-	shapes.Clear();
-	wxSFShapeBase *pShape;
-
-    ShapeList lstShapes;
-    m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), lstShapes);
-
-	ShapeList::compatibility_iterator node = lstShapes.GetFirst();
-	while(node)
-	{
-		pShape = node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))shapes.Append(pShape);
-		node = node->GetNext();
-	}
-
-	return (int)shapes.GetCount();
+	return m_pManager->GetShapesAtPosition( pos, shapes );
 }
 
 int wxSFShapeCanvas::GetShapesInside(const wxRect& rct, ShapeList& shapes)
@@ -1964,21 +1897,7 @@ int wxSFShapeCanvas::GetShapesInside(const wxRect& rct, ShapeList& shapes)
 	wxASSERT(m_pManager);
 	if(!m_pManager)return 0;
 
-	shapes.Clear();
-	wxSFShapeBase* pShape;
-
-    ShapeList lstShapes;
-    m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), lstShapes);
-
-	ShapeList::compatibility_iterator node = lstShapes.GetFirst();
-	while(node)
-	{
-		pShape = node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && pShape->Intersects(rct))shapes.Append(pShape);
-		node = node->GetNext();
-	}
-
-	return (int)shapes.GetCount();
+	return m_pManager->GetShapesInside( rct, shapes );
 }
 
 void wxSFShapeCanvas::DeselectAll()

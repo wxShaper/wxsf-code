@@ -427,7 +427,8 @@ void wxSFLineShape::OnLeftDoubleClick(const wxPoint& pos)
         }
         else
         {
-            m_lstPoints.Insert(this->GetHitLinesegment(pos), new wxRealPoint(pos.x, pos.y));
+            int nIndex = this->GetHitLinesegment(pos);
+            if( nIndex > -1 ) m_lstPoints.Insert(nIndex, new wxRealPoint(pos.x, pos.y));
         }
         CreateHandles();
         ShowHandles(true);

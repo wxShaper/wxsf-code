@@ -47,6 +47,17 @@ class WXDLLIMPEXP_SF wxSFDiagramManager : public wxXmlSerializer
 public:
     XS_DECLARE_CLONABLE_CLASS(wxSFDiagramManager);
 
+    /*! \brief Search mode flags for GetShapeAtPosition function */
+	enum SEARCHMODE
+	{
+	    /*! \brief Search for selected shapes only*/
+		searchSELECTED,
+		/*! \brief Search for unselected shapes only */
+		searchUNSELECTED,
+		/*! \brief Search for both selected and unselected shapes */
+		searchBOTH
+	};
+
     /*! \brief Constructor */
     wxSFDiagramManager();
     /*! \brief Copy constructor */
@@ -193,6 +204,33 @@ public:
 	 * \return Number of found shapes
 	 */
 	int GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes);
+	/*!
+	 * \brief Get shape at given logical position
+	 * \param pos Logical position
+	 * \param zorder Z-order of searched shape (usefull if several shapes are located
+	 * at the given position)
+	 * \param mode Search mode
+	 * \return Pointer to shape if found, otherwise NULL
+	 * \sa SEARCHMODE, wxSFShapeCanvas::DP2LP,, wxSFShapeCanvas::GetShapeUnderCursor
+	 */
+	wxSFShapeBase* GetShapeAtPosition(const wxPoint& pos, int zorder = 1, SEARCHMODE mode = searchBOTH);
+	/*!
+	 * \brief Get list of all shapes located at given position
+	 * \param pos Logical position
+	 * \param shapes Reference to shape list where pointers to
+	 * all found shapes will be stored
+	 * \return Number of found shapes
+	 * \sa wxSFShapeCanvas::DP2LP
+	 */
+	int GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes);
+	/*!
+	 * \brief Get list of shapes located inside given rectangle
+	 * \param rct Examined rectangle
+	 * \param shapes Reference to shape list where pointers to
+	 * all found shapes will be stored
+	 * \return Number of found shapes
+	 */
+	int GetShapesInside(const wxRect& rct, ShapeList& shapes);
 
     /*!
      * \brief Function finds out whether given shape has some children.

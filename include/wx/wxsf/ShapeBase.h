@@ -181,6 +181,13 @@ public:
      * \return TRUE if the point is inside the shape area, otherwise FALSE
      */
 	virtual bool IsInside(const wxPoint& pos);
+    /*!
+	 * \brief Test whether the shape is completely inside given rectangle. The function
+     * can be overrided if neccessary.
+     * \param rct Examined rectangle
+     * \return TRUE if the shape is completely inside given rectangle, otherwise FALSE
+     */
+	virtual bool IsInside(const wxRect& rct);
 	/*!
 	 * \brief Test whether the given rectangle intersects the shape.
 	 * \param rct Examined rectangle

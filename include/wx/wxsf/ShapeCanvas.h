@@ -363,9 +363,9 @@ public:
 	void ShowShadows(bool show, SHADOWMODE style);
 
 	/*!
-	 * \brief Start Drag&Drop process with shapes included in the given list.
+	 * \brief Start Drag&Drop operation with shapes included in the given list.
 	 * \param shapes List of shapes which should be dragged
-	 * \param start A point where the dragging process has started
+	 * \param start A point where the dragging operation has started
 	 * \return rct Drag result
 	 */
 	wxDragResult DoDragDrop(ShapeList &shapes, const wxPoint& start = wxPoint(-1, -1));

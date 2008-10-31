@@ -59,15 +59,13 @@ class TestPanel : public wxPanel
     protected:
         enum
         {
-            idResize = 1002
+            idResize = wxID_HIGHEST + 1
         };
 
         wxButton *btnResize;
         bool fBig;
 
         void OnBtnResize(wxCommandEvent& event);
-
-        DECLARE_EVENT_TABLE();
 };
 
 #endif // WXSFSAMPLE1MAIN_H
