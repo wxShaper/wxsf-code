@@ -147,7 +147,17 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
         /*! \brief Array containing the IDs of managed shapes. */
         IntArray m_arrCells;
 
-        // protected virtual functions
+        // protected functions
+        /*!
+         * \brief Move and resize given shape so it will fit the given bounding rectangle.
+         *
+         * The shape is aligned inside the given bounding rectangle in accordance to the shape's
+         * valign and halign flags.
+         * \param shape Pointer to modified shape
+         * \param rct Bounding rectangle
+         * \sa wxSFShapeBase::SetVAlign, wxSFShapeBase::SetHAlign
+         */
+        void FitShapeToRect( wxSFShapeBase *shape, const wxRect& rct);
 
     private:
         // private functions

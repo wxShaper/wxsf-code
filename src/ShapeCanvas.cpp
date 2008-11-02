@@ -811,7 +811,6 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 
 	case modeSHAPEMOVE:
 		{
-		    wxRect rctParentBB;
 		    wxSFShapeBase* pParentShape = NULL;
 
 			ShapeList m_lstSelection;
@@ -825,11 +824,9 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 
                 // is shape dropped into accepting shape?
                 pParentShape = GetShapeAtPosition(Conv2Point(pShape->GetAbsolutePosition()), 1, searchUNSELECTED);
+                if( !pParentShape || !pShape->IsInside( pParentShape->GetBoundingBox()) )pParentShape = GetShapeAtPosition( lpos, 1, searchUNSELECTED );
+
                 if(pParentShape && !pParentShape->IsChildAccepted( pShape->GetClassInfo()->GetClassName() ))pParentShape = NULL;
-                //if(pParentShape && !pParentShape->AcceptCurrentlyDraggedShapes())pParentShape = NULL;
-
-
-                if( pParentShape ) rctParentBB = pParentShape->GetBoundingBox();
 
 				// set new parent
 				if((pShape->ContainsStyle(wxSFShapeBase::sfsPARENT_CHANGE)) && !pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
@@ -856,12 +853,11 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 					}
 
 					if( pPrevParent ) pPrevParent->Update();
+                    if( pParentShape )pParentShape->Update();
 				}
+
 				node = node->GetNext();
 			}
-
-			// resize parent shape to fit all its children
-			if(pParentShape)pParentShape->Update();
 
 			if(m_lstSelection.GetCount()>1)
 			{
@@ -1057,9 +1053,6 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 				if( m_shpMultiEdit.IsVisible() )m_shpMultiEdit._OnMouseMove(lpos);
 
 				// send event to all user shapes
-                /*ShapeList shapes;
-                m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);*/
-
 				ShapeList::compatibility_iterator node = m_lstCurrentShapes.GetFirst();
 				while(node)
 				{

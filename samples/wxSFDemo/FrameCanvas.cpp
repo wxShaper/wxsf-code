@@ -181,6 +181,14 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
+			    // set alignment
+                /*pShape->SetVAlign(wxSFShapeBase::valignEXPAND);
+                pShape->SetHAlign(wxSFShapeBase::halignEXPAND);
+                pShape->SetVBorder(10);
+                pShape->SetHBorder(10);
+
+                pShape->Update();*/
+
 			    // set shape policy
 				pShape->AcceptChild(wxT("wxSFTextShape"));
 				pShape->AcceptChild(wxT("wxSFEditTextShape"));
@@ -236,9 +244,13 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
                 pGrid->AcceptSrcNeighbour(wxT("All"));
                 pGrid->AcceptTrgNeighbour(wxT("All"));
 
-			    // insert some shapes into the grid programmably (it can be also done interactively by drag'n'drop operations)
-			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), sfDONT_SAVE_STATE));
-			    pGrid->AppendToGrid(GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), sfDONT_SAVE_STATE));
+			    // insert some shapes into the grid programmably (it can be also done interactively by drag'n'drop operations).
+			    // shapes inserted to the grid can be aligned relatively to its grid cell region
+			    wxSFShapeBase *pInnerShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFEllipseShape), sfDONT_SAVE_STATE);
+			    pInnerShape->SetVAlign( wxSFShapeBase::valignEXPAND );
+			    pGrid->AppendToGrid( pInnerShape);
+			    // add some another shapes...
+			    pGrid->AppendToGrid( GetDiagramManager()->AddShape(CLASSINFO(wxSFDiamondShape), sfDONT_SAVE_STATE) );
                 // shapes can be also inserted before given lexicographic position (at the first position in this case) in this way ...
 			    pGrid->InsertToGrid(0, GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), sfDONT_SAVE_STATE));
 			    // ... or can replace previously assigned shape at the position specified by row and column indexes

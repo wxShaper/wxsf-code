@@ -39,7 +39,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
 	EVT_UPDATE_UI(wxID_PASTE, MainFrm::OnUpdatePaste)
 	EVT_UPDATE_UI(wxID_UNDO, MainFrm::OnUpdateUndo)
 	EVT_UPDATE_UI(wxID_REDO, MainFrm::OnUpdateRedo)
-	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnUpdateTool)
+	//EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnUpdateTool)
 END_EVENT_TABLE()
 
 MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
@@ -137,6 +137,9 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_fShowGrid = true;
 	m_fShowShadows = false;
 
+	// connect event handlers
+	Connect( IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MainFrm::OnUpdateTool ) );
+
 	Centre();
 }
 
@@ -153,6 +156,8 @@ void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
 
+    Disconnect( IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MainFrm::OnUpdateTool ) );
+
 	Destroy();
 }
 
@@ -164,6 +169,8 @@ void MainFrm::OnExit(wxCommandEvent& WXUNUSED(event))
 {
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
+
+    Disconnect( IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MainFrm::OnUpdateTool ) );
 
 	Destroy();
 }
@@ -267,7 +274,7 @@ void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.6 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2008"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.7 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2008"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))

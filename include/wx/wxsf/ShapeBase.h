@@ -106,7 +106,8 @@ public:
 	    valignNONE,
 	    valignTOP,
 	    valignMIDDLE,
-	    valignBOTTOM
+	    valignBOTTOM,
+	    valignEXPAND
 	};
 
     /*! \brief Flags for SetHAlign function */
@@ -115,7 +116,8 @@ public:
 	    halignNONE,
 	    halignLEFT,
 	    halignCENTER,
-	    halignRIGHT
+	    halignRIGHT,
+	    halignEXPAND
 	};
 
     /*! \brief Basic shape's styles used with SetStyle() function */

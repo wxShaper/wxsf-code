@@ -1,6 +1,8 @@
 Changes in version 1.6.3 beta (2008-10-24):
 --------------------------------------------
+- Added shape alignment flags valignEXPAND and halignEXPAND.
 - Added function wxSFShapeBase::IsInside(const wxRect& rct) returning TRUE if a shape is completely inside given rectangle.
+- Child shapes assigned to a grid shape are now aligned inside the grid cells in accordance to the shapes' current alignment flags.
 - New shapes created by wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState) function
   are assigned to an underlying shape (if exists) as its child automatically.
 - Functions GetShapeAtPosition(), GetShapesAtPosition() and GetShapesInside() are now members of wxSFDiagramManager class. Their
@@ -8,6 +10,7 @@ Changes in version 1.6.3 beta (2008-10-24):
   even if no canvas exists yet.
 - Fixed mixed multiple selection of child and top-most shapes (all shapes had been assigned to the last clicked shape's parent).
 - Fixed potentional assertion fault in wxSFLineShape::OnLeftDoubleClick(const wxPoint& pos) event handler.
+- Update wxSFDemo sample project.
 
 Changes in version 1.6.2 beta (2008-09-27):
 --------------------------------------------

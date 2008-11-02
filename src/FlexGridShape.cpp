@@ -82,8 +82,8 @@ void wxSFFlexGridShape::DoChildrenLayout()
             nCurrRect = pShape->GetBoundingBox();
 
             // update maximum rows and columns sizes
-            if( nCurrRect.GetWidth() > m_arrColSizes[nCol]) m_arrColSizes[nCol] = nCurrRect.GetWidth();
-            if( nCurrRect.GetHeight() > m_arrRowSizes[nRow]) m_arrRowSizes[nRow] = nCurrRect.GetHeight();
+            if( (pShape->GetHAlign() != halignEXPAND) && (nCurrRect.GetWidth() > m_arrColSizes[nCol]) ) m_arrColSizes[nCol] = nCurrRect.GetWidth();
+            if( (pShape->GetVAlign() != valignEXPAND) && (nCurrRect.GetHeight() > m_arrRowSizes[nRow]) ) m_arrRowSizes[nRow] = nCurrRect.GetHeight();
         }
     }
 
@@ -107,8 +107,11 @@ void wxSFFlexGridShape::DoChildrenLayout()
                 if( nCol > 0 ) nTotalX += m_arrColSizes[ nCol-1 ];
             }
 
-            pShape->MoveTo( nAbsPos.x + nTotalX + (nCol+1)*m_nCellSpace,
-                            nAbsPos.y + nTotalY + (nRow+1)*m_nCellSpace);
+            /*pShape->MoveTo( nAbsPos.x + nTotalX + (nCol+1)*m_nCellSpace,
+                            nAbsPos.y + nTotalY + (nRow+1)*m_nCellSpace);*/
+            FitShapeToRect( pShape, wxRect( nTotalX + (nCol+1)*m_nCellSpace,
+                                            nTotalY + (nRow+1)*m_nCellSpace,
+                                            m_arrColSizes[ nCol ], m_arrRowSizes[ nRow ] ) );
         }
     }
 }

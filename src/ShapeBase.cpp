@@ -17,6 +17,7 @@
 #include "wx/wxsf/ShapeBase.h"
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/TextShape.h"
+#include "wx/wxsf/GridShape.h"
 
 #include <wx/listimpl.cpp>
 
@@ -374,7 +375,7 @@ void wxSFShapeBase::Scale(double x, double y, bool children)
 	    ScaleChildren(x, y);
 	}
 
-    this->Update();
+    //this->Update();
 }
 
 void wxSFShapeBase::Scale(const wxRealPoint& scale, bool children)
@@ -789,7 +790,7 @@ void wxSFShapeBase::DoAlignment()
 {
     wxSFShapeBase *pParent = this->GetParentShape();
 
-    if(pParent)
+    if(pParent && !pParent->IsKindOf(CLASSINFO(wxSFGridShape)))
     {
         wxRect parentBB;
 
@@ -816,6 +817,15 @@ void wxSFShapeBase::DoAlignment()
 
             case valignBOTTOM:
                 m_nRelativePosition.y = parentBB.GetHeight() - shapeBB.GetHeight() - m_nVBorder;
+                break;
+
+            case valignEXPAND:
+                if( ContainsStyle( sfsSIZE_CHANGE ) )
+                {
+                    m_nRelativePosition.y = m_nVBorder;
+                    this->Scale( 1.f, double(parentBB.GetHeight() - 2*m_nVBorder)/shapeBB.GetHeight() );
+                }
+                break;
 
             default:
                 break;
@@ -834,6 +844,17 @@ void wxSFShapeBase::DoAlignment()
 
             case halignRIGHT:
                 m_nRelativePosition.x = parentBB.GetWidth() - shapeBB.GetWidth() - m_nHBorder;
+                break;
+
+            case halignEXPAND:
+                if( ContainsStyle( sfsSIZE_CHANGE ) )
+                {
+                    m_nRelativePosition.x = m_nHBorder;
+                    this->Scale( double(parentBB.GetWidth() - 2*m_nHBorder)/shapeBB.GetWidth(), 1.f );
+                }
+                break;
+
+
 
             default:
                 break;

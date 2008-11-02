@@ -176,7 +176,7 @@ void wxSFGridShape::DoChildrenLayout()
     wxSFShapeBase *pShape;
     int nIndex, nRow, nCol;
 
-    wxRealPoint nAbsPos = GetAbsolutePosition();
+    //wxRealPoint nAbsPos = GetAbsolutePosition();
 
     wxRect currRect, maxRect = wxRect(0,0,0,0);
 
@@ -184,10 +184,11 @@ void wxSFGridShape::DoChildrenLayout()
     SerializableList::compatibility_iterator node = GetFirstChildNode();
     while(node)
     {
-        currRect = ((wxSFShapeBase*)node->GetData())->GetBoundingBox();
+        pShape = (wxSFShapeBase*)node->GetData();
+        currRect = pShape->GetBoundingBox();
 
-        if( currRect.GetWidth() > maxRect.GetWidth()) maxRect.SetWidth(currRect.GetWidth());
-        if( currRect.GetHeight() > maxRect.GetHeight()) maxRect.SetHeight(currRect.GetHeight());
+        if( (pShape->GetHAlign() != halignEXPAND) && (currRect.GetWidth() > maxRect.GetWidth()) ) maxRect.SetWidth(currRect.GetWidth());
+        if( (pShape->GetVAlign() != valignEXPAND) && (currRect.GetHeight() > maxRect.GetHeight()) ) maxRect.SetHeight(currRect.GetHeight());
 
         node = node->GetNext();
     }
@@ -208,8 +209,11 @@ void wxSFGridShape::DoChildrenLayout()
             else
                 nCol++;
 
-            pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
-                            nAbsPos.y + nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace);
+            /*pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
+                            nAbsPos.y + nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace);*/
+            FitShapeToRect( pShape, wxRect( nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
+                                            nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace,
+                                            maxRect.GetWidth(), maxRect.GetHeight() ) );
         }
     }
 }
@@ -287,8 +291,70 @@ void  wxSFGridShape::OnChildDropped(const wxRealPoint& pos, wxSFShapeBase *child
 }
 
 //----------------------------------------------------------------------------------//
-// public virtual functions
+// protected functions
 //----------------------------------------------------------------------------------//
 
+void wxSFGridShape::FitShapeToRect(wxSFShapeBase *shape, const wxRect& rct)
+{
+    wxRect shapeBB = shape->GetBoundingBox();
+    wxRealPoint prevPos = shape->GetRelativePosition();
 
+    // do vertical alignment
+    switch( shape->GetVAlign() )
+    {
+        case valignTOP:
+            shape->SetRelativePosition( prevPos.x, rct.GetTop() + shape->GetVBorder() );
+            break;
+
+        case valignMIDDLE:
+            shape->SetRelativePosition( prevPos.x, rct.GetTop() + (rct.GetHeight()/2 - shapeBB.GetHeight()/2) );
+            break;
+
+        case valignBOTTOM:
+            shape->SetRelativePosition( prevPos.x, rct.GetBottom() - shapeBB.GetHeight() - shape->GetVBorder() );
+            break;
+
+        case valignEXPAND:
+            if( shape->ContainsStyle( sfsSIZE_CHANGE ) )
+            {
+                shape->SetRelativePosition( prevPos.x, rct.GetTop() + shape->GetVBorder() );
+                shape->Scale( 1.f, double(rct.GetHeight() - 2*shape->GetVBorder())/shapeBB.GetHeight() );
+            }
+            break;
+
+        default:
+            shape->SetRelativePosition( prevPos.x, rct.GetTop() );
+            break;
+    }
+
+    prevPos = shape->GetRelativePosition();
+
+    // do horizontal alignment
+    switch( shape->GetHAlign() )
+    {
+        case halignLEFT:
+            shape->SetRelativePosition( rct.GetLeft() + shape->GetHBorder(), prevPos.y );
+            break;
+
+        case halignCENTER:
+            shape->SetRelativePosition( rct.GetLeft() + (rct.GetWidth()/2 - shapeBB.GetWidth()/2), prevPos.y );
+            break;
+
+        case halignRIGHT:
+            shape->SetRelativePosition( rct.GetRight() - shapeBB.GetWidth() - shape->GetHBorder(), prevPos.y );
+            break;
+
+        case halignEXPAND:
+            if( shape->ContainsStyle( sfsSIZE_CHANGE ) )
+            {
+                shape->SetRelativePosition( rct.GetLeft() + shape->GetHBorder(), prevPos.y );
+                shape->Scale( double(rct.GetWidth() - 2*shape->GetHBorder())/shapeBB.GetWidth(), 1.f );
+            }
+            break;
+
+        default:
+            shape->SetRelativePosition( rct.GetLeft(), prevPos.y );
+            break;
+    }
+}
 
