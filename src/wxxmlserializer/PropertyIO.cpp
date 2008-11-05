@@ -191,9 +191,13 @@ double xsDoublePropIO::FromString(const wxString& value)
 	    else
 	    {
 	        // decimal point character used in wxXS is strictly '.'...
+#ifdef __WXMSW__
+			value.ToDouble(&num);
+#else
 	        wxString sNum = value;
 	        sNum.Replace(wxT("."), wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER) );
 	        sNum.ToDouble(&num);
+#endif
 	    }
 	}
 
@@ -243,9 +247,13 @@ float xsFloatPropIO::FromString(const wxString& value)
 	    else
 	    {
 	        // decimal point character used in wxXS is strictly '.'...
-            wxString sNum = value;
+#ifdef __WXMSW__
+			value.ToDouble(&num);
+#else
+	        wxString sNum = value;
 	        sNum.Replace(wxT("."), wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER) );
 	        sNum.ToDouble(&num);
+#endif
 	    }
 	}
 

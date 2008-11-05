@@ -194,10 +194,8 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 wxSize wxSFTextShape::GetTextExtent()
 {
     wxCoord w = -1, h = -1;
-
-    #if wxUSE_GRAPHICS_CONTEXT
     double wd = -1, hd = -1, d = 0, e = 0;
-    #endif
+
 
     if(m_pParentManager && GetParentCanvas())
     {

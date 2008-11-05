@@ -298,8 +298,8 @@ void wxSFShapeCanvas::EnableGC(bool enab)
 #if wxUSE_GRAPHICS_CONTEXT
         m_fEnableGC = true;
 #else
-        wxASSERT_MSG( 0, wxT("Couldn't enable Graphics context due to missing wxUSE_GRAPHICS_CONTEXT") );
-        m_fEnableGC = false;
+		m_fEnableGC = false;
+        wxASSERT_MSG( m_fEnableGC, wxT("Couldn't enable Graphics context due to missing wxUSE_GRAPHICS_CONTEXT") );
 #endif
     }
     else

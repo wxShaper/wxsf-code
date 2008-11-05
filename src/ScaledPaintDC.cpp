@@ -77,7 +77,7 @@ void wxSFScaledPaintDC::DoDrawPoint(wxCoord x, wxCoord y)
         #endif
     }
     else
-        wxWindowDC::DoDrawPoint(Scale(x), Scale(y));
+        wxMemoryDC::DoDrawPoint(Scale(x), Scale(y));
 }
 
 void wxSFScaledPaintDC::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
@@ -91,22 +91,22 @@ void wxSFScaledPaintDC::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y
         #endif
     }
     else
-         wxWindowDC::DoDrawLine(Scale(x1), Scale(y1), Scale(x2), Scale(y2));
+         wxMemoryDC::DoDrawLine(Scale(x1), Scale(y1), Scale(x2), Scale(y2));
 }
 
 void wxSFScaledPaintDC::DoDrawArc(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc)
 {
-    wxWindowDC::DoDrawArc(Scale(x1), Scale(y1), Scale(x2), Scale(y2), Scale(xc), Scale(yc));
+    wxMemoryDC::DoDrawArc(Scale(x1), Scale(y1), Scale(x2), Scale(y2), Scale(xc), Scale(yc));
 }
 
 void wxSFScaledPaintDC::DoDrawCheckMark(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-    wxWindowDC::DoDrawCheckMark(Scale(x), Scale(y), Scale(width), Scale(height));
+    wxMemoryDC::DoDrawCheckMark(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
 void wxSFScaledPaintDC::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord w, wxCoord h, double sa, double ea)
 {
-    wxWindowDC::DoDrawEllipticArc(Scale(x), Scale(y), Scale(w), Scale(h), sa, ea);
+    wxMemoryDC::DoDrawEllipticArc(Scale(x), Scale(y), Scale(w), Scale(h), sa, ea);
 }
 
 void wxSFScaledPaintDC::DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
@@ -120,7 +120,7 @@ void wxSFScaledPaintDC::DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxC
         #endif
     }
     else
-         wxWindowDC::DoDrawRectangle(Scale(x), Scale(y), Scale(width), Scale(height));
+         wxMemoryDC::DoDrawRectangle(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
 void wxSFScaledPaintDC::DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double radius)
@@ -134,7 +134,7 @@ void wxSFScaledPaintDC::DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord wid
         #endif
     }
     else
-        wxWindowDC::DoDrawRoundedRectangle(Scale(x), Scale(y), Scale(width), Scale(height), radius*m_nScale);
+        wxMemoryDC::DoDrawRoundedRectangle(Scale(x), Scale(y), Scale(width), Scale(height), radius*m_nScale);
 }
 
 void wxSFScaledPaintDC::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
@@ -148,17 +148,17 @@ void wxSFScaledPaintDC::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoo
         #endif
     }
     else
-        wxWindowDC::DoDrawEllipse(Scale(x), Scale(y), Scale(width), Scale(height));
+        wxMemoryDC::DoDrawEllipse(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
 void wxSFScaledPaintDC::DoCrossHair(wxCoord x, wxCoord y)
 {
-    wxWindowDC::DoCrossHair(Scale(x), Scale(y));
+    wxMemoryDC::DoCrossHair(Scale(x), Scale(y));
 }
 
 void wxSFScaledPaintDC::DoDrawIcon(const wxIcon& icon, wxCoord x, wxCoord y)
 {
-    wxWindowDC::DoDrawIcon(icon, Scale(x), Scale(y));
+    wxMemoryDC::DoDrawIcon(icon, Scale(x), Scale(y));
 }
 
 void wxSFScaledPaintDC::DoDrawBitmap(const wxBitmap &bmp, wxCoord x, wxCoord y, bool useMask)
@@ -172,7 +172,7 @@ void wxSFScaledPaintDC::DoDrawBitmap(const wxBitmap &bmp, wxCoord x, wxCoord y, 
         #endif
     }
     else
-        wxWindowDC::DoDrawBitmap(bmp, Scale(x), Scale(y), useMask);
+        wxMemoryDC::DoDrawBitmap(bmp, Scale(x), Scale(y), useMask);
 }
 
 void wxSFScaledPaintDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
@@ -195,7 +195,7 @@ void wxSFScaledPaintDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
             font.SetPointSize(int(font.GetPointSize()*m_nScale));
             SetFont(font);
         }
-        wxWindowDC::DoDrawText(text, Scale(x), Scale(y));
+        wxMemoryDC::DoDrawText(text, Scale(x), Scale(y));
 
         SetFont(prevfont);
     }
@@ -221,7 +221,7 @@ void wxSFScaledPaintDC::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoo
             font.SetPointSize(int(font.GetPointSize()*m_nScale));
             SetFont(font);
         }
-        wxWindowDC::DoDrawRotatedText(text, Scale(x), Scale(y), angle);
+        wxMemoryDC::DoDrawRotatedText(text, Scale(x), Scale(y), angle);
 
         SetFont(prevfont);
     }
@@ -259,7 +259,7 @@ void wxSFScaledPaintDC::DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wx
             updPoints[i].y = (int)((double)points[i].y*m_nScale);
         }
 
-        wxWindowDC::DoDrawLines(n, updPoints, Scale(xoffset), Scale(yoffset));
+        wxMemoryDC::DoDrawLines(n, updPoints, Scale(xoffset), Scale(yoffset));
 
         delete [] updPoints;
     }
@@ -295,7 +295,7 @@ void wxSFScaledPaintDC::DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, 
             updPoints[i].y = (int)((double)points[i].y*m_nScale);
         }
 
-        wxWindowDC::DoDrawPolygon(n, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
+        wxMemoryDC::DoDrawPolygon(n, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
 
         delete [] updPoints;
     }
@@ -343,7 +343,7 @@ void wxSFScaledPaintDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], 
             updPoints[i].y = (int)((double)points[i].y*m_nScale);
         }
 
-        wxWindowDC::DoDrawPolyPolygon(n, count, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
+        wxMemoryDC::DoDrawPolyPolygon(n, count, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
 
         delete [] updPoints;
     }
