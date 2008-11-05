@@ -79,12 +79,20 @@ bool wxSFShapeHandle::IsInside(const wxPoint& pos)
 
 void wxSFShapeHandle::Draw(wxDC& dc)
 {
+    #if wxUSE_GRAPHICS_CONTEXT
+    wxSFScaledPaintDC::EnableGC( false );
+    #endif
+
 	if(m_fVisible && m_pParentShape)
 	{
 		if(m_fMouseOver)DrawHover(dc);
 		else
 			DrawNormal(dc);
 	}
+
+    #if wxUSE_GRAPHICS_CONTEXT
+    wxSFScaledPaintDC::EnableGC( wxSFShapeCanvas::IsGCEnabled() );
+    #endif
 }
 
 void wxSFShapeHandle::Refresh()

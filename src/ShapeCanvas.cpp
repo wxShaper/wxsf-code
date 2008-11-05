@@ -140,6 +140,8 @@ wxPrintData *g_printData = (wxPrintData*) NULL ;
 // static data
 int wxSFShapeCanvas::m_nRefCounter = 0;
 wxBitmap wxSFShapeCanvas::m_OutBMP;
+// this flag has sense only if wxUSE_GRAPHICS_CONTEXT is present...
+bool wxSFShapeCanvas::m_fEnableGC = false;
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 
@@ -289,21 +291,39 @@ void wxSFShapeCanvas::SetDiagramManager(wxSFDiagramManager *manager)
 // Painting functions
 //----------------------------------------------------------------------------------//
 
+void wxSFShapeCanvas::EnableGC(bool enab)
+{
+    if( enab )
+    {
+#if wxUSE_GRAPHICS_CONTEXT
+        m_fEnableGC = true;
+#else
+        wxASSERT_MSG( 0, wxT("Couldn't enable Graphics context due to missing wxUSE_GRAPHICS_CONTEXT") );
+        m_fEnableGC = false;
+#endif
+    }
+    else
+        m_fEnableGC = false;
+}
+
 void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
 	// use double-buffered painting
 	int sx, sy, x, y;
 
 	wxPaintDC paintDC(this);
+
 	GetClientSize(&sx, &sy);
 
-	//wxBitmap outbmp(sx, sy);
 	wxSFScaledPaintDC dc(m_OutBMP, m_Settings.m_nScale);
 
 	if(dc.IsOk())
 	{
         // prepare window dc
         PrepareDC(dc);
+#if wxUSE_GRAPHICS_CONTEXT
+        dc.PrepareGC();
+#endif
 
         DrawContent(dc, sfFROM_PAINT);
         dc.GetDeviceOrigin(&x, &y);
@@ -320,6 +340,10 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
     if(!m_pManager->GetRootItem())return;
 
     wxSFShapeBase *pShape = NULL, *pParentShape = NULL;
+
+    #if wxUSE_GRAPHICS_CONTEXT
+    wxSFScaledPaintDC::EnableGC( false );
+    #endif
 
 	// erase background
 	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
@@ -357,6 +381,10 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			dc.DrawLine(0, y, maxx, y);
 		}
 	}
+
+    #if wxUSE_GRAPHICS_CONTEXT
+    wxSFScaledPaintDC::EnableGC( m_fEnableGC );
+    #endif
 
 	if(fromPaint)
 	{
@@ -469,6 +497,10 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			}
 		}
 
+        #if wxUSE_GRAPHICS_CONTEXT
+        wxSFScaledPaintDC::EnableGC( false );
+        #endif
+
 		// draw line shape being created
 		if(m_pNewLineShape)
 		{
@@ -509,6 +541,10 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			node = node->GetNext();
 		}
 	}
+
+    #if wxUSE_GRAPHICS_CONTEXT
+    wxSFScaledPaintDC::EnableGC( false );
+    #endif
 }
 
 void wxSFShapeCanvas::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
@@ -1589,14 +1625,17 @@ void wxSFShapeCanvas::SetScale(double scale)
 		m_Settings.m_nScale = 1;
 
 	// rescale all bitmap shapes if neccessary
-	ShapeList lstBitmaps;
-	m_pManager->GetShapes(CLASSINFO(wxSFBitmapShape), lstBitmaps);
-
-	ShapeList::compatibility_iterator node = lstBitmaps.GetFirst();
-	while(node)
+	if( !m_fEnableGC )
 	{
-		node->GetData()->Scale(1, 1);
-		node = node->GetNext();
+        ShapeList lstBitmaps;
+        m_pManager->GetShapes(CLASSINFO(wxSFBitmapShape), lstBitmaps);
+
+        ShapeList::compatibility_iterator node = lstBitmaps.GetFirst();
+        while(node)
+        {
+            node->GetData()->Scale(1, 1);
+            node = node->GetNext();
+        }
 	}
 
     UpdateVirtualSize();
@@ -1774,6 +1813,7 @@ void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
     bmpBB.Inflate(m_Settings.m_nGridSize);
 
     wxBitmap outbmp(bmpBB.GetRight(), bmpBB.GetBottom());
+
     wxSFScaledPaintDC outdc(outbmp, 1);
 
     if(outdc.IsOk())

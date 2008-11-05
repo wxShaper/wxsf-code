@@ -154,7 +154,7 @@ void wxSFBitmapShape::Scale(double x, double y, bool children)
 		m_nRectSize.x *= x;
 		m_nRectSize.y *= y;
 
-		if(!m_fRescaleInProgress)RescaleImage(m_nRectSize);
+		if(!m_fRescaleInProgress) RescaleImage(m_nRectSize);
 
         // call default function implementation (needed for scaling of shape's children)
 		wxSFShapeBase::Scale(x, y, children);
@@ -178,8 +178,6 @@ void wxSFBitmapShape::OnHandle(wxSFShapeHandle& handle)
 	}
 	else
         RemoveStyle(sfsSIZE_CHANGE);
-        //SetStyle(GetStyle() & ~sfsSIZE_CHANGE);
-		//EnableSizeChange(false);
 }
 
 void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& WXUNUSED(handle))
@@ -200,7 +198,16 @@ void wxSFBitmapShape::RescaleImage(const wxRealPoint& size)
     if( GetParentCanvas() )
     {
         wxImage image = m_OriginalBitmap.ConvertToImage();
-        image.Rescale(int(size.x * GetParentCanvas()->GetScale()), int(size.y * GetParentCanvas()->GetScale()), wxIMAGE_QUALITY_NORMAL);
+
+        if( wxSFShapeCanvas::IsGCEnabled() )
+        {
+            image.Rescale(int(size.x), int(size.y), wxIMAGE_QUALITY_NORMAL);
+        }
+        else
+        {
+            image.Rescale(int(size.x * GetParentCanvas()->GetScale()), int(size.y * GetParentCanvas()->GetScale()), wxIMAGE_QUALITY_NORMAL);
+        }
+
         m_Bitmap = wxBitmap(image);
     }
 }

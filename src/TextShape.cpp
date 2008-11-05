@@ -195,14 +195,31 @@ wxSize wxSFTextShape::GetTextExtent()
 {
     wxCoord w = -1, h = -1;
 
+    #if wxUSE_GRAPHICS_CONTEXT
+    double wd = -1, hd = -1, d = 0, e = 0;
+    #endif
+
     if(m_pParentManager && GetParentCanvas())
     {
         wxClientDC dc((wxWindow*)GetParentCanvas());
 
         // calculate text extent
-        dc.SetFont(m_Font);
-        dc.GetMultiLineTextExtent(m_sText, &w, &h, &m_nLineHeight);
-        dc.SetFont(wxNullFont);
+
+        if( wxSFShapeCanvas::IsGCEnabled() )
+        {
+            #if wxUSE_GRAPHICS_CONTEXT
+            wxGraphicsContext *pGC = wxGraphicsContext::Create( dc );
+            pGC->SetFont( m_Font, *wxBLACK );
+            pGC->GetTextExtent( m_sText, &wd, &hd, &d, &e );
+            pGC->SetFont( wxNullFont, *wxBLACK );
+            #endif
+        }
+        else
+        {
+            dc.SetFont(m_Font);
+            dc.GetMultiLineTextExtent(m_sText, &w, &h, &m_nLineHeight);
+            dc.SetFont(wxNullFont);
+        }
     }
     else
     {
@@ -213,7 +230,12 @@ wxSize wxSFTextShape::GetTextExtent()
         m_nLineHeight = int(m_nRectSize.y/tokens.CountTokens());
     }
 
-    return wxSize(w, h);
+    if( wxSFShapeCanvas::IsGCEnabled() )
+    {
+        return wxSize((wxCoord)(wd + d), (wxCoord)(hd + e));
+    }
+    else
+        return wxSize(w, h);
 }
 
 void wxSFTextShape::UpdateRectSize()
@@ -268,7 +290,7 @@ void wxSFTextShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
-	wxColor nCurrColor = m_TextColor;
+	wxColour nCurrColor = m_TextColor;
 	m_TextColor = GetParentCanvas()->GetShadowFill().GetColour();
 	wxRealPoint nOffset = GetParentCanvas()->GetShadowOffset();
 

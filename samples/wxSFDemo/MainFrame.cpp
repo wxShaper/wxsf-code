@@ -39,7 +39,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
 	EVT_UPDATE_UI(wxID_PASTE, MainFrm::OnUpdatePaste)
 	EVT_UPDATE_UI(wxID_UNDO, MainFrm::OnUpdateUndo)
 	EVT_UPDATE_UI(wxID_REDO, MainFrm::OnUpdateRedo)
-	//EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnUpdateTool)
+	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnUpdateTool)
 END_EVENT_TABLE()
 
 MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
@@ -72,6 +72,8 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 
     // set shape canvas and associate it with diagram manager
     m_pShapeCanvas = new FrameCanvas(&m_DiagramManager, m_pCanvasPanel, wxID_ANY);
+    // set whether wxGraphicsContext should be used (valid only if wxUSE_GRAPHICS_CONTEXT if set to 1 for both wxSF and wxWidgets libraries)
+    wxSFShapeCanvas::EnableGC( true );
 
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
     mainSizer->Add(m_pShapeCanvas, 1, wxEXPAND, 0);
@@ -137,9 +139,6 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_fShowGrid = true;
 	m_fShowShadows = false;
 
-	// connect event handlers
-	Connect( IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MainFrm::OnUpdateTool ) );
-
 	Centre();
 }
 
@@ -156,9 +155,7 @@ void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
 
-    Disconnect( IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MainFrm::OnUpdateTool ) );
-
-	Destroy();
+ 	Destroy();
 }
 
 //----------------------------------------------------------------------------------//
@@ -169,8 +166,6 @@ void MainFrm::OnExit(wxCommandEvent& WXUNUSED(event))
 {
     m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
-
-    Disconnect( IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MainFrm::OnUpdateTool ) );
 
 	Destroy();
 }
@@ -279,7 +274,7 @@ void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
 {
-	wxFileDialog dlg(this, wxT("Export canvas to BMP..."), wxGetCwd(), wxT(""), wxT("BMP Files (*.bmp) | *.bmp"), wxSAVE);
+	wxFileDialog dlg(this, wxT("Export canvas to BMP..."), wxGetCwd(), wxT(""), wxT("BMP Files (*.bmp)|*.bmp"), wxSAVE);
 
 	if(dlg.ShowModal() == wxID_OK)
 	{

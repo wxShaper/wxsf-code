@@ -168,7 +168,7 @@ wxString xsDoublePropIO::ToString(double value)
     {
         // use '.' decimal point character
         sVal= wxString::Format(wxT("%lf"), value);
-        sVal.Replace(wxT(","), wxT("."));
+        sVal.Replace(wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER), wxT("."));
     }
 
     return sVal;
@@ -190,15 +190,10 @@ double xsDoublePropIO::FromString(const wxString& value)
 	    }
 	    else
 	    {
-	        // decimal point character used in wxXS is strictly '.'
-            if( wxString::Format(wxT("%1.1lf"), 1.1).Find('.') == wxNOT_FOUND )
-            {
-                wxString sNum = value;
-                sNum.Replace(wxT("."), wxT(","));
-                sNum.ToDouble(&num);
-            }
-            else
-                value.ToDouble(&num);
+	        // decimal point character used in wxXS is strictly '.'...
+	        wxString sNum = value;
+	        sNum.Replace(wxT("."), wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER) );
+	        sNum.ToDouble(&num);
 	    }
 	}
 
@@ -225,7 +220,7 @@ wxString xsFloatPropIO::ToString(float value)
     else
     {
         sVal = wxString::Format(wxT("%f"), value);
-        sVal.Replace(wxT(","), wxT("."));
+        sVal.Replace(wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER), wxT("."));
     }
 
     return sVal;
@@ -248,14 +243,9 @@ float xsFloatPropIO::FromString(const wxString& value)
 	    else
 	    {
 	        // decimal point character used in wxXS is strictly '.'...
-            if( wxString::Format(wxT("%1.1f"), 1.1).Find('.') == wxNOT_FOUND )
-            {
-                wxString sNum = value;
-                sNum.Replace(wxT("."), wxT(","));
-                sNum.ToDouble(&num);
-            }
-            else
-                value.ToDouble(&num);
+            wxString sNum = value;
+	        sNum.Replace(wxT("."), wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER) );
+	        sNum.ToDouble(&num);
 	    }
 	}
 
@@ -342,7 +332,7 @@ XS_DEFINE_IO_HANDLER(wxColour, xsColourPropIO);
 
 wxString xsColourPropIO::ToString(wxColour value)
 {
-    return wxString::Format(wxT("%d,%d,%d"), value.Red(), value.Green(), value.Blue());
+    return wxString::Format(wxT("%d,%d,%d,%d"), value.Red(), value.Green(), value.Blue(), value.Alpha());
 }
 
 wxColour xsColourPropIO::FromString(const wxString& value)
@@ -350,6 +340,7 @@ wxColour xsColourPropIO::FromString(const wxString& value)
 	long nRed = 0;
 	long nGreen = 0;
 	long nBlue = 0;
+	long nAlpha = 0;
 
 	if(!value.IsEmpty())
 	{
@@ -358,9 +349,14 @@ wxColour xsColourPropIO::FromString(const wxString& value)
 		tokens.GetNextToken().ToLong(&nRed);
 		tokens.GetNextToken().ToLong(&nGreen);
 		tokens.GetNextToken().ToLong(&nBlue);
+
+		if( tokens.HasMoreTokens() )
+            tokens.GetNextToken().ToLong(&nAlpha);
+        else
+            nAlpha = 255;
 	}
 
-	return wxColour(nRed, nGreen, nBlue);
+	return wxColour(nRed, nGreen, nBlue, nAlpha);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

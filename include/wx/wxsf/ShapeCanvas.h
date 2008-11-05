@@ -59,7 +59,7 @@ extern wxPrintData *g_printData;
 /*! \brief Default value of wxSFCanvasSettings::m_nShadowOffset data member */
 #define sfdvSHAPECANVAS_SHADOWOFFSET wxRealPoint(4, 4)
 /*! \brief Default shadow colour */
-#define sfdvSHAPECANVAS_SHADOWCOLOR wxColour(150, 150, 150)
+#define sfdvSHAPECANVAS_SHADOWCOLOR wxColour(150, 150, 150, 128)
 /*! \brief Default value of wxSFCanvasSettings::m_ShadowFill data member */
 #define sfdvSHAPECANVAS_SHADOWBRUSH wxBrush(sfdvSHAPECANVAS_SHADOWCOLOR, wxSOLID)
 /*! \brief Default value of wxSFCanvasSettings::m_nPrintHAlign data member */
@@ -657,11 +657,21 @@ public:
 	 */
 	void SetScaleToViewAll();
 	/*!
+	 * \brief Enable usage of wxGraphicsContext for drawing (if supported).
+	 * \param enab If TRUE then the wxGraphicsContext will be used
+	 */
+    static void EnableGC(bool enab);
+	/*!
+	 * \brief Function returns information whether the wxGraphicsContext is enabled (if supported).
+	 * \return TRUE if the wxGraphicsContext is enabled
+	 */
+    static bool IsGCEnabled(){return m_fEnableGC;}
+
+	/*!
 	 * \brief Get canvas workind mode.
 	 * \return Working mode
 	 * \sa MODE
 	 */
-
 	MODE GetMode(){return m_nWorkingMode;}
 	/*!
 	 * \brief Set default hover color.
@@ -854,6 +864,7 @@ protected:
 	// protected data members
 	MODE m_nWorkingMode;
 	wxSFCanvasSettings m_Settings;
+	static bool m_fEnableGC;
 
 	// protected functions
 

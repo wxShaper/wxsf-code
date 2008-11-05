@@ -12,9 +12,11 @@
 #define _WXSFSCALEDPAINTDC_H
 
 #include <wx/dcmemory.h>
+#include <wx/graphics.h>
 #include <math.h>
 
 #include "Defs.h"
+
 
 /*! \brief Class extends buffered memory DC (wxMemoryDC) and provides modified
  * drawing functions cooperating with the shape canvas able to draw scaled graphics.
@@ -30,7 +32,7 @@ public:
      * \param outbmp Reference to a bitmap where all graphics is drawn to
      * \param scale Global graphics scale
      */
-	wxSFScaledPaintDC(wxBitmap& outbmp, double scale);
+	wxSFScaledPaintDC(wxBitmap &outbmp, double scale);
 	/*! \brief Destructor. */
 	virtual ~wxSFScaledPaintDC(void);
 
@@ -41,15 +43,29 @@ public:
 	 */
 	void SetScale(double scale){m_nScale = scale;}
 
+#if wxUSE_GRAPHICS_CONTEXT
+    void PrepareGC();
+    static void EnableGC(bool enab){m_fEnableGC = enab;}
+#endif
+
 protected:
 
 	// protected data members
 	/*! \brief Global graphics scale. */
 	double m_nScale;
+	static bool m_fEnableGC;
+
+#if wxUSE_GRAPHICS_CONTEXT
+    wxGraphicsContext *m_pGC;
+#endif
 
     // protected function
-
     wxCoord Scale(wxCoord val){return (wxCoord)ceil((double)val*m_nScale);}
+
+#if wxUSE_GRAPHICS_CONTEXT
+    void InitGC();
+    void UninitGC();
+#endif
 
 	// protected virtual functions
 

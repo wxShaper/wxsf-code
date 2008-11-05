@@ -107,8 +107,6 @@ void wxSFFlexGridShape::DoChildrenLayout()
                 if( nCol > 0 ) nTotalX += m_arrColSizes[ nCol-1 ];
             }
 
-            /*pShape->MoveTo( nAbsPos.x + nTotalX + (nCol+1)*m_nCellSpace,
-                            nAbsPos.y + nTotalY + (nRow+1)*m_nCellSpace);*/
             FitShapeToRect( pShape, wxRect( nTotalX + (nCol+1)*m_nCellSpace,
                                             nTotalY + (nRow+1)*m_nCellSpace,
                                             m_arrColSizes[ nCol ], m_arrRowSizes[ nRow ] ) );

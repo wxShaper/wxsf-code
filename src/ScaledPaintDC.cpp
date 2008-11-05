@@ -16,16 +16,51 @@
 
 #include "wx/wxsf/ScaledPaintDC.h"
 
-wxSFScaledPaintDC::wxSFScaledPaintDC(wxBitmap& outbmp, double scale)
+bool wxSFScaledPaintDC::m_fEnableGC = false;
+
+wxSFScaledPaintDC::wxSFScaledPaintDC(wxBitmap &outbmp, double scale)
 : wxMemoryDC(outbmp)
 {
 	m_nScale = scale;
+#if wxUSE_GRAPHICS_CONTEXT
+    m_pGC = wxGraphicsContext::Create( *this );
+    if( m_pGC )
+    {
+        m_pGC->Scale( m_nScale, m_nScale );
+    }
+#endif
 }
 
 wxSFScaledPaintDC::~wxSFScaledPaintDC(void)
 {
     SelectObject(wxNullBitmap);
+#if wxUSE_GRAPHICS_CONTEXT
+    if( m_pGC ) delete m_pGC;
+#endif
 }
+
+#if wxUSE_GRAPHICS_CONTEXT
+void wxSFScaledPaintDC::InitGC()
+{
+    m_pGC->SetPen( this->GetPen() );
+    m_pGC->SetBrush( this->GetBrush() );
+    m_pGC->SetFont( this->GetFont(), this->GetTextForeground() );
+}
+
+void wxSFScaledPaintDC::UninitGC()
+{
+    m_pGC->SetPen( wxNullPen );
+    m_pGC->SetBrush( wxNullBrush );
+    m_pGC->SetFont( wxNullFont, *wxBLACK );
+}
+
+void wxSFScaledPaintDC::PrepareGC()
+{
+    int x, y;
+    GetDeviceOrigin(&x, &y);
+    m_pGC->Translate( x, y );
+}
+#endif
 
 //----------------------------------------------------------------------------------//
 // protected virtual functions
@@ -33,137 +68,283 @@ wxSFScaledPaintDC::~wxSFScaledPaintDC(void)
 
 void wxSFScaledPaintDC::DoDrawPoint(wxCoord x, wxCoord y)
 {
-    wxMemoryDC::DoDrawPoint(Scale(x), Scale(y));
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->StrokeLine(x, y, x+1, y);
+        //UninitGC();
+        #endif
+    }
+    else
+        wxWindowDC::DoDrawPoint(Scale(x), Scale(y));
 }
 
 void wxSFScaledPaintDC::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
 {
-    wxMemoryDC::DoDrawLine(Scale(x1), Scale(y1), Scale(x2), Scale(y2));
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->StrokeLine(x1, y1, x2, y2);
+        //UninitGC();
+        #endif
+    }
+    else
+         wxWindowDC::DoDrawLine(Scale(x1), Scale(y1), Scale(x2), Scale(y2));
 }
 
 void wxSFScaledPaintDC::DoDrawArc(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc)
 {
-    wxMemoryDC::DoDrawArc(Scale(x1), Scale(y1), Scale(x2), Scale(y2), Scale(xc), Scale(yc));
+    wxWindowDC::DoDrawArc(Scale(x1), Scale(y1), Scale(x2), Scale(y2), Scale(xc), Scale(yc));
 }
 
 void wxSFScaledPaintDC::DoDrawCheckMark(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-    wxMemoryDC::DoDrawCheckMark(Scale(x), Scale(y), Scale(width), Scale(height));
+    wxWindowDC::DoDrawCheckMark(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
 void wxSFScaledPaintDC::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord w, wxCoord h, double sa, double ea)
 {
-    wxMemoryDC::DoDrawEllipticArc(Scale(x), Scale(y), Scale(w), Scale(h), sa, ea);
+    wxWindowDC::DoDrawEllipticArc(Scale(x), Scale(y), Scale(w), Scale(h), sa, ea);
 }
 
 void wxSFScaledPaintDC::DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-    wxMemoryDC::DoDrawRectangle(Scale(x), Scale(y), Scale(width), Scale(height));
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->DrawRectangle(x, y, width, height);
+        //UninitGC();
+        #endif
+    }
+    else
+         wxWindowDC::DoDrawRectangle(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
 void wxSFScaledPaintDC::DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height, double radius)
 {
-    wxMemoryDC::DoDrawRoundedRectangle(Scale(x), Scale(y), Scale(width), Scale(height), radius*m_nScale);
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->DrawRoundedRectangle(x, y, width, height, radius);
+        //UninitGC();
+        #endif
+    }
+    else
+        wxWindowDC::DoDrawRoundedRectangle(Scale(x), Scale(y), Scale(width), Scale(height), radius*m_nScale);
 }
 
 void wxSFScaledPaintDC::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-    wxMemoryDC::DoDrawEllipse(Scale(x), Scale(y), Scale(width), Scale(height));
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->DrawEllipse(x, y, width, height );
+        //UninitGC();
+        #endif
+    }
+    else
+        wxWindowDC::DoDrawEllipse(Scale(x), Scale(y), Scale(width), Scale(height));
 }
 
 void wxSFScaledPaintDC::DoCrossHair(wxCoord x, wxCoord y)
 {
-    wxMemoryDC::DoCrossHair(Scale(x), Scale(y));
+    wxWindowDC::DoCrossHair(Scale(x), Scale(y));
 }
 
 void wxSFScaledPaintDC::DoDrawIcon(const wxIcon& icon, wxCoord x, wxCoord y)
 {
-    wxMemoryDC::DoDrawIcon(icon, Scale(x), Scale(y));
+    wxWindowDC::DoDrawIcon(icon, Scale(x), Scale(y));
 }
 
 void wxSFScaledPaintDC::DoDrawBitmap(const wxBitmap &bmp, wxCoord x, wxCoord y, bool useMask)
 {
-    wxMemoryDC::DoDrawBitmap(bmp, Scale(x), Scale(y), useMask);
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->DrawBitmap( bmp, x, y, bmp.GetWidth(), bmp.GetHeight() );
+        //UninitGC();
+        #endif
+    }
+    else
+        wxWindowDC::DoDrawBitmap(bmp, Scale(x), Scale(y), useMask);
 }
 
 void wxSFScaledPaintDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
 {
-	wxFont font = GetFont();
-	wxFont prevfont = font;
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->DrawText( text, x, y );
+        //UninitGC();
+        #endif
+    }
+    else
+    {
+        wxFont font = GetFont();
+        wxFont prevfont = font;
 
-	if(font != wxNullFont)
-	{
-		font.SetPointSize(int(font.GetPointSize()*m_nScale));
-		SetFont(font);
-	}
-    wxMemoryDC::DoDrawText(text, Scale(x), Scale(y));
+        if(font != wxNullFont)
+        {
+            font.SetPointSize(int(font.GetPointSize()*m_nScale));
+            SetFont(font);
+        }
+        wxWindowDC::DoDrawText(text, Scale(x), Scale(y));
 
-    SetFont(prevfont);
+        SetFont(prevfont);
+    }
 }
 
 void wxSFScaledPaintDC::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, double angle)
 {
-	wxFont font = GetFont();
-	wxFont prevfont = font;
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+        m_pGC->DrawText( text, x, y, angle );
+        //UninitGC();
+        #endif
+    }
+    else
+    {
+        wxFont font = GetFont();
+        wxFont prevfont = font;
 
-	if(font != wxNullFont)
-	{
-		font.SetPointSize(int(font.GetPointSize()*m_nScale));
-		SetFont(font);
-	}
-    wxMemoryDC::DoDrawRotatedText(text, Scale(x), Scale(y), angle);
+        if(font != wxNullFont)
+        {
+            font.SetPointSize(int(font.GetPointSize()*m_nScale));
+            SetFont(font);
+        }
+        wxWindowDC::DoDrawRotatedText(text, Scale(x), Scale(y), angle);
 
-    SetFont(prevfont);
+        SetFont(prevfont);
+    }
 }
 
 void wxSFScaledPaintDC::DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset)
 {
-    wxPoint *updPoints = new wxPoint[n];
-
-    memcpy(updPoints, points, n*sizeof(wxPoint));
-    for(int i = 0; i < n; i++)
+    if( m_fEnableGC )
     {
-        updPoints[i].x = (int)((double)updPoints[i].x*m_nScale);
-        updPoints[i].y = (int)((double)updPoints[i].y*m_nScale);
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+
+        wxPoint2DDouble *pts = new wxPoint2DDouble[n];
+
+        for(int i = 0; i < n; i++)
+        {
+            pts[0].m_x = points[0].x;
+            pts[0].m_y = points[0].y;
+        }
+
+        m_pGC->StrokeLines(n, pts);
+
+        delete pts;
+
+        //UninitGC();
+        #endif
     }
+    else
+    {
+        wxPoint *updPoints = new wxPoint[n];
 
-    wxMemoryDC::DoDrawLines(n, updPoints, Scale(xoffset), Scale(yoffset));
+        for(int i = 0; i < n; i++)
+        {
+            updPoints[i].x = (int)((double)points[i].x*m_nScale);
+            updPoints[i].y = (int)((double)points[i].y*m_nScale);
+        }
 
-    delete [] updPoints;
+        wxWindowDC::DoDrawLines(n, updPoints, Scale(xoffset), Scale(yoffset));
+
+        delete [] updPoints;
+    }
 }
 
 void wxSFScaledPaintDC::DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle)
 {
-    wxPoint *updPoints = new wxPoint[n];
-
-    memcpy(updPoints, points, n*sizeof(wxPoint));
-    for(int i = 0; i < n; i++)
+    if( m_fEnableGC )
     {
-        updPoints[i].x = (int)((double)updPoints[i].x*m_nScale);
-        updPoints[i].y = (int)((double)updPoints[i].y*m_nScale);
+        #if wxUSE_GRAPHICS_CONTEXT
+        InitGC();
+
+        wxGraphicsPath gcPath = m_pGC->CreatePath();
+        gcPath.MoveToPoint( points[0].x, points[0].y );
+        for(int i = 1; i < n; i++)
+        {
+            gcPath.AddLineToPoint( points[i].x, points[i].y );
+        }
+        gcPath.CloseSubpath();
+
+        m_pGC->DrawPath( gcPath );
+
+        //UninitGC();
+        #endif
     }
+    else
+    {
+        wxPoint *updPoints = new wxPoint[n];
 
-    wxMemoryDC::DoDrawPolygon(n, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
+        for(int i = 0; i < n; i++)
+        {
+            updPoints[i].x = (int)((double)points[i].x*m_nScale);
+            updPoints[i].y = (int)((double)points[i].y*m_nScale);
+        }
 
-    delete [] updPoints;
+        wxWindowDC::DoDrawPolygon(n, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
+
+        delete [] updPoints;
+    }
 }
 
 void wxSFScaledPaintDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoord xoffset, wxCoord yoffset, int fillStyle)
 {
-    int nTotalPoints = 0;
-
-    for(int i = 0; i < n; i++)nTotalPoints += count[i];
-
-    wxPoint *updPoints = new wxPoint[nTotalPoints];
-
-    memcpy(updPoints, points, nTotalPoints*sizeof(wxPoint));
-    for(int i = 0; i < nTotalPoints; i++)
+    if( m_fEnableGC )
     {
-        updPoints[i].x = (int)((double)updPoints[i].x*m_nScale);
-        updPoints[i].y = (int)((double)updPoints[i].y*m_nScale);
+        #if wxUSE_GRAPHICS_CONTEXT
+        int nIndex = 0;
+
+        InitGC();
+
+        wxGraphicsPath gcPath = m_pGC->CreatePath();
+
+        for(int i = 0; i < n; i++)
+        {
+            gcPath.MoveToPoint( points[nIndex].x, points[nIndex].y );
+            for(int j = 0; j < count[i]; j++)
+            {
+                nIndex++;
+                gcPath.AddLineToPoint( points[nIndex].x, points[nIndex].y );
+            }
+            gcPath.CloseSubpath();
+        }
+
+        m_pGC->Translate( xoffset, yoffset );
+        m_pGC->DrawPath( gcPath );
+
+        //UninitGC();
+        #endif
     }
+    else
+    {
+        int nTotalPoints = 0;
 
-    wxMemoryDC::DoDrawPolyPolygon(n, count, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
+        for(int i = 0; i < n; i++)nTotalPoints += count[i];
 
-    delete [] updPoints;
+        wxPoint *updPoints = new wxPoint[nTotalPoints];
+
+        for(int i = 0; i < nTotalPoints; i++)
+        {
+            updPoints[i].x = (int)((double)points[i].x*m_nScale);
+            updPoints[i].y = (int)((double)points[i].y*m_nScale);
+        }
+
+        wxWindowDC::DoDrawPolyPolygon(n, count, updPoints, Scale(xoffset), Scale(yoffset), fillStyle);
+
+        delete [] updPoints;
+    }
 }

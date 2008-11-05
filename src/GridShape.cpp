@@ -15,6 +15,7 @@
 #endif
 
 #include "wx/wxsf/GridShape.h"
+#include "wx/wxsf/LineShape.h"
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFGridShape, wxSFRectShape);
 
@@ -209,8 +210,6 @@ void wxSFGridShape::DoChildrenLayout()
             else
                 nCol++;
 
-            /*pShape->MoveTo( nAbsPos.x + nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
-                            nAbsPos.y + nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace);*/
             FitShapeToRect( pShape, wxRect( nCol*maxRect.GetWidth() + (nCol+1)*m_nCellSpace,
                                             nRow*maxRect.GetHeight() + (nRow+1)*m_nCellSpace,
                                             maxRect.GetWidth(), maxRect.GetHeight() ) );
@@ -287,7 +286,7 @@ void  wxSFGridShape::OnChildDropped(const wxRealPoint& pos, wxSFShapeBase *child
 {
     wxASSERT(child);
 
-    if( child ) AppendToGrid( child );
+    if( child && !child->IsKindOf(CLASSINFO(wxSFLineShape)) ) AppendToGrid( child );
 }
 
 //----------------------------------------------------------------------------------//
