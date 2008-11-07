@@ -354,7 +354,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
     wxSFShapeBase *pShape = NULL, *pParentShape = NULL;
 
     #if wxUSE_GRAPHICS_CONTEXT
-    wxSFScaledPaintDC::EnableGC( false );
+    wxSFScaledDC::EnableGC( false );
     #endif
 
 	// erase background

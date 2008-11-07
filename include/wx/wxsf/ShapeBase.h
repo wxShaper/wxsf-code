@@ -19,7 +19,6 @@
 #include <wx/list.h>
 
 #include "ShapeHandle.h"
-#include "ScaledPaintDC.h"
 #include "Defs.h"
 #include "../wxxmlserializer/XmlSerializer.h"
 
