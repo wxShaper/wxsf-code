@@ -303,15 +303,18 @@ void wxSFPolygonShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
-	dc.SetPen(*wxTRANSPARENT_PEN);
-	dc.SetBrush(GetParentCanvas()->GetShadowFill());
+    if( m_Fill != *wxTRANSPARENT_BRUSH )
+    {
+        dc.SetPen(*wxTRANSPARENT_PEN);
+        dc.SetBrush(GetParentCanvas()->GetShadowFill());
 
-	wxRealPoint nOffset = GetParentCanvas()->GetShadowOffset();
+        wxRealPoint nOffset = GetParentCanvas()->GetShadowOffset();
 
-	MoveBy(nOffset);
-	DrawPolygonShape(dc);
-	MoveBy(-nOffset.x, -nOffset.y);
+        MoveBy(nOffset);
+        DrawPolygonShape(dc);
+        MoveBy(-nOffset.x, -nOffset.y);
 
-	dc.SetBrush(wxNullBrush);
-	dc.SetPen(wxNullPen);
+        dc.SetBrush(wxNullBrush);
+        dc.SetPen(wxNullPen);
+    }
 }

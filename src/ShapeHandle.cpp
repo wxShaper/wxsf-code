@@ -80,7 +80,7 @@ bool wxSFShapeHandle::IsInside(const wxPoint& pos)
 void wxSFShapeHandle::Draw(wxDC& dc)
 {
     #if wxUSE_GRAPHICS_CONTEXT
-    wxSFScaledPaintDC::EnableGC( false );
+    wxSFScaledDC::EnableGC( false );
     #endif
 
 	if(m_fVisible && m_pParentShape)
@@ -91,7 +91,7 @@ void wxSFShapeHandle::Draw(wxDC& dc)
 	}
 
     #if wxUSE_GRAPHICS_CONTEXT
-    wxSFScaledPaintDC::EnableGC( wxSFShapeCanvas::IsGCEnabled() );
+    wxSFScaledDC::EnableGC( wxSFShapeCanvas::IsGCEnabled() );
     #endif
 }
 

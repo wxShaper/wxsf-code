@@ -114,11 +114,14 @@ void wxSFRoundRectShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
-	dc.SetPen(*wxTRANSPARENT_PEN);
-	dc.SetBrush(GetParentCanvas()->GetShadowFill());
-	dc.DrawRoundedRectangle(Conv2Point(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset()), Conv2Size(m_nRectSize), m_nRadius);
-	dc.SetBrush(wxNullBrush);
-	dc.SetPen(wxNullPen);
+    if( m_Fill != *wxTRANSPARENT_BRUSH )
+    {
+        dc.SetPen(*wxTRANSPARENT_PEN);
+        dc.SetBrush(GetParentCanvas()->GetShadowFill());
+        dc.DrawRoundedRectangle(Conv2Point(GetAbsolutePosition() + GetParentCanvas()->GetShadowOffset()), Conv2Size(m_nRectSize), m_nRadius);
+        dc.SetBrush(wxNullBrush);
+        dc.SetPen(wxNullPen);
+    }
 }
 
 //----------------------------------------------------------------------------------//

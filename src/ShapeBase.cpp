@@ -415,7 +415,7 @@ void wxSFShapeBase::Update()
     // do self-alignment
     DoAlignment();
 
-    // do alignment of shape's children (if required)
+    // do alignment of shape's children (if required)$(IntermediateDirectory)/$(Project$(IntermediateDirectory)/$(ProjectName).soName).so
     if( !this->IsKindOf(CLASSINFO(wxSFLineShape)) )
     {
         SerializableList::compatibility_iterator node = GetFirstChildNode();

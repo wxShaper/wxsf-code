@@ -16,6 +16,7 @@
 #define new DEBUG_NEW
 #endif
 
+#include <wx/dcbuffer.h>
 #include <wx/mstream.h>
 #include <wx/wfstream.h>
 #include <wx/txtstrm.h>
@@ -24,7 +25,7 @@
 
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/DiagramManager.h"
-#include "wx/wxsf/ScaledPaintDC.h"
+#include "wx/wxsf/ScaledDC.h"
 #include "wx/wxsf/ShapeDataObject.h"
 #include "wx/wxsf/EditTextShape.h"
 #include "wx/wxsf/BitmapShape.h"
@@ -309,7 +310,17 @@ void wxSFShapeCanvas::EnableGC(bool enab)
 void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
 	// use double-buffered painting
-	int sx, sy, x, y;
+	wxBufferedPaintDC paintDC( this );
+	
+	wxSFScaledDC dc( &paintDC, m_Settings.m_nScale );
+		
+	PrepareDC( dc );
+	dc.PrepareGC();
+		
+	DrawContent(dc, sfFROM_PAINT);
+
+	
+	/*int sx, sy, x, y;
 
 	wxPaintDC paintDC(this);
 
@@ -329,7 +340,8 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
         dc.GetDeviceOrigin(&x, &y);
 
         paintDC.Blit(0, 0, sx, sy, &dc, -x, -y);
-	}
+	}*/
+	
 }
 
 void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
@@ -383,7 +395,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 	}
 
     #if wxUSE_GRAPHICS_CONTEXT
-    wxSFScaledPaintDC::EnableGC( m_fEnableGC );
+    wxSFScaledDC::EnableGC( m_fEnableGC );
     #endif
 
 	if(fromPaint)
@@ -405,11 +417,11 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 		{
 			if( fFirstRun )
 			{
-				updRct = DP2LP(upd.GetRect());
+				updRct = DP2LP(upd.GetRect().Inflate(5, 5));
 				fFirstRun = false;
 			}
 			else
-				updRct.Union(DP2LP(upd.GetRect()));
+				updRct.Union(DP2LP(upd.GetRect().Inflate(5, 5)));
 
 			upd++;
 		}
@@ -498,7 +510,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 		}
 
         #if wxUSE_GRAPHICS_CONTEXT
-        wxSFScaledPaintDC::EnableGC( false );
+        wxSFScaledDC::EnableGC( false );
         #endif
 
 		// draw line shape being created
@@ -543,7 +555,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 	}
 
     #if wxUSE_GRAPHICS_CONTEXT
-    wxSFScaledPaintDC::EnableGC( false );
+    wxSFScaledDC::EnableGC( false );
     #endif
 }
 
@@ -1813,8 +1825,10 @@ void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
     bmpBB.Inflate(m_Settings.m_nGridSize);
 
     wxBitmap outbmp(bmpBB.GetRight(), bmpBB.GetBottom());
-
-    wxSFScaledPaintDC outdc(outbmp, 1);
+	wxMemoryDC dc( outbmp );
+	
+    //wxSFScaledPaintDC outdc(outbmp, 1);
+	wxSFScaledDC outdc(&dc, 1);
 
     if(outdc.IsOk())
     {
@@ -2801,6 +2815,8 @@ void wxSFShapeCanvas::Print(wxSFPrintout *printout, bool prompt)
 
     wxPrintDialogData printDialogData(* g_printData);
     wxPrinter printer(& printDialogData);
+	
+	DeselectAll();
 
     if (!printer.Print(this, printout, prompt))
     {
@@ -2824,6 +2840,8 @@ void wxSFShapeCanvas::PrintPreview(wxSFPrintout *preview, wxSFPrintout *printout
 {
     wxASSERT(preview);
 
+	DeselectAll();
+	
     // Pass two printout objects: for preview, and possible printing.
     wxPrintDialogData printDialogData(* g_printData);
     wxPrintPreview *prnPreview = new wxPrintPreview(preview, printout, &printDialogData);

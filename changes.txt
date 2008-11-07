@@ -1,4 +1,4 @@
-Changes in version 1.6.3 beta (2008-10-24):
+Changes in version 1.6.3 beta (2008-11-07):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.8:
   - Improved detection of locales (decimal point).
@@ -7,7 +7,10 @@ Changes in version 1.6.3 beta (2008-10-24):
 - Added experimental support for wxGraphicsContext. The feature can be activated via static function  wxSFShapeCanvas::EnableGC().
   If enabled then new wxWidgets renderer class is used by wxSFScaledPaintDC so the shapes are antialiazed, support semitransparency via
   colour aplha channel and support alpha channel in images. This feature can be used only if both wxSF and wxWidgets
-  libraries are compiler with wxUSE_GRAPHICS_CONTEXT=1.
+  libraries are compiler with wxUSE_GRAPHICS_CONTEXT=1. Note that only subset of drawing functions declared in wxDC class are
+  currently redirected to wxGraphicsContext (rectangle, rounded rectangle, ellipse, line, point, polygon, polypolygon and text). 
+- wxSFScaledPaintDC class was replaced by wxSFScaledDC class derived directly from wxDC class which is used as a wrapper for any other DC.
+  This modification allowed the library to use wxGraphicsContext together with all other DCs (paint, memory, print, ...).
 - Added shape's alignment flags valignEXPAND and halignEXPAND.
 - Added function wxSFShapeBase::IsInside(const wxRect& rct) returning TRUE if a shape is completely inside given rectangle.
 - Child shapes assigned to a grid shape are now aligned inside the grid cells in accordance to the shapes' current alignment flags.

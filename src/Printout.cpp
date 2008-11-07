@@ -14,6 +14,7 @@
 #endif
 
 #include "wx/wxsf/Printout.h"
+#include "wx/wxsf/ScaledDC.h"
 #include "wx/wxsf/ShapeCanvas.h"
 
 wxSFPrintout::wxSFPrintout(const wxString& title, wxSFShapeCanvas *canvas)
@@ -152,8 +153,15 @@ bool wxSFPrintout::OnPrintPage(int page)
         }
 
         // draw the canvas content without any scale (dc is scaled by the printing framework)
+		double nScale = 1;
+		if( wxSFShapeCanvas::IsGCEnabled() ) dc->GetUserScale( &nScale, &nScale );
         m_pCanvas->SetScale(1);
-        m_pCanvas->DrawContent(*dc, sfNOT_FROM_PAINT);
+		
+		wxSFScaledDC sdc( (wxWindowDC*)dc, nScale );
+		sdc.PrepareGC();
+		
+        m_pCanvas->DrawContent(sdc, sfNOT_FROM_PAINT);
+		
         m_pCanvas->SetScale(prevScale);
 
         // restore previous canvas properties if needed

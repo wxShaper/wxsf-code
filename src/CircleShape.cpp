@@ -120,13 +120,16 @@ void wxSFCircleShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
-	wxRealPoint pos = GetAbsolutePosition();
+    if( m_Fill != *wxTRANSPARENT_BRUSH )
+    {
+        wxRealPoint pos = GetAbsolutePosition();
 
-	dc.SetPen(*wxTRANSPARENT_PEN);
-	dc.SetBrush(GetParentCanvas()->GetShadowFill());
-	dc.DrawCircle(int(pos.x + m_nRectSize.x/2 + GetParentCanvas()->GetShadowOffset().x), int(pos.y + m_nRectSize.y/2 + GetParentCanvas()->GetShadowOffset().y), int(m_nRectSize.x/2));
-	dc.SetBrush(wxNullBrush);
-	dc.SetPen(wxNullPen);
+        dc.SetPen(*wxTRANSPARENT_PEN);
+        dc.SetBrush(GetParentCanvas()->GetShadowFill());
+        dc.DrawCircle(int(pos.x + m_nRectSize.x/2 + GetParentCanvas()->GetShadowOffset().x), int(pos.y + m_nRectSize.y/2 + GetParentCanvas()->GetShadowOffset().y), int(m_nRectSize.x/2));
+        dc.SetBrush(wxNullBrush);
+        dc.SetPen(wxNullPen);
+    }
 }
 
 

@@ -13,7 +13,7 @@
 
 #include <wx/list.h>
 
-#include "ScaledPaintDC.h"
+#include "ScaledDC.h"
 
 class WXDLLIMPEXP_SF wxSFShapeBase;
 
