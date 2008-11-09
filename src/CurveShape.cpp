@@ -95,7 +95,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
     {
     case modeREADY:
         {
-            // draw basic line parts
+			// draw line segments
 			if( arrLines.Count() > 3 )
 			{
 				for(i = 0; i < (int)arrLines.Count()-2; i++)
@@ -103,7 +103,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 			}
 			else
                 dc.DrawLine(Conv2Point(arrLines[1].m_nSrc), Conv2Point(arrLines[1].m_nTrg));
-
+				
             // draw source arrow
             if(m_pSrcArrow)m_pSrcArrow->Draw(arrLines[1].m_nTrg, arrLines[1].m_nSrc, dc);
             // draw target arrow
@@ -231,14 +231,9 @@ void wxSFCurveShape::Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& 
 	// the begginig of the curve is in the B point
 	wxRealPoint point0=B;
 	wxRealPoint point1;
-	int nMaxPPI = 72;
 
-    // optimize step count due to smooth curve drawing even on DC with high PPI and the scale value.
-	wxSize ppi = dc.GetPPI();
-	if( ppi.x > ppi.y )nMaxPPI = ppi.x; else nMaxPPI = ppi.y;
-
-	long nOptimSteps = (int)((double)m_nMaxSteps * (double)(nMaxPPI/72));// * GetParentCanvas()->GetScale());
-	if(nOptimSteps<2)nOptimSteps=2;
+	int nOptimSteps = double(Distance(B, C)) / 10;
+	if( nOptimSteps < 10 ) nOptimSteps = 10;
 
     // draw the curve
 	for(double t = 0; t <= (1 + (1.0f / nOptimSteps)); t += 1.0f / (nOptimSteps-1))
