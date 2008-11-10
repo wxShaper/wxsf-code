@@ -306,33 +306,6 @@ protected:
 	 */
 	virtual void DrawHighlighted(wxDC& dc);
 
-    /*!
-     * \brief Serialize shape's properties to the given XML node. The serialization
-     * routine is automatically called by the framework and should take care about serialization
-     * of all specific (non-standard) shape's properties.
-     *
-     * Note, that the shape serialization is used not only for saving canvas's content to a file
-     * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
-     * function otherwise all mentioned operations wont be available for this shape.
-     *
-     * \param node Pointer to XML node where the shape's property nodes will be appended to
-     * \sa xsSerializable::Serialize
-     */
-	virtual wxXmlNode* Serialize(wxXmlNode* node);
-    /*!
-     * \brief Deserialize shape's properties from the given XML node. The
-     * routine is automatically called by the framework and should take care about deserialization
-     * of all specific (non-standard) shape's properties.
-     *
-     * Note, that the shape serialization is used not only for saving canvas's content to a file
-     * but also during Undo/Redo and the clipboard operations so it is very important to implement this virtual
-     * function otherwise all mentioned operations wont be available for this shape.
-     *
-     * \param node Pointer to a source XML node containig the shape's property nodes
-     * \sa xsSerializable::Deserialize
-     */
-	virtual void Deserialize(wxXmlNode* node);
-
     /*! \brief Draw completed line. */
 	virtual void DrawCompleteLine(wxDC& dc);
 

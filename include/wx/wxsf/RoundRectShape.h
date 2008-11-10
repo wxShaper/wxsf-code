@@ -92,23 +92,6 @@ protected:
 	 */
 	virtual void DrawShadow(wxDC& dc);
 
-    /*!
-     * \brief Serialize shape's properties to the given XML node. The serialization
-     * routine is automatically called by the framework and should take care about serialization
-     * of all specific (non-standard) shape's properties.
-     * \param node Pointer to XML node where the shape's property nodes will be appended to
-     * \sa xsSerializable::Serialize
-     */
-	virtual wxXmlNode* Serialize(wxXmlNode* node);
-    /*!
-     * \brief Deserialize shape's properties from the given XML node. The
-     * routine is automatically called by the framework and should take care about deserialization
-     * of all specific (non-standard) shape's properties.
-     * \param node Pointer to a source XML node containig the shape's property nodes
-     * \sa xsSerializable::Deserialize
-     */
-	virtual void Deserialize(wxXmlNode* node);
-
 	// protected functions
 	/*!
      * \brief Auxiliary function. Checks whether the point is inside a circle with given center. The circle's radius
