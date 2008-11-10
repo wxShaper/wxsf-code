@@ -106,7 +106,7 @@ private:
 	/*! \brief Auxiliary drawing function. */
 	void GetUpdatedLineSegment(LineSegmentArray& segments);
 	/*! \brief Auxiliary drawing function. */
-	void Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint&D, wxDC& dc);
+	void Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint& D, wxDC& dc);
 	/*! \brief Auxiliary drawing function. */
 	wxRealPoint Coord_Catmul_Rom_Kubika(const wxRealPoint& p1, const wxRealPoint& p2, const wxRealPoint& p3, const wxRealPoint& p4, double t);
 

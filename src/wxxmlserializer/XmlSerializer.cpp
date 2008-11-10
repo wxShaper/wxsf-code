@@ -251,12 +251,9 @@ wxXmlNode* xsSerializable::SerializeObject(wxXmlNode* node)
 		node->AddProperty(new wxXmlProperty(wxT("type"), this->GetClassInfo()->GetClassName()));
 	}
 
-	if(node)
-	{
-		node =  this->Serialize(node);
-	}
-
-	return node;
+	if(node) return this->Serialize(node);
+	else
+		return NULL;
 }
 
 void xsSerializable::DeserializeObject(wxXmlNode* node)
@@ -775,27 +772,6 @@ xsSerializable* wxXmlSerializer::_GetItem(long id, xsSerializable* parent)
     }
     return pItem;
 }
-
-/*void wxXmlSerializer::_GetItems(wxClassInfo* type, xsSerializable* parent, SerializableList& list)
-{
-    wxASSERT(parent);
-    wxASSERT(type);
-
-    if(!parent && !type)return;
-
-    if( parent->IsKindOf(type) )
-    {
-        list.Append(parent);
-        m_nCounter++;
-    }
-
-    SerializableList::compatibility_iterator node = parent->GetChildren().GetFirst();
-    while(node)
-    {
-        _GetItems(type, node->GetData(), list);
-        node = node->GetNext();
-    }
-}*/
 
 bool wxXmlSerializer::_Contains(xsSerializable* object, xsSerializable* parent)
 {

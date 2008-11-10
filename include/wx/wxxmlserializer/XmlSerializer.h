@@ -26,21 +26,21 @@
 #define xsNORECURSIVE false
 
 /*! \brief Macro creates new serialized STRING property */
-#define XS_SERIALIZE_STRING(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
+#define XS_SERIALIZE_STRING(x, name) XS_SERIALIZE_PROPERTY(x, wxT("string"), name);
 /*! \brief Macro creates new serialized STRING property with defined default value */
-#define XS_SERIALIZE_STRING_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("string"), wxT("Variable is not wxString"));XS_SERIALIZE_PROPERTY_EX(x, wxT("string"), name, def);
+#define XS_SERIALIZE_STRING_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("string"), name, def);
 /*! \brief Macro creates new serialized STRING property */
-#define XS_SERIALIZE_CHAR(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("char"), wxT("Variable is not wxChar"));XS_SERIALIZE_PROPERTY(x, wxT("char"), name);
+#define XS_SERIALIZE_CHAR(x, name) XS_SERIALIZE_PROPERTY(x, wxT("char"), name);
 /*! \brief Macro creates new serialized STRING property with defined default value */
-#define XS_SERIALIZE_CHAR_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("char"), wxT("Variable is not wxChar"));XS_SERIALIZE_PROPERTY_EX(x, wxT("char"), name, def);
+#define XS_SERIALIZE_CHAR_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("char"), name, def);
 /*! \brief Macro creates new serialized LONG property */
-#define XS_SERIALIZE_LONG(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("long"), wxT("Variable is not LONG"));XS_SERIALIZE_PROPERTY(x, wxT("long"), name);
+#define XS_SERIALIZE_LONG(x, name) XS_SERIALIZE_PROPERTY(x, wxT("long"), name);
 /*! \brief Macro creates new serialized LONG property with defined default value */
-#define XS_SERIALIZE_LONG_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("long"), wxT("Variable is not LONG"));XS_SERIALIZE_PROPERTY_EX(x, wxT("long"), name, xsLongPropIO::ToString(def));
+#define XS_SERIALIZE_LONG_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("long"), name, xsLongPropIO::ToString(def));
 /*! \brief Macro creates new serialized DOUBLE property */
-#define XS_SERIALIZE_DOUBLE(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("double"), wxT("Variable is not DOUBLE"));XS_SERIALIZE_PROPERTY(x, wxT("double"), name);
+#define XS_SERIALIZE_DOUBLE(x, name) XS_SERIALIZE_PROPERTY(x, wxT("double"), name);
 /*! \brief Macro creates new serialized DOUBLE property with defined default value */
-#define XS_SERIALIZE_DOUBLE_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("double"), wxT("Variable is not DOUBLE"));XS_SERIALIZE_PROPERTY_EX(x, wxT("double"), name, xsDoublePropIO::ToString(def));
+#define XS_SERIALIZE_DOUBLE_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("double"), name, xsDoublePropIO::ToString(def));
 /*! \brief Macro creates new serialized INT property */
 #define XS_SERIALIZE_INT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("int"), name);
 /*! \brief Macro creates new serialized INT property with defined default value */
@@ -51,9 +51,9 @@
 #define XS_SERIALIZE_FLOAT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("float"), name, xsFloatPropIO::ToString(def));
 
 /*! \brief Macro creates new serialized BOOL property */
-#define XS_SERIALIZE_BOOL(x, name) wxASSERT_MSG(wxVariant(x).GetType()==wxT("bool"), wxT("Variable is not BOOL"));XS_SERIALIZE_PROPERTY(x, wxT("bool"), name);
+#define XS_SERIALIZE_BOOL(x, name) XS_SERIALIZE_PROPERTY(x, wxT("bool"), name);
 /*! \brief Macro creates new serialized BOOL property with defined default value */
-#define XS_SERIALIZE_BOOL_EX(x, name, def) wxASSERT_MSG(wxVariant(x).GetType()==wxT("bool"), wxT("Variable is not BOOL"));XS_SERIALIZE_PROPERTY_EX(x, wxT("bool"), name, xsBoolPropIO::ToString(def));
+#define XS_SERIALIZE_BOOL_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("bool"), name, xsBoolPropIO::ToString(def));
 
 /*! \brief Macro creates new serialized wxPoint property */
 #define XS_SERIALIZE_POINT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("point"), name);
@@ -69,21 +69,21 @@
 #define XS_SERIALIZE_SIZE_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("size"), name, xsSizePropIO::ToString(def));
 
 /*! \brief Macro creates new serialized wxColour property */
-#define XS_SERIALIZE_COLOUR(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxColour)), wxT("Object is not wxColour"));XS_SERIALIZE_PROPERTY(x, wxT("colour"), name);
+#define XS_SERIALIZE_COLOUR(x, name) XS_SERIALIZE_PROPERTY(x, wxT("colour"), name);
 /*! \brief Macro creates new serialized wxColour property with defined default value */
-#define XS_SERIALIZE_COLOUR_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxColour)), wxT("Object is not wxColour"));XS_SERIALIZE_PROPERTY_EX(x, wxT("colour"), name, xsColourPropIO::ToString(def));
+#define XS_SERIALIZE_COLOUR_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("colour"), name, xsColourPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxPen property */
-#define XS_SERIALIZE_PEN(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxPen)), wxT("Object is not wxPen"));XS_SERIALIZE_PROPERTY(x, wxT("pen"), name);
+#define XS_SERIALIZE_PEN(x, name) XS_SERIALIZE_PROPERTY(x, wxT("pen"), name);
 /*! \brief Macro creates new serialized wxPen property with defined default value */
-#define XS_SERIALIZE_PEN_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxPen)), wxT("Object is not wxPen"));XS_SERIALIZE_PROPERTY_EX(x, wxT("pen"), name, xsPenPropIO::ToString(def));
+#define XS_SERIALIZE_PEN_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("pen"), name, xsPenPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxBrush property */
-#define XS_SERIALIZE_BRUSH(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxBrush)), wxT("Object is not wxBrush"));XS_SERIALIZE_PROPERTY(x, wxT("brush"), name);
+#define XS_SERIALIZE_BRUSH(x, name) XS_SERIALIZE_PROPERTY(x, wxT("brush"), name);
 /*! \brief Macro creates new serialized wxBrush property with defined default value */
-#define XS_SERIALIZE_BRUSH_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxBrush)), wxT("Object is not wxBrush"));XS_SERIALIZE_PROPERTY_EX(x, wxT("brush"), name, xsBrushPropIO::ToString(def));
+#define XS_SERIALIZE_BRUSH_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("brush"), name, xsBrushPropIO::ToString(def));
 /*! \brief Macro creates new serialized wxFont property */
-#define XS_SERIALIZE_FONT(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxFont)), wxT("Object is not wxFont"));XS_SERIALIZE_PROPERTY(x, wxT("font"), name);
+#define XS_SERIALIZE_FONT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("font"), name);
 /*! \brief Macro creates new serialized wxFont property with defined default value */
-#define XS_SERIALIZE_FONT_EX(x, name, def) wxASSERT_MSG(x.IsKindOf(CLASSINFO(wxFont)), wxT("Object is not wxFont"));XS_SERIALIZE_PROPERTY_EX(x, wxT("font"), name, xsFontPropIO::ToString(def));
+#define XS_SERIALIZE_FONT_EX(x, name, def) XS_SERIALIZE_PROPERTY_EX(x, wxT("font"), name, xsFontPropIO::ToString(def));
 
 /*! \brief Macro creates new serialized property (type 'array of strings (wxArrayString)') */
 #define XS_SERIALIZE_ARRAYSTRING(x, name) XS_SERIALIZE_PROPERTY(x, wxT("arraystring"), name);
@@ -105,7 +105,7 @@
 /*! \brief Macro creates new serialized property encapsulating a dynamic serializable object */
 #define XS_SERIALIZE_DYNAMIC_OBJECT_NO_CREATE(x, name) XS_SERIALIZE_PROPERTY(x, wxT("serializabledynamicnocreate"), name);
 /*! \brief Macro creates new serialized property encapsulating a static serializable object */
-#define XS_SERIALIZE_STATIC_OBJECT(x, name) wxASSERT_MSG(x.IsKindOf(CLASSINFO(xsSerializable)), wxT("Object is not xsSerializable"));XS_SERIALIZE_PROPERTY(x, wxT("serializablestatic"), name);
+#define XS_SERIALIZE_STATIC_OBJECT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("serializablestatic"), name);
 
 /*! \brief Macro creates new serialized property of given type */
 #define XS_SERIALIZE_PROPERTY(x, type, name) AddProperty(new xsProperty(&x, type, name));
@@ -803,8 +803,6 @@ private:
     // private functions
     /*! \brief Auxiliary function */
     xsSerializable* _GetItem(long id, xsSerializable* parent);
-    /*! \brief Auxiliary function */
-    /*void _GetItems(wxClassInfo* type, xsSerializable* parent, SerializableList& list); */
 	/*! \brief Auxiliary function */
     bool _Contains(xsSerializable *object, xsSerializable* parent);
 	/*! \brief Auxiliary function. Copy items assigned to given parent to given source item */
