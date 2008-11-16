@@ -24,25 +24,16 @@ XS_IMPLEMENT_CLONABLE_CLASS(wxSFCurveShape, wxSFLineShape);
 
 wxSFCurveShape::wxSFCurveShape() : wxSFLineShape()
 {
-    m_nMaxSteps = sfdvCURVESHAPE_MAXSTEPS;
-
-    MarkSerializableDataMembers();
 }
 
-wxSFCurveShape::wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFCurveShape::wxSFCurveShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
 : wxSFLineShape(src, trg, path, manager)
 {
-    m_nMaxSteps = maxsteps;
-
-    MarkSerializableDataMembers();
 }
 
 wxSFCurveShape::wxSFCurveShape(const wxSFCurveShape& obj)
 : wxSFLineShape(obj)
 {
-    m_nMaxSteps = obj.m_nMaxSteps;
-
-	MarkSerializableDataMembers();
 }
 
 wxSFCurveShape::~wxSFCurveShape()
@@ -50,10 +41,6 @@ wxSFCurveShape::~wxSFCurveShape()
 
 }
 
-void wxSFCurveShape::MarkSerializableDataMembers()
-{
-	XS_SERIALIZE_EX(m_nMaxSteps, wxT("max_steps"), sfdvCURVESHAPE_MAXSTEPS);
-}
 
 //----------------------------------------------------------------------------------//
 // public virtual functions
@@ -70,15 +57,14 @@ wxRect wxSFCurveShape::GetBoundingBox()
 
 wxRealPoint wxSFCurveShape::GetPoint(size_t segment, double offset)
 {
-    LineSegmentArray arrLines;
-    GetUpdatedLineSegment(arrLines);
-
-    if((segment < arrLines.Count()-1) && (segment > 0))
-    {
-        return Coord_Catmul_Rom_Kubika(arrLines.Item(segment-1).m_nSrc, arrLines.Item(segment-1).m_nTrg, arrLines.Item(segment).m_nTrg, arrLines.Item(segment+1).m_nTrg, offset);
-    }
-    else
-        return wxRealPoint();
+	if( segment <= m_lstPoints.GetCount() )
+	{
+		wxRealPoint A, B, C, D;
+		GetSegmentQuaternion( segment, A, B, C, D );
+		return Coord_Catmul_Rom_Kubika(A, B, C, D, offset);
+	}
+	else
+		return wxRealPoint();
 }
 
 //----------------------------------------------------------------------------------//
@@ -87,57 +73,82 @@ wxRealPoint wxSFCurveShape::GetPoint(size_t segment, double offset)
 
 void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 {
-    int i = 0;
-    LineSegmentArray arrLines;
-    GetUpdatedLineSegment(arrLines);
-
+    size_t i = 0;
+	wxRealPoint A, B, C, D;
+	
     switch(m_nMode)
     {
     case modeREADY:
         {
 			// draw line segments
-			if( arrLines.Count() > 3 )
+			if( m_lstPoints.GetCount() > 0 )
 			{
-				for(i = 0; i < (int)arrLines.Count()-2; i++)
-					Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
+				for( i = 0; i <= m_lstPoints.GetCount(); i++ )
+				{
+					GetSegmentQuaternion( i, A, B, C, D );
+					Catmul_Rom_Kubika(A, B, C, D, dc);
+				}
 			}
 			else
-                dc.DrawLine(Conv2Point(arrLines[1].m_nSrc), Conv2Point(arrLines[1].m_nTrg));
-				
+			{
+				GetDirectLine( B, C );
+				dc.DrawLine( Conv2Point(B), Conv2Point(C) );
+			}
+				  
+			// draw target arrow
+            if( m_pTrgArrow ) m_pTrgArrow->Draw( B, C, dc);
+			GetLineSegment( 0, B, C );
             // draw source arrow
-            if(m_pSrcArrow)m_pSrcArrow->Draw(arrLines[1].m_nTrg, arrLines[1].m_nSrc, dc);
-            // draw target arrow
-            if(m_pTrgArrow)m_pTrgArrow->Draw(arrLines[arrLines.Count()-2].m_nSrc, arrLines[arrLines.Count()-2].m_nTrg, dc);
+			if( m_pSrcArrow ) m_pSrcArrow->Draw(C, B, dc);			
         }
         break;
 
     case modeUNDERCONSTRUCTION:
         {
             // draw basic line parts
-            for(i = 0; i < (int)arrLines.Count()-2; i++)
-                Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
-
-            // draw unfinished line segment if any (for interactive line creation)
-            dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            if( arrLines.Count() > 1 ) dc.DrawLine(Conv2Point(arrLines[i].m_nTrg), m_nUnfinishedPoint);
-            else if(m_nSrcShapeId != -1)
-            {
-                wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-                if( pSrcShape ) dc.DrawLine( Conv2Point(pSrcShape->GetBorderPoint(pSrcShape->GetCenter(), wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y))), m_nUnfinishedPoint);
-            }
-            dc.SetPen(wxNullPen);
+			if( m_lstPoints.GetCount() > 0 )
+			{
+				for( i = 0; i < m_lstPoints.GetCount(); i++ )
+				{
+					GetSegmentQuaternion( i, A, B, C, D );
+					Catmul_Rom_Kubika(A, B, C, D, dc);
+				}
+			}
+			
+			// draw unfinished line segment if any (for interactive line creation)
+			dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
+			
+			if( i )
+			{
+				dc.DrawLine(Conv2Point( C ), m_nUnfinishedPoint);
+			}
+			else if( m_nSrcShapeId != -1 )
+			{
+				// draw unfinished line segment if any (for interactive line creation)
+				dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
+				
+				wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
+				if( pSrcShape ) dc.DrawLine(Conv2Point(pSrcShape->GetBorderPoint(pSrcShape->GetCenter(), wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y))), m_nUnfinishedPoint);
+				
+				dc.SetPen(wxNullPen);
+			}
+			dc.SetPen(wxNullPen);
         }
         break;
 
     case modeSRCCHANGE:
         {
             // draw basic line parts
-            for(i = 1; i < (int)arrLines.Count()-2; i++)
-                Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
-
+			for( i = 1; i <= m_lstPoints.GetCount(); i++ )
+			{
+				GetSegmentQuaternion( i, A, B, C, D );
+				Catmul_Rom_Kubika(A, B, C, D, dc);
+			}
+			
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(arrLines[1].m_nTrg));
+			GetSegmentQuaternion( 0, A, B, C, D );
+            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(C));
             dc.SetPen(wxNullPen);
         }
         break;
@@ -145,85 +156,64 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
     case modeTRGCHANGE:
         {
             // draw basic line parts
-            for(i = 0; i < (int)arrLines.Count()-3; i++)
-                Catmul_Rom_Kubika(arrLines.Item(i).m_nSrc, arrLines.Item(i).m_nTrg, arrLines.Item(i+1).m_nTrg, arrLines.Item(i+2).m_nTrg, dc);
+			for( i = 0; i < m_lstPoints.GetCount(); i++ )
+			{
+				GetSegmentQuaternion( i, A, B, C, D );
+				Catmul_Rom_Kubika(A, B, C, D, dc);
+			}
 
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(arrLines[arrLines.Count()-2].m_nSrc));
+            dc.DrawLine(m_nUnfinishedPoint, Conv2Point(C));
             dc.SetPen(wxNullPen);
         }
         break;
     }
 }
 
-int wxSFCurveShape::GetHitLinesegment(const wxPoint& pos)
-{
-    if(!GetBoundingBox().Contains(pos))return -1;
-
-    wxRect lsBB;
-    wxRealPoint ptSrc, ptTrg;
-    double d, a, b, c;
-
-    // Get all polyline segments
-    LineSegmentArray m_arrLineSegments;
-    GetUpdatedLineSegment(m_arrLineSegments);
-
-    // test whether given point lies near the line segment
-    for(int i=1; i < (int)m_arrLineSegments.Count()-1; i++)
-    {
-        ptSrc = m_arrLineSegments[i].m_nSrc;
-        ptTrg = m_arrLineSegments[i].m_nTrg;
-
-        // calculate line segment bounding box
-        lsBB = wxRect(Conv2Point(ptSrc), Conv2Point(ptTrg));
-        if( (i > 1) && (i < (int)m_arrLineSegments.Count()-2) )lsBB.Inflate(10);
-
-        // convert line segment to its parametric form
-        a = ptTrg.y - ptSrc.y;
-        b = ptSrc.x - ptTrg.x;
-        c = -a*ptSrc.x - b*ptSrc.y;
-
-        // calculate distance of the line and give point
-        d = (a*pos.x + b*pos.y + c)/sqrt(a*a + b*b);
-        if((abs((int)d) <= 10) && lsBB.Contains(pos)) return i-1;
-    }
-    return -1;
-}
-
-
 //----------------------------------------------------------------------------------//
 // private functions
 //----------------------------------------------------------------------------------//
 
-void wxSFCurveShape::GetUpdatedLineSegment(LineSegmentArray& segments)
+void wxSFCurveShape::GetSegmentQuaternion(size_t segment, wxRealPoint& A, wxRealPoint& B, wxRealPoint& C, wxRealPoint& D)
 {
-    if(m_pParentManager)
-    {
-        // get normal line segment
-        GetLineSegments(segments);
-        if(segments.Count() > 0)
-        {
-            wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-            wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
-
-            // prepend and append new line segmets
-            if(pSrcShape)
-            {
-                segments.Insert(new LineSegment(pSrcShape->GetCenter(), segments.Item(0).m_nSrc), 0);
-            }
-
-            if(m_nMode == modeUNDERCONSTRUCTION)
-            {
-                segments.Add(new LineSegment(segments.Item(segments.Count()-1).m_nTrg, wxRealPoint(m_nUnfinishedPoint.x, m_nUnfinishedPoint.y)));
-            }
-            else if(pTrgShape)
-            {
-                segments.Add(new LineSegment(segments.Item(segments.Count()-1).m_nTrg, pTrgShape->GetCenter()));
-            }
-
-        }
-    }
+	static wxRealPoint quart[4];
+	RealPointList::compatibility_iterator node;
+	
+	int nIndex = 2 - segment;
+	
+	if( ( nIndex - 1 ) >= 0 ) quart[ nIndex - 1 ] = GetSrcPoint();
+	if( ( nIndex - 2 ) >= 0 ) quart[ nIndex - 2 ] = GetModSrcPoint();
+	
+	if( nIndex >= 0 ) node = m_lstPoints.Item( 0 );
+	else
+	{
+		node = m_lstPoints.Item( abs( nIndex ) );
+		nIndex = 0;
+	}
+		 
+	for( ; nIndex < 4; nIndex++ )
+	{
+		if( node )
+		{
+			quart[ nIndex ] = *node->GetData();
+			node = node->GetNext();
+		}
+		else
+		{
+			if( nIndex == 2 ) quart[ 2 ] = GetTrgPoint();
+			else if( nIndex == 3 )
+			{
+				if( m_nMode == modeUNDERCONSTRUCTION ) quart[ 3 ] = Conv2RealPoint( m_nUnfinishedPoint );
+				else if( m_nTrgShapeId != -1 ) quart[ 3 ] = GetModTrgPoint();
+			}
+		}
+	}
+	
+	A = quart[0];
+	B = quart[1];
+	C = quart[2];
+	D = quart[3];
 }
 
 void wxSFCurveShape::Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint& D, wxDC& dc)

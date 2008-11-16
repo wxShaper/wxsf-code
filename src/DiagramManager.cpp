@@ -80,7 +80,10 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
         // create shape object from class info
         wxSFShapeBase *pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
 
-        wxSFShapeBase *pParentShape = GetShapeAtPosition( pos );
+        wxSFShapeBase *pParentShape = NULL;
+		// line shapes can be assigned to root only
+		if( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) ) pParentShape = GetShapeAtPosition( pos );
+		
         if( pParentShape && pParentShape->IsChildAccepted(shapeInfo->GetClassName()) )
         {
             pShape = AddShape(pShape, (xsSerializable*)pParentShape, pos - Conv2Point( pParentShape->GetAbsolutePosition() ), sfINITIALIZE, saveState);

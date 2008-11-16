@@ -13,9 +13,6 @@
 
 #include "LineShape.h"
 
-// default values
-#define sfdvCURVESHAPE_MAXSTEPS 20
-
 /*!
  * \brief Interpolation line shape. The class extends wxSFLineShape class and allows
  * user to create curved connection line.
@@ -29,13 +26,12 @@ public:
     wxSFCurveShape();
     /*!
      * \brief User constructor.
-     * \param maxsteps Number of curve elements between two control points
      * \param src ID of the source shape
      * \param trg ID of the target shape
      * \param path Array of line's control points
      * \param manager Parent parent diagram manager
      */
-	wxSFCurveShape(size_t maxsteps, long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
+	wxSFCurveShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
 	/*!
      * \brief Copy constructor.
 	 * \param obj Reference to the source object
@@ -64,30 +60,18 @@ public:
 
 protected:
 
-    // protected data members
-    long m_nMaxSteps;
-
     // protected virtual functions
     /*!
      * \brief Internal function used for drawing of completed line shape.
      * \param dc Refernce of the device context where the shape will be darwn to
      */
 	virtual void DrawCompleteLine(wxDC& dc);
-    /*!
-     * \brief Get zero-based index of the line segment laying under given point.
-     * \param pos Search point
-     * \return Zero-based line segment index
-     */
-	virtual int GetHitLinesegment(const wxPoint& pos);
 
 private:
 
 	// private functions
-
-    /*! \brief Initialize serializable properties. */
-	void MarkSerializableDataMembers();
 	/*! \brief Auxiliary drawing function. */
-	void GetUpdatedLineSegment(LineSegmentArray& segments);
+	void GetSegmentQuaternion(size_t segment, wxRealPoint& A, wxRealPoint& B, wxRealPoint& C, wxRealPoint& D);
 	/*! \brief Auxiliary drawing function. */
 	void Catmul_Rom_Kubika(const wxRealPoint& A, const wxRealPoint& B, const wxRealPoint& C, const wxRealPoint& D, wxDC& dc);
 	/*! \brief Auxiliary drawing function. */

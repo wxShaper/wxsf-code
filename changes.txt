@@ -1,8 +1,8 @@
-Changes in version 1.6.3 beta (2008-11-07):
+Changes in version 1.6.3 beta (2008-11-15):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.8:
   - Improved detection of locales (decimal point).
-  - Also alpha channel of wxColour data structure is serialized now.
+  - Alpha channel of wxColour data structure is serialized now.
 
 - Added experimental support for wxGraphicsContext. The feature can be activated via static function  wxSFShapeCanvas::EnableGC().
   If enabled then new wxWidgets renderer class is used by wxSFScaledPaintDC so the shapes are antialiazed, support semitransparency via
@@ -14,6 +14,7 @@ Changes in version 1.6.3 beta (2008-11-07):
 - Added shape's alignment flags valignEXPAND and halignEXPAND.
 - Added function wxSFShapeBase::IsInside(const wxRect& rct) returning TRUE if a shape is completely inside given rectangle.
 - Child shapes assigned to a grid shape are now aligned inside the grid cells in accordance to the shapes' current alignment flags.
+- Improved line and curve shapes' drawing performance.
 - New shapes created by wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState) function
   are assigned to an underlying shape (if exists) as its child automatically.
 - Functions GetShapeAtPosition(), GetShapesAtPosition() and GetShapesInside() are now members of wxSFDiagramManager class. Their
@@ -23,6 +24,7 @@ Changes in version 1.6.3 beta (2008-11-07):
 - Fixed potentional assertion fault in wxSFLineShape::OnLeftDoubleClick(const wxPoint& pos) event handler.
 - Fixed grid shapes in such way they do not accept line shapes as managed shapes anymore.
 - Update and fixed wxSFDemo sample project (missing files have been added to the release package).
+- Code clean-up.
 
 Changes in version 1.6.2 beta (2008-09-27):
 --------------------------------------------

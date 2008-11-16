@@ -24,28 +24,26 @@
 /*! \brief Default value of wxSFLineShape::m_nSrcOffset and wxSFLineShape::m_nTrgOffset data members. */
 #define sfdvLINESHAPE_OFFSET wxRealPoint(-1, -1)
 
-//WX_DECLARE_LIST(wxRealPoint, CPointList);
-
-/*!
- * \brief Auxiliary class encapsulating the line segment.
- * \sa wxSFLineShape
- */
-class LineSegment : public wxObject
-{
-public:
-    /*!
-	 * \brief Default constructor.
-     * \param src Starting point of the line segment
-     * \param trg Ending point of the line segmetn
-     */
-    LineSegment(wxRealPoint src, wxRealPoint trg){m_nSrc = src; m_nTrg = trg;}
-    /*! \brief Starting segment position. */
-    wxRealPoint m_nSrc;
-    /*! \brief Ending segment position. */
-    wxRealPoint m_nTrg;
-};
-
-WX_DECLARE_OBJARRAY(LineSegment, LineSegmentArray);
+///*!
+// * \brief Auxiliary class encapsulating the line segment.
+// * \sa wxSFLineShape
+// */
+//class LineSegment : public wxObject
+//{
+//public:
+//    /*!
+//	 * \brief Default constructor.
+//     * \param src Starting point of the line segment
+//     * \param trg Ending point of the line segmetn
+//     */
+//    LineSegment(wxRealPoint src, wxRealPoint trg){m_nSrc = src; m_nTrg = trg;}
+//    /*! \brief Starting segment position. */
+//    wxRealPoint m_nSrc;
+//    /*! \brief Ending segment position. */
+//    wxRealPoint m_nTrg;
+//};
+//
+//WX_DECLARE_OBJARRAY(LineSegment, LineSegmentArray);
 
 /*!
  * \brief Basic class encapsulating the multiline consisting of several line segments.
@@ -97,6 +95,18 @@ friend class wxSFShapeCanvas;
 	 * \return  ID of the target shape
 	 */
 	long GetTrgShapeId(){return m_nTrgShapeId;}
+	/*!
+	 * \brief Get first line point.
+	 * \return  First line point
+	 */	
+	wxRealPoint GetSrcPoint();
+	/*!
+	 * \brief Get last line point.
+	 * \return  Last line point
+	 */	
+	wxRealPoint GetTrgPoint();
+	
+	void GetDirectLine(wxRealPoint& src, wxRealPoint& trg);
 	/*!
 	 * \brief Set source arrow object.
 	 * \param arrow Pointer to the arrow object which will be assigned to the begin of the line
@@ -251,13 +261,14 @@ friend class wxSFShapeCanvas;
      */
 	virtual void Scale(double x, double y, bool children = sfWITHCHILDREN);
 
-	// public functions
-	/*!
-	 * \brief Get a list of the line segments.
-	 * \param segments Reference to the list which will contain the line segments
-	 * \sa LineSegment
-	 */
-    void GetLineSegments(LineSegmentArray& segments);
+//	// public functions
+//	/*!
+//	 * \brief Get a list of the line segments.
+//	 * \param segments Reference to the list which will contain the line segments
+//	 * \sa LineSegment
+//	 */
+//    void GetLineSegments(LineSegmentArray& segments);
+
 
 protected:
 
@@ -311,6 +322,14 @@ protected:
 
 	// protected functions
 	/*!
+     * \brief Get starting and ending point of line segment defined by its index.
+	 * \param index Index of desired line segment
+	 * \param src Reference to variable where starting point will be stored
+	 * \param trg Reference to variable where ending point will be stored 
+	 * \return TRUE if a line segment of given index exists, otherwise FALSE
+	 */
+	bool GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg);
+	/*!
      * \brief Get index of the line segment intersecting the given point.
 	 * \param pos Examined point
 	 * \return Zero-based index of line segment located under the given point
@@ -355,7 +374,6 @@ private:
 	wxRealPoint m_nTrgOffset;
 
 	// private functions
-
     /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
 
