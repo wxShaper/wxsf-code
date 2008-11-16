@@ -192,7 +192,11 @@ wxRealPoint wxSFLineShape::GetSrcPoint()
 	}
 	else
 	{
-		GetDirectLine( pt1, pt2 );
+		if( m_nMode != modeUNDERCONSTRUCTION )
+			GetDirectLine( pt1, pt2 );
+		else
+			pt1 = GetModSrcPoint();
+		 
 		return pt1;
 	}
 }
@@ -214,7 +218,11 @@ wxRealPoint wxSFLineShape::GetTrgPoint()
 	}
 	else
 	{
-		GetDirectLine( pt1, pt2 );
+		if( m_nMode != modeUNDERCONSTRUCTION )
+			GetDirectLine( pt1, pt2 );
+		else
+			pt2 = Conv2RealPoint( m_nUnfinishedPoint );
+			
 		return pt2;
 	}
 }
@@ -332,7 +340,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         // include starting point
         if(m_nSrcShapeId != -1)
         {
- 			pt = GetModSrcPoint();
+ 			pt = GetSrcPoint();
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)pt.x, (int)pt.y, 1, 1));
@@ -344,7 +352,7 @@ wxRect wxSFLineShape::GetBoundingBox()
         // include ending point
         if(m_nTrgShapeId != -1)
         {
-			pt = GetModTrgPoint();
+			pt = GetTrgPoint();
             if(!lineRct.IsEmpty())
             {
                 lineRct.Union(wxRect((int)pt.x, (int)pt.y, 1, 1));
