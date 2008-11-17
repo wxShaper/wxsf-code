@@ -199,6 +199,8 @@ wxRealPoint wxSFLineShape::GetSrcPoint()
 		 
 		return pt1;
 	}
+
+	return wxRealPoint();
 }
 
 wxRealPoint wxSFLineShape::GetTrgPoint()
@@ -225,6 +227,8 @@ wxRealPoint wxSFLineShape::GetTrgPoint()
 			
 		return pt2;
 	}
+
+	return wxRealPoint();
 }
 
 void wxSFLineShape::GetDirectLine(wxRealPoint& src, wxRealPoint& trg)

@@ -147,7 +147,12 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 			
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-			GetSegmentQuaternion( 0, A, B, C, D );
+			if( m_lstPoints.GetCount() > 0 )
+			{
+				GetSegmentQuaternion( 0, A, B, C, D );
+			}
+			else
+				GetDirectLine( B, C );
             dc.DrawLine(m_nUnfinishedPoint, Conv2Point(C));
             dc.SetPen(wxNullPen);
         }
@@ -156,11 +161,16 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
     case modeTRGCHANGE:
         {
             // draw basic line parts
-			for( i = 0; i < m_lstPoints.GetCount(); i++ )
+			if( m_lstPoints.GetCount() )
 			{
-				GetSegmentQuaternion( i, A, B, C, D );
-				Catmul_Rom_Kubika(A, B, C, D, dc);
+				for( i = 0; i < m_lstPoints.GetCount(); i++ )
+				{
+					GetSegmentQuaternion( i, A, B, C, D );
+					Catmul_Rom_Kubika(A, B, C, D, dc);
+				}
 			}
+			else
+				C = GetSrcPoint();
 
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));

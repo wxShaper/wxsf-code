@@ -43,9 +43,9 @@ wxSFScaledDC::~wxSFScaledDC()
 // wxGraphicContext related functions
 //----------------------------------------------------------------------------------//
 
-#if wxUSE_GRAPHICS_CONTEXT
 void wxSFScaledDC::InitGC()
 {
+#if wxUSE_GRAPHICS_CONTEXT
 	m_pGC->PushState();
 	
 	m_pGC->Scale( m_nScale, m_nScale );
@@ -54,25 +54,29 @@ void wxSFScaledDC::InitGC()
     m_pGC->SetBrush( this->GetBrush() );
 	
     m_pGC->SetFont( this->GetFont(), this->GetTextForeground() );
+#endif
 }
 
 void wxSFScaledDC::UninitGC()
 {
+#if wxUSE_GRAPHICS_CONTEXT
     m_pGC->SetPen( wxNullPen );
     m_pGC->SetBrush( wxNullBrush );
     m_pGC->SetFont( wxNullFont, *wxBLACK );
 	
 	m_pGC->PopState();
+#endif
 }
 
 void wxSFScaledDC::PrepareGC()
 {
+#if wxUSE_GRAPHICS_CONTEXT
     int x, y;
     GetDeviceOrigin(&x, &y);
 
     m_pGC->Translate( x, y );
-}
 #endif
+}
 
 //----------------------------------------------------------------------------------//
 // Wrapped wxDC functions
@@ -100,7 +104,7 @@ void wxSFScaledDC::ComputeScaleAndOrigin()
 }
 bool wxSFScaledDC::DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC* source, wxCoord xsrc, wxCoord ysrc, int rop, bool useMask, wxCoord xsrcMask, wxCoord ysrcMask)
 {
-	m_pTargetDC->Blit( Scale(xdest), Scale(ydest), width, height, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
+	return m_pTargetDC->Blit( Scale(xdest), Scale(ydest), width, height, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
 }
 void wxSFScaledDC::DoCrossHair(wxCoord x, wxCoord y)
 {
@@ -121,7 +125,7 @@ void wxSFScaledDC::DoDrawBitmap(const wxBitmap& bmp, wxCoord x, wxCoord y, bool 
         #endif
     }
     else
-		m_pTargetDC->DrawBitmap( bmp, x, y, useMask );
+		m_pTargetDC->DrawBitmap( bmp, Scale(x), Scale(y), useMask );
 }
 void wxSFScaledDC::DoDrawCheckMark(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
@@ -375,7 +379,7 @@ void wxSFScaledDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
 }
 bool wxSFScaledDC::DoFloodFill(wxCoord x, wxCoord y, const wxColour& col, int style)
 {
-	m_pTargetDC->FloodFill( Scale(x), Scale(y), col, style );
+	return m_pTargetDC->FloodFill( Scale(x), Scale(y), col, style );
 }
 wxBitmap wxSFScaledDC::DoGetAsBitmap(const wxRect *subrect) const
 {
@@ -387,6 +391,11 @@ void wxSFScaledDC::DoGetClippingBox(wxCoord* x, wxCoord* y, wxCoord* w, wxCoord*
 }
 void wxSFScaledDC::DoGetClippingRegion(wxCoord* x, wxCoord* y, wxCoord* w, wxCoord* h)
 {
+	wxUnusedVar( x );
+	wxUnusedVar( y );
+	wxUnusedVar( w );
+	wxUnusedVar( h );
+
 	// not implemented...
 }
 void wxSFScaledDC::DoGetDeviceOrigin(wxCoord* x, wxCoord* y) const
@@ -399,11 +408,11 @@ void wxSFScaledDC::DoGetLogicalOrigin(wxCoord* x, wxCoord* y) const
 }
 bool wxSFScaledDC::DoGetPartialTextExtents(const wxString& text, wxArrayInt& widths) const
 {
-	m_pTargetDC->GetPartialTextExtents( text, widths );
+	return m_pTargetDC->GetPartialTextExtents( text, widths );
 }
 bool wxSFScaledDC::DoGetPixel(wxCoord x, wxCoord y, wxColour* col) const
 {
-	m_pTargetDC->GetPixel( x, y, col );
+	return m_pTargetDC->GetPixel( x, y, col );
 }
 void wxSFScaledDC::DoGetSize(int* width, int* height) const
 {
@@ -435,6 +444,8 @@ void wxSFScaledDC::DoSetClippingRegion(wxCoord x, wxCoord y, wxCoord width, wxCo
 }
 void wxSFScaledDC::DoSetClippingRegionAsRegion(const wxRegion& region)
 {
+	wxUnusedVar( region );
+
 	// not implemented...
 }
 void wxSFScaledDC::DrawObject(wxDrawObject* drawobject)
@@ -477,10 +488,12 @@ const wxFont& wxSFScaledDC::GetFont() const
 {
 	return m_pTargetDC->GetFont();
 }
+#ifdef __WXGTK__
 GdkWindow* wxSFScaledDC::GetGDKWindow() const
 {
 	return m_pTargetDC->GetGDKWindow();
 }
+#endif
 wxLayoutDirection wxSFScaledDC::GetLayoutDirection() const
 {
 	return m_pTargetDC->GetLayoutDirection();
@@ -599,7 +612,7 @@ void wxSFScaledDC::SetUserScale(double x, double y)
 }
 bool wxSFScaledDC::StartDoc( const wxString& message )
 {
-	m_pTargetDC->StartDoc( message );
+	return m_pTargetDC->StartDoc( message );
 }
 void wxSFScaledDC::StartPage()
 {

@@ -312,7 +312,7 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 	// use double-buffered painting
 	wxBufferedPaintDC paintDC( this );
 	
-	wxSFScaledDC dc( &paintDC, m_Settings.m_nScale );
+	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
 		
 	PrepareDC( dc );
 	dc.PrepareGC();
@@ -360,15 +360,11 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 	// erase background
 	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
 	{
-	    #ifndef __WXMSW__
 	    wxSize nBcgSize = GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y);
 	    if( m_Settings.m_nScale != 1.f )
             dc.GradientFillLinear(wxRect(wxPoint(0, 0), wxSize( nBcgSize.x/m_Settings.m_nScale, nBcgSize.y/m_Settings.m_nScale )), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
         else
             dc.GradientFillLinear(wxRect(wxPoint(0, 0),  GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y)), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
-		#else
-		dc.GradientFillLinear(wxRect(wxPoint(0, 0),  GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y)), m_Settings.m_nGradientFrom, m_Settings.m_nGradientTo, wxSOUTH);
-		#endif
 	}
 	else
 	{
@@ -1828,7 +1824,7 @@ void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
 	wxMemoryDC dc( outbmp );
 	
     //wxSFScaledPaintDC outdc(outbmp, 1);
-	wxSFScaledDC outdc(&dc, 1);
+	wxSFScaledDC outdc((wxWindowDC*)&dc, 1);
 
     if(outdc.IsOk())
     {

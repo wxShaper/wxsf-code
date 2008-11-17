@@ -285,6 +285,7 @@ void wxSFGridShape::FitToChildren()
 void  wxSFGridShape::OnChildDropped(const wxRealPoint& pos, wxSFShapeBase *child)
 {
     wxASSERT(child);
+	wxUnusedVar( pos );
 
     if( child && !child->IsKindOf(CLASSINFO(wxSFLineShape)) ) AppendToGrid( child );
 }

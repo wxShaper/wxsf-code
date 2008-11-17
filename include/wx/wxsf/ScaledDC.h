@@ -62,7 +62,9 @@ public:
 	virtual wxCoord GetCharWidth() const;
 	virtual int GetDepth() const;
 	virtual const wxFont& GetFont() const;
+#ifdef __WXGTK__
 	virtual GdkWindow* GetGDKWindow() const;
+#endif
 	virtual wxLayoutDirection GetLayoutDirection() const;
 	virtual int GetLogicalFunction() const;
 	virtual void GetLogicalScale(double *x, double *y);
