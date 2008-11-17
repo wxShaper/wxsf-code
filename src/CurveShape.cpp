@@ -81,7 +81,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
     case modeREADY:
         {
 			// draw line segments
-			if( m_lstPoints.GetCount() > 0 )
+			if( !m_lstPoints.IsEmpty() )
 			{
 				for( i = 0; i <= m_lstPoints.GetCount(); i++ )
 				{
@@ -106,7 +106,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
     case modeUNDERCONSTRUCTION:
         {
             // draw basic line parts
-			if( m_lstPoints.GetCount() > 0 )
+			if( !m_lstPoints.IsEmpty() )
 			{
 				for( i = 0; i < m_lstPoints.GetCount(); i++ )
 				{
@@ -147,7 +147,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 			
             // draw linesegment being updated
             dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
-			if( m_lstPoints.GetCount() > 0 )
+			if( !m_lstPoints.IsEmpty() )
 			{
 				GetSegmentQuaternion( 0, A, B, C, D );
 			}
@@ -161,7 +161,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
     case modeTRGCHANGE:
         {
             // draw basic line parts
-			if( m_lstPoints.GetCount() )
+			if( !m_lstPoints.IsEmpty() )
 			{
 				for( i = 0; i < m_lstPoints.GetCount(); i++ )
 				{

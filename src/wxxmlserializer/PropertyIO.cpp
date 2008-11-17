@@ -857,7 +857,7 @@ void xsListRealPointPropIO::Write(xsProperty *property, wxXmlNode *target)
 {
     RealPointList *list = (RealPointList*)property->m_pSourceVariable;
 
-    if(list->GetCount() > 0)
+    if( !list->IsEmpty() )
     {
         wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
 		RealPointList::compatibility_iterator listNode = list->GetFirst();

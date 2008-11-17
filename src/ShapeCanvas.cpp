@@ -17,9 +17,7 @@
 #endif
 
 #include <wx/dcbuffer.h>
-#include <wx/mstream.h>
-#include <wx/wfstream.h>
-#include <wx/txtstrm.h>
+#include <wx/sstream.h>
 #include <wx/clipbrd.h>
 #include <wx/dnd.h>
 
@@ -939,7 +937,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 
 			ValidateSelection(m_lstSelection);
 
-			if(m_lstSelection.GetCount() > 0)
+			if( !m_lstSelection.IsEmpty() )
 			{
 				HideAllHandles();
 				m_shpMultiEdit.Show(true);
@@ -1971,7 +1969,7 @@ void wxSFShapeCanvas::SelectAll()
     ShapeList shapes;
     m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);
 
-	if(shapes.GetCount() > 0)
+	if( !shapes.IsEmpty() )
 	{
 		ShapeList::compatibility_iterator node = shapes.GetFirst();
 		while(node)
@@ -2453,7 +2451,7 @@ void wxSFShapeCanvas::Copy()
 
         ValidateSelectionForClipboard(lstSelection);
 
-        if(lstSelection.GetCount() > 0)
+        if( !lstSelection.IsEmpty() )
         {
             wxSFShapeDataObject* dataObj = new wxSFShapeDataObject(m_formatShapes, lstSelection, m_pManager);
             wxTheClipboard->SetData(dataObj);
@@ -2478,7 +2476,7 @@ void wxSFShapeCanvas::Cut()
 
     ValidateSelectionForClipboard(lstSelection);
 
-    if(lstSelection.GetCount() > 0)
+    if( !lstSelection.IsEmpty() )
     {
         m_pManager->RemoveShapes(lstSelection);
         m_shpMultiEdit.Show(false);
@@ -2504,8 +2502,10 @@ void wxSFShapeCanvas::Paste()
 		wxSFShapeDataObject dataObj(m_formatShapes);
 		if(wxTheClipboard->GetData(dataObj))
 		{
-			wxMemoryBuffer dataBuffer = CreateMembufferFromString(dataObj.m_Data.GetText());
-			wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);
+/*			wxMemoryBuffer dataBuffer = CreateMembufferFromString(dataObj.m_Data.GetText());
+			wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);*/
+			
+			wxStringInputStream instream( dataObj.m_Data.GetText() );
 
 			if(instream.IsOk())
 			{
@@ -2577,7 +2577,7 @@ wxDragResult wxSFShapeCanvas::DoDragDrop(ShapeList &shapes, const wxPoint& start
 
 	ValidateSelectionForClipboard(shapes);
 
-	if(shapes.GetCount() > 0)
+	if( !shapes.IsEmpty() )
 	{
 		DeselectAll();
 
@@ -2622,8 +2622,10 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 {
 	if( data )
 	{
-		wxMemoryBuffer dataBuffer = CreateMembufferFromString(((wxSFShapeDataObject*)data)->m_Data.GetText());
-		wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);
+/*		wxMemoryBuffer dataBuffer = CreateMembufferFromString(((wxSFShapeDataObject*)data)->m_Data.GetText());
+		wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);*/
+		
+		wxStringInputStream instream( ((wxSFShapeDataObject*)data)->m_Data.GetText() );
 
 		if(instream.IsOk())
 		{
@@ -2758,7 +2760,7 @@ void wxSFShapeCanvas::ClearCanvasHistory()
 	m_CanvasHistory.Clear();
 }
 
-wxMemoryBuffer wxSFShapeCanvas::CreateMembufferFromString(const wxString& str)
+/*wxMemoryBuffer wxSFShapeCanvas::CreateMembufferFromString(const wxString& str)
 {
 	// create memory stream with copied data
 	wxMemoryBuffer dataBuffer;
@@ -2773,7 +2775,7 @@ wxMemoryBuffer wxSFShapeCanvas::CreateMembufferFromString(const wxString& str)
 	dataBuffer.AppendByte(0);
 
 	return dataBuffer;
-}
+}*/
 
 //----------------------------------------------------------------------------------//
 // printing functions

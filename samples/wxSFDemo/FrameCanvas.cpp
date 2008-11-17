@@ -360,7 +360,7 @@ void FrameCanvas::OnRightDown(wxMouseEvent& event)
         // show info about shape's children
         counter = 1;
         pShape->GetChildShapes(lstShapes, sfRECURSIVE);
-        if( lstShapes.GetCount() > 0 )
+        if( !lstShapes.IsEmpty() )
         {
             msg += wxT("\nChildren:\n");
             ShapeList::compatibility_iterator node = lstShapes.GetFirst();
@@ -379,7 +379,7 @@ void FrameCanvas::OnRightDown(wxMouseEvent& event)
         counter = 1;
         lstShapes.Clear();
         pShape->GetNeighbours(lstShapes, CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, sfINDIRECT);
-        if( lstShapes.GetCount() > 0 )
+        if( !lstShapes.IsEmpty() )
         {
             msg += wxT("\nNeighbours:\n");
             ShapeList::compatibility_iterator node = lstShapes.GetFirst();

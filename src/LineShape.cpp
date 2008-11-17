@@ -181,7 +181,7 @@ wxRealPoint wxSFLineShape::GetSrcPoint()
 	
 	wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
 	
-	if( pSrcShape && m_lstPoints.GetCount() > 0 )
+	if( pSrcShape && !m_lstPoints.IsEmpty() )
 	{
 		RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 		if( node )
@@ -209,7 +209,7 @@ wxRealPoint wxSFLineShape::GetTrgPoint()
 	
 	wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
 	
-	if( pTrgShape && m_lstPoints.GetCount() > 0 )
+	if( pTrgShape && !m_lstPoints.IsEmpty() )
 	{
 		RealPointList::compatibility_iterator node = m_lstPoints.GetLast();
 		if( node )
@@ -316,7 +316,7 @@ wxRect wxSFLineShape::GetBoundingBox()
 	wxRect lineRct(0, 0, 0, 0);
 
     // calculate control points area if they exist
-    if(m_lstPoints.GetCount() > 0)
+    if( !m_lstPoints.IsEmpty() )
     {
 		wxRealPoint prevPt = GetSrcPoint();
 		
@@ -386,7 +386,7 @@ wxRealPoint wxSFLineShape::GetDockPointPosition()
     {
         return *m_lstPoints.Item(m_nDockPoint)->GetData();
     }
-    else if(m_lstPoints.GetCount() > 0)
+    else if( !m_lstPoints.IsEmpty() )
     {
         return *m_lstPoints.GetFirst()->GetData();
     }
@@ -732,7 +732,7 @@ void wxSFLineShape::DrawCompleteLine(wxDC& dc)
     case modeTRGCHANGE:
         {
             // draw basic line parts
-			if( m_lstPoints.GetCount() )
+			if( !m_lstPoints.IsEmpty() )
 			{
 				for(i = 0; i < m_lstPoints.GetCount(); i++)
 				{
@@ -755,7 +755,7 @@ void wxSFLineShape::DrawCompleteLine(wxDC& dc)
 
 bool wxSFLineShape::GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg)
 {
-	if( m_lstPoints.GetCount() > 0 )
+	if( !m_lstPoints.IsEmpty() )
 	{
 		if( index == 0 )
 		{

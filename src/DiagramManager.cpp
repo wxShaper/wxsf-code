@@ -581,7 +581,7 @@ void wxSFDiagramManager::UpdateConnections()
 	wxSFLineShape* pLine;
 	IDPair* pIDPair;
 
-	if(m_lstLinesForUpdate.GetCount() > 0)
+	if( !m_lstLinesForUpdate.IsEmpty() )
 	{
 	    // check whether line's src and trg shapes realy exists
         ShapeList::compatibility_iterator node = m_lstLinesForUpdate.GetFirst();

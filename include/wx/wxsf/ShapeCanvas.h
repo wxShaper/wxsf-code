@@ -911,8 +911,8 @@ private:
 	void DeleteAllTextCtrls();
 	/*! \brief Validate selection so the shapes in the given list can be processed by the clipboard functions */
 	void ValidateSelectionForClipboard(ShapeList& list);
-	/*! \brief Create wxMemoryBuffer from given wxString */
-	wxMemoryBuffer CreateMembufferFromString(const wxString& str);
+//	/*! \brief Create wxMemoryBuffer from given wxString */
+//	wxMemoryBuffer CreateMembufferFromString(const wxString& str);
 	/*! \brief Initialize printing framework */
 	void InitializePrinting();
 	/*! \brief Deinitialize prnting framework */
