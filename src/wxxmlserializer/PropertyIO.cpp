@@ -274,16 +274,19 @@ wxString xsPointPropIO::ToString(wxPoint value)
 wxPoint xsPointPropIO::FromString(const wxString& value)
 {
 	wxPoint pt;
-	long x, y;
+	
+	//long x, y;
 
 	if(!value.IsEmpty())
 	{
-		wxStringTokenizer tokens(value, wxT(","), wxTOKEN_STRTOK);
-
-		tokens.GetNextToken().ToLong(&x);
-		tokens.GetNextToken().ToLong(&y);
-		pt.x = x;
-		pt.y = y;
+		wxSscanf( value, wxT("%d,%d"), &pt.x, &pt.y );
+		
+//		wxStringTokenizer tokens(value, wxT(","), wxTOKEN_STRTOK);
+//
+//		tokens.GetNextToken().ToLong(&x);
+//		tokens.GetNextToken().ToLong(&y);
+//		pt.x = x;
+//		pt.y = y;
 	}
 
 	return pt;
@@ -345,23 +348,30 @@ wxString xsColourPropIO::ToString(wxColour value)
 
 wxColour xsColourPropIO::FromString(const wxString& value)
 {
-	long nRed = 0;
-	long nGreen = 0;
-	long nBlue = 0;
-	long nAlpha = 0;
+	int nRed = 0;
+	int nGreen = 0;
+	int nBlue = 0;
+	int nAlpha = 0;
+	
+//	long nRed = 0;
+//	long nGreen = 0;
+//	long nBlue = 0;
+//	long nAlpha = 0;
 
 	if(!value.IsEmpty())
 	{
-		wxStringTokenizer tokens(value, wxT(","), wxTOKEN_STRTOK);
-
-		tokens.GetNextToken().ToLong(&nRed);
-		tokens.GetNextToken().ToLong(&nGreen);
-		tokens.GetNextToken().ToLong(&nBlue);
-
-		if( tokens.HasMoreTokens() )
-            tokens.GetNextToken().ToLong(&nAlpha);
-        else
-            nAlpha = 255;
+		if( wxSscanf( value, wxT("%d,%d,%d,%d"), &nRed, &nGreen, &nBlue, &nAlpha ) == 3 ) nAlpha = 255;
+		
+//		wxStringTokenizer tokens(value, wxT(","), wxTOKEN_STRTOK);
+//
+//		tokens.GetNextToken().ToLong(&nRed);
+//		tokens.GetNextToken().ToLong(&nGreen);
+//		tokens.GetNextToken().ToLong(&nBlue);
+//
+//		if( tokens.HasMoreTokens() )
+//            tokens.GetNextToken().ToLong(&nAlpha);
+//        else
+//            nAlpha = 255;
 	}
 
 	return wxColour(nRed, nGreen, nBlue, nAlpha);

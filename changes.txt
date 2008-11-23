@@ -3,6 +3,7 @@ Changes in version 1.6.3 beta (2008-11-15):
 - Switched to use wxXmlSerializer 1.1.8:
   - Improved detection of locales (decimal point).
   - Alpha channel of wxColour data structure is serialized now.
+  - Improved deserialization speed of wxPoint and wxColour data structures.
 
 - Added experimental support for wxGraphicsContext. The feature can be activated via static function  wxSFShapeCanvas::EnableGC().
   If enabled then new wxWidgets renderer class is used by wxSFScaledPaintDC so the shapes are antialiazed, support semitransparency via
