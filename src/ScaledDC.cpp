@@ -29,6 +29,7 @@ wxSFScaledDC::wxSFScaledDC( wxWindowDC *target, double scale)
 	
 #if wxUSE_GRAPHICS_CONTEXT
     m_pGC = wxGraphicsContext::Create( *m_pTargetDC );
+	m_pGC->Scale( scale, scale );
 #endif
 }
 
@@ -43,7 +44,7 @@ wxSFScaledDC::~wxSFScaledDC()
 // wxGraphicContext related functions
 //----------------------------------------------------------------------------------//
 
-void wxSFScaledDC::InitGC()
+/*void wxSFScaledDC::InitGC()
 {
 #if wxUSE_GRAPHICS_CONTEXT
 	m_pGC->PushState();
@@ -66,7 +67,7 @@ void wxSFScaledDC::UninitGC()
 	
 	m_pGC->PopState();
 #endif
-}
+}*/
 
 void wxSFScaledDC::PrepareGC()
 {
@@ -74,7 +75,7 @@ void wxSFScaledDC::PrepareGC()
     int x, y;
     GetDeviceOrigin(&x, &y);
 
-    m_pGC->Translate( x, y );
+    m_pGC->Translate( x / m_nScale, y / m_nScale );
 #endif
 }
 
@@ -119,9 +120,9 @@ void wxSFScaledDC::DoDrawBitmap(const wxBitmap& bmp, wxCoord x, wxCoord y, bool 
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->DrawBitmap( bmp, x, y, bmp.GetWidth(), bmp.GetHeight() );
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -136,9 +137,9 @@ void wxSFScaledDC::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord he
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->DrawEllipse(x, y, width, height );
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -157,9 +158,9 @@ void wxSFScaledDC::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->StrokeLine(x1, y1, x2, y2);
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -170,7 +171,7 @@ void wxSFScaledDC::DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wxCoord
    if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
 
         wxPoint2DDouble *pts = new wxPoint2DDouble[n];
 
@@ -184,7 +185,7 @@ void wxSFScaledDC::DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wxCoord
 
         delete pts;
 
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -207,9 +208,9 @@ void wxSFScaledDC::DoDrawPoint(wxCoord x, wxCoord y)
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->StrokeLine(x, y, x+1, y);
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -222,7 +223,7 @@ void wxSFScaledDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoo
         #if wxUSE_GRAPHICS_CONTEXT
         int nIndex = 0;
 
-        InitGC();
+        //InitGC();
 
         wxGraphicsPath gcPath = m_pGC->CreatePath();
 
@@ -240,7 +241,7 @@ void wxSFScaledDC::DoDrawPolyPolygon(int n, int count[], wxPoint points[], wxCoo
         m_pGC->Translate( xoffset, yoffset );
         m_pGC->DrawPath( gcPath );
 
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -267,7 +268,7 @@ void wxSFScaledDC::DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoo
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
 
         wxGraphicsPath gcPath = m_pGC->CreatePath();
         gcPath.MoveToPoint( points[0].x, points[0].y );
@@ -279,7 +280,7 @@ void wxSFScaledDC::DoDrawPolygon(int n, wxPoint points[], wxCoord xoffset, wxCoo
 
         m_pGC->DrawPath( gcPath );
 
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -302,9 +303,9 @@ void wxSFScaledDC::DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord 
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->DrawRectangle(x, y, width, height);
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -315,9 +316,9 @@ void wxSFScaledDC::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y,
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->DrawText( text, x, y, angle );
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -340,9 +341,9 @@ void wxSFScaledDC::DoDrawRoundedRectangle(wxCoord x, wxCoord y, wxCoord width, w
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->DrawRoundedRectangle(x, y, width, height, radius);
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -357,9 +358,9 @@ void wxSFScaledDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
     if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
-        InitGC();
+        //InitGC();
         m_pGC->DrawText( text, x, y );
-        UninitGC();
+        //UninitGC();
         #endif
     }
     else
@@ -560,6 +561,12 @@ void wxSFScaledDC::SetBackgroundMode(int mode)
 }
 void wxSFScaledDC::SetBrush(const wxBrush& brush)
 {
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+		m_pGC->SetBrush( brush );
+		#endif
+	}
 	m_pTargetDC->SetBrush( brush );
 }
 void wxSFScaledDC::SetDeviceOrigin(wxCoord x, wxCoord y)
@@ -568,6 +575,12 @@ void wxSFScaledDC::SetDeviceOrigin(wxCoord x, wxCoord y)
 }
 void wxSFScaledDC::SetFont(const wxFont& font)
 {
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+		m_pGC->SetFont( font, this->GetTextForeground() );
+		#endif
+	}
 	m_pTargetDC->SetFont( font );
 }
 void wxSFScaledDC::SetLayoutDirection(wxLayoutDirection dir)
@@ -596,6 +609,12 @@ void wxSFScaledDC::SetPalette(const wxPalette& palette)
 }
 void wxSFScaledDC::SetPen(const wxPen& pen)
 {
+    if( m_fEnableGC )
+    {
+        #if wxUSE_GRAPHICS_CONTEXT
+		m_pGC->SetPen( pen );
+		#endif
+	}
 	m_pTargetDC->SetPen( pen );
 }
 void wxSFScaledDC::SetTextBackground(const wxColour& colour)
