@@ -503,15 +503,15 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			}
 		}
 
-        #if wxUSE_GRAPHICS_CONTEXT
-        wxSFScaledDC::EnableGC( false );
-        #endif
-
-		// draw line shape being created
+/*		// draw line shape being created
 		if(m_pNewLineShape)
 		{
 			m_pNewLineShape->Draw(dc, sfWITHOUTCHILDREN);
-		}
+		}*/
+		
+        #if wxUSE_GRAPHICS_CONTEXT
+        wxSFScaledDC::EnableGC( false );
+        #endif
 
 		// draw multiselection if neccessary
 		if(m_shpMultiEdit.IsVisible())
@@ -522,8 +522,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 	else
 	{
 		// draw parent shapes (children are processed by parent objects)
-		SerializableList::compatibility_iterator node = m_pManager->GetRootItem()->GetFirstChildNode();
-		while(node)
+		SerializableList::compatibility_iterator node = m_pManager->GetRootItem()->GetFirstChildNode();		while(node)
 		{
 			pShape = (wxSFShapeBase*)node->GetData();
 
@@ -1108,7 +1107,7 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
                     wxRect lineRct, updLineRct;
                     m_pNewLineShape->GetCompleteBoundingBox(lineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
 
-				    m_pNewLineShape->SetUnfinishedPoint(lpos);
+				    m_pNewLineShape->SetUnfinishedPoint(FitPositionToGrid(lpos));
 				    m_pNewLineShape->GetCompleteBoundingBox(updLineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
 
 					lineRct.Union(updLineRct);

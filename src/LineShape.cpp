@@ -396,9 +396,9 @@ wxRealPoint wxSFLineShape::GetDockPointPosition()
 
 bool wxSFLineShape::IsInside(const wxPoint& pos)
 {
-    if(this->GetHitLinesegment(pos) >= 0)return true;
-    else
-        return false;
+	if( (m_nMode != modeUNDERCONSTRUCTION) && (this->GetHitLinesegment(pos) >= 0) )return true;
+	else
+		return false;
 }
 
 void wxSFLineShape::Scale(double x, double y, bool children)
