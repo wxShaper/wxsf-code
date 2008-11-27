@@ -24,5 +24,6 @@
 #include "res/AlignMiddle.xpm"
 #include "res/AlignCenter.xpm"
 #include "res/Shadow.xpm"
+#include "res/GC.xpm"
 
 #endif // ART_H_INCLUDED

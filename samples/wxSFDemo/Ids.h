@@ -13,6 +13,7 @@ enum APPIDS
 
     IDT_GRID,
     IDT_SHADOW,
+	IDT_GC,
     IDT_TOOL,
     IDT_RECTSHP,
     IDT_SQUARESHP,

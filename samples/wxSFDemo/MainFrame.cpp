@@ -73,7 +73,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
     // set shape canvas and associate it with diagram manager
     m_pShapeCanvas = new FrameCanvas(&m_DiagramManager, m_pCanvasPanel, wxID_ANY);
     // set whether wxGraphicsContext should be used (valid only if wxUSE_GRAPHICS_CONTEXT if set to 1 for both wxSF and wxWidgets libraries)
-    wxSFShapeCanvas::EnableGC( true );
+    wxSFShapeCanvas::EnableGC( false );
 
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
     mainSizer->Add(m_pShapeCanvas, 1, wxEXPAND, 0);
@@ -87,7 +87,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	cpicker = new wxColourPickerCtrl(m_pToolBar, IDT_COLORPICKER, wxColor(120, 120, 255), wxDefaultPosition, wxSize(28, 28));
 	#endif
 	cpicker->SetToolTip(wxT("Set hower color"));
-
+	
 	// add m_pToolBar tools
 	m_pToolBar->SetToolBitmapSize(wxSize(16, 15));
 	m_pToolBar->AddTool(wxID_NEW, wxT("New"), wxArtProvider::GetBitmap(wxART_NEW, wxART_MENU), wxT("New diagram"));
@@ -106,6 +106,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_pToolBar->AddSeparator();
 	m_pToolBar->AddCheckTool(IDT_GRID, wxT("Grid"), wxBitmap(Grid_xpm), wxNullBitmap, wxT("Show/hide grid"));
 	m_pToolBar->AddCheckTool(IDT_SHADOW, wxT("Shadows"), wxBitmap(Shadow_xpm), wxNullBitmap, wxT("Show/hide shadows"));
+	m_pToolBar->AddCheckTool(IDT_GC, wxT("Enhanced graphics context"), wxBitmap(GC_xpm), wxNullBitmap, wxT("Use enhanced graphics context (wxGraphicsContext)"));
 	m_pToolBar->AddSeparator();
 	m_pToolBar->AddRadioTool(IDT_TOOL, wxT("Tool"), wxBitmap(Tool_xpm), wxNullBitmap, wxT("Design tool"));
 	m_pToolBar->AddRadioTool(IDT_RECTSHP, wxT("Rectangle"), wxBitmap(Rect_xpm), wxNullBitmap, wxT("Rectangle"));
@@ -269,7 +270,7 @@ void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.7 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2008"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.8 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2008"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -315,6 +316,12 @@ void MainFrm::OnTool(wxCommandEvent& event)
         	m_pShapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowALL);
         	// also shadows for topmost shapes only are allowed:
         	//m_pShapeCanvas->ShowShadows(m_fShowShadows, wxSFShapeCanvas::shadowTOPMOST);
+
+            m_pShapeCanvas->Refresh(false);
+            break;
+			
+        case IDT_GC:
+        	wxSFShapeCanvas::EnableGC( !wxSFShapeCanvas::IsGCEnabled() );
 
             m_pShapeCanvas->Refresh(false);
             break;
@@ -413,6 +420,10 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
         	event.Check(m_fShowGrid);
             break;
 
+        case IDT_GC:
+        	event.Check( wxSFShapeCanvas::IsGCEnabled() );
+            break;
+			
         case IDT_BITMAPSHP:
         	event.Check(m_nToolMode == modeBITMAP);
         	break;
