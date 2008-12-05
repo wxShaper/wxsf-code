@@ -61,7 +61,7 @@ wxColour GetHybridColour(const wxColour &orig, const wxColour &modificator)
 bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const wxRealPoint& from2, const wxRealPoint& to2, wxRealPoint& i)
 {
     double a1, b1, c1, a2, b2, c2, ka, kb;
-	
+
 	// bug in GCC ???
 	volatile double xi, yi;
 
@@ -82,15 +82,18 @@ bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const w
     if(ka == kb) return false;
 
     // find intersection point
+    #ifdef __WXMSW__
     xi = floor(((b1*c2 - c1*b2) / (a1*b2 - a2*b1)) + 0.5);
     yi = floor((-(a1*c2 - a2*c1) / (a1*b2 - a2*b1)) + 0.5);
-    /*xi = (b1*c2 - c1*b2) / (a1*b2 - a2*b1);
-    yi = -(a1*c2 - a2*c1) / (a1*b2 - a2*b1);*/
-	
+    #else
+    xi = (b1*c2 - c1*b2) / (a1*b2 - a2*b1);
+    yi = -(a1*c2 - a2*c1) / (a1*b2 - a2*b1);
+    #endif
+
     if( ((from1.x - xi)*(xi - to1.x) >= 0) &&
 		((from2.x - xi)*(xi - to2.x) >= 0) &&
         ((from1.y - yi)*(yi - to1.y) >= 0) &&
-		((from2.y - yi)*(yi - to2.y) >= 0) ) 
+		((from2.y - yi)*(yi - to2.y) >= 0) )
 		{
 			i.x = xi;
 			i.y = yi;
