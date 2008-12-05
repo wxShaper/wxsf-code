@@ -91,7 +91,6 @@ WXSF_LIB_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CommonFcn.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ControlShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CurveShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CurveShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_DiagramManager.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_DiamondShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_EditTextShape.obj \
@@ -100,16 +99,13 @@ WXSF_LIB_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_FlexGridShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_GridShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_MultiSelRect.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_OpenArrow.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_PolygonShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_PolygonShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_Printout.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RectShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RectShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RoundRectShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RoundRectShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_SFEvents.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ScaledDC.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ShapeBase.obj \
@@ -138,7 +134,6 @@ WXSF_DLL_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CommonFcn.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ControlShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CurveShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CurveShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_DiagramManager.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_DiamondShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_EditTextShape.obj \
@@ -147,16 +142,13 @@ WXSF_DLL_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_FlexGridShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_GridShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_MultiSelRect.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_OpenArrow.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_PolygonShape.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_PolygonShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_Printout.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RectShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RectShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RoundRectShape.obj \
-	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RoundRectShapeXml.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_SFEvents.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ScaledDC.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ShapeBase.obj \
@@ -493,9 +485,6 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_ControlShape.obj: ..\sr
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CurveShape.obj: ..\src\CurveShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\CurveShape.cpp
 
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_CurveShapeXml.obj: ..\src\CurveShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\CurveShapeXml.cpp
-
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_DiagramManager.obj: ..\src\DiagramManager.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\DiagramManager.cpp
 
@@ -520,9 +509,6 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_GridShape.obj: ..\src\G
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShape.obj: ..\src\LineShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\LineShape.cpp
 
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_LineShapeXml.obj: ..\src\LineShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\LineShapeXml.cpp
-
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_MultiSelRect.obj: ..\src\MultiSelRect.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\MultiSelRect.cpp
 
@@ -541,14 +527,8 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_Printout.obj: ..\src\Pr
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RectShape.obj: ..\src\RectShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\RectShape.cpp
 
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RectShapeXml.obj: ..\src\RectShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\RectShapeXml.cpp
-
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RoundRectShape.obj: ..\src\RoundRectShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\RoundRectShape.cpp
-
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_RoundRectShapeXml.obj: ..\src\RoundRectShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\RoundRectShapeXml.cpp
 
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_lib_SFEvents.obj: ..\src\SFEvents.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_LIB_CXXFLAGS) ..\src\SFEvents.cpp
@@ -616,9 +596,6 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_ControlShape.obj: ..\sr
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CurveShape.obj: ..\src\CurveShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\CurveShape.cpp
 
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_CurveShapeXml.obj: ..\src\CurveShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\CurveShapeXml.cpp
-
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_DiagramManager.obj: ..\src\DiagramManager.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\DiagramManager.cpp
 
@@ -643,9 +620,6 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_GridShape.obj: ..\src\G
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShape.obj: ..\src\LineShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\LineShape.cpp
 
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_LineShapeXml.obj: ..\src\LineShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\LineShapeXml.cpp
-
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_MultiSelRect.obj: ..\src\MultiSelRect.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\MultiSelRect.cpp
 
@@ -664,14 +638,8 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_Printout.obj: ..\src\Pr
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RectShape.obj: ..\src\RectShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\RectShape.cpp
 
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RectShapeXml.obj: ..\src\RectShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\RectShapeXml.cpp
-
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RoundRectShape.obj: ..\src\RoundRectShape.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\RoundRectShape.cpp
-
-bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_RoundRectShapeXml.obj: ..\src\RoundRectShapeXml.cpp
-	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\RoundRectShapeXml.cpp
 
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\wxsf_dll_SFEvents.obj: ..\src\SFEvents.cpp
 	$(CXX) -q -c -P -o$@ $(WXSF_DLL_CXXFLAGS) ..\src\SFEvents.cpp

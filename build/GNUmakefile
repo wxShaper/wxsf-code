@@ -84,7 +84,6 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CommonFcn.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ControlShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CurveShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CurveShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_DiagramManager.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_DiamondShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_EditTextShape.o \
@@ -93,16 +92,13 @@ WXSF_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_FlexGridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_GridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_MultiSelRect.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_OpenArrow.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PolygonShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_PolygonShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_Printout.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RectShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RectShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RoundRectShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RoundRectShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_SFEvents.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ScaledDC.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ShapeBase.o \
@@ -129,7 +125,6 @@ WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CommonFcn.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_ControlShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CurveShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CurveShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_DiagramManager.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_DiamondShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_EditTextShape.o \
@@ -138,16 +133,13 @@ WXSF_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_FlexGridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_GridShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_MultiSelRect.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_OpenArrow.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_PolygonShape.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_PolygonShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_Printout.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RectShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RectShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RoundRectShape.o \
-	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RoundRectShapeXml.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_SFEvents.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_ScaledDC.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_ShapeBase.o \
@@ -439,9 +431,6 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_ControlShape.o: ../src/ControlS
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CurveShape.o: ../src/CurveShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_CurveShapeXml.o: ../src/CurveShapeXml.cpp
-	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
-
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_DiagramManager.o: ../src/DiagramManager.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -466,9 +455,6 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_GridShape.o: ../src/GridShape.c
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShape.o: ../src/LineShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_LineShapeXml.o: ../src/LineShapeXml.cpp
-	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
-
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_MultiSelRect.o: ../src/MultiSelRect.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -487,13 +473,7 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_Printout.o: ../src/Printout.cpp
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RectShape.o: ../src/RectShape.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RectShapeXml.o: ../src/RectShapeXml.cpp
-	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
-
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RoundRectShape.o: ../src/RoundRectShape.cpp
-	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
-
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_RoundRectShapeXml.o: ../src/RoundRectShapeXml.cpp
 	$(CXX) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_lib_SFEvents.o: ../src/SFEvents.cpp
@@ -562,9 +542,6 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_ControlShape.o: ../src/ControlS
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CurveShape.o: ../src/CurveShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_CurveShapeXml.o: ../src/CurveShapeXml.cpp
-	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
-
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_DiagramManager.o: ../src/DiagramManager.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -589,9 +566,6 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_GridShape.o: ../src/GridShape.c
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShape.o: ../src/LineShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_LineShapeXml.o: ../src/LineShapeXml.cpp
-	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
-
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_MultiSelRect.o: ../src/MultiSelRect.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -610,13 +584,7 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_Printout.o: ../src/Printout.cpp
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RectShape.o: ../src/RectShape.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RectShapeXml.o: ../src/RectShapeXml.cpp
-	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
-
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RoundRectShape.o: ../src/RoundRectShape.cpp
-	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
-
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_RoundRectShapeXml.o: ../src/RoundRectShapeXml.cpp
 	$(CXX) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/wxsf_dll_SFEvents.o: ../src/SFEvents.cpp

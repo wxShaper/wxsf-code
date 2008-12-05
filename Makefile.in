@@ -61,7 +61,6 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_CommonFcn.o \
 	wxsf_lib_ControlShape.o \
 	wxsf_lib_CurveShape.o \
-	wxsf_lib_CurveShapeXml.o \
 	wxsf_lib_DiagramManager.o \
 	wxsf_lib_DiamondShape.o \
 	wxsf_lib_EditTextShape.o \
@@ -70,16 +69,13 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_FlexGridShape.o \
 	wxsf_lib_GridShape.o \
 	wxsf_lib_LineShape.o \
-	wxsf_lib_LineShapeXml.o \
 	wxsf_lib_MultiSelRect.o \
 	wxsf_lib_OpenArrow.o \
 	wxsf_lib_PolygonShape.o \
 	wxsf_lib_PolygonShapeXml.o \
 	wxsf_lib_Printout.o \
 	wxsf_lib_RectShape.o \
-	wxsf_lib_RectShapeXml.o \
 	wxsf_lib_RoundRectShape.o \
-	wxsf_lib_RoundRectShapeXml.o \
 	wxsf_lib_SFEvents.o \
 	wxsf_lib_ScaledDC.o \
 	wxsf_lib_ShapeBase.o \
@@ -105,7 +101,6 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_CommonFcn.o \
 	wxsf_dll_ControlShape.o \
 	wxsf_dll_CurveShape.o \
-	wxsf_dll_CurveShapeXml.o \
 	wxsf_dll_DiagramManager.o \
 	wxsf_dll_DiamondShape.o \
 	wxsf_dll_EditTextShape.o \
@@ -114,16 +109,13 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_FlexGridShape.o \
 	wxsf_dll_GridShape.o \
 	wxsf_dll_LineShape.o \
-	wxsf_dll_LineShapeXml.o \
 	wxsf_dll_MultiSelRect.o \
 	wxsf_dll_OpenArrow.o \
 	wxsf_dll_PolygonShape.o \
 	wxsf_dll_PolygonShapeXml.o \
 	wxsf_dll_Printout.o \
 	wxsf_dll_RectShape.o \
-	wxsf_dll_RectShapeXml.o \
 	wxsf_dll_RoundRectShape.o \
-	wxsf_dll_RoundRectShapeXml.o \
 	wxsf_dll_SFEvents.o \
 	wxsf_dll_ScaledDC.o \
 	wxsf_dll_ShapeBase.o \
@@ -446,9 +438,6 @@ wxsf_lib_ControlShape.o: $(srcdir)/src/ControlShape.cpp
 wxsf_lib_CurveShape.o: $(srcdir)/src/CurveShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/CurveShape.cpp
 
-wxsf_lib_CurveShapeXml.o: $(srcdir)/src/CurveShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/CurveShapeXml.cpp
-
 wxsf_lib_DiagramManager.o: $(srcdir)/src/DiagramManager.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/DiagramManager.cpp
 
@@ -473,9 +462,6 @@ wxsf_lib_GridShape.o: $(srcdir)/src/GridShape.cpp
 wxsf_lib_LineShape.o: $(srcdir)/src/LineShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/LineShape.cpp
 
-wxsf_lib_LineShapeXml.o: $(srcdir)/src/LineShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/LineShapeXml.cpp
-
 wxsf_lib_MultiSelRect.o: $(srcdir)/src/MultiSelRect.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/MultiSelRect.cpp
 
@@ -494,14 +480,8 @@ wxsf_lib_Printout.o: $(srcdir)/src/Printout.cpp
 wxsf_lib_RectShape.o: $(srcdir)/src/RectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RectShape.cpp
 
-wxsf_lib_RectShapeXml.o: $(srcdir)/src/RectShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RectShapeXml.cpp
-
 wxsf_lib_RoundRectShape.o: $(srcdir)/src/RoundRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RoundRectShape.cpp
-
-wxsf_lib_RoundRectShapeXml.o: $(srcdir)/src/RoundRectShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RoundRectShapeXml.cpp
 
 wxsf_lib_SFEvents.o: $(srcdir)/src/SFEvents.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/SFEvents.cpp
@@ -569,9 +549,6 @@ wxsf_dll_ControlShape.o: $(srcdir)/src/ControlShape.cpp
 wxsf_dll_CurveShape.o: $(srcdir)/src/CurveShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/CurveShape.cpp
 
-wxsf_dll_CurveShapeXml.o: $(srcdir)/src/CurveShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/CurveShapeXml.cpp
-
 wxsf_dll_DiagramManager.o: $(srcdir)/src/DiagramManager.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/DiagramManager.cpp
 
@@ -596,9 +573,6 @@ wxsf_dll_GridShape.o: $(srcdir)/src/GridShape.cpp
 wxsf_dll_LineShape.o: $(srcdir)/src/LineShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/LineShape.cpp
 
-wxsf_dll_LineShapeXml.o: $(srcdir)/src/LineShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/LineShapeXml.cpp
-
 wxsf_dll_MultiSelRect.o: $(srcdir)/src/MultiSelRect.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/MultiSelRect.cpp
 
@@ -617,14 +591,8 @@ wxsf_dll_Printout.o: $(srcdir)/src/Printout.cpp
 wxsf_dll_RectShape.o: $(srcdir)/src/RectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RectShape.cpp
 
-wxsf_dll_RectShapeXml.o: $(srcdir)/src/RectShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RectShapeXml.cpp
-
 wxsf_dll_RoundRectShape.o: $(srcdir)/src/RoundRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RoundRectShape.cpp
-
-wxsf_dll_RoundRectShapeXml.o: $(srcdir)/src/RoundRectShapeXml.cpp
-	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RoundRectShapeXml.cpp
 
 wxsf_dll_SFEvents.o: $(srcdir)/src/SFEvents.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/SFEvents.cpp
