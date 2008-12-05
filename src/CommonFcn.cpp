@@ -14,6 +14,8 @@
 #define new DEBUG_NEW
 #endif
 
+#include <math.h>
+
 #include <wx/tokenzr.h>
 
 #include "wx/wxsf/CommonFcn.h"
@@ -56,16 +58,6 @@ wxColour GetHybridColour(const wxColour &orig, const wxColour &modificator)
 	return wxColour(r, g, b);
 }
 
-/*double Min( double a, double b )
-{
-	return ( a < b ) ? a : b;
-}
-
-double Max( double a, double b )
-{
-	return ( a > b ) ? a : b;
-}*/
-
 bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const wxRealPoint& from2, const wxRealPoint& to2, wxRealPoint& i)
 {
     double a1, b1, c1, a2, b2, c2, ka, kb;
@@ -90,8 +82,10 @@ bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const w
     if(ka == kb) return false;
 
     // find intersection point
-    xi = (b1*c2 - c1*b2) / (a1*b2 - a2*b1);
-    yi = -(a1*c2 - a2*c1) / (a1*b2 - a2*b1);
+    xi = floor(((b1*c2 - c1*b2) / (a1*b2 - a2*b1)) + 0.5);
+    yi = floor((-(a1*c2 - a2*c1) / (a1*b2 - a2*b1)) + 0.5);
+    /*xi = (b1*c2 - c1*b2) / (a1*b2 - a2*b1);
+    yi = -(a1*c2 - a2*c1) / (a1*b2 - a2*b1);*/
 	
     if( ((from1.x - xi)*(xi - to1.x) >= 0) &&
 		((from2.x - xi)*(xi - to2.x) >= 0) &&

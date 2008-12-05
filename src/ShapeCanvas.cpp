@@ -309,15 +309,15 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
 	// use double-buffered painting
 	wxBufferedPaintDC paintDC( this );
-	
+
 	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
-		
+
 	PrepareDC( dc );
 	dc.PrepareGC();
-		
+
 	DrawContent(dc, sfFROM_PAINT);
 
-	
+
 	/*int sx, sy, x, y;
 
 	wxPaintDC paintDC(this);
@@ -339,7 +339,7 @@ void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 
         paintDC.Blit(0, 0, sx, sy, &dc, -x, -y);
 	}*/
-	
+
 }
 
 void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
@@ -1819,7 +1819,7 @@ void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
 
     wxBitmap outbmp(bmpBB.GetRight(), bmpBB.GetBottom());
 	wxMemoryDC dc( outbmp );
-	
+
     //wxSFScaledPaintDC outdc(outbmp, 1);
 	wxSFScaledDC outdc((wxWindowDC*)&dc, 1);
 
@@ -2503,7 +2503,7 @@ void wxSFShapeCanvas::Paste()
 		{
 /*			wxMemoryBuffer dataBuffer = CreateMembufferFromString(dataObj.m_Data.GetText());
 			wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);*/
-			
+
 			wxStringInputStream instream( dataObj.m_Data.GetText() );
 
 			if(instream.IsOk())
@@ -2623,7 +2623,7 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 	{
 /*		wxMemoryBuffer dataBuffer = CreateMembufferFromString(((wxSFShapeDataObject*)data)->m_Data.GetText());
 		wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);*/
-		
+
 		wxStringInputStream instream( ((wxSFShapeDataObject*)data)->m_Data.GetText() );
 
 		if(instream.IsOk())
@@ -2812,7 +2812,7 @@ void wxSFShapeCanvas::Print(wxSFPrintout *printout, bool prompt)
 
     wxPrintDialogData printDialogData(* g_printData);
     wxPrinter printer(& printDialogData);
-	
+
 	DeselectAll();
 
     if (!printer.Print(this, printout, prompt))
@@ -2838,7 +2838,7 @@ void wxSFShapeCanvas::PrintPreview(wxSFPrintout *preview, wxSFPrintout *printout
     wxASSERT(preview);
 
 	DeselectAll();
-	
+
     // Pass two printout objects: for preview, and possible printing.
     wxPrintDialogData printDialogData(* g_printData);
     wxPrintPreview *prnPreview = new wxPrintPreview(preview, printout, &printDialogData);

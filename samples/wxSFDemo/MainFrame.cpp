@@ -321,11 +321,11 @@ void MainFrm::OnTool(wxCommandEvent& event)
             break;
 			
         case IDT_GC:
-			#ifdef wxUSE_GRAPHICS_CONTEXT
+			#if wxUSE_GRAPHICS_CONTEXT
         	wxSFShapeCanvas::EnableGC( !wxSFShapeCanvas::IsGCEnabled() );
             m_pShapeCanvas->Refresh(false);
 			#else
-			wxMessageBox( wxT("Could not enable enhanced graphics context due to missing wxUSE_GRAPHICS_CONTEXT switch"), wxT("ShapeFramework"), wxOK | wxICON_WARNING ); 
+			wxMessageBox( wxT("Could not enable enhanced graphics context due to wxUSE_GRAPHICS_CONTEXT=0"), wxT("ShapeFramework"), wxOK | wxICON_WARNING ); 
 			#endif
             break;
 
