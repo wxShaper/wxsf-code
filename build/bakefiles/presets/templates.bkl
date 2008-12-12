@@ -2,7 +2,7 @@
 
 <!-- Created by: Francesco Montorsi <frm@users.sourceforge.net>     -->
 <!-- Creation date: 9/10/2004                                       -->
-<!-- RCS-ID: $Id: templates.bkl 686 2007-11-14 20:42:11Z frm $ -->
+<!-- RCS-ID: $Id: templates.bkl 774 2008-07-16 10:44:22Z frm $ -->
 
 <makefile>
 
@@ -56,7 +56,7 @@
         <install-to>$(LIBDIR)</install-to>
         <install-headers-to>$(PREFIX)</install-headers-to>
 
-        <wxlike-dirname>$(SRCDIR)/lib</wxlike-dirname>
+        <wxcode-dirname>$(SRCDIR)/lib</wxcode-dirname>
         <wxlike-libname prefix="wxcode">$(COMP_NAME)</wxlike-libname>
 
         <sources>$(COMP_SRC)</sources>
@@ -92,9 +92,9 @@
     <!--                    RULES                      -->
     <!--                                               -->
 
-    <!-- 
+    <!--
         IMPORTANT: we use new rules instead of simple templates whenever we want to add
-                   new tags to them. This makes it clear that e.g. <has-win32-res> is 
+                   new tags to them. This makes it clear that e.g. <has-win32-res> is
                    not a tag declared by Bakefile for <exe> tags but rather a
                    wxcode-specific tag for <wxcode-exe> tags.
     -->
@@ -148,11 +148,9 @@
             <dirname>$(SRCDIR)/$(value)</dirname>
             <res-include>$(SRCDIR)/$(value)</res-include>
 
-            <sources>$(fileList(value + '/*.c'))</sources>
-            <sources>$(fileList(value + '/*.cpp'))</sources>
-            <sources>$(fileList(value + '/*.cxx'))</sources>
-            <headers>$(fileList(value + '/*.h'))</headers>
-            <headers>$(fileList(value + '/*.hxx'))</headers>
+            <sources>$(fileList(value + '/*.c*'))</sources>
+            <headers>$(fileList(value + '/*.h*'))</headers>
+
 
             <!-- unlike win compilers, Unix's LD linker supports the -rpath option to insert
                 in the generated ELF files an hint to the OS about where to search the required
@@ -160,8 +158,8 @@
                 also before installing the component system-wide:
             -->
             <set var="RPATH">
-                <if cond="FORMAT=='gnu' and WX_SHARED=='1'">-Wl,-rpath,$(__topdir)lib/gcc_dll</if>
-                <if cond="FORMAT=='autoconf' and WX_SHARED=='1'">-Wl,-rpath,$(__topdir)lib</if>
+                <if cond="FORMAT=='gnu' and SHARED=='1'">-Wl,-rpath,$(__topdir)lib/gcc_dll</if>
+                <if cond="FORMAT=='autoconf' and SHARED=='1'">-Wl,-rpath,$(__topdir)lib</if>
             </set>
 
             <!-- for autoconf&gnu only (see comments above): -->

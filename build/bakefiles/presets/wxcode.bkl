@@ -2,13 +2,15 @@
 
 <!-- Created by: Francesco Montorsi <frm@users.sourceforge.net>     -->
 <!-- Creation date: 9/10/2004                                       -->
-<!-- RCS-ID: $Id: wxcode.bkl 686 2007-11-14 20:42:11Z frm $    -->
+<!-- RCS-ID: $Id: wxcode.bkl 856 2008-12-12 14:46:49Z frm $    -->
 
 <makefile>
 
     <!-- Always try to use the very latest bakefile, possibly even
          the SVN version ;) -->
-    <requires version="0.2.2"/>
+    <requires version="0.2.3"/>
+
+    <set var="USE_UNSTABLE_VERSION" overwrite="0">0</set>
 
 
     <!-- include the wxpresets and check that they are recent enough -->
@@ -16,10 +18,13 @@
     <if cond="not isdefined('WX_PRESETS_VERSION') or WX_PRESETS_VERSION not in [ '5' ]">
         <error>The included wxWidgets presets are too old!</error>
     </if>
-    <if cond="WX_VERSION_DEFAULT!='28' and FORMAT!='gnu' and FORMAT!='xcode2'">
+    <if cond="USE_UNSTABLE_VERSION=='0' and WX_VERSION_DEFAULT!='28' and FORMAT!='gnu'">
         <!-- this is to avoid that I (Francesco) erraneously commit presets with 29 as def version -->
         <error>Please use the current stable branch as WX_VERSION option default and not $(WX_VERSION_DEFAULT)!</error>
     </if>
+
+    <!-- Our additional wxCode-specific options -->
+    <include file="options.bkl" once="1"/>
 
     <!-- Our defaults -->
     <include file="defaults.bkl" once="1"/>

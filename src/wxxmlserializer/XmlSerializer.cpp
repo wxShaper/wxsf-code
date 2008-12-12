@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.8 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.9 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -115,17 +115,39 @@ void xsSerializable::Reparent(xsSerializable* parent)
 xsSerializable* xsSerializable::GetFirstChild()
 {
 	SerializableList::compatibility_iterator node = m_lstChildItems.GetFirst();
-    if(node)return node->GetData();
+    if( node )return node->GetData();
     else
         return NULL;
+}
+
+xsSerializable* xsSerializable::GetFirstChild(wxClassInfo *type)
+{
+	SerializableList::compatibility_iterator node = m_lstChildItems.GetFirst();
+    while( node )
+	{
+		if( node->GetData()->GetClassInfo() == type ) return node->GetData();
+		node = node->GetNext();
+    }
+	return NULL;
 }
 
 xsSerializable* xsSerializable::GetLastChild()
 {
     SerializableList::compatibility_iterator node = m_lstChildItems.GetLast();
-    if(node)return node->GetData();
+    if( node )return node->GetData();
     else
         return NULL;
+}
+
+xsSerializable* xsSerializable::GetLastChild(wxClassInfo *type)
+{
+    SerializableList::compatibility_iterator node = m_lstChildItems.GetLast();
+    while( node )
+	{
+		if( node->GetData()->GetClassInfo() == type ) return node->GetData();
+		node = node->GetPrevious();
+    }
+	return NULL;
 }
 
 xsSerializable* xsSerializable::GetSibbling()
@@ -134,20 +156,36 @@ xsSerializable* xsSerializable::GetSibbling()
 
     if( m_pParentItem )
     {
-		SerializableList::compatibility_iterator sibblingNode, node = m_pParentItem->GetChildrenList().GetFirst();
-        while(node)
-        {
-            if( node->GetData() == this )
-            {
-                sibblingNode = node->GetNext();
-                if( sibblingNode )return sibblingNode->GetData();
-            }
-            node = node->GetNext();
-        }
+		SerializableList::compatibility_iterator node = m_pParentItem->GetChildrenList().Find( this );
+		if( node )
+		{
+			if( node->GetNext() ) return node->GetNext()->GetData();
+		}
     }
 
     return NULL;
 }
+
+xsSerializable* xsSerializable::GetSibbling(wxClassInfo *type)
+{
+    wxASSERT( m_pParentItem );
+
+    if( m_pParentItem )
+    {
+		SerializableList::compatibility_iterator sibbling, node = m_pParentItem->GetChildrenList().Find( this );
+		while( node )
+		{
+			sibbling = node->GetNext();
+			
+			if( sibbling && (sibbling->GetData()->GetClassInfo() == type) ) return sibbling->GetData();
+			
+			node = sibbling;
+		}
+    }
+
+    return NULL;
+}
+
 
 xsSerializable* xsSerializable::GetChild(long id, bool recursive)
 {
@@ -186,7 +224,7 @@ void xsSerializable::GetChildren(wxClassInfo *type, SerializableList& list)
     }
 }
 
-void xsSerializable::GetChildrenRecursively(wxClassInfo *type, SerializableList& list)
+void xsSerializable::GetChildrenRecursively(wxClassInfo *type, SerializableList& list, SEARCHMODE mode)
 {
     xsSerializable *pChild;
 
@@ -194,12 +232,21 @@ void xsSerializable::GetChildrenRecursively(wxClassInfo *type, SerializableList&
     while(node)
     {
         pChild = node->GetData();
-
         if( !type || pChild->IsKindOf(type) ) list.Append(pChild);
-        pChild->GetChildrenRecursively(type, list);
+		if( mode == searchDFS ) pChild->GetChildrenRecursively(type, list);
 
         node = node->GetNext();
     }
+	
+	if( mode == searchBFS )
+	{
+		node = m_lstChildItems.GetFirst();
+		while(node)
+		{
+			node->GetData()->GetChildrenRecursively(type, list);
+			node = node->GetNext();
+		}
+	}
 }
 
 void xsSerializable::AddProperty(xsProperty* property)
@@ -457,21 +504,12 @@ bool wxXmlSerializer::Contains(xsSerializable *object)
     return false;
 }
 
-void wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list)
+void wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list, xsSerializable::SEARCHMODE mode)
 {
     if( m_pRoot )
     {
-        m_pRoot->GetChildrenRecursively(type, list);
+        m_pRoot->GetChildrenRecursively(type, list, mode);
     }
-
-    /*m_nCounter = 0;
-
-    if( m_pRoot )
-    {
-        _GetItems(type, m_pRoot, list);
-    }
-
-    return m_nCounter;*/
 }
 
 void wxXmlSerializer::CopyItems(const wxXmlSerializer* src)

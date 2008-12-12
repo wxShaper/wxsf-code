@@ -32,6 +32,8 @@ wxSFTextShape::wxSFTextShape(void)
 
     m_Fill = *wxTRANSPARENT_BRUSH;
     m_Border = *wxTRANSPARENT_PEN;
+	
+	m_nRectSize = wxRealPoint(0, 0);
 
 	MarkSerializableDataMembers();
 
@@ -39,7 +41,7 @@ wxSFTextShape::wxSFTextShape(void)
 }
 
 wxSFTextShape::wxSFTextShape(const wxRealPoint& pos, const wxString& txt, wxSFDiagramManager* manager)
-: wxSFRectShape(pos, wxRealPoint(1, 1), manager)
+: wxSFRectShape(pos, wxRealPoint(0, 0), manager)
 {
     m_Font = sfdvTEXTSHAPE_FONT;
     m_Font.SetPointSize(12);

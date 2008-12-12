@@ -864,8 +864,8 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 				pShape->_OnEndDrag(lpos);
 
                 // is shape dropped into accepting shape?
-                pParentShape = GetShapeAtPosition(Conv2Point(pShape->GetAbsolutePosition()), 1, searchUNSELECTED);
-                if( !pParentShape || !pShape->IsInside( pParentShape->GetBoundingBox()) )pParentShape = GetShapeAtPosition( lpos, 1, searchUNSELECTED );
+                pParentShape = GetShapeAtPosition( lpos, 1, searchUNSELECTED );
+			    if( !pParentShape || !pShape->IsInside( pParentShape->GetBoundingBox()) )pParentShape = GetShapeAtPosition(Conv2Point(pShape->GetAbsolutePosition()), 1, searchUNSELECTED);
 
                 if(pParentShape && !pParentShape->IsChildAccepted( pShape->GetClassInfo()->GetClassName() ))pParentShape = NULL;
 
@@ -2114,7 +2114,7 @@ void wxSFShapeCanvas::ValidateSelectionForClipboard(ShapeList& list)
 			lstConnections.Clear();
 			lstChildren.Clear();
 
-			pShape->GetChildShapes(lstChildren, sfRECURSIVE);
+			pShape->GetChildShapes(sfANY, lstChildren, sfRECURSIVE);
 
 			// get connections assigned to the parent shape
 			m_pManager->GetAssignedConnections(pShape, CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, lstConnections);

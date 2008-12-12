@@ -252,7 +252,7 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 			lstChildren.Append(pLine);
 
 			// get children of the connections
-			pLine->GetChildShapes(lstChildren);
+			pLine->GetChildShapes(sfANY, lstChildren);
 
 			node = node->GetNext();
 		}
@@ -261,7 +261,7 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 	// get children of this shape
 	if(mask & bbCHILDREN)
 	{
-		this->GetChildShapes(lstChildren);
+		this->GetChildShapes(sfANY, lstChildren, sfNORECURSIVE);
 
 		// now, call this function for all children recursively...
 		ShapeList::compatibility_iterator node = lstChildren.GetFirst();
@@ -386,7 +386,7 @@ void wxSFShapeBase::Scale(const wxRealPoint& scale, bool children)
 void wxSFShapeBase::ScaleChildren(double x, double y)
 {
 	ShapeList m_lstChildren;
-	GetChildShapes(m_lstChildren, sfRECURSIVE);
+	GetChildShapes(sfANY, m_lstChildren, sfRECURSIVE);
 
 	ShapeList::compatibility_iterator node = m_lstChildren.GetFirst();
 	while(node)
@@ -627,11 +627,11 @@ void wxSFShapeBase::CreateHandles()
 	// HINT: overload it for custom actions...
 }
 
-void wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive)
+void wxSFShapeBase::GetChildShapes(wxClassInfo *type, ShapeList& children, bool recursive, xsSerializable::SEARCHMODE mode )
 {
-    if( recursive ) GetChildrenRecursively(NULL, (SerializableList&)children);
+    if( recursive ) GetChildrenRecursively(type, (SerializableList&)children, mode);
     else
-        GetChildren(NULL, (SerializableList&)children);
+        GetChildren(type, (SerializableList&)children);
 }
 
 void wxSFShapeBase::GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo, CONNECTMODE condir, bool direct)

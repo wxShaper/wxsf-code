@@ -359,7 +359,7 @@ void FrameCanvas::OnRightDown(wxMouseEvent& event)
 
         // show info about shape's children
         counter = 1;
-        pShape->GetChildShapes(lstShapes, sfRECURSIVE);
+        pShape->GetChildShapes(sfANY, lstShapes, sfRECURSIVE);
         if( !lstShapes.IsEmpty() )
         {
             msg += wxT("\nChildren:\n");

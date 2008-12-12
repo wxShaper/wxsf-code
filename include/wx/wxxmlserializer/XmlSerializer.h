@@ -171,6 +171,14 @@ public:
     friend class wxXmlSerializer;
 
     XS_DECLARE_CLONABLE_CLASS(xsSerializable);
+	
+	enum SEARCHMODE
+	{
+		/*! \brief Depth-First-Search algorithm */
+		searchDFS,
+		/*! \brief Breadth-First-Search algorithm */
+		searchBFS
+	};
 
     /*! \brief Constructor. */
     xsSerializable();
@@ -197,15 +205,33 @@ public:
      */
     xsSerializable* GetFirstChild();
     /*!
+     * \brief Get first serializable child object of given type.
+	 * \param type Child object type (can be NULL for any type)  
+     * \return Pointer to child object if exists, otherwise NULL
+     */
+    xsSerializable* GetFirstChild(wxClassInfo *type);
+    /*!
      * \brief Get last serializable child object.
      * \return Pointer to child object if exists, otherwise NULL
      */
     xsSerializable* GetLastChild();
     /*!
+     * \brief Get last serializable child object of given type.
+	 * \param type Child object type (can be NULL for any type) 
+     * \return Pointer to child object if exists, otherwise NULL
+     */
+    xsSerializable* GetLastChild(wxClassInfo *type);
+    /*!
      * \brief Get next serializable sibbling object.
      * \return Pointer to sibbling object if exists, otherwise NULL
      */
     xsSerializable* GetSibbling();
+    /*!
+     * \brief Get next serializable sibbling object of given type.
+	 * \param type Child object type (can be NULL for any type) 
+     * \return Pointer to sibbling object if exists, otherwise NULL
+     */
+    xsSerializable* GetSibbling(wxClassInfo *type);
     /*!
      * \brief Get child item with given ID if exists.
      * \param id ID of searched child item
@@ -229,8 +255,10 @@ public:
      * \brief Get all children of given type recursively (i.e. children of children of .... ).
      * \param type Get only children of given type (if NULL then all children are returned)
      * \param list Reference to a list where all found child objects will be appended
+	 * \param mode Search mode. User can choose Depth-First-Search or Breadth-First-Search algorithm (BFS is default)
+	 * \sa SEARCHMODE
      */
-    void GetChildrenRecursively(wxClassInfo *type, SerializableList& list);
+    void GetChildrenRecursively(wxClassInfo *type, SerializableList& list, SEARCHMODE mode = searchBFS);
     /*!
      * \brief Get pointer to list node containing first serializable child object.
      */
@@ -239,7 +267,7 @@ public:
      * \brief Get pointer to list node containing last serializable child object.
      */
     SerializableList::compatibility_iterator GetLastChildNode() const {return m_lstChildItems.GetLast();}
-
+	
     /*!
      * \brief Set serializable parent object.
      * \param parent Pointer to parent object
@@ -656,8 +684,10 @@ public:
      * \brief Get items of given class type.
      * \param type Class type
      * \param list List with matching serializable objects
+	 * \param mode Search mode
+	 * \sa xsSerializable::SEARCHMODE 
      */
-    void GetItems(wxClassInfo* type, SerializableList& list);
+    void GetItems(wxClassInfo* type, SerializableList& list, xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS);
     /*!
      * \brief Check whether given object is included in the serializer.
      * \param object Pointer to checked object

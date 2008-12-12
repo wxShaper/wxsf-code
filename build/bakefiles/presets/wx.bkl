@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!-- $Id: wx.bkl 686 2007-11-14 20:42:11Z frm $ -->
+<!-- $Id: wx.bkl 720 2008-02-13 13:58:16Z frm $ -->
 
 <!--
     Presets for building wxWidgets applications.
@@ -243,7 +243,7 @@
     <!-- The directory where wxWidgets is installed: -->
     <if cond="not isdefined('WX_DIR')">
         <set var="WX_DIR_DEFAULT" overwrite="0">$(DOLLAR)($(ENV_VAR)WXWIN)</set>
-        <option name="WX_DIR" category="path">
+        <option name="WX_DIR" category="path" never_empty="1">
             <default-value>$(WX_DIR_DEFAULT)</default-value>
             <description>
                 The directory where wxWidgets library is installed
@@ -382,7 +382,7 @@
 
             <dirname>$(_DIRNAME)</dirname>
 
-            <if cond="FORMAT_SUPPORTS_ACTIONS=='1'">
+            <if cond="FORMAT_SUPPORTS_ACTIONS=='1' and FORMAT!='xcode2'">
                 <set var="__mkdir_tgt">make_dir_$(id)</set>
 
                 <add-target target="$(__mkdir_tgt)" type="action"/>
@@ -393,7 +393,7 @@
                     <command cond="TOOLSET in ['win32','os2','dos']">
                         if not exist $(nativePaths(_DIRNAME)) mkdir $(nativePaths(_DIRNAME))
                     </command>
-            </modify-target>
+                </modify-target>
 
                 <!-- the following code is mostly equivalent to a:
                           <dependency-of>$(id)</dependency-of>

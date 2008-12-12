@@ -28,6 +28,7 @@
 #define sfINDIRECT false
 #define sfWITHCHILDREN true
 #define sfWITHOUTCHILDREN false
+#define sfANY NULL
 
 // default values
 /*! \brief Default value of wxSFShapeObject::m_fVisible data member */
@@ -243,10 +244,13 @@ public:
 
     /*!
 	 * \brief Get child shapes associated with this (parent) shape.
+     * \param type Type of searched child shapes (NULL for any type)
      * \param children List of child shapes
      * \param recursive Set this flag TRUE if also children of children of ... should be found (also sfRECURSIVE a sfNORECURSIVE constants can be used).
+	 * \param mode Search mode (has sense only for recursive search) 
+	 * \sa xsSerializable::SEARCHMODE 
      */
-	void GetChildShapes(ShapeList& children, bool recursive = false);
+	void GetChildShapes(wxClassInfo *type, ShapeList& children, bool recursive = false, xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS);
 	/*!
 	 * \brief Get neighbour shapes connected to this shape.
 	 * \param neighbours List of neighbour shapes

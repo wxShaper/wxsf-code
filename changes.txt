@@ -1,3 +1,18 @@
+Changes in version 1.7.1 beta (2008-12-07):
+--------------------------------------------
+- Switched to use wxXmlSerializer 1.1.9:
+  - Added functions xsSerializable::GetFirstChild(wxClassInfo *type), xsSerializable::GetLastChild(wxClassInfo *type), xsSerializable::GetSibbling(wxClassInfo *type).
+  - Changed declaration of xsSerializable::GetChildrenRecursively(wxClassInfo *type, SerializableList& list) function to
+    xsSerializable::GetChildrenRecursively(wxClassInfo *type, SerializableList& list, SEARCHMODE mode), where 'mode' parameter can be 'searchDFS' for Depth-First-Search
+    or 'searchBFS' for Breadth-First-Search algorithm. The 'searchBFS' is default.
+  - Changed declaration of wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list) function to wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list,
+    xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
+
+- Changed declaration of wxSFDiagramManager::GetShapes(ShapeList& shapes) function to wxSFDiagramManager::GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes 
+  xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
+- Changed declaration of wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive = false) to wxSFShapeBase::GetChildShapes(wxClassInfo *type, ShapeList& children,
+  bool recursive = false, xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
+
 Changes in version 1.7.0 beta (2008-12-05):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.8:

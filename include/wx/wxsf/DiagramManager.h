@@ -50,7 +50,7 @@ public:
     /*! \brief Search mode flags for GetShapeAtPosition function */
 	enum SEARCHMODE
 	{
-	    /*! \brief Search for selected shapes only*/
+	    /*! \brief Search for selected shapes only */
 		searchSELECTED,
 		/*! \brief Search for unselected shapes only */
 		searchUNSELECTED,
@@ -201,9 +201,11 @@ public:
 	 * \param shapeInfo Shape object type
 	 * \param shapes Reference to shape list where pointers to
 	 * all found shapes will be stored
+	 * \param mode Search algorithm
 	 * \return Number of found shapes
+	 * \sa xsSerializable::SEARCHMODE 
 	 */
-	int GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes);
+	int GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes, xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS);
 	/*!
 	 * \brief Get shape at given logical position
 	 * \param pos Logical position
