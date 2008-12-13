@@ -401,7 +401,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 		ShapeList m_lstLinesToDraw;
 
 		// get all existing shapes
-		m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), m_lstToDraw);
+		m_pManager->GetShapes( CLASSINFO(wxSFShapeBase), m_lstToDraw, xsSerializable::searchDFS );
 
 		// get the update rect list
 		wxRegionIterator upd(GetUpdateRegion());
@@ -865,7 +865,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 
                 // is shape dropped into accepting shape?
                 pParentShape = GetShapeAtPosition( lpos, 1, searchUNSELECTED );
-			    if( !pParentShape || !pShape->IsInside( pParentShape->GetBoundingBox()) )pParentShape = GetShapeAtPosition(Conv2Point(pShape->GetAbsolutePosition()), 1, searchUNSELECTED);
+			    //if( !pParentShape || !pShape->IsInside( pParentShape->GetBoundingBox()) )pParentShape = GetShapeAtPosition(Conv2Point(pShape->GetAbsolutePosition()), 1, searchUNSELECTED);
 
                 if(pParentShape && !pParentShape->IsChildAccepted( pShape->GetClassInfo()->GetClassName() ))pParentShape = NULL;
 
