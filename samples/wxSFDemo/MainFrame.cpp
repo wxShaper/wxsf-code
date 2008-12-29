@@ -153,8 +153,8 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 
 void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
 {
-    m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
+	m_DiagramManager.Clear();
 
  	Destroy();
 }
@@ -165,8 +165,8 @@ void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
 
 void MainFrm::OnExit(wxCommandEvent& WXUNUSED(event))
 {
-    m_DiagramManager.Clear();
     m_DiagramManager.SetShapeCanvas(NULL);
+	m_DiagramManager.Clear();
 
 	Destroy();
 }
@@ -220,7 +220,7 @@ void MainFrm::OnUndo(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnUpdateUndo(wxUpdateUIEvent& event)
 {
-	event.Enable(m_pShapeCanvas->CanUndo());
+	if( m_pShapeCanvas ) event.Enable(m_pShapeCanvas->CanUndo());
 }
 
 void MainFrm::OnRedo(wxCommandEvent& WXUNUSED(event))
@@ -230,7 +230,7 @@ void MainFrm::OnRedo(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnUpdateRedo(wxUpdateUIEvent& event)
 {
-	event.Enable(m_pShapeCanvas->CanRedo());
+	if( m_pShapeCanvas ) event.Enable(m_pShapeCanvas->CanRedo());
 }
 
 void MainFrm::OnCopy(wxCommandEvent& WXUNUSED(event))
@@ -240,7 +240,7 @@ void MainFrm::OnCopy(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnUpdateCopy(wxUpdateUIEvent& event)
 {
-	event.Enable(m_pShapeCanvas->CanCopy());
+	if( m_pShapeCanvas ) event.Enable(m_pShapeCanvas->CanCopy());
 }
 
 void MainFrm::OnCut(wxCommandEvent& WXUNUSED(event))
@@ -250,7 +250,7 @@ void MainFrm::OnCut(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnUpdateCut(wxUpdateUIEvent& event)
 {
-	event.Enable(m_pShapeCanvas->CanCut());
+	if( m_pShapeCanvas ) event.Enable(m_pShapeCanvas->CanCut());
 }
 
 void MainFrm::OnPaste(wxCommandEvent& WXUNUSED(event))
@@ -260,7 +260,7 @@ void MainFrm::OnPaste(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnUpdatePaste(wxUpdateUIEvent& event)
 {
-	event.Enable(m_pShapeCanvas->CanPaste());
+	if( m_pShapeCanvas ) event.Enable(m_pShapeCanvas->CanPaste());
 }
 
 void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
@@ -489,7 +489,7 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
         case IDT_ALIGN_BOTTOM:
         case IDT_ALIGN_MIDDLE:
         case IDT_ALIGN_CENTER:
-            event.Enable(m_pShapeCanvas->CanAlignSelected());
+            if( m_pShapeCanvas ) event.Enable(m_pShapeCanvas->CanAlignSelected());
             break;
 
         default:

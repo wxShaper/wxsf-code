@@ -449,7 +449,7 @@ void wxSFLineShape::CreateHandles()
     m_lstHandles.Clear();
 
     // create control points handles
-	for(size_t i = 0; i < m_lstPoints.GetCount(); i++)AddHandle(wxSFShapeHandle::hndLINECTRL, (int)i);
+	for(size_t i = 0; i < m_lstPoints.GetCount(); i++) AddHandle(wxSFShapeHandle::hndLINECTRL, (int)i);
 
 	// create border handles
 	AddHandle(wxSFShapeHandle::hndLINESTART);
@@ -806,7 +806,7 @@ int wxSFLineShape::GetHitLinesegment(const wxPoint& pos)
 		
 		// calculate line segment bounding box
         lsBB = wxRect(Conv2Point(ptSrc), Conv2Point(ptTrg));
-        if( (i > 0) && (i < (int)m_lstPoints.GetCount()-1) )lsBB.Inflate(10);
+        if( (i > 0) && ((i + 1) < m_lstPoints.GetCount()) )lsBB.Inflate(10);
 
         // convert line segment to its parametric form
         a = ptTrg.y - ptSrc.y;

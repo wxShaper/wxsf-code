@@ -477,27 +477,21 @@ public:
 	/*!
 	 * \brief Get list of all shapes located at given position
 	 * \param pos Logical position
-	 * \param shapes Reference to shape list where pointers to
-	 * all found shapes will be stored
-	 * \return Number of found shapes
+	 * \param shapes Reference to shape list where pointers to all found shapes will be stored
 	 * \sa wxSFShapeCanvas::DP2LP
 	 */
-	int GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes);
+	void GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes);
 	/*!
 	 * \brief Get list of shapes located inside given rectangle
 	 * \param rct Examined rectangle
-	 * \param shapes Reference to shape list where pointers to
-	 * all found shapes will be stored
-	 * \return Number of found shapes
+	 * \param shapes Reference to shape list where pointers to all found shapes will be stored
 	 */
-	int GetShapesInside(const wxRect& rct, ShapeList& shapes);
+	void GetShapesInside(const wxRect& rct, ShapeList& shapes);
 	/*!
 	 * \brief Get list of selected shapes.
-	 * \param selection Reference to shape list where pointers to
-	 * all selected shapes will be stored
-	 * \return Number of selected shapes
+	 * \param selection Reference to shape list where pointers to all selected shapes will be stored
 	 */
-	int GetSelectedShapes(ShapeList& selection);
+	void GetSelectedShapes(ShapeList& selection);
     /*!
 	 * \brief Get box bounding all shapes in the canvas.
 	 * \return Total bounding box
@@ -884,6 +878,8 @@ private:
 	wxPoint m_nDnDStartedAt;
 	/*! \brief Custom data format object (used for the clipboard and D&D operations */
 	wxDataFormat m_formatShapes;
+	
+	wxPoint m_nPrevMousePos;
 
 	/*! \brief Canvas history manager */
 	wxSFCanvasHistory m_CanvasHistory;
@@ -910,13 +906,15 @@ private:
 	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */
 	void DeleteAllTextCtrls();
 	/*! \brief Validate selection so the shapes in the given list can be processed by the clipboard functions */
-	void ValidateSelectionForClipboard(ShapeList& list);
-//	/*! \brief Create wxMemoryBuffer from given wxString */
-//	wxMemoryBuffer CreateMembufferFromString(const wxString& str);
+	void ValidateSelectionForClipboard(ShapeList& selection);
+	/*! \brief Append connections assigned to shapes in given list to this list as well */
+	void AppendAssignedConnections(wxSFShapeBase *shape, ShapeList& selection, bool childrenonly);
 	/*! \brief Initialize printing framework */
 	void InitializePrinting();
 	/*! \brief Deinitialize prnting framework */
 	void DeinitializePrinting();
+	/*! \brief Remove given shape for temporary conatiners */
+	void RemoveFromTemporaries(wxSFShapeBase *shape);
 
 	// private event handlers
 	/*!

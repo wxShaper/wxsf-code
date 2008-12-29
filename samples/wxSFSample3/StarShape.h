@@ -18,7 +18,7 @@ public:
     // user constructor
     cStarShape(const wxRealPoint& pos, wxSFDiagramManager* manager);
     // copy constructor needed by the xsSerializable::Clone() function
-    cStarShape(cStarShape& obj);
+    cStarShape(const cStarShape& obj);
     // destructor
     virtual ~cStarShape();
 

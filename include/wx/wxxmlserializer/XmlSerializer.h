@@ -587,7 +587,7 @@ public:
     xsProperty(xsSerializable** src, const wxString& field) : m_pSourceVariable((void**)src), m_sFieldName(field), m_sDataType(wxT("serializabledynamic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
 	/*! \brief Copy constructor. */
-	xsProperty(const xsProperty& obj) : m_pSourceVariable(obj.m_pSourceVariable), m_sFieldName(obj.m_sFieldName), m_sDataType(obj.m_sDataType), m_sDefaultValueStr(obj.m_sDefaultValueStr), m_fSerialize(obj.m_fSerialize) {;}
+	xsProperty(const xsProperty& obj) : wxObject( obj ), m_pSourceVariable(obj.m_pSourceVariable), m_sFieldName(obj.m_sFieldName), m_sDataType(obj.m_sDataType), m_sDefaultValueStr(obj.m_sDefaultValueStr), m_fSerialize(obj.m_fSerialize) {;}
 
     ~xsProperty(){;}
 

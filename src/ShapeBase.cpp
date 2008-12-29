@@ -1081,17 +1081,13 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 
 void wxSFShapeBase::_OnKey(int key)
 {
-    //wxASSERT(m_pParentManager);
-
     if(!m_pParentManager)return;
 
     wxSFShapeCanvas *pCanvas = GetShapeManager()->GetShapeCanvas();
 
-    //wxASSERT(pCanvas);
-
     if(!pCanvas)return;
 
-	if(m_fVisible && m_fActive && m_fSelected)
+	if( m_fVisible && m_fActive )
 	{
 		double dx = 1, dy = 1;
 		bool fRefreshAll = false;
@@ -1121,19 +1117,19 @@ void wxSFShapeBase::_OnKey(int key)
             switch(key)
             {
             case WXK_LEFT:
-                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(-dx, 0);
+                if(ContainsStyle(sfsPOSITION_CHANGE))this->MoveBy(-dx, 0);
                 break;
 
             case WXK_RIGHT:
-                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(dx, 0);
+                if(ContainsStyle(sfsPOSITION_CHANGE))this->MoveBy(dx, 0);
                 break;
 
             case WXK_UP:
-                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(0, -dy);
+                if(ContainsStyle(sfsPOSITION_CHANGE))this->MoveBy(0, -dy);
                 break;
 
             case WXK_DOWN:
-                if(ContainsStyle(sfsPOSITION_CHANGE))MoveBy(0, dy);
+                if(ContainsStyle(sfsPOSITION_CHANGE))this->MoveBy(0, dy);
                 break;
             }
         }
@@ -1153,7 +1149,6 @@ void wxSFShapeBase::_OnKey(int key)
 
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
-   // wxASSERT(m_pParentManager);
     wxSFShapeBase *pChild;
     wxSFShapeCanvas *pCanvas = GetShapeManager()->GetShapeCanvas();
 

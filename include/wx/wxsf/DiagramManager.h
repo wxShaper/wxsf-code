@@ -190,27 +190,22 @@ public:
 	 * \param parent Pointer to parent shape
 	 * \param shapeInfo Line object type
 	 * \param mode Search mode
-	 * \param lines Reference to shape list where pointers to
-	 * all found connections will be stored
-	 * \return Number of found connections
+	 * \param lines Reference to shape list where pointers to all found connections will be stored
 	 * \sa wxSFShapeBase::CONNECTMODE
 	 */
-	int GetAssignedConnections(wxSFShapeBase* parent, wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines);
+	void GetAssignedConnections(wxSFShapeBase* parent, wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines);
 	/*!
 	 * \brief Get list of shapes of given type.
 	 * \param shapeInfo Shape object type
-	 * \param shapes Reference to shape list where pointers to
-	 * all found shapes will be stored
+	 * \param shapes Reference to shape list where pointers to all found shapes will be stored
 	 * \param mode Search algorithm
-	 * \return Number of found shapes
 	 * \sa xsSerializable::SEARCHMODE 
 	 */
-	int GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes, xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS);
+	void GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes, xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS);
 	/*!
 	 * \brief Get shape at given logical position
 	 * \param pos Logical position
-	 * \param zorder Z-order of searched shape (usefull if several shapes are located
-	 * at the given position)
+	 * \param zorder Z-order of searched shape (usefull if several shapes are located at the given position)
 	 * \param mode Search mode
 	 * \return Pointer to shape if found, otherwise NULL
 	 * \sa SEARCHMODE, wxSFShapeCanvas::DP2LP,, wxSFShapeCanvas::GetShapeUnderCursor
@@ -219,20 +214,16 @@ public:
 	/*!
 	 * \brief Get list of all shapes located at given position
 	 * \param pos Logical position
-	 * \param shapes Reference to shape list where pointers to
-	 * all found shapes will be stored
-	 * \return Number of found shapes
+	 * \param shapes Reference to shape list where pointers to all found shapes will be stored
 	 * \sa wxSFShapeCanvas::DP2LP
 	 */
-	int GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes);
+	void GetShapesAtPosition(const wxPoint& pos, ShapeList& shapes);
 	/*!
 	 * \brief Get list of shapes located inside given rectangle
 	 * \param rct Examined rectangle
-	 * \param shapes Reference to shape list where pointers to
-	 * all found shapes will be stored
-	 * \return Number of found shapes
+	 * \param shapes Reference to shape list where pointers to all found shapes will be stored
 	 */
-	int GetShapesInside(const wxRect& rct, ShapeList& shapes);
+	void GetShapesInside(const wxRect& rct, ShapeList& shapes);
 
     /*!
      * \brief Function finds out whether given shape has some children.

@@ -1,4 +1,4 @@
-Changes in version 1.7.1 beta (2008-12-07):
+Changes in version 1.7.1 beta (2008-12-20):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.9:
   - Added functions xsSerializable::GetFirstChild(wxClassInfo *type), xsSerializable::GetLastChild(wxClassInfo *type), xsSerializable::GetSibbling(wxClassInfo *type).
@@ -8,10 +8,18 @@ Changes in version 1.7.1 beta (2008-12-07):
   - Changed declaration of wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list) function to wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list,
     xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
 
+- Significant speed improvements and optimizations in shape canvas and diagram manager. These improvemets required some small
+  API changes; see the lines bellow for more information.
 - Changed declaration of wxSFDiagramManager::GetShapes(ShapeList& shapes) function to wxSFDiagramManager::GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes 
   xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
 - Changed declaration of wxSFShapeBase::GetChildShapes(ShapeList& children, bool recursive = false) to wxSFShapeBase::GetChildShapes(wxClassInfo *type, ShapeList& children,
   bool recursive = false, xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
+- Functions wxSFDiagramManager::GetAssignedConnections, wxSFDiagramManager::GetShapes, wxSFDiagramManager::GetShapesAtPosition,
+  wxSFDiagramManager::GetShapesInside and wxSFShapeCanvas::GetSelectedShapes don't return number of found elements anymore
+  ( user can call wxList::GetCount() function later if neccessary ).
+- Line shapes connected to child shapes are moved together with their parent if dragged or moved by keys.
+- Fixed propagation of some key events to shapes (arrow keys on lines weren't processed correctly).
+- Fixed possible crash if parent shape was dropped (in some special cases) to its child shape.
 
 Changes in version 1.7.0 beta (2008-12-05):
 --------------------------------------------

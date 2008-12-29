@@ -35,7 +35,7 @@ cStarShape::cStarShape(const wxRealPoint& pos, wxSFDiagramManager* manager)
     Initialize();
 }
 
-cStarShape::cStarShape(cStarShape& obj)
+cStarShape::cStarShape(const cStarShape& obj)
 : wxSFPolygonShape(obj)
 {
 	// clone source child text object..
