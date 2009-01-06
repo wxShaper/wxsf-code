@@ -1,9 +1,9 @@
 /***************************************************************
  * Name:      wxSFSample1App.h
  * Purpose:   Defines Application Class
- * Author:    Michal Bližòák (michal.bliznak@tiscali.cz)
+ * Author:    Michal BliÂžÃ²Ã¡k (michal.bliznak@tiscali.cz)
  * Created:   2007-08-31
- * Copyright: Michal Bližòák ()
+ * Copyright: Michal BliÂžÃ²Ã¡k ()
  * License:
  **************************************************************/
 

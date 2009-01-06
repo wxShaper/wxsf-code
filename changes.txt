@@ -8,7 +8,7 @@ Changes in version 1.7.1 beta (2008-12-20):
   - Changed declaration of wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list) function to wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list,
     xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
 
-- Significant speed improvements and optimizations in shape canvas and diagram manager. These improvemets required some small
+- Significant speed improvements and optimizations in shape canvas and diagram manager. These improvements required some small
   API changes; see the lines bellow for more information.
 - Changed declaration of wxSFDiagramManager::GetShapes(ShapeList& shapes) function to wxSFDiagramManager::GetShapes(wxClassInfo* shapeInfo, ShapeList& shapes 
   xsSerializable::SEARCHMODE mode = xsSerializable::searchBFS).
