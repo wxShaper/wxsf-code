@@ -1,3 +1,7 @@
+Changes in version 1.7.2 beta (2009-01-08):
+--------------------------------------------
+- Reverted ability to print using wxGraphicsCanvas due to crash on Linux. Now only standard GDI functions are used.
+
 Changes in version 1.7.1 beta (2008-12-20):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.9:
