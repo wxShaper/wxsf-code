@@ -156,13 +156,16 @@ bool wxSFPrintout::OnPrintPage(int page)
 		double nScale = 1;
 		if( wxSFShapeCanvas::IsGCEnabled() ) dc->GetUserScale( &nScale, &nScale );
         m_pCanvas->SetScale(1);
-		
-		/*wxSFScaledDC sdc( (wxWindowDC*)dc, nScale );
+
+		#ifdef __WXMSW__
+		wxSFScaledDC sdc( (wxWindowDC*)dc, nScale );
 		sdc.PrepareGC();
-		
-        m_pCanvas->DrawContent(sdc, sfNOT_FROM_PAINT);*/
+
+        m_pCanvas->DrawContent(sdc, sfNOT_FROM_PAINT);
+        #else
 		m_pCanvas->DrawContent(*dc, sfNOT_FROM_PAINT);
-		
+		#endif
+
         m_pCanvas->SetScale(prevScale);
 
         // restore previous canvas properties if needed

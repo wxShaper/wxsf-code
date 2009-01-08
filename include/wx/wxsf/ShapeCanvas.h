@@ -878,7 +878,7 @@ private:
 	wxPoint m_nDnDStartedAt;
 	/*! \brief Custom data format object (used for the clipboard and D&D operations */
 	wxDataFormat m_formatShapes;
-	
+
 	wxPoint m_nPrevMousePos;
 
 	/*! \brief Canvas history manager */
@@ -915,6 +915,8 @@ private:
 	void DeinitializePrinting();
 	/*! \brief Remove given shape for temporary conatiners */
 	void RemoveFromTemporaries(wxSFShapeBase *shape);
+	/*! \brief Assign give shape to parent at given location (if exists) */
+	void ReparentShape(wxSFShapeBase *shape, const wxPoint& parentpos);
 
 	// private event handlers
 	/*!
