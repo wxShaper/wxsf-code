@@ -224,6 +224,8 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
     if( --m_nRefCounter == 0) DeinitializePrinting();
+	
+	DeleteAllTextCtrls();
 	//Clear();
 }
 bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
@@ -2359,7 +2361,7 @@ void wxSFShapeCanvas::DeleteAllTextCtrls()
 	while(node)
 	{
 		pTextCtrl = ((wxSFEditTextShape*)node->GetData())->GetTextCtrl();
-		if(pTextCtrl)pTextCtrl->Quit();
+		if(pTextCtrl)pTextCtrl->Quit( sfCANCEL_TEXT_CHANGES );
 		node = node->GetNext();
 	}
 }
