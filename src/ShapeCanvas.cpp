@@ -2361,7 +2361,7 @@ void wxSFShapeCanvas::DeleteAllTextCtrls()
 	while(node)
 	{
 		pTextCtrl = ((wxSFEditTextShape*)node->GetData())->GetTextCtrl();
-		if(pTextCtrl)pTextCtrl->Quit( sfCANCEL_TEXT_CHANGES );
+		if(pTextCtrl)pTextCtrl->Quit( sfAPPLY_TEXT_CHANGES );
 		node = node->GetNext();
 	}
 }
