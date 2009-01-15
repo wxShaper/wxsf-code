@@ -14,16 +14,18 @@
 #define new DEBUG_NEW
 #endif
 
+#include <wx/textctrl.h>
 #include "wx/wxsf/EditTextShape.h"
 #include "wx/wxsf/ShapeCanvas.h"
 
-static int textCtrlId = -1;
+static int textCtrlId = wxNewId();
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFEditTextShape, wxSFTextShape);
 
 BEGIN_EVENT_TABLE(wxSFContentCtrl, wxTextCtrl)
 	EVT_KILL_FOCUS(wxSFContentCtrl::OnKillFocus)
 	EVT_KEY_DOWN(wxSFContentCtrl::OnKeyDown)
+	EVT_TEXT_ENTER(textCtrlId, wxSFContentCtrl::OnEnterDown)
 END_EVENT_TABLE()
 
 //----------------------------------------------------------------------------------//
@@ -62,26 +64,40 @@ void wxSFContentCtrl::OnKeyDown(wxKeyEvent& event)
 	switch(event.GetKeyCode())
 	{
 	case WXK_ESCAPE:
+		Quit( sfCANCEL_TEXT_CHANGES );
+		break;
 	case WXK_TAB:
-		Quit();
+		Quit( sfAPPLY_TEXT_CHANGES );
 		break;
 	default:
 		event.Skip();
 	}
 }
 
-void wxSFContentCtrl::Quit()
+void wxSFContentCtrl::OnEnterDown(wxCommandEvent& event)
+{
+	// enter new line if SHIFT key was pressed together with the ENTER key
+	if( wxGetKeyState( WXK_SHIFT ) )
+	{
+		event.Skip();
+	}
+	else
+		Quit( sfAPPLY_TEXT_CHANGES );
+}
+
+void wxSFContentCtrl::Quit(bool apply)
 {
 	if(m_pParentShape)
 	{
-		m_pParentShape->SetText(GetValue());
 		m_pParentShape->m_pTextCtrl = NULL;
 		m_pParentShape->SetStyle(m_pParentShape->m_nCurrentState);
 
 		// save canvas state if the textctrl content has changed...
-		if(m_sPrevContent != GetValue())
+		if( apply && ( m_sPrevContent != GetValue() ) )
 		{
+			m_pParentShape->SetText(GetValue());
 			m_sPrevContent = GetValue();
+			
 		    // inform parent shape canvas about text change...
             m_pParentShape->GetParentCanvas()->OnTextChange(m_pParentShape);
 		    m_pParentShape->GetParentCanvas()->SaveCanvasState();

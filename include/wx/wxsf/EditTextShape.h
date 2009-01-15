@@ -13,6 +13,9 @@
 
 #include "TextShape.h"
 
+#define sfCANCEL_TEXT_CHANGES false
+#define sfAPPLY_TEXT_CHANGES true
+
 /*! \brief Default value of wxSFEditTextShape::m_fForceMultiline data member */
 #define sfdvEDITTEXTSHAPE_FORCEMULTILINE false
 
@@ -38,8 +41,11 @@ public:
      */
 	wxSFContentCtrl(wxWindow* parent, wxWindowID id, wxSFEditTextShape* parentShape, const wxString& content, wxPoint pos, wxSize size, int style);
 
-    /*! \brief Abort the editing process/ */
-	void Quit();
+    /*!
+	 * \brief Finish the editing process/ 
+	 * \param apply If TRUE then changes made in eddited text will be applied on text shape, otherwise it will be canceled 
+	 */
+	void Quit( bool apply = sfAPPLY_TEXT_CHANGES );
 
 protected:
 
@@ -57,6 +63,11 @@ protected:
 	 * \param event Reference to the event class instance
 	 */
 	void OnKeyDown(wxKeyEvent& event);
+	/*!
+	 * \brief Event handler called if the ENTER key was pressed in the text control.
+	 * \param event Reference to the event class instance
+	 */
+	void OnEnterDown(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE();
 };

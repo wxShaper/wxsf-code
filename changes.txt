@@ -1,5 +1,7 @@
 Changes in version 1.7.2 beta (2009-01-08):
 --------------------------------------------
+- Pressing of ENTER key when editable text (wxSFEditTextShape) if modified causes termination of editing process. Pressing of
+  ENTER key together with SHIFT key will add a newline to the edited text.
 - Virtual function wxSFShapeBase::OnChildDropped() is now called even for child shapes dropped via Drag&Drop operation.
 - Disabled ability to print using wxGraphicsCanvas (due to crash) on Linux. Now only standard GDI functions are used there.
 
