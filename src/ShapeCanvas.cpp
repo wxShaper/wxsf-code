@@ -225,7 +225,7 @@ wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
     if( --m_nRefCounter == 0) DeinitializePrinting();
 	
-	DeleteAllTextCtrls();
+	//DeleteAllTextCtrls();
 	//Clear();
 }
 bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
