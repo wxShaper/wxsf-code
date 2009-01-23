@@ -715,6 +715,9 @@ public:
      */
     inline wxSFMultiSelRect& GetMultiselectionBox() { return m_shpMultiEdit; }
 
+	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */
+	void DeleteAllTextCtrls();
+
 	// public virtual event handlers
     /*!
      * \brief Event handler call when the canvas is clicked by
@@ -903,8 +906,6 @@ private:
 
 	// private functions
 
-	/*! \brief Close and delete all opened text editing controls actualy used by editable text shapes */
-	void DeleteAllTextCtrls();
 	/*! \brief Validate selection so the shapes in the given list can be processed by the clipboard functions */
 	void ValidateSelectionForClipboard(ShapeList& selection);
 	/*! \brief Append connections assigned to shapes in given list to this list as well */
