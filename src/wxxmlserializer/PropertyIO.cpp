@@ -56,7 +56,7 @@ void xsPropertyIO::AppendPropertyType(xsProperty *source, wxXmlNode *target)
 
 XS_DEFINE_IO_HANDLER(wxString, xsStringPropIO);
 
-wxString xsStringPropIO::ToString(wxString value)
+wxString xsStringPropIO::ToString(const wxString& value)
 {
     return value;
 }
@@ -72,7 +72,7 @@ wxString xsStringPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxChar, xsCharPropIO);
 
-wxString xsCharPropIO::ToString(wxChar value)
+wxString xsCharPropIO::ToString(const wxChar& value)
 {
     return wxString::Format(wxT("%c"), value);
 }
@@ -89,7 +89,7 @@ wxChar xsCharPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(long, xsLongPropIO);
 
-wxString xsLongPropIO::ToString(long value)
+wxString xsLongPropIO::ToString(const long& value)
 {
     return wxString::Format(wxT("%ld"), value);
 }
@@ -110,7 +110,7 @@ long xsLongPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(int, xsIntPropIO);
 
-wxString xsIntPropIO::ToString(int value)
+wxString xsIntPropIO::ToString(const int& value)
 {
     return wxString::Format(wxT("%d"), value);
 }
@@ -131,7 +131,7 @@ int xsIntPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(bool, xsBoolPropIO);
 
-wxString xsBoolPropIO::ToString(bool value)
+wxString xsBoolPropIO::ToString(const bool& value)
 {
     return wxString::Format(wxT("%d"), value);
 }
@@ -152,7 +152,7 @@ bool xsBoolPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(double, xsDoublePropIO);
 
-wxString xsDoublePropIO::ToString(double value)
+wxString xsDoublePropIO::ToString(const double& value)
 {
     wxString sVal;
 
@@ -210,7 +210,7 @@ double xsDoublePropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(float, xsFloatPropIO);
 
-wxString xsFloatPropIO::ToString(float value)
+wxString xsFloatPropIO::ToString(const float& value)
 {
     wxString sVal;
     if( wxIsNaN(value) )
@@ -266,7 +266,7 @@ float xsFloatPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxPoint, xsPointPropIO);
 
-wxString xsPointPropIO::ToString(wxPoint value)
+wxString xsPointPropIO::ToString(const wxPoint& value)
 {
     return wxString::Format(wxT("%d,%d"), value.x, value.y);
 }
@@ -298,7 +298,7 @@ wxPoint xsPointPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxSize, xsSizePropIO);
 
-wxString xsSizePropIO::ToString(wxSize value)
+wxString xsSizePropIO::ToString(const wxSize& value)
 {
     return wxString::Format(wxT("%d,%d"), value.x, value.y);
 }
@@ -315,7 +315,7 @@ wxSize xsSizePropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxRealPoint, xsRealPointPropIO);
 
-wxString xsRealPointPropIO::ToString(wxRealPoint value)
+wxString xsRealPointPropIO::ToString(const wxRealPoint& value)
 {
     return wxString::Format(wxT("%s,%s"), xsDoublePropIO::ToString(value.x).c_str(), xsDoublePropIO::ToString(value.y).c_str());
 }
@@ -341,7 +341,7 @@ wxRealPoint xsRealPointPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxColour, xsColourPropIO);
 
-wxString xsColourPropIO::ToString(wxColour value)
+wxString xsColourPropIO::ToString(const wxColour& value)
 {
     return wxString::Format(wxT("%d,%d,%d,%d"), value.Red(), value.Green(), value.Blue(), value.Alpha());
 }
@@ -352,26 +352,10 @@ wxColour xsColourPropIO::FromString(const wxString& value)
 	int nGreen = 0;
 	int nBlue = 0;
 	int nAlpha = 0;
-	
-//	long nRed = 0;
-//	long nGreen = 0;
-//	long nBlue = 0;
-//	long nAlpha = 0;
 
 	if(!value.IsEmpty())
 	{
 		if( wxSscanf( value, wxT("%d,%d,%d,%d"), &nRed, &nGreen, &nBlue, &nAlpha ) == 3 ) nAlpha = 255;
-		
-//		wxStringTokenizer tokens(value, wxT(","), wxTOKEN_STRTOK);
-//
-//		tokens.GetNextToken().ToLong(&nRed);
-//		tokens.GetNextToken().ToLong(&nGreen);
-//		tokens.GetNextToken().ToLong(&nBlue);
-//
-//		if( tokens.HasMoreTokens() )
-//            tokens.GetNextToken().ToLong(&nAlpha);
-//        else
-//            nAlpha = 255;
 	}
 
 	return wxColour(nRed, nGreen, nBlue, nAlpha);
@@ -383,7 +367,7 @@ wxColour xsColourPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxPen, xsPenPropIO);
 
-wxString xsPenPropIO::ToString(wxPen value)
+wxString xsPenPropIO::ToString(const wxPen& value)
 {
     return wxString::Format(wxT("%s %d %d"), xsColourPropIO::ToString(value.GetColour()).c_str(), value.GetWidth(), value.GetStyle());
 }
@@ -406,7 +390,7 @@ wxPen xsPenPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxBrush, xsBrushPropIO);
 
-wxString xsBrushPropIO::ToString(wxBrush value)
+wxString xsBrushPropIO::ToString(const wxBrush& value)
 {
     return wxString::Format(wxT("%s %d"), xsColourPropIO::ToString(value.GetColour()).c_str(), value.GetStyle());
 }
@@ -428,7 +412,7 @@ wxBrush xsBrushPropIO::FromString(const wxString& value)
 
 XS_DEFINE_IO_HANDLER(wxFont, xsFontPropIO);
 
-wxString xsFontPropIO::ToString(wxFont value)
+wxString xsFontPropIO::ToString(const wxFont& value)
 {
     return value.GetNativeFontInfoUserDesc();
 }
@@ -487,7 +471,7 @@ wxString xsArrayStringPropIO::GetValueStr(xsProperty *property)
 	return ToString(*((wxArrayString*)property->m_pSourceVariable));
 }
 
-wxString xsArrayStringPropIO::ToString(wxArrayString value)
+wxString xsArrayStringPropIO::ToString(const wxArrayString& value)
 {
  	wxString out = wxT("[ ");
 
@@ -552,7 +536,7 @@ wxString xsArrayIntPropIO::GetValueStr(xsProperty *property)
 	return ToString(*((IntArray*)property->m_pSourceVariable));
 }
 
-wxString xsArrayIntPropIO::ToString(IntArray value)
+wxString xsArrayIntPropIO::ToString(const IntArray& value)
 {
  	wxString out = wxT("[ ");
 
@@ -617,7 +601,7 @@ wxString xsArrayLongPropIO::GetValueStr(xsProperty *property)
 	return ToString(*((LongArray*)property->m_pSourceVariable));
 }
 
-wxString xsArrayLongPropIO::ToString(LongArray value)
+wxString xsArrayLongPropIO::ToString(const LongArray& value)
 {
  	wxString out = wxT("[ ");
 
@@ -682,7 +666,7 @@ wxString xsArrayDoublePropIO::GetValueStr(xsProperty *property)
 	return ToString(*((DoubleArray*)property->m_pSourceVariable));
 }
 
-wxString xsArrayDoublePropIO::ToString(DoubleArray value)
+wxString xsArrayDoublePropIO::ToString(const DoubleArray& value)
 {
  	wxString out = wxT("[ ");
 
@@ -747,7 +731,7 @@ wxString xsArrayCharPropIO::GetValueStr(xsProperty *property)
 	return ToString(*((CharArray*)property->m_pSourceVariable));
 }
 
-wxString xsArrayCharPropIO::ToString(CharArray value)
+wxString xsArrayCharPropIO::ToString(const CharArray& value)
 {
  	wxString out = wxT("[ ");
 
@@ -814,7 +798,7 @@ wxString xsArrayRealPointPropIO::GetValueStr(xsProperty *property)
 	return ToString(*((RealPointArray*)property->m_pSourceVariable));
 }
 
-wxString xsArrayRealPointPropIO::ToString(RealPointArray value)
+wxString xsArrayRealPointPropIO::ToString(const RealPointArray& value)
 {
 	wxString out = wxT("[ ");
 
@@ -887,7 +871,7 @@ wxString xsListRealPointPropIO::GetValueStr(xsProperty *property)
 	return ToString(*((RealPointList*)property->m_pSourceVariable));
 }
 
-wxString xsListRealPointPropIO::ToString(RealPointList value)
+wxString xsListRealPointPropIO::ToString(const RealPointList& value)
 {
 	wxString out = wxT("[ ");
 
@@ -948,17 +932,17 @@ void xsDynObjPropIO::Write(xsProperty *property, wxXmlNode *target)
 
 wxString xsDynObjPropIO::GetValueStr(xsProperty *property)
 {
-    return ToString(*(xsSerializable**)(property->m_pSourceVariable));
+    return ToString(**(xsSerializable**)(property->m_pSourceVariable));
 }
 
-wxString xsDynObjPropIO::ToString(xsSerializable* value)
+wxString xsDynObjPropIO::ToString(const xsSerializable& value)
 {
-	return wxString::Format(wxT("Dynamic object at address 0x%x"), value);
+	return wxString::Format(wxT("Dynamic object at address 0x%x"), &value);
 }
 
-xsSerializable* xsDynObjPropIO::FromString(const wxString& WXUNUSED(value))
+xsSerializable xsDynObjPropIO::FromString(const wxString& WXUNUSED(value))
 {
-	return NULL;
+	return xsSerializable();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -997,17 +981,17 @@ void xsDynNCObjPropIO::Write(xsProperty *property, wxXmlNode *target)
 
 wxString xsDynNCObjPropIO::GetValueStr(xsProperty *property)
 {
-    return ToString(*(xsSerializable**)(property->m_pSourceVariable));
+    return ToString(**(xsSerializable**)(property->m_pSourceVariable));
 }
 
-wxString xsDynNCObjPropIO::ToString(xsSerializable* value)
+wxString xsDynNCObjPropIO::ToString(const xsSerializable& value)
 {
-	return wxString::Format(wxT("Dynamic object at address 0x%x"), value);
+	return wxString::Format(wxT("Dynamic object at address 0x%x"), &value);
 }
 
-xsSerializable* xsDynNCObjPropIO::FromString(const wxString& WXUNUSED(value))
+xsSerializable xsDynNCObjPropIO::FromString(const wxString& WXUNUSED(value))
 {
-	return NULL;
+	return xsSerializable();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -1040,15 +1024,15 @@ wxString xsStaticObjPropIO::GetValueStr(xsProperty *property)
 	return ToString(*(xsSerializable*)property->m_pSourceVariable);
 }
 
-wxString xsStaticObjPropIO::ToString(xsSerializable value)
+wxString xsStaticObjPropIO::ToString(const xsSerializable& value)
 {
 	return wxString::Format(wxT("Static object at address 0x%x"), &value);
 }
 
 xsSerializable xsStaticObjPropIO::FromString(const wxString& WXUNUSED(value))
 {
-	xsSerializable dummy;
-	return dummy;
+	//xsSerializable dummy;
+	return xsSerializable();
 }
 
 

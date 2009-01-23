@@ -67,7 +67,7 @@ public:
 
     // public functions
 	/*! \brief Get wxShapeFramework version number */
-	wxString GetVersion() {return m_sSFVersion;}
+	const wxString& GetVersion() const { return m_sSFVersion; }
 
     /*!
      * \brief Create new direct connection between two shapes.
@@ -121,6 +121,9 @@ public:
 	void RemoveShapes(const ShapeList& selection);
 	/*! \brief Remove all shapes from canvas */
 	void Clear();
+	
+	/*! \brief Update all shapes in the diagram manager */
+	void UpdateAll();
 
     /*!
      * \brief Serialize complete shape canvas to given file
@@ -173,11 +176,11 @@ public:
 	 * \brief Clear shape object acceptance list
 	 * \sa AcceptShape
 	 */
-	void ClearAcceptedShapes(){m_arrAcceptedShapes.Clear();}
+	inline void ClearAcceptedShapes() { m_arrAcceptedShapes.Clear(); }
 	/*!
 	 * \brief Get reference to shape acceptance list
 	 */
-	wxArrayString& GetAcceptedShapes(){return m_arrAcceptedShapes;}
+	inline wxArrayString& GetAcceptedShapes() { return m_arrAcceptedShapes; }
 
     /*!
      * \brief Find shape with given ID.
@@ -250,12 +253,12 @@ public:
      * \brief Set associated shape canvas
      * \param canvas Pointer to shape canvas
      */
-    void SetShapeCanvas(wxSFShapeCanvas* canvas){m_pShapeCanvas = canvas;}
+    inline void SetShapeCanvas(wxSFShapeCanvas* canvas) { m_pShapeCanvas = canvas; }
     /*!
      * \brief Get associated shape canvas
      * \return Pointer to shape canvas
      */
-    wxSFShapeCanvas* GetShapeCanvas(){return m_pShapeCanvas;}
+    inline wxSFShapeCanvas* GetShapeCanvas() { return m_pShapeCanvas; }
 
 protected:
 

@@ -1,9 +1,17 @@
 Changes in version 1.7.2 beta (2009-01-08):
 --------------------------------------------
-- Pressing of ENTER key when editable text (wxSFEditTextShape) if modified causes termination of editing process. Pressing of
+- Switched to use wxXmlSerializer 1.1.10:
+  - Declaration of xsProperyIO::ToString(T value) changed to xsProperyIO::ToString(const T& value).
+  - Improved "const correctness" of member functions.
+  - Code clean-up.
+
+- Added function wxSFDiagramManager::UpdateAll() which updates all shapes in the diagram manager.
+- Pressing of ENTER key when editable text (wxSFEditTextShape) is modified causes termination of editing process. Pressing of
   ENTER key together with SHIFT key will add a newline to the edited text.
 - Virtual function wxSFShapeBase::OnChildDropped() is now called even for child shapes dropped via Drag&Drop operation.
 - Disabled ability to print using wxGraphicsCanvas (due to crash) on Linux. Now only standard GDI functions are used there.
+- Improved "const correctness" of member functions.
+- Code clean-up.
 
 Changes in version 1.7.1 beta (2008-12-20):
 --------------------------------------------

@@ -297,7 +297,7 @@ public:
      * \return Pointer to diagram manager
      * \sa wxSFDiagramManager
      */
-    wxSFDiagramManager* GetDiagramManager(){return m_pManager;}
+    inline wxSFDiagramManager* GetDiagramManager() { return m_pManager; }
     /*!
      * \brief Set diagram manager for this shape canvas
      * \param manager Pointer to diagram manager instance
@@ -519,123 +519,123 @@ public:
      * \param style Combination of the canvas styles
      * \sa STYLE
      */
-    inline void SetStyle(long style){m_Settings.m_nStyle = style;}
+    inline void SetStyle(long style) { m_Settings.m_nStyle = style; }
     /*! \brief Get current canvas style. */
-    inline long GetStyle(){return m_Settings.m_nStyle;}
+    inline long GetStyle() const { return m_Settings.m_nStyle; }
 	/*! \brief Add new style flag. */
-    inline void AddStyle(STYLE style){m_Settings.m_nStyle |= style;}
+    inline void AddStyle(STYLE style) { m_Settings.m_nStyle |= style; }
 	/*! \brief Remove given style flag. */
-    inline void RemoveStyle(STYLE style){m_Settings.m_nStyle &= ~style;}
+    inline void RemoveStyle(STYLE style) { m_Settings.m_nStyle &= ~style; }
 	/*! \brief Check whether given style flag is used. */
-    inline bool ContainsStyle(STYLE style){return (m_Settings.m_nStyle & style) != 0;}
+    inline bool ContainsStyle(STYLE style) const { return (m_Settings.m_nStyle & style) != 0; }
 
 	// public members accessors
 	/*!
 	 * \brief Set canvas background color.
 	 * \param col Background color
 	 */
-	void SetCanvasColour(const wxColour& col){m_Settings.m_nBackgroundColor = col;}
+	inline void SetCanvasColour(const wxColour& col) { m_Settings.m_nBackgroundColor = col; }
 	/*!
 	 * \brief Get canvas background color.
 	 * \return Background color
 	 */
-	wxColour GetCanvasColour() const {return m_Settings.m_nBackgroundColor;}
+	inline wxColour GetCanvasColour() const { return m_Settings.m_nBackgroundColor; }
 	/*!
 	 * \brief Set starting gradient color.
 	 * \param col Color
 	 */
-	void SetGradientFrom(const wxColour& col){m_Settings.m_nGradientFrom = col;}
+	inline void SetGradientFrom(const wxColour& col) { m_Settings.m_nGradientFrom = col; }
 	/*!
 	 * \brief Get starting gradient color.
 	 * \return Color
 	 */
-	wxColour GetGradientFrom() const {return m_Settings.m_nGradientFrom;}
+	inline wxColour GetGradientFrom() const { return m_Settings.m_nGradientFrom; }
 	/*!
 	 * \brief Set ending gradient color.
 	 * \param col Color
 	 */
-	void SetGradientTo(const wxColour& col){m_Settings.m_nGradientTo = col;}
+	inline void SetGradientTo(const wxColour& col) { m_Settings.m_nGradientTo = col; }
 	/*!
 	 * \brief Get ending gradient color.
 	 * \return Color
 	 */
-	wxColour GetGradientTo() const {return m_Settings.m_nGradientTo;}
+	inline wxColour GetGradientTo() const { return m_Settings.m_nGradientTo; }
 	/*!
 	 * \brief Get grid size.
 	 * \return Grid size
 	 */
-	wxSize GetGrid() const {return m_Settings.m_nGridSize;}
+	inline wxSize GetGrid() const { return m_Settings.m_nGridSize; }
 	/*!
 	 * \brief Set grid size.
 	 * \param grid Grid size
 	 */
-	void SetGrid(wxSize grid){m_Settings.m_nGridSize = grid;}
+	inline void SetGrid(wxSize grid) { m_Settings.m_nGridSize = grid; }
 	/*!
 	 * \brief Set grid color.
 	 * \param col Grid color
 	 */
-	void SetGridColour(const wxColour& col){m_Settings.m_nGridColor = col;}
+	inline void SetGridColour(const wxColour& col) { m_Settings.m_nGridColor = col; }
 	/*!
 	 * \brief Get grid color.
 	 * \return Grid color
 	 */
-	wxColour GetGridColour() const {return m_Settings.m_nGridColor;}
+	inline wxColour GetGridColour() const { return m_Settings.m_nGridColor; }
 	/*!
 	 * \brief Set shadow offset.
 	 * \param offset Shadow offset
 	 */
-	void SetShadowOffset(const wxRealPoint& offset){m_Settings.m_nShadowOffset = offset;}
+	inline void SetShadowOffset(const wxRealPoint& offset) { m_Settings.m_nShadowOffset = offset; }
 	/*!
 	 * \brief Get shadow offset.
 	 * \return Shadow offset
 	 */
-	wxRealPoint GetShadowOffset() const {return m_Settings.m_nShadowOffset;}
+	inline wxRealPoint GetShadowOffset() const { return m_Settings.m_nShadowOffset; }
 	/*!
 	 * \brief Set shadow fill (used for shadows of non-text shapes only).
 	 * \param brush Reference to brush object
 	 */
-	void SetShadowFill(const wxBrush& brush){m_Settings.m_ShadowFill = brush;}
+	inline void SetShadowFill(const wxBrush& brush) { m_Settings.m_ShadowFill = brush; }
 	/*!
 	 * \brief Get shadow fill.
 	 * \return Current shadow brush
 	 */
-	wxBrush GetShadowFill() const {return m_Settings.m_ShadowFill;}
+	inline wxBrush GetShadowFill() const { return m_Settings.m_ShadowFill; }
 	/*!
 	 * \brief Set horizontal align of printed drawing.
 	 * \param val Horizontal align
 	 * \sa HALIGN
 	 */
-	void SetPrintHAlign(HALIGN val){m_Settings.m_nPrintHAlign = (int)val;}
+	inline void SetPrintHAlign(HALIGN val) { m_Settings.m_nPrintHAlign = (int)val; }
 	/*!
 	 * \brief Get horizontal align of printed drawing.
 	 * \return Current horizontal align
 	 * \sa HALIGN
 	 */
-	HALIGN GetPrintHAlign() const {return (HALIGN)m_Settings.m_nPrintHAlign;}
+	inline HALIGN GetPrintHAlign() const { return (HALIGN)m_Settings.m_nPrintHAlign; }
 	/*!
 	 * \brief Set vertical align of printed drawing.
 	 * \param val Verical align
 	 * \sa VALIGN
 	 */
-	void SetPrintVAlign(VALIGN val){m_Settings.m_nPrintVAlign = (int)val;}
+	inline void SetPrintVAlign(VALIGN val) { m_Settings.m_nPrintVAlign = (int)val; }
 	/*!
 	 * \brief Get vertical align of printed drawing.
 	 * \return Current vertical align
 	 * \sa VALIGN
 	 */
-	VALIGN GetPrintVAlign() const {return (VALIGN)m_Settings.m_nPrintVAlign;}
+	inline VALIGN GetPrintVAlign() const { return (VALIGN)m_Settings.m_nPrintVAlign; }
 	/*!
 	 * \brief Set printing mode for this canvas.
 	 * \param mode Printing mode
 	 * \sa PRINTMODE
 	 */
-	void SetPrintMode(PRINTMODE mode){m_Settings.m_nPrintMode = (int)mode;}
+	inline void SetPrintMode(PRINTMODE mode) { m_Settings.m_nPrintMode = (int)mode; }
 	/*!
 	 * \brief Get printing mode for this canvas.
 	 * \return Current printing mode
 	 * \sa PRINTMODE
 	 */
-	PRINTMODE GetPrintMode() const {return (PRINTMODE)m_Settings.m_nPrintMode;}
+	inline PRINTMODE GetPrintMode() const { return (PRINTMODE)m_Settings.m_nPrintMode; }
 	/*!
 	 * \brief Set canvas scale.
 	 * \param scale Scale value
@@ -645,7 +645,7 @@ public:
 	 * \brief Get the canvas scale.
 	 * \return Canvas scale
 	 */
-	double GetScale(){return m_Settings.m_nScale;}
+	inline double GetScale() const { return m_Settings.m_nScale; }
 	/*!
 	 * \brief Set the canvas scale so a whole diagram is visible.
 	 */
@@ -659,14 +659,14 @@ public:
 	 * \brief Function returns information whether the wxGraphicsContext is enabled (if supported).
 	 * \return TRUE if the wxGraphicsContext is enabled
 	 */
-    static bool IsGCEnabled(){return m_fEnableGC;}
+    static bool IsGCEnabled() { return m_fEnableGC; }
 
 	/*!
 	 * \brief Get canvas workind mode.
 	 * \return Working mode
 	 * \sa MODE
 	 */
-	MODE GetMode(){return m_nWorkingMode;}
+	inline MODE GetMode() const { return m_nWorkingMode; }
 	/*!
 	 * \brief Set default hover color.
 	 * \param col Hover color.
@@ -676,13 +676,13 @@ public:
 	 * \brief Get default hover color.
 	 * \return Hover color
 	 */
-	wxColour GetHoverColour() const {return m_Settings.m_nCommonHoverColor;}
+	inline wxColour GetHoverColour() const { return m_Settings.m_nCommonHoverColor; }
 	/*!
 	 * \brief Get canvas hostory manager.
 	 * \return Reference to the canvas history manager
 	 * \sa wxSFCanvasHistory
 	 */
-	wxSFCanvasHistory& GetHistoryManager(){return m_CanvasHistory;}
+	inline wxSFCanvasHistory& GetHistoryManager() { return m_CanvasHistory; }
 
 	/*!
 	 * \brief Update given position so it will fit canvas grid (if enabled).
@@ -713,7 +713,7 @@ public:
      * \brief Get reference to multiselection box
      * \return Reference to multiselection box object
      */
-    wxSFMultiSelRect& GetMultiselectionBox(){return m_shpMultiEdit;}
+    inline wxSFMultiSelRect& GetMultiselectionBox() { return m_shpMultiEdit; }
 
 	// public virtual event handlers
     /*!

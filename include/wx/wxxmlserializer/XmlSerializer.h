@@ -193,12 +193,12 @@ public:
      * \brief Get serializable parent object.
      * \return Pointer to serializable parent object if exists, otherwise NULL
      */
-    xsSerializable* GetParent(){return m_pParentItem;}
+    inline xsSerializable* GetParent() { return m_pParentItem; }
     /*!
      * \brief Get parent data manager (instance of wxXmlSerializer).
      * \return Pointer to parent data manager if set, otherwise NULL
      */
-    wxXmlSerializer* GetParentManager(){return m_pParentManager;}
+    inline wxXmlSerializer* GetParentManager() { return m_pParentManager; }
     /*!
      * \brief Get first serializable child object.
      * \return Pointer to child object if exists, otherwise NULL
@@ -244,7 +244,7 @@ public:
      * \brief Get list of children (serializable objects) of this object.
      * \return Reference to a list with child serializable objects (can be empty)
      */
-    SerializableList& GetChildrenList(){return m_lstChildItems;}
+    inline SerializableList& GetChildrenList() { return m_lstChildItems; }
     /*!
      * \brief Get children of given type.
      * \param type Child object type (if NULL then all children are returned)
@@ -262,22 +262,22 @@ public:
     /*!
      * \brief Get pointer to list node containing first serializable child object.
      */
-	SerializableList::compatibility_iterator GetFirstChildNode() const {return m_lstChildItems.GetFirst();}
+	inline SerializableList::compatibility_iterator GetFirstChildNode() const { return m_lstChildItems.GetFirst(); }
     /*!
      * \brief Get pointer to list node containing last serializable child object.
      */
-    SerializableList::compatibility_iterator GetLastChildNode() const {return m_lstChildItems.GetLast();}
+    inline SerializableList::compatibility_iterator GetLastChildNode() const { return m_lstChildItems.GetLast(); }
 	
     /*!
      * \brief Set serializable parent object.
      * \param parent Pointer to parent object
      */
-    void SetParent(xsSerializable* parent){m_pParentItem = parent;}
+    inline void SetParent(xsSerializable* parent) { m_pParentItem = parent; }
     /*!
      * \brief Set parent data manager.
      * \param parent Pointer to parent data manager
      */
-    void SetParentManager(wxXmlSerializer* parent){m_pParentManager = parent;}
+    inline void SetParentManager(wxXmlSerializer* parent) { m_pParentManager = parent; }
     /*!
      * \brief Add serializable child object to this object.
      * \param child Pointer to added child object (must NOT be NULL)
@@ -297,12 +297,12 @@ public:
      * serializable object is attached to another one (or directly to root node of wxXmlSerializer) by
      * wxXmlSerializer::AddItem() member function.
      */
-    void SetId(long id){m_nId = id;}
+    inline void SetId(long id) { m_nId = id; }
     /*!
      * \brief Get object ID.
      * \return ID value or -1 if the ID hasn't been set yet
      */
-    long GetId(){return m_nId;}
+    inline long GetId() const { return m_nId; }
 
     /*!
      * \brief Create new 'object' XML node and serialize all marked class data members (properties) into it.
@@ -333,7 +333,7 @@ public:
      * \brief Get reference to properties list.
      * \sa xsProperty
      */
-	PropertyList& GetProperties(){return m_lstProperties;}
+	inline PropertyList& GetProperties() { return m_lstProperties; }
 
     /*!
      * \brief Enable/disable serialization of given property.
@@ -350,20 +350,20 @@ public:
      * \brief Enable/disable object serialization.
      * \param enab TRUE if the object should be serialized, otherwise FALSE
      */
-    void EnableSerialization(bool enab){m_fSerialize = enab;}
+    inline void EnableSerialization(bool enab) { m_fSerialize = enab; }
     /*!
      * \brief Returns information whether the object can be serialized or not.
      */
-    bool IsSerialized(){return m_fSerialize;}
+    inline bool IsSerialized() const { return m_fSerialize; }
     /*!
      * \brief Enable/disable object cloning.
      * \param enab TRUE if the object can be cloned, otherwise FALSE
      */
-	void EnableCloning(bool enab){m_fClone = enab;}
+	inline void EnableCloning(bool enab) { m_fClone = enab; }
     /*!
      * \brief Returns information whether the object can be cloned or not.
      */
-	bool IsCloned(){return m_fClone;}
+	inline bool IsCloned() const { return m_fClone; }
 
 protected:
     // protected data members
@@ -647,33 +647,33 @@ public:
     virtual ~wxXmlSerializer();
 
     // public member data accessors
-	/*! \brief Get the library version. */
-	wxString GetLibraryVersion(){return m_sLibraryVersion;}
     /*!
      * \brief Set owner name.
      * \param name Owner name
      */
-    void SetSerializerOwner(const wxString& name){m_sOwner = name;}
+    inline void SetSerializerOwner(const wxString& name) { m_sOwner = name; }
     /*!
      * \brief Set root name.
      * \param name Root name
      */
-    void SetSerializerRootName(const wxString& name){m_sRootName = name;}
+    inline void SetSerializerRootName(const wxString& name) { m_sRootName = name; }
     /*!
      * \brief Set file version.
      * \param name File version
      */
-    void SetSerializerVersion(const wxString& name){m_sVersion = name;}
+    inline void SetSerializerVersion(const wxString& name) { m_sVersion = name; }
     /*! \brief Get owner name. */
-    wxString GetSerializerOwner(){return m_sOwner;}
+    inline const wxString& GetSerializerOwner() const { return m_sOwner; }
     /*! \brief Get name of root node. */
-    wxString GetSerializerRootName(){return m_sRootName;}
+    inline const wxString& GetSerializerRootName() const { return m_sRootName; }
     /*! \brief Get file version. */
-    wxString GetSerializerVersion(){return m_sVersion;}
+    inline const wxString& GetSerializerVersion() const { return m_sVersion; }
+	/*! \brief Get the library version. */
+	inline const wxString& GetLibraryVersion() const { return m_sLibraryVersion; }
 
     // public functions
     /*! \brief Get pointer to root serializable object. */
-    xsSerializable* GetRootItem() const {return m_pRoot;}
+    inline xsSerializable* GetRootItem() const { return m_pRoot; }
     /*!
      * \brief Get serializable object with given ID.
      * \param id Object ID
@@ -693,7 +693,7 @@ public:
      * \param object Pointer to checked object
      * \return True if the object is included in the serializer, otherwise False
      */
-    bool Contains(xsSerializable *object);
+    bool Contains(xsSerializable *object) const;
 
     /*!
      * \brief Set root item.
@@ -739,11 +739,11 @@ public:
      * \brief Enable/disable object cloning.
      * \param enab TRUE if the object can be cloned, otherwise FALSE
      */
-	void EnableCloning(bool enab){m_fClone = enab;}
+	inline void EnableCloning(bool enab) { m_fClone = enab; }
     /*!
      * \brief Returns information whether the object can be cloned or not.
      */
-	bool IsCloned(){return m_fClone;}
+	inline bool IsCloned() const { return m_fClone; }
 
     /*!
      * \brief Serialize stored objects to given file.
@@ -834,7 +834,7 @@ private:
     /*! \brief Auxiliary function */
     xsSerializable* _GetItem(long id, xsSerializable* parent);
 	/*! \brief Auxiliary function */
-    bool _Contains(xsSerializable *object, xsSerializable* parent);
+    bool _Contains(xsSerializable *object, xsSerializable* parent) const;
 	/*! \brief Auxiliary function. Copy items assigned to given parent to given source item */
 	void _CopyItems(xsSerializable *dest, const xsSerializable *parent);
 

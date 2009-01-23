@@ -621,3 +621,21 @@ void wxSFDiagramManager::UpdateConnections()
 	m_lstIDPairs.Clear();
 	m_lstLinesForUpdate.Clear();
 }
+
+void wxSFDiagramManager::UpdateAll()
+{
+	wxSFShapeBase *pShape;
+	
+	ShapeList lstShapes;
+	GetShapes( CLASSINFO(wxSFShapeBase), lstShapes );
+	
+	ShapeList::compatibility_iterator node = lstShapes.GetFirst();
+	while( node )
+	{
+		pShape = node->GetData();
+		// update only shapes withour children because the Update() function is called recursively on all parents
+		if( !HasChildren( pShape ) ) pShape->Update();
+		
+		node = node->GetNext();
+	}
+}

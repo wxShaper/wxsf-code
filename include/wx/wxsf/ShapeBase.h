@@ -234,13 +234,12 @@ public:
      * \param style Combination of the shape's styles
      * \sa STYLE
      */
-    inline void SetStyle(long style){m_nStyle = style;}
+    inline void SetStyle(long style) { m_nStyle = style; }
     /*! \brief Get current shape style. */
-    inline long GetStyle(){return m_nStyle;}
-    inline void AddStyle(STYLE style){m_nStyle |= style;}
-    inline void RemoveStyle(STYLE style){m_nStyle &= ~style;}
-    inline bool ContainsStyle(STYLE style){return (m_nStyle & style) != 0;}
-
+    inline long GetStyle() const { return m_nStyle; }
+    inline void AddStyle(STYLE style) { m_nStyle |= style; }
+    inline void RemoveStyle(STYLE style) { m_nStyle &= ~style; }
+    inline bool ContainsStyle(STYLE style) const { return (m_nStyle & style) != 0; }
 
     /*!
 	 * \brief Get child shapes associated with this (parent) shape.
@@ -330,12 +329,12 @@ public:
 
 	// public member data accessors
 	/*! \brief Function returns TRUE if the shape is selected, otherwise returns FALSE */
-	bool IsSelected(){return m_fSelected;}
+	bool IsSelected() const { return m_fSelected; }
 	/*!
 	 * \brief Set the shape as a selected/deselected one
 	 * \param state Selection state (TRUE is selected, FALSE is deselected)
 	 */
-	void Select(bool state){m_fSelected = state; ShowHandles(state && (m_nStyle & sfsSHOW_HANDLES));}
+	void Select(bool state) { m_fSelected = state; ShowHandles(state && (m_nStyle & sfsSHOW_HANDLES)); }
 
     /*!
 	 * \brief Set shape's relative position. Absolute shape's position is then calculated
@@ -344,7 +343,7 @@ public:
      * \param pos New relative position
      * \sa MoveTo
      */
-	void SetRelativePosition(const wxRealPoint& pos){m_nRelativePosition = pos;}
+	inline void SetRelativePosition(const wxRealPoint& pos) { m_nRelativePosition = pos; }
     /*!
 	 * \brief Set shape's relative position. Absolute shape's position is then calculated
      * as a sumation of the relative positions of this shape and all parent shapes in the shape's
@@ -353,65 +352,65 @@ public:
      * \param y Vertical coordinate of new relative position
      * \sa MoveTo
      */
-	void SetRelativePosition(double x, double y){m_nRelativePosition.x = x; m_nRelativePosition.y = y;}
+	inline void SetRelativePosition(double x, double y) { m_nRelativePosition.x = x; m_nRelativePosition.y = y; }
     /*!
 	 * \brief Get shape's relative position.
      * \return Current relative position
      * \sa GetAbsolutePosition
      */
-	wxRealPoint GetRelativePosition() const {return m_nRelativePosition;}
+	inline wxRealPoint GetRelativePosition() const { return m_nRelativePosition; }
 	/*!
 	 * \brief Set vertical alignment of this shape inside its parent
 	 * \param val Alignment type
 	 * \sa VALIGN
 	 */
-	void SetVAlign(VALIGN val){m_nVAlign = val;}
+	inline void SetVAlign(VALIGN val) { m_nVAlign = val; }
 	/*!
 	 * \brief Get vertical alignment of this shape inside its parent
 	 * \return Alignment type
 	 * \sa VALIGN
 	 */
-	VALIGN GetVAlign(){return m_nVAlign;}
+	inline VALIGN GetVAlign() const { return m_nVAlign; }
 	/*!
 	 * \brief Set horizontal alignment of this shape inside its parent
 	 * \param val Horizontal type
 	 * \sa HALIGN
 	 */
-	void SetHAlign(HALIGN val){m_nHAlign = val;}
+	inline void SetHAlign(HALIGN val) { m_nHAlign = val; }
 	/*!
 	 * \brief Get horizontal alignment of this shape inside its parent
 	 * \return Alignment type
 	 * \sa VALIGN
 	 */
-	HALIGN GetHAlign(){return m_nHAlign;}
+	inline HALIGN GetHAlign() const { return m_nHAlign; }
 	/*!
 	 * \brief Set vertical border between this shape and its parent (is vertical
 	 * alignment is set).
 	 * \param border Vertical border
 	 * \sa SetVAlign
 	 */
-	void SetVBorder(double border){m_nVBorder = border;}
+	inline void SetVBorder(double border) { m_nVBorder = border; }
 	/*!
 	 * \brief Get vertical border between this shape and its parent (is vertical
 	 * alignment is set).
 	 * \return Vertical border
 	 * \sa SetVAlign
 	 */
-	double GetVBorder(){return m_nVBorder;}
+	inline double GetVBorder() const { return m_nVBorder; }
 	/*!
 	 * \brief Set horizontal border between this shape and its parent (is horizontal
 	 * alignment is set).
 	 * \param border Horizontal border
 	 * \sa SetVAlign
 	 */
-	void SetHBorder(double border){m_nHBorder = border;}
+	inline void SetHBorder(double border) { m_nHBorder = border; }
 	/*!
 	 * \brief Get horizontal border between this shape and its parent (is horizontal
 	 * alignment is set).
 	 * \return Vertical border
 	 * \sa SetHAlign
 	 */
-	double GetHBorder(){return m_nHBorder;}
+	inline double GetHBorder() const { return m_nHBorder; }
 
     /*! \brief Get pointer to a parent shape */
 	wxSFShapeBase* GetParentShape();
@@ -425,20 +424,20 @@ public:
      * together with the parent shape.
      * \param data Pointer to user data
      */
-    void SetUserData(xsSerializable* data);//{m_pUserData = data;}
+    void SetUserData(xsSerializable* data);
      /*!
      * \brief Get associated user data.
      *
      * \return Pointer to user data
      */
-    xsSerializable* GetUserData(){return m_pUserData;}
+    inline xsSerializable* GetUserData() { return m_pUserData; }
 
 	/*!
 	 * \brief Get shape's parent diagram manager.
 	 * \return Pointer to diagram manager
 	 * \sa wxSFDiagramManager
 	 */
-	wxSFDiagramManager* GetShapeManager(){return (wxSFDiagramManager*)m_pParentManager;}
+	inline wxSFDiagramManager* GetShapeManager(){ return (wxSFDiagramManager*)m_pParentManager; }
 	/*!
 	 * \brief Get shape's parent canvas
 	 * \return Pointer to shape canvas if assigned via diagram manager, otherwise NULL
@@ -449,29 +448,29 @@ public:
 	 * \brief Get the shape's visibility status
 	 * \return TRUE if the shape is visible, otherwise FALSE
 	 */
-	bool IsVisible(){return m_fVisible;}
+	inline bool IsVisible() const { return m_fVisible; }
 	/*!
 	 * \brief Show/hide shape
 	 * \param show Set the parameter to TRUE if the shape should be visible, otherwise use FALSE
 	 */
-	void Show(bool show){m_fVisible = show;}
+	inline void Show(bool show) { m_fVisible = show; }
 	/*!
 	 * \brief Set shape's hover color
 	 * \param col Hover color
 	 */
-	void SetHoverColour(const wxColour& col){m_nHoverColor = col;}
+	inline void SetHoverColour(const wxColour& col) { m_nHoverColor = col; }
 	/*!
 	 * \brief Get shape's hover color
 	 * \return Current hover color
 	 */
-	wxColour GetHoverColour() const {return m_nHoverColor;}
+	inline wxColour GetHoverColour() const { return m_nHoverColor; }
 	/*!
 	 * \brief Function returns value of a shape's activation flag.
 	 *
 	 * Non-active shapes are visible, but don't receive (process) any events.
 	 * \return TRUE if the shape is active, othervise FALSE
 	 */
-	bool IsActive() {return m_fActive;}
+	inline bool IsActive() const { return m_fActive; }
 	/*!
 	 * \brief Shape's activation/deactivation
 	 *
@@ -480,7 +479,7 @@ public:
 	 * \return Description
 	 * \sa Show
 	 */
-	void Activate(bool active) {m_fActive = active;}
+	inline void Activate(bool active) { m_fActive = active; }
 
     /*!
      * \brief Tells whether the given shape type is accepted by this shape (it means
@@ -505,13 +504,13 @@ public:
      * \param type Class name of accepted shape object
      * \sa IsChildAccepted
      */
-	void AcceptChild(const wxString& type) {m_arrAcceptedChildren.Add(type);}
+	inline void AcceptChild(const wxString& type) { m_arrAcceptedChildren.Add(type); }
 	/*!
 	 * \brief Get shape types acceptance list.
 	 * \return String array with class names of accepted shape types.
 	 * \sa IsChildAccepted
 	 */
-	wxArrayString& GetAcceptedChildren() {return m_arrAcceptedChildren;}
+	inline wxArrayString& GetAcceptedChildren() { return m_arrAcceptedChildren; }
     /*!
      * \brief Tells whether the given connection type is accepted by this shape (it means
      * whether this shape can be connected to another one by a connection of given type).
@@ -528,13 +527,13 @@ public:
      * \param type Class name of accepted connection object
      * \sa IsConnectionAccepted
      */
-	void AcceptConnection(const wxString& type) {m_arrAcceptedConnections.Add(type);}
+	inline void AcceptConnection(const wxString& type) { m_arrAcceptedConnections.Add(type); }
 	/*!
 	 * \brief Get connection types acceptance list.
 	 * \return String array with class names of accepted connection types.
 	 * \sa IsConnectionAccepted
 	 */
-	wxArrayString& GetAcceptedConnections() {return m_arrAcceptedConnections;}
+	inline wxArrayString& GetAcceptedConnections() { return m_arrAcceptedConnections; }
     /*!
      * \brief Tells whether the given shape type is accepted by this shape as its source neighbour(it means
      * whether this shape can be connected from another one of given type).
@@ -551,13 +550,13 @@ public:
      * \param type Class name of accepted connection object
      * \sa IsSrcNeighbourAccepted
      */
-	void AcceptSrcNeighbour(const wxString& type) {m_arrAcceptedSrcNeighbours.Add(type);}
+	inline void AcceptSrcNeighbour(const wxString& type) { m_arrAcceptedSrcNeighbours.Add(type); }
 	/*!
 	 * \brief Get source neighbour types acceptance list.
 	 * \return String array with class names of accepted source neighbours types.
 	 * \sa IsSrcNeighbourAccepted
 	 */
-	wxArrayString& GetAcceptedSrcNeighbours() {return m_arrAcceptedSrcNeighbours;}
+	inline wxArrayString& GetAcceptedSrcNeighbours() { return m_arrAcceptedSrcNeighbours; }
     /*!
      * \brief Tells whether the given shape type is accepted by this shape as its target neighbour(it means
      * whether this shape can be connected to another one of given type).
@@ -574,40 +573,40 @@ public:
      * \param type Class name of accepted connection object
      * \sa IsTrgNeighbourAccepted
      */
-	void AcceptTrgNeighbour(const wxString& type) {m_arrAcceptedTrgNeighbours.Add(type);}
+	inline void AcceptTrgNeighbour(const wxString& type) { m_arrAcceptedTrgNeighbours.Add(type); }
 	/*!
 	 * \brief Get target neighbour types acceptance list.
 	 * \return String array with class names of accepted target neighbours types.
 	 * \sa IsTrgNeighbourAccepted
 	 */
-	wxArrayString& GetAcceptedTrgNeighbours() {return m_arrAcceptedTrgNeighbours;}
+	inline wxArrayString& GetAcceptedTrgNeighbours() { return m_arrAcceptedTrgNeighbours; }
 	/*!
 	 * \brief Clear shape object acceptance list
 	 * \sa AcceptChild
 	 */
-	void ClearAcceptedChilds(){m_arrAcceptedChildren.Clear();}
+	inline void ClearAcceptedChilds() { m_arrAcceptedChildren.Clear(); }
 	/*!
 	 * \brief Clear connection object acceptance list
 	 * \sa AcceptConnection
 	 */
-	void ClearAcceptedConnections(){m_arrAcceptedConnections.Clear();}
+	inline void ClearAcceptedConnections() { m_arrAcceptedConnections.Clear(); }
 	/*!
 	 * \brief Clear source neighbour objects acceptance list
 	 * \sa AcceptSrcNeighbour
 	 */
-	void ClearAcceptedSrcNeighbours(){m_arrAcceptedSrcNeighbours.Clear();}
+	inline void ClearAcceptedSrcNeighbours() { m_arrAcceptedSrcNeighbours.Clear(); }
 	/*!
 	 * \brief Clear target neighbour objects acceptance list
 	 * \sa AcceptTrgNeighbour
 	 */
-	void ClearAcceptedTrgNeighbours(){m_arrAcceptedTrgNeighbours.Clear();}
+	inline void ClearAcceptedTrgNeighbours() { m_arrAcceptedTrgNeighbours.Clear(); }
 
     /*!
      * \brief Get list of currently assigned shape handles.
      * \return Reference to the handle list
      * \sa CHandleList
      */
-	HandleList& GetHandles() {return m_lstHandles;}
+	inline HandleList& GetHandles() { return m_lstHandles; }
 	/*!
 	 * \brief Get shape handle.
 	 * \param type Handle type

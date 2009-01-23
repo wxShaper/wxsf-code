@@ -106,7 +106,7 @@ public: \
 	virtual void Read(xsProperty *property, wxXmlNode *source); \
 	virtual void Write(xsProperty *property, wxXmlNode *target); \
 	virtual wxString GetValueStr(xsProperty *property); \
-	static wxString ToString(datatype value); \
+	static wxString ToString(const datatype& value); \
 	static datatype FromString(const wxString& value); \
 }; \
 
@@ -127,7 +127,7 @@ public: \
 	virtual void Read(xsProperty *property, wxXmlNode *source); \
 	virtual void Write(xsProperty *property, wxXmlNode *target); \
 	virtual wxString GetValueStr(xsProperty *property); \
-	static wxString ToString(datatype value); \
+	static wxString ToString(const datatype& value); \
 	static datatype FromString(const wxString& value); \
 }; \
 
@@ -271,13 +271,13 @@ XS_DECLARE_EXPORTED_IO_HANDLER(RealPointList, xsListRealPointPropIO, WXDLLIMPEXP
  * \brief Property class encapsulating I/O functions used by 'serializabledynamic' (xsSerializable
  * dynamic class objects which are created during the deserialization process) properties.
  */
-XS_DECLARE_EXPORTED_IO_HANDLER(xsSerializable*, xsDynObjPropIO, WXDLLIMPEXP_XS);
+XS_DECLARE_EXPORTED_IO_HANDLER(xsSerializable, xsDynObjPropIO, WXDLLIMPEXP_XS);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'serializabledynamicnocreate' (already
  * existing xsSerializable dynamic class objects) properties.
  */
-XS_DECLARE_EXPORTED_IO_HANDLER(xsSerializable*, xsDynNCObjPropIO, WXDLLIMPEXP_XS);
+XS_DECLARE_EXPORTED_IO_HANDLER(xsSerializable, xsDynNCObjPropIO, WXDLLIMPEXP_XS);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'serializablestatic' (static
