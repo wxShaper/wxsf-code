@@ -1,7 +1,8 @@
-Changes in version 1.7.2 beta (2009-01-08):
+Changes in version 1.7.2 beta (2009-01-28):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.10:
   - Declaration of xsProperyIO::ToString(T value) changed to xsProperyIO::ToString(const T& value).
+  - If a font creation based on a native info stored in XML fails then a default (wxSWISS_FONT) font is used.
   - Improved "const correctness" of member functions.
   - Code clean-up.
 

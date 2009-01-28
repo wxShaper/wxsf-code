@@ -421,9 +421,12 @@ wxFont xsFontPropIO::FromString(const wxString& value)
 {
 	wxFont font;
 
-	font.SetNativeFontInfoUserDesc(value);
-
-	return font;
+	if( !font.SetNativeFontInfoUserDesc(value) )
+	{
+		return *wxSWISS_FONT;
+	}
+	else
+		return font;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
