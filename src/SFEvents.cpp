@@ -67,17 +67,22 @@ wxSFShapeTextEvent::~wxSFShapeTextEvent()
 // wxSFShapeDropEvent class
 //----------------------------------------------------------------------------------//
 
-wxSFShapeDropEvent::wxSFShapeDropEvent(wxEventType cmdType, wxCoord x, wxCoord y, wxDragResult def, int id)
+wxSFShapeDropEvent::wxSFShapeDropEvent(wxEventType cmdType, wxCoord x, wxCoord y, wxSFShapeCanvas* target, wxDragResult def, int id)
 : wxEvent(id, cmdType)
 {
 	m_nDropPosition = wxPoint(x, y);
 	m_nDragResult = def;
+	m_pDropTarget = target;
 }
 
 wxSFShapeDropEvent::wxSFShapeDropEvent(const wxSFShapeDropEvent& obj)
 : wxEvent(obj)
 {
 	SetDroppedShapes(obj.m_lstDroppedShapes);
+	
+	m_nDropPosition = obj.m_nDropPosition;
+	m_nDragResult = obj.m_nDragResult;
+	m_pDropTarget = obj.m_pDropTarget;
 }
 
 wxSFShapeDropEvent::~wxSFShapeDropEvent()

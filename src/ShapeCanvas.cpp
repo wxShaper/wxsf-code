@@ -2803,7 +2803,7 @@ void wxSFShapeCanvas::OnDrop(wxCoord x, wxCoord y, wxDragResult def, const Shape
 	if( !ContainsStyle(sfsDND) )return;
 
 	// create the drop event and process it
-    wxSFShapeDropEvent event( wxEVT_SF_ON_DROP, x, y, def, wxID_ANY);
+    wxSFShapeDropEvent event( wxEVT_SF_ON_DROP, x, y, this, def, wxID_ANY);
     event.SetDroppedShapes( dropped );
     ProcessEvent( event );
 }

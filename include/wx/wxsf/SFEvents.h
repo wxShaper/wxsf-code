@@ -170,7 +170,7 @@ class WXDLLIMPEXP_SF wxSFShapeDropEvent : public wxEvent
 {
 public:
     /*! \brief Constructor */
-    wxSFShapeDropEvent(wxEventType cmdType = wxEVT_NULL, wxCoord x = 0, wxCoord y = 0, wxDragResult def = wxDragNone, int id = 0);
+    wxSFShapeDropEvent(wxEventType cmdType = wxEVT_NULL, wxCoord x = 0, wxCoord y = 0, wxSFShapeCanvas* target = NULL, wxDragResult def = wxDragNone, int id = 0);
     /*! \brief Copy constructor */
     wxSFShapeDropEvent(const wxSFShapeDropEvent& obj);
     /*! \brief Destructor */
@@ -192,6 +192,11 @@ public:
      * \param def Drag result
      */
 	void SetDragResult(wxDragResult def){m_nDragResult = def;}
+	/*!
+	 * \brief Set drop target (shape canvas where shapes have been dropped to).
+	 * \param target Pointer to drop target (shape canvas)
+	 */
+	void SetDropTarget(wxSFShapeCanvas *target){m_pDropTarget = target;}
     /*!
      * \brief Get a shape object from the event object.
      * \return Pointer to the shape object.
@@ -207,6 +212,11 @@ public:
      * \return Drag result.
      */
 	wxDragResult GetDragResult(){return m_nDragResult;}
+	/**
+	 * \brief Get drop target (shape canvas where shapes have been dropped to).
+	 * \return Pointer to drop target (shape canvas)
+	 */
+	wxSFShapeCanvas* GetDropTarget(){return m_pDropTarget;}
 
     /*! \brief Clone this event object and return pointer to the new instance. */
     wxEvent* Clone() const { return new wxSFShapeDropEvent(*this); }
@@ -216,6 +226,8 @@ private:
     // private data members
     /*! \brief List of dropped shapes. */
     ShapeList m_lstDroppedShapes;
+	/*! \brief Drop target. */
+	wxSFShapeCanvas *m_pDropTarget;
 	/*! \brief Drop position. */
 	wxPoint m_nDropPosition;
 	/*! \brief Drag result. */
