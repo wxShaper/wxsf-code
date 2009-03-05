@@ -467,6 +467,7 @@ void wxXmlSerializer::InitializeAllIOHandlers()
     XS_REGISTER_IO_HANDLER(wxT("arraylong"), xsArrayLongPropIO);
     XS_REGISTER_IO_HANDLER(wxT("arraydouble"), xsArrayDoublePropIO);
     XS_REGISTER_IO_HANDLER(wxT("arrayrealpoint"), xsArrayRealPointPropIO);
+	XS_REGISTER_IO_HANDLER(wxT("mapstring"), xsMapStringPropIO);
     XS_REGISTER_IO_HANDLER(wxT("listrealpoint"), xsListRealPointPropIO);
     XS_REGISTER_IO_HANDLER(wxT("serializablestatic"), xsStaticObjPropIO);
     XS_REGISTER_IO_HANDLER(wxT("serializabledynamic"), xsDynObjPropIO);

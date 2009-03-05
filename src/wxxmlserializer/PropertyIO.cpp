@@ -453,7 +453,7 @@ void xsArrayStringPropIO::Read(xsProperty *property, wxXmlNode *source)
 
 void xsArrayStringPropIO::Write(xsProperty *property, wxXmlNode *target)
 {
-    wxArrayString array(*((wxArrayString*)property->m_pSourceVariable));
+    wxArrayString& array = *((wxArrayString*)property->m_pSourceVariable);
 
     size_t cnt = array.GetCount();
     if(cnt > 0)
@@ -518,7 +518,7 @@ void xsArrayIntPropIO::Read(xsProperty *property, wxXmlNode *source)
 
 void xsArrayIntPropIO::Write(xsProperty *property, wxXmlNode *target)
 {
-    IntArray array(*((IntArray*)property->m_pSourceVariable));
+    IntArray& array = *((IntArray*)property->m_pSourceVariable);
 
     size_t cnt = array.GetCount();
     if(cnt > 0)
@@ -583,7 +583,7 @@ void xsArrayLongPropIO::Read(xsProperty *property, wxXmlNode *source)
 
 void xsArrayLongPropIO::Write(xsProperty *property, wxXmlNode *target)
 {
-    LongArray array(*((LongArray*)property->m_pSourceVariable));
+    LongArray& array = *((LongArray*)property->m_pSourceVariable);
 
     size_t cnt = array.GetCount();
     if(cnt > 0)
@@ -648,7 +648,7 @@ void xsArrayDoublePropIO::Read(xsProperty *property, wxXmlNode *source)
 
 void xsArrayDoublePropIO::Write(xsProperty *property, wxXmlNode *target)
 {
-    DoubleArray array(*((DoubleArray*)property->m_pSourceVariable));
+    DoubleArray& array = *((DoubleArray*)property->m_pSourceVariable);
 
     size_t cnt = array.GetCount();
     if(cnt > 0)
@@ -713,7 +713,7 @@ void xsArrayCharPropIO::Read(xsProperty *property, wxXmlNode *source)
 
 void xsArrayCharPropIO::Write(xsProperty *property, wxXmlNode *target)
 {
-    CharArray array(*((CharArray*)property->m_pSourceVariable));
+    CharArray& array = *((CharArray*)property->m_pSourceVariable);
 
     size_t cnt = array.GetCount();
     if(cnt > 0)
@@ -780,7 +780,7 @@ void xsArrayRealPointPropIO::Read(xsProperty *property, wxXmlNode *source)
 
 void xsArrayRealPointPropIO::Write(xsProperty *property, wxXmlNode *target)
 {
-    RealPointArray array(*((RealPointArray*)property->m_pSourceVariable));
+    RealPointArray& array = *((RealPointArray*)property->m_pSourceVariable);
 
     size_t cnt = array.GetCount();
     if(cnt > 0)
@@ -1038,5 +1038,73 @@ xsSerializable xsStaticObjPropIO::FromString(const wxString& WXUNUSED(value))
 	return xsSerializable();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
+// xsMapStringPropIO class ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
+IMPLEMENT_DYNAMIC_CLASS(xsMapStringPropIO, xsPropertyIO);
+
+void xsMapStringPropIO::Read(xsProperty *property, wxXmlNode *source)
+{
+    ((StringMap*)property->m_pSourceVariable)->clear();
+
+    wxXmlNode *listNode = source->GetChildren();
+    while(listNode)
+    {
+        if(listNode->GetName() == wxT("item"))
+        {
+            (*(StringMap*)property->m_pSourceVariable)[listNode->GetPropVal( wxT("key"), wxT("undef_key") )] = listNode->GetNodeContent();
+        }
+
+        listNode = listNode->GetNext();
+    }
+}
+
+void xsMapStringPropIO::Write(xsProperty *property, wxXmlNode *target)
+{	
+    StringMap& map = *((StringMap*)property->m_pSourceVariable);
+
+	if( !map.empty() )
+	{
+		wxXmlNode *pXmlNode, *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
+		StringMap::iterator it;
+		
+		for( it = map.begin(); it != map.end(); ++it ) 
+		{ 
+			wxString key = it->first, value = it->second; 
+			pXmlNode = AddPropertyNode(newNode, wxT("item"), it->second);
+			pXmlNode->AddProperty(wxT("key"), it->first);
+		}
+		
+		target->AddChild(newNode);
+		AppendPropertyType(property, newNode);
+	}
+}
+
+wxString xsMapStringPropIO::GetValueStr(xsProperty *property)
+{
+	return ToString(*((StringMap*)property->m_pSourceVariable));
+}
+
+wxString xsMapStringPropIO::ToString(const StringMap& value)
+{
+ 	wxString out = wxT("[ ");
+	
+	StringMap::const_iterator it;
+	
+	for( it = value.begin(); it != value.end(); ++it ) 
+	{ 
+		out << it->first << wxT("->") << it->second;
+		if( it != value.end() ) out << wxT(" | ");
+	}
+
+	out << wxT(" ]");
+
+	return out;
+}
+
+StringMap xsMapStringPropIO::FromString(const wxString& WXUNUSED(value))
+{
+	return StringMap();
+}
 

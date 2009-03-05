@@ -2647,7 +2647,7 @@ void wxSFShapeCanvas::OnPaste(const ShapeList& pasted)
 	if( !ContainsStyle(sfsCLIPBOARD) )return;
 
 	// create the drop event and process it
-    wxSFShapePasteEvent event( wxEVT_SF_ON_PASTE, wxID_ANY);
+    wxSFShapePasteEvent event( wxEVT_SF_ON_PASTE, this, wxID_ANY);
     event.SetPastedShapes( pasted );
     ProcessEvent( event );
 }

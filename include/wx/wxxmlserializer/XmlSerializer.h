@@ -100,6 +100,9 @@
 /*! \brief Macro creates new serialized property (type 'list of wxRealPoint objects') */
 #define XS_SERIALIZE_LISTREALPOINT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("listrealpoint"), name);
 
+/*! \brief Macro creates new serialized property (type 'string hash map (StringMap)') */
+#define XS_SERIALIZE_MAPSTRING(x, name) XS_SERIALIZE_PROPERTY(x, wxT("mapstring"), name);
+
 /*! \brief Macro creates new serialized property encapsulating a dynamic serializable object */
 #define XS_SERIALIZE_DYNAMIC_OBJECT(x, name) XS_SERIALIZE_PROPERTY(x, wxT("serializabledynamic"), name);
 /*! \brief Macro creates new serialized property encapsulating a dynamic serializable object */
@@ -240,6 +243,11 @@ public:
      */
 	xsSerializable* GetChild(long id, bool recursive = xsNORECURSIVE);
 
+    /*!
+     * \brief Function finds out whether this serializable item has some children.
+     * \return TRUE if the parent shape has children, otherwise FALSE
+     */
+	inline bool HasChildren() const { return m_lstChildItems.IsEmpty(); }
     /*!
      * \brief Get list of children (serializable objects) of this object.
      * \return Reference to a list with child serializable objects (can be empty)
@@ -579,6 +587,9 @@ public:
 
     /*! \brief Constructor for RealPointList property. */
     xsProperty(RealPointList* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("listrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for StringMap property. */
+    xsProperty(StringMap* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("mapstring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for static serializable property. */
     xsProperty(xsSerializable* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("serializablestatic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}

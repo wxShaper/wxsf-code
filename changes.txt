@@ -1,6 +1,9 @@
-Changes in version 1.7.2 beta (2009-02-11):
+Changes in version 1.7.2 beta (2009-03-02):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.10:
+  - Added function bool xsSerializable::HasChildren().
+  - Added new data type and I/O handler for string hash map ('StringMap' data type).
+  - Optimized xsPropertyIO::Write() function of array data types for speed.
   - Declaration of xsProperyIO::ToString(T value) changed to xsProperyIO::ToString(const T& value).
   - If a font creation based on a native info stored in XML fails then a default (wxSWISS_FONT) font is used.
   - Improved "const correctness" of member functions.
@@ -8,11 +11,16 @@ Changes in version 1.7.2 beta (2009-02-11):
 
 - Added function wxSFDiagramManager::UpdateAll() which updates all shapes in the diagram manager.
 - Added function wxSFShapeDropEvent::GetDropTarget() which returns pointer to shape canvas where shapes have been dropped to.
+- Added function wxSFShapePasteEvent::GetDropTarget() which returns pointer to shape canvas where shapes have been pasted to.
 - Virtual function wxSFShapeBase::OnChildDropped() is now called even for child shapes dropped via Drag&Drop operation.
-- Pressing of ENTER key when editable text (wxSFEditTextShape) is modified causes termination of editing process. Pressing of
-  ENTER key together with SHIFT key will add a newline to the edited text.
-- Disabled ability to print using wxGraphicsCanvas (due to crash) on Linux. Now only standard GDI functions are used there.
+- Added ability to choose type of editable text shape's control. Use functions wxSFEditTextShape::SetEditType() and 
+  wxSFEditTextShape::GetEditType() along with style wxSFEditTextShape::EDITTYPE (values editINPLACE and editDIALOG) are available
+  for now).
+- Pressing of the ENTER key when editable text (wxSFEditTextShape) is modified causes termination of editing process.
+  Pressing of the ENTER key together with the SHIFT key will add a newline to the edited text (all applicable only in in-place edit mode).
+- Disabled ability to print using wxGraphicsCanvas (due to crash) on Linux. For now only standard GDI functions are used instead.
 - Improved "const correctness" of member functions.
+- Fixed calculation of multiline text extent if wxGraphicsContext is used.
 - Code clean-up.
 
 Changes in version 1.7.1 beta (2008-12-20):

@@ -18,6 +18,8 @@
 
 /*! \brief Default value of wxSFEditTextShape::m_fForceMultiline data member */
 #define sfdvEDITTEXTSHAPE_FORCEMULTILINE false
+/*! \brief Default value of wxSFEditTextShape::m_nEditType data member */
+#define sfdvEDITTEXTSHAPE_EDITTYPE wxSFEditTextShape::editINPLACE
 
 class WXDLLIMPEXP_SF wxSFEditTextShape;
 
@@ -73,15 +75,62 @@ protected:
 };
 
 /*!
+ * \brief Auxiliary class providing neccessary functionality needed for dialog-based
+ * modification of a content of the text shape. </summary>
+ * \sa wxSFEditTextShape
+ */
+class wxSFDetachedContentCtrl : public wxDialog 
+{
+public:
+    /*!
+	 * \brief Constructor.
+     * \param parent Pointer to the parent window
+     * \param id ID of the text control window
+     * \param title Dialog's title
+     * \param pos Initial position
+     * \param size Initial size
+     * \param style Window style
+     */
+	wxSFDetachedContentCtrl( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Edit content"),
+							 const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
+							 long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+	
+	/*! \brief Destructor. */
+	~wxSFDetachedContentCtrl();
+	
+	// public member data accessors
+	/**
+	 * \brief Set content of dialog's text edit control.
+	 * \param txt Text content
+	 */
+	void SetContent(const wxString& txt){ m_pText->SetValue( txt ); }
+	/**
+	 * \brief Get content of dialog's text edit control.
+	 * \return Edited text
+	 */
+	wxString GetContent() const { return m_pText->GetValue(); }
+		
+protected:
+	// protected data members
+	wxTextCtrl* m_pText;
+};
+
+/*!
  * \brief Class encapsulating the editable text shape. It extends the basic text shape.
  * \sa wxSFTextShape
  */
-class WXDLLIMPEXP_SF wxSFEditTextShape :	public wxSFTextShape
+class WXDLLIMPEXP_SF wxSFEditTextShape : public wxSFTextShape
 {
 public:
 	friend class wxSFContentCtrl;
 
 	XS_DECLARE_CLONABLE_CLASS(wxSFEditTextShape);
+	
+	enum EDITTYPE
+	{
+		editINPLACE = 0,
+		editDIALOG
+	};
 
     /*! \brief Default constructor. */
 	wxSFEditTextShape(void);
@@ -101,12 +150,25 @@ public:
 	virtual ~wxSFEditTextShape(void);
 
 	// public member data accessors
+	/**
+	 * \brief Set way how the text shape's content can be edited.
+	 * \param type Edit control type
+	 * \sa EDITTYPE
+	 */
+	void SetEditType( EDITTYPE type) { m_nEditType = type; }
+	/**
+	 * \brief Get current type of text shape's edit control.
+	 * \return Type of edit control
+	 * \sa EDITTYPE
+	 */
+	const EDITTYPE& GetEditType() const { return m_nEditType; }
 	/*!
 	 * \brief Get pointer to assigned text control allowing user to change the
 	 * shape's content directly in the canvas.
 	 * \return Pointer to instance of wxSFContentCtrl class
 	 */
 	wxSFContentCtrl* GetTextCtrl() {return m_pTextCtrl;}
+	
 
 	// public functions
 	/*! \brief Switch the shape to a label editation mode. */
@@ -137,8 +199,10 @@ public:
 
 protected:
 	wxSFContentCtrl* m_pTextCtrl;
+	
 	long m_nCurrentState;
 	bool m_fForceMultiline;
+	EDITTYPE m_nEditType;
 };
 
 #endif //_WXSFEDITTEXTSHAPE_H

@@ -204,13 +204,27 @@ wxSize wxSFTextShape::GetTextExtent()
         wxClientDC dc((wxWindow*)GetParentCanvas());
 
         // calculate text extent
-
         if( wxSFShapeCanvas::IsGCEnabled() )
         {
             #if wxUSE_GRAPHICS_CONTEXT
-            wxGraphicsContext *pGC = wxGraphicsContext::Create( dc );
+			wxGraphicsContext *pGC = wxGraphicsContext::Create( dc );
             pGC->SetFont( m_Font, *wxBLACK );
-            pGC->GetTextExtent( m_sText, &wd, &hd, &d, &e );
+			
+			// we must use string tokenizer to inspect all lines of possible multiline text
+			h = 0;
+			wxString sLine;
+			
+			wxStringTokenizer tokens( m_sText, wxT("\n\r"), wxTOKEN_RET_EMPTY );
+			while( tokens.HasMoreTokens() )
+			{
+				sLine = tokens.GetNextToken();
+				pGC->GetTextExtent( sLine, &wd, &hd, &d, &e );
+				
+				h += (hd + e);
+				if( (wd + d) > w ) w = (wd + d);
+			}
+			m_nLineHeight = (hd + e);
+			
             pGC->SetFont( wxNullFont, *wxBLACK );
             #endif
         }
@@ -230,11 +244,11 @@ wxSize wxSFTextShape::GetTextExtent()
         m_nLineHeight = int(m_nRectSize.y/tokens.CountTokens());
     }
 
-    if( wxSFShapeCanvas::IsGCEnabled() )
+    /*if( wxSFShapeCanvas::IsGCEnabled() )
     {
         return wxSize((wxCoord)(wd + d), (wxCoord)(hd + e));
     }
-    else
+    else*/
         return wxSize(w, h);
 }
 

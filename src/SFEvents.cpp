@@ -104,15 +104,18 @@ void wxSFShapeDropEvent::SetDroppedShapes(const ShapeList &list)
 // wxSFShapeDropEvent class
 //----------------------------------------------------------------------------------//
 
-wxSFShapePasteEvent::wxSFShapePasteEvent(wxEventType cmdType, int id)
+wxSFShapePasteEvent::wxSFShapePasteEvent(wxEventType cmdType, wxSFShapeCanvas *target, int id)
 : wxEvent(id, cmdType)
 {
+	m_pDropTarget = target;
 }
 
 wxSFShapePasteEvent::wxSFShapePasteEvent(const wxSFShapePasteEvent& obj)
 : wxEvent(obj)
 {
 	SetPastedShapes(obj.m_lstPastedShapes);
+	
+	m_pDropTarget = obj.m_pDropTarget;
 }
 
 wxSFShapePasteEvent::~wxSFShapePasteEvent()

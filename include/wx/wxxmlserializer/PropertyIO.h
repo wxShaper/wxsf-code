@@ -33,6 +33,8 @@ WX_DEFINE_USER_EXPORTED_ARRAY_INT(int, IntArray, class WXDLLIMPEXP_XS);
 WX_DEFINE_USER_EXPORTED_ARRAY_LONG(long, LongArray, class WXDLLIMPEXP_XS);
 WX_DEFINE_USER_EXPORTED_ARRAY_DOUBLE(double, DoubleArray, class WXDLLIMPEXP_XS);
 
+WX_DECLARE_STRING_HASH_MAP_WITH_DECL(wxString, StringMap, class WXDLLIMPEXP_XS);
+
 /*!
  * \brief Base class encapsulating a property I/O handler. The class is used by
  * the xsSerializable class and is responsiblefor reading and writing of an XML node
@@ -284,6 +286,11 @@ XS_DECLARE_EXPORTED_IO_HANDLER(xsSerializable, xsDynNCObjPropIO, WXDLLIMPEXP_XS)
  * xsSerializable class objects) properties.
  */
 XS_DECLARE_EXPORTED_IO_HANDLER(xsSerializable, xsStaticObjPropIO, WXDLLIMPEXP_XS);
+
+/*!
+ * \brief Property class encapsulating I/O functions used by 'mapstring' (string hash map) properties.
+ */
+XS_DECLARE_EXPORTED_IO_HANDLER(StringMap, xsMapStringPropIO, WXDLLIMPEXP_XS);
 
 WX_DECLARE_HASH_MAP( wxString, xsPropertyIO*, wxStringHash, wxStringEqual, PropertyIOMap );
 
