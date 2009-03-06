@@ -2,6 +2,8 @@ Changes in version 1.7.2 beta (2009-03-02):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.10:
   - Added function bool xsSerializable::HasChildren().
+  - Added static function xsPropertyIO* wxXmlSerializer::GetPropertyIOHandler(const wxString& datatype) returning pointer to I/O handler suitable for given
+    data type if exists, otherwise NULL.
   - Added new data type and I/O handler for string hash map ('StringMap' data type).
   - Optimized xsPropertyIO::Write() function of array data types for speed.
   - Declaration of xsProperyIO::ToString(T value) changed to xsProperyIO::ToString(const T& value).

@@ -274,13 +274,13 @@ wxString xsPointPropIO::ToString(const wxPoint& value)
 wxPoint xsPointPropIO::FromString(const wxString& value)
 {
 	wxPoint pt;
-	
+
 	//long x, y;
 
 	if(!value.IsEmpty())
 	{
 		wxSscanf( value, wxT("%d,%d"), &pt.x, &pt.y );
-		
+
 //		wxStringTokenizer tokens(value, wxT(","), wxTOKEN_STRTOK);
 //
 //		tokens.GetNextToken().ToLong(&x);
@@ -1061,21 +1061,21 @@ void xsMapStringPropIO::Read(xsProperty *property, wxXmlNode *source)
 }
 
 void xsMapStringPropIO::Write(xsProperty *property, wxXmlNode *target)
-{	
+{
     StringMap& map = *((StringMap*)property->m_pSourceVariable);
 
 	if( !map.empty() )
 	{
 		wxXmlNode *pXmlNode, *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
 		StringMap::iterator it;
-		
-		for( it = map.begin(); it != map.end(); ++it ) 
-		{ 
-			wxString key = it->first, value = it->second; 
+
+		for( it = map.begin(); it != map.end(); ++it )
+		{
+			wxString key = it->first, value = it->second;
 			pXmlNode = AddPropertyNode(newNode, wxT("item"), it->second);
 			pXmlNode->AddProperty(wxT("key"), it->first);
 		}
-		
+
 		target->AddChild(newNode);
 		AppendPropertyType(property, newNode);
 	}
@@ -1089,13 +1089,13 @@ wxString xsMapStringPropIO::GetValueStr(xsProperty *property)
 wxString xsMapStringPropIO::ToString(const StringMap& value)
 {
  	wxString out = wxT("[ ");
-	
+
 	StringMap::const_iterator it;
-	
-	for( it = value.begin(); it != value.end(); ++it ) 
-	{ 
+
+	for( it = value.begin(); it != value.end(); ++it )
+	{
+	    if( it != value.begin() ) out << wxT(" | ");
 		out << it->first << wxT("->") << it->second;
-		if( it != value.end() ) out << wxT(" | ");
 	}
 
 	out << wxT(" ]");
