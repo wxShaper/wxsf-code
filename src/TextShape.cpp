@@ -196,9 +196,6 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
 wxSize wxSFTextShape::GetTextExtent()
 {
     wxCoord w = -1, h = -1;
-    double wd = -1, hd = -1, d = 0, e = 0;
-
-
     if(m_pParentManager && GetParentCanvas())
     {
         wxClientDC dc((wxWindow*)GetParentCanvas());
@@ -207,6 +204,8 @@ wxSize wxSFTextShape::GetTextExtent()
         if( wxSFShapeCanvas::IsGCEnabled() )
         {
             #if wxUSE_GRAPHICS_CONTEXT
+			double wd = -1, hd = -1, d = 0, e = 0;
+
 			wxGraphicsContext *pGC = wxGraphicsContext::Create( dc );
             pGC->SetFont( m_Font, *wxBLACK );
 			

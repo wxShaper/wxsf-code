@@ -56,11 +56,11 @@ if ( target == "vs2005" ) then
 	-- Windows and Visual C++ 2005
 	table.insert(package.defines,"_CRT_SECURE_NO_DEPRECATE" )
 end
-if( ( target == "vs2003" ) or ( target == "vs2005" ) ) then
+if( target == "vs2003" or target == "vs2005" ) then
          table.insert( package.defines, "_DISWARNINGS_MSVC" ) 
 	table.insert(package.config["Debug"].defines, "_DEBUG_MSVC")
 end
-if( ( ( target == "vs2003" ) or ( target == "vs2005" ) ) and options["no-builtin-wchar"] ) then
+if( ( target == "vs2003" or target == "vs2005" ) and options["no-builtin-wchar"] ) then
 	table.insert(package.buildoptions, "/Zc:wchar_t-")
 end
 
@@ -77,7 +77,7 @@ package.includepaths = { "../include", "../src" }
 -- Setup the output directory options.
 --		Note: Use 'libdir' for "lib" kind only.
 if ( windows ) then
-	if ( ( target == "gnu" ) or ( target == "cb-gcc" ) ) then
+	if ( target == "gnu" or target == "cb-gcc" or target == "cl-gcc" ) then
 		if ( package.kind == "dll" ) then
 			package.bindir = "../lib/gcc_dll"
 		else
@@ -181,7 +181,7 @@ package.config["Release"].buildflags = { "no-symbols", "optimize-speed" }
 if ( options["unicode"] ) then
 	table.insert( package.buildflags, "unicode" )
 end
-if ( target == "cb-gcc" or target == "gnu" ) then
+if ( target == "cb-gcc" or target == "gnu" or target == "cl-gcc") then
 --	table.insert( package.buildflags, "no-import-lib" )
 	table.insert( package.config["Debug"].buildoptions, "-O0" )
 	table.insert( package.config["Release"].buildoptions, "-fno-strict-aliasing" )
@@ -215,7 +215,7 @@ if ( windows ) then
 			if ( target == "cb-gcc" ) then
 				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_dll/mswud" )
 				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_dll/mswu" )
-			elseif ( target == "gnu" ) then
+			elseif ( target == "gnu" or target == "cl-gcc" ) then
 				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_dll/mswud" )
 				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_dll/mswu" )
 			else
@@ -226,7 +226,7 @@ if ( windows ) then
 			if ( target == "cb-gcc" ) then
 				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_dll/mswd" )
 				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_dll/msw" )
-			elseif ( target == "gnu" ) then
+			elseif ( target == "gnu" or target == "cl-gcc") then
 				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_dll/mswd" )
 				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_dll/msw" )
 			else
@@ -239,7 +239,7 @@ if ( windows ) then
 			if ( target == "cb-gcc" ) then
 				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_lib/mswud" )
 				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_lib/mswu" )
-			elseif ( target == "gnu" ) then
+			elseif ( target == "gnu" or target == "cl-gcc") then
 				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_lib/mswud" )
 				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_lib/mswu" )
 			else
@@ -250,7 +250,7 @@ if ( windows ) then
 			if ( target == "cb-gcc" ) then
 				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_lib/mswd" )
 				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_lib/msw" )
-			elseif ( target == "gnu" ) then
+			elseif ( target == "gnu" or target == "cl-gcc") then
 				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_lib/mswd" )
 				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_lib/msw" )
 			else
@@ -264,7 +264,7 @@ if ( windows ) then
 	if ( options["with-wx-shared"] ) then
 		if ( target == "cb-gcc" ) then
 			table.insert( package.libpaths, "$(#WX.lib)/gcc_dll" )
-		elseif ( target == "gnu" ) then
+		elseif ( target == "gnu" or target == "cl-gcc" ) then
 			table.insert( package.libpaths, "$(WXWIN)/lib/gcc_dll" )
 		else
 			table.insert( package.libpaths, "$(WXWIN)/lib/vc_dll" )
@@ -272,7 +272,7 @@ if ( windows ) then
 	else
 		if ( target == "cb-gcc" ) then
 			table.insert( package.libpaths, "$(#WX.lib)/gcc_lib" )
-		elseif ( target == "gnu" ) then
+		elseif ( target == "gnu" or target == "cl-gcc" ) then
 			table.insert( package.libpaths, "$(WXWIN)/lib/gcc_lib" )
 		else
 			table.insert( package.libpaths, "$(WXWIN)/lib/vc_lib" )
@@ -297,7 +297,7 @@ if ( windows ) then
 			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregex" } )
 		end
 
-		if ( target == "cb-gcc" or target == "gnu" ) then
+		if ( target == "cb-gcc" or target == "gnu" or target == "cl-gcc" ) then
 			table.insert( package.config["Debug"].links, { "winmm", "rpcrt4", "kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32", "shell32", "ole32", "oleaut32", "uuid", "comctl32", "wsock32", "odbc32" } )
 			table.insert( package.config["Release"].links, { "winmm", "rpcrt4", "kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32", "shell32", "ole32", "oleaut32", "uuid", "comctl32", "wsock32", "odbc32" } )
 		else

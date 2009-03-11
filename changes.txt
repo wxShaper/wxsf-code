@@ -1,4 +1,4 @@
-Changes in version 1.7.2 beta (2009-03-02):
+Changes in version 1.7.2 beta (2009-03-11):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.10:
   - Added function bool xsSerializable::HasChildren().
@@ -10,6 +10,7 @@ Changes in version 1.7.2 beta (2009-03-02):
   - If a font creation based on a native info stored in XML fails then a default (wxSWISS_FONT) font is used.
   - Improved "const correctness" of member functions.
   - Code clean-up.
+  - Update premake build scripts to support CodeLite IDE.
 
 - Added function wxSFDiagramManager::UpdateAll() which updates all shapes in the diagram manager.
 - Added function wxSFShapeDropEvent::GetDropTarget() which returns pointer to shape canvas where shapes have been dropped to.
@@ -24,6 +25,7 @@ Changes in version 1.7.2 beta (2009-03-02):
 - Improved "const correctness" of member functions.
 - Fixed calculation of multiline text extent if wxGraphicsContext is used.
 - Code clean-up.
+- Updated premake build scripts to support CodeLite IDE.
 
 Changes in version 1.7.1 beta (2008-12-20):
 --------------------------------------------
