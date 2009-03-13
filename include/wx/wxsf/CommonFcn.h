@@ -16,15 +16,18 @@
 
 #include "Defs.h"
 
-// data conversion functions
-WXDLLIMPEXP_SF wxPoint Conv2Point(const wxRealPoint& pt);
-WXDLLIMPEXP_SF wxSize Conv2Size(const wxRealPoint& pt);
-WXDLLIMPEXP_SF wxRealPoint Conv2RealPoint(const wxPoint& pt);
+namespace wxSFCommonFcn
+{
+	// data conversion functions
+	WXDLLIMPEXP_SF wxPoint Conv2Point(const wxRealPoint& pt);
+	WXDLLIMPEXP_SF wxSize Conv2Size(const wxRealPoint& pt);
+	WXDLLIMPEXP_SF wxRealPoint Conv2RealPoint(const wxPoint& pt);
 
 
-// graphics functions
-WXDLLIMPEXP_SF wxColour GetHybridColour(const wxColour& orig, const wxColour& modificator);
-WXDLLIMPEXP_SF bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const wxRealPoint& from2, const wxRealPoint& to2, wxRealPoint& i);
-WXDLLIMPEXP_SF double Distance(const wxRealPoint& pt1, const wxRealPoint& pt2);
+	// graphics functions
+	WXDLLIMPEXP_SF wxColour GetHybridColour(const wxColour& orig, const wxColour& modificator);
+	WXDLLIMPEXP_SF bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const wxRealPoint& from2, const wxRealPoint& to2, wxRealPoint& i);
+	WXDLLIMPEXP_SF double Distance(const wxRealPoint& pt1, const wxRealPoint& pt2);
+}
 
 #endif //_WXSFCOMMONFCN_H

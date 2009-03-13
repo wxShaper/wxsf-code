@@ -15,6 +15,7 @@ Changes in version 1.7.2 beta (2009-03-11):
 - Added function wxSFDiagramManager::UpdateAll() which updates all shapes in the diagram manager.
 - Added function wxSFShapeDropEvent::GetDropTarget() which returns pointer to shape canvas where shapes have been dropped to.
 - Added function wxSFShapePasteEvent::GetDropTarget() which returns pointer to shape canvas where shapes have been pasted to.
+- Functions declared in CommonFcn header file are now encapsulated by namespace wxSFCommonFcn.
 - Virtual function wxSFShapeBase::OnChildDropped() is now called even for child shapes dropped via Drag&Drop operation.
 - Added ability to choose type of editable text shape's control. Use functions wxSFEditTextShape::SetEditType() and 
   wxSFEditTextShape::GetEditType() along with style wxSFEditTextShape::EDITTYPE (values editINPLACE and editDIALOG) are available
