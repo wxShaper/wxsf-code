@@ -20,6 +20,8 @@
 
 // TODO: wxSFShapeBase: Implement LockAspectRation() function
 
+using namespace wxSFCommonFcn;
+
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFRectShape, wxSFShapeBase);
 
 wxSFRectShape::wxSFRectShape(void) : wxSFShapeBase()

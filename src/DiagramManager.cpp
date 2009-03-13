@@ -23,6 +23,8 @@
 
 #include "wx/wxsf/CommonFcn.h"
 
+using namespace wxSFCommonFcn;
+
 WX_DEFINE_LIST(IDList);
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFDiagramManager, wxXmlSerializer);

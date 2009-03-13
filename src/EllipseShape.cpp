@@ -18,6 +18,8 @@
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/CommonFcn.h"
 
+using namespace wxSFCommonFcn;
+
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFEllipseShape, wxSFRectShape);
 
 wxSFEllipseShape::wxSFEllipseShape(void)

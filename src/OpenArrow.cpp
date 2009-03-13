@@ -20,6 +20,8 @@
 // arrow shape
 const wxRealPoint arrow[3]={wxRealPoint(0,0), wxRealPoint(10,4), wxRealPoint(10,-4)};
 
+using namespace wxSFCommonFcn;
+
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFOpenArrow, wxSFArrowBase);
 
 wxSFOpenArrow::wxSFOpenArrow(void)

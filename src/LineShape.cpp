@@ -22,6 +22,8 @@
 
 //WX_DEFINE_OBJARRAY(LineSegmentArray);
 
+using namespace wxSFCommonFcn;
+
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFLineShape, wxSFShapeBase);
 
 // arrow shape

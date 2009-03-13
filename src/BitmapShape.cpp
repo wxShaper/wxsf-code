@@ -19,6 +19,8 @@
 
 #include "res/NoSource.xpm"
 
+using namespace wxSFCommonFcn;
+
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFBitmapShape, wxSFRectShape);
 
 wxSFBitmapShape::wxSFBitmapShape(void)
