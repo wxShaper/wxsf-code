@@ -75,6 +75,20 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
         * \return Cellspace size
         */
         int GetCellSpace(){return m_nCellSpace;}
+		
+       /*!
+        * \brief Get managed shape specified by lexicographic cell index.
+        * \param index Lexicographic index of requested shape
+        * \return Pointer to shape object of given cell index if exists, otherwise NULL
+        */
+		wxSFShapeBase *GetManagedShape(size_t index);
+       /*!
+        * \brief Get managed shape specified by row and column indexes.
+        * \param row Zero-base row index
+        * \param col Zero-based column index
+        * \return Pointer to shape object stored in specified grid cell if exists, otherwise NULL
+        */
+		wxSFShapeBase *GetManagedShape(int row, int col);
 
         // public functions
 

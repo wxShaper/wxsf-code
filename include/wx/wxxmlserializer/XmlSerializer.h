@@ -247,7 +247,7 @@ public:
      * \brief Function finds out whether this serializable item has some children.
      * \return TRUE if the parent shape has children, otherwise FALSE
      */
-	inline bool HasChildren() const { return m_lstChildItems.IsEmpty(); }
+	inline bool HasChildren() const { return !m_lstChildItems.IsEmpty(); }
     /*!
      * \brief Get list of children (serializable objects) of this object.
      * \return Reference to a list with child serializable objects (can be empty)
@@ -372,7 +372,15 @@ public:
      * \brief Returns information whether the object can be cloned or not.
      */
 	inline bool IsCloned() const { return m_fClone; }
-
+	
+	// overloaded operators
+    /*!
+     * \brief Add serializable child object to this object.
+     * \param child Pointer to added child object (should NOT be NULL)
+	 * \return Pointer to added object
+     */
+	 xsSerializable* operator<<(xsSerializable *child);
+	
 protected:
     // protected data members
     /*! \brief List of serialized properties */
@@ -455,7 +463,7 @@ protected:
      */
     virtual void Deserialize(wxXmlNode* node);
 };
-
+	 
 /*!
  * \brief Class encapsulates a property stored in a list included inside a parent serializable
  * object (class xsSerializable) which is serialized/deserialized to/from XML file. The
@@ -725,15 +733,17 @@ public:
      * \brief Add serializable object to the serializer.
      * \param parentId ID of parent serializable object
      * \param item Added serializable object
+	 * \return Pointer to added item
      */
-    void AddItem(long parentId, xsSerializable* item);
+     xsSerializable* AddItem(long parentId, xsSerializable* item);
     /*!
      * \brief Add serializable object to the serializer.
      * \param parent Pointer to parent serializable object (if NULL then the object
 	 * is added directly to the root item)
      * \param item Added serializable object
+	 * \return Pointer to added item
      */
-    void AddItem(xsSerializable* parent, xsSerializable* item);
+     xsSerializable* AddItem(xsSerializable* parent, xsSerializable* item);
     /*!
      * \brief Remove serializable object from the serializer (object will be destroyed).
      * \param id Object ID
@@ -825,6 +835,13 @@ public:
 
     /*! \brief Map of property IO handlers */
     static PropertyIOMap m_mapPropertyIOHandlers;
+	
+	// overloaded operators
+    /*!
+     * \brief Add serializable object to the serializer's root.
+     * \param obj Pointer to serializable object
+     */
+	void operator<< (xsSerializable *obj) { if( obj ) this->AddItem( (xsSerializable*)NULL, obj); }
 
 protected:
     // protected data members

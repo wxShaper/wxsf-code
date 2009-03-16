@@ -12,7 +12,7 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 {
     // get pointer to main application frame
 	m_pParentFrame = (MainFrm*)wxGetApp().GetTopWindow();
-
+	
 	// initialize grid
 
 	//UseGrid(true); !!! DEPRECATED !!!

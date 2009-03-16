@@ -166,6 +166,26 @@ bool wxSFGridShape::InsertToGrid(int index, wxSFShapeBase *shape)
     return false;
 }
 
+wxSFShapeBase* wxSFGridShape::GetManagedShape(size_t index)
+{
+	if( (index >= 0) && (index < GetChildrenList().GetCount()) )
+	{
+		return (wxSFShapeBase*) GetChild( m_arrCells[index] );
+	}
+	else
+		return NULL;
+}
+
+wxSFShapeBase* wxSFGridShape::GetManagedShape(int row, int col)
+{
+	if( (row >= 0) && (row < m_nRows) && (col >=0) && (col < m_nCols) )
+	{
+		return GetManagedShape( row * m_nCols + col );
+	}
+	else
+		return NULL;
+}
+
 //----------------------------------------------------------------------------------//
 // public virtual functions
 //----------------------------------------------------------------------------------//
@@ -200,7 +220,7 @@ void wxSFGridShape::DoChildrenLayout()
 
     for(size_t i = 0; i < m_arrCells.GetCount(); i++ )
     {
-        pShape = (wxSFShapeBase*)GetChild(m_arrCells[i]);
+        pShape = (wxSFShapeBase*) GetChild(m_arrCells[i]);
         if( pShape )
         {
             if( nIndex++ % m_nCols == 0 )

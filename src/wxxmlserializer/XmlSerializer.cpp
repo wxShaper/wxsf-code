@@ -311,6 +311,18 @@ void xsSerializable::DeserializeObject(wxXmlNode* node)
 	}
 }
 
+// overloaded operators /////////////////////////////////////////////////////////////
+
+xsSerializable* xsSerializable::operator<<( xsSerializable *child )
+{
+	if( child && (child != this ) )
+	{
+		return this->AddChild( child );
+	}
+	else
+		return this;
+}
+
 // protected functions //////////////////////////////////////////////////////////////
 
 wxXmlNode* xsSerializable::Serialize(wxXmlNode* node)
@@ -521,12 +533,12 @@ void wxXmlSerializer::CopyItems(const wxXmlSerializer* src)
 	_CopyItems(m_pRoot, src->GetRootItem());
 }
 
-void wxXmlSerializer::AddItem(long parentId, xsSerializable* item)
+xsSerializable*  wxXmlSerializer::AddItem(long parentId, xsSerializable* item)
 {
-    AddItem(GetItem(parentId), item);
+    return AddItem(GetItem(parentId), item);
 }
 
-void wxXmlSerializer::AddItem(xsSerializable* parent, xsSerializable* item)
+xsSerializable*  wxXmlSerializer::AddItem(xsSerializable* parent, xsSerializable* item)
 {
     wxASSERT(m_pRoot);
     wxASSERT(item);
@@ -536,9 +548,9 @@ void wxXmlSerializer::AddItem(xsSerializable* parent, xsSerializable* item)
         if( parent )parent->AddChild(item);
 		else
 			m_pRoot->AddChild(item);
-
-        //if( item->GetId() == -1 )item->SetId(GetNewId());
     }
+	
+	return item;
 }
 
 void wxXmlSerializer::RemoveItem(long id)
