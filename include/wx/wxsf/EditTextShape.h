@@ -65,11 +65,6 @@ protected:
 	 * \param event Reference to the event class instance
 	 */
 	void OnKeyDown(wxKeyEvent& event);
-	/*!
-	 * \brief Event handler called if the ENTER key was pressed in the text control.
-	 * \param event Reference to the event class instance
-	 */
-	void OnEnterDown(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE();
 };

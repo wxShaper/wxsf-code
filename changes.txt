@@ -36,6 +36,7 @@ Changes in version 1.7.2 beta (2009-03-16):
 - Disabled ability to print using wxGraphicsCanvas (due to crash) on Linux. For now only standard GDI functions are used instead.
 - Improved "const correctness" of member functions.
 - Fixed calculation of multiline text extent if wxGraphicsContext is used.
+- Fixed crash in wxSFEditTextShape occured when the ENTER key was pressed without any changes made in editted text.
 - Code clean-up.
 - Updated premake build scripts to support CodeLite IDE.
 
