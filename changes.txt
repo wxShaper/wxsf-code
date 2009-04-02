@@ -29,11 +29,11 @@ Changes in version 1.7.2 beta (2009-03-16):
 - Functions declared in CommonFcn header file are now encapsulated by namespace wxSFCommonFcn.
 - Virtual function wxSFShapeBase::OnChildDropped() is now called even for child shapes dropped via Drag&Drop operation.
 - Added ability to choose type of editable text shape's control. Use functions wxSFEditTextShape::SetEditType() and 
-  wxSFEditTextShape::GetEditType() along with style wxSFEditTextShape::EDITTYPE (values editINPLACE and editDIALOG) are available
+  wxSFEditTextShape::GetEditType() along with style wxSFEditTextShape::EDITTYPE (values editINPLACE and editDIALOG are available
   for now).
 - Pressing of the ENTER key when editable text (wxSFEditTextShape) is modified causes termination of editing process.
   Pressing of the ENTER key together with the SHIFT key will add a newline to the edited text (all applicable only in in-place edit mode).
-- Disabled ability to print using wxGraphicsCanvas (due to crash) on Linux. For now only standard GDI functions are used instead.
+- Temporarily(?) disabled ability to print using wxGraphicsCanvas (due to crash) on Linux. For now only standard drawing functions are used instead.
 - Improved "const correctness" of member functions.
 - Fixed calculation of multiline text extent if wxGraphicsContext is used.
 - Fixed crash in wxSFEditTextShape occured when the ENTER key was pressed without any changes made in editted text.
