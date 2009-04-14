@@ -29,6 +29,7 @@
 #include "wx/wxsf/BitmapShape.h"
 #include "wx/wxsf/SFEvents.h"
 #include "wx/wxsf/CommonFcn.h"
+#include "wx/wxsf/ControlShape.h"
 
 #ifdef __WXGTK__
 
@@ -1663,6 +1664,17 @@ void wxSFShapeCanvas::SetScale(double scale)
 {
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
+	
+	if( scale != 1 )
+	{
+		ShapeList lstShapes;
+		m_pManager->GetShapes(CLASSINFO(wxSFControlShape), lstShapes);
+		if( !lstShapes.IsEmpty() )
+		{
+			wxMessageBox( wxT("Couldn't change scale of shape canvas containing control (GUI) shapes."), wxT("wxShapeFramework"), wxICON_WARNING | wxOK );
+			scale = 1;
+		}
+	}
 
 	if(scale != 0)m_Settings.m_nScale = scale;
 	else
@@ -1671,10 +1683,10 @@ void wxSFShapeCanvas::SetScale(double scale)
 	// rescale all bitmap shapes if neccessary
 	if( !m_fEnableGC )
 	{
-        ShapeList lstBitmaps;
-        m_pManager->GetShapes(CLASSINFO(wxSFBitmapShape), lstBitmaps);
+		ShapeList lstShapes;
+        m_pManager->GetShapes(CLASSINFO(wxSFBitmapShape), lstShapes);
 
-        ShapeList::compatibility_iterator node = lstBitmaps.GetFirst();
+        ShapeList::compatibility_iterator node = lstShapes.GetFirst();
         while(node)
         {
             node->GetData()->Scale(1, 1);
@@ -2223,6 +2235,7 @@ void wxSFShapeCanvas::ReparentShape(wxSFShapeBase *shape, const wxPoint& parentp
 
         if( pPrevParent ) pPrevParent->Update();
         if( pParentShape ) pParentShape->Update();
+		if( shape->IsKindOf( CLASSINFO(wxSFControlShape)) ) shape->Update();
     }
 }
 

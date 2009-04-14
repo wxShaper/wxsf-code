@@ -18,6 +18,7 @@
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/TextShape.h"
 #include "wx/wxsf/GridShape.h"
+#include "wx/wxsf/ControlShape.h"
 
 #include <wx/listimpl.cpp>
 
@@ -975,6 +976,20 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 
 		this->MoveTo(pos.x - m_nMouseOffset.x, pos.y - m_nMouseOffset.y);
         this->OnDragging(pos);
+		
+		// GUI controls in child control shapes must be updated explicitely
+		wxSFControlShape *pCtrl;
+		ShapeList lstChildCtrls;
+		
+		GetChildShapes( CLASSINFO(wxSFControlShape), lstChildCtrls, sfRECURSIVE );
+		ShapeList::compatibility_iterator node = lstChildCtrls.GetFirst();
+		while( node )
+		{
+			pCtrl = (wxSFControlShape*) node->GetData();
+			pCtrl->UpdateControl();
+			
+			node = node->GetNext();
+		}
 
         // get shape BB AFTER movement and combine it with BB of assigned lines
 		wxRect currBB;

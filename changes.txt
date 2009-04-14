@@ -1,3 +1,9 @@
+Changes in version 1.7.3 beta (2009-04-14):
+--------------------------------------------
+- Scale factor of shape canvas containing control shapes can be only "1".
+- Fixed positioning of control shapes (wxSFControlShape) during dragging of their parent shapes.
+- Fixed crash occured when undo/redo operations were used on a shape canvas containing control shapes (wxSFControlShape).
+
 Changes in version 1.7.2 beta (2009-03-16):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.1.10:

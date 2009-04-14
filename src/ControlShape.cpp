@@ -126,9 +126,13 @@ void wxSFControlShape::SetControl(wxWindow *ctrl, bool fit)
 //----------------------------------------------------------------------------------//
 
 void wxSFControlShape::FitToChildren()
-{
-    wxRect ctrlRct = wxRect(m_pControl->GetPosition(), m_pControl->GetSize());
+{	
+    wxRect ctrlRct;
     wxRect bbRct = GetBoundingBox();
+	
+	if( m_pControl ) ctrlRct = wxRect(m_pControl->GetPosition(), m_pControl->GetSize());
+	else
+		ctrlRct = bbRct;
 
     wxSFRectShape::FitToChildren();
 
@@ -174,17 +178,6 @@ void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
         m_pControl->Hide();
         m_pControl->Disconnect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
     }
-}
-
-void wxSFControlShape::OnDragging(const wxPoint& WXUNUSED(pos) )
-{
-    /*if( m_pControl )
-    {
-        wxRealPoint absPos = GetAbsolutePosition();
-
-        // set the control's position according to the parent control shape
-        m_pControl->Move((int)absPos.x + m_nControlOffset, (int)absPos.y + m_nControlOffset);
-    }*/
 }
 
 void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
@@ -253,6 +246,13 @@ void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
     }
 }
 
+void wxSFControlShape::Update()
+{
+	wxSFShapeBase::Update();
+	UpdateControl();
+}
+
+
 //----------------------------------------------------------------------------------//
 // protected functions
 //----------------------------------------------------------------------------------//
@@ -262,6 +262,7 @@ void wxSFControlShape::UpdateControl()
     if( m_pControl )
     {
         int x = 0, y = 0;
+		
         wxRect minBB = m_pControl->GetMinSize();
         wxRect rctBB = GetBoundingBox().Deflate(m_nControlOffset, m_nControlOffset);
 
@@ -287,13 +288,16 @@ void wxSFControlShape::UpdateControl()
 
 void wxSFControlShape::UpdateShape()
 {
-    wxSize nCtrlSize = m_pControl->GetSize();
-    wxPoint nCtrlPos = m_pControl->GetPosition();
+	if( m_pControl )
+	{
+		wxSize nCtrlSize = m_pControl->GetSize();
+		wxPoint nCtrlPos = m_pControl->GetPosition();
 
-    m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
-    m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
+		m_nRectSize.x = nCtrlSize.x + 2*m_nControlOffset;
+		m_nRectSize.y = nCtrlSize.y + 2*m_nControlOffset;
 
-    GetShapeManager()->GetShapeCanvas()->Refresh(false);
+		GetShapeManager()->GetShapeCanvas()->Refresh(false);
+	}
 }
 
 //----------------------------------------------------------------------------------//

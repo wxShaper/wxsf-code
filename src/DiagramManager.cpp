@@ -20,6 +20,7 @@
 
 #include "wx/wxsf/DiagramManager.h"
 #include "wx/wxsf/ShapeCanvas.h"
+#include "wx/wxsf/ControlShape.h"
 
 #include "wx/wxsf/CommonFcn.h"
 
@@ -34,7 +35,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.7.2 beta");
+    m_sSFVersion =  wxT("1.7.3 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -161,6 +162,12 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                 }
 			}
 
+			// reset scale of assigned shape canvas (if exists and it is necessary...)
+			if( m_pShapeCanvas && shape->IsKindOf( CLASSINFO(wxSFControlShape) ) )
+			{
+				m_pShapeCanvas->SetScale( 1 );
+			}
+			
             if( m_pShapeCanvas )
             {
                 if( saveState )

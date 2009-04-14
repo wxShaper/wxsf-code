@@ -263,6 +263,16 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 			    // ... or can replace previously assigned shape at the position specified by row and column indexes
 			    // (note that the previous shape at the given position (if exists) will be moved to the grid's last lexicographic position).
 			    pGrid->InsertToGrid(1, 0, GetDiagramManager()->AddShape(CLASSINFO(wxSFCircleShape), sfDONT_SAVE_STATE));
+				
+				// also control shapes can be managed by the grid shape.
+				//wxSFControlShape* pCtrl = (wxSFControlShape*)GetDiagramManager()->AddShape(CLASSINFO(wxSFControlShape), event.GetPosition(), sfDONT_SAVE_STATE);
+				//if( pCtrl )
+				//{
+				//	pCtrl->SetVAlign( wxSFShapeBase::valignEXPAND );
+				//	pCtrl->SetHAlign( wxSFShapeBase::halignEXPAND );
+				//	pCtrl->SetControl( new wxButton( this, wxID_ANY, wxT("Test")) );
+				//	pGrid->AppendToGrid( pCtrl );
+				//}
 
                 // update the grid
 			    pGrid->Update();

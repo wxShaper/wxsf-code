@@ -186,6 +186,12 @@ public:
      * \return Offset size
      */
     int GetControlOffset(){return m_nControlOffset;}
+	
+	// public functions
+    /*! \brief Update size and position of the managed control according to the parent shape. */
+    void UpdateControl();
+    /*! \brief Update size of the shape position according to the managed control. */
+    void UpdateShape();
 
     // public virtual functions
 
@@ -209,6 +215,9 @@ public:
 	 * \param y Y offset
 	 */
 	virtual void MoveBy(double x, double y);
+	
+	/*! \brief Upate shape (align all child shapes an resize it to fit them) */
+	virtual void Update();
 
     /*! \brief Resize the shape to bound all child shapes. The function can be overrided if neccessary. */
 	virtual void FitToChildren();
@@ -222,16 +231,6 @@ public:
 	 * \sa wxSFShapeCanvas
 	 */
 	virtual void OnBeginDrag(const wxPoint& pos);
-	/*!
-	 * \brief Event handler called during the shape dragging process.
-	 * The function can be overrided if necessary.
-	 *
-	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
-	 * \param pos Current mouse position
-	 * \sa wxSFShapeCanvas
-	 */
-	virtual void OnDragging(const wxPoint& pos);
 	/*!
 	 * \brief Event handler called at the end of the shape dragging process.
 	 * The function can be overrided if necessary.
@@ -287,10 +286,6 @@ protected:
     int m_nControlOffset;
 
     // protected functions
-    /*! \brief Update size and position of the managed control according to the parent shape. */
-    void UpdateControl();
-    /*! \brief Update size of the shape position according to the managed control. */
-    void UpdateShape();
 
 private:
 
