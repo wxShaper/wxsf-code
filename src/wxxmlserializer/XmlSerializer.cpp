@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.10 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.1.11 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -85,10 +85,21 @@ xsSerializable* xsSerializable::AddChild(xsSerializable* child)
         child->m_pParentItem = this;
 		child->m_pParentManager = m_pParentManager;
 
-        // assign unique ids to the child object
-        if(m_pParentManager && (child->GetId() == -1))
+        if( m_pParentManager )
         {
-            child->SetId(m_pParentManager->GetNewId());
+			// assign unique ids to the child object
+			if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
+			
+			// if the child has another children, set their parent manager and ID as well
+			SerializableList lstChildren;
+			child->GetChildrenRecursively( NULL, lstChildren );
+			
+			SerializableList::compatibility_iterator node = lstChildren.GetFirst();
+			while( node )
+			{
+				node->GetData()->SetParentManager( m_pParentManager );
+				node = node->GetNext();
+			}
         }
 
         m_lstChildItems.Append(child);

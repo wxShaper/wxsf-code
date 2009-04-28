@@ -58,7 +58,7 @@ wxRealPoint wxSFEllipseShape::GetBorderPoint(const wxRealPoint& start, const wxR
     return wxSFRectShape::GetBorderPoint(start, end);
 }
 
-bool wxSFEllipseShape::IsInside(const wxPoint& pos)
+bool wxSFEllipseShape::Contains(const wxPoint& pos)
 {
     // HINT: overload it for custom actions...
 

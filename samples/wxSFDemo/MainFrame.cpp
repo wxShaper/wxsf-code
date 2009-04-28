@@ -122,6 +122,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_pToolBar->AddRadioTool(IDT_FLEXGRIDSHP, wxT("Flexible grid shape"), wxBitmap(FlexGrid_xpm), wxNullBitmap, wxT("Flexible grid shape"));
 	m_pToolBar->AddRadioTool(IDT_LINESHP, wxT("Line"), wxBitmap(Line_xpm), wxNullBitmap, wxT("Polyline connection"));
 	m_pToolBar->AddRadioTool(IDT_CURVESHP, wxT("Curve"), wxBitmap(Curve_xpm), wxNullBitmap, wxT("Curve connection"));
+	m_pToolBar->AddRadioTool(IDT_ORTHOSHP, wxT("Ortho line"), wxBitmap(OrthoLine_xpm), wxNullBitmap, wxT("Orthogonal connection"));
 	m_pToolBar->AddSeparator();
 	m_pToolBar->AddTool(IDT_ALIGN_LEFT, wxT("Align left"), wxBitmap(AlignLeft_xpm), wxT("Align selected shapes to the left"));
 	m_pToolBar->AddTool(IDT_ALIGN_RIGHT, wxT("Align right"), wxBitmap(AlignRight_xpm), wxT("Align selected shapes to the right"));
@@ -270,7 +271,7 @@ void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.5.9 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2008"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.6 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2009"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -342,6 +343,10 @@ void MainFrm::OnTool(wxCommandEvent& event)
 
         case IDT_CURVESHP:
             m_nToolMode = modeCURVE;
+            break;
+			
+        case IDT_ORTHOSHP:
+            m_nToolMode = modeORTHOLINE;
             break;
 
         case IDT_DIAMONDSHP:
@@ -440,6 +445,10 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
 
         case IDT_CURVESHP:
             event.Check(m_nToolMode == modeCURVE);
+            break;
+
+        case IDT_ORTHOSHP:
+            event.Check(m_nToolMode == modeORTHOLINE);
             break;
 
         case IDT_DIAMONDSHP:

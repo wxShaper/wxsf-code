@@ -335,6 +335,17 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
                 wxSFShapeCanvas::OnLeftDown(event);
         }
         break;
+		
+     case MainFrm::modeORTHOLINE:
+        {
+            if(GetMode() == modeREADY)
+            {
+                StartInteractiveConnection(CLASSINFO(wxSFOrthoShape), event.GetPosition());
+            }
+            else
+                wxSFShapeCanvas::OnLeftDown(event);
+        }
+        break;
 
 	default:
 		// do default actions
@@ -438,9 +449,11 @@ void FrameCanvas::OnConnectionFinished(wxSFLineShape* connection)
 {
     if(connection)
     {
-        //connection->SetSrcArrow(CLASSINFO(wxSFOpenArrow));
+		// the line's ending style can be set like this:
         connection->SetTrgArrow(CLASSINFO(wxSFSolidArrow));
-
+        // also wxSFOpenArrow, wxSFDiamondArrow and wxSFCircleArrow styles are available.
+		connection->SetSrcArrow(CLASSINFO(wxSFCircleArrow));
+		
         connection->AcceptChild(wxT("wxSFTextShape"));
         connection->AcceptChild(wxT("wxSFEditTextShape"));
 

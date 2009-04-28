@@ -182,7 +182,7 @@ public:
      * \param pos Examined point
      * \return TRUE if the point is inside the shape area, otherwise FALSE
      */
-	virtual bool IsInside(const wxPoint& pos);
+	virtual bool Contains(const wxPoint& pos);
     /*!
 	 * \brief Test whether the shape is completely inside given rectangle. The function
      * can be overrided if neccessary.

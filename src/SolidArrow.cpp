@@ -17,48 +17,53 @@
 #include "wx/wxsf/SolidArrow.h"
 #include "wx/wxsf/CommonFcn.h"
 
-XS_IMPLEMENT_CLONABLE_CLASS(wxSFSolidArrow, wxSFOpenArrow);
+// arrow shape
+static const wxRealPoint arrow[3]={wxRealPoint(0,0), wxRealPoint(10,4), wxRealPoint(10,-4)};
+
+using namespace wxSFCommonFcn;
+
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFSolidArrow, wxSFArrowBase);
 
 wxSFSolidArrow::wxSFSolidArrow(void)
-: wxSFOpenArrow()
+: wxSFArrowBase()
 {
 	m_Fill = sfdvARROW_FILL;
 
-	MarkSerializableDataMembers();
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
 }
 
 wxSFSolidArrow::wxSFSolidArrow(wxSFShapeBase* parent)
-: wxSFOpenArrow(parent)
+: wxSFArrowBase(parent)
 {
 	m_Fill = sfdvARROW_FILL;
 
-	MarkSerializableDataMembers();
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
 }
 
 wxSFSolidArrow::wxSFSolidArrow(const wxSFSolidArrow& obj)
-: wxSFOpenArrow(obj)
+: wxSFArrowBase(obj)
 {
 	m_Fill = obj.m_Fill;
 
-	MarkSerializableDataMembers();
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
 }
 
 wxSFSolidArrow::~wxSFSolidArrow(void)
 {
 }
 
-void wxSFSolidArrow::MarkSerializableDataMembers()
-{
-	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
-}
-
 //----------------------------------------------------------------------------------//
-// protected virtual functions
+// public virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFSolidArrow::DrawArrowShape(int n, wxPoint pts[], wxDC& dc)
+void wxSFSolidArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxDC& dc)
 {
+	wxPoint rarrow[3];
+	
+	TranslateArrow( rarrow, arrow, 3, from, to );
+
     dc.SetBrush(m_Fill);
-    dc.DrawPolygon(n, pts);
+    dc.DrawPolygon(3, rarrow);
     dc.SetBrush(wxNullBrush);
 }
+

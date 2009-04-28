@@ -72,7 +72,7 @@ wxSFShapeHandle::~wxSFShapeHandle(void)
 // Public functions
 //----------------------------------------------------------------------------------//
 
-bool wxSFShapeHandle::IsInside(const wxPoint& pos)
+bool wxSFShapeHandle::Contains(const wxPoint& pos)
 {
 	return GetHandleRect().Contains(pos);
 }
@@ -300,8 +300,8 @@ void wxSFShapeHandle::_OnEndDrag(const wxPoint& WXUNUSED(pos))
 void wxSFShapeHandle::_OnMouseMove(const wxPoint& pos)
 {
 	if(m_fVisible)
-	{
-		if(IsInside(pos))
+	{	
+		if(Contains(pos))
 		{
 			if(!m_fMouseOver)
 			{

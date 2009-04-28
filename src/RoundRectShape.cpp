@@ -59,7 +59,7 @@ void wxSFRoundRectShape::MarkSerializableDataMembers()
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-bool wxSFRoundRectShape::IsInside(const wxPoint &pos)
+bool wxSFRoundRectShape::Contains(const wxPoint &pos)
 {
 	// get original bounding box
 	wxRect shpBB = GetBoundingBox();

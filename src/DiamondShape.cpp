@@ -51,7 +51,7 @@ wxSFDiamondShape::~wxSFDiamondShape()
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-bool wxSFDiamondShape::IsInside(const wxPoint& pos)
+bool wxSFDiamondShape::Contains(const wxPoint& pos)
 {
     wxRect bbRct = this->GetBoundingBox();
     if(!bbRct.Contains(pos))return false;

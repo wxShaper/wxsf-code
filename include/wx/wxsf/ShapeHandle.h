@@ -123,7 +123,7 @@ public:
 	 * \param pos Examined point
 	 * \return TRUE if the point is inside the handle, otherwise FALSE
 	 */
-	bool IsInside(const wxPoint& pos);
+	bool Contains(const wxPoint& pos);
 
 protected:
 

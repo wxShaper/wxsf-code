@@ -1,42 +1,42 @@
 /***************************************************************
- * Name:      OpenArrow.h
- * Purpose:   Defines open arrow for line shapes
+ * Name:      DiamondArrow.h
+ * Purpose:   Defines diamond arrow for line shapes
  * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
- * Created:   2007-07-22
+ * Created:   2009-04-18
  * Copyright: Michal Bližňák
  * License:   wxWidgets license (www.wxwidgets.org)
  * Notes:
  **************************************************************/
 
-#ifndef _WXSFOPENARROW_H
-#define _WXSFOPENARROW_H
+#ifndef _WXSFDIAMONDARROW_H
+#define _WXSFDIAMONDARROW_H
 
-#include "ArrowBase.h"
+#include "SolidArrow.h"
 
 /*!
- * \brief Class extends the wxSFArrowBase class and encapsulates
- * arrow shape consisting of single two lines leading from the end of the
+ * \brief Class extends the wxSFSolidArrow class and encapsulates
+ * arrow shape consisting of filled diamond located the end of the
  * parent line shape.
  */
-class WXDLLIMPEXP_SF wxSFOpenArrow : public wxSFArrowBase
+class WXDLLIMPEXP_SF wxSFDiamondArrow : public wxSFSolidArrow
 {
 public:
-	XS_DECLARE_CLONABLE_CLASS(wxSFOpenArrow);
+	XS_DECLARE_CLONABLE_CLASS(wxSFDiamondArrow);
 
     /*! \brief Default constructor. */
-	wxSFOpenArrow(void);
+	wxSFDiamondArrow(void);
 	/*!
      * \brief User constructor.
 	 * \param parent"> Pointer to the parent shape
 	 */
-	wxSFOpenArrow(wxSFShapeBase* parent);
+	wxSFDiamondArrow(wxSFShapeBase* parent);
 	/*!
      * \brief Copy constructor.
 	 * \param obj Reference to the source object
 	 */
-	wxSFOpenArrow(const wxSFOpenArrow& obj);
+	wxSFDiamondArrow(const wxSFDiamondArrow& obj);
 	/*! \brief Destructor. */
-	virtual ~wxSFOpenArrow(void);
+	virtual ~wxSFDiamondArrow(void);
 
 	// public virtual functions
 	/*!
@@ -48,4 +48,4 @@ public:
 	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxDC& dc);
 };
 
-#endif //_WXSFOPENARROW_H
+#endif //_WXSFDIAMONDARROW_H

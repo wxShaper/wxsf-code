@@ -35,7 +35,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.7.3 beta");
+    m_sSFVersion =  wxT("1.8.0 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -78,7 +78,9 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveSta
 
 wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState)
 {
-    if( IsShapeAccepted(shapeInfo->GetClassName()) )
+	wxASSERT( shapeInfo );
+	
+    if( shapeInfo && IsShapeAccepted(shapeInfo->GetClassName()) )
     {
         // create shape object from class info
         wxSFShapeBase *pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
@@ -479,7 +481,7 @@ wxSFShapeBase* wxSFDiagramManager::GetShapeAtPosition(const wxPoint& pos, int zo
 	while(node)
 	{
 		pShape = (wxSFShapeBase*)node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))
+		if(pShape->IsVisible() && pShape->IsActive() && pShape->Contains(pos))
 		{
 			switch(mode)
 			{
@@ -526,7 +528,7 @@ void wxSFDiagramManager::GetShapesAtPosition(const wxPoint& pos, ShapeList& shap
 	while(node)
 	{
 		pShape = node->GetData();
-		if(pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(pos))shapes.Append(pShape);
+		if(pShape->IsVisible() && pShape->IsActive() && pShape->Contains(pos))shapes.Append(pShape);
 		node = node->GetNext();
 	}
 }

@@ -13,6 +13,9 @@
 
 #include "ShapeBase.h"
 
+// default values
+#define sfdvARROW_FILL *wxWHITE_BRUSH
+
 class WXDLLIMPEXP_SF wxSFLineShape;
 
 /*! \brief Base class for a line arrows */
@@ -65,7 +68,17 @@ protected:
 	// protected member data
 	/*! \brief Pointer to a parent shape. */
 	wxSFShapeBase* m_pParentShape;
-
+	
+	// protected functions
+	/*!
+	 * \brief Rotate and move arrow's vertices in accordance of virtual line at which end the arrow will be placed.
+	 * \param trg Pointer to array where translated vertices will be stored
+	 * \param src Pointer to array of source vertices
+	 * \param n Number of vertices
+	 * \param from Start of the virtual line
+	 * \param to End of the virtual line
+	 */
+	void TranslateArrow(wxPoint *trg, const wxRealPoint *src, int n, const wxRealPoint &from, const wxRealPoint& to);
 };
 
 #endif //_WXSFARROWBASE_H

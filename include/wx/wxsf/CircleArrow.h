@@ -1,56 +1,58 @@
 /***************************************************************
- * Name:      SolidArrow.h
- * Purpose:   Defines solid arrow for line shapes
+ * Name:      CircleArrow.h
+ * Purpose:   Defines circle arrow for line shapes
  * Author:    Michal Bližňák (michal.bliznak@tiscali.cz)
- * Created:   2007-07-22
+ * Created:   2009-04-19
  * Copyright: Michal Bližňák
  * License:   wxWidgets license (www.wxwidgets.org)
  * Notes:
  **************************************************************/
 
-#ifndef _WXSFSOLIDARROW_H
-#define _WXSFSOLIDARROW_H
+#ifndef _WXSFCIRCLEARROW_H
+#define _WXSFCIRCLEARROW_H
 
-#include "ArrowBase.h"
+#include "SolidArrow.h"
+
+// default values
+#define sfdvARROW_RADIUS 4
 
 /*!
- * \brief Class extends the wxSFArrowBase class and encapsulates
- * arrow shape consisting of a solid triangle pointing to the end of the
+ * \brief Class extends the wxSFSolidBase class and encapsulates
+ * arrow shape consisting of a filled circle located at the end of the
  * parent line shape.
  */
-class WXDLLIMPEXP_SF wxSFSolidArrow :	public wxSFArrowBase
+class WXDLLIMPEXP_SF wxSFCircleArrow :	public wxSFSolidArrow
 {
 public:
-	XS_DECLARE_CLONABLE_CLASS(wxSFSolidArrow);
+	XS_DECLARE_CLONABLE_CLASS(wxSFCircleArrow);
 
     /*! \brief Default constructor. */
-	wxSFSolidArrow(void);
+	wxSFCircleArrow(void);
 	/*!
      * \brief User constructor.
 	 * \param parent Pointer to the parent shape
 	 */
-	wxSFSolidArrow(wxSFShapeBase* parent);
+	wxSFCircleArrow(wxSFShapeBase* parent);
     /*!
      * \brief Copy constructor.
 	 * \param obj Reference to the source object
 	 */
-	wxSFSolidArrow(const wxSFSolidArrow& obj);
+	wxSFCircleArrow(const wxSFCircleArrow& obj);
 	/*! \brief Destructor. */
-	virtual ~wxSFSolidArrow(void);
-
-	// public functions
-
+	virtual ~wxSFCircleArrow(void);
+	
 	// public member data accessors
-	/*!
-     * \brief Set a brush filling the arrow's body.
-	 * \param br Reference to the brush object
+	/**
+	 * \brief Set radius of circle arrow
+	 * \param radius Radius of circle arrow
 	 */
-	void SetArrowFill(const wxBrush& br){m_Fill = br;}
-	/*!
-     * \brief Get current brush used for filling of the arrow's body.
-	 * \return Used brush
+	void SetRadius(int radius) {m_nRadius = radius;}
+	
+	/**
+	 * \brief Get radius of circle arrow
+	 * \return Radius if circle arrow
 	 */
-	wxBrush GetArrowFill() const {return m_Fill;}
+	int GetRadius() const {return m_nRadius;}
 	
 	// public virtual functions
 	/*!
@@ -60,11 +62,11 @@ public:
 	 * \param dc Device context for drawing
 	 */
 	virtual void Draw(const wxRealPoint& from, const wxRealPoint& to, wxDC& dc);
-
+	
 protected:
 	// protected data members
-	/*! \brief Arrows brush. */
-	wxBrush m_Fill;
+	/*! \brief Circle radius */
+	int m_nRadius;
 };
 
-#endif //_WXSFSOLIDARROW_H
+#endif //_WXSFCIRCLEARROW_H

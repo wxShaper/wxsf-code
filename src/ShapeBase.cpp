@@ -274,7 +274,7 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 	}
 }
 
-bool wxSFShapeBase::IsInside(const wxPoint& pos)
+bool wxSFShapeBase::Contains(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 
@@ -1069,8 +1069,8 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
                 break;
 		    }
 		}
-
-		if(IsInside(pos) && fUpdateShape)
+		
+		if(Contains(pos) && fUpdateShape)
 		{
 			if(!m_fMouseOver)
 			{

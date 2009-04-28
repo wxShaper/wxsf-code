@@ -15,6 +15,9 @@
 
 #include "wx/wxsf/ArrowBase.h"
 #include "wx/wxsf/LineShape.h"
+#include "wx/wxsf/CommonFcn.h"
+
+using namespace wxSFCommonFcn;
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFArrowBase, xsSerializable);
 
@@ -45,4 +48,29 @@ wxSFArrowBase::~wxSFArrowBase(void)
 void wxSFArrowBase::Draw(const wxRealPoint& WXUNUSED(from), const wxRealPoint& WXUNUSED(to), wxDC& WXUNUSED(dc))
 {
 	// HINT: override it for custom drawing...
+}
+
+//----------------------------------------------------------------------------------//
+// protected functions
+//----------------------------------------------------------------------------------//
+
+void wxSFArrowBase::TranslateArrow(wxPoint *trg, const wxRealPoint *src, int n, const wxRealPoint &from, const wxRealPoint& to)
+{
+	double cosa, sina, dist;
+
+	// calculate distance between line points
+	dist = Distance(from, to);
+
+	// calculate sin and cos of given line segment
+	sina = (from.y - to.y)/dist;
+	cosa = (from.x - to.x)/dist;
+
+    // rotate arrow
+	for(int i = 0; i<n; i++)
+	{
+		trg->x = (int)((src->x*cosa-src->y*sina)+to.x);
+		trg->y = (int)((src->x*sina+src->y*cosa)+to.y);
+		trg++;
+		src++;
+	}
 }

@@ -43,7 +43,7 @@ public:
      * \param pos Examined point
      * \return TRUE if the point is inside the shape area, otherwise FALSE
      */
-	virtual bool IsInside(const wxPoint& pos);
+	virtual bool Contains(const wxPoint& pos);
 	/*!
 	 * \brief Get intersection point of the shape border and a line leading from
 	 * 'start' point to 'end' point. The function can be overrided if neccessary.

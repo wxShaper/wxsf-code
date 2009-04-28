@@ -18,10 +18,6 @@
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/CommonFcn.h"
 
-#include <wx/arrimpl.cpp>
-
-//WX_DEFINE_OBJARRAY(LineSegmentArray);
-
 using namespace wxSFCommonFcn;
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFLineShape, wxSFShapeBase);
@@ -292,15 +288,26 @@ wxRealPoint wxSFLineShape::GetAbsolutePosition()
 
 	int ptsCnt = (int)m_lstPoints.GetCount();
 
-	if((m_nDockPoint >= 0) && (ptsCnt > m_nDockPoint))
+	if( m_nDockPoint >= 0 )
 	{
-	    ptnode = m_lstPoints.Item(m_nDockPoint);
-	    if( ptnode )return *ptnode->GetData();
+		if( ptsCnt > m_nDockPoint )
+		{
+			ptnode = m_lstPoints.Item(m_nDockPoint);
+			if( ptnode )return *ptnode->GetData();
+		}
+		else if( ptsCnt > 0 )
+		{
+			ptnode = m_lstPoints.Item(ptsCnt/2);
+			if( ptnode )return *ptnode->GetData();
+		}
 	}
-	else if(ptsCnt > 0)
+	else if( m_nDockPoint == -1 ) // start line point
 	{
-	    ptnode = m_lstPoints.Item(ptsCnt/2);
-	    if( ptnode )return *ptnode->GetData();
+		return GetSrcPoint();
+	}
+	else if( m_nDockPoint == -2 ) // end line point
+	{
+		return GetTrgPoint();
 	}
 
     return GetCenter();
@@ -396,7 +403,7 @@ wxRealPoint wxSFLineShape::GetDockPointPosition()
         return GetCenter();
 }
 
-bool wxSFLineShape::IsInside(const wxPoint& pos)
+bool wxSFLineShape::Contains(const wxPoint& pos)
 {
 	if( (m_nMode != modeUNDERCONSTRUCTION) && (this->GetHitLinesegment(pos) >= 0) )return true;
 	else
@@ -574,92 +581,6 @@ void wxSFLineShape::DrawHighlighted(wxDC& dc)
 	dc.SetPen(wxNullPen);
 }
 
-//----------------------------------------------------------------------------------//
-// protected functions
-//----------------------------------------------------------------------------------//
-
-/*void wxSFLineShape::GetLineSegments(LineSegmentArray& segments)
-{
-    //wxASSERT(m_pParentManager);
-
-    if(!m_pParentManager)return;
-
-    //segments.Clear();
-    segments.Alloc(m_lstPoints.GetCount()+1);
-
-    if(m_pParentManager)
-    {
-        wxRealPoint *pt, prevPt;
-
-        wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-        wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
-
-		if(m_lstPoints.GetCount() > 0)
-		{
-			RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
-			while(node)
-			{
-				pt = node->GetData();
-
-				if(node == m_lstPoints.GetFirst())
-				{
-					if(pSrcShape)segments.Add(new LineSegment(pSrcShape->GetBorderPoint(GetModSrcPoint(), *pt), *pt));
-				}
-				else
-				{
-					segments.Add(new LineSegment(prevPt, *pt));
-				}
-				prevPt = *pt;
-
-				node = node->GetNext();
-			}
-
-			if(pTrgShape)segments.Add(new LineSegment(prevPt, pTrgShape->GetBorderPoint(GetModTrgPoint(), prevPt)));
-		}
-		else
-		{
-			if(pSrcShape && pTrgShape)
-			{
-			    wxRealPoint trgCenter = GetModTrgPoint();
-                wxRealPoint srcCenter = GetModSrcPoint();
-
-                if( (pSrcShape->GetParent() == pTrgShape) || (pTrgShape->GetParent() == pSrcShape) )
-                {
-                    wxRect trgBB = pTrgShape->GetBoundingBox();
-                    wxRect srcBB = pSrcShape->GetBoundingBox();
-
-                    if( trgBB.Contains((int)srcCenter.x, (int)srcCenter.y) )
-                    {
-                        if( srcCenter.y > trgCenter.y )
-                        {
-                            segments.Add(new LineSegment(wxRealPoint(srcCenter.x, srcBB.GetBottom()), wxRealPoint(srcCenter.x, trgBB.GetBottom())));
-                        }
-                        else
-                        {
-                            segments.Add(new LineSegment(wxRealPoint(srcCenter.x, srcBB.GetTop()), wxRealPoint(srcCenter.x, trgBB.GetTop())));
-                        }
-                    }
-                    else if( srcBB.Contains((int)trgCenter.x, (int)trgCenter.y) )
-                    {
-                        if( trgCenter.y > srcCenter.y )
-                        {
-                            segments.Add(new LineSegment(wxRealPoint(trgCenter.x, srcBB.GetBottom()), wxRealPoint(trgCenter.x, trgBB.GetBottom())));
-                        }
-                        else
-                        {
-                            segments.Add(new LineSegment(wxRealPoint(trgCenter.x, srcBB.GetTop()), wxRealPoint(trgCenter.x, trgBB.GetTop())));
-                        }
-                    }
-                    else
-                        segments.Add(new LineSegment(pSrcShape->GetBorderPoint(srcCenter, trgCenter), pTrgShape->GetBorderPoint(trgCenter, srcCenter)));
-                }
-                else
-                    segments.Add(new LineSegment(pSrcShape->GetBorderPoint(srcCenter, trgCenter), pTrgShape->GetBorderPoint(trgCenter, srcCenter)));
-			}
-		}
-    }
-}*/
-
 void wxSFLineShape::DrawCompleteLine(wxDC& dc)
 {
     if(!m_pParentManager)return;
@@ -682,8 +603,12 @@ void wxSFLineShape::DrawCompleteLine(wxDC& dc)
             // draw target arrow
             if(m_pTrgArrow)m_pTrgArrow->Draw(src, trg, dc);
             // draw source arrow
-			GetLineSegment( 0, src, trg );
-			if(m_pSrcArrow)m_pSrcArrow->Draw(trg, src, dc);
+			
+			if(m_pSrcArrow)
+			{
+				GetLineSegment( 0, src, trg );
+				m_pSrcArrow->Draw(trg, src, dc);
+			}
         }
         break;
 
@@ -755,6 +680,41 @@ void wxSFLineShape::DrawCompleteLine(wxDC& dc)
     }
 }
 
+int wxSFLineShape::GetHitLinesegment(const wxPoint& pos)
+{
+    if(!GetBoundingBox().Inflate(10, 10).Contains(pos))return -1;
+
+    double a, b, c, d;
+    wxRealPoint ptSrc, ptTrg;
+    wxRect lsBB;
+
+    // Get all polyline segments
+	for(size_t i = 0; i <= m_lstPoints.GetCount(); i++)
+	{
+		GetLineSegment( i, ptSrc, ptTrg );
+		
+		// calculate line segment bounding box
+        lsBB = wxRect(Conv2Point(ptSrc), Conv2Point(ptTrg));
+//        if( (i > 0) && ((i + 1) < m_lstPoints.GetCount()) )lsBB.Inflate(10);
+        lsBB.Inflate(10);
+
+        // convert line segment to its parametric form
+        a = ptTrg.y - ptSrc.y;
+        b = ptSrc.x - ptTrg.x;
+        c = -a*ptSrc.x - b*ptSrc.y;
+
+        // calculate distance of the line and give point
+        d = (a*pos.x + b*pos.y + c)/sqrt(a*a + b*b);
+        if((abs((int)d) <= 10) && lsBB.Contains(pos)) return (int)i;		
+	}
+
+    return -1;
+}
+
+//----------------------------------------------------------------------------------//
+// protected functions
+//----------------------------------------------------------------------------------//
+
 bool wxSFLineShape::GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg)
 {
 	if( !m_lstPoints.IsEmpty() )
@@ -791,36 +751,6 @@ bool wxSFLineShape::GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& 
 		else
 			return false;
 	}
-}
-
-int wxSFLineShape::GetHitLinesegment(const wxPoint& pos)
-{
-    if(!GetBoundingBox().Inflate(10, 10).Contains(pos))return -1;
-
-    double a, b, c, d;
-    wxRealPoint ptSrc, ptTrg;
-    wxRect lsBB;
-
-    // Get all polyline segments
-	for(size_t i = 0; i <= m_lstPoints.GetCount(); i++)
-	{
-		GetLineSegment( i, ptSrc, ptTrg );
-		
-		// calculate line segment bounding box
-        lsBB = wxRect(Conv2Point(ptSrc), Conv2Point(ptTrg));
-        if( (i > 0) && ((i + 1) < m_lstPoints.GetCount()) )lsBB.Inflate(10);
-
-        // convert line segment to its parametric form
-        a = ptTrg.y - ptSrc.y;
-        b = ptSrc.x - ptTrg.x;
-        c = -a*ptSrc.x - b*ptSrc.y;
-
-        // calculate distance of the line and give point
-        d = (a*pos.x + b*pos.y + c)/sqrt(a*a + b*b);
-        if((abs((int)d) <= 10) && lsBB.Contains(pos)) return (int)i;		
-	}
-
-    return -1;
 }
 
 //----------------------------------------------------------------------------------//

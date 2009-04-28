@@ -816,7 +816,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 	case modeHANDLEMOVE:
 		{
 			// resize parent shape to fit all its children if neccessary
-			if(m_pSelectedHandle->GetParentShape()->GetParentShape())
+			if( m_pSelectedHandle->GetParentShape()->GetParentShape() )
 			{
 				//((wxSFShapeBase*)m_pSelectedHandle->GetParentShape()->GetParentShape())->FitToChildren();
 				((wxSFShapeBase*)m_pSelectedHandle->GetParentShape()->GetParentShape())->Update();
@@ -1024,8 +1024,6 @@ void wxSFShapeCanvas::OnRightUp(wxMouseEvent &event)
 	switch(m_nWorkingMode)
 	{
 	case modeREADY:
-		{
-		}
 		break;
 
     default:
@@ -1423,7 +1421,7 @@ void wxSFShapeCanvas::_OnMouseMove(wxMouseEvent& event)
 	while( node )
 	{
 		pShape = node->GetData();
-		if( pShape->IsVisible() && pShape->IsActive() && pShape->IsInside(lpos) )
+		if( pShape->IsVisible() && pShape->IsActive() && pShape->Contains(lpos) )
 		{
 			if( pShape->IsKindOf(CLASSINFO(wxSFLineShape)) )
 			{
@@ -1935,7 +1933,7 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
 		while(hnode)
 		{
 			pHandle = hnode->GetData();
-			if(pHandle->IsVisible() && pHandle->IsInside(pos))return pHandle;
+			if(pHandle->IsVisible() && pHandle->Contains(pos))return pHandle;
 			hnode = hnode->GetNext();
 		}
 	}
@@ -1955,7 +1953,7 @@ wxSFShapeHandle* wxSFShapeCanvas::GetTopmostHandleAtPosition(const wxPoint& pos)
             while(hnode)
             {
                 pHandle = hnode->GetData();
-                if(pHandle->IsVisible() && pHandle->IsInside(pos))return pHandle;
+                if(pHandle->IsVisible() && pHandle->Contains(pos))return pHandle;
                 hnode = hnode->GetNext();
             }
 		}

@@ -23,6 +23,7 @@ public:
 		modeBITMAP,
 		modeLINE,
 		modeCURVE,
+		modeORTHOLINE,
 		modeGRID,
 		modeFLEXGRID
 	};

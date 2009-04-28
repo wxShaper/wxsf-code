@@ -51,7 +51,7 @@ public:
      * \param pos Examined point
      * \return TRUE if the point is inside the shape area, otherwise FALSE
      */
-	virtual bool IsInside(const wxPoint &pos);
+	virtual bool Contains(const wxPoint &pos);
 
 	// public member data accessors
 	/*!
