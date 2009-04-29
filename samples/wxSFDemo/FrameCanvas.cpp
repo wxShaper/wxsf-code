@@ -340,7 +340,7 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
         {
             if(GetMode() == modeREADY)
             {
-                StartInteractiveConnection(CLASSINFO(wxSFOrthoShape), event.GetPosition());
+                StartInteractiveConnection(CLASSINFO(wxSFOrthoLineShape), event.GetPosition());
             }
             else
                 wxSFShapeCanvas::OnLeftDown(event);

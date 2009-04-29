@@ -43,14 +43,24 @@ public:
 	// public member data accessors
 	/*!
      * \brief Set a brush filling the arrow's body.
-	 * \param br Reference to the brush object
+	 * \param br Reference to the brush
 	 */
-	void SetArrowFill(const wxBrush& br){m_Fill = br;}
+	void SetArrowFill(const wxBrush& br) {m_Fill = br;}
+	/**
+	 * \brief Set a pen used for drawing of the arrow's border.
+	 * \param pen Reference to the pen
+	 */
+	void SetArrowPen(const wxPen& pen) {m_Pen = pen;}
 	/*!
      * \brief Get current brush used for filling of the arrow's body.
-	 * \return Used brush
+	 * \return Constant reference to current brush
 	 */
-	wxBrush GetArrowFill() const {return m_Fill;}
+	const wxBrush& GetArrowFill() const {return m_Fill;}
+	/**
+	 * \brief Get current pen used for drawing of the arrow's border.
+	 * \return Constant reference to current pen
+	 */
+	const wxPen& GetArrowPen() const {return m_Pen;}
 	
 	// public virtual functions
 	/*!
@@ -65,6 +75,11 @@ protected:
 	// protected data members
 	/*! \brief Arrows brush. */
 	wxBrush m_Fill;
+	/*! \brief Arrow pen */
+	wxPen m_Pen;
+	
+	// protected functions
+	void MarkSerializableDataMembers();
 };
 
 #endif //_WXSFSOLIDARROW_H

@@ -110,7 +110,7 @@ public:
 	wxBrush GetFill() const {return m_Fill;}
 	/*!
 	 * \brief Set rectangle's border style.
-	 * \param pen Refernce to a pen object
+	 * \param pen Reference to a pen object
 	 */
 	void SetBorder(const wxPen& pen){m_Border = pen;}
 	/*!

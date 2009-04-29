@@ -28,28 +28,37 @@ wxSFSolidArrow::wxSFSolidArrow(void)
 : wxSFArrowBase()
 {
 	m_Fill = sfdvARROW_FILL;
+	m_Pen = sfdvARROW_BORDER;
 
-	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
+	MarkSerializableDataMembers();
 }
 
 wxSFSolidArrow::wxSFSolidArrow(wxSFShapeBase* parent)
 : wxSFArrowBase(parent)
 {
 	m_Fill = sfdvARROW_FILL;
+	m_Pen = sfdvARROW_BORDER;
 
-	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
+	MarkSerializableDataMembers();
 }
 
 wxSFSolidArrow::wxSFSolidArrow(const wxSFSolidArrow& obj)
 : wxSFArrowBase(obj)
 {
 	m_Fill = obj.m_Fill;
+	m_Pen = obj.m_Pen;
 
-	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
+	MarkSerializableDataMembers();
 }
 
 wxSFSolidArrow::~wxSFSolidArrow(void)
 {
+}
+
+void wxSFSolidArrow::MarkSerializableDataMembers()
+{
+	XS_SERIALIZE_EX(m_Fill, wxT("fill"), sfdvARROW_FILL);
+	XS_SERIALIZE_EX(m_Pen, wxT("border"), sfdvARROW_BORDER);
 }
 
 //----------------------------------------------------------------------------------//
@@ -62,8 +71,10 @@ void wxSFSolidArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxDC& 
 	
 	TranslateArrow( rarrow, arrow, 3, from, to );
 
+	dc.SetPen(m_Pen);
     dc.SetBrush(m_Fill);
     dc.DrawPolygon(3, rarrow);
     dc.SetBrush(wxNullBrush);
+	dc.SetPen(wxNullPen);
 }
 

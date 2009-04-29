@@ -15,6 +15,7 @@
 
 // default values
 #define sfdvARROW_FILL *wxWHITE_BRUSH
+#define sfdvARROW_BORDER *wxBLACK_PEN
 
 class WXDLLIMPEXP_SF wxSFLineShape;
 

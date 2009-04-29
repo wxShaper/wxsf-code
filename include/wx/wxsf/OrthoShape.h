@@ -17,13 +17,13 @@
  * \brief Orthogonal line shape. The class extends wxSFLineShape class and allows
  * user to create connection line orthgonal to base axis.
  */
-class WXDLLIMPEXP_SF wxSFOrthoShape : public wxSFLineShape
+class WXDLLIMPEXP_SF wxSFOrthoLineShape : public wxSFLineShape
 {
 public:
-    XS_DECLARE_CLONABLE_CLASS(wxSFOrthoShape);
+    XS_DECLARE_CLONABLE_CLASS(wxSFOrthoLineShape);
 
     /*! \brief Default constructor. */
-    wxSFOrthoShape();
+    wxSFOrthoLineShape();
     /*!
      * \brief User constructor.
      * \param src ID of the source shape
@@ -31,14 +31,14 @@ public:
      * \param path Array of line's control points
      * \param manager Parent parent diagram manager
      */
-	wxSFOrthoShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
+	wxSFOrthoLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
 	/*!
      * \brief Copy constructor.
 	 * \param obj Reference to the source object
 	 */
-	wxSFOrthoShape(const wxSFOrthoShape& obj);
+	wxSFOrthoLineShape(const wxSFOrthoLineShape& obj);
 	/*! \brief Destructor. */
-    virtual ~wxSFOrthoShape();
+    virtual ~wxSFOrthoLineShape();
 
 protected:
 

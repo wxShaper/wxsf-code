@@ -50,7 +50,9 @@ void wxSFDiamondArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxDC
 	
 	TranslateArrow( rarrow, arrow, 4, from, to );
 
+	dc.SetPen(m_Pen);
     dc.SetBrush(m_Fill);
     dc.DrawPolygon(4, rarrow);
     dc.SetBrush(wxNullBrush);
+	dc.SetPen(wxNullPen);
 }

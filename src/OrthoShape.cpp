@@ -22,23 +22,23 @@
 
 using namespace wxSFCommonFcn;
 
-XS_IMPLEMENT_CLONABLE_CLASS(wxSFOrthoShape, wxSFLineShape);
+XS_IMPLEMENT_CLONABLE_CLASS(wxSFOrthoLineShape, wxSFLineShape);
 
-wxSFOrthoShape::wxSFOrthoShape() : wxSFLineShape()
+wxSFOrthoLineShape::wxSFOrthoLineShape() : wxSFLineShape()
 {
 }
 
-wxSFOrthoShape::wxSFOrthoShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFOrthoLineShape::wxSFOrthoLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
 : wxSFLineShape(src, trg, path, manager)
 {
 }
 
-wxSFOrthoShape::wxSFOrthoShape(const wxSFOrthoShape& obj)
+wxSFOrthoLineShape::wxSFOrthoLineShape(const wxSFOrthoLineShape& obj)
 : wxSFLineShape(obj)
 {
 }
 
-wxSFOrthoShape::~wxSFOrthoShape()
+wxSFOrthoLineShape::~wxSFOrthoLineShape()
 {
 
 }
@@ -47,7 +47,7 @@ wxSFOrthoShape::~wxSFOrthoShape()
 // protected virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFOrthoShape::DrawCompleteLine(wxDC& dc)
+void wxSFOrthoLineShape::DrawCompleteLine(wxDC& dc)
 {
     if(!m_pParentManager)return;
 
@@ -153,7 +153,7 @@ void wxSFOrthoShape::DrawCompleteLine(wxDC& dc)
     }
 }
 
-int wxSFOrthoShape::GetHitLinesegment(const wxPoint& pos)
+int wxSFOrthoLineShape::GetHitLinesegment(const wxPoint& pos)
 {
     if( !GetBoundingBox().Inflate(5, 5).Contains(pos) )return -1;
 
@@ -194,7 +194,7 @@ int wxSFOrthoShape::GetHitLinesegment(const wxPoint& pos)
 // protected functions
 //----------------------------------------------------------------------------------//
 
-void wxSFOrthoShape::DrawLineSegment(wxDC& dc, const wxRealPoint& src, const wxRealPoint& trg)
+void wxSFOrthoLineShape::DrawLineSegment(wxDC& dc, const wxRealPoint& src, const wxRealPoint& trg)
 {
 	double nDirection;
 	
@@ -222,7 +222,7 @@ void wxSFOrthoShape::DrawLineSegment(wxDC& dc, const wxRealPoint& src, const wxR
 	}
 }
 
-void wxSFOrthoShape::GetFirstSubsegment(const wxRealPoint& src, const wxRealPoint& trg, wxRealPoint& subsrc, wxRealPoint& subtrg)
+void wxSFOrthoLineShape::GetFirstSubsegment(const wxRealPoint& src, const wxRealPoint& trg, wxRealPoint& subsrc, wxRealPoint& subtrg)
 {
 	double nDirection = 0;
 	
@@ -243,7 +243,7 @@ void wxSFOrthoShape::GetFirstSubsegment(const wxRealPoint& src, const wxRealPoin
 	}
 }
 
-void wxSFOrthoShape::GetLastSubsegment(const wxRealPoint& src, const wxRealPoint& trg, wxRealPoint& subsrc, wxRealPoint& subtrg)
+void wxSFOrthoLineShape::GetLastSubsegment(const wxRealPoint& src, const wxRealPoint& trg, wxRealPoint& subsrc, wxRealPoint& subtrg)
 {
 	double nDirection = 0;
 	
@@ -264,7 +264,7 @@ void wxSFOrthoShape::GetLastSubsegment(const wxRealPoint& src, const wxRealPoint
 	}
 }
 
-void wxSFOrthoShape::GetMiddleSubsegment(const wxRealPoint& src, const wxRealPoint& trg, wxRealPoint& subsrc, wxRealPoint& subtrg)
+void wxSFOrthoLineShape::GetMiddleSubsegment(const wxRealPoint& src, const wxRealPoint& trg, wxRealPoint& subsrc, wxRealPoint& subtrg)
 {
 	double nDirection = 0;
 	
@@ -284,5 +284,4 @@ void wxSFOrthoShape::GetMiddleSubsegment(const wxRealPoint& src, const wxRealPoi
 		subtrg = wxRealPoint( trg.x, ptCenter.y );
 	}
 }
-
 
