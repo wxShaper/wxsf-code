@@ -163,8 +163,10 @@ void wxSFBitmapShape::Scale(double x, double y, bool children)
 	}
 }
 
-void wxSFBitmapShape::OnBeginHandle(wxSFShapeHandle& WXUNUSED(handle))
+void wxSFBitmapShape::OnBeginHandle(wxSFShapeHandle& handle)
 {
+	wxUnusedVar( handle );
+	
 	if(m_fCanScale)
 	{
 		m_fRescaleInProgress = true;
@@ -182,8 +184,10 @@ void wxSFBitmapShape::OnHandle(wxSFShapeHandle& handle)
         RemoveStyle(sfsSIZE_CHANGE);
 }
 
-void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& WXUNUSED(handle))
+void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& handle)
 {
+	wxUnusedVar( handle );
+	
 	if(m_fCanScale)
 	{
 		m_fRescaleInProgress = false;

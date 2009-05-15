@@ -284,37 +284,14 @@ void wxSFLineShape::GetDirectLine(wxRealPoint& src, wxRealPoint& trg)
 
 wxRealPoint wxSFLineShape::GetAbsolutePosition()
 {
-	RealPointList::compatibility_iterator ptnode;
-
-	int ptsCnt = (int)m_lstPoints.GetCount();
-
-	if( m_nDockPoint >= 0 )
-	{
-		if( ptsCnt > m_nDockPoint )
-		{
-			ptnode = m_lstPoints.Item(m_nDockPoint);
-			if( ptnode )return *ptnode->GetData();
-		}
-		else if( ptsCnt > 0 )
-		{
-			ptnode = m_lstPoints.Item(ptsCnt/2);
-			if( ptnode )return *ptnode->GetData();
-		}
-	}
-	else if( m_nDockPoint == -1 ) // start line point
-	{
-		return GetSrcPoint();
-	}
-	else if( m_nDockPoint == -2 ) // end line point
-	{
-		return GetTrgPoint();
-	}
-
-    return GetCenter();
+	return GetDockPointPosition( m_nDockPoint );
 }
 
-wxRealPoint wxSFLineShape::GetBorderPoint(const wxRealPoint& WXUNUSED(start), const wxRealPoint& WXUNUSED(end))
+wxRealPoint wxSFLineShape::GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end)
 {
+	wxUnusedVar( start );
+	wxUnusedVar( end );
+	
 	return GetAbsolutePosition();
 }
 
@@ -389,9 +366,37 @@ wxRect wxSFLineShape::GetBoundingBox()
 	return lineRct;
 }
 
-wxRealPoint wxSFLineShape::GetDockPointPosition()
+wxRealPoint wxSFLineShape::GetDockPointPosition(int dp)
 {
-    if(m_lstPoints.GetCount() > (size_t)m_nDockPoint)
+	RealPointList::compatibility_iterator ptnode;
+
+	int ptsCnt = (int)m_lstPoints.GetCount();
+
+	if( dp >= 0 )
+	{
+		if( ptsCnt > dp )
+		{
+			ptnode = m_lstPoints.Item(dp);
+			if( ptnode )return *ptnode->GetData();
+		}
+		else if( ptsCnt > 0 )
+		{
+			ptnode = m_lstPoints.Item(ptsCnt/2);
+			if( ptnode )return *ptnode->GetData();
+		}
+	}
+	else if( dp == -1 ) // start line point
+	{
+		return GetSrcPoint();
+	}
+	else if( dp == -2 ) // end line point
+	{
+		return GetTrgPoint();
+	}
+
+    return GetCenter();
+	
+/*    if(m_lstPoints.GetCount() > (size_t) m_nDockPoint)
     {
         return *m_lstPoints.Item(m_nDockPoint)->GetData();
     }
@@ -400,7 +405,7 @@ wxRealPoint wxSFLineShape::GetDockPointPosition()
         return *m_lstPoints.GetFirst()->GetData();
     }
     else
-        return GetCenter();
+        return GetCenter();*/
 }
 
 bool wxSFLineShape::Contains(const wxPoint& pos)
@@ -527,8 +532,10 @@ void wxSFLineShape::OnEndHandle(wxSFShapeHandle& handle)
     }
 }
 
-void wxSFLineShape::OnBeginDrag(const wxPoint& WXUNUSED(pos))
+void wxSFLineShape::OnBeginDrag(const wxPoint& pos)
 {
+	wxUnusedVar( pos );
+	
 	m_nPrevPosition = GetAbsolutePosition();
 }
 

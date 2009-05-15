@@ -45,9 +45,13 @@ wxSFArrowBase::~wxSFArrowBase(void)
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFArrowBase::Draw(const wxRealPoint& WXUNUSED(from), const wxRealPoint& WXUNUSED(to), wxDC& WXUNUSED(dc))
+void wxSFArrowBase::Draw(const wxRealPoint& from, const wxRealPoint& to, wxDC& dc)
 {
 	// HINT: override it for custom drawing...
+	
+	wxUnusedVar( from );
+	wxUnusedVar( to );
+	wxUnusedVar( dc );
 }
 
 //----------------------------------------------------------------------------------//

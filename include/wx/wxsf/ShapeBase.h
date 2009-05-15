@@ -49,6 +49,8 @@
 #define sfdvBASESHAPE_HBORDER 0
 /*! \brief Default value of wxSFShapeObject::m_nStyle data member */
 #define sfdvBASESHAPE_DEFAULT_STYLE sfsDEFAULT_SHAPE_STYLE
+/*! \brief Default value of wxSFShapeObject::m_nSCustomDockPoint data member */
+#define sfdvBASESHAPE_DOCK_POINT 0
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 class WXDLLIMPEXP_SF wxSFDiagramManager;
@@ -107,7 +109,9 @@ public:
 	    valignTOP,
 	    valignMIDDLE,
 	    valignBOTTOM,
-	    valignEXPAND
+	    valignEXPAND,
+		valignLINE_START,
+		valignLINE_END
 	};
 
     /*! \brief Flags for SetHAlign function */
@@ -117,7 +121,9 @@ public:
 	    halignLEFT,
 	    halignCENTER,
 	    halignRIGHT,
-	    halignEXPAND
+	    halignEXPAND,
+		halignLINE_START,
+		halignLINE_END
 	};
 
     /*! \brief Basic shape's styles used with SetStyle() function */
@@ -261,6 +267,16 @@ public:
 	 * \sa CONNECTMODE
 	 */
 	void GetNeighbours(ShapeList& neighbours, wxClassInfo* shapeInfo, CONNECTMODE condir, bool direct = true);
+	/*!
+	 * \brief Get list of connections assigned to this shape.
+	 * 
+	 * Note: For proper functionality the shape must be managed by a diagram manager.
+	 * \param shapeInfo Line object type
+	 * \param mode Search mode
+	 * \param lines Reference to shape list where pointers to all found connections will be stored
+	 * \sa wxSFShapeBase::CONNECTMODE
+	 */
+	void GetAssignedConnections(wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines);
 
     /*!
 	 * \brief Get shapes's bounding box. The function can be overrided if neccessary.
@@ -411,6 +427,16 @@ public:
 	 * \sa SetHAlign
 	 */
 	inline double GetHBorder() const { return m_nHBorder; }
+	/**
+	 * \brief Set custom dock point used if the shape is child shape of a line shape.
+	 * \param dp Custom dock point
+	 */
+	inline void SetCustomDockPoint(int dp) { m_nCustomDockPoint = dp; }
+	/**
+	 * \brief Get custom dock point used if the shape is child shape of a line shape.
+	 * \return Custom dock point
+	 */
+	inline int GetCustomDockPoint() { return m_nCustomDockPoint; }
 
     /*! \brief Get pointer to a parent shape */
 	wxSFShapeBase* GetParentShape();
@@ -810,6 +836,8 @@ protected:
     VALIGN m_nVAlign;
     /*! \brief Horizontal alignment of child shapes */
     HALIGN m_nHAlign;
+	/*! \brief Custom line dock point */
+	int m_nCustomDockPoint;
 
 	/*! \brief Handle list */
 	HandleList m_lstHandles;
@@ -879,6 +907,12 @@ protected:
      * \param rct Canvas portion that should be updated
      */
 	void Refresh(const wxRect& rct);
+	
+	/**
+	 * \brief Get absolute position of the shape parent.
+	 * \return Absolute position of the shape parent if exists, otherwise 0,0
+	 */
+	wxRealPoint GetParentAbsolutePosition();
 
 private:
 

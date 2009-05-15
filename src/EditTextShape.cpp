@@ -53,8 +53,10 @@ wxSFContentCtrl::wxSFContentCtrl(wxWindow* parent, wxWindowID id, wxSFEditTextSh
 	}
 }
 
-void wxSFContentCtrl::OnKillFocus(wxFocusEvent& WXUNUSED(event))
+void wxSFContentCtrl::OnKillFocus(wxFocusEvent& event)
 {
+	wxUnusedVar( event );
+	
 	//Quit();
 }
 
@@ -253,9 +255,11 @@ void wxSFEditTextShape::EditLabel()
 // public virtual functions
 //----------------------------------------------------------------------------------//
 
-void wxSFEditTextShape::OnLeftDoubleClick(const wxPoint& WXUNUSED(pos))
+void wxSFEditTextShape::OnLeftDoubleClick(const wxPoint& pos)
 {
 	// HINT: override it if neccessary...
+	
+	wxUnusedVar( pos );
 
     EditLabel();
 }

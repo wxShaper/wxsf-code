@@ -292,8 +292,10 @@ void wxSFShapeHandle::_OnDragging(const wxPoint& pos)
 	}
 }
 
-void wxSFShapeHandle::_OnEndDrag(const wxPoint& WXUNUSED(pos))
+void wxSFShapeHandle::_OnEndDrag(const wxPoint& pos)
 {
+	wxUnusedVar( pos );
+	
 	if(m_pParentShape)m_pParentShape->OnEndHandle(*this);
 }
 

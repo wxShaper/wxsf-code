@@ -150,10 +150,11 @@ friend class wxSFShapeCanvas;
 	 */
 	RealPointList& GetControlPoints() {return m_lstPoints;}
 	/*!
-	 * \brief Get a position of the line dock point.
-	 * \return The dock point's position
+	 * \brief Get a position of given line dock point.
+	 * \param dp Dock point
+	 * \return The dock point's position if exists, otherwise the line center
 	 */
-	wxRealPoint GetDockPointPosition();
+	wxRealPoint GetDockPointPosition(int dp);
 
 	// public virtual functions
     /*!

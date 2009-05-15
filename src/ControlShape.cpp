@@ -157,8 +157,10 @@ void wxSFControlShape::MoveBy(double x, double y)
     UpdateControl();
 }
 
-void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
+void wxSFControlShape::OnBeginDrag(const wxPoint& pos)
 {
+	wxUnusedVar( pos );
+	
     m_PrevFill = m_Fill;
     m_Fill = m_ModFill;
 
@@ -180,8 +182,10 @@ void wxSFControlShape::OnBeginDrag(const wxPoint& WXUNUSED(pos) )
     }
 }
 
-void wxSFControlShape::OnEndDrag(const wxPoint& WXUNUSED(pos) )
+void wxSFControlShape::OnEndDrag(const wxPoint& pos)
 {
+	wxUnusedVar( pos );
+	
     m_Fill = m_PrevFill;
 
     if( m_pParentManager )

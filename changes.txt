@@ -4,10 +4,15 @@ Changes in version 1.8.0 beta (2009-04-16):
   - Function xsSerializable::AddChild(xsSerializable* child) correctly initializes all children recursively.
 
 - Added orthogonal line shape (wxSFOrthoLineShape). This line consists of subsegments orthogonal to base axis.
-- Added new arrow style "diamond arrow" (wxSFDiamondArrow) and "circle arrow" (wxSFCircleArrow).
+- Added new arrow styles "diamond arrow" (wxSFDiamondArrow) and "circle arrow" (wxSFCircleArrow).
 - Added abbility to set arrows' fill and border style.
 - Added abbility to set line's docking point to its starting (value 'sfdvLINESHAPE_DOCKPOINT_START') or ending
   (value 'sfdvLINESHAPE_DOCKPOINT_END') point.
+- Added abbility to define custom dock point for each shape used if the shape is assigned as a child to a line shape.
+  See wxSFShapeBase::SetCustomDockPoint(int dp) and wxSFShapeBase::GetCustomDockPoint() fucntions.
+- Added new alignment styles valignLINE_START, valignLINE_END, halignLINE_START and halignLINE_END.
+- Added function void wxSFShapeBase::GetAssignedConnections(wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines).
+  calling its equivalent in a diagram manager class.
 - Renamed function wxSFShapeBase::IsInside(const wxPoint& pos) to wxSFShapeBase::Contains(const wxPoint& pos) due to
   its previous misleading name.
 - Renamed function wxSFShapeHandle::IsInside(const wxPoint& pos) to wxSFShapeHandle::Contains(const wxPoint& pos) due to

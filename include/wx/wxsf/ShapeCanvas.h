@@ -924,27 +924,27 @@ private:
 	 * \brief Event handler called when the canvas should be repainted.
 	 * \param event Paint event
 	 */
-	void OnPaint(wxPaintEvent& event);
+	void _OnPaint(wxPaintEvent& event);
 	/*!
 	 * \brief Event handler called when the canvas should be erased.
 	 * \param event Erase event
 	 */
-	void OnEraseBackground(wxEraseEvent& event);
+	void _OnEraseBackground(wxEraseEvent& event);
 	/*!
 	 * \brief Event handler called when the mouse pointer leaves the canvas window.
 	 * \param event Mouse event
 	 */
-	void OnLeaveWindow(wxMouseEvent& event);
+	void _OnLeaveWindow(wxMouseEvent& event);
 	/*!
 	 * \brief Event handler called when the mouse pointer enters the canvas window.
 	 * \param event Mouse event
 	 */
-	void OnEnterWindow(wxMouseEvent& event);
+	void _OnEnterWindow(wxMouseEvent& event);
 	/*!
 	 * \brief Event handler called when the canvas size has changed.
 	 * \param event Size event
 	 */
-	void OnResize(wxSizeEvent& event);
+	void _OnResize(wxSizeEvent& event);
 
 	// original private event handlers
 	/*!

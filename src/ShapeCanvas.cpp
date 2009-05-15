@@ -180,8 +180,8 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
 static const wxChar* dataFormatID = wxT("ShapeFrameWorkDataFormat1_0");
 
 BEGIN_EVENT_TABLE(wxSFShapeCanvas, wxScrolledWindow)
-	EVT_PAINT(wxSFShapeCanvas::OnPaint)
-	EVT_ERASE_BACKGROUND(wxSFShapeCanvas::OnEraseBackground)
+	EVT_PAINT(wxSFShapeCanvas::_OnPaint)
+	EVT_ERASE_BACKGROUND(wxSFShapeCanvas::_OnEraseBackground)
 	EVT_LEFT_DOWN(wxSFShapeCanvas::_OnLeftDown)
 	EVT_LEFT_UP(wxSFShapeCanvas::_OnLeftUp)
 	EVT_RIGHT_DOWN(wxSFShapeCanvas::_OnRightDown)
@@ -190,9 +190,9 @@ BEGIN_EVENT_TABLE(wxSFShapeCanvas, wxScrolledWindow)
 	EVT_RIGHT_DCLICK(wxSFShapeCanvas::_OnRightDoubleClick)
 	EVT_MOTION(wxSFShapeCanvas::_OnMouseMove)
 	EVT_KEY_DOWN(wxSFShapeCanvas::_OnKeyDown)
-	EVT_ENTER_WINDOW(wxSFShapeCanvas::OnEnterWindow)
-	EVT_LEAVE_WINDOW(wxSFShapeCanvas::OnLeaveWindow)
-	EVT_SIZE(wxSFShapeCanvas::OnResize)
+	EVT_ENTER_WINDOW(wxSFShapeCanvas::_OnEnterWindow)
+	EVT_LEAVE_WINDOW(wxSFShapeCanvas::_OnLeaveWindow)
+	EVT_SIZE(wxSFShapeCanvas::_OnResize)
 END_EVENT_TABLE()
 
 wxSFShapeCanvas::wxSFShapeCanvas()
@@ -308,8 +308,10 @@ void wxSFShapeCanvas::EnableGC(bool enab)
         m_fEnableGC = false;
 }
 
-void wxSFShapeCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
+void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 {
+	wxUnusedVar( event );
+	
 	// use double-buffered painting
 	wxBufferedPaintDC paintDC( this );
 
@@ -555,12 +557,14 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
     #endif
 }
 
-void wxSFShapeCanvas::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
+void wxSFShapeCanvas::_OnEraseBackground(wxEraseEvent& event)
 {
 	// do nothing to suppress window flickering
+	
+	wxUnusedVar( event );
 }
 
-void wxSFShapeCanvas::OnResize(wxSizeEvent &event)
+void wxSFShapeCanvas::_OnResize(wxSizeEvent &event)
 {
 	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
 	{
@@ -778,6 +782,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                             // inform user that the line is completed
                             OnConnectionFinished(m_pNewLineShape);
 
+							m_pNewLineShape->Update();
                             m_pNewLineShape->Refresh();
 
                             m_nWorkingMode = modeREADY;
@@ -1096,6 +1101,8 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 				    m_pNewLineShape->GetCompleteBoundingBox(updLineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
 
 					lineRct.Union(updLineRct);
+					
+					m_pNewLineShape->Update();
 
 					RefreshCanvas(false, lineRct);
 				}
@@ -1136,7 +1143,7 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 				}
 				m_nPrevMousePos = event.GetPosition();
 
-				if( event.ControlDown() )
+				if( event.ControlDown() || event.ShiftDown() )
 				{
 					ShapeList lstSelection;
 					GetSelectedShapes(lstSelection);
@@ -1172,6 +1179,18 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 								lnode->GetData()->_OnDragging(FitPositionToGrid(lpos));
 								lnode = lnode->GetNext();
 							}
+							
+							// update connections assigned to this shape
+							lstConnections.Clear();
+							
+							m_pManager->GetAssignedConnections( pShape, CLASSINFO(wxSFLineShape), wxSFShapeBase::lineBOTH, lstConnections );
+							lnode = lstConnections.GetFirst();
+							while( lnode )
+							{
+								lnode->GetData()->Update();
+								lnode = lnode->GetNext();
+							}
+							
 						}
 						else
 							pShape->_OnMouseMove(lpos);
@@ -1474,7 +1493,7 @@ void wxSFShapeCanvas::_OnKeyDown(wxKeyEvent& event)
     event.Skip();
 }
 
-void wxSFShapeCanvas::OnEnterWindow(wxMouseEvent& event)
+void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
 {
 	m_nPrevMousePos = event.GetPosition();
 
@@ -1568,7 +1587,7 @@ void wxSFShapeCanvas::OnEnterWindow(wxMouseEvent& event)
 	event.Skip();
 }
 
-void wxSFShapeCanvas::OnLeaveWindow(wxMouseEvent& event)
+void wxSFShapeCanvas::_OnLeaveWindow(wxMouseEvent& event)
 {
 	wxPoint lpos = DP2LP(event.GetPosition());
 
@@ -1579,13 +1598,13 @@ void wxSFShapeCanvas::OnLeaveWindow(wxMouseEvent& event)
 
 	case modeSHAPEMOVE:
 		{
-			ShapeList m_lstSelection;
+			/*ShapeList m_lstSelection;
 			GetSelectedShapes(m_lstSelection);
 
 			if( ContainsStyle(sfsDND) )
 			{
 				DoDragDrop(m_lstSelection, lpos);
-			}
+			}*/
 			/*else
 			{
 				MoveShapesFromNegatives();

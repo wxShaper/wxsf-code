@@ -489,8 +489,10 @@ wxString xsArrayStringPropIO::ToString(const wxArrayString& value)
 	return out;
 }
 
-wxArrayString xsArrayStringPropIO::FromString(const wxString& WXUNUSED(value))
+wxArrayString xsArrayStringPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return wxArrayString();
 }
 
@@ -554,8 +556,10 @@ wxString xsArrayIntPropIO::ToString(const IntArray& value)
 	return out;
 }
 
-IntArray xsArrayIntPropIO::FromString(const wxString& WXUNUSED(value))
+IntArray xsArrayIntPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return IntArray();
 }
 
@@ -619,8 +623,10 @@ wxString xsArrayLongPropIO::ToString(const LongArray& value)
 	return out;
 }
 
-LongArray xsArrayLongPropIO::FromString(const wxString& WXUNUSED(value))
+LongArray xsArrayLongPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return LongArray();
 }
 
@@ -684,8 +690,10 @@ wxString xsArrayDoublePropIO::ToString(const DoubleArray& value)
 	return out;
 }
 
-DoubleArray xsArrayDoublePropIO::FromString(const wxString& WXUNUSED(value))
+DoubleArray xsArrayDoublePropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return DoubleArray();
 }
 
@@ -749,8 +757,10 @@ wxString xsArrayCharPropIO::ToString(const CharArray& value)
 	return out;
 }
 
-CharArray xsArrayCharPropIO::FromString(const wxString& WXUNUSED(value))
+CharArray xsArrayCharPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return CharArray();
 }
 
@@ -816,8 +826,10 @@ wxString xsArrayRealPointPropIO::ToString(const RealPointArray& value)
 	return out;
 }
 
-RealPointArray xsArrayRealPointPropIO::FromString(const wxString& WXUNUSED(value))
+RealPointArray xsArrayRealPointPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return RealPointArray();
 }
 
@@ -892,8 +904,10 @@ wxString xsListRealPointPropIO::ToString(const RealPointList& value)
 	return out;
 }
 
-RealPointList xsListRealPointPropIO::FromString(const wxString& WXUNUSED(value))
+RealPointList xsListRealPointPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return RealPointList();
 }
 
@@ -943,8 +957,10 @@ wxString xsDynObjPropIO::ToString(const xsSerializable& value)
 	return wxString::Format(wxT("Dynamic object at address 0x%x"), &value);
 }
 
-xsSerializable xsDynObjPropIO::FromString(const wxString& WXUNUSED(value))
+xsSerializable xsDynObjPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return xsSerializable();
 }
 
@@ -992,8 +1008,10 @@ wxString xsDynNCObjPropIO::ToString(const xsSerializable& value)
 	return wxString::Format(wxT("Dynamic object at address 0x%x"), &value);
 }
 
-xsSerializable xsDynNCObjPropIO::FromString(const wxString& WXUNUSED(value))
+xsSerializable xsDynNCObjPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return xsSerializable();
 }
 
@@ -1032,9 +1050,10 @@ wxString xsStaticObjPropIO::ToString(const xsSerializable& value)
 	return wxString::Format(wxT("Static object at address 0x%x"), &value);
 }
 
-xsSerializable xsStaticObjPropIO::FromString(const wxString& WXUNUSED(value))
+xsSerializable xsStaticObjPropIO::FromString(const wxString& value)
 {
-	//xsSerializable dummy;
+	wxUnusedVar( value );
+	
 	return xsSerializable();
 }
 
@@ -1103,8 +1122,10 @@ wxString xsMapStringPropIO::ToString(const StringMap& value)
 	return out;
 }
 
-StringMap xsMapStringPropIO::FromString(const wxString& WXUNUSED(value))
+StringMap xsMapStringPropIO::FromString(const wxString& value)
 {
+	wxUnusedVar( value );
+	
 	return StringMap();
 }
 
