@@ -1739,12 +1739,16 @@ void wxSFShapeCanvas::SetScaleToViewAll()
 
 void wxSFShapeCanvas::ScrollToShape(wxSFShapeBase* shape)
 {
-	int ux, uy;
-	GetScrollPixelsPerUnit(&ux, &uy);
-	wxSize szCanvas = GetClientSize();
-	wxRealPoint ptPos = shape->GetCenter();
-	
-	Scroll(((ptPos.x * m_Settings.m_nScale) - szCanvas.x/2)/ux, ((ptPos.y * m_Settings.m_nScale) - szCanvas.y/2)/uy);
+	wxASSERT(shape);
+	if(shape)
+	{
+		int ux, uy;
+		GetScrollPixelsPerUnit(&ux, &uy);
+		wxSize szCanvas = GetClientSize();
+		wxRealPoint ptPos = shape->GetCenter();
+		
+		Scroll(((ptPos.x * m_Settings.m_nScale) - szCanvas.x/2)/ux, ((ptPos.y * m_Settings.m_nScale) - szCanvas.y/2)/uy);
+	}
 }
 
 wxPoint wxSFShapeCanvas::FitPositionToGrid(const wxPoint& pos)
