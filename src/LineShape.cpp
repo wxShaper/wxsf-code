@@ -395,17 +395,44 @@ wxRealPoint wxSFLineShape::GetDockPointPosition(int dp)
 	}
 
     return GetCenter();
-	
-/*    if(m_lstPoints.GetCount() > (size_t) m_nDockPoint)
-    {
-        return *m_lstPoints.Item(m_nDockPoint)->GetData();
-    }
-    else if( !m_lstPoints.IsEmpty() )
-    {
-        return *m_lstPoints.GetFirst()->GetData();
-    }
-    else
-        return GetCenter();*/
+}
+
+bool wxSFLineShape::GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg)
+{
+	if( !m_lstPoints.IsEmpty() )
+	{
+		if( index == 0 )
+		{
+			src = GetSrcPoint();
+			trg = *m_lstPoints.GetFirst()->GetData();
+			return true;
+		}
+		else if( index == m_lstPoints.GetCount() )
+		{
+			src = *m_lstPoints.GetLast()->GetData();
+			trg = GetTrgPoint();
+			return true;
+		}
+		else if( (index > 0) && (index < m_lstPoints.GetCount()) )
+		{
+			RealPointList::compatibility_iterator node = m_lstPoints.Item(index);
+			
+			src = *node->GetPrevious()->GetData();
+			trg = *node->GetData();
+			return true;
+		}
+		return false;
+	}
+	else
+	{
+		if( index == 0 )
+		{
+			GetDirectLine( src, trg );
+			return true;
+		}
+		else
+			return false;
+	}
 }
 
 bool wxSFLineShape::Contains(const wxPoint& pos)
@@ -455,6 +482,8 @@ void wxSFLineShape::MoveBy(double x, double y)
 
 		node = node->GetNext();
 	}
+	
+	if( !m_lstChildItems.IsEmpty() ) Update();
 }
 
 void wxSFLineShape::CreateHandles()
@@ -720,48 +749,6 @@ int wxSFLineShape::GetHitLinesegment(const wxPoint& pos)
 
 //----------------------------------------------------------------------------------//
 // protected functions
-//----------------------------------------------------------------------------------//
-
-bool wxSFLineShape::GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg)
-{
-	if( !m_lstPoints.IsEmpty() )
-	{
-		if( index == 0 )
-		{
-			src = GetSrcPoint();
-			trg = *m_lstPoints.GetFirst()->GetData();
-			return true;
-		}
-		else if( index == m_lstPoints.GetCount() )
-		{
-			src = *m_lstPoints.GetLast()->GetData();
-			trg = GetTrgPoint();
-			return true;
-		}
-		else if( (index > 0) && (index < m_lstPoints.GetCount()) )
-		{
-			RealPointList::compatibility_iterator node = m_lstPoints.Item(index);
-			
-			src = *node->GetPrevious()->GetData();
-			trg = *node->GetData();
-			return true;
-		}
-		return false;
-	}
-	else
-	{
-		if( index == 0 )
-		{
-			GetDirectLine( src, trg );
-			return true;
-		}
-		else
-			return false;
-	}
-}
-
-//----------------------------------------------------------------------------------//
-// private functions
 //----------------------------------------------------------------------------------//
 
 wxRealPoint wxSFLineShape::GetModSrcPoint()

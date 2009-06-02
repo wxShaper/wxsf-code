@@ -355,6 +355,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
     if(!m_pManager->GetRootItem())return;
 
     wxSFShapeBase *pShape = NULL, *pParentShape = NULL;
+	wxSFLineShape *pLine = NULL;
 
     #if wxUSE_GRAPHICS_CONTEXT
     wxSFScaledDC::EnableGC( false );
@@ -456,12 +457,12 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			node = m_lstLinesToDraw.GetFirst();
 			while(node)
 			{
-				pShape = node->GetData();
+				pLine = (wxSFLineShape*)node->GetData();
 
-                pShape->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN | wxSFShapeBase::bbSHADOW);
+                pLine->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN | wxSFShapeBase::bbSHADOW);
                 if( bbRct.Intersects(updRct) )
                 {
-					pShape->Draw(dc);
+					pLine->Draw(dc, pLine->GetLineMode() == wxSFLineShape::modeREADY);
 				}
 
 				node = node->GetNext();
@@ -496,12 +497,12 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			node = m_lstLinesToDraw.GetFirst();
 			while(node)
 			{
-				pShape = node->GetData();
+				pLine = (wxSFLineShape*)node->GetData();
 
-                pShape->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
+                pLine->GetCompleteBoundingBox(bbRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
                 if( bbRct.Intersects(updRct) )
                 {
-					pShape->Draw(dc);
+					pLine->Draw(dc, pLine->GetLineMode() == wxSFLineShape::modeREADY);
 				}
 
 				node = node->GetNext();
@@ -1115,8 +1116,8 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 		{
 			if(event.Dragging())
 			{
-				m_pSelectedHandle->_OnDragging(FitPositionToGrid(lpos));
-				if(m_nWorkingMode == modeMULTIHANDLEMOVE)UpdateMultieditSize();
+				if( m_pSelectedHandle ) m_pSelectedHandle->_OnDragging( FitPositionToGrid(lpos) );
+				if( m_nWorkingMode == modeMULTIHANDLEMOVE ) UpdateMultieditSize();
 
 				m_fCanSaveStateOnMouseUp = true;
 			}
@@ -1734,6 +1735,16 @@ void wxSFShapeCanvas::SetScaleToViewAll()
 		else
 			SetScale(1);
 	}
+}
+
+void wxSFShapeCanvas::ScrollToShape(wxSFShapeBase* shape)
+{
+	int ux, uy;
+	GetScrollPixelsPerUnit(&ux, &uy);
+	wxSize szCanvas = GetClientSize();
+	wxRealPoint ptPos = shape->GetCenter();
+	
+	Scroll(((ptPos.x * m_Settings.m_nScale) - szCanvas.x/2)/ux, ((ptPos.y * m_Settings.m_nScale) - szCanvas.y/2)/uy);
 }
 
 wxPoint wxSFShapeCanvas::FitPositionToGrid(const wxPoint& pos)
@@ -3046,3 +3057,4 @@ wxDragResult wxSFCanvasDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult def
 
 	return def;
 }
+

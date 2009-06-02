@@ -830,13 +830,14 @@ void wxSFShapeBase::DoAlignment()
 	if(pParent && !pParent->IsKindOf(CLASSINFO(wxSFGridShape)))
     {
         wxRect parentBB;
-		wxRealPoint parentPos;
+		wxRealPoint linePos, lineStart, lineEnd;
 
 		wxSFLineShape *pParentLine =  wxDynamicCast( pParent, wxSFLineShape );
         if( pParentLine )
         {
-            parentPos = pParentLine->GetAbsolutePosition();
-            parentBB = wxRect((int)parentPos.x, (int)parentPos.y, 1, 1);
+            //linePos = pParentLine->GetAbsolutePosition();
+            linePos = GetParentAbsolutePosition();
+            parentBB = wxRect((int)linePos.x, (int)linePos.y, 1, 1);
         }
         else
             parentBB = pParent->GetBoundingBox();
@@ -867,11 +868,25 @@ void wxSFShapeBase::DoAlignment()
                 break;
 				
 			case valignLINE_START:
-				if( pParentLine ) m_nRelativePosition.y = pParentLine->GetSrcPoint().y - parentPos.y - shapeBB.GetHeight()/2;
+				if( pParentLine )
+				{
+					pParentLine->GetLineSegment(0, lineStart, lineEnd);
+					
+					if( lineEnd.y >= lineStart.y ) m_nRelativePosition.y = lineStart.y - linePos.y + m_nVBorder;
+					else
+						m_nRelativePosition.y = lineStart.y - linePos.y - shapeBB.GetHeight() - m_nVBorder;
+				}
 				break;
 				
 			case valignLINE_END:
-				if( pParentLine ) m_nRelativePosition.y = pParentLine->GetTrgPoint().y - parentPos.y - shapeBB.GetHeight()/2;
+				if( pParentLine )
+				{
+					pParentLine->GetLineSegment(pParentLine->GetControlPoints().GetCount(), lineStart, lineEnd);
+					
+					if( lineEnd.y >= lineStart.y ) m_nRelativePosition.y = lineEnd.y - linePos.y - shapeBB.GetHeight() - m_nVBorder;
+					else
+						m_nRelativePosition.y = lineEnd.y - linePos.y + m_nVBorder;
+				}
 				break;
 
             default:
@@ -902,11 +917,25 @@ void wxSFShapeBase::DoAlignment()
                 break;
 
 			case halignLINE_START:
-				if( pParentLine ) m_nRelativePosition.x = pParentLine->GetSrcPoint().x - parentPos.x - shapeBB.GetWidth()/2 ;
+				if( pParentLine )
+				{
+					pParentLine->GetLineSegment(0, lineStart, lineEnd);
+					
+					if( lineEnd.x >= lineStart.x ) m_nRelativePosition.x = lineStart.x - linePos.x + m_nHBorder;
+					else
+						m_nRelativePosition.x = lineStart.x - linePos.x - shapeBB.GetWidth() - m_nHBorder;
+				}
 				break;
 				
 			case halignLINE_END:
-				if( pParentLine ) m_nRelativePosition.x = pParentLine->GetTrgPoint().x - parentPos.x - shapeBB.GetWidth()/2;
+				if( pParentLine )
+				{
+					pParentLine->GetLineSegment(pParentLine->GetControlPoints().GetCount(), lineStart, lineEnd);
+					
+					if( lineEnd.x >= lineStart.x ) m_nRelativePosition.x = lineEnd.x - linePos.x - shapeBB.GetWidth() - m_nHBorder;
+					else
+						m_nRelativePosition.x = lineEnd.x - linePos.x + m_nHBorder;
+				}
 				break;
 
             default:

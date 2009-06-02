@@ -155,6 +155,14 @@ friend class wxSFShapeCanvas;
 	 * \return The dock point's position if exists, otherwise the line center
 	 */
 	wxRealPoint GetDockPointPosition(int dp);
+	/*!
+     * \brief Get starting and ending point of line segment defined by its index.
+	 * \param index Index of desired line segment
+	 * \param src Reference to variable where starting point will be stored
+	 * \param trg Reference to variable where ending point will be stored 
+	 * \return TRUE if a line segment of given index exists, otherwise FALSE
+	 */
+	bool GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg);
 
 	// public virtual functions
     /*!
@@ -302,15 +310,6 @@ protected:
 	virtual int GetHitLinesegment(const wxPoint& pos);
 
 	// protected functions
-	/*!
-     * \brief Get starting and ending point of line segment defined by its index.
-	 * \param index Index of desired line segment
-	 * \param src Reference to variable where starting point will be stored
-	 * \param trg Reference to variable where ending point will be stored 
-	 * \return TRUE if a line segment of given index exists, otherwise FALSE
-	 */
-	bool GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg);
-
     /*!
      * \brief Set line shape's working mode.
      * \param mode Working mode

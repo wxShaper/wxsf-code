@@ -150,6 +150,8 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 
 				if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(sx, 1, sfWITHCHILDREN);
                 if(pShape->ContainsStyle(sfsPOSITION_CHANGE))pShape->MoveBy(dx, 0);
+				
+				pShape->FitToChildren();
 			}
 			else
 			{
@@ -207,7 +209,8 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
                 }
 
                 if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(sx, 1, sfWITHCHILDREN);
-
+				
+				pShape->FitToChildren();
             }
             else
 			{
@@ -255,6 +258,8 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 
                 if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(1, sy, sfWITHCHILDREN);
                 if(pShape->ContainsStyle(sfsPOSITION_CHANGE))pShape->MoveBy(0, dy);
+				
+				pShape->FitToChildren();
             }
             else
             {
@@ -312,6 +317,8 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
                 }
 
                 if(pShape->ContainsStyle(sfsSIZE_CHANGE))pShape->Scale(1, sy, sfWITHCHILDREN);
+				
+				pShape->FitToChildren();
             }
             else
             {

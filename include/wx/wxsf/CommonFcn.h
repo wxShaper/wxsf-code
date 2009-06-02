@@ -23,7 +23,6 @@ namespace wxSFCommonFcn
 	WXDLLIMPEXP_SF wxSize Conv2Size(const wxRealPoint& pt);
 	WXDLLIMPEXP_SF wxRealPoint Conv2RealPoint(const wxPoint& pt);
 
-
 	// graphics functions
 	WXDLLIMPEXP_SF wxColour GetHybridColour(const wxColour& orig, const wxColour& modificator);
 	WXDLLIMPEXP_SF bool LinesIntersection(const wxRealPoint& from1, const wxRealPoint& to1, const wxRealPoint& from2, const wxRealPoint& to2, wxRealPoint& i);

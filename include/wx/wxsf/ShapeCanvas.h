@@ -650,6 +650,11 @@ public:
 	 * \brief Set the canvas scale so a whole diagram is visible.
 	 */
 	void SetScaleToViewAll();
+	/**
+	 * \brief Scroll the shape canvas so the given shape will be located in its center.
+	 * \param shape Pointer to focused shape
+	 */
+	void ScrollToShape(wxSFShapeBase* shape);
 	/*!
 	 * \brief Enable usage of wxGraphicsContext for drawing (if supported).
 	 * \param enab If TRUE then the wxGraphicsContext will be used
