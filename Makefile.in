@@ -57,11 +57,13 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_BitmapShapeXml.o \
 	wxsf_lib_CanvasHistory.o \
 	wxsf_lib_CanvasState.o \
+	wxsf_lib_CircleArrow.o \
 	wxsf_lib_CircleShape.o \
 	wxsf_lib_CommonFcn.o \
 	wxsf_lib_ControlShape.o \
 	wxsf_lib_CurveShape.o \
 	wxsf_lib_DiagramManager.o \
+	wxsf_lib_DiamondArrow.o \
 	wxsf_lib_DiamondShape.o \
 	wxsf_lib_EditTextShape.o \
 	wxsf_lib_EllipseShape.o \
@@ -71,6 +73,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_LineShape.o \
 	wxsf_lib_MultiSelRect.o \
 	wxsf_lib_OpenArrow.o \
+	wxsf_lib_OrthoShape.o \
 	wxsf_lib_PolygonShape.o \
 	wxsf_lib_PolygonShapeXml.o \
 	wxsf_lib_Printout.o \
@@ -97,11 +100,13 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_BitmapShapeXml.o \
 	wxsf_dll_CanvasHistory.o \
 	wxsf_dll_CanvasState.o \
+	wxsf_dll_CircleArrow.o \
 	wxsf_dll_CircleShape.o \
 	wxsf_dll_CommonFcn.o \
 	wxsf_dll_ControlShape.o \
 	wxsf_dll_CurveShape.o \
 	wxsf_dll_DiagramManager.o \
+	wxsf_dll_DiamondArrow.o \
 	wxsf_dll_DiamondShape.o \
 	wxsf_dll_EditTextShape.o \
 	wxsf_dll_EllipseShape.o \
@@ -111,6 +116,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_LineShape.o \
 	wxsf_dll_MultiSelRect.o \
 	wxsf_dll_OpenArrow.o \
+	wxsf_dll_OrthoShape.o \
 	wxsf_dll_PolygonShape.o \
 	wxsf_dll_PolygonShapeXml.o \
 	wxsf_dll_Printout.o \
@@ -426,6 +432,9 @@ wxsf_lib_CanvasHistory.o: $(srcdir)/src/CanvasHistory.cpp
 wxsf_lib_CanvasState.o: $(srcdir)/src/CanvasState.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/CanvasState.cpp
 
+wxsf_lib_CircleArrow.o: $(srcdir)/src/CircleArrow.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/CircleArrow.cpp
+
 wxsf_lib_CircleShape.o: $(srcdir)/src/CircleShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/CircleShape.cpp
 
@@ -440,6 +449,9 @@ wxsf_lib_CurveShape.o: $(srcdir)/src/CurveShape.cpp
 
 wxsf_lib_DiagramManager.o: $(srcdir)/src/DiagramManager.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/DiagramManager.cpp
+
+wxsf_lib_DiamondArrow.o: $(srcdir)/src/DiamondArrow.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/DiamondArrow.cpp
 
 wxsf_lib_DiamondShape.o: $(srcdir)/src/DiamondShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/DiamondShape.cpp
@@ -467,6 +479,9 @@ wxsf_lib_MultiSelRect.o: $(srcdir)/src/MultiSelRect.cpp
 
 wxsf_lib_OpenArrow.o: $(srcdir)/src/OpenArrow.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/OpenArrow.cpp
+
+wxsf_lib_OrthoShape.o: $(srcdir)/src/OrthoShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/OrthoShape.cpp
 
 wxsf_lib_PolygonShape.o: $(srcdir)/src/PolygonShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/PolygonShape.cpp
@@ -537,6 +552,9 @@ wxsf_dll_CanvasHistory.o: $(srcdir)/src/CanvasHistory.cpp
 wxsf_dll_CanvasState.o: $(srcdir)/src/CanvasState.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/CanvasState.cpp
 
+wxsf_dll_CircleArrow.o: $(srcdir)/src/CircleArrow.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/CircleArrow.cpp
+
 wxsf_dll_CircleShape.o: $(srcdir)/src/CircleShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/CircleShape.cpp
 
@@ -551,6 +569,9 @@ wxsf_dll_CurveShape.o: $(srcdir)/src/CurveShape.cpp
 
 wxsf_dll_DiagramManager.o: $(srcdir)/src/DiagramManager.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/DiagramManager.cpp
+
+wxsf_dll_DiamondArrow.o: $(srcdir)/src/DiamondArrow.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/DiamondArrow.cpp
 
 wxsf_dll_DiamondShape.o: $(srcdir)/src/DiamondShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/DiamondShape.cpp
@@ -578,6 +599,9 @@ wxsf_dll_MultiSelRect.o: $(srcdir)/src/MultiSelRect.cpp
 
 wxsf_dll_OpenArrow.o: $(srcdir)/src/OpenArrow.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/OpenArrow.cpp
+
+wxsf_dll_OrthoShape.o: $(srcdir)/src/OrthoShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/OrthoShape.cpp
 
 wxsf_dll_PolygonShape.o: $(srcdir)/src/PolygonShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/PolygonShape.cpp
