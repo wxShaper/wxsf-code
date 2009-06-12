@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Apr 16 2008)
+// C++ code generated with wxFormBuilder (version May 12 2009)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -16,9 +16,9 @@
 #include <wx/settings.h>
 #include <wx/toolbar.h>
 #include <wx/statusbr.h>
+#include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/slider.h>
-#include <wx/sizer.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -42,8 +42,27 @@ class _MainFrm : public wxFrame
 		wxSlider* m_pZoomSlider;
 	
 	public:
+		wxBoxSizer* m_pCanvasSizer;
+		
 		_MainFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("wxShapeFramework Demo Application"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1024,700 ), long style = wxCLOSE_BOX|wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		~_MainFrm();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class _ThumbFrm
+///////////////////////////////////////////////////////////////////////////////
+class _ThumbFrm : public wxFrame 
+{
+	private:
+	
+	protected:
+	
+	public:
+		wxBoxSizer* m_pMainSizer;
+		
+		_ThumbFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Thumbnail"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,150 ), long style = wxCAPTION|wxFRAME_FLOAT_ON_PARENT|wxFRAME_TOOL_WINDOW|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		~_ThumbFrm();
 	
 };
 

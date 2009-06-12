@@ -42,6 +42,25 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
 	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnUpdateTool)
 END_EVENT_TABLE()
 
+//----------------------------------------------------------------------------------//
+// canvas thumbnail         
+//----------------------------------------------------------------------------------//
+
+ThumbFrm::ThumbFrm(wxWindow* parent) : _ThumbFrm(parent)
+{
+	m_pThumbnail = new wxSFThumbnail(this);
+	m_pMainSizer->Add(m_pThumbnail, 1, wxEXPAND, 0);
+	Layout();
+}
+
+ThumbFrm::~ThumbFrm()
+{
+}
+
+//----------------------------------------------------------------------------------//
+// main application frame
+//----------------------------------------------------------------------------------//
+
 MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 {
     // set icon
@@ -72,13 +91,15 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 
     // set shape canvas and associate it with diagram manager
     m_pShapeCanvas = new FrameCanvas(&m_DiagramManager, m_pCanvasPanel, wxID_ANY);
+	m_pCanvasSizer->Add(m_pShapeCanvas, 1, wxEXPAND, 0);
+	m_pCanvasPanel->Layout();
     // set whether wxGraphicsContext should be used (valid only if wxUSE_GRAPHICS_CONTEXT if set to 1 for both wxSF and wxWidgets libraries)
     wxSFShapeCanvas::EnableGC( false );
-
-    wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
-    mainSizer->Add(m_pShapeCanvas, 1, wxEXPAND, 0);
-    m_pCanvasPanel->SetSizer(mainSizer);
-    m_pCanvasPanel->Layout();
+	
+	// create and show canvas thumbnail
+	m_pThumbFrm = new ThumbFrm(this);
+	m_pThumbFrm->GetThumbnail()->SetCanvas(m_pShapeCanvas);
+	m_pThumbFrm->Show();
 
 	// create colour picker
 	#ifdef __WXMSW__
@@ -145,8 +166,19 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 }
 
 //----------------------------------------------------------------------------------//
-// protected event handlers
+// protected functions
 //----------------------------------------------------------------------------------//
+
+void MainFrm::CleanUp()
+{
+    m_DiagramManager.SetShapeCanvas(NULL);
+	m_DiagramManager.Clear();
+	
+	m_pThumbFrm->Hide();
+	m_pThumbFrm->GetThumbnail()->SetCanvas(NULL);
+
+ 	Destroy();	
+}
 
 //----------------------------------------------------------------------------------//
 // common events
@@ -154,10 +186,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 
 void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
 {
-    m_DiagramManager.SetShapeCanvas(NULL);
-	m_DiagramManager.Clear();
-
- 	Destroy();
+	CleanUp();
 }
 
 //----------------------------------------------------------------------------------//
@@ -166,10 +195,7 @@ void MainFrm::OnClose(wxCloseEvent& WXUNUSED(event))
 
 void MainFrm::OnExit(wxCommandEvent& WXUNUSED(event))
 {
-    m_DiagramManager.SetShapeCanvas(NULL);
-	m_DiagramManager.Clear();
-
-	Destroy();
+    CleanUp();
 }
 
 void MainFrm::OnNew(wxCommandEvent& WXUNUSED(event))
@@ -271,7 +297,7 @@ void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.6 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2009"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.7 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2009"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -544,3 +570,4 @@ void MainFrm::OnHowerColor(wxColourPickerEvent& event)
 {
 	m_pShapeCanvas->SetHoverColour(event.GetColour());
 }
+

@@ -63,7 +63,7 @@ void wxSFCanvasState::Restore(wxSFShapeCanvas* canvas)
 	if( m_pDataManager )
 	{
 		// copy content of stored temporal data manager into the currently used one
-		canvas->GetDiagramManager()->CopyItems(m_pDataManager);
+		canvas->GetDiagramManager()->CopyItems(*m_pDataManager);
 		canvas->Refresh(false);
 	}
 	else

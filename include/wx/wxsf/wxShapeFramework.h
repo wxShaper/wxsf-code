@@ -14,6 +14,7 @@
 // main library classes
 #include "DiagramManager.h"
 #include "ShapeCanvas.h"
+#include "Thumbnail.h"
 
 // shapes' declarations
 #include "RectShape.h"

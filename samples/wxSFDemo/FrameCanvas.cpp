@@ -188,14 +188,6 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRoundRectShape), event.GetPosition(), sfDONT_SAVE_STATE);
 			if(pShape)
 			{
-			    // set alignment
-                /*pShape->SetVAlign(wxSFShapeBase::valignEXPAND);
-                pShape->SetHAlign(wxSFShapeBase::halignEXPAND);
-                pShape->SetVBorder(10);
-                pShape->SetHBorder(10);
-
-                pShape->Update();*/
-
 			    // set shape policy
 				pShape->AcceptChild(wxT("wxSFTextShape"));
 				pShape->AcceptChild(wxT("wxSFEditTextShape"));

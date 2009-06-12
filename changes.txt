@@ -1,8 +1,18 @@
-Changes in version 1.8.0 beta (2009-04-16):
+Changes in version 1.8.0 beta (2009-06-10):
 --------------------------------------------
-- Switched to use wxXmlSerializer 1.1.11:
+- Switched to use wxXmlSerializer 1.2.0:
+  - Added functions void xsProperty::ToString() which returns textual representation of current property value and
+    xsProperty::FromString(const wxString& val) which sets the property value from its textual representation. The functions
+    can be used for indirect manipulating with serialized data members encapsulated by properties (see xsSerializable::GetProperty()).
+  - Added set of type cast functions with data type assertion for indirect manipulation with serialized data members encapsulated
+    by properties. See functions xsProperty::AsInt(), xsProperty::AsDouble(), etc.
   - Function xsSerializable::AddChild(xsSerializable* child) correctly initializes all children recursively.
+  - Function wxXmlSerializer::SetRootItem(xsSerializable* root) correctly initializes all root's children recursively.
+  - Renamed function xsSerializable::IsCloned() to xsSerializable::IsCloningEnabled().
+  - Declaration of function void wxXmlSerializer::CopyItems(const wxXmlSerializer *src) changed to void wxXmlSerializer::CopyItems(const wxXmlSerializer &src).
+  - Copy contructor of xsSerializable class now clones serialized child items as well recursively.
 
+- Implemented diagram thumbnail (wxSFThumbnail) usefull for previewing and navigating of associated shape canvas.
 - Added orthogonal line shape (wxSFOrthoLineShape). This line consists of subsegments orthogonal to base axis.
 - Added new arrow styles "diamond arrow" (wxSFDiamondArrow) and "circle arrow" (wxSFCircleArrow).
 - Added abbility to set arrows' fill and border style.

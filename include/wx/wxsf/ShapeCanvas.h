@@ -1027,6 +1027,7 @@ private:
 	 * \sa wxSFCanvasDropTarget
 	 */
 	void _OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObject *data);
+	
 
 	DECLARE_EVENT_TABLE();
 };

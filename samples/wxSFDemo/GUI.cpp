@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Apr 16 2008)
+// C++ code generated with wxFormBuilder (version May 12 2009)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -31,28 +31,49 @@ _MainFrm::_MainFrm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_pToolBar->Realize();
 	
 	m_pStatusBar = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
-	wxFlexGridSizer* m_pMainSizer;
-	m_pMainSizer = new wxFlexGridSizer( 2, 1, 0, 0 );
-	m_pMainSizer->AddGrowableCol( 0 );
-	m_pMainSizer->AddGrowableRow( 0 );
-	m_pMainSizer->SetFlexibleDirection( wxBOTH );
-	m_pMainSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxFlexGridSizer* mainSizer;
+	mainSizer = new wxFlexGridSizer( 2, 1, 0, 0 );
+	mainSizer->AddGrowableCol( 0 );
+	mainSizer->AddGrowableRow( 0 );
+	mainSizer->SetFlexibleDirection( wxBOTH );
+	mainSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	m_pCanvasPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_pMainSizer->Add( m_pCanvasPanel, 1, wxEXPAND, 5 );
+	m_pCanvasPanel->SetExtraStyle( wxWS_EX_BLOCK_EVENTS );
+	
+	m_pCanvasSizer = new wxBoxSizer( wxVERTICAL );
+	
+	m_pCanvasPanel->SetSizer( m_pCanvasSizer );
+	m_pCanvasPanel->Layout();
+	m_pCanvasSizer->Fit( m_pCanvasPanel );
+	mainSizer->Add( m_pCanvasPanel, 1, wxEXPAND, 5 );
 	
 	m_pZoomSlider = new wxSlider( this, wxID_ZOOM_FIT, 50, 2, 99, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
 	m_pZoomSlider->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
 	m_pZoomSlider->SetToolTip( wxT("Set canvas scale") );
 	
-	m_pMainSizer->Add( m_pZoomSlider, 0, wxEXPAND, 5 );
+	mainSizer->Add( m_pZoomSlider, 0, wxEXPAND, 5 );
 	
-	this->SetSizer( m_pMainSizer );
+	this->SetSizer( mainSizer );
 	this->Layout();
 	
 	this->Centre( wxBOTH );
 }
 
 _MainFrm::~_MainFrm()
+{
+}
+
+_ThumbFrm::_ThumbFrm( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	m_pMainSizer = new wxBoxSizer( wxVERTICAL );
+	
+	this->SetSizer( m_pMainSizer );
+	this->Layout();
+}
+
+_ThumbFrm::~_ThumbFrm()
 {
 }

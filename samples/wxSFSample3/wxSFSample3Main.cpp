@@ -168,7 +168,7 @@ void wxSFSample3Frame::OnTextChanged(wxSFShapeTextEvent& event)
 
 void wxSFSample3Frame::OnOpen(wxCommandEvent& WXUNUSED(event))
 {
-	wxFileDialog dlg(this, wxT("Load diagram from XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxOPEN);
+	wxFileDialog dlg(this, wxT("Load diagram from XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml)|*.xml"), wxOPEN);
 
 	if(dlg.ShowModal() == wxID_OK)
 	{
@@ -176,12 +176,14 @@ void wxSFSample3Frame::OnOpen(wxCommandEvent& WXUNUSED(event))
 	    m_Manager.Clear();
 	    // load diagram from XML file
 		m_Manager.DeserializeFromXml(dlg.GetPath());
+		
+		m_pCanvas->Refresh(false);
 	}
 }
 
 void wxSFSample3Frame::OnSave(wxCommandEvent& WXUNUSED(event))
 {
-	wxFileDialog dlg(this, wxT("Save diagram to XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml) | *.xml"), wxSAVE);
+	wxFileDialog dlg(this, wxT("Save diagram to XML..."), wxGetCwd(), wxT(""), wxT("XML Files (*.xml)|*.xml"), wxSAVE);
 
 	if(dlg.ShowModal() == wxID_OK)
 	{

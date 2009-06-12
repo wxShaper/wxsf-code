@@ -123,6 +123,7 @@
 /*! \brief Macro registers new IO handler for specified data type (handler class must exist) */
 #define XS_REGISTER_IO_HANDLER(type, class) wxXmlSerializer::m_mapPropertyIOHandlers[type] = new class();
 
+
 /*! \brief Enable RTTI (the same as DECLARE_DYNAMIC_CLASS) and declare xsSerializable::Clone() function */
 #define XS_DECLARE_CLONABLE_CLASS(name) \
 public: \
@@ -371,7 +372,7 @@ public:
     /*!
      * \brief Returns information whether the object can be cloned or not.
      */
-	inline bool IsCloned() const { return m_fClone; }
+	inline bool IsCloningEnabled() const { return m_fClone; }
 	
 	// overloaded operators
     /*!
@@ -462,165 +463,6 @@ protected:
      * \endcode
      */
     virtual void Deserialize(wxXmlNode* node);
-};
-	 
-/*!
- * \brief Class encapsulates a property stored in a list included inside a parent serializable
- * object (class xsSerializable) which is serialized/deserialized to/from XML file. The
- * property object type is defined by a string name and is processed by parent xsSerializable class object.
- *
- * Allowed property data types (keywords) are: 'long', 'double', 'bool', 'string', 'point', 'size',
- * 'realpoint', 'colour', 'brush', 'pen', 'font', 'arraystring', 'arrayrealpoint', 'listrealpoint',
- * 'serializabledynamic' and 'serializablestatic'. Only properties of these data types are recognized
- * and processed by parent serializable object.
- */
-class WXDLLIMPEXP_XS xsProperty : public wxObject
-{
-public:
-    DECLARE_DYNAMIC_CLASS(xsProperty);
-
-    /*! \brief Default constructor */
-    xsProperty()
-    {
-        m_pSourceVariable = NULL;
-        m_sDataType = wxT("Undefined");
-        m_sFieldName = wxT("Undefined");
-        m_sDefaultValueStr = wxT("");
-        m_fSerialize = false;
-    }
-
-    /*!
-     * \brief Constructor
-     * \param src Pointer to serialized object
-     * \param type String value describing data type of serialized object
-     * \param field Property name used in XML files and for property handling
-     * \param def String representation of default poperty value
-     */
-    xsProperty(void* src, const wxString& type, const wxString& field, const wxString& def = wxT(""))
-    {
-        m_pSourceVariable = src;
-        m_sDataType = type;
-        m_sFieldName = field;
-        m_sDefaultValueStr = def;
-        m_fSerialize = true;
-    }
-
-    /*! \brief Constructor for BOOL property. */
-    xsProperty(bool* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("bool")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for BOOL property with defined default value. */
-    xsProperty(bool* src, const wxString& field, bool def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("bool")), m_sDefaultValueStr(xsBoolPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for LONG property. */
-    xsProperty(long* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for LONG property with defined default value. */
-    xsProperty(long* src, const wxString& field, long def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(xsLongPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for INT property. */
-    xsProperty(int* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for INT property with defined default value. */
-    xsProperty(int* src, const wxString& field, int def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(xsIntPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for DOUBLE property. */
-    xsProperty(double* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for DOUBLE property with defined default value. */
-    xsProperty(double* src, const wxString& field, double def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(xsDoublePropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for DOUBLE property. */
-    xsProperty(float* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("float")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for DOUBLE property with defined default value. */
-    xsProperty(float* src, const wxString& field, float def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("float")), m_sDefaultValueStr(xsFloatPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxString property. */
-    xsProperty(wxString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxString property with defined default value. */
-    xsProperty(wxString* src, const wxString& field, const wxString& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(def), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxChar property. */
-    xsProperty(wxChar* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("char")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxChar property with defined default value. */
-	xsProperty(wxChar* src, const wxString& field, wxChar def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("char")), m_sDefaultValueStr(xsCharPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxPoint property. */
-    xsProperty(wxPoint* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxPoint property with defined default value. */
-    xsProperty(wxPoint* src, const wxString& field, const wxPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(xsPointPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxRealPoint property. */
-    xsProperty(wxRealPoint* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("realpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxRealPoint property with defined default value. */
-    xsProperty(wxRealPoint* src, const wxString& field, const wxRealPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("realpoint")), m_sDefaultValueStr(xsRealPointPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxSize property. */
-    xsProperty(wxSize* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("size")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxSize property with defined default value. */
-    xsProperty(wxSize* src, const wxString& field, const wxSize& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("size")), m_sDefaultValueStr(xsSizePropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxBrush property. */
-    xsProperty(wxBrush* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("brush")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxBrush property with defined default value. */
-    xsProperty(wxBrush* src, const wxString& field, const wxBrush& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("brush")), m_sDefaultValueStr(xsBrushPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxPen property. */
-    xsProperty(wxPen* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("pen")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxPen property with defined default value. */
-    xsProperty(wxPen* src, const wxString& field, const wxPen& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("pen")), m_sDefaultValueStr(xsPenPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxFont property. */
-    xsProperty(wxFont* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("font")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxFont property with defined default value. */
-    xsProperty(wxFont* src, const wxString& field, const wxFont& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("font")), m_sDefaultValueStr(xsFontPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxColour property. */
-    xsProperty(wxColour* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("colour")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-    /*! \brief Constructor for wxColour property with defined default value. */
-    xsProperty(wxColour* src, const wxString& field, const wxColour& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("colour")), m_sDefaultValueStr(xsColourPropIO::ToString(def)), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for wxArrayString property. */
-    xsProperty(wxArrayString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraystring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for CharArray property. */
-    xsProperty(CharArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraychar")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for IntArray property. */
-    xsProperty(IntArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for LongArray property. */
-    xsProperty(LongArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraylong")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for DoubleArray property. */
-    xsProperty(DoubleArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraydoubles")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for RealPointArray property. */
-    xsProperty(RealPointArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for RealPointList property. */
-    xsProperty(RealPointList* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("listrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for StringMap property. */
-    xsProperty(StringMap* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("mapstring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for static serializable property. */
-    xsProperty(xsSerializable* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("serializablestatic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-    /*! \brief Constructor for dynamic serializable property. */
-    xsProperty(xsSerializable** src, const wxString& field) : m_pSourceVariable((void**)src), m_sFieldName(field), m_sDataType(wxT("serializabledynamic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
-
-	/*! \brief Copy constructor. */
-	xsProperty(const xsProperty& obj) : wxObject( obj ), m_pSourceVariable(obj.m_pSourceVariable), m_sFieldName(obj.m_sFieldName), m_sDataType(obj.m_sDataType), m_sDefaultValueStr(obj.m_sDefaultValueStr), m_fSerialize(obj.m_fSerialize) {;}
-
-    ~xsProperty(){;}
-
-    // public data members
-    /*! \brief General (void) pointer to serialized object encapsulated by the property */
-    void* m_pSourceVariable;
-    /*! \brief Field (property) name */
-    wxString m_sFieldName;
-    /*! \brief Data type */
-    wxString m_sDataType;
-    /*! \brief String representation of property's default value */
-    wxString m_sDefaultValueStr;
-    /*! \brief Flag used for enabling/disabling of property serialization */
-    bool m_fSerialize;
 };
 
 /*!
@@ -726,9 +568,9 @@ public:
 	 * For proper functionality all stored data items derived from the xsSerializable class
 	 * MUST implement virtual function xsSerializable::Clone() as well as the copy
 	 * constructor. For more details see the xsSerializable::Clone() function documentation.
-     * \param src Pointer to the source data manager
+     * \param src Reference to the source data manager
      */
-	void CopyItems(const wxXmlSerializer* src);
+	void CopyItems(const wxXmlSerializer& src);
     /*!
      * \brief Add serializable object to the serializer.
      * \param parentId ID of parent serializable object
@@ -869,9 +711,311 @@ private:
     xsSerializable* _GetItem(long id, xsSerializable* parent);
 	/*! \brief Auxiliary function */
     bool _Contains(xsSerializable *object, xsSerializable* parent) const;
-	/*! \brief Auxiliary function. Copy items assigned to given parent to given source item */
-	void _CopyItems(xsSerializable *dest, const xsSerializable *parent);
+};
 
+/*!
+ * \brief Class encapsulates a property stored in a list included inside a parent serializable
+ * object (class xsSerializable) which is serialized/deserialized to/from XML file. The
+ * property object type is defined by a string name and is processed by parent xsSerializable class object.
+ *
+ * Allowed property data types (keywords) are: 'long', 'double', 'bool', 'string', 'point', 'size',
+ * 'realpoint', 'colour', 'brush', 'pen', 'font', 'arraystring', 'arrayrealpoint', 'listrealpoint',
+ * 'serializabledynamic' and 'serializablestatic'. Only properties of these data types are recognized
+ * and processed by parent serializable object.
+ */
+class WXDLLIMPEXP_XS xsProperty : public wxObject
+{
+public:	
+    DECLARE_DYNAMIC_CLASS(xsProperty);
+
+    /*! \brief Default constructor */
+    xsProperty()
+    {
+        m_pSourceVariable = NULL;
+        m_sDataType = wxT("Undefined");
+        m_sFieldName = wxT("Undefined");
+        m_sDefaultValueStr = wxT("");
+        m_fSerialize = false;
+    }
+
+    /*!
+     * \brief Constructor
+     * \param src Pointer to serialized object
+     * \param type String value describing data type of serialized object
+     * \param field Property name used in XML files and for property handling
+     * \param def String representation of default poperty value
+     */
+    xsProperty(void* src, const wxString& type, const wxString& field, const wxString& def = wxT(""))
+    {
+        m_pSourceVariable = src;
+        m_sDataType = type;
+        m_sFieldName = field;
+        m_sDefaultValueStr = def;
+        m_fSerialize = true;
+    }
+
+    /*! \brief Constructor for BOOL property. */
+    xsProperty(bool* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("bool")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for BOOL property with defined default value. */
+    xsProperty(bool* src, const wxString& field, bool def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("bool")), m_sDefaultValueStr(xsBoolPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for LONG property. */
+    xsProperty(long* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for LONG property with defined default value. */
+    xsProperty(long* src, const wxString& field, long def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("long")), m_sDefaultValueStr(xsLongPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for INT property. */
+    xsProperty(int* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for INT property with defined default value. */
+    xsProperty(int* src, const wxString& field, int def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("int")), m_sDefaultValueStr(xsIntPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for DOUBLE property. */
+    xsProperty(double* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for DOUBLE property with defined default value. */
+    xsProperty(double* src, const wxString& field, double def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("double")), m_sDefaultValueStr(xsDoublePropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for FLOAT property. */
+    xsProperty(float* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("float")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for FLOAT property with defined default value. */
+    xsProperty(float* src, const wxString& field, float def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("float")), m_sDefaultValueStr(xsFloatPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxString property. */
+    xsProperty(wxString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxString property with defined default value. */
+    xsProperty(wxString* src, const wxString& field, const wxString& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("string")), m_sDefaultValueStr(def), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxChar property. */
+    xsProperty(wxChar* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("char")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxChar property with defined default value. */
+	xsProperty(wxChar* src, const wxString& field, wxChar def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("char")), m_sDefaultValueStr(xsCharPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxPoint property. */
+    xsProperty(wxPoint* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxPoint property with defined default value. */
+    xsProperty(wxPoint* src, const wxString& field, const wxPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("point")), m_sDefaultValueStr(xsPointPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxRealPoint property. */
+    xsProperty(wxRealPoint* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("realpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxRealPoint property with defined default value. */
+    xsProperty(wxRealPoint* src, const wxString& field, const wxRealPoint& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("realpoint")), m_sDefaultValueStr(xsRealPointPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxSize property. */
+    xsProperty(wxSize* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("size")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxSize property with defined default value. */
+    xsProperty(wxSize* src, const wxString& field, const wxSize& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("size")), m_sDefaultValueStr(xsSizePropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxBrush property. */
+    xsProperty(wxBrush* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("brush")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxBrush property with defined default value. */
+    xsProperty(wxBrush* src, const wxString& field, const wxBrush& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("brush")), m_sDefaultValueStr(xsBrushPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxPen property. */
+    xsProperty(wxPen* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("pen")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxPen property with defined default value. */
+    xsProperty(wxPen* src, const wxString& field, const wxPen& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("pen")), m_sDefaultValueStr(xsPenPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxFont property. */
+    xsProperty(wxFont* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("font")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxFont property with defined default value. */
+    xsProperty(wxFont* src, const wxString& field, const wxFont& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("font")), m_sDefaultValueStr(xsFontPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxColour property. */
+    xsProperty(wxColour* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("colour")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    /*! \brief Constructor for wxColour property with defined default value. */
+    xsProperty(wxColour* src, const wxString& field, const wxColour& def) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("colour")), m_sDefaultValueStr(xsColourPropIO::ToString(def)), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for wxArrayString property. */
+    xsProperty(wxArrayString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraystring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for CharArray property. */
+    xsProperty(CharArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraychar")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for IntArray property. */
+    xsProperty(IntArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for LongArray property. */
+    xsProperty(LongArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraylong")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for DoubleArray property. */
+    xsProperty(DoubleArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraydoubles")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for RealPointArray property. */
+    xsProperty(RealPointArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for RealPointList property. */
+    xsProperty(RealPointList* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("listrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for StringMap property. */
+    xsProperty(StringMap* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("mapstring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for static serializable property. */
+    xsProperty(xsSerializable* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("serializablestatic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+    /*! \brief Constructor for dynamic serializable property. */
+    xsProperty(xsSerializable** src, const wxString& field) : m_pSourceVariable((void**)src), m_sFieldName(field), m_sDataType(wxT("serializabledynamic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+
+	/*! \brief Copy constructor. */
+	xsProperty(const xsProperty& obj) : wxObject( obj ), m_pSourceVariable(obj.m_pSourceVariable), m_sFieldName(obj.m_sFieldName), m_sDataType(obj.m_sDataType), m_sDefaultValueStr(obj.m_sDefaultValueStr), m_fSerialize(obj.m_fSerialize) {;}
+
+    ~xsProperty(){;}
+	
+	// public functions
+	/**
+	 * \brief Get textual representation of the property's value.
+	 * \return Textual representation of current value
+	 */
+	wxString ToString()
+	{
+		xsPropertyIO *pIO = wxXmlSerializer::m_mapPropertyIOHandlers[m_sDataType];
+		if(pIO) return pIO->GetValueStr(this);
+		else
+			return wxEmptyString;
+	}
+	
+	/**
+	 * \brief Set value defined by its textual representation.
+	 * \param val Textual representation of given value
+	 */
+	void FromString(const wxString& val)
+	{
+		xsPropertyIO *pIO = wxXmlSerializer::m_mapPropertyIOHandlers[m_sDataType];
+		if(pIO) return pIO->SetValueStr(this, val);
+	}
+	
+	/**
+	 * \brief Get reference to managed data member as BOOL.
+	 * \return Reference to managed data member
+	 */
+	inline bool& AsBool() { wxASSERT(m_sDataType == wxT("bool")); return *(bool*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as INT.
+	 * \return Reference to managed data member
+	 */
+	inline int& AsInt() { wxASSERT(m_sDataType == wxT("int")); return *(int*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as LONG.
+	 * \return Reference to managed data member
+	 */
+	inline long& AsLong() { wxASSERT(m_sDataType == wxT("long")); return *(long*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as FLOAT.
+	 * \return Reference to managed data member
+	 */
+	inline float& AsFloat() { wxASSERT(m_sDataType == wxT("float")); return *(float*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as DOUBLE.
+	 * \return Reference to managed data member
+	 */
+	inline double& AsDouble() { wxASSERT(m_sDataType == wxT("double")); return *(double*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxChar.
+	 * \return Reference to managed data member
+	 */
+	inline wxChar& AsChar() { wxASSERT(m_sDataType == wxT("char")); return *(wxChar*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxString.
+	 * \return Reference to managed data member
+	 */
+	inline wxString& AsString() { wxASSERT(m_sDataType == wxT("string")); return *(wxString*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxSize.
+	 * \return Reference to managed data member
+	 */
+	inline wxSize& AsSize() { wxASSERT(m_sDataType == wxT("size")); return *(wxSize*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxPoint.
+	 * \return Reference to managed data member
+	 */
+	inline wxPoint& AsPoint() { wxASSERT(m_sDataType == wxT("point")); return *(wxPoint*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxRealPoint.
+	 * \return Reference to managed data member
+	 */
+	inline wxRealPoint& AsRealPoint() { wxASSERT(m_sDataType == wxT("realpoint")); return *(wxRealPoint*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxBrush.
+	 * \return Reference to managed data member
+	 */
+	inline wxBrush& AsBrush() { wxASSERT(m_sDataType == wxT("brush")); return *(wxBrush*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxPen.
+	 * \return Reference to managed data member
+	 */
+	inline wxPen& AsPen() { wxASSERT(m_sDataType == wxT("pen")); return *(wxPen*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxFont.
+	 * \return Reference to managed data member
+	 */
+	inline wxFont& AsFont() { wxASSERT(m_sDataType == wxT("font")); return *(wxFont*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as wxColour.
+	 * \return Reference to managed data member
+	 */
+	inline wxColour& AsColour() { wxASSERT(m_sDataType == wxT("colour")); return *(wxColour*)m_pSourceVariable; }
+	
+	/**
+	 * \brief Get reference to managed data member as wxArrayString.
+	 * \return Reference to managed data member
+	 */
+	inline wxArrayString& AsStringArray() { wxASSERT(m_sDataType == wxT("arraystring")); return *(wxArrayString*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as CharArray.
+	 * \return Reference to managed data member
+	 */
+	inline CharArray& AsCharArray() { wxASSERT(m_sDataType == wxT("arraychar")); return *(CharArray*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as IntArray.
+	 * \return Reference to managed data member
+	 */
+	inline IntArray& AsIntArray() { wxASSERT(m_sDataType == wxT("arrayint")); return *(IntArray*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as LongArray.
+	 * \return Reference to managed data member
+	 */
+	inline LongArray& AsLongArray() { wxASSERT(m_sDataType == wxT("arraylong")); return *(LongArray*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as DoubleArray.
+	 * \return Reference to managed data member
+	 */
+	inline DoubleArray& AsDoubleArray() { wxASSERT(m_sDataType == wxT("arraydouble")); return *(DoubleArray*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as RealPointArray.
+	 * \return Reference to managed data member
+	 */
+	inline RealPointArray& AsRealPointArray() { wxASSERT(m_sDataType == wxT("arrayrealpoint")); return *(RealPointArray*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as RealPointList.
+	 * \return Reference to managed data member
+	 */
+	inline RealPointList& AsRealPointList() { wxASSERT(m_sDataType == wxT("listrealpoint")); return *(RealPointList*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as StringMap.
+	 * \return Reference to managed data member
+	 */
+	inline StringMap& AsStringMap() { wxASSERT(m_sDataType == wxT("mapstring")); return *(StringMap*)m_pSourceVariable; }
+	
+	/**
+	 * \brief Get reference to managed data member as serializable static object.
+	 * \return Reference to managed data member
+	 */
+	inline xsSerializable& AsSerializableStatic() { wxASSERT(m_sDataType == wxT("serializablestatic")); return *(xsSerializable*)m_pSourceVariable; }
+	/**
+	 * \brief Get reference to managed data member as serializable dynamic object.
+	 * \return Reference to managed data member
+	 */
+	inline xsSerializable& AsSerializableDynamic() { wxASSERT(m_sDataType == wxT("serializabledynamic")); return **(xsSerializable**)m_pSourceVariable; }
+	
+	// public data members
+	/*! \brief General (void) pointer to serialized object encapsulated by the property */
+    void* m_pSourceVariable;
+    /*! \brief Field (property) name */
+    wxString m_sFieldName;
+    /*! \brief Data type */
+    wxString m_sDataType;
+    /*! \brief String representation of property's default value */
+    wxString m_sDefaultValueStr;
+    /*! \brief Flag used for enabling/disabling of property serialization */
+    bool m_fSerialize;
 };
 
 #endif //_XSXMLSERIALIZE_H

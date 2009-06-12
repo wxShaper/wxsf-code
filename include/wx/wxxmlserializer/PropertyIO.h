@@ -69,8 +69,15 @@ public:
     /*!
      * \brief Get textual representation of current property value.
 	 * \param property Pointer to the source property object
+	 * \return Textual representation of property's value
      */
 	virtual wxString GetValueStr(xsProperty *property){wxUnusedVar(property);return wxT("");}
+    /*!
+     * \brief Set value defined by its textual representation to given property.
+	 * \param property Pointer to the target property object
+	 * \param valuestr Textual representation of given value
+     */
+	virtual void SetValueStr(xsProperty *property, const wxString& valstr){wxUnusedVar(valstr);}
 
     /*!
      * \brief Create new XML node of given name and value and assign it to the given
@@ -108,6 +115,7 @@ public: \
 	virtual void Read(xsProperty *property, wxXmlNode *source); \
 	virtual void Write(xsProperty *property, wxXmlNode *target); \
 	virtual wxString GetValueStr(xsProperty *property); \
+	virtual void SetValueStr(xsProperty *property, const wxString& valstr); \
 	static wxString ToString(const datatype& value); \
 	static datatype FromString(const wxString& value); \
 }; \
@@ -129,6 +137,7 @@ public: \
 	virtual void Read(xsProperty *property, wxXmlNode *source); \
 	virtual void Write(xsProperty *property, wxXmlNode *target); \
 	virtual wxString GetValueStr(xsProperty *property); \
+	virtual void SetValueStr(xsProperty *property, const wxString& valstr); \
 	static wxString ToString(const datatype& value); \
 	static datatype FromString(const wxString& value); \
 }; \
@@ -160,6 +169,11 @@ void name::Write(xsProperty *property, wxXmlNode *target) \
 wxString name::GetValueStr(xsProperty *property) \
 { \
 	return ToString(*((datatype*)property->m_pSourceVariable)); \
+} \
+\
+void name::SetValueStr(xsProperty *property, const wxString& valstr) \
+{ \
+	*((datatype*)property->m_pSourceVariable) = FromString(valstr); \
 } \
 
 /*!
