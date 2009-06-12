@@ -89,6 +89,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_SolidArrow.o \
 	wxsf_lib_TextShape.o \
 	wxsf_lib_TextShapeXml.o \
+	wxsf_lib_Thumbnail.o \
 	wxsf_lib_wx_pch.o \
 	wxsf_lib_PropertyIO.o \
 	wxsf_lib_XmlSerializer.o
@@ -132,6 +133,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_SolidArrow.o \
 	wxsf_dll_TextShape.o \
 	wxsf_dll_TextShapeXml.o \
+	wxsf_dll_Thumbnail.o \
 	wxsf_dll_wx_pch.o \
 	wxsf_dll_PropertyIO.o \
 	wxsf_dll_XmlSerializer.o
@@ -528,6 +530,9 @@ wxsf_lib_TextShape.o: $(srcdir)/src/TextShape.cpp
 wxsf_lib_TextShapeXml.o: $(srcdir)/src/TextShapeXml.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/TextShapeXml.cpp
 
+wxsf_lib_Thumbnail.o: $(srcdir)/src/Thumbnail.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/Thumbnail.cpp
+
 wxsf_lib_wx_pch.o: $(srcdir)/src/wx_pch.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/wx_pch.cpp
 
@@ -647,6 +652,9 @@ wxsf_dll_TextShape.o: $(srcdir)/src/TextShape.cpp
 
 wxsf_dll_TextShapeXml.o: $(srcdir)/src/TextShapeXml.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/TextShapeXml.cpp
+
+wxsf_dll_Thumbnail.o: $(srcdir)/src/Thumbnail.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/Thumbnail.cpp
 
 wxsf_dll_wx_pch.o: $(srcdir)/src/wx_pch.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/wx_pch.cpp
