@@ -29,6 +29,7 @@
 
 	<disable-formats>msvc6prj,msvs2003prj,msvs2005prj</disable-formats>
     -->
+    <disable-formats>msvc6prj,msvs2003prj,msvs2005prj</disable-formats>
     
 
 </bakefile-gen>

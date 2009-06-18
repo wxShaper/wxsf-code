@@ -5089,6 +5089,165 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+        if test "$INTELCC" = "yes"; then
+
+
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+    { $as_echo "$as_me:$LINENO: checking whether we are using Intel C compiler v8 or later" >&5
+$as_echo_n "checking whether we are using Intel C compiler v8 or later... " >&6; }
+if test "${bakefile_cv_c_compiler___INTEL_COMPILER_lt_800+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+             #ifndef __INTEL_COMPILER || __INTEL_COMPILER < 800
+                choke me
+             #endif
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  bakefile_cv_c_compiler___INTEL_COMPILER_lt_800=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	bakefile_cv_c_compiler___INTEL_COMPILER_lt_800=no
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $bakefile_cv_c_compiler___INTEL_COMPILER_lt_800" >&5
+$as_echo "$bakefile_cv_c_compiler___INTEL_COMPILER_lt_800" >&6; }
+    if test "x$bakefile_cv_c_compiler___INTEL_COMPILER_lt_800" = "xyes"; then
+        :; INTELCC8=yes
+    else
+        :;
+    fi
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+
+
+
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+    { $as_echo "$as_me:$LINENO: checking whether we are using Intel C compiler v10 or later" >&5
+$as_echo_n "checking whether we are using Intel C compiler v10 or later... " >&6; }
+if test "${bakefile_cv_c_compiler___INTEL_COMPILER_lt_1000+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+             #ifndef __INTEL_COMPILER || __INTEL_COMPILER < 1000
+                choke me
+             #endif
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  bakefile_cv_c_compiler___INTEL_COMPILER_lt_1000=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	bakefile_cv_c_compiler___INTEL_COMPILER_lt_1000=no
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $bakefile_cv_c_compiler___INTEL_COMPILER_lt_1000" >&5
+$as_echo "$bakefile_cv_c_compiler___INTEL_COMPILER_lt_1000" >&6; }
+    if test "x$bakefile_cv_c_compiler___INTEL_COMPILER_lt_1000" = "xyes"; then
+        :; INTELCC10=yes
+    else
+        :;
+    fi
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+
+    fi
+
         if test "x$GCC" != "xyes"; then
         if test "xCC" = "xC"; then
             { $as_echo "$as_me:$LINENO: checking if the C++ compiler requires -ext o" >&5
@@ -5474,6 +5633,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+                if test "$MWCC" != "yes"; then
 
 
     ac_ext=c
@@ -5552,6 +5712,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+                fi
                 ;;
 
             IRIX*)
@@ -5636,6 +5797,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
                 ;;
 
             Linux*)
+                                                if test "$INTELCC" != "yes"; then
 
 
     ac_ext=c
@@ -5714,6 +5876,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+                fi
                 ;;
 
             HP-UX*)
@@ -6417,6 +6580,165 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+        if test "$INTELCXX" = "yes"; then
+
+
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    { $as_echo "$as_me:$LINENO: checking whether we are using Intel C++ compiler v8 or later" >&5
+$as_echo_n "checking whether we are using Intel C++ compiler v8 or later... " >&6; }
+if test "${bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_800+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+             #ifndef __INTEL_COMPILER || __INTEL_COMPILER < 800
+                choke me
+             #endif
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_800=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_800=no
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_800" >&5
+$as_echo "$bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_800" >&6; }
+    if test "x$bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_800" = "xyes"; then
+        :; INTELCXX8=yes
+    else
+        :;
+    fi
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+
+
+
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    { $as_echo "$as_me:$LINENO: checking whether we are using Intel C++ compiler v10 or later" >&5
+$as_echo_n "checking whether we are using Intel C++ compiler v10 or later... " >&6; }
+if test "${bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_1000+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+             #ifndef __INTEL_COMPILER || __INTEL_COMPILER < 1000
+                choke me
+             #endif
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_1000=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_1000=no
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_1000" >&5
+$as_echo "$bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_1000" >&6; }
+    if test "x$bakefile_cv_cxx_compiler___INTEL_COMPILER_lt_1000" = "xyes"; then
+        :; INTELCXX10=yes
+    else
+        :;
+    fi
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+
+    fi
+
         if test "x$GCXX" != "xyes"; then
         if test "xCXX" = "xC"; then
             { $as_echo "$as_me:$LINENO: checking if the C++ compiler requires -ext o" >&5
@@ -6802,6 +7124,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+                if test "$MWCXX" != "yes"; then
 
 
     ac_ext=cpp
@@ -6880,6 +7203,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+                fi
                 ;;
 
             IRIX*)
@@ -6964,6 +7288,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
                 ;;
 
             Linux*)
+                                                if test "$INTELCXX" != "yes"; then
 
 
     ac_ext=cpp
@@ -7042,6 +7367,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+                fi
                 ;;
 
             HP-UX*)
@@ -8002,6 +8328,8 @@ fi
     dlldir="$libdir"
 
     case "${BAKEFILE_HOST}" in
+                        ia64-hp-hpux* )
+        ;;
         *-hp-hpux* )
             SO_SUFFIX="sl"
             SO_SUFFIX_MODULE="sl"
@@ -8083,7 +8411,7 @@ fi
       ;;
 
       *-*-linux* )
-        if test "$INTELCC" = "yes"; then
+                        if test "$INTELCC" = "yes" -a "$INTELCC8" != "yes"; then
             PIC_FLAG="-KPIC"
         elif test "x$SUNCXX" = "xyes"; then
             SHARED_LD_CC="${CC} -G -o"
@@ -9112,7 +9440,7 @@ elif test ${D}DEPSMODE = unixcc; then
     depsdir=${D}builddir/${D}DEPSDIRBASE
     mkdir -p ${D}depsdir
 
-    eval "${D}cmd ${D}DEPSFLAG" | sed "s|.*:|${D}objfile:|" >${D}{DEPSDIR}/${D}{objfilebase}.d
+    eval "${D}cmd ${D}DEPSFLAG" | sed "s|.*:|${D}objfile:|" >${D}{depsdir}/${D}{objfilebase}.d
     exit 0
 
 else
@@ -9314,7 +9642,7 @@ fi
 
 
 
-    BAKEFILE_BAKEFILE_M4_VERSION="0.2.5"
+    BAKEFILE_BAKEFILE_M4_VERSION="0.2.6"
 
 
 BAKEFILE_AUTOCONF_INC_M4_VERSION="0.2.6"
