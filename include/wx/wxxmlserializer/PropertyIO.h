@@ -75,9 +75,9 @@ public:
     /*!
      * \brief Set value defined by its textual representation to given property.
 	 * \param property Pointer to the target property object
-	 * \param valuestr Textual representation of given value
+	 * \param valstr Textual representation of given value
      */
-	virtual void SetValueStr(xsProperty *property, const wxString& valstr){wxUnusedVar(valstr);}
+	virtual void SetValueStr(xsProperty *property, const wxString& valstr){wxUnusedVar(property); wxUnusedVar(valstr);}
 
     /*!
      * \brief Create new XML node of given name and value and assign it to the given

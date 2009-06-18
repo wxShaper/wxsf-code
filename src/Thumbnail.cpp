@@ -91,6 +91,7 @@ void wxSFThumbnail::DrawContent(wxDC& dc)
 
 void wxSFThumbnail::_OnEraseBackground(wxEraseEvent& event)
 {
+	wxUnusedVar( event );
 	// do nothing to eliminate flickering on Windows
 }
 
@@ -129,9 +130,10 @@ void wxSFThumbnail::_OnMouseMove(wxMouseEvent& event)
 
 void wxSFThumbnail::_OnPaint(wxPaintEvent& event)
 {
-	bool fGCEnabled = wxSFShapeCanvas::IsGCEnabled();
+	wxUnusedVar( event );
 	
 	#if wxUSE_GRAPHICS_CONTEXT
+	bool fGCEnabled = wxSFShapeCanvas::IsGCEnabled();
     wxSFScaledDC::EnableGC( false );
     #endif
 	
@@ -161,7 +163,7 @@ void wxSFThumbnail::_OnPaint(wxPaintEvent& event)
 		dc.DrawRectangle(0, 0, double(szVirtCanvas.x)*m_nScale, double(szVirtCanvas.y)*m_nScale);
 		
 		// draw top level shapes
-		wxSFScaledDC sdc( &dc, m_nScale * m_pCanvas->GetScale() );
+		wxSFScaledDC sdc( (wxWindowDC*)&dc, m_nScale * m_pCanvas->GetScale() );
 		this->DrawContent( sdc );
 		
 		// draw canvas client area
@@ -182,11 +184,15 @@ void wxSFThumbnail::_OnPaint(wxPaintEvent& event)
 
 void wxSFThumbnail::_OnTimer(wxTimerEvent& event)
 {
+	wxUnusedVar( event );
+
 	if( m_pCanvas && IsShown() ) Refresh(false);
 }
 
 void wxSFThumbnail::_OnShowConnections(wxCommandEvent& event)
 {
+	wxUnusedVar( event );
+
 	if( m_nThumbStyle & tsSHOW_CONNECTIONS ) m_nThumbStyle &= ~tsSHOW_CONNECTIONS;
 	else
 		m_nThumbStyle |= tsSHOW_CONNECTIONS;
@@ -194,6 +200,8 @@ void wxSFThumbnail::_OnShowConnections(wxCommandEvent& event)
 
 void wxSFThumbnail::_OnShowElements(wxCommandEvent& event)
 {
+	wxUnusedVar( event );
+
 	if( m_nThumbStyle & tsSHOW_ELEMENTS ) m_nThumbStyle &= ~tsSHOW_ELEMENTS;
 	else
 		m_nThumbStyle |= tsSHOW_ELEMENTS;

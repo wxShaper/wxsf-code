@@ -55,6 +55,8 @@ wxSFCircleArrow::~wxSFCircleArrow(void)
 
 void wxSFCircleArrow::Draw(const wxRealPoint &from, const wxRealPoint &to, wxDC& dc)
 {
+	wxUnusedVar(from);
+
 	dc.SetPen(m_Pen);
     dc.SetBrush(m_Fill);
     dc.DrawCircle( Conv2Point( to ), m_nRadius );
