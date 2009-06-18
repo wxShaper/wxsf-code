@@ -30,8 +30,10 @@ public:
 	/** \brief Thumbnail style */
 	enum THUMBSTYLE
 	{
-		tsSHOW_ELEMENTS = 1,		/** \brief Show diagram elements (excluding connections) in the thumbnail */
-		tsSHOW_CONNECTIONS = 2		/** \brief Show diagram connections in the thumbnail */
+		/** \brief Show diagram elements (excluding connections) in the thumbnail. */
+		tsSHOW_ELEMENTS = 1,		
+		/** \brief Show diagram connections in the thumbnail. */
+		tsSHOW_CONNECTIONS = 2		
 	};
 	
 	/**
