@@ -1249,6 +1249,8 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 				else
 					node = node->GetNext();
 			}
+			
+			ClearTemporaries();
 
             // delete selected shapes
 			m_pManager->RemoveShapes(m_lstSelection);
@@ -2287,6 +2289,16 @@ void wxSFShapeCanvas::RemoveFromTemporaries(wxSFShapeBase* shape)
 	}
 }
 
+void wxSFShapeCanvas::ClearTemporaries()
+{
+	m_lstCurrentShapes.Clear();
+
+	m_pNewLineShape = NULL;
+	m_pUnselectedShapeUnderCursor = NULL;
+	m_pSelectedShapeUnderCursor = NULL;
+	m_pTopmostShapeUnderCursor = NULL;
+}
+
 void wxSFShapeCanvas::UpdateMultieditSize()
 {
 	// calculate bounding box
@@ -2615,6 +2627,8 @@ void wxSFShapeCanvas::Cut()
 	if(!m_pManager)return;
 
 	Copy();
+	
+	ClearTemporaries();
 
 	// remove selected shapes
 	ShapeList lstSelection;
@@ -2700,6 +2714,8 @@ void wxSFShapeCanvas::OnPaste(const ShapeList& pasted)
 void wxSFShapeCanvas::Undo()
 {
 	if( !ContainsStyle(sfsUNDOREDO) )return;
+	
+	ClearTemporaries();
 
 	m_CanvasHistory.RestoreOlderState();
 	m_shpMultiEdit.Show(false);
@@ -2708,6 +2724,8 @@ void wxSFShapeCanvas::Undo()
 void wxSFShapeCanvas::Redo()
 {
 	if( !ContainsStyle(sfsUNDOREDO) )return;
+	
+	ClearTemporaries();
 
 	m_CanvasHistory.RestoreNewerState();
 	m_shpMultiEdit.Show(false);

@@ -64,7 +64,10 @@ void wxSFThumbnail::SetCanvas(wxSFShapeCanvas* canvas)
 	
 	if( m_pCanvas )	m_UpdateTimer.Start(100);
 	else
+	{
 		m_UpdateTimer.Stop();
+		Refresh(false);
+	}		
 }
 
 void wxSFThumbnail::DrawContent(wxDC& dc)

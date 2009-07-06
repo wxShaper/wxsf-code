@@ -1,7 +1,7 @@
 wxShapeFramework for wxWidgets
 ------------------------------
 Author: Michal Bliznak, 2007
-e-mail: michal.bliznak@tiscali.cz
+e-mail: michal.bliznak@gmail.com
 www: http://sourceforge.net/projects/wxsf
 
 

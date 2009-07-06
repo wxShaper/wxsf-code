@@ -57,7 +57,7 @@ xsSerializable::xsSerializable(const xsSerializable& obj)
 : wxObject(obj)
 {
 	m_pParentManager = NULL;
-    m_pParentItem = obj.m_pParentItem;
+    m_pParentItem = NULL;
     m_fSerialize = obj.m_fSerialize;
 	m_fClone = obj.m_fClone;
     m_nId = obj.m_nId;

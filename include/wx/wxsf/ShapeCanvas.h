@@ -919,8 +919,10 @@ private:
 	void InitializePrinting();
 	/*! \brief Deinitialize prnting framework */
 	void DeinitializePrinting();
-	/*! \brief Remove given shape for temporary conatiners */
+	/*! \brief Remove given shape for temporary containers */
 	void RemoveFromTemporaries(wxSFShapeBase *shape);
+	/*! \brief Clear all temporary containers */
+	void ClearTemporaries();
 	/*! \brief Assign give shape to parent at given location (if exists) */
 	void ReparentShape(wxSFShapeBase *shape, const wxPoint& parentpos);
 
