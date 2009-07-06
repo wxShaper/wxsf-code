@@ -1,6 +1,7 @@
 Changes in version 1.8.1 beta (2009-07-04):
 --------------------------------------------
 - The thumbnail control (wxSFThumbail) is refreshed now when NULL shape canvas is set.
+- Fixed possible crash after Cut/Undo/Redo/Delete operations.
 
 Changes in version 1.8.0 beta (2009-06-10):
 --------------------------------------------
