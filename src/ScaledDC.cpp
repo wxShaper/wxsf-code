@@ -75,7 +75,8 @@ void wxSFScaledDC::PrepareGC()
     int x, y;
     GetDeviceOrigin(&x, &y);
 
-    m_pGC->Translate( x / m_nScale, y / m_nScale );
+    //m_pGC->Translate( x / m_nScale, y / m_nScale );
+    m_pGC->Translate( x, y );
 #endif
 }
 
