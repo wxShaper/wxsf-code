@@ -71,7 +71,7 @@ void wxSFScaledDC::UninitGC()
 
 void wxSFScaledDC::PrepareGC()
 {
-#if wxUSE_GRAPHICS_CONTEXT
+#if wxUSE_GRAPHICS_CONTEXT && !defined(__WXMAC__)
     int x, y;
     GetDeviceOrigin(&x, &y);
 
