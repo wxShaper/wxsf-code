@@ -22,6 +22,10 @@
 #include "EditTextShape.h"
 #include "Printout.h"
 
+#ifdef __WXMAC__ 
+#include <wx/mac/carbon/printdlg.h> 
+#endif 
+
 /*! \brief XPM (mono-)bitmap which can be used in shape's shadow brush */
 extern const char* wxSFShadowBrush_xpm[];
 
@@ -952,7 +956,7 @@ private:
 	 * \param event Size event
 	 */
 	void _OnResize(wxSizeEvent& event);
-
+	
 	// original private event handlers
 	/*!
 	 * \brief Original private event handler called when the canvas is clicked by

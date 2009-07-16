@@ -31,7 +31,7 @@
 #include "wx/wxsf/CommonFcn.h"
 #include "wx/wxsf/ControlShape.h"
 
-#ifdef __WXGTK__
+#ifndef __WXMSW__
 
 /* Copyright (c) Julian Smart */
 static const char * page_xpm[] = {
@@ -563,16 +563,6 @@ void wxSFShapeCanvas::_OnEraseBackground(wxEraseEvent& event)
 	// do nothing to suppress window flickering
 	
 	wxUnusedVar( event );
-}
-
-void wxSFShapeCanvas::_OnResize(wxSizeEvent &event)
-{
-	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
-	{
-		Refresh(false);
-	}
-
-	event.Skip();
 }
 
 void wxSFShapeCanvas::RefreshCanvas(bool erase, wxRect rct)
@@ -1644,6 +1634,16 @@ void wxSFShapeCanvas::_OnLeaveWindow(wxMouseEvent& event)
 	event.Skip();
 }
 
+void wxSFShapeCanvas::_OnResize(wxSizeEvent &event)
+{
+	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
+	{
+		Refresh(false);
+	}
+
+	event.Skip();
+}
+
 //----------------------------------------------------------------------------------//
 // Canvas positions recalculations
 //----------------------------------------------------------------------------------//
@@ -2399,7 +2399,7 @@ void wxSFShapeCanvas::UpdateVirtualSize()
     // update virtual area of the scrolled window if neccessary
     if(!virtRct.IsEmpty())
     {
-        SetVirtualSize(int(virtRct.GetRight()*m_Settings.m_nScale), int(virtRct.GetBottom()*m_Settings.m_nScale));
+		SetVirtualSize(int(virtRct.GetRight()*m_Settings.m_nScale), int(virtRct.GetBottom()*m_Settings.m_nScale));
     }
     else
         SetVirtualSize(500, 500);
@@ -2750,12 +2750,14 @@ wxDragResult wxSFShapeCanvas::DoDragDrop(ShapeList &shapes, const wxPoint& start
 
 		wxSFShapeDataObject dataObj(m_formatShapes, shapes, m_pManager);
 
-		#ifdef __WXGTK__
-		wxDropSource dndSrc(this, wxIcon(page_xpm), wxIcon(page_xpm), wxIcon(page_xpm));
-		dndSrc.SetData(dataObj);
-		#else
-		wxDropSource dndSrc(dataObj);
-		#endif
+		#ifdef __WXGTK__ 
+		wxDropSource dndSrc(this, wxIcon(page_xpm), wxIcon(page_xpm), wxIcon(page_xpm)); 
+		dndSrc.SetData(dataObj); 
+		#elif __WXMAC__ 
+		wxDropSource dndSrc(dataObj, this, wxDROP_ICON(page), wxDROP_ICON(page), wxDROP_ICON(page)); 
+		#else 
+		wxDropSource dndSrc(dataObj); 
+		#endif 
 
 		result = dndSrc.DoDragDrop(wxDrag_AllowMove);
 		switch(result)
@@ -3041,7 +3043,7 @@ void wxSFShapeCanvas::PageSetup()
     (*g_pageSetupData) = pageSetupDialog.GetPageSetupDialogData();
 }
 
-#ifdef __WXMAC__
+/*#ifdef __WXMAC__
 void wxSFShapeCanvas::PageMargins()
 {
     (*g_pageSetupData) = *g_printData;
@@ -3052,6 +3054,26 @@ void wxSFShapeCanvas::PageMargins()
     (*g_printData) = pageMarginsDialog.GetPageSetupDialogData().GetPrintData();
     (*g_pageSetupData) = pageMarginsDialog.GetPageSetupDialogData();
 }
+#endif 
+*/
+#ifdef __WXMAC__ 
+void wxSFShapeCanvas::PageMargins() 
+{ 
+	(*g_pageSetupData) = *g_printData; 
+
+	wxWindow * win = this; 
+	while (!win->IsTopLevel())
+	{ 
+		win = win->GetParent(); 
+		if (!win) break; 
+	} 
+ 
+	wxMacPageMarginsDialog pageMarginsDialog((win)?(wxFrame*)win : NULL, g_pageSetupData); 
+	pageMarginsDialog.ShowModal(); 
+ 
+	(*g_printData) = pageMarginsDialog.GetPageSetupDialogData().GetPrintData(); 
+	(*g_pageSetupData) = pageMarginsDialog.GetPageSetupDialogData(); 
+} 
 #endif
 
 //----------------------------------------------------------------------------------//

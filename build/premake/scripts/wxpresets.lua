@@ -57,6 +57,45 @@ else
 	end
 end
 
+-- Setup the output directory options.
+--		Note: Use 'libdir' for "lib" kind only.
+if ( package.kind == "winexe" or package.kind == "exe" ) then
+	if ( target == "vs2003" or target == "vs2005" ) then
+		package.bindir = "bin/vc"
+	else
+		if( not macosx ) then
+			package.bindir = "bin/gcc"
+		else
+			package.config["Release"].bindir = "bin/gcc/" .. targetName .. ".app/Contents/MacOS"
+			package.config["Debug"].bindir = "bin/gcc/" .. targetName .. "d.app/Contents/MacOS"
+		end
+	end
+else
+	if ( windows ) then
+		if ( target == "gnu" or target == "cb-gcc" or target == "cl-gcc" ) then
+			if ( package.kind == "dll" ) then
+				package.bindir = "../lib/gcc_dll"
+			else
+				package.libdir = "../lib/gcc_lib"
+			end
+		else
+			if( options["shared"] ) then
+				package.bindir = "../lib/vc_dll"
+				package.libdir = "../lib/vc_dll"
+			else
+				package.bindir = "../lib/vc_lib"
+				package.libdir = "../lib/vc_lib"
+			end
+		end
+	else
+		if ( package.kind == "dll" ) then
+			package.bindir = "../lib/gcc_dll"
+		else
+			package.libdir = "../lib/gcc_lib"
+		end
+	end
+end
+
 -- Set the build options.
 table.insert( package.buildflags, "extra-warnings" )
 
@@ -101,52 +140,26 @@ if ( windows ) then
 	
 	-- Set the correct 'setup.h' include path.
 	if ( options["with-wx-shared"] ) then
-		if ( options["unicode"] ) then
-			if ( target == "cb-gcc" ) then
-				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_dll/mswud" )
-				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_dll/mswu" )
-			elseif ( target == "gnu" or target == "cl-gcc" ) then
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_dll/mswud" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_dll/mswu" )
-			else
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/vc_dll/mswud" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/vc_dll/mswu" )
-			end
+		if ( target == "cb-gcc" ) then
+			table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_dll/msw"..usign.."d" )
+			table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_dll/msw"..usign )
+		elseif ( target == "gnu" or target == "cl-gcc" ) then
+			table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_dll/msw"..usign.."d" )
+			table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_dll/msw"..usign )
 		else
-			if ( target == "cb-gcc" ) then
-				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_dll/mswd" )
-				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_dll/msw" )
-			elseif ( target == "gnu" or target == "cl-gcc") then
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_dll/mswd" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_dll/msw" )
-			else
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/vc_dll/mswd" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/vc_dll/msw" )
-			end
+			table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/vc_dll/msw"..usign.."d" )
+			table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/vc_dll/msw"..usign )
 		end
 	else
-		if ( options["unicode"] ) then
-			if ( target == "cb-gcc" ) then
-				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_lib/mswud" )
-				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_lib/mswu" )
-			elseif ( target == "gnu" or target == "cl-gcc") then
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_lib/mswud" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_lib/mswu" )
-			else
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/vc_lib/mswud" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/vc_lib/mswu" )
-			end
+		if ( target == "cb-gcc" ) then
+			table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_lib/msw"..usign.."d" )
+			table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_lib/msw"..usign )
+		elseif ( target == "gnu" or target == "cl-gcc") then
+			table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_lib/msw"..usign.."d" )
+			table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_lib/msw"..usign )
 		else
-			if ( target == "cb-gcc" ) then
-				table.insert( package.config["Debug"].includepaths, "$(#WX.lib)/gcc_lib/mswd" )
-				table.insert( package.config["Release"].includepaths, "$(#WX.lib)/gcc_lib/msw" )
-			elseif ( target == "gnu" or target == "cl-gcc") then
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/gcc_lib/mswd" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/gcc_lib/msw" )
-			else
-				table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/vc_lib/mswd" )
-				table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/vc_lib/msw" )
-			end
+			table.insert( package.config["Debug"].includepaths, "$(WXWIN)/lib/vc_lib/msw"..usign.."d" )
+			table.insert( package.config["Release"].includepaths, "$(WXWIN)/lib/vc_lib/msw"..usign )
 		end
 	end
 	
@@ -170,22 +183,12 @@ if ( windows ) then
 	end
 	
 	-- Set wxWidgets libraries to link.
-	if ( options["unicode"] ) then
-		table.insert( package.config["Release"].links, "wxmsw"..wx_release.."u" )
-		table.insert( package.config["Debug"].links, "wxmsw"..wx_release.."ud" )
-	else
-		table.insert( package.config["Release"].links, "wxmsw"..wx_release )
-		table.insert( package.config["Debug"].links, "wxmsw"..wx_release.."d" )
-	end
+	table.insert( package.config["Release"].links, "wxmsw"..wx_release..usign )
+	table.insert( package.config["Debug"].links, "wxmsw"..wx_release..usign.."d" )
 
 	if ( not options["with-wx-shared"] ) then
-		if ( options["unicode"] ) then
-			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexud" } )
-			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregexu" } )
-		else
-			table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregexd" } )
-			table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregex" } )
-		end
+		table.insert( package.config["Debug"].links, { "wxexpatd", "wxjpegd", "wxpngd", "wxtiffd", "wxregex"..usign.."d" } )
+		table.insert( package.config["Release"].links, { "wxexpat", "wxjpeg", "wxpng", "wxtiff", "wxregex"..usign } )
 
 		if ( target == "cb-gcc" or target == "gnu" or target == "cl-gcc" ) then
 			table.insert( package.config["Debug"].links, { "winmm", "rpcrt4", "kernel32", "user32", "gdi32", "winspool", "comdlg32", "advapi32", "shell32", "ole32", "oleaut32", "uuid", "comctl32", "wsock32", "odbc32" } )
@@ -195,7 +198,6 @@ if ( windows ) then
 			table.insert( package.config["Release"].links, { "rpcrt4", "comctl32" } )
 		end
 	end
-
 	
 	-- Set the Windows defines.
 	table.insert( package.defines, { "__WXMSW__", "WIN32", "_WINDOWS" } )
@@ -207,16 +209,21 @@ else
 	table.insert( package.excludes, matchrecursive( "*.rc" ) )
 	
 	-- Add buildflag for proper dll building.
-	if ( macosx ) then
+	if ( macosx and options["with-wx-shared"] and package.kind == "dll") then
 		table.insert( package.buildflags, "dylib" )
 	end
 	
+	local static_option = "--static=yes"
+	if( options["with-wx-shared"] ) then
+		static_option = "--static=no"
+	end
+	
 	-- Set wxWidgets build options.
-	table.insert( package.config["Debug"].buildoptions, "`wx-config "..debug_option.." --cflags`" )
-	table.insert( package.config["Release"].buildoptions, "`wx-config --debug=no --cflags`" )
+	table.insert( package.config["Debug"].buildoptions, "`wx-config "..debug_option.." "..static_option.." --cflags`" )
+	table.insert( package.config["Release"].buildoptions, "`wx-config --debug=no "..static_option.." --cflags`" )
 	
 	-- Set the wxWidgets link options.
-	table.insert( package.config["Debug"].linkoptions, "`wx-config "..debug_option.." --libs`" )
-	table.insert( package.config["Release"].linkoptions, "`wx-config --libs`" )
+	table.insert( package.config["Debug"].linkoptions, "`wx-config "..debug_option.." "..static_option.." --libs`" )
+	table.insert( package.config["Release"].linkoptions, "`wx-config --debug=no "..static_option.." --libs`" )
 end
 

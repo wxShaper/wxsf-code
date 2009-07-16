@@ -29,7 +29,7 @@ if ( windows ) then
 elseif ( linux ) then
 	wx_target = "wx_gtk2"
 elseif ( macosx ) then
-	wx_target = "wxmac"
+	wx_target = "wx_mac"
 end
 
 usign = ""

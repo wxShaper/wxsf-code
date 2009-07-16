@@ -149,7 +149,7 @@ bool wxSFPrintout::OnPrintPage(int page)
         {
             m_pCanvas->RemoveStyle( wxSFShapeCanvas::sfsGRADIENT_BACKGROUND );
             m_pCanvas->RemoveStyle( wxSFShapeCanvas::sfsGRID_SHOW );
-            m_pCanvas->SetCanvasColour( *wxWHITE );
+            m_pCanvas->SetCanvasColour( *wxWHITE);
         }
 
         // draw the canvas content without any scale (dc is scaled by the printing framework)

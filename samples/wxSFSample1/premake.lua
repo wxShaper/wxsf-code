@@ -49,15 +49,6 @@ package.includepaths = { "../../include", "../../src"  }
 -- Set the libraries it links to.
 package.links = { "wxSF" }
 
--- Setup the output directory options.
---		Note: Use 'libdir' for "lib" kind only.
-
-if ( target == "vs2003" or target == "vs2005" ) then
-	package.bindir = "bin/vc"
-else
-	package.bindir = "bin/gcc"
-end
-
 -- Set precompiled headers support
 package.pchheader = "wx_pch.h"
 package.pchsource = "wx_pch.cpp"

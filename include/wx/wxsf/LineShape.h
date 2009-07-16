@@ -18,7 +18,7 @@
 /*! \brief Default value of undefined ID. */
 #define sfdvLINESHAPE_UNKNOWNID -1
 /*! \brief Default value of wxSFLineShape::m_Pen data member. */
-#define sfdvLINESHAPE_PEN *wxBLACK_PEN
+#define sfdvLINESHAPE_PEN wxPen(*wxBLACK)
 /*! \brief Default value of wxSFLineShape::m_nDockPoint data member. */
 #define sfdvLINESHAPE_DOCKPOINT 0
 /*! \brief Default value of wxSFLineShape::m_nDockPoint data member (start line point). */

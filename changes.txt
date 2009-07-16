@@ -1,5 +1,7 @@
-Changes in version 1.8.1 beta (2009-07-04):
+Changes in version 1.8.1 beta (2009-07-16):
 --------------------------------------------
+- Improved compatibility with wxMAC (unfortunatelly some issues related to (probably buggy) wxScrolledWindow still remain).
+- Updated premake build files to work properly also on Mac.
 - The thumbnail control (wxSFThumbail) is refreshed now when NULL shape canvas is set.
 - Fixed possible crash after Cut/Undo/Redo/Delete operations.
 

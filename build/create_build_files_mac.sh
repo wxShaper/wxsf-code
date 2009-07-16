@@ -10,11 +10,15 @@ if ! wx-config --debug >/dev/null 2>/dev/null; then
 fi
 release=`wx-config --release`
 
-premake/premake-mac --target cb-gcc --wx-version $release $unicode $debug --with-wx-shared --shared
+# ========== CodeLite project files ==========
+#premake/premake-mac --target cl-gcc --wx-version $release $unicode $debug --with-wx-shared --shared
+premake/premake-mac --target cl-gcc --wx-version $release $unicode $debug
 echo done...
 echo 
 #
-premake/premake-mac --target gnu --wx-version $release $unicode $debug --with-wx-shared --shared
+# ========== GNU Makefile ==========
+#premake/premake-mac --target gnu --wx-version $release $unicode $debug --with-wx-shared --shared
+premake/premake-mac --target gnu --wx-version $release $unicode $debug
 echo done...
 echo 
 #

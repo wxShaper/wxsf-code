@@ -122,11 +122,11 @@ protected:
 	/**
 	 * \brief Initialize wxGraphicsContext.
 	 */
-    //void InitGC();
+    void InitGC();
 	/**
 	 * \brief Uninitialize wxGraphicsContext.
 	 */
-    //void UninitGC();
+    void UninitGC();
 
 	virtual bool DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc, int rop = wxCOPY, bool useMask = false, wxCoord xsrcMask = wxDefaultCoord, wxCoord ysrcMask = wxDefaultCoord);
 	virtual void DoCrossHair(wxCoord x, wxCoord y);

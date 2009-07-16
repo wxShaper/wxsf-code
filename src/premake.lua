@@ -53,32 +53,6 @@ end
 -- Set the include paths.
 package.includepaths = { "../include", "../src" }
 
--- Setup the output directory options.
---		Note: Use 'libdir' for "lib" kind only.
-if ( windows ) then
-	if ( target == "gnu" or target == "cb-gcc" or target == "cl-gcc" ) then
-		if ( package.kind == "dll" ) then
-			package.bindir = "../lib/gcc_dll"
-		else
-			package.libdir = "../lib/gcc_lib"
-		end
-	else
-		if( options["shared"] ) then
-			package.bindir = "../lib/vc_dll"
-			package.libdir = "../lib/vc_dll"
-		else
-			package.bindir = "../lib/vc_lib"
-			package.libdir = "../lib/vc_lib"
-		end
-	end
-else
-	if ( package.kind == "dll" ) then
-		package.bindir = "../lib/gcc_dll"
-	else
-		package.libdir = "../lib/gcc_lib"
-	end
-end
-
 -- Set precompiled headers support
 package.pchheader = "wx_pch.h"
 package.pchsource = "wx_pch.cpp"

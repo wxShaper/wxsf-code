@@ -14,8 +14,8 @@
 #include "ShapeBase.h"
 
 // default values
-#define sfdvARROW_FILL *wxWHITE_BRUSH
-#define sfdvARROW_BORDER *wxBLACK_PEN
+#define sfdvARROW_FILL wxBrush(*wxWHITE)
+#define sfdvARROW_BORDER wxPen(*wxBLACK)
 
 class WXDLLIMPEXP_SF wxSFLineShape;
 

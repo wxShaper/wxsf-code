@@ -61,7 +61,7 @@ class _ThumbFrm : public wxFrame
 	public:
 		wxBoxSizer* m_pMainSizer;
 		
-		_ThumbFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Thumbnail"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,150 ), long style = wxCAPTION|wxFRAME_FLOAT_ON_PARENT|wxFRAME_TOOL_WINDOW|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		_ThumbFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Thumbnail"), const wxPoint& pos = wxPoint( 0,0 ), const wxSize& size = wxSize( 200,150 ), long style = wxCAPTION|wxFRAME_FLOAT_ON_PARENT|wxFRAME_TOOL_WINDOW|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		~_ThumbFrm();
 	
 };

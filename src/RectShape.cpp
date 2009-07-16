@@ -180,7 +180,7 @@ void wxSFRectShape::DrawShadow(wxDC& dc)
 {
 	// HINT: overload it for custom actions...
 
-    if( m_Fill != *wxTRANSPARENT_BRUSH )
+    if( m_Fill.GetStyle() != wxTRANSPARENT )
     {
         dc.SetPen(*wxTRANSPARENT_PEN);
         dc.SetBrush(GetParentCanvas()->GetShadowFill());
