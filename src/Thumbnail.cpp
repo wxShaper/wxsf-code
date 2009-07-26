@@ -17,6 +17,7 @@
 #include <wx/dcbuffer.h>
 
 #include "wx/wxsf/Thumbnail.h"
+#include "wx/wxsf/BitmapShape.h"
 
 BEGIN_EVENT_TABLE(wxSFThumbnail, wxPanel)
 	EVT_PAINT( wxSFThumbnail::_OnPaint )
@@ -80,10 +81,26 @@ void wxSFThumbnail::DrawContent(wxDC& dc)
 	while( node )
 	{
 		pShape = wxDynamicCast( node->GetData(), wxSFShapeBase );
-			
-		if( pShape && ( (pShape->IsKindOf(CLASSINFO(wxSFLineShape)) && (m_nThumbStyle & tsSHOW_CONNECTIONS)) ||
-						(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)) && (m_nThumbStyle & tsSHOW_ELEMENTS)) ) ) pShape->Draw( dc, sfWITHOUTCHILDREN );
-				
+		
+		if( pShape )
+		{
+			if( (m_nThumbStyle & tsSHOW_CONNECTIONS) && pShape->IsKindOf(CLASSINFO(wxSFLineShape)) ) pShape->Draw( dc, sfWITHOUTCHILDREN );
+			else if( m_nThumbStyle & tsSHOW_ELEMENTS )
+			{
+				if( pShape->IsKindOf(CLASSINFO(wxSFBitmapShape)) ) 
+				{
+					dc.SetPen( wxPen( *wxBLACK, 1, wxDOT) );
+					dc.SetBrush( *wxWHITE_BRUSH );
+					
+					dc.DrawRectangle( pShape->GetBoundingBox() );
+					
+					dc.SetBrush( wxNullBrush );
+					dc.SetPen( wxNullPen );
+				}
+				else if( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) ) pShape->Draw( dc, sfWITHOUTCHILDREN );
+			}
+		}
+						
 		node = node->GetNext();
 	}
 }

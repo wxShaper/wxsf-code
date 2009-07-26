@@ -319,6 +319,7 @@ void wxSFTextShape::OnLeftHandle(wxSFShapeHandle& handle)
 	// HINT: overload it for custom actions...
 
     m_nRectSize.x -= ((double)handle.GetPosition().x - GetAbsolutePosition().x);
+	//m_nRectSize.x -= (double)handle.GetDelta().x;
 }
 
 void wxSFTextShape::OnTopHandle(wxSFShapeHandle& handle)
@@ -326,12 +327,27 @@ void wxSFTextShape::OnTopHandle(wxSFShapeHandle& handle)
 	// HINT: overload it for custom actions...
 
 	m_nRectSize.y -= ((double)handle.GetPosition().y - GetAbsolutePosition().y);
+	//m_nRectSize.y -= (double)handle.GetDelta().y;
+}
+
+void wxSFTextShape::OnBottomHandle(wxSFShapeHandle& handle)
+{
+	// HINT: overload it for custom actions...
+	
+	m_nRectSize.y = handle.GetPosition().y - GetAbsolutePosition().y;
+	
+}
+
+void wxSFTextShape::OnRightHandle(wxSFShapeHandle& handle)
+{
+	// HINT: overload it for custom actions...
+	
+	m_nRectSize.x =handle.GetPosition().x - GetAbsolutePosition().x;
 }
 
 //----------------------------------------------------------------------------------//
 // protected functions
 //----------------------------------------------------------------------------------//
-
 void wxSFTextShape::DrawTextContent(wxDC& dc)
 {
 	wxString line;
