@@ -86,6 +86,8 @@ void wxSFContentCtrl::OnKeyDown(wxKeyEvent& event)
 
 void wxSFContentCtrl::Quit(bool apply)
 {
+	Hide();
+	
 	if(m_pParentShape)
 	{
 		m_pParentShape->m_pTextCtrl = NULL;
