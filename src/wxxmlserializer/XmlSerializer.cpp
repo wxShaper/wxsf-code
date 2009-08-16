@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.2.0 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.2.1 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -281,6 +281,15 @@ void xsSerializable::AddProperty(xsProperty* property)
             m_lstProperties.Append(property);
         }
     }
+}
+
+void xsSerializable::RemoveProperty(xsProperty* property)
+{
+	if( property )
+	{
+		m_lstProperties.DeleteObject( property );
+		delete property;
+	}
 }
 
 xsProperty* xsSerializable::GetProperty(const wxString& field)

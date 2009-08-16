@@ -332,6 +332,12 @@ public:
      * \sa xsProperty
      */
     void AddProperty(xsProperty* property);
+	/**
+	 * \brief Remove given property from the property list.
+	 * \param property Pointer to existing property.
+	 * \sa xsProperty, GetProperty()
+	 */
+	void RemoveProperty(xsProperty *property);
     /*!
      * \brief Get serialized property of given name.
      * \return Pointer to the property object if exists, otherwise NULL

@@ -1,5 +1,8 @@
-Changes in version 1.8.1 beta (2009-07-16):
+Changes in version 1.8.1 beta (2009-08-16):
 --------------------------------------------
+- Switched to use wxXmlSerializer 1.2.1:
+  - Added function xsSerializable::RemoveProperty(xsProperty *property).
+  
 - Significantly improved compatibility with wxMAC.
 - Updated premake build files to work properly also on Mac OS.
 - The thumbnail control (wxSFThumbnail) is refreshed when NULL shape canvas is set.
