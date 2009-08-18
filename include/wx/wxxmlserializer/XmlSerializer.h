@@ -618,24 +618,28 @@ public:
      * \brief Serialize stored objects to given file.
      * \param file Full path to output file
      * \param withroot If TRUE then the root item's properties are serialized as well
+	 * \return TRUE on success, otherwise FALSE
      */
-    virtual void SerializeToXml(const wxString& file, bool withroot = false);
+    virtual bool SerializeToXml(const wxString& file, bool withroot = false);
     /*!
      * \brief Serialize stored objects to given stream.
      * \param outstream Output stream
      * \param withroot If TRUE then the root item's properties are serialized as well
+	 * \return TRUE on success, otherwise FALSE
      */
-    virtual void SerializeToXml(wxOutputStream& outstream, bool withroot = false);
+    virtual bool SerializeToXml(wxOutputStream& outstream, bool withroot = false);
     /*!
      * \brief Deserialize objects from given file.
      * \param file Full path to input file
+	 * \return TRUE on success, otherwise FALSE
      */
-    virtual void DeserializeFromXml(const wxString& file);
+    virtual bool DeserializeFromXml(const wxString& file);
     /*!
      * \brief Deserialize objects from given stream.
      * \param instream Input stream
+	 * \return TRUE on success, otherwise FALSE
      */
-    virtual void DeserializeFromXml(wxInputStream& instream);
+    virtual bool DeserializeFromXml(wxInputStream& instream);
 
     /*!
      * \brief Serialize child objects of given parent object (parent object can be optionaly

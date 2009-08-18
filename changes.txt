@@ -2,6 +2,8 @@ Changes in version 1.8.1 beta (2009-08-16):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.2.1:
   - Added function xsSerializable::RemoveProperty(xsProperty *property).
+  - Functions wxXmlSerializer::SerializeToXML() and wxXmlSerializer::DeserializeFromXml() now returns bool value informing about the
+    operation success/fail.
   
 - Significantly improved compatibility with wxMAC.
 - Updated premake build files to work properly also on Mac OS.
@@ -9,6 +11,8 @@ Changes in version 1.8.1 beta (2009-08-16):
 - More accurate size change of text shapes.
 - Fixed possible crash after Cut/Undo/Redo/Delete operations.
 - Fixed displaying of bitmap shapes in the canvas thumbnail.
+- Functions wxSFDiagramManager::SerializeToXML() and wxSFDiagramManager::DeserializeFromXml() now returns bool value informing about the
+  operation success/fail.
 
 Changes in version 1.8.0 beta (2009-06-10):
 --------------------------------------------

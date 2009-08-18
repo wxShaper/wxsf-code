@@ -286,33 +286,36 @@ void wxSFDiagramManager::Clear()
 // Serialization/deserialization functions
 //----------------------------------------------------------------------------------//
 
-void wxSFDiagramManager::SerializeToXml(const wxString& file)
+bool wxSFDiagramManager::SerializeToXml(const wxString& file)
 {
-    wxXmlSerializer::SerializeToXml(file);
+    return wxXmlSerializer::SerializeToXml(file);
 }
 
-void wxSFDiagramManager::SerializeToXml(wxOutputStream& outstream)
+bool wxSFDiagramManager::SerializeToXml(wxOutputStream& outstream)
 {
-    wxXmlSerializer::SerializeToXml(outstream);
+    return wxXmlSerializer::SerializeToXml(outstream);
 }
 
-void wxSFDiagramManager::DeserializeFromXml(const wxString& file)
+bool wxSFDiagramManager::DeserializeFromXml(const wxString& file)
 {
+	bool fSuccess = false;
+	
 	wxFileInputStream instream(file);
 	if(instream.IsOk())
 	{
         m_pShapeCanvas->ClearCanvasHistory();
 
-		DeserializeFromXml(instream);
+		fSuccess = DeserializeFromXml(instream);
 
         m_pShapeCanvas->SaveCanvasState();
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize input stream."), wxT("ShapeFramework"), wxICON_ERROR);
 
+	return fSuccess;
 }
 
-void wxSFDiagramManager::DeserializeFromXml(wxInputStream& instream)
+bool wxSFDiagramManager::DeserializeFromXml(wxInputStream& instream)
 {
 	// load an XML file
 	try
@@ -325,6 +328,7 @@ void wxSFDiagramManager::DeserializeFromXml(wxInputStream& instream)
 		{
 			// read shape objects from XML recursively
 			DeserializeObjects(NULL, root);
+			return true;
 		}
 		else
 			wxMessageBox(wxT("Unknown file format."), wxT("ShapeFramework"), wxICON_WARNING);
@@ -333,6 +337,8 @@ void wxSFDiagramManager::DeserializeFromXml(wxInputStream& instream)
 	{
 		wxMessageBox(wxT("Unable to load XML file."), wxT("ShapeFramework"), wxICON_ERROR);
 	}
+	
+	return false;
 }
 
 void wxSFDiagramManager::DeserializeObjects(xsSerializable* parent, wxXmlNode* node)

@@ -128,23 +128,27 @@ public:
     /*!
      * \brief Serialize complete shape canvas to given file
      * \param file Output file
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void SerializeToXml(const wxString& file);
+	virtual bool SerializeToXml(const wxString& file);
     /*!
      * \brief Deserialize complete shape canvas from given file
      * \param file Input file
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void DeserializeFromXml(const wxString& file);
+	virtual bool DeserializeFromXml(const wxString& file);
     /*!
      * \brief Serialize complete shape canvas to given output stream
      * \param outstream Output stream
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void SerializeToXml(wxOutputStream& outstream);
+	virtual bool SerializeToXml(wxOutputStream& outstream);
     /*!
      * \brief Deserialize complete shape canvas from given input stream
      * \param instream Input stream
+	 * \return TRUE on success, otherwise FALSE
      */
-	virtual void DeserializeFromXml(wxInputStream& instream);
+	virtual bool DeserializeFromXml(wxInputStream& instream);
 	/*!
 	 * \brief Deserialize shapes from XML and assign them to given parent.
 	 *

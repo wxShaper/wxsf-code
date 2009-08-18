@@ -640,19 +640,21 @@ void wxXmlSerializer::SetRootItem(xsSerializable* root)
 	}
 }
 
-void wxXmlSerializer::SerializeToXml(const wxString& file, bool withroot)
+bool wxXmlSerializer::SerializeToXml(const wxString& file, bool withroot)
 {
 	wxFileOutputStream outstream(file);
 
 	if(outstream.IsOk())
 	{
-		this->SerializeToXml(outstream, withroot);
+		return this->SerializeToXml(outstream, withroot);
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize output file stream."), m_sOwner, wxICON_ERROR);
+
+	return false;
 }
 
-void wxXmlSerializer::SerializeToXml(wxOutputStream& outstream, bool withroot)
+bool wxXmlSerializer::SerializeToXml(wxOutputStream& outstream, bool withroot)
 {
 	// create root node
 	wxXmlNode *root = new wxXmlNode(wxXML_ELEMENT_NODE, m_sRootName);
@@ -685,22 +687,28 @@ void wxXmlSerializer::SerializeToXml(wxOutputStream& outstream, bool withroot)
 		catch (...)
 		{
 			wxMessageBox(wxT("Unable to save XML document."), m_sOwner, wxICON_ERROR);
+			return false;
 		}
 	}
+	
+	return true;
 }
 
-void wxXmlSerializer::DeserializeFromXml(const wxString& file)
+bool wxXmlSerializer::DeserializeFromXml(const wxString& file)
 {
 	wxFileInputStream instream(file);
+	
 	if(instream.IsOk())
 	{
-		this->DeserializeFromXml(instream);
+		return this->DeserializeFromXml(instream);
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize input stream."), m_sOwner, wxICON_ERROR);
+	
+	return false;
 }
 
-void wxXmlSerializer::DeserializeFromXml(wxInputStream& instream)
+bool wxXmlSerializer::DeserializeFromXml(wxInputStream& instream)
 {
 	// load an XML file
 	try
@@ -720,9 +728,10 @@ void wxXmlSerializer::DeserializeFromXml(wxInputStream& instream)
 		    {
                 // read shape objects from XML recursively
                 this->DeserializeObjects(NULL, root);
+				return true;
 		    }
             else
-                wxMessageBox(wxT("No matching owner or file version."), m_sOwner, wxICON_WARNING);
+                wxMessageBox(wxT("No matching file owner or version."), m_sOwner, wxICON_WARNING);
 		}
 		else
 			wxMessageBox(wxT("Unknown file format."), m_sOwner, wxICON_WARNING);
@@ -731,6 +740,8 @@ void wxXmlSerializer::DeserializeFromXml(wxInputStream& instream)
 	{
 		wxMessageBox(wxT("Unable to load XML file."), m_sOwner, wxICON_ERROR);
 	}
+	
+	return false;
 }
 
 void wxXmlSerializer::SerializeObjects(xsSerializable* parent, wxXmlNode* node, bool withparent)
