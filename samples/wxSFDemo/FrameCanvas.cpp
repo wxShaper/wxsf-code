@@ -210,6 +210,9 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 				pShape->AcceptConnection(wxT("All"));
                 pShape->AcceptSrcNeighbour(wxT("All"));
                 pShape->AcceptTrgNeighbour(wxT("All"));
+				
+				// child shapes can be locked accordingly to their parent's origin if the parent is resized
+				//pShape->AddStyle( wxSFShapeBase::sfsLOCK_CHILDREN );
 			}
 		}
 		break;

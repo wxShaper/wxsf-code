@@ -208,15 +208,18 @@ void wxSFRectShape::OnLeftHandle(wxSFShapeHandle& handle)
 	double dx = (double)handle.GetDelta().x;
 
 	// update position of children
-	SerializableList::compatibility_iterator node = GetFirstChildNode();
-	while(node)
-	{
-	    pChild = (wxSFShapeBase*)node->GetData();
-	    if( pChild->GetHAlign() == halignNONE )
-	    {
-            pChild->MoveBy(-dx, 0);
-	    }
-		node = node->GetNext();
+	if( !ContainsStyle(sfsLOCK_CHILDREN) )
+	{	
+		SerializableList::compatibility_iterator node = GetFirstChildNode();
+		while(node)
+		{
+			pChild = (wxSFShapeBase*)node->GetData();
+			if( pChild->GetHAlign() == halignNONE )
+			{
+				pChild->MoveBy(-dx, 0);
+			}
+			node = node->GetNext();
+		}
 	}
 	// update position and size of the shape
 	m_nRectSize.x -= dx;
@@ -233,15 +236,18 @@ void wxSFRectShape::OnTopHandle(wxSFShapeHandle& handle)
 	double dy = (double)handle.GetDelta().y;
 
 	// update position of children
-	SerializableList::compatibility_iterator node = GetFirstChildNode();
-	while(node)
+	if( !ContainsStyle( sfsLOCK_CHILDREN ) )
 	{
-	    pChild = (wxSFShapeBase*)node->GetData();
-	    if( pChild->GetVAlign() == valignNONE )
-	    {
-            pChild->MoveBy(0, -dy);
-	    }
-		node = node->GetNext();
+		SerializableList::compatibility_iterator node = GetFirstChildNode();
+		while(node)
+		{
+			pChild = (wxSFShapeBase*)node->GetData();
+			if( pChild->GetVAlign() == valignNONE )
+			{
+				pChild->MoveBy(0, -dy);
+			}
+			node = node->GetNext();
+		}
 	}
 	// update position and size of the shape
 	m_nRectSize.y -= dy;

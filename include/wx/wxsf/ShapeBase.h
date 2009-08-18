@@ -149,6 +149,8 @@ public:
 	    sfsSHOW_HANDLES = 256,
 	    /*! \brief Show shadow under the shape */
 	    sfsSHOW_SHADOW = 512,
+		/*! \brief Lock children relative position if the parent is resized */
+		sfsLOCK_CHILDREN = 1024,
 		/*! \brief Default shape style. */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
