@@ -616,7 +616,33 @@ void wxSFDiagramManager::UpdateConnections()
         }
 
         // now check ids
-	    IDList::compatibility_iterator idnode = m_lstIDPairs.GetFirst();
+		long oldSrcId, oldTrgId;
+		long newSrcId, newTrgId;
+		IDList::compatibility_iterator idnode;
+		
+		node = m_lstLinesForUpdate.GetFirst();
+		while(node)
+        {
+			pLine = (wxSFLineShape*)node->GetData();
+			newSrcId = oldSrcId = pLine->GetSrcShapeId();
+			newTrgId = oldTrgId = pLine->GetTrgShapeId();
+			idnode = m_lstIDPairs.GetFirst();
+			while(idnode)
+            {
+				pIDPair = idnode->GetData();
+				if(pIDPair->m_nNewID != pIDPair->m_nOldID)
+				{
+					if(oldSrcId == pIDPair->m_nOldID) newSrcId = pIDPair->m_nNewID;
+					if(oldTrgId == pIDPair->m_nOldID) newTrgId = pIDPair->m_nNewID;
+				}
+				idnode = idnode->GetNext();
+			}
+			pLine->SetSrcShapeId(newSrcId);
+			pLine->SetTrgShapeId(newTrgId);
+			
+			node = node->GetNext();
+		}
+	    /*IDList::compatibility_iterator idnode = m_lstIDPairs.GetFirst();
 	    while(idnode)
 	    {
 	        pIDPair = idnode->GetData();
@@ -632,7 +658,7 @@ void wxSFDiagramManager::UpdateConnections()
                 }
 	        }
 	        idnode = idnode->GetNext();
-	    }
+	    }*/
     }
 
 	m_lstIDPairs.Clear();

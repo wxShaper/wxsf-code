@@ -1,4 +1,4 @@
-Changes in version 1.8.1 beta (2009-08-16):
+Changes in version 1.8.1 beta (2009-08-18):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.2.1:
   - Added function xsSerializable::RemoveProperty(xsProperty *property).
@@ -10,6 +10,7 @@ Changes in version 1.8.1 beta (2009-08-16):
 - Updated premake build files to work properly also on Mac OS.
 - The thumbnail control (wxSFThumbnail) is refreshed when NULL shape canvas is set.
 - More accurate size change of text shapes.
+- Fixed possible problem dealing with diagram's loading in a case where IDs' resolving leads to their circular update (patch by basique).
 - Fixed possible crash after Cut/Undo/Redo/Delete operations.
 - Fixed displaying of bitmap shapes in the canvas thumbnail.
 - Functions wxSFDiagramManager::SerializeToXML() and wxSFDiagramManager::DeserializeFromXml() now returns bool value informing about the
