@@ -444,6 +444,18 @@ public:
 	wxSFShapeBase* GetParentShape();
     /*! \brief Get pointer to the topmost parent shape */
 	wxSFShapeBase* GetGrandParentShape();
+	/**
+	 * \brief Determine whether this shape is ancestor of given child shape.
+	 * \param child Pointer to child shape.
+	 * \return TRUE if this shape is parent of given child shape, otherwise FALSE
+	 */
+	bool IsAncestor(wxSFShapeBase *child);
+	/**
+	 * \brief Determine whether this shape is successor of given parent shape.
+	 * \param parent Pointer to parent shape
+	 * \return TRUE if this shape is a child of given parent shape, otherwise FALSE
+	 */
+	bool IsSuccessor(wxSFShapeBase *parent);
 
     /*!
      * \brief Associate user data with the shape.

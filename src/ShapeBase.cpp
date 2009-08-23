@@ -535,6 +535,24 @@ wxSFShapeBase* wxSFShapeBase::GetGrandParentShape()
 	return pGrandPa;
 }
 
+bool wxSFShapeBase::IsSuccessor(wxSFShapeBase *parent)
+{
+	ShapeList lstChildren;
+	
+	if( parent ) parent->GetChildShapes( NULL, lstChildren, sfRECURSIVE );
+	
+	return ( lstChildren.IndexOf(this) != wxNOT_FOUND );
+}
+
+bool wxSFShapeBase::IsAncestor(wxSFShapeBase *child)
+{
+	ShapeList lstChildren;
+	
+	GetChildShapes( NULL, lstChildren, sfRECURSIVE );
+	
+	return ( lstChildren.IndexOf(child) != wxNOT_FOUND );	
+}
+
 void wxSFShapeBase::SetUserData(xsSerializable* data)
 {
     m_pUserData = data;

@@ -1,4 +1,4 @@
-Changes in version 1.8.1 beta (2009-08-18):
+Changes in version 1.8.1 beta (2009-08-23):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.2.1:
   - Added function xsSerializable::RemoveProperty(xsProperty *property).
@@ -7,6 +7,8 @@ Changes in version 1.8.1 beta (2009-08-18):
   
 - Significantly improved compatibility with wxMAC.
 - Added new shape style sfsLOCK_CHILDREN which prevents child shapes' relative position from change if the parent shape is resized.
+- Added function bool wxSFShapeBase::IsSuccessor(wxSFShapeBase *parent);
+- Added function bool wxSFShapeBase::IsAncestor(wxSFShapeBase *child);
 - Updated premake build files to work properly also on Mac OS.
 - The thumbnail control (wxSFThumbnail) is refreshed when NULL shape canvas is set.
 - More accurate size change of text shapes.
