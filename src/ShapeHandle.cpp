@@ -179,17 +179,6 @@ wxRect wxSFShapeHandle::GetHandleRect() const
         case hndLINESTART:
             {
                 wxSFLineShape *pLine = (wxSFLineShape*)m_pParentShape;
-                // Get all polyline segments
-/*                LineSegmentArray m_arrLineSegments;
-                pLine->GetLineSegments(m_arrLineSegments);
-
-                wxRealPoint pt;
-                if(m_nType == hndLINESTART)
-                {
-                    pt = m_arrLineSegments.Item(0).m_nSrc;
-                }
-                else
-                    pt = m_arrLineSegments.Item(m_arrLineSegments.Count()-1).m_nTrg;*/
 					
 				wxRealPoint pt;
 				if( m_nType == hndLINESTART )

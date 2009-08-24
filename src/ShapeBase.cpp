@@ -1126,11 +1126,7 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 		GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN | bbSHADOW);
 
 		// update canvas
-		if(GetShapeManager()->GetShapeCanvas())
-		{
-			const wxRect unionRect = prevBB.Union(currBB);
-			Refresh(unionRect);
-		}
+		Refresh( prevBB.Union(currBB) );
 
 		m_fFirstMove = false;
 	}
@@ -1294,10 +1290,12 @@ void wxSFShapeBase::_OnKey(int key)
 
 void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 {
-    wxSFShapeBase *pChild;
-    wxSFShapeCanvas *pCanvas = GetShapeManager()->GetShapeCanvas();
+	if( !m_pParentManager )return;
 
-    if( !m_pParentManager )return;
+    wxSFShapeBase *pChild;
+	wxRect prevBB, currBB;
+	
+	this->GetCompleteBoundingBox( prevBB );
 
     // call appropriate user-defined handler
 	this->OnHandle(handle);
@@ -1316,9 +1314,10 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
     }
     // update shape
     this->Update();
+	
+	this->GetCompleteBoundingBox( currBB );
 
-    // refresh canvas
-    if( pCanvas ) pCanvas->Refresh(false);
-
+    // refresh shape
+    Refresh( currBB.Union( prevBB ) );
 }
 

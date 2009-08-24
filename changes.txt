@@ -6,6 +6,9 @@ Changes in version 1.8.1 beta (2009-08-23):
     operation success/fail.
   
 - Significantly improved compatibility with wxMAC.
+- Improved library's performance.
+- Implemented stand-alone lines. Use wxSFLineShape::SetStandAlone(), wxSFLineShape::SetSrcPoint() and wxSFLineShape::SetTrgPoint() functions.
+  Note that lines can be still top-most shapes only (it means they cannot have a parent shape).
 - Added new shape style sfsLOCK_CHILDREN which prevents child shapes' relative position from change if the parent shape is resized.
 - Added function bool wxSFShapeBase::IsSuccessor(wxSFShapeBase *parent);
 - Added function bool wxSFShapeBase::IsAncestor(wxSFShapeBase *child);
@@ -17,6 +20,7 @@ Changes in version 1.8.1 beta (2009-08-23):
 - Fixed displaying of bitmap shapes in the canvas thumbnail.
 - Functions wxSFDiagramManager::SerializeToXML() and wxSFDiagramManager::DeserializeFromXml() now returns bool value informing about the
   operation success/fail.
+- Updated wxSFDemo sample to reflect the latest changes.
 
 Changes in version 1.8.0 beta (2009-06-10):
 --------------------------------------------

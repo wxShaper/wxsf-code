@@ -436,15 +436,20 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			{
 				pShape = (wxSFShapeBase*)node->GetData();
 				pParentShape = pShape->GetParentShape();
+				
+				pLine = wxDynamicCast( pShape, wxSFLineShape );
 
-				if ( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) )
+				if ( !pLine || pLine->IsStandAlone() )
 				{
 					if( pShape->Intersects(updRct) )
 					{
-						if( !pParentShape || (pParentShape && !pParentShape->IsKindOf(CLASSINFO(wxSFLineShape))) )
+						if( pParentShape )
 						{
-							pShape->Draw(dc, sfWITHOUTCHILDREN);
+							pLine = wxDynamicCast( pParentShape, wxSFLineShape );
+							if( !pLine || pLine->IsStandAlone() ) pShape->Draw(dc, sfWITHOUTCHILDREN);
 						}
+						else
+							pShape->Draw(dc, sfWITHOUTCHILDREN);
 					}
 				}
 				else
@@ -476,15 +481,20 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			{
 				pShape = node->GetData();
 				pParentShape = pShape->GetParentShape();
+				
+				pLine = wxDynamicCast( pShape, wxSFLineShape );
 
-				if( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) )
+				if( !pLine || pLine->IsStandAlone() )
 				{
 					if( pShape->Intersects(updRct) )
 					{
-						if( !pParentShape || (pParentShape && !pParentShape->IsKindOf(CLASSINFO(wxSFLineShape))) )
+						if( pParentShape )
 						{
-							 pShape->Draw(dc, sfWITHOUTCHILDREN);
+							pLine = wxDynamicCast( pParentShape, wxSFLineShape );
+							if( !pLine || pLine->IsStandAlone() ) pShape->Draw(dc, sfWITHOUTCHILDREN);
 						}
+						else
+							pShape->Draw(dc, sfWITHOUTCHILDREN);
 					}
 				}
 				else
@@ -509,12 +519,6 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			}
 		}
 
-/*		// draw line shape being created
-		if(m_pNewLineShape)
-		{
-			m_pNewLineShape->Draw(dc, sfWITHOUTCHILDREN);
-		}*/
-
         #if wxUSE_GRAPHICS_CONTEXT
         wxSFScaledDC::EnableGC( false );
         #endif
@@ -528,11 +532,14 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 	else
 	{
 		// draw parent shapes (children are processed by parent objects)
-		SerializableList::compatibility_iterator node = m_pManager->GetRootItem()->GetFirstChildNode();		while(node)
+		SerializableList::compatibility_iterator node = m_pManager->GetRootItem()->GetFirstChildNode();
+		while(node)
 		{
 			pShape = (wxSFShapeBase*)node->GetData();
+			
+			pLine = wxDynamicCast( pShape, wxSFLineShape );
 
-			if(!pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+			if( !pLine || pLine->IsStandAlone() )
 			{
 				pShape->Draw(dc);
 			}
@@ -544,8 +551,9 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 		node = m_pManager->GetRootItem()->GetFirstChildNode();
 		while(node)
 		{
-			pShape = (wxSFShapeBase*)node->GetData();
-			if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+			pLine = wxDynamicCast( node->GetData(), wxSFLineShape );
+		
+			if( pLine && !pLine->IsStandAlone() )
 			{
 				pShape->Draw(dc);
 			}

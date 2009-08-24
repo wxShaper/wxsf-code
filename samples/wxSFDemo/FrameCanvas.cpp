@@ -341,7 +341,28 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
                 wxSFShapeCanvas::OnLeftDown(event);
         }
         break;
+		
+	case MainFrm::modeSTANDALONELINE:
+		{
+			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFLineShape), event.GetPosition(), sfDONT_SAVE_STATE);
+			if( pShape )
+			{
+				// set the line to be stand-alone
+				((wxSFLineShape*) pShape)->SetStandAlone( true );
+			
+				((wxSFLineShape*) pShape)->SetSrcPoint( wxSFCommonFcn::Conv2RealPoint(event.GetPosition() - wxPoint( 50, 0 )) );
+				((wxSFLineShape*) pShape)->SetTrgPoint( wxSFCommonFcn::Conv2RealPoint(event.GetPosition() + wxPoint( 50, 0 )) );
+				
+				// line's ending style can be set as follows:
+				//((wxSFLineShape*) pShape)->SetSrcArrow(CLASSINFO(wxSFCircleArrow));
+				//((wxSFLineShape*) pShape)->SetTrgArrow(CLASSINFO(wxSFCircleArrow));
 
+				pShape->AcceptChild(wxT("wxSFTextShape"));
+				pShape->AcceptChild(wxT("wxSFEditTextShape"));
+			}
+		}
+		break;
+	
 	default:
 		// do default actions
 		wxSFShapeCanvas::OnLeftDown(event);

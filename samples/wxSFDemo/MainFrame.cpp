@@ -144,6 +144,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_pToolBar->AddRadioTool(IDT_LINESHP, wxT("Line"), wxBitmap(Line_xpm), wxNullBitmap, wxT("Polyline connection"));
 	m_pToolBar->AddRadioTool(IDT_CURVESHP, wxT("Curve"), wxBitmap(Curve_xpm), wxNullBitmap, wxT("Curve connection"));
 	m_pToolBar->AddRadioTool(IDT_ORTHOSHP, wxT("Ortho line"), wxBitmap(OrthoLine_xpm), wxNullBitmap, wxT("Orthogonal connection"));
+	m_pToolBar->AddRadioTool(IDT_STANDALONELINESHP, wxT("Stand alone line"), wxBitmap(StandAloneLine_xpm), wxNullBitmap, wxT("Stand alone line"));
 	m_pToolBar->AddSeparator();
 	m_pToolBar->AddTool(IDT_ALIGN_LEFT, wxT("Align left"), wxBitmap(AlignLeft_xpm), wxT("Align selected shapes to the left"));
 	m_pToolBar->AddTool(IDT_ALIGN_RIGHT, wxT("Align right"), wxBitmap(AlignRight_xpm), wxT("Align selected shapes to the right"));
@@ -297,7 +298,7 @@ void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.7 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2009"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.8 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2009"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -397,6 +398,10 @@ void MainFrm::OnTool(wxCommandEvent& event)
 
         case IDT_LINESHP:
             m_nToolMode = modeLINE;
+            break;
+			
+        case IDT_STANDALONELINESHP:
+            m_nToolMode = modeSTANDALONELINE;
             break;
 
         case IDT_RECTSHP:
@@ -499,6 +504,10 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
 
         case IDT_LINESHP:
             event.Check(m_nToolMode == modeLINE);
+            break;
+			
+        case IDT_STANDALONELINESHP:
+            event.Check(m_nToolMode == modeSTANDALONELINE);
             break;
 
         case IDT_RECTSHP:

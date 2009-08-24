@@ -27,6 +27,10 @@
 #define sfdvLINESHAPE_DOCKPOINT_END -2
 /*! \brief Default value of wxSFLineShape::m_nSrcOffset and wxSFLineShape::m_nTrgOffset data members. */
 #define sfdvLINESHAPE_OFFSET wxRealPoint(-1, -1)
+/*! \brief Default value of wxSFLineShape::m_nSrcPoint and wxSFLineShape::m_nTrgPoint data members. */
+#define sfdvLINESHAPE_DEFAULTPOINT wxRealPoint(0, 0)
+/*! \brief Default value of wxSFLineShape::m_fStandAlone data member. */
+#define sfdvLINESHAPE_STANDALONE false
 
 /*!
  * \brief Basic class encapsulating the multiline consisting of several line segments.
@@ -49,6 +53,14 @@ friend class wxSFShapeCanvas;
 	 * \param manager Pointer to parent shape manager
 	 */
 	wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
+	/**
+	 * \brief User constructor.
+	 * \param src Starting line point
+	 * \param trg Ending line point
+	 * \param path List of the line control points (can be empty)
+	 * \param manager Pointer to parent shape manager
+	 */
+	wxSFLineShape(const wxRealPoint& src, const wxRealPoint& trg, const RealPointList& path, wxSFDiagramManager* manager);
 	/*!
 	 * \brief Copy constructor.
 	 * \param obj Reference to the source object
@@ -62,33 +74,47 @@ friend class wxSFShapeCanvas;
 	 * \brief Set line source.
 	 * \param id ID of the source shape
 	 */
-	void SetSrcShapeId(long id){m_nSrcShapeId = id;}
+	inline void SetSrcShapeId(long id) {m_nSrcShapeId = id;}
 	/*!
 	 * \brief Get line source.
 	 * \return ID of the source shape
 	 */
-	long GetSrcShapeId(){return m_nSrcShapeId;}
+	inline long GetSrcShapeId() {return m_nSrcShapeId;}
     /*!
 	 * \brief Set line target.
 	 * \param id ID of the target shape
 	 */
-	void SetTrgShapeId(long id){m_nTrgShapeId = id;}
+	inline void SetTrgShapeId(long id) {m_nTrgShapeId = id;}
 	/*!
 	 * \brief Get line target.
 	 * \return  ID of the target shape
 	 */
-	long GetTrgShapeId(){return m_nTrgShapeId;}
+	inline long GetTrgShapeId() {return m_nTrgShapeId;}
+	/**
+	 * \brief Set user-defined starting line point.
+	 * \param src Starting point
+	 */
+	inline void SetSrcPoint(const wxRealPoint& src) { m_nSrcShapeId = sfdvLINESHAPE_UNKNOWNID; m_nSrcPoint = src; }
 	/*!
 	 * \brief Get first line point.
 	 * \return  First line point
 	 */	
 	wxRealPoint GetSrcPoint();
+	/**
+	 * \brief Set user-defined ending point.
+	 * \param trg Ending point
+	 */
+	inline void SetTrgPoint(const wxRealPoint& trg) { m_nTrgShapeId = sfdvLINESHAPE_UNKNOWNID; m_nTrgPoint = trg; }
 	/*!
 	 * \brief Get last line point.
 	 * \return  Last line point
 	 */	
 	wxRealPoint GetTrgPoint();
-	
+	/**
+	 * \brief Get starting and ending line points.
+	 * \param src Reference to real point value where starting line point will be stored
+	 * \param trg Reference to real point value where ending line point will be stored
+	 */
 	void GetDirectLine(wxRealPoint& src, wxRealPoint& trg);
 	/*!
 	 * \brief Set source arrow object.
@@ -110,7 +136,7 @@ friend class wxSFShapeCanvas;
 	 * \brief Get object of source arrow.
 	 * \return Pointer to the arrow object if exists, otherwise NULL
 	 */
-	wxSFArrowBase* GetSrcArrow(){return m_pSrcArrow;}
+	inline wxSFArrowBase* GetSrcArrow() {return m_pSrcArrow;}
 	/*!
 	 * \brief Set target arrow object created from its class info.
 	 * \param arrowInfo Class info of the arrow class
@@ -121,34 +147,34 @@ friend class wxSFShapeCanvas;
 	 * \brief Get object of target arrow.
 	 * \return Pointer to the arrow object if exists, otherwise NULL
 	 */
-	wxSFArrowBase* GetTrgArrow(){return m_pTrgArrow;}
+	inline wxSFArrowBase* GetTrgArrow() {return m_pTrgArrow;}
 	/*!
 	 * \brief Set line style.
 	 * \param pen Reference to wxPen object
 	 */
-	void SetLinePen(const wxPen& pen){m_Pen = pen;}
+	inline void SetLinePen(const wxPen& pen) {m_Pen = pen;}
 	/*!
 	 * \brief Get line style.
 	 * \return wxPen class
 	 */
-	wxPen GetLinePen() const {return m_Pen;}
+	inline wxPen GetLinePen() const {return m_Pen;}
 	/*!
 	 * \brief Set the line dock point. It is a zerro based index of the line
 	 * control point which will act as the shape position (value returned by GetRelativePosition() function).
 	 * \param index Zerro based index of the line control point (-1 means UNDEFINED)
 	 */
-	void SetDockPoint(int index){m_nDockPoint = index;}
+	inline void SetDockPoint(int index) {m_nDockPoint = index;}
 	/*!
 	 * \brief Get the line dock point. It is a zerro based index of the line
 	 * control point which will act as the shape position (value returned by GetRelativePosition() function).
 	 * \return Zerro based index of the line control point (-1 means UNDEFINED)
 	 */
-	int GetDockPoint(){return m_nDockPoint;}
+	inline int GetDockPoint() {return m_nDockPoint;}
 	/*!
 	 * \brief Get a list of the line's contol points (their positions).
 	 * \return List of control points' positions
 	 */
-	RealPointList& GetControlPoints() {return m_lstPoints;}
+	inline RealPointList& GetControlPoints() {return m_lstPoints;}
 	/*!
 	 * \brief Get a position of given line dock point.
 	 * \param dp Dock point
@@ -163,6 +189,15 @@ friend class wxSFShapeCanvas;
 	 * \return TRUE if a line segment of given index exists, otherwise FALSE
 	 */
 	bool GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& trg);
+	/*!
+	 * \brief Set stand-alone line mode.
+	 * \param enab TRUE for stand-alone line, otherwise FALSE
+	 */
+	inline void SetStandAlone(bool enab) { m_fStandAlone = enab; }	/*!
+	 * \brief Get stand-alone line mode.
+	 * \return TRUE, if the line is stand-alone, otherwise FALSE
+	 */
+	inline bool IsStandAlone() { return m_fStandAlone; }
 
 	// public virtual functions
     /*!
@@ -277,6 +312,10 @@ protected:
 	long m_nTrgShapeId;
 	wxSFArrowBase* m_pSrcArrow;
 	wxSFArrowBase* m_pTrgArrow;
+	
+	bool m_fStandAlone;
+	wxRealPoint m_nSrcPoint;
+	wxRealPoint m_nTrgPoint;
 
 	wxPen m_Pen;
 

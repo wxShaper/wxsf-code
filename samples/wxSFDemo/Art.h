@@ -9,6 +9,7 @@
 #include "res/Grid.xpm"
 #include "res/FlexGrid.xpm"
 #include "res/Line.xpm"
+#include "res/StandAloneLine.xpm"
 #include "res/Curve.xpm"
 #include "res/OrthoLine.xpm"
 #include "res/Ellipse.xpm"

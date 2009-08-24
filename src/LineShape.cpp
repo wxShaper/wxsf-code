@@ -31,6 +31,8 @@ wxSFLineShape::wxSFLineShape(void)
 	m_nTrgShapeId = sfdvLINESHAPE_UNKNOWNID;
 	m_pSrcArrow = NULL;
 	m_pTrgArrow = NULL;
+	m_nSrcPoint = sfdvLINESHAPE_DEFAULTPOINT;
+	m_nTrgPoint = sfdvLINESHAPE_DEFAULTPOINT;
 
 	m_nDockPoint = sfdvLINESHAPE_DOCKPOINT;
 	m_Pen = sfdvLINESHAPE_PEN;
@@ -38,6 +40,7 @@ wxSFLineShape::wxSFLineShape(void)
 	m_nSrcOffset = m_nTrgOffset = sfdvLINESHAPE_OFFSET;
 
 	m_nMode = modeREADY;
+	m_fStandAlone = sfdvLINESHAPE_STANDALONE;
 
 	MarkSerializableDataMembers();
 
@@ -54,11 +57,48 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSF
 	m_pSrcArrow = NULL;
 	m_pTrgArrow = NULL;
 
+	m_nSrcPoint = sfdvLINESHAPE_DEFAULTPOINT;
+	m_nTrgPoint = sfdvLINESHAPE_DEFAULTPOINT;
+
 	m_Pen = sfdvLINESHAPE_PEN;
 
 	m_nSrcOffset = m_nTrgOffset = sfdvLINESHAPE_OFFSET;
 
 	m_nMode = modeREADY;
+	m_fStandAlone = false;
+
+	RealPointList::compatibility_iterator node = path.GetFirst();
+	while(node)
+	{
+		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
+		node = node->GetNext();
+	}
+
+	MarkSerializableDataMembers();
+
+	m_lstPoints.DeleteContents(true);
+}
+
+wxSFLineShape::wxSFLineShape(const wxRealPoint& src, const wxRealPoint& trg, const RealPointList& path, wxSFDiagramManager* manager)
+: wxSFShapeBase(wxRealPoint(0, 0), manager)
+{
+	m_nSrcShapeId = sfdvLINESHAPE_UNKNOWNID;
+	m_nTrgShapeId = sfdvLINESHAPE_UNKNOWNID;
+	
+	m_nDockPoint = sfdvLINESHAPE_DOCKPOINT;
+
+	m_pSrcArrow = NULL;
+	m_pTrgArrow = NULL;
+
+	m_nSrcPoint = src;
+	m_nTrgPoint = trg;
+
+	m_Pen = sfdvLINESHAPE_PEN;
+
+	m_nSrcOffset = m_nTrgOffset = sfdvLINESHAPE_OFFSET;
+
+	m_nMode = modeREADY;
+	m_fStandAlone = true;
 
 	RealPointList::compatibility_iterator node = path.GetFirst();
 	while(node)
@@ -77,10 +117,14 @@ wxSFLineShape::wxSFLineShape(const wxSFLineShape& obj)
 {
 	m_nSrcShapeId = obj.m_nSrcShapeId;
 	m_nTrgShapeId = obj.m_nTrgShapeId;
+	
 	m_nDockPoint = obj.m_nDockPoint;
 
 	m_nSrcOffset = obj.m_nSrcOffset;
 	m_nTrgOffset = obj.m_nTrgOffset;
+	
+	m_nSrcPoint = obj.m_nSrcPoint;
+	m_nTrgPoint = obj.m_nTrgPoint;
 
 	if(obj.m_pSrcArrow)
 	{
@@ -99,6 +143,7 @@ wxSFLineShape::wxSFLineShape(const wxSFLineShape& obj)
 	m_Pen = obj.m_Pen;
 
 	m_nMode = obj.m_nMode;
+	m_fStandAlone = obj.m_fStandAlone;
 
 	RealPointList::compatibility_iterator node = obj.m_lstPoints.GetFirst();
 	while(node)
@@ -124,6 +169,9 @@ void wxSFLineShape::MarkSerializableDataMembers()
 {
 	XS_SERIALIZE_EX(m_nSrcShapeId, wxT("source"), sfdvLINESHAPE_UNKNOWNID);
 	XS_SERIALIZE_EX(m_nTrgShapeId, wxT("target"), sfdvLINESHAPE_UNKNOWNID);
+	XS_SERIALIZE_EX(m_nSrcPoint, wxT("source_point"), sfdvLINESHAPE_DEFAULTPOINT);
+	XS_SERIALIZE_EX(m_nTrgPoint, wxT("target_point"), sfdvLINESHAPE_DEFAULTPOINT);
+	XS_SERIALIZE_EX(m_fStandAlone, wxT("standalone"), sfdvLINESHAPE_STANDALONE);
 	XS_SERIALIZE_DYNAMIC_OBJECT(m_pSrcArrow, wxT("source_arrow"));
 	XS_SERIALIZE_DYNAMIC_OBJECT(m_pTrgArrow, wxT("target_arrow"));
 	XS_SERIALIZE_EX(m_nSrcOffset, wxT("source_offset"), sfdvLINESHAPE_OFFSET);
@@ -175,107 +223,127 @@ wxSFArrowBase* wxSFLineShape::SetTrgArrow(wxClassInfo* arrowInfo)
 
 wxRealPoint wxSFLineShape::GetSrcPoint()
 {
-	wxRealPoint pt1, pt2;
-	
-	wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-	
-	if( pSrcShape && !m_lstPoints.IsEmpty() )
+	if( m_fStandAlone )
 	{
-		RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
-		if( node )
-		{	
-			pt1 = *node->GetData();
-			return pSrcShape->GetBorderPoint(GetModSrcPoint(), pt1);
-		}
+		return m_nSrcPoint;
 	}
 	else
 	{
-		if( m_nMode != modeUNDERCONSTRUCTION )
-			GetDirectLine( pt1, pt2 );
+		wxRealPoint pt1, pt2;
+		wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
+		
+		if( pSrcShape && !m_lstPoints.IsEmpty() )
+		{
+			RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
+			if( node )
+			{	
+				pt1 = *node->GetData();
+				return pSrcShape->GetBorderPoint(GetModSrcPoint(), pt1);
+			}
+		}
 		else
-			pt1 = GetModSrcPoint();
-		 
-		return pt1;
-	}
+		{
+			if( m_nMode != modeUNDERCONSTRUCTION )
+				GetDirectLine( pt1, pt2 );
+			else
+				pt1 = GetModSrcPoint();
+			 
+			return pt1;
+		}
 
-	return wxRealPoint();
+		return wxRealPoint();
+	}
 }
 
 wxRealPoint wxSFLineShape::GetTrgPoint()
 {
-	wxRealPoint pt1, pt2;
-	
-	wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
-	
-	if( pTrgShape && !m_lstPoints.IsEmpty() )
+	if( m_fStandAlone )
 	{
-		RealPointList::compatibility_iterator node = m_lstPoints.GetLast();
-		if( node )
-		{	
-			pt2 = *node->GetData();
-			return pTrgShape->GetBorderPoint(GetModTrgPoint(), pt2);
-		}
+		return m_nTrgPoint;
 	}
 	else
 	{
-		if( m_nMode != modeUNDERCONSTRUCTION )
-			GetDirectLine( pt1, pt2 );
+		wxRealPoint pt1, pt2;
+		wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
+		
+		if( pTrgShape && !m_lstPoints.IsEmpty() )
+		{
+			RealPointList::compatibility_iterator node = m_lstPoints.GetLast();
+			if( node )
+			{	
+				pt2 = *node->GetData();
+				return pTrgShape->GetBorderPoint(GetModTrgPoint(), pt2);
+			}
+		}
 		else
-			pt2 = Conv2RealPoint( m_nUnfinishedPoint );
-			
-		return pt2;
-	}
+		{
+			if( m_nMode != modeUNDERCONSTRUCTION )
+				GetDirectLine( pt1, pt2 );
+			else
+				pt2 = Conv2RealPoint( m_nUnfinishedPoint );
+				
+			return pt2;
+		}
 
-	return wxRealPoint();
+		return wxRealPoint();
+	}
 }
 
 void wxSFLineShape::GetDirectLine(wxRealPoint& src, wxRealPoint& trg)
 {
-	wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-	wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
-
-	if(pSrcShape && pTrgShape)
+	if( m_fStandAlone )
 	{
-		wxRealPoint trgCenter = GetModTrgPoint();
-		wxRealPoint srcCenter = GetModSrcPoint();
+		src = m_nSrcPoint;
+		trg = m_nTrgPoint;
+	}
+	else
+	{
+		wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
+		wxSFShapeBase* pTrgShape = GetShapeManager()->FindShape(m_nTrgShapeId);
 
-		if( (pSrcShape->GetParent() == pTrgShape) || (pTrgShape->GetParent() == pSrcShape) )
+		if(pSrcShape && pTrgShape)
 		{
-			wxRect trgBB = pTrgShape->GetBoundingBox();
-			wxRect srcBB = pSrcShape->GetBoundingBox();
+			wxRealPoint trgCenter = GetModTrgPoint();
+			wxRealPoint srcCenter = GetModSrcPoint();
 
-			if( trgBB.Contains((int)srcCenter.x, (int)srcCenter.y) )
+			if( (pSrcShape->GetParent() == pTrgShape) || (pTrgShape->GetParent() == pSrcShape) )
 			{
-				if( srcCenter.y > trgCenter.y )
+				wxRect trgBB = pTrgShape->GetBoundingBox();
+				wxRect srcBB = pSrcShape->GetBoundingBox();
+
+				if( trgBB.Contains((int)srcCenter.x, (int)srcCenter.y) )
 				{
-					src = wxRealPoint(srcCenter.x, srcBB.GetBottom());
-					trg = wxRealPoint(srcCenter.x, trgBB.GetBottom());
+					if( srcCenter.y > trgCenter.y )
+					{
+						src = wxRealPoint(srcCenter.x, srcBB.GetBottom());
+						trg = wxRealPoint(srcCenter.x, trgBB.GetBottom());
+					}
+					else
+					{
+						src = wxRealPoint(srcCenter.x, srcBB.GetTop());
+						trg = wxRealPoint(srcCenter.x, trgBB.GetTop());
+					}
+					return;
 				}
-				else
+				else if( srcBB.Contains((int)trgCenter.x, (int)trgCenter.y) )
 				{
-					src = wxRealPoint(srcCenter.x, srcBB.GetTop());
-					trg = wxRealPoint(srcCenter.x, trgBB.GetTop());
+					if( trgCenter.y > srcCenter.y )
+					{
+						src = wxRealPoint(trgCenter.x, srcBB.GetBottom());
+						trg = wxRealPoint(trgCenter.x, trgBB.GetBottom());
+					}
+					else
+					{
+						src = wxRealPoint(trgCenter.x, srcBB.GetTop());
+						trg = wxRealPoint(trgCenter.x, trgBB.GetTop());
+					}
+					return;
 				}
-				return;
 			}
-			else if( srcBB.Contains((int)trgCenter.x, (int)trgCenter.y) )
-			{
-				if( trgCenter.y > srcCenter.y )
-				{
-					src = wxRealPoint(trgCenter.x, srcBB.GetBottom());
-					trg = wxRealPoint(trgCenter.x, trgBB.GetBottom());
-				}
-				else
-				{
-					src = wxRealPoint(trgCenter.x, srcBB.GetTop());
-					trg = wxRealPoint(trgCenter.x, trgBB.GetTop());
-				}
-				return;
-			}
+			src = pSrcShape->GetBorderPoint(srcCenter, trgCenter);
+			trg = pTrgShape->GetBorderPoint(trgCenter, srcCenter);
 		}
-		src = pSrcShape->GetBorderPoint(srcCenter, trgCenter);
-		trg = pTrgShape->GetBorderPoint(trgCenter, srcCenter);
-	}	
+	}
 }
 
 //----------------------------------------------------------------------------------//
@@ -328,28 +396,22 @@ wxRect wxSFLineShape::GetBoundingBox()
 		wxRealPoint pt;
 		
         // include starting point
-        if(m_nSrcShapeId != -1)
-        {
- 			pt = GetSrcPoint();
-            if(!lineRct.IsEmpty())
-            {
-                lineRct.Union(wxRect((int)pt.x, (int)pt.y, 1, 1));
-            }
-            else
-                lineRct = wxRect((int)pt.x, (int)pt.y, 1, 1);
-        }
+		pt = GetSrcPoint();
+		if(!lineRct.IsEmpty())
+		{
+			lineRct.Union(wxRect((int)pt.x, (int)pt.y, 1, 1));
+		}
+		else
+			lineRct = wxRect((int)pt.x, (int)pt.y, 1, 1);
 
         // include ending point
-        if(m_nTrgShapeId != -1)
-        {
-			pt = GetTrgPoint();
-            if(!lineRct.IsEmpty())
-            {
-                lineRct.Union(wxRect((int)pt.x, (int)pt.y, 1, 1));
-            }
-            else
-                lineRct = wxRect((int)pt.x, (int)pt.y, 1, 1);
-        }
+		pt = GetTrgPoint();
+		if(!lineRct.IsEmpty())
+		{
+			lineRct.Union(wxRect((int)pt.x, (int)pt.y, 1, 1));
+		}
+		else
+			lineRct = wxRect((int)pt.x, (int)pt.y, 1, 1);
     }
 
     // include unfinished point if the line is under construction
@@ -483,6 +545,12 @@ void wxSFLineShape::MoveBy(double x, double y)
 		node = node->GetNext();
 	}
 	
+	if( m_fStandAlone )
+	{
+		m_nSrcPoint = m_nSrcPoint + wxRealPoint(x, y);
+		m_nTrgPoint = m_nTrgPoint + wxRealPoint(x, y);
+	}
+	
 	if( !m_lstChildItems.IsEmpty() ) Update();
 }
 
@@ -516,9 +584,16 @@ void wxSFLineShape::OnHandle(wxSFShapeHandle& handle)
         break;
 
     case wxSFShapeHandle::hndLINEEND:
+		{
+			m_nUnfinishedPoint = handle.GetPosition();
+			if( m_fStandAlone )	m_nTrgPoint = Conv2RealPoint( handle.GetPosition() );
+		}
+		break;
+		
     case wxSFShapeHandle::hndLINESTART:
         {
-            m_nUnfinishedPoint = handle.GetPosition();
+			m_nUnfinishedPoint = handle.GetPosition();
+			if( m_fStandAlone )	m_nSrcPoint = Conv2RealPoint( handle.GetPosition() );
         }
         break;
 
@@ -529,7 +604,7 @@ void wxSFLineShape::OnHandle(wxSFShapeHandle& handle)
 
 void wxSFLineShape::OnEndHandle(wxSFShapeHandle& handle)
 {
-    // update percentual offset of the line's ending points
+	// update percentual offset of the line's ending points
 
     wxSFShapeBase *pParent = GetParentCanvas()->GetShapeUnderCursor();
 
@@ -540,7 +615,7 @@ void wxSFLineShape::OnEndHandle(wxSFShapeHandle& handle)
         switch( handle.GetType() )
         {
             case wxSFShapeHandle::hndLINESTART:
-                if( pParent->GetId() == m_nSrcShapeId )
+                if( !m_fStandAlone && ( pParent->GetId() == m_nSrcShapeId ) )
                 {
                     m_nSrcOffset.x = double(handle.GetPosition().x - bbRect.GetLeft()) / bbRect.GetWidth();
                     m_nSrcOffset.y = double(handle.GetPosition().y - bbRect.GetTop()) / bbRect.GetHeight();
@@ -548,7 +623,7 @@ void wxSFLineShape::OnEndHandle(wxSFShapeHandle& handle)
                 break;
 
             case wxSFShapeHandle::hndLINEEND:
-                if( pParent->GetId() == m_nTrgShapeId )
+                if( !m_fStandAlone && ( pParent->GetId() == m_nTrgShapeId ) )
                 {
                     m_nTrgOffset.x = double(handle.GetPosition().x - bbRect.GetLeft()) / bbRect.GetWidth();
                     m_nTrgOffset.y = double(handle.GetPosition().y - bbRect.GetTop()) / bbRect.GetHeight();
@@ -686,7 +761,7 @@ void wxSFLineShape::DrawCompleteLine(wxDC& dc)
             // draw linesegment being updated
 			GetLineSegment( 0, src, trg );
 			
-            dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
+            if( !m_fStandAlone ) dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
             dc.DrawLine(m_nUnfinishedPoint, Conv2Point(trg));
             dc.SetPen(wxNullPen);
         }
@@ -707,7 +782,7 @@ void wxSFLineShape::DrawCompleteLine(wxDC& dc)
 				trg = GetSrcPoint();
 			
             // draw linesegment being updated
-            dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
+            if( !m_fStandAlone ) dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
             dc.DrawLine( Conv2Point(trg), m_nUnfinishedPoint);
             dc.SetPen(wxNullPen);
         }

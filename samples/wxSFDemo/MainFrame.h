@@ -41,7 +41,8 @@ public:
 		modeCURVE,
 		modeORTHOLINE,
 		modeGRID,
-		modeFLEXGRID
+		modeFLEXGRID,
+		modeSTANDALONELINE
 	};
 
     MainFrm(wxWindow* parent );
