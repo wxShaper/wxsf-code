@@ -94,7 +94,7 @@ friend class wxSFShapeCanvas;
 	 * \brief Set user-defined starting line point.
 	 * \param src Starting point
 	 */
-	inline void SetSrcPoint(const wxRealPoint& src) { m_nSrcShapeId = sfdvLINESHAPE_UNKNOWNID; m_nSrcPoint = src; }
+	inline void SetSrcPoint(const wxRealPoint& src) {m_nSrcPoint = src;}
 	/*!
 	 * \brief Get first line point.
 	 * \return  First line point
@@ -104,7 +104,7 @@ friend class wxSFShapeCanvas;
 	 * \brief Set user-defined ending point.
 	 * \param trg Ending point
 	 */
-	inline void SetTrgPoint(const wxRealPoint& trg) { m_nTrgShapeId = sfdvLINESHAPE_UNKNOWNID; m_nTrgPoint = trg; }
+	inline void SetTrgPoint(const wxRealPoint& trg) {m_nTrgPoint = trg;}
 	/*!
 	 * \brief Get last line point.
 	 * \return  Last line point
