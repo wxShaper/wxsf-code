@@ -1295,7 +1295,12 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
     wxSFShapeBase *pChild;
 	wxRect prevBB, currBB;
 	
-	this->GetCompleteBoundingBox( prevBB );
+	if( m_pParentItem )
+	{
+		GetGrandParentShape()->GetCompleteBoundingBox( prevBB );
+	}
+	else
+		this->GetCompleteBoundingBox( prevBB );
 
     // call appropriate user-defined handler
 	this->OnHandle(handle);
@@ -1315,7 +1320,12 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
     // update shape
     this->Update();
 	
-	this->GetCompleteBoundingBox( currBB );
+	if( m_pParentItem )
+	{
+		GetGrandParentShape()->GetCompleteBoundingBox( currBB );
+	}
+	else
+		this->GetCompleteBoundingBox( currBB );
 
     // refresh shape
     Refresh( currBB.Union( prevBB ) );
