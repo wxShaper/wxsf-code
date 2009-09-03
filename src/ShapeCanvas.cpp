@@ -555,7 +555,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 		
 			if( pLine && !pLine->IsStandAlone() )
 			{
-				pShape->Draw(dc);
+				pLine->Draw(dc);
 			}
 			node = node->GetNext();
 		}
