@@ -18,6 +18,7 @@ Changes in version 1.8.1 beta (2009-08-23):
 - Fixed possible problem dealing with diagram's loading in a case where IDs' resolving leads to their circular update (patch by basique).
 - Fixed possible crash after Cut/Undo/Redo/Delete operations.
 - Fixed displaying of bitmap shapes in the canvas thumbnail.
+- Fixed addition of new shapes to the canvas if canvas i scrolled (in some cases the new shapes were assigned as a children to inproper parents).
 - Functions wxSFDiagramManager::SerializeToXML() and wxSFDiagramManager::DeserializeFromXml() now returns bool value informing about the
   operation success/fail.
 - Updated wxSFDemo sample to reflect the latest changes.

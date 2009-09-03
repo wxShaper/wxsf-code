@@ -86,8 +86,14 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
         wxSFShapeBase *pShape = (wxSFShapeBase*)shapeInfo->CreateObject();
 
         wxSFShapeBase *pParentShape = NULL;
+		// update given possition
+		wxPoint lpos = pos;
+		if( m_pShapeCanvas )
+		{
+			lpos = m_pShapeCanvas->FitPositionToGrid( m_pShapeCanvas->DP2LP(pos) );
+		}
 		// line shapes can be assigned to root only
-		if( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) ) pParentShape = GetShapeAtPosition( pos );
+		if( !pShape->IsKindOf(CLASSINFO(wxSFLineShape)) ) pParentShape = GetShapeAtPosition(lpos);
 		
         if( pParentShape && pParentShape->IsChildAccepted(shapeInfo->GetClassName()) )
         {
