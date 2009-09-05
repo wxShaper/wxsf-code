@@ -90,31 +90,23 @@ xsSerializable* xsSerializable::AddChild(xsSerializable* child)
 
     if( child )
     {
-        child->m_pParentItem = this;
-
-        if( m_pParentManager )
-        {
-			// assign unique ids to the child object
-			if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
-			
-			if( child->m_pParentManager != m_pParentManager )
-			{
-				child->m_pParentManager = m_pParentManager;
-				
-				// if the child has another children, set their parent manager and ID as well
-				SerializableList lstChildren;
-				child->GetChildrenRecursively( NULL, lstChildren );
-				
-				SerializableList::compatibility_iterator node = lstChildren.GetFirst();
-				while( node )
-				{
-					node->GetData()->SetParentManager( m_pParentManager );
-					node = node->GetNext();
-				}
-			}
-        }
+		InitChild( child );
 		
         m_lstChildItems.Append(child);
+    }
+
+    return child;
+}
+
+xsSerializable* xsSerializable::InsertChild(size_t pos, xsSerializable* child)
+{
+    wxASSERT(child);
+
+    if( child )
+    {
+		InitChild( child );
+		
+        m_lstChildItems.Insert(pos, child);
     }
 
     return child;
@@ -410,6 +402,36 @@ void xsSerializable::Deserialize(wxXmlNode* node)
 	    }
 
 	    xmlNode = xmlNode->GetNext();
+	}
+}
+
+void xsSerializable::InitChild(xsSerializable* child)
+{
+	if( child )
+	{
+        child->m_pParentItem = this;
+
+        if( m_pParentManager )
+        {
+			// assign unique ids to the child object
+			if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
+			
+			if( child->m_pParentManager != m_pParentManager )
+			{
+				child->m_pParentManager = m_pParentManager;
+				
+				// if the child has another children, set their parent manager and ID as well
+				SerializableList lstChildren;
+				child->GetChildrenRecursively( NULL, lstChildren );
+				
+				SerializableList::compatibility_iterator node = lstChildren.GetFirst();
+				while( node )
+				{
+					node->GetData()->SetParentManager( m_pParentManager );
+					node = node->GetNext();
+				}
+			}
+        }
 	}
 }
 

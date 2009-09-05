@@ -294,6 +294,13 @@ public:
      */
     xsSerializable* AddChild(xsSerializable* child);
     /*!
+     * \brief Insert serializable child object to this object at given position.
+	 * \param pos Zero-based position
+     * \param child Pointer to added child object (must NOT be NULL)
+     * \return Pointer to to the added child object
+     */
+    xsSerializable* InsertChild(size_t pos, xsSerializable* child);
+    /*!
      * \brief Assign this object as a child to given parent object.
      * \param parent Pointer to new parent object (must NOT be NULL)
      */
@@ -407,6 +414,12 @@ protected:
 	/*! \brief Object cloning flag */
 	bool m_fClone;
 
+	/**
+	 * \brief Initialize new child object.
+	 * \param child Pointer to new child object
+	 */
+	void InitChild(xsSerializable *child);
+	
     // protected virtual functions
     /*!
      * \brief Serialize stored properties to the given XML node. The serialization
