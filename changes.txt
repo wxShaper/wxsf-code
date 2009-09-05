@@ -11,7 +11,7 @@ Changes in version 1.8.1 beta (2009-08-23):
 - Implemented stand-alone lines. Use wxSFLineShape::SetStandAlone(), wxSFLineShape::SetSrcPoint() and wxSFLineShape::SetTrgPoint() functions.
   Note that lines can be still top-most shapes only (it means they cannot have a parent shape).
 - Added new shape style sfsLOCK_CHILDREN which prevents child shapes' relative position from change if the parent shape is resized.
-- Added function bool wxSFShapeBase::IsSuccessor(wxSFShapeBase *parent);
+- Added function bool wxSFShapeBase::IsDescendant(wxSFShapeBase *parent);
 - Added function bool wxSFShapeBase::IsAncestor(wxSFShapeBase *child);
 - Updated premake build files to work properly also on Mac OS.
 - The thumbnail control (wxSFThumbnail) is refreshed when NULL shape canvas is set.

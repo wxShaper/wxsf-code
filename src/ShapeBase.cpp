@@ -535,7 +535,7 @@ wxSFShapeBase* wxSFShapeBase::GetGrandParentShape()
 	return pGrandPa;
 }
 
-bool wxSFShapeBase::IsSuccessor(wxSFShapeBase *parent)
+bool wxSFShapeBase::IsDescendant(wxSFShapeBase *parent)
 {
 	ShapeList lstChildren;
 	

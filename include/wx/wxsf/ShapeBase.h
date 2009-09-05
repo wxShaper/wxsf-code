@@ -451,11 +451,11 @@ public:
 	 */
 	bool IsAncestor(wxSFShapeBase *child);
 	/**
-	 * \brief Determine whether this shape is successor of given parent shape.
+	 * \brief Determine whether this shape is descendant of given parent shape.
 	 * \param parent Pointer to parent shape
 	 * \return TRUE if this shape is a child of given parent shape, otherwise FALSE
 	 */
-	bool IsSuccessor(wxSFShapeBase *parent);
+	bool IsDescendant(wxSFShapeBase *parent);
 
     /*!
      * \brief Associate user data with the shape.
