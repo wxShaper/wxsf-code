@@ -763,6 +763,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                     else */
 					if((m_pNewLineShape->GetTrgShapeId() == -1) &&
                             (pShapeUnder != m_pNewLineShape) &&
+                            (pShapeUnder->GetId() != -1) &&
                             (pShapeUnder->IsConnectionAccepted(m_pNewLineShape->GetClassInfo()->GetClassName())))
                     {
                         // find out whether the target shape can be connected to the source shape
@@ -1871,7 +1872,7 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
     if((m_nWorkingMode == modeREADY) && shapeInfo->IsKindOf(CLASSINFO(wxSFLineShape)))
     {
         wxSFShapeBase* pShapeUnder = GetShapeAtPosition(lpos);
-		if( pShapeUnder && pShapeUnder->IsConnectionAccepted(shapeInfo->GetClassName()) )
+		if( pShapeUnder && (pShapeUnder->GetId() != -1) && pShapeUnder->IsConnectionAccepted(shapeInfo->GetClassName()) )
 		{
 			m_pNewLineShape = (wxSFLineShape*)m_pManager->AddShape(shapeInfo, sfDONT_SAVE_STATE);
 			if(m_pNewLineShape)
