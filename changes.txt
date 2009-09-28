@@ -1,8 +1,10 @@
-Changes in version 1.8.1 beta (2009-08-23):
+Changes in version 1.8.1 beta (2009-09-28):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.2.1:
   - Added function xsSerializable::RemoveProperty(xsProperty *property).
   - Added function xsSerializable::InsertChild(size_t pos, xsSerializable *child).
+  - Added function bool wxXmlSerializer::Contains(wxClassInfo *type) which returns TRUE if object of given type is included
+    in the serializer.
   - Functions wxXmlSerializer::SerializeToXML() and wxXmlSerializer::DeserializeFromXml() now returns bool value informing about the
     operation success/fail.
   

@@ -567,6 +567,15 @@ bool wxXmlSerializer::Contains(xsSerializable *object) const
     return false;
 }
 
+bool wxXmlSerializer::Contains(wxClassInfo *type)
+{
+	SerializableList lstItems;
+		
+	GetItems( type, lstItems );
+		
+	return !lstItems.IsEmpty();
+}
+
 void wxXmlSerializer::GetItems(wxClassInfo* type, SerializableList& list, xsSerializable::SEARCHMODE mode)
 {
     if( m_pRoot )

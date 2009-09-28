@@ -574,6 +574,12 @@ public:
      * \return True if the object is included in the serializer, otherwise False
      */
     bool Contains(xsSerializable *object) const;
+    /*!
+     * \brief Check whether any object of given type is included in the serializer.
+     * \param type Pointer to class info
+     * \return True if at least one object of given type is included in the serializer, otherwise False
+     */	
+    bool Contains(wxClassInfo *type);
 
     /*!
      * \brief Set root item.
