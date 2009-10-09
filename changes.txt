@@ -22,8 +22,10 @@ Changes in version 1.8.1 beta (2009-09-28):
 - Fixed possible crash after Cut/Undo/Redo/Delete operations.
 - Fixed displaying of bitmap shapes in the canvas thumbnail.
 - Fixed addition of new shapes to the canvas if canvas i scrolled (in some cases the new shapes were assigned as a children to inproper parents).
+- Fixed size of scaled texts (now it cannot be smaller than 1pt).
 - Functions wxSFDiagramManager::SerializeToXML() and wxSFDiagramManager::DeserializeFromXml() now returns bool value informing about the
   operation success/fail.
+- Changed visibility of wxSFLineShape::m_nSrcOffset and wxSFLineShape::m_nTrgOffset data members from private to protected.
 - Updated wxSFDemo sample to reflect the latest changes.
 
 Changes in version 1.8.0 beta (2009-06-10):

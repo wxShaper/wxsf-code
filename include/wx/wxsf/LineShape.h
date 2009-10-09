@@ -314,8 +314,14 @@ protected:
 	wxSFArrowBase* m_pTrgArrow;
 	
 	bool m_fStandAlone;
+	/*! \brief Stand alone line's starting point. */
 	wxRealPoint m_nSrcPoint;
+	/*! \brief Stand alone line's ending point. */
 	wxRealPoint m_nTrgPoint;
+    /*! \brief Modification offset for starting line point. */
+    wxRealPoint m_nSrcOffset;
+    /*! \brief Modification offset for ending line point. */
+	wxRealPoint m_nTrgOffset;
 
 	wxPen m_Pen;
 
@@ -380,12 +386,6 @@ protected:
 	wxRealPoint GetModTrgPoint();
 
 private:
-    // private data members
-    /*! \brief Modification offset for starting line point. */
-    wxRealPoint m_nSrcOffset;
-    /*! \brief Modification offset for ending line point. */
-	wxRealPoint m_nTrgOffset;
-
 	// private functions
     /*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();

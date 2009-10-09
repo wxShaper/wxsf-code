@@ -371,7 +371,8 @@ void wxSFScaledDC::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
 
         if(font != wxNullFont)
         {
-            font.SetPointSize(int(font.GetPointSize()*m_nScale));
+			int scaledSize = int(font.GetPointSize()*m_nScale);			
+            font.SetPointSize( scaledSize ? scaledSize : 1 );
             SetFont(font);
         }
         m_pTargetDC->DrawText(text, Scale(x), Scale(y));
