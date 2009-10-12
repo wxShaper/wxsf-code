@@ -35,7 +35,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.8.1 beta");
+    m_sSFVersion =  wxT("1.9.0 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -389,12 +389,12 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				}
 
 				// check whether the new ID is duplicated
-				if(GetIDCount(pShape->GetId()) > 1)
-				{
+				//if(GetIDCount(pShape->GetId()) > 1)
+				//{
 					// store information about ID's change and re-assign shape's id
 					m_lstIDPairs.Append(new IDPair(pShape->GetId(), newId));
 					pShape->SetId(newId);
-				}
+				//}
 
 				// deserialize child objects
 				_DeserializeObjects(pShape, shapeNode);

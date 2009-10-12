@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.2.1 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.0 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -75,6 +75,11 @@ xsSerializable::xsSerializable(const xsSerializable& obj)
 
 xsSerializable::~xsSerializable()
 {
+	if( m_pParentManager )
+	{
+		m_pParentManager->GetUsedIDs().erase( m_nId );
+	}
+	
     m_lstProperties.DeleteContents(true);
     m_lstProperties.Clear();
 
@@ -83,6 +88,13 @@ xsSerializable::~xsSerializable()
 }
 
 // public functions /////////////////////////////////////////////////////////////////
+
+void xsSerializable::SetId(long id)
+{
+	m_nId = id;
+	
+	if( m_pParentManager ) m_pParentManager->GetUsedIDs()[id] = this;
+}
 
 xsSerializable* xsSerializable::AddChild(xsSerializable* child)
 {
@@ -413,12 +425,14 @@ void xsSerializable::InitChild(xsSerializable* child)
 
         if( m_pParentManager )
         {
-			// assign unique ids to the child object
-			if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
-			
 			if( child->m_pParentManager != m_pParentManager )
 			{
 				child->m_pParentManager = m_pParentManager;
+				
+				// assign unique ids to the child object
+				if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
+				else
+					m_pParentManager->GetUsedIDs()[child->GetId()] = child;
 				
 				// if the child has another children, set their parent manager and ID as well
 				SerializableList lstChildren;
@@ -551,7 +565,9 @@ xsSerializable* wxXmlSerializer::GetItem(long id)
 {
     if( m_pRoot )
     {
-        return _GetItem(id, m_pRoot);
+		//return _GetItem(id, m_pRoot);
+		
+		return m_mapUsedIDs[id];
     }
 
     return NULL;
@@ -597,6 +613,8 @@ void wxXmlSerializer::CopyItems(const wxXmlSerializer& src)
 		AddItem( m_pRoot, (xsSerializable*)node->GetData()->Clone() );
 		node = node->GetNext();
 	}
+	
+	//m_mapUsedIDs = src.m_mapUsedIDs;
 }
 
 xsSerializable*  wxXmlSerializer::AddItem(long parentId, xsSerializable* item)
@@ -629,7 +647,9 @@ void wxXmlSerializer::RemoveItem(xsSerializable* item)
     wxASSERT(item);
 
     if(item)
-    {
+    {		
+		//m_mapUsedIDs.erase( item->m_nId );
+		
         if( item->GetParent() )
         {
             item->GetParent()->GetChildrenList().DeleteObject(item);
@@ -834,7 +854,7 @@ void wxXmlSerializer::DeserializeObjects(xsSerializable* parent, wxXmlNode* node
 		    pItem = (xsSerializable*)wxCreateDynamicObject(projectNode->GetPropVal(wxT("type"), wxT("")));
 			if(pItem)
 			{
-			    pItem->SetId(GetNewId());
+			    //pItem->SetId(GetNewId());
 
 			    if(parent)
 			    {
@@ -860,7 +880,8 @@ void wxXmlSerializer::DeserializeObjects(xsSerializable* parent, wxXmlNode* node
 
 bool wxXmlSerializer::IsIdUsed(long id)
 {
-	return (GetIDCount(id) > 0);
+	//return (GetIDCount(id) > 0);
+	return (m_mapUsedIDs.find( id ) != m_mapUsedIDs.end());
 }
 
 int wxXmlSerializer::GetIDCount(long id)
@@ -886,8 +907,13 @@ long wxXmlSerializer::GetNewId()
 {
 	long nId = 1;
 
-	while(IsIdUsed(nId))nId++;
-
+	//while(IsIdUsed(nId))nId++;
+	
+	for ( IDMap::iterator it = m_mapUsedIDs.begin(); it != m_mapUsedIDs.end(); it++, nId++ )
+	{
+		if (it->first != nId) break;
+	}
+	
 	return nId;
 }
 

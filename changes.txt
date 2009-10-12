@@ -1,15 +1,18 @@
-Changes in version 1.8.1 beta (2009-09-28):
+Changes in version 1.9.0 beta (2009-10-12):
 --------------------------------------------
-- Switched to use wxXmlSerializer 1.2.1:
+- Switched to use wxXmlSerializer 1.3.0:
   - Added function xsSerializable::RemoveProperty(xsProperty *property).
   - Added function xsSerializable::InsertChild(size_t pos, xsSerializable *child).
   - Added function bool wxXmlSerializer::Contains(wxClassInfo *type) which returns TRUE if object of given type is included
     in the serializer.
+  - Improved performance of wxXmlSerializer::GetNewId(), wxXmlSerializer::IsIdUsed(), wxXmlSerializer::GetItem(long id) functions.
   - Functions wxXmlSerializer::SerializeToXML() and wxXmlSerializer::DeserializeFromXml() now returns bool value informing about the
     operation success/fail.
+  - Changed visibility of xsSerializable::m_nId data member from protected to private.
   
 - Significantly improved compatibility with wxMAC.
-- Improved library's performance.
+- Improved wxSFDiagramManager::FindShape(long id) function's performance.
+- Improved diagram's loading performance.
 - Implemented stand-alone lines. Use wxSFLineShape::SetStandAlone(), wxSFLineShape::SetSrcPoint() and wxSFLineShape::SetTrgPoint() functions.
   Note that lines can be still top-most shapes only (it means they cannot have a parent shape).
 - Added new shape style sfsLOCK_CHILDREN which prevents child shapes' relative position from change if the parent shape is resized.

@@ -718,7 +718,7 @@ void wxSFShapeBase::_GetNeighbours(ShapeList& neighbours, wxClassInfo *shapeInfo
 
                 case lineBOTH:
                     {
-                        if(m_nId == pLine->GetSrcShapeId())pOposite = GetShapeManager()->FindShape(pLine->GetTrgShapeId());
+                        if(GetId() == pLine->GetSrcShapeId())pOposite = GetShapeManager()->FindShape(pLine->GetTrgShapeId());
                         else
                             pOposite = GetShapeManager()->FindShape(pLine->GetSrcShapeId());
                     }

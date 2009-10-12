@@ -18,6 +18,7 @@
 #include "wx/wxxmlserializer/PropertyIO.h"
 
 #include <wx/xml/xml.h>
+#include <wx/hashmap.h>
 
 #define xsWITH_ROOT true
 #define xsWITHOUT_ROOT false
@@ -147,6 +148,8 @@ class WXDLLIMPEXP_XS wxXmlSerializer;
 
 WX_DECLARE_LIST_WITH_DECL(xsProperty, PropertyList, class WXDLLIMPEXP_XS);
 WX_DECLARE_LIST_WITH_DECL(xsSerializable, SerializableList, class WXDLLIMPEXP_XS);
+
+WX_DECLARE_HASH_MAP( long, xsSerializable*, wxIntegerHash, wxIntegerEqual, IDMap );
 
 /*!
  * \brief Base class encapsulating object which can be serialized/deserialized to/from
@@ -313,7 +316,7 @@ public:
      * serializable object is attached to another one (or directly to root node of wxXmlSerializer) by
      * wxXmlSerializer::AddItem() member function.
      */
-    inline void SetId(long id) { m_nId = id; }
+    void SetId(long id);
     /*!
      * \brief Get object ID.
      * \return ID value or -1 if the ID hasn't been set yet
@@ -407,8 +410,6 @@ protected:
 	/*! \brief Pointer to parent data manager */
 	wxXmlSerializer *m_pParentManager;
 
-    /*! \brief Object ID */
-    long m_nId;
     /*! \brief Object serialization flag */
     bool m_fSerialize;
 	/*! \brief Object cloning flag */
@@ -482,6 +483,10 @@ protected:
      * \endcode
      */
     virtual void Deserialize(wxXmlNode* node);
+	
+private:
+    /*! \brief Object ID */
+    long m_nId;
 };
 
 /*!
@@ -692,6 +697,11 @@ public:
 	 * \return Number of ID's occurences
 	 */
 	int GetIDCount(long id);
+	/*!
+	 * \brief Get map of used IDs.
+	 * \return Reference to map where all used IDs are stored
+	 */
+	IDMap& GetUsedIDs() { return m_mapUsedIDs; }
 
 	/*! \brief Initialize all standard property IO handlers */
 	void InitializeAllIOHandlers();
@@ -728,6 +738,9 @@ protected:
 
 	/*! \brief Object cloning flag */
 	bool m_fClone;
+	
+	/*! \brief Map storing information which ID is already used */
+	IDMap m_mapUsedIDs;
 
 private:
     // private data members
