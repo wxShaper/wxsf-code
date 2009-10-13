@@ -15,9 +15,6 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	
 	// initialize grid
 
-	//UseGrid(true); !!! DEPRECATED !!!
-	//ShowGrid(true); !!! DEPRECATED !!!
-
 	AddStyle(sfsGRID_USE);
 	AddStyle(sfsGRID_SHOW);
 

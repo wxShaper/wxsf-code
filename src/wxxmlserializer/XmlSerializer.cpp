@@ -429,9 +429,6 @@ void xsSerializable::InitChild(xsSerializable* child)
 			{
 				child->m_pParentManager = m_pParentManager;
 				
-				/*if( m_pParentManager->GetUsedIDs().count( child->GetId() ) == 1 )
-					wxMessageBox( wxString::Format(wxT("ID '%d' exists"), child->GetId()) );*/
-				
 				// assign unique ids to the child object
 				if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
 				else

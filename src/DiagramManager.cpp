@@ -154,7 +154,6 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                     while(node)
                     {
                         pChild = (wxSFShapeBase*)node->GetData();
-
                         /*// perform standard initialization
                         pChild->SetParentManager(this);
                         if( pChild->GetId() == -1 ) pChild->SetId( GetNewId() );
