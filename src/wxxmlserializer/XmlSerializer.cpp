@@ -429,19 +429,30 @@ void xsSerializable::InitChild(xsSerializable* child)
 			{
 				child->m_pParentManager = m_pParentManager;
 				
+				/*if( m_pParentManager->GetUsedIDs().count( child->GetId() ) == 1 )
+					wxMessageBox( wxString::Format(wxT("ID '%d' exists"), child->GetId()) );*/
+				
 				// assign unique ids to the child object
 				if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
 				else
 					m_pParentManager->GetUsedIDs()[child->GetId()] = child;
 				
 				// if the child has another children, set their parent manager and ID as well
+				xsSerializable *pItem;
 				SerializableList lstChildren;
 				child->GetChildrenRecursively( NULL, lstChildren );
 				
 				SerializableList::compatibility_iterator node = lstChildren.GetFirst();
 				while( node )
 				{
-					node->GetData()->SetParentManager( m_pParentManager );
+					pItem = node->GetData();
+					
+					pItem->SetParentManager( m_pParentManager );
+					
+					if( (pItem->GetId() == -1) ) pItem->SetId(m_pParentManager->GetNewId());
+					else
+						m_pParentManager->GetUsedIDs()[pItem->GetId()] = pItem;
+					
 					node = node->GetNext();
 				}
 			}
@@ -607,14 +618,14 @@ void wxXmlSerializer::CopyItems(const wxXmlSerializer& src)
 	m_pRoot->GetChildrenList().Clear();
 	m_pRoot->GetChildrenList().DeleteContents( false );
 	
+	m_mapUsedIDs.clear();
+	
 	SerializableList::compatibility_iterator node = src.GetRootItem()->GetFirstChildNode();
 	while( node )
 	{
 		AddItem( m_pRoot, (xsSerializable*)node->GetData()->Clone() );
 		node = node->GetNext();
 	}
-	
-	//m_mapUsedIDs = src.m_mapUsedIDs;
 }
 
 xsSerializable*  wxXmlSerializer::AddItem(long parentId, xsSerializable* item)
@@ -648,8 +659,6 @@ void wxXmlSerializer::RemoveItem(xsSerializable* item)
 
     if(item)
     {		
-		//m_mapUsedIDs.erase( item->m_nId );
-		
         if( item->GetParent() )
         {
             item->GetParent()->GetChildrenList().DeleteObject(item);
@@ -677,16 +686,23 @@ void wxXmlSerializer::SetRootItem(xsSerializable* root)
 	else
 		m_pRoot = new xsSerializable();
 
-	// update pointers to parent manage
+	// update pointers to parent manager
+	m_mapUsedIDs.clear();
+	
 	m_pRoot->m_pParentManager = this;
 	
+	xsSerializable *pItem;
 	SerializableList lstItems;
 	GetItems(NULL, lstItems);
 	
 	SerializableList::compatibility_iterator node = lstItems.GetFirst();
 	while( node )
 	{
-		node->GetData()->m_pParentManager = this;
+		pItem = node->GetData();
+		
+		pItem->m_pParentManager = this;
+		m_mapUsedIDs[pItem->GetId()] = pItem;
+		
 		node = node->GetNext();
 	}
 }

@@ -64,7 +64,7 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 
 	// you can set also the canvas history manager working mode:
 	// 1) FASTER, but requires implementation of xsSerializable::Clone() virtual function
-	// in all classes derived from the xsSerializable class
+	// and copy constructor in all classes derived from the xsSerializable class
 	GetHistoryManager().SetMode(wxSFCanvasHistory::histUSE_CLONING);
 	// 2) SLOWER, but no other programming overhead is required (except implementation
 	// of standard serialization functionality). This working mode is default.

@@ -155,11 +155,15 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                     {
                         pChild = (wxSFShapeBase*)node->GetData();
 
-                        // perform standard initialization
+                        /*// perform standard initialization
                         pChild->SetParentManager(this);
                         if( pChild->GetId() == -1 ) pChild->SetId( GetNewId() );
+						else
+							m_mapUsedIDs[pChild->GetId()] = pChild;*/
+						
                         pChild->CreateHandles();
                         pChild->Update();
+						
                         if( m_pShapeCanvas )
                         {
                             pChild->SetHoverColour(m_pShapeCanvas->GetHoverColour());
@@ -349,14 +353,14 @@ bool wxSFDiagramManager::DeserializeFromXml(wxInputStream& instream)
 
 void wxSFDiagramManager::DeserializeObjects(xsSerializable* parent, wxXmlNode* node)
 {
-    // clear list of ID pairs
-    m_lstIDPairs.Clear();
-    m_lstLinesForUpdate.Clear();
-
     _DeserializeObjects(parent, node);
 
     // update IDs in connection lines
     UpdateConnections();
+	
+    // clear list of ID pairs
+    m_lstIDPairs.Clear();
+    m_lstLinesForUpdate.Clear();
 
     if( m_pShapeCanvas )
     {
@@ -388,13 +392,9 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 					m_lstLinesForUpdate.Append(pShape);
 				}
 
-				// check whether the new ID is duplicated
-				//if(GetIDCount(pShape->GetId()) > 1)
-				//{
-					// store information about ID's change and re-assign shape's id
-					m_lstIDPairs.Append(new IDPair(pShape->GetId(), newId));
-					pShape->SetId(newId);
-				//}
+				// store information about ID's change and re-assign shape's id
+				m_lstIDPairs.Append(new IDPair(pShape->GetId(), newId));
+				pShape->SetId(newId);
 
 				// deserialize child objects
 				_DeserializeObjects(pShape, shapeNode);
@@ -605,7 +605,7 @@ void wxSFDiagramManager::UpdateConnections()
 
 	if( !m_lstLinesForUpdate.IsEmpty() )
 	{
-	    // check whether line's src and trg shapes realy exists
+	    /*// check whether line's src and trg shapes realy exists
         ShapeList::compatibility_iterator node = m_lstLinesForUpdate.GetFirst();
         while(node)
         {
@@ -619,14 +619,14 @@ void wxSFDiagramManager::UpdateConnections()
             }
 			else
 				node = node->GetNext();
-        }
-
+        }*/
+		
         // now check ids
 		long oldSrcId, oldTrgId;
 		long newSrcId, newTrgId;
 		IDList::compatibility_iterator idnode;
 		
-		node = m_lstLinesForUpdate.GetFirst();
+		ShapeList::compatibility_iterator node = m_lstLinesForUpdate.GetFirst();
 		while(node)
         {
 			pLine = (wxSFLineShape*)node->GetData();
@@ -646,25 +646,14 @@ void wxSFDiagramManager::UpdateConnections()
 			pLine->SetSrcShapeId(newSrcId);
 			pLine->SetTrgShapeId(newTrgId);
 			
+			// check whether line's src and trg shapes realy exists
+			if(!GetItem(pLine->GetSrcShapeId()) || !GetItem(pLine->GetTrgShapeId()))
+            {
+                RemoveItem(pLine);
+            }
+			
 			node = node->GetNext();
 		}
-	    /*IDList::compatibility_iterator idnode = m_lstIDPairs.GetFirst();
-	    while(idnode)
-	    {
-	        pIDPair = idnode->GetData();
-	        if(pIDPair->m_nNewID != pIDPair->m_nOldID)
-	        {
-                node = m_lstLinesForUpdate.GetFirst();
-                while(node)
-                {
-                    pLine = (wxSFLineShape*)node->GetData();
-                    if(pLine->GetSrcShapeId() == pIDPair->m_nOldID)pLine->SetSrcShapeId(pIDPair->m_nNewID);
-                    if(pLine->GetTrgShapeId() == pIDPair->m_nOldID)pLine->SetTrgShapeId(pIDPair->m_nNewID);
-                    node = node->GetNext();
-                }
-	        }
-	        idnode = idnode->GetNext();
-	    }*/
     }
 
 	m_lstIDPairs.Clear();
