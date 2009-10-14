@@ -692,6 +692,7 @@ void wxXmlSerializer::SetRootItem(xsSerializable* root)
 	m_mapUsedIDs.clear();
 	
 	m_pRoot->m_pParentManager = this;
+	m_mapUsedIDs[m_pRoot->GetId()] = m_pRoot;
 	
 	xsSerializable *pItem;
 	SerializableList lstItems;
@@ -872,8 +873,6 @@ void wxXmlSerializer::DeserializeObjects(xsSerializable* parent, wxXmlNode* node
 		    pItem = (xsSerializable*)wxCreateDynamicObject(projectNode->GetPropVal(wxT("type"), wxT("")));
 			if(pItem)
 			{
-			    //pItem->SetId(GetNewId());
-
 			    if(parent)
 			    {
 			        parent->AddChild(pItem);
@@ -882,6 +881,8 @@ void wxXmlSerializer::DeserializeObjects(xsSerializable* parent, wxXmlNode* node
                     m_pRoot->AddChild(pItem);
 
 				pItem->DeserializeObject(projectNode);
+				// id could change so we must update the IDs map
+				m_mapUsedIDs[pItem->GetId()] = pItem;
 
 				// deserialize child objects
 				DeserializeObjects(pItem, projectNode);
