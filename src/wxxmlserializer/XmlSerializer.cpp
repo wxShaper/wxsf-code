@@ -430,9 +430,12 @@ void xsSerializable::InitChild(xsSerializable* child)
 				child->m_pParentManager = m_pParentManager;
 				
 				// assign unique ids to the child object
-				if( (child->GetId() == -1) ) child->SetId(m_pParentManager->GetNewId());
-				else
-					m_pParentManager->GetUsedIDs()[child->GetId()] = child;
+				if( child->IsSerialized() )
+				{
+					if( child->GetId() == -1 ) child->SetId(m_pParentManager->GetNewId());
+					else
+						m_pParentManager->GetUsedIDs()[child->GetId()] = child;
+				}
 				
 				// if the child has another children, set their parent manager and ID as well
 				xsSerializable *pItem;
@@ -446,9 +449,12 @@ void xsSerializable::InitChild(xsSerializable* child)
 					
 					pItem->SetParentManager( m_pParentManager );
 					
-					if( (pItem->GetId() == -1) ) pItem->SetId(m_pParentManager->GetNewId());
-					else
-						m_pParentManager->GetUsedIDs()[pItem->GetId()] = pItem;
+					if( pItem->IsSerialized() )
+					{
+						if( pItem->GetId() == -1 ) pItem->SetId(m_pParentManager->GetNewId());
+						else
+							m_pParentManager->GetUsedIDs()[pItem->GetId()] = pItem;
+					}
 					
 					node = node->GetNext();
 				}
@@ -573,9 +579,8 @@ xsSerializable* wxXmlSerializer::GetItem(long id)
 {
     if( m_pRoot )
     {
-		//return _GetItem(id, m_pRoot);
-		
-		return m_mapUsedIDs[id];
+		IDMap::iterator it = m_mapUsedIDs.find( id );
+		if( it != m_mapUsedIDs.end() ) return it->second;
     }
 
     return NULL;
