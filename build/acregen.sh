@@ -23,8 +23,11 @@ function aclocalold()
 # first check if we have an ACLOCAL version recent enough
 aclocal_verfull=$(aclocal --version)
 aclocal_maj=`echo $aclocal_verfull | sed 's/aclocal (GNU automake) \([0-9]*\).\([0-9]*\).\([0-9]*\).*/\1/'`
+if [[ "$aclocal_maj" = "" ]]; then aclocal_maj=0; fi
 aclocal_min=`echo $aclocal_verfull | sed 's/aclocal (GNU automake) \([0-9]*\).\([0-9]*\).\([0-9]*\).*/\2/'`
+if [[ "$aclocal_min" = "" ]]; then aclocal_min=0; fi
 aclocal_rel=`echo $aclocal_verfull | sed 's/aclocal (GNU automake) \([0-9]*\).\([0-9]*\).\([0-9]*\).*/\3/'`
+if [[ "$aclocal_rel" = "" ]]; then aclocal_rel=0; fi
 
 aclocal_minimal_maj=1
 aclocal_minimal_min=9
