@@ -388,7 +388,7 @@ void EventSink::SendEvent(wxEvent &event)
         wxSFShapeCanvas *pCanvas = ((wxSFDiagramManager*)m_pParentShape->GetParentManager())->GetShapeCanvas();
 
         // send copy of the event to the shape canvas
-        if( pCanvas ) pCanvas->AddPendingEvent(event);
+        if( pCanvas ) wxPostEvent( pCanvas, event );
     }
 }
 

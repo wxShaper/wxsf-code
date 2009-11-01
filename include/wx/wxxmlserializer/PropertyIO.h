@@ -20,7 +20,7 @@
 #include <wx/tokenzr.h>
 #include <wx/list.h>
 
-#include "wx/wxxmlserializer/Defs.h"
+#include <wx/wxxmlserializer/Defs.h>
 
 class WXDLLIMPEXP_XS xsProperty;
 class WXDLLIMPEXP_XS xsSerializable;

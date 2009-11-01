@@ -11,7 +11,7 @@
 #ifndef _WXSFCIRCLESHAPE_H
 #define _WXSFCIRCLESHAPE_H
 
-#include "FixedRectShape.h"
+#include <wx/wxsf/FixedRectShape.h>
 
 /*! \brief Class encapsulating the circle shape. */
 class WXDLLIMPEXP_SF wxSFCircleShape : public wxSFSquareShape

@@ -11,7 +11,7 @@
 #ifndef _WXSFELLIPSESHAPE_H
 #define _WXSFELLIPSESHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 /*!
  * \brief Class encapsulating the ellipse shape. It extends the basic rectangular shape.

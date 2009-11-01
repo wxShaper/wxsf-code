@@ -11,7 +11,7 @@
 #ifndef _WXSFGRIDSHAPE_H
 #define _WXSFGRIDSHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 // default values
 /*! \brief Default value of wxSFGridShape::m_nRows data member. */

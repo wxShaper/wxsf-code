@@ -7,9 +7,7 @@
  * License:   wxWidgets license (www.wxwidgets.org)
  * Notes:
  **************************************************************/
-
-// TODO: wxSFShapeCanvas: Implement canvas thumbnail (wxSFCanvasThumbnail class)
-
+ 
 #include "wx_pch.h"
 
 #ifdef _DEBUG_MSVC
@@ -224,6 +222,8 @@ wxSFShapeCanvas::wxSFShapeCanvas(wxSFDiagramManager* manager, wxWindow* parent, 
 
 wxSFShapeCanvas::~wxSFShapeCanvas(void)
 {
+	m_shpMultiEdit.SetParentManager(NULL);
+	
     if( --m_nRefCounter == 0) DeinitializePrinting();
 	
 	//DeleteAllTextCtrls();

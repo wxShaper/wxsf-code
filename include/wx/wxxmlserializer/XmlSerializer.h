@@ -15,7 +15,7 @@
     #include <wx/wx.h>
 #endif
 
-#include "wx/wxxmlserializer/PropertyIO.h"
+#include <wx/wxxmlserializer/PropertyIO.h>
 
 #include <wx/xml/xml.h>
 #include <wx/hashmap.h>

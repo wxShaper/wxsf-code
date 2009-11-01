@@ -15,7 +15,7 @@
 #include <wx/dc.h>
 #include <math.h>
 
-#include "Defs.h"
+#include <wx/wxsf/Defs.h>
 
 /*! \brief Class acts as a wrapper for given DC class and provides modified
  * drawing functions cooperating with the shape canvas able to draw scaled graphics.

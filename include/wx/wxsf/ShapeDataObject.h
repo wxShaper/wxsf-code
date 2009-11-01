@@ -11,7 +11,7 @@
 #ifndef _WXSFSHAPEDATAOBJECT_H
 #define _WXSFSHAPEDATAOBJECT_H
 
-#include "DiagramManager.h"
+#include <wx/wxsf/DiagramManager.h>
 
 /*!
  * \brief Class encapsulating data object used during clipboard operations with shapes.

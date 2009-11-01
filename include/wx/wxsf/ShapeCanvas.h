@@ -14,13 +14,13 @@
 #include <wx/dataobj.h>
 #include <wx/dnd.h>
 
-#include "ShapeBase.h"
-#include "DiagramManager.h"
-#include "MultiSelRect.h"
-#include "CanvasHistory.h"
-#include "LineShape.h"
-#include "EditTextShape.h"
-#include "Printout.h"
+#include <wx/wxsf/ShapeBase.h>
+#include <wx/wxsf/DiagramManager.h>
+#include <wx/wxsf/MultiSelRect.h>
+#include <wx/wxsf/CanvasHistory.h>
+#include <wx/wxsf/LineShape.h>
+#include <wx/wxsf/EditTextShape.h>
+#include <wx/wxsf/Printout.h>
 
 #ifdef __WXMAC__ 
 #include <wx/mac/carbon/printdlg.h> 

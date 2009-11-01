@@ -11,7 +11,7 @@
 #ifndef _WXSFBITMAPSHAPE_H
 #define _WXSFBITMAPSHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 // default values
 #define sfdvBITMAPSHAPE_SCALEIMAGE true

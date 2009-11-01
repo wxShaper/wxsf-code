@@ -1,4 +1,4 @@
-Changes in version 1.9.0 beta (2009-10-12):
+Changes in version 1.9.0 beta (2009-11-1):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.3.0:
   - Added function xsSerializable::RemoveProperty(xsProperty *property).
@@ -26,6 +26,7 @@ Changes in version 1.9.0 beta (2009-10-12):
 - Fixed displaying of bitmap shapes in the canvas thumbnail.
 - Fixed addition of new shapes to the canvas if canvas i scrolled (in some cases the new shapes were assigned as a children to inproper parents).
 - Fixed size of scaled texts (now it cannot be smaller than 1pt).
+- Fixed possible crash in shape canvas's destructor caused by improper deinitialization of multi-edit control.
 - Functions wxSFDiagramManager::SerializeToXML() and wxSFDiagramManager::DeserializeFromXml() now returns bool value informing about the
   operation success/fail.
 - Changed visibility of wxSFLineShape::m_nSrcOffset and wxSFLineShape::m_nTrgOffset data members from private to protected.

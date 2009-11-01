@@ -18,9 +18,9 @@
 #include <wx/arrstr.h>
 #include <wx/list.h>
 
-#include "ShapeHandle.h"
-#include "Defs.h"
-#include "../wxxmlserializer/XmlSerializer.h"
+#include <wx/wxsf/ShapeHandle.h>
+#include <wx/wxsf/Defs.h>
+#include <wx/wxxmlserializer/XmlSerializer.h>
 
 #define sfRECURSIVE true
 #define sfNORECURSIVE false

@@ -11,7 +11,7 @@
 #ifndef _WXSFCIRCLEARROW_H
 #define _WXSFCIRCLEARROW_H
 
-#include "SolidArrow.h"
+#include <wx/wxsf/SolidArrow.h>
 
 // default values
 #define sfdvARROW_RADIUS 4

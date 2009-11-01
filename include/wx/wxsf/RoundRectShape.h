@@ -11,7 +11,7 @@
 #ifndef _WXSFROUNDRECTSHAPE_H
 #define _WXSFROUNDRECTSHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 // default values
 

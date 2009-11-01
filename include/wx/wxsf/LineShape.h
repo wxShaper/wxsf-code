@@ -11,8 +11,8 @@
 #ifndef _WXSFLINESHAPE_H
 #define _WXSFLINESHAPE_H
 
-#include "ShapeBase.h"
-#include "ArrowBase.h"
+#include <wx/wxsf/ShapeBase.h>
+#include <wx/wxsf/ArrowBase.h>
 
 // default values
 /*! \brief Default value of undefined ID. */

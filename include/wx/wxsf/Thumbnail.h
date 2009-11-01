@@ -11,7 +11,7 @@
 #ifndef _WXSFTHUMBNAIL_H
 #define _WXSFTHUMBNAIL_H
 
-#include "wx/wxsf/ShapeCanvas.h"
+#include <wx/wxsf/ShapeCanvas.h>
 
 /**
  * \brief Class encalpsulating a shape canvas' thumbnail. This GUI control derived from wxPanel can be associated with

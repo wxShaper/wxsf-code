@@ -11,7 +11,7 @@
 #ifndef _WXSFDIAGRAMMANAGER_H
 #define _WXSFDIAGRAMMANAGER_H
 
-#include "ShapeBase.h"
+#include <wx/wxsf/ShapeBase.h>
 
 #define serINCLUDE_PARENTS true
 #define serWITHOUT_PARENTS false

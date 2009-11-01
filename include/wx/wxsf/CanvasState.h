@@ -13,8 +13,8 @@
 
 #include <wx/wxprec.h>
 
-#include "Defs.h"
-#include "DiagramManager.h"
+#include <wx/wxsf/Defs.h>
+#include <wx/wxsf/DiagramManager.h>
 
 class wxSFShapeCanvas;
 /*! \brief

@@ -11,7 +11,7 @@
 #ifndef _WXSFEDITTEXTSHAPE_H
 #define _WXSFEDITTEXTSHAPE_H
 
-#include "TextShape.h"
+#include <wx/wxsf/TextShape.h>
 
 #define sfCANCEL_TEXT_CHANGES false
 #define sfAPPLY_TEXT_CHANGES true

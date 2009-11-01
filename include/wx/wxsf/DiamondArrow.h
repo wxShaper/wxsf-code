@@ -11,7 +11,7 @@
 #ifndef _WXSFDIAMONDARROW_H
 #define _WXSFDIAMONDARROW_H
 
-#include "SolidArrow.h"
+#include <wx/wxsf/SolidArrow.h>
 
 /*!
  * \brief Class extends the wxSFSolidArrow class and encapsulates

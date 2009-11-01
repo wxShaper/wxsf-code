@@ -11,7 +11,7 @@
 #ifndef _WXSFMULTIRECT_H
 #define _WXSFMULTIRECT_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 /*!
  * \brief Auxiliary class encapsulating multiselection rectangle used

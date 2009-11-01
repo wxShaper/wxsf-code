@@ -14,7 +14,7 @@
 #include <wx/print.h>
 #include <wx/printdlg.h>
 
-#include "wx/wxsf/Defs.h"
+#include <wx/wxsf/Defs.h>
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 

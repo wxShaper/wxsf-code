@@ -14,7 +14,7 @@
 #include <wx/wxprec.h>
 #include <wx/xml/xml.h>
 
-#include "Defs.h"
+#include <wx/wxsf/Defs.h>
 
 namespace wxSFCommonFcn
 {

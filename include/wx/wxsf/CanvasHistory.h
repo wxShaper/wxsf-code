@@ -11,7 +11,7 @@
 #ifndef _WXSFCANVASHISTORY_H
 #define _WXSFCANVASHISTORY_H
 
-#include "CanvasState.h"
+#include <wx/wxsf/CanvasState.h>
 
 #define sfDEFAULT_MAX_CANVAS_STATES 25
 

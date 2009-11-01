@@ -11,7 +11,7 @@
 #ifndef _WXSFTEXTSHAPE_H
 #define _WXSFTEXTSHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 // default values
 /*! \brief Default value of wxSFTextShape::m_Font data member. */

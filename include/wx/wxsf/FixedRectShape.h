@@ -11,7 +11,7 @@
 #ifndef _WXSFSQUARESHAPE_H
 #define _WXSFSQUARESHAPE_H
 
-#include "RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 /*!
  * \brief Class encapsulating the square shape. It extends the basic rectangular shape.

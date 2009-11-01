@@ -11,7 +11,7 @@
 #ifndef _WXSFARROWBASE_H
 #define _WXSFARROWBASE_H
 
-#include "ShapeBase.h"
+#include <wx/wxsf/ShapeBase.h>
 
 // default values
 #define sfdvARROW_FILL wxBrush(*wxWHITE)

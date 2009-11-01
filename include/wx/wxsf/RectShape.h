@@ -11,7 +11,7 @@
 #ifndef _WXSFRECTSHAPE_H
 #define _WXSFRECTSHAPE_H
 
-#include "ShapeBase.h"
+#include <wx/wxsf/ShapeBase.h>
 
 // default values
 /*! \brief Default value of wxSFRectShape::m_nRectSize data member. */

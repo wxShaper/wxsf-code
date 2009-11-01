@@ -11,7 +11,7 @@
 #ifndef _WXSFSOLIDARROW_H
 #define _WXSFSOLIDARROW_H
 
-#include "ArrowBase.h"
+#include <wx/wxsf/ArrowBase.h>
 
 /*!
  * \brief Class extends the wxSFArrowBase class and encapsulates

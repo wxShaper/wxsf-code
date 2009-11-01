@@ -11,7 +11,7 @@
 #ifndef _WXSFFLEXGRIDSHAPE_H
 #define _WXSFFLEXGRIDSHAPE_H
 
-#include "GridShape.h"
+#include <wx/wxsf/GridShape.h>
 
 // default values
 

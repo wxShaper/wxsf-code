@@ -11,7 +11,7 @@
 #ifndef _WXSFDIAMONDSHAPE_H
 #define _WXSFDIAMONDSHAPE_H
 
-#include "PolygonShape.h"
+#include <wx/wxsf/PolygonShape.h>
 
 /*!
  * \brief Class encapsulating the diamond shape. It extends the basic polygon shape.

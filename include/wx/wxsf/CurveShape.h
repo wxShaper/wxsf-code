@@ -11,7 +11,7 @@
 #ifndef _WXSFCURVESHAPE_H
 #define _WXSFCURVESHAPE_H
 
-#include "LineShape.h"
+#include <wx/wxsf/LineShape.h>
 
 /*!
  * \brief Interpolation line shape. The class extends wxSFLineShape class and allows

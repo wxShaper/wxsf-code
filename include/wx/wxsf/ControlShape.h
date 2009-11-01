@@ -11,7 +11,7 @@
 #ifndef _WXSFCONTROLSHAPE_H
 #define _WXSFCONTROLSHAPE_H
 
-#include "wx/wxsf/RectShape.h"
+#include <wx/wxsf/RectShape.h>
 
 #define sfFIT_SHAPE_TO_CONTROL true
 #define sfFIT_CONTROL_TO_SHAPE false
