@@ -184,7 +184,7 @@ void wxSFScaledDC::DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wxCoord
 
         m_pGC->StrokeLines(n, pts);
 
-        delete pts;
+        delete [] pts;
 
         UninitGC();
         #endif

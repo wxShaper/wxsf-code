@@ -1,3 +1,7 @@
+Changes in version 1.9.1 beta (2009-11-9):
+--------------------------------------------
+- Fixed mismatch in allocation and deallocation in wxSFScaledDC::DoDrawLines() function (patch by ettlmartin a.k.a orbitcowboy).
+
 Changes in version 1.9.0 beta (2009-11-1):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.3.0:
