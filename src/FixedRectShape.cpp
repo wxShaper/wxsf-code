@@ -155,4 +155,6 @@ void wxSFSquareShape::OnHandle(wxSFShapeHandle& handle)
     default:
         break;
 	}
+	
+	wxSFShapeBase::OnHandle( handle );
 }

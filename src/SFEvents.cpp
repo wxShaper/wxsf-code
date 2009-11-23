@@ -20,6 +20,21 @@ DEFINE_EVENT_TYPE( wxEVT_SF_LINE_DONE );
 DEFINE_EVENT_TYPE( wxEVT_SF_TEXT_CHANGE );
 DEFINE_EVENT_TYPE( wxEVT_SF_ON_DROP );
 DEFINE_EVENT_TYPE( wxEVT_SF_ON_PASTE );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_LEFT_DOWN );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_LEFT_DCLICK );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_RIGHT_DOWN );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_RIGHT_DCLICK);
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_DRAG_BEGIN);
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_DRAG );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_DRAG_END );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_HANDLE_BEGIN );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_HANDLE );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_HANDLE_END );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_KEYDOWN );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_MOUSE_ENTER );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_MOUSE_OVER );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_MOUSE_LEAVE );
+DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_CHILD_DROP );
 
 //----------------------------------------------------------------------------------//
 // wxSFShapeEvent class
@@ -28,13 +43,13 @@ DEFINE_EVENT_TYPE( wxEVT_SF_ON_PASTE );
 wxSFShapeEvent::wxSFShapeEvent(wxEventType cmdType, int id)
 : wxEvent(id, cmdType)
 {
-    m_pShape = NULL;
+    m_Shape = NULL;
 }
 
 wxSFShapeEvent::wxSFShapeEvent(const wxSFShapeEvent& obj)
 : wxEvent(obj)
 {
-    m_pShape = obj.m_pShape;
+    m_Shape = obj.m_Shape;
 }
 
 wxSFShapeEvent::~wxSFShapeEvent()
@@ -48,15 +63,15 @@ wxSFShapeEvent::~wxSFShapeEvent()
 wxSFShapeTextEvent::wxSFShapeTextEvent(wxEventType cmdType, int id)
 : wxEvent(id, cmdType)
 {
-    m_pShape = NULL;
-	m_sText = wxT("");
+    m_Shape = NULL;
+	m_Text = wxT("");
 }
 
 wxSFShapeTextEvent::wxSFShapeTextEvent(const wxSFShapeTextEvent& obj)
 : wxEvent(obj)
 {
-    m_pShape = obj.m_pShape;
-	m_sText = obj.m_sText;
+    m_Shape = obj.m_Shape;
+	m_Text = obj.m_Text;
 }
 
 wxSFShapeTextEvent::~wxSFShapeTextEvent()
@@ -132,3 +147,84 @@ void wxSFShapePasteEvent::SetPastedShapes(const ShapeList &list)
 		node = node->GetNext();
 	}
 }
+
+//----------------------------------------------------------------------------------//
+// wxSFShapeKeyEvent class
+//----------------------------------------------------------------------------------//
+
+wxSFShapeKeyEvent::wxSFShapeKeyEvent(const wxSFShapeKeyEvent& obj) : wxEvent(obj)
+{
+	m_Shape = obj.m_Shape;
+	m_KeyCode = obj.m_KeyCode;
+}
+
+wxSFShapeKeyEvent::wxSFShapeKeyEvent(wxEventType cmdType, int id) : wxEvent(id, cmdType)
+{
+	m_Shape = NULL;
+	m_KeyCode = 0;
+}
+
+wxSFShapeKeyEvent::~wxSFShapeKeyEvent()
+{
+}
+
+//----------------------------------------------------------------------------------//
+// wxSFShapeHandleEvent class
+//----------------------------------------------------------------------------------//
+
+wxSFShapeHandleEvent::wxSFShapeHandleEvent(const wxSFShapeHandleEvent& obj) : wxEvent(obj)
+{
+	m_Shape = obj.m_Shape;
+	m_Handle = obj.m_Handle;
+}
+
+wxSFShapeHandleEvent::wxSFShapeHandleEvent(wxEventType cmdType, int id) : wxEvent(id, cmdType)
+{
+	m_Shape = NULL;
+	m_Handle = NULL;
+}
+
+wxSFShapeHandleEvent::~wxSFShapeHandleEvent()
+{
+}
+
+//----------------------------------------------------------------------------------//
+// wxSFShapeChildDropEvent class
+//----------------------------------------------------------------------------------//
+
+wxSFShapeChildDropEvent::wxSFShapeChildDropEvent(const wxSFShapeChildDropEvent& obj) : wxEvent(obj)
+{
+	m_Shape = obj.m_Shape;
+	m_ChildShape = obj.m_ChildShape;
+}
+
+wxSFShapeChildDropEvent::wxSFShapeChildDropEvent(wxEventType cmdType, int id) : wxEvent(id, cmdType)
+{
+	m_Shape = NULL;
+	m_ChildShape = NULL;
+}
+
+wxSFShapeChildDropEvent::~wxSFShapeChildDropEvent()
+{
+}
+
+//----------------------------------------------------------------------------------//
+// wxSFShapeMouseEvent class
+//----------------------------------------------------------------------------------//
+
+wxSFShapeMouseEvent::wxSFShapeMouseEvent(const wxSFShapeMouseEvent& obj) : wxEvent(obj)
+{
+	m_Shape = obj.m_Shape;
+	m_MousePosition = obj.m_MousePosition;
+}
+
+wxSFShapeMouseEvent::wxSFShapeMouseEvent(wxEventType cmdType, int id) : wxEvent(id, cmdType)
+{
+	m_Shape = NULL;
+	m_MousePosition = wxDefaultPosition;
+}
+
+wxSFShapeMouseEvent::~wxSFShapeMouseEvent()
+{
+}
+

@@ -600,6 +600,8 @@ void wxSFLineShape::OnHandle(wxSFShapeHandle& handle)
     default:
         break;
     }
+	
+	wxSFShapeBase::OnHandle( handle );
 }
 
 void wxSFLineShape::OnEndHandle(wxSFShapeHandle& handle)
@@ -634,13 +636,15 @@ void wxSFLineShape::OnEndHandle(wxSFShapeHandle& handle)
                 break;
         }
     }
+	
+	wxSFShapeBase::OnEndHandle(handle);
 }
 
 void wxSFLineShape::OnBeginDrag(const wxPoint& pos)
 {
-	wxUnusedVar( pos );
-	
 	m_nPrevPosition = GetAbsolutePosition();
+	
+	wxSFShapeBase::OnBeginDrag(pos);
 }
 
 void wxSFLineShape::OnLeftDoubleClick(const wxPoint& pos)

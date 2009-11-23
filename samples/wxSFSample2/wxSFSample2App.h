@@ -18,4 +18,6 @@ class wxSFSample2App : public wxApp
         virtual bool OnInit();
 };
 
+DECLARE_APP(wxSFSample2App);
+
 #endif // WXSFSample2APP_H

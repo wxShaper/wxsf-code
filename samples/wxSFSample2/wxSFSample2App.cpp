@@ -18,8 +18,9 @@ IMPLEMENT_APP(wxSFSample2App);
 
 bool wxSFSample2App::OnInit()
 {
-    wxSFSample2Frame* frame = new wxSFSample2Frame(0L, _("wxShapeFramework Sample 2"));
-    // To Set App Icon
+    wxSFSample2Frame* frame = new wxSFSample2Frame(0L, wxT("wxShapeFramework Sample 2"));
+	SetTopWindow(frame);
+		
     frame->SetIcon(wxIcon(wx_xpm));
 
     frame->Show();

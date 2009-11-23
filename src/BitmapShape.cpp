@@ -165,13 +165,13 @@ void wxSFBitmapShape::Scale(double x, double y, bool children)
 
 void wxSFBitmapShape::OnBeginHandle(wxSFShapeHandle& handle)
 {
-	wxUnusedVar( handle );
-	
 	if(m_fCanScale)
 	{
 		m_fRescaleInProgress = true;
 		m_nPrevPos = GetAbsolutePosition();
 	}
+	
+	wxSFShapeBase::OnBeginHandle(handle);
 }
 
 void wxSFBitmapShape::OnHandle(wxSFShapeHandle& handle)
@@ -186,13 +186,13 @@ void wxSFBitmapShape::OnHandle(wxSFShapeHandle& handle)
 
 void wxSFBitmapShape::OnEndHandle(wxSFShapeHandle& handle)
 {
-	wxUnusedVar( handle );
-	
 	if(m_fCanScale)
 	{
 		m_fRescaleInProgress = false;
 		RescaleImage(m_nRectSize);
 	}
+	
+	wxSFShapeBase::OnEndHandle(handle);
 }
 
 //----------------------------------------------------------------------------------//

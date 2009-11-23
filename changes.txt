@@ -1,6 +1,12 @@
-Changes in version 1.9.1 beta (2009-11-9):
+Changes in version 1.9.1 beta (2009-11-22):
 --------------------------------------------
 - Fixed mismatch in allocation and deallocation in wxSFScaledDC::DoDrawLines() function (patch by ettlmartin a.k.a orbitcowboy).
+- Implemented new events used in shapes (emited from shapes and redirected to shape canvas). The new events are: wxEVT_SF_SHAPE_LEFT_DOWN,
+  wxEVT_SF_SHAPE_LEFT_DCLICK, wxEVT_SF_SHAPE_RIGHT_DOWN, wxEVT_SF_SHAPE_RIGHT_DCLICK, wxEVT_SF_SHAPE_MOUSE_ENTER, wxEVT_SF_SHAPE_MOUSE_OVER,
+  wxEVT_SF_SHAPE_MOUSE_LEAVE, wxEVT_SF_SHAPE_HANDLE_BEGIN, wxEVT_SF_SHAPE_HANDLE, wxEVT_SF_SHAPE_HANDLE_END, wxEVT_SF_SHAPE_DRAG_BEGIN,
+  wxEVT_SF_SHAPE_DRAG, wxEVT_SF_SHAPE_DRAG_END, wxEVT_SF_SHAPE_KEYDOWN, wxEVT_SF_SHAPE_CHILD_DROP. Also new event classes are available:
+  wxSFShapeMouseEvent, wxSFShapeHandleEvent, wxSFShapeKeyEvent and wxSFShapeChildDropEvent.
+- Updated wxSFSample1 and wxSFSample2 sample projects to demonstrate new library's functionality.
 
 Changes in version 1.9.0 beta (2009-11-1):
 --------------------------------------------

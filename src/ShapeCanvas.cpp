@@ -650,6 +650,9 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 					}
 					m_shpMultiEdit.Show(false);
 					//m_shpMultiEdit.ShowHandles(false);
+					
+					// call user defined actions
+					pSelectedShape->OnLeftClick(FitPositionToGrid(lpos));
 
 					// inform selected shapes about begin of dragging...
 					wxSFShapeBase *pShape;
@@ -674,9 +677,6 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 
 						node = node->GetNext();
 					}
-
-					// call user defined actions
-					pSelectedShape->OnLeftClick(FitPositionToGrid(lpos));
 
 					m_nWorkingMode = modeSHAPEMOVE;
 				}

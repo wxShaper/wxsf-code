@@ -352,12 +352,14 @@ void wxSFRectShape::OnHandle(wxSFShapeHandle& handle)
     default:
         break;
 	}
+	
+	wxSFShapeBase::OnHandle( handle );
 }
 
 void wxSFRectShape::OnBeginHandle(wxSFShapeHandle& handle)
 {
-	wxUnusedVar( handle );
-	
     m_nPrevPosition = m_nRelativePosition;
     m_nPrevSize = m_nRectSize;
+	
+	wxSFShapeBase::OnBeginHandle( handle );
 }

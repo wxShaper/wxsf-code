@@ -20,15 +20,33 @@
 class wxSFSample2Frame: public wxFrame
 {
     public:
+		enum LOGTYPE
+		{
+			logMouseEvent = 1002,
+			logHandleEvent,
+			logKeyEvent,
+			logChildDropEvent
+		};
+		
         wxSFSample2Frame(wxFrame *frame, const wxString& title);
         ~wxSFSample2Frame();
+		
+		static void Log(LOGTYPE logtype, const wxString& msg);
 
     private:
         enum
         {
             idMenuQuit = 1000,
-            idMenuAbout
+            idMenuAbout,
+			idMenuLogMouseEvent,
+			idMenuLogHandleEvent,
+			idMenuLogKeyEvent,
+			idMenuLogChildDropEvent
         };
+		
+		// private controls
+		wxTextCtrl* m_textLog;
+		wxMenu* m_menuLog;
 
         // create wxSF diagram manager
         wxSFDiagramManager m_Manager;

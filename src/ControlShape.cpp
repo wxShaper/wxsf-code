@@ -180,12 +180,12 @@ void wxSFControlShape::OnBeginDrag(const wxPoint& pos)
         m_pControl->Hide();
         m_pControl->Disconnect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
     }
+	
+	wxSFShapeBase::OnBeginDrag(pos);
 }
 
 void wxSFControlShape::OnEndDrag(const wxPoint& pos)
 {
-	wxUnusedVar( pos );
-	
     m_Fill = m_PrevFill;
 
     if( m_pParentManager )
@@ -204,6 +204,8 @@ void wxSFControlShape::OnEndDrag(const wxPoint& pos)
         m_pControl->Show();
         m_pControl->SetFocus();
     }
+	
+	wxSFShapeBase::OnEndDrag(pos);
 }
 
 void wxSFControlShape::OnBeginHandle(wxSFShapeHandle& handle)
@@ -214,32 +216,28 @@ void wxSFControlShape::OnBeginHandle(wxSFShapeHandle& handle)
     m_PrevFill = m_Fill;
     m_Fill = m_ModFill;
 
-    // call default handler
-    wxSFRectShape::OnBeginHandle(handle);
-
     if( m_pControl )
     {
         m_pControl->Hide();
         m_pControl->Disconnect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
     }
+	
+	// call default handler
+    wxSFRectShape::OnBeginHandle(handle);
 }
 
 void wxSFControlShape::OnHandle(wxSFShapeHandle& handle)
 {
-    // call default handler
+	// call default handler
     wxSFRectShape::OnHandle(handle);
-
-    UpdateControl();
+	
+	UpdateControl();
 }
 
 void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
 {
     m_Border = m_PrevBorder;
     m_Fill = m_PrevFill;
-
-    // call default handler
-    wxSFRectShape::OnEndHandle(handle);
-
 
     if( m_pControl )
     {
@@ -248,6 +246,9 @@ void wxSFControlShape::OnEndHandle(wxSFShapeHandle& handle)
 
         m_pControl->Connect(wxEVT_SIZE, wxSizeEventHandler(EventSink::_OnSize), NULL, m_pEventSink);
     }
+	
+	// call default handler
+    wxSFRectShape::OnEndHandle(handle);
 }
 
 void wxSFControlShape::Update()

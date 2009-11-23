@@ -9,6 +9,7 @@
  **************************************************************/
 
 #include "wx_pch.h"
+#include "wx/wxsf/SFEvents.h"
 
 #ifdef _DEBUG_MSVC
 #define new DEBUG_NEW
@@ -973,77 +974,143 @@ void wxSFShapeBase::OnLeftClick(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_LEFT_DOWN, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnRightClick(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_RIGHT_DOWN, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnLeftDoubleClick(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_LEFT_DCLICK, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnRightDoubleClick(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_RIGHT_DCLICK, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );;
+	}
 }
 
 void wxSFShapeBase::OnBeginDrag(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_DRAG_BEGIN, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnDragging(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_DRAG, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnEndDrag(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_DRAG_END, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( handle );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeHandleEvent evt( wxEVT_SF_SHAPE_HANDLE, this->GetId() );
+		evt.SetShape( this );
+		evt.SetHandle( handle );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnBeginHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( handle );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeHandleEvent evt( wxEVT_SF_SHAPE_HANDLE_BEGIN, this->GetId() );
+		evt.SetShape( this );
+		evt.SetHandle( handle );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnEndHandle(wxSFShapeHandle& handle)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( handle );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeHandleEvent evt( wxEVT_SF_SHAPE_HANDLE_END, this->GetId() );
+		evt.SetShape( this );
+		evt.SetHandle( handle );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 bool wxSFShapeBase::OnKey(int key)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( key );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeKeyEvent evt( wxEVT_SF_SHAPE_KEYDOWN, this->GetId() );
+		evt.SetShape( this );
+		evt.SetKeyCode( key );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 
     return TRUE;
 }
@@ -1052,29 +1119,52 @@ void wxSFShapeBase::OnMouseEnter(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_MOUSE_ENTER, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnMouseOver(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_MOUSE_OVER, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnMouseLeave(const wxPoint& pos)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_MOUSE_LEAVE, this->GetId() );
+		evt.SetShape( this );
+		evt.SetMousePosition( pos );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 void wxSFShapeBase::OnChildDropped(const wxRealPoint& pos, wxSFShapeBase* child)
 {
 	// HINT: overload it for custom actions...
 	
-	wxUnusedVar( pos );
-	wxUnusedVar( child );
+	if( this->ContainsStyle(sfsEMIT_EVENTS) && GetParentCanvas() )
+	{
+		wxSFShapeChildDropEvent evt( wxEVT_SF_SHAPE_CHILD_DROP, this->GetId() );
+		evt.SetShape( this );
+		evt.SetChildShape( child );
+		GetParentCanvas()->ProcessEvent( evt );
+	}
 }
 
 //----------------------------------------------------------------------------------//

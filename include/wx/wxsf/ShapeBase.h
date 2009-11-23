@@ -151,7 +151,9 @@ public:
 	    sfsSHOW_SHADOW = 512,
 		/*! \brief Lock children relative position if the parent is resized */
 		sfsLOCK_CHILDREN = 1024,
-		/*! \brief Default shape style. */
+		/*! \brief Emit events (catchable in shape canvas) */
+		sfsEMIT_EVENTS = 2048,
+		/*! \brief Default shape style */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
 
@@ -679,7 +681,7 @@ public:
 	 * the left mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_LEFT_DOWN event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -689,7 +691,7 @@ public:
 	 * the right mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_RIGHT_DOWN event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -699,7 +701,7 @@ public:
 	 * the left mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_LEFT_DCLICK event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -709,7 +711,7 @@ public:
 	 * the right mouse button. The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_RIGHT_DCLICK event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -720,7 +722,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_DRAG_BEGIN event.
 	 * \sa wxSFShapeCanvas
 	 */
 	virtual void OnBeginDrag(const wxPoint& pos);
@@ -729,7 +731,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_DRAG event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -739,7 +741,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_DRAG_END event.
 	 * \param pos Current mouse position
 	 * \sa wxSFShapeCanvas
 	 */
@@ -750,7 +752,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_HANDLE_BEGIN event.
 	 * \param handle Reference to dragged handle
 	 */
 	virtual void OnBeginHandle(wxSFShapeHandle& handle);
@@ -759,7 +761,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_HANDLE event.
 	 * \param handle Reference to dragged handle
 	 */
 	virtual void OnHandle(wxSFShapeHandle& handle);
@@ -768,7 +770,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_HANDLE_END event.
 	 * \param handle Reference to dragged handle
 	 */
 	virtual void OnEndHandle(wxSFShapeHandle& handle);
@@ -777,7 +779,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_MOUSE_ENTER event.
 	 * \param pos Current mouse position
 	 */
 	virtual void OnMouseEnter(const wxPoint& pos);
@@ -786,7 +788,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_MOUSE_OVER event.
 	 * \param pos Current mouse position
 	 */
 	virtual void OnMouseOver(const wxPoint& pos);
@@ -795,7 +797,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
-	 * Default implementation does nothing.
+	 * Default implementation emmits wxEVT_SF_SHAPE_MOUSE_LEAVE event.
 	 * \param pos Current mouse position
 	 */
 	virtual void OnMouseLeave(const wxPoint& pos);
@@ -804,6 +806,7 @@ public:
 	 * The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation emmits wxEVT_SF_SHAPE_KEYDOWN event.
 	 * \param key The key code
 	 * \return The function must return TRUE if the default event routine should be called
 	 * as well, otherwise FALSE
@@ -815,6 +818,7 @@ public:
 	 * shape is accepted as a child of this shape). The function can be overrided if necessary.
 	 *
 	 * The function is called by the framework (by the shape canvas).
+	 * Default implementation emmits wxEVT_SF_SHAPE_CHILD_DROP event.
 	 * \param pos Relative position of dropped shape
 	 * \param child Pointer to dropped shape
 	 */

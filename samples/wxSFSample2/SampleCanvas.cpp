@@ -1,6 +1,7 @@
 #include "wx_pch.h"
 
 #include "SampleCanvas.h"
+#include "SampleShape.h"
 
 SampleCanvas::SampleCanvas(wxSFDiagramManager*manager, wxWindow* parent)
 : wxSFShapeCanvas(manager, parent)
@@ -26,13 +27,13 @@ void SampleCanvas::OnRightDown(wxMouseEvent& event)
 {
     // HINT: perform your user actions here...
 
-    // add new rectangular shape to the diagram ...
-    wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFRectShape), event.GetPosition());
+    // add new custom shape to the diagram ...
+    wxSFShapeBase* pShape = GetDiagramManager()->AddShape(CLASSINFO(SampleShape), event.GetPosition());
     // set some shape's properties...
     if(pShape)
     {
         // set accepted child shapes for the new shape
-        pShape->AcceptChild(wxT("wxSFRectShape"));
+        pShape->AcceptChild(wxT("SampleShape"));
     }
 
     // perform standard operations

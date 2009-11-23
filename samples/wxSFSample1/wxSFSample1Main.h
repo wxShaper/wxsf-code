@@ -13,10 +13,13 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
+#include <wx/hashmap.h>
 
 #include "wxSFSample1App.h"
 // add wxShapeFramework include file
 #include "wx/wxsf/wxShapeFramework.h"
+
+WX_DECLARE_HASH_MAP(wxEventType, wxString, wxIntegerHash, wxIntegerEqual, EventTypeMap);
 
 class wxSFSample1Frame: public wxFrame
 {
@@ -28,8 +31,18 @@ class wxSFSample1Frame: public wxFrame
         enum
         {
             idMenuQuit = 1000,
-            idMenuAbout
+            idMenuAbout,
+			idMenuLogMouseEvent,
+			idMenuLogHandleEvent,
+			idMenuLogKeyEvent,
+			idMenuLogChildDropEvent
         };
+		
+		// private controls
+		wxTextCtrl* m_textLog;
+		
+		// private data members
+		EventTypeMap m_mapEventTypeInfo;
 
         // create wxSF diagram manager
         wxSFDiagramManager m_Manager;
@@ -40,9 +53,14 @@ class wxSFSample1Frame: public wxFrame
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
 
-        // declare event handlers for wxShapeCanvas
+        // declare event handlers for shape canvas
         void OnLeftClickCanvas(wxMouseEvent& event);
         void OnRightClickCanvas(wxMouseEvent& event);
+		// declare event handlers for shapes
+		void OnShapeMouseEvent(wxSFShapeMouseEvent& event);
+		void OnShapeHandleEvent(wxSFShapeHandleEvent& event);
+		void OnShapeKeyEvent(wxSFShapeKeyEvent& event);
+		void OnShapeChildDropEvent(wxSFShapeChildDropEvent& event);
 
         DECLARE_EVENT_TABLE()
 };

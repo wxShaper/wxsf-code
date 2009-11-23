@@ -187,6 +187,8 @@ void wxSFTextShape::OnHandle(wxSFShapeHandle& handle)
     default:
         break;
 	}
+	
+	wxSFShapeBase::OnHandle( handle );
 }
 
 //----------------------------------------------------------------------------------//
