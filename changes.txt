@@ -6,6 +6,7 @@ Changes in version 1.9.1 beta (2009-11-22):
   wxEVT_SF_SHAPE_MOUSE_LEAVE, wxEVT_SF_SHAPE_HANDLE_BEGIN, wxEVT_SF_SHAPE_HANDLE, wxEVT_SF_SHAPE_HANDLE_END, wxEVT_SF_SHAPE_DRAG_BEGIN,
   wxEVT_SF_SHAPE_DRAG, wxEVT_SF_SHAPE_DRAG_END, wxEVT_SF_SHAPE_KEYDOWN, wxEVT_SF_SHAPE_CHILD_DROP. Also new event classes are available:
   wxSFShapeMouseEvent, wxSFShapeHandleEvent, wxSFShapeKeyEvent and wxSFShapeChildDropEvent.
+- Added new shape style sfsEMIT_EVENTS which enables emitting of shape events.
 - Updated wxSFSample1 and wxSFSample2 sample projects to demonstrate new library's functionality.
 
 Changes in version 1.9.0 beta (2009-11-1):
