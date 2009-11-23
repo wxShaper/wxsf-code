@@ -1,3 +1,5 @@
+#include "wx_pch.h"
+
 #include "SampleShape.h"
 #include "wxSFSample2Main.h"
 
