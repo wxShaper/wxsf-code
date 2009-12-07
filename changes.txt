@@ -8,6 +8,7 @@ Changes in version 1.9.1 beta (2009-11-22):
   wxSFShapeMouseEvent, wxSFShapeHandleEvent, wxSFShapeKeyEvent and wxSFShapeChildDropEvent.
 - Added new shape style sfsEMIT_EVENTS which enables emitting of shape events.
 - Updated wxSFSample1 and wxSFSample2 sample projects to demonstrate new library's functionality.
+- Fixed function wxSFDiagramManager::GetAssignedConnections(); shapes with ID equal to -1 will not be examined.
 
 Changes in version 1.9.0 beta (2009-11-1):
 --------------------------------------------

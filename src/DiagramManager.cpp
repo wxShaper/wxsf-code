@@ -420,6 +420,8 @@ bool wxSFDiagramManager::IsShapeAccepted(const wxString& type)
 void wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxClassInfo* shapeInfo, wxSFShapeBase::CONNECTMODE mode, ShapeList& lines)
 {
 	wxSFLineShape* pLine;
+	
+	if( parent->GetId() == -1 ) return;
 
 	SerializableList lstLines;
 	// lines are children of root item only so we have not to search recursively...
@@ -434,16 +436,16 @@ void wxSFDiagramManager::GetAssignedConnections(wxSFShapeBase* parent, wxClassIn
             switch(mode)
             {
                 case wxSFShapeBase::lineSTARTING:
-                    if(pLine->GetSrcShapeId() == parent->GetId())lines.Append(pLine);
+                    if( pLine->GetSrcShapeId() == parent->GetId() ) lines.Append(pLine);
                     break;
 
                 case wxSFShapeBase::lineENDING:
-                    if(pLine->GetTrgShapeId() == parent->GetId())lines.Append(pLine);
+                    if( pLine->GetTrgShapeId() == parent->GetId() ) lines.Append(pLine);
                     break;
 
                 case wxSFShapeBase::lineBOTH:
-                    if((pLine->GetSrcShapeId() == parent->GetId())
-                    || (pLine->GetTrgShapeId() == parent->GetId()))lines.Append(pLine);
+                    if( ( pLine->GetSrcShapeId() == parent->GetId() ) ||
+					    ( pLine->GetTrgShapeId() == parent->GetId() ) ) lines.Append(pLine);
                     break;
             }
             node = node->GetNext();
