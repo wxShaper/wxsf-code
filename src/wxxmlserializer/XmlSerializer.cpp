@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.0 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.1 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -430,12 +430,9 @@ void xsSerializable::InitChild(xsSerializable* child)
 				child->m_pParentManager = m_pParentManager;
 				
 				// assign unique ids to the child object
-				if( child->IsSerialized() )
-				{
-					if( child->GetId() == -1 ) child->SetId(m_pParentManager->GetNewId());
-					else
-						m_pParentManager->GetUsedIDs()[child->GetId()] = child;
-				}
+				if( child->GetId() == -1 ) child->SetId(m_pParentManager->GetNewId());
+				else
+					m_pParentManager->GetUsedIDs()[child->GetId()] = child;
 				
 				// if the child has another children, set their parent manager and ID as well
 				xsSerializable *pItem;
@@ -449,12 +446,9 @@ void xsSerializable::InitChild(xsSerializable* child)
 					
 					pItem->SetParentManager( m_pParentManager );
 					
-					if( pItem->IsSerialized() )
-					{
-						if( pItem->GetId() == -1 ) pItem->SetId(m_pParentManager->GetNewId());
-						else
-							m_pParentManager->GetUsedIDs()[pItem->GetId()] = pItem;
-					}
+					if( pItem->GetId() == -1 ) pItem->SetId(m_pParentManager->GetNewId());
+					else
+						m_pParentManager->GetUsedIDs()[pItem->GetId()] = pItem;
 					
 					node = node->GetNext();
 				}

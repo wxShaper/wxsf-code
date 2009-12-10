@@ -366,6 +366,9 @@ void wxSFDiagramManager::DeserializeObjects(xsSerializable* parent, wxXmlNode* n
 void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* node)
 {
 	wxSFShapeBase *pShape;
+	
+	IntArray arrNewIDs;
+	SerializableList lstForUpdate;
 
 	wxXmlNode* shapeNode = node->GetChildren();
 	while(shapeNode)
@@ -376,7 +379,15 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 			if(pShape)
 			{
 				// store new assigned ID
-				long newId = pShape->GetId();
+				lstForUpdate.Append( pShape );
+				pShape->GetChildrenRecursively( NULL, lstForUpdate );
+				
+				for( SerializableList::iterator it = lstForUpdate.begin(); it != lstForUpdate.end(); ++it )
+				{
+					arrNewIDs.Add( (*it)->GetId() );
+				}
+				
+				// deserialize stored content
 				pShape->DeserializeObject(shapeNode);
 
 				// update handle in line shapes
@@ -386,12 +397,20 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 					m_lstLinesForUpdate.Append(pShape);
 				}
 
-				// store information about ID's change and re-assign shape's id
-				m_lstIDPairs.Append(new IDPair(pShape->GetId(), newId));
-				pShape->SetId(newId);
+				// store information about IDs' changes and re-assign shapes' IDs
+				int newId, i = 0;
+				for( SerializableList::iterator it = lstForUpdate.begin(); it != lstForUpdate.end(); ++it )
+				{
+					newId = arrNewIDs[i++];
+					m_lstIDPairs.Append( new IDPair((*it)->GetId(), newId) );
+					(*it)->SetId( newId );
+				}
 
 				// deserialize child objects
 				_DeserializeObjects(pShape, shapeNode);
+				
+				arrNewIDs.Clear();
+				lstForUpdate.Clear();
 			}
 		}
 		shapeNode = shapeNode->GetNext();
