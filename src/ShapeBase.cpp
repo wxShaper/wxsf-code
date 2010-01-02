@@ -500,9 +500,6 @@ bool wxSFShapeBase::IsConnectionAccepted(const wxString& type)
 void wxSFShapeBase::FitToChildren()
 {
 	// HINT: overload it for custom actions...
-
-	/*wxSFShapeBase* m_pParentShape = GetParentShape();
-	if(m_pParentShape)m_pParentShape->FitToChildren();*/
 }
 
 wxSFShapeBase* wxSFShapeBase::GetParentShape()
