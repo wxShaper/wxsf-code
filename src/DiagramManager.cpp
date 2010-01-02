@@ -619,23 +619,7 @@ void wxSFDiagramManager::UpdateConnections()
 	IDPair* pIDPair;
 
 	if( !m_lstLinesForUpdate.IsEmpty() )
-	{
-	    /*// check whether line's src and trg shapes realy exists
-        ShapeList::compatibility_iterator node = m_lstLinesForUpdate.GetFirst();
-        while(node)
-        {
-            pLine = (wxSFLineShape*)node->GetData();
-            if(!GetItem(pLine->GetSrcShapeId()) || !GetItem(pLine->GetTrgShapeId()))
-            {
-                m_lstLinesForUpdate.DeleteObject(pLine);
-                RemoveItem(pLine);
-
-				node = m_lstLinesForUpdate.GetFirst();
-            }
-			else
-				node = node->GetNext();
-        }*/
-		
+	{		
         // now check ids
 		long oldSrcId, oldTrgId;
 		long newSrcId, newTrgId;
