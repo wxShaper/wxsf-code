@@ -104,7 +104,8 @@ wxSFSample2Frame::wxSFSample2Frame(wxFrame *frame, const wxString& title)
 
 	SetSizer( mainSizer );
 	Layout();
-    Center();}
+    Center();
+}
 
 
 wxSFSample2Frame::~wxSFSample2Frame()

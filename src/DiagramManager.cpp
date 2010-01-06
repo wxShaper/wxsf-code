@@ -196,7 +196,12 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 
 wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, bool saveState)
 {
-    wxSFShapeBase* pShape = AddShape(CLASSINFO(wxSFLineShape), sfDONT_SAVE_STATE);
+    return CreateConnection(srcId, trgId, CLASSINFO(wxSFLineShape), saveState);
+}
+
+wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState)
+{
+    wxSFShapeBase* pShape = AddShape(lineInfo, sfDONT_SAVE_STATE);
     if(pShape)
     {
         wxSFLineShape *pLine = (wxSFLineShape*)pShape;

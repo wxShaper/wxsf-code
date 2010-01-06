@@ -82,6 +82,19 @@ public:
      */
     wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true);
     /*!
+     * \brief Create new direct connection of given type between two shapes.
+     *
+     * This function creates new simple connection line (without arrows) between gived
+     * shapes.
+     * \param srcId ID of a source shape
+     * \param trgId ID of target shape
+	 * \param lineInfo Connection type (any class inherited from wxSFLineShape)
+     * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+     * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
+     * \sa StartInteractiveConnection
+     */
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState = true);
+    /*!
      * \brief Create new shape and add it to the shape canvas.
      * \param shapeInfo Shape type
      * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation

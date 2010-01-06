@@ -10,6 +10,9 @@ Changes in version 1.9.1 beta (2009-12-10):
   wxEVT_SF_SHAPE_DRAG, wxEVT_SF_SHAPE_DRAG_END, wxEVT_SF_SHAPE_KEYDOWN, wxEVT_SF_SHAPE_CHILD_DROP. Also new event classes are available:
   wxSFShapeMouseEvent, wxSFShapeHandleEvent, wxSFShapeKeyEvent and wxSFShapeChildDropEvent.
 - Added new shape style sfsEMIT_EVENTS which enables emitting of shape events.
+- Added new function wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState = true) which
+  allows user to define also connection type (instead of hardcoded "wxSFLineShape" in its first version). The original function is
+  still available.
 - Updated wxSFSample1 and wxSFSample2 sample projects to demonstrate new library's functionality.
 - Fixed function wxSFDiagramManager::GetAssignedConnections(); shapes with ID equal to -1 will not be examined.
 

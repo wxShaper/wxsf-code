@@ -3,7 +3,7 @@
 #include "SampleCanvas.h"
 #include "SampleShape.h"
 
-SampleCanvas::SampleCanvas(wxSFDiagramManager*manager, wxWindow* parent)
+SampleCanvas::SampleCanvas(wxSFDiagramManager *manager, wxWindow *parent)
 : wxSFShapeCanvas(manager, parent)
 {
     // set some shape canvas properties if necessary...
