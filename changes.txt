@@ -15,6 +15,7 @@ Changes in version 1.9.1 beta (2009-12-10):
   allows user to define also connection type (instead of hardcoded "wxSFLineShape" in its first version). The original function is
   still available.
 - Updated wxSFSample1 and wxSFSample2 sample projects to demonstrate new library's functionality.
+- Slightly tuned sensivity for searching of a line under the cursor.
 - Fixed function wxSFDiagramManager::GetAssignedConnections(); shapes with ID equal to -1 will not be examined.
 
 Changes in version 1.9.0 beta (2009-11-1):

@@ -319,7 +319,7 @@ bool wxSFDiagramManager::DeserializeFromXml(const wxString& file)
         m_pShapeCanvas->SaveCanvasState();
 	}
 	else
-		wxMessageBox(wxT("Unable to initialize input stream."), wxT("ShapeFramework"), wxICON_ERROR);
+		wxMessageBox(wxT("Unable to initialize input stream."), wxT("ShapeFramework"), wxOK | wxICON_ERROR);
 
 	return fSuccess;
 }
@@ -340,11 +340,11 @@ bool wxSFDiagramManager::DeserializeFromXml(wxInputStream& instream)
 			return true;
 		}
 		else
-			wxMessageBox(wxT("Unknown file format."), wxT("ShapeFramework"), wxICON_WARNING);
+			wxMessageBox(wxT("Unknown file format."), wxT("ShapeFramework"), wxOK | wxICON_WARNING);
 	}
 	catch (...)
 	{
-		wxMessageBox(wxT("Unable to load XML file."), wxT("ShapeFramework"), wxICON_ERROR);
+		wxMessageBox(wxT("Unable to load XML file."), wxT("ShapeFramework"), wxOK | wxICON_ERROR);
 	}
 	
 	return false;
@@ -415,6 +415,14 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				
 				arrNewIDs.Clear();
 				lstForUpdate.Clear();
+			}
+			else
+			{
+				// there are some unsupported shapes so the diagrams must be cleared because of possible damage
+				RemoveAll();
+				
+				wxMessageBox( wxT("Deserialization couldn't be completed because not of all shapes are accepted."), wxT("wxShapeFramework"), wxOK | wxICON_WARNING );
+				return;
 			}
 		}
 		shapeNode = shapeNode->GetNext();
