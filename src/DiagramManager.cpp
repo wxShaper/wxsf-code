@@ -357,10 +357,6 @@ void wxSFDiagramManager::DeserializeObjects(xsSerializable* parent, wxXmlNode* n
     // update IDs in connection lines
     UpdateConnections();
 	
-    // clear list of ID pairs
-    m_lstIDPairs.Clear();
-    m_lstLinesForUpdate.Clear();
-
     if( m_pShapeCanvas )
     {
         //m_pShapeCanvas->MoveShapesFromNegatives();
@@ -407,8 +403,11 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				for( SerializableList::iterator it = lstForUpdate.begin(); it != lstForUpdate.end(); ++it )
 				{
 					newId = arrNewIDs[i++];
-					m_lstIDPairs.Append( new IDPair((*it)->GetId(), newId) );
-					(*it)->SetId( newId );
+					if( newId != (*it)->GetId() )
+					{
+						m_lstIDPairs.Append( new IDPair((*it)->GetId(), newId) );
+						(*it)->SetId( newId );
+					}
 				}
 
 				// deserialize child objects

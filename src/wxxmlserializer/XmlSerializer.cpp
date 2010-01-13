@@ -918,14 +918,18 @@ int wxXmlSerializer::GetIDCount(long id)
 
 long wxXmlSerializer::GetNewId()
 {
-	long nId = 1;
-
-	//while(IsIdUsed(nId))nId++;
+/*	long nId = 1;
 	
 	for ( IDMap::iterator it = m_mapUsedIDs.begin(); it != m_mapUsedIDs.end(); it++, nId++ )
 	{
 		if (it->first != nId) break;
 	}
+	
+	return nId;*/
+	
+	long nId = 1;
+	
+	while( m_mapUsedIDs.find( nId ) != m_mapUsedIDs.end() ) nId++;
 	
 	return nId;
 }
