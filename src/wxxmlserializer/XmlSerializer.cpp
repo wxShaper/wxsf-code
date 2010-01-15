@@ -199,14 +199,12 @@ xsSerializable* xsSerializable::GetSibbling(wxClassInfo *type)
 
     if( m_pParentItem )
     {
-		SerializableList::compatibility_iterator sibbling, node = m_pParentItem->GetChildrenList().Find( this );
+		SerializableList::compatibility_iterator node = m_pParentItem->GetChildrenList().Find( this );
 		while( node )
 		{
-			sibbling = node->GetNext();
+			node = node->GetNext();
 			
-			if( sibbling && (sibbling->GetData()->IsKindOf( type ) ) ) return sibbling->GetData();
-			
-			node = sibbling;
+			if( node && (node->GetData()->IsKindOf( type ) ) ) return node->GetData();
 		}
     }
 

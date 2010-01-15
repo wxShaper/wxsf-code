@@ -1,8 +1,9 @@
-Changes in version 1.9.1 beta (2009-12-10):
+Changes in version 1.9.1 beta (2010-01-15):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.3.1:
   - IDs of child items which aren't created directly by the serializer are now properly set by xsSerializable::AddChild() function.
   - Fixed function wxXmlSerializer::GetNewId().
+  - Minor code clean-up.
 
 - Fixed mismatch in allocation and deallocation in wxSFScaledDC::DoDrawLines() function (patch by ettlmartin a.k.a orbitcowboy).
 - Implemented new events used in shapes (emited from shapes and redirected to shape canvas). The new events are: wxEVT_SF_SHAPE_LEFT_DOWN,
