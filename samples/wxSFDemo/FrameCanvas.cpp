@@ -14,7 +14,6 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	m_pParentFrame = (MainFrm*)wxGetApp().GetTopWindow();
 	
 	// initialize grid
-
 	AddStyle(sfsGRID_USE);
 	AddStyle(sfsGRID_SHOW);
 
