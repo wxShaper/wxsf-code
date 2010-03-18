@@ -154,6 +154,7 @@ SFSAMPLE1_OBJECTS =  \
 SFSAMPLE2_CXXFLAGS = -I$(srcdir)/include $(WX_CXXFLAGS) $(CPPFLAGS) $(CXXFLAGS)
 SFSAMPLE2_OBJECTS =  \
 	sfsample2_SampleCanvas.o \
+	sfsample2_SampleShape.o \
 	sfsample2_wxSFSample2App.o \
 	sfsample2_wxSFSample2Main.o \
 	sfsample2_wx_pch.o \
@@ -716,6 +717,9 @@ sfsample1_wxSF_rc.o: $(srcdir)/samples/wxSFSample1/wxSF.rc
 
 sfsample2_SampleCanvas.o: $(srcdir)/samples/wxSFSample2/SampleCanvas.cpp
 	$(CXXC) -c -o $@ $(SFSAMPLE2_CXXFLAGS) $(srcdir)/samples/wxSFSample2/SampleCanvas.cpp
+
+sfsample2_SampleShape.o: $(srcdir)/samples/wxSFSample2/SampleShape.cpp
+	$(CXXC) -c -o $@ $(SFSAMPLE2_CXXFLAGS) $(srcdir)/samples/wxSFSample2/SampleShape.cpp
 
 sfsample2_wxSFSample2App.o: $(srcdir)/samples/wxSFSample2/wxSFSample2App.cpp
 	$(CXXC) -c -o $@ $(SFSAMPLE2_CXXFLAGS) $(srcdir)/samples/wxSFSample2/wxSFSample2App.cpp

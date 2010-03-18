@@ -35,7 +35,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.9.1 beta");
+    m_sSFVersion =  wxT("1.9.2 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -420,6 +420,7 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 			{
 				// there are some unsupported shapes so the diagrams must be cleared because of possible damage
 				RemoveAll();
+				m_lstLinesForUpdate.Clear();
 				
 				wxMessageBox( wxT("Deserialization couldn't be completed because not of all shapes are accepted."), wxT("wxShapeFramework"), wxOK | wxICON_WARNING );
 				return;
