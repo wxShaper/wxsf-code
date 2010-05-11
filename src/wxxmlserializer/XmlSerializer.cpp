@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.1 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.2 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -711,7 +711,7 @@ bool wxXmlSerializer::SerializeToXml(const wxString& file, bool withroot)
 		return this->SerializeToXml(outstream, withroot);
 	}
 	else
-		wxMessageBox(wxT("Unable to initialize output file stream."), m_sOwner, wxICON_ERROR);
+		m_sErr = wxT("Unable to initialize output file stream.");
 
 	return false;
 }
@@ -748,7 +748,7 @@ bool wxXmlSerializer::SerializeToXml(wxOutputStream& outstream, bool withroot)
 		}
 		catch (...)
 		{
-			wxMessageBox(wxT("Unable to save XML document."), m_sOwner, wxICON_ERROR);
+			m_sErr = wxT("Unable to save XML document.");
 			return false;
 		}
 	}
@@ -765,7 +765,7 @@ bool wxXmlSerializer::DeserializeFromXml(const wxString& file)
 		return this->DeserializeFromXml(instream);
 	}
 	else
-		wxMessageBox(wxT("Unable to initialize input stream."), m_sOwner, wxICON_ERROR);
+		m_sErr = wxT("Unable to initialize input stream.");
 	
 	return false;
 }
@@ -793,14 +793,14 @@ bool wxXmlSerializer::DeserializeFromXml(wxInputStream& instream)
 				return true;
 		    }
             else
-                wxMessageBox(wxT("No matching file owner or version."), m_sOwner, wxICON_WARNING);
+				m_sErr = wxT("No matching file owner or version.");
 		}
 		else
-			wxMessageBox(wxT("Unknown file format."), m_sOwner, wxICON_WARNING);
+			m_sErr = wxT("Unknown file format.");
 	}
 	catch (...)
 	{
-		wxMessageBox(wxT("Unable to load XML file."), m_sOwner, wxICON_ERROR);
+		m_sErr = wxT("Unable to load XML file.");
 	}
 	
 	return false;

@@ -13,6 +13,7 @@
 
 #include <wx/graphics.h>
 #include <wx/dc.h>
+#include <wx/dcclient.h>
 #include <math.h>
 
 #include <wx/wxsf/Defs.h>

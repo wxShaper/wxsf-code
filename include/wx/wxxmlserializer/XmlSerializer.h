@@ -557,6 +557,12 @@ public:
 	inline const wxString& GetLibraryVersion() const { return m_sLibraryVersion; }
 
     // public functions
+	/**
+	 * \brief Get last occured error state/message.
+	 * \return Error message
+	 */
+	const wxString& GetErrMessage() const { return m_sErr; }
+	
     /*! \brief Get pointer to root serializable object. */
     inline xsSerializable* GetRootItem() const { return m_pRoot; }
     /*!
@@ -732,6 +738,8 @@ protected:
     wxString m_sRootName;
     /*! \brief File version */
     wxString m_sVersion;
+	/*! \brief Error message */
+	wxString m_sErr;
 
     /*! \brief Pointer to root object */
     xsSerializable* m_pRoot;
