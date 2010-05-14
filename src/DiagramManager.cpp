@@ -26,6 +26,9 @@
 
 using namespace wxSFCommonFcn;
 
+// TODO: implement autolayout
+// TODO: implement better line X ellipse check
+
 WX_DEFINE_LIST(IDList);
 
 XS_IMPLEMENT_CLONABLE_CLASS(wxSFDiagramManager, wxXmlSerializer);

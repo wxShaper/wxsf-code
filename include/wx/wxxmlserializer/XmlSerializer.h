@@ -911,6 +911,24 @@ public:
 	
 	// public functions
 	/**
+	 * \brief Convert managed data to wxVariant (supported data types: int, long, bool, double, float,
+	 * wxChar, wxString and wxArrayString).
+	 * \return wxVariant object containing the data
+	 */
+	wxVariant ToVariant()
+	{
+		if( m_sDataType == wxT("int") )	return wxVariant( *(int*) m_pSourceVariable );
+		else if( m_sDataType == wxT("long") ) return wxVariant( *(long*) m_pSourceVariable );
+		else if( m_sDataType == wxT("bool") ) return wxVariant( *(bool*) m_pSourceVariable );
+		else if( m_sDataType == wxT("double") ) return wxVariant( *(double*) m_pSourceVariable );
+		else if( m_sDataType == wxT("float") ) return wxVariant( *(float*) m_pSourceVariable );
+		else if( m_sDataType == wxT("char") ) return wxVariant( *(wxChar*) m_pSourceVariable );
+		else if( m_sDataType == wxT("string") ) return wxVariant( *(wxString*) m_pSourceVariable );
+		else if( m_sDataType == wxT("arraystring") ) return wxVariant( *(wxArrayString*) m_pSourceVariable );
+		else return wxVariant();
+	}
+	
+	/**
 	 * \brief Get textual representation of the property's value.
 	 * \return Textual representation of current value
 	 */
@@ -1054,6 +1072,7 @@ public:
 	 * \return Reference to managed data member
 	 */
 	inline xsSerializable& AsSerializableDynamic() { wxASSERT(m_sDataType == wxT("serializabledynamic")); return **(xsSerializable**)m_pSourceVariable; }
+	
 	
 	// public data members
 	/*! \brief General (void) pointer to serialized object encapsulated by the property */
