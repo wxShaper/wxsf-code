@@ -92,13 +92,10 @@ void cStarShape::Initialize()
 
         // components of composite shapes created at runtime in parent shape's
         // constructor cannot be fully serialized (it means created by
-		// the serializer) so it is important to disable their serialization...
-        m_pText->EnableSerialization(false);
-        // ... but their properties can be serialized in the standard way:
-        XS_SERIALIZE_DYNAMIC_OBJECT_NO_CREATE(m_pText, wxT("title"));
-
-        // assign the text shape to the parent shape
-        AddChild(m_pText);
+		// the serializer) so it is important to disable their standard serialization
+        // but they can be still serialized as the parent shape's properties 
+		// in the standard way by the following macro:
+		SF_ADD_COMPONENT( m_pText, wxT("title") );
     }
 }
 

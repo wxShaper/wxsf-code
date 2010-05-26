@@ -8,6 +8,8 @@ Changes in version 1.9.2 beta (2010-03-18):
 	
 - Fixed possible crash occured during loading of projects containing shape classes which are not currently known (declared) in the application.
 - Added missing include in ScaledDC.h file preventing wxSF from build if precompiled header were used.
+- Added new helper macro SF_ADD_COMPONENT(comp, name) usefull when a shape's component should be added to its parent
+  by the parent itself and not by serializer/diagram manager (typically in constructor of so called composite shape).
 
 Changes in version 1.9.1 beta (2010-01-15):
 --------------------------------------------

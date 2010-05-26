@@ -56,6 +56,14 @@ class WXDLLIMPEXP_SF wxSFShapeCanvas;
 class WXDLLIMPEXP_SF wxSFDiagramManager;
 class WXDLLIMPEXP_SF wxSFShapeBase;
 
+/*! \brief Add child shape component created by the parent shape (not by the serializer) to this parent shape.
+ * Serializable properties of added component will be serialized as the parent shape's properties.
+ */ 
+#define SF_ADD_COMPONENT(comp, name) \
+	comp->EnableSerialization( false );	\
+	this->AddProperty( new xsProperty( &comp, wxT("serializabledynamicnocreate"), name ) );	\
+	this->AddChild( comp );	\
+
 WX_DECLARE_LIST_WITH_DECL(wxSFShapeBase, ShapeList, class WXDLLIMPEXP_SF);
 
 /*! \brief Base class for all shapes providing fundamental functionality and publishing set

@@ -1417,4 +1417,3 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
     // refresh shape
     Refresh( currBB.Union( prevBB ) );
 }
-
