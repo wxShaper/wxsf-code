@@ -6,14 +6,6 @@
 #include "Art.h"
 #include "Ids.h"
 
-// wx backward compatibility hack...
-#ifndef wxSAVE
-#define wxSAVE wxFD_SAVE
-#endif
-#ifndef wxOPEN
-#define wxOPEN wxFD_OPEN
-#endif
-
 BEGIN_EVENT_TABLE(MainFrm, wxFrame)
     EVT_CLOSE(MainFrm::OnClose)
 	EVT_MENU(wxID_EXIT, MainFrm::OnExit)

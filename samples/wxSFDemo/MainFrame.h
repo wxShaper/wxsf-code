@@ -6,6 +6,14 @@
 #include "GUI.h"
 #include "FrameCanvas.h"
 
+// wx backward compatibility hack...
+#ifndef wxSAVE
+#define wxSAVE wxFD_SAVE
+#endif
+#ifndef wxOPEN
+#define wxOPEN wxFD_OPEN
+#endif
+
 // thumbnail frame
 class ThumbFrm : public _ThumbFrm
 {
