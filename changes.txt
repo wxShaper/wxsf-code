@@ -5,6 +5,7 @@ Changes in version 1.9.2 beta (2010-06-01):
     instead if needed.
   - Serialized data members can be converted to wxVariant (if data type is supported) via xsProperty::ToVariant()
     member function.
+  - Added new macro XS_IMPLEMENT_CLONABLE_CLASS2 suitable for classes with two ancestors.
 	
 - Fixed possible crash occured during loading of projects containing shape classes which are not currently known (declared) in the application.
 - Added missing include in ScaledDC.h file preventing wxSF from build if precompiled header were used.

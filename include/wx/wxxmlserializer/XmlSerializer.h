@@ -140,6 +140,16 @@ public: \
 		else \
 			return NULL; \
 	} \
+	
+/*! \brief Enable RTTI (the same as IMPLEMENT_DYNAMIC_CLASS2) and implement xsSerializable::Clone() function */
+#define XS_IMPLEMENT_CLONABLE_CLASS2(name, base1, base2) \
+	IMPLEMENT_DYNAMIC_CLASS2(name, base1, base2) \
+	wxObject* name::Clone() \
+	{ \
+		if( m_fClone ) return new name(*this); \
+		else \
+			return NULL; \
+	} \
 
 
 class WXDLLIMPEXP_XS xsProperty;
