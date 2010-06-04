@@ -12,6 +12,7 @@ Changes in version 1.9.2 beta (2010-06-01):
 - Added new helper macro SF_ADD_COMPONENT(comp, name) usefull when a shape's component should be added to its parent
   by the parent itself and not by serializer/diagram manager (typically in constructor of so called composite shape).
 - Fixed build error occured during compilation of wxSFDemo sample project on wxWidgets without defined wxOPEN and wxSAVE symbols.
+- Fixed drawing of non-transparent text shapes in Windows (shape border wasn't visible).
 
 Changes in version 1.9.1 beta (2010-01-15):
 --------------------------------------------
