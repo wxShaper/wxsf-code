@@ -35,19 +35,20 @@ DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_MOUSE_ENTER );
 DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_MOUSE_OVER );
 DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_MOUSE_LEAVE );
 DEFINE_EVENT_TYPE( wxEVT_SF_SHAPE_CHILD_DROP );
+DEFINE_EVENT_TYPE( wxEVT_SF_LINE_BEFORE_DONE );
 
 //----------------------------------------------------------------------------------//
 // wxSFShapeEvent class
 //----------------------------------------------------------------------------------//
 
 wxSFShapeEvent::wxSFShapeEvent(wxEventType cmdType, int id)
-: wxEvent(id, cmdType)
+: wxEvent(id, cmdType), m_Vetoed(false)
 {
     m_Shape = NULL;
 }
 
 wxSFShapeEvent::wxSFShapeEvent(const wxSFShapeEvent& obj)
-: wxEvent(obj)
+: wxEvent(obj), m_Vetoed(obj.m_Vetoed)
 {
     m_Shape = obj.m_Shape;
 }

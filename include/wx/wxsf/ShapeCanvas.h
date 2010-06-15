@@ -842,6 +842,19 @@ public:
 	 * \sa StartInteractiveConnection(), wxSFShapeEvent
 	 */
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
+	
+	/*!
+	 * \brief Event handler called after successfull conection creation in
+	 * order to alow developper to perform some kind of checks
+	 * before the connection is really added to the diagram. The function
+	 * can be overrided if necessary. The default implementation
+     * generates wxEVT_SF_LINE_DONE event.
+	 * \param connection Pointer to new connection object
+	 * \sa StartInteractiveConnection(), wxSFShapeEvent
+	 * \return false if the generated event has been vetoed in this case,
+	 * the connection creation is cancelled
+	 */
+	virtual bool OnPreConnectionFinished(wxSFLineShape* connection);
 
 	/*!
 	 * \brief Event handler called by the framework after any dragged shapes

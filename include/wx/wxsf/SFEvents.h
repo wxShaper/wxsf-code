@@ -46,6 +46,7 @@ BEGIN_DECLARE_EVENT_TYPES()
 	DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_SHAPE_MOUSE_OVER, 7786)
 	DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_SHAPE_MOUSE_LEAVE, 7787)
 	DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_SHAPE_CHILD_DROP, 7788)
+	DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_SF, wxEVT_SF_LINE_BEFORE_DONE, 7789)
 END_DECLARE_EVENT_TYPES()
 
 typedef void (wxEvtHandler::*wxSFShapeEventFunction)(wxSFShapeEvent&);
@@ -254,6 +255,17 @@ typedef void (wxEvtHandler::*wxSFShapeChildDropEventFunction)(wxSFShapeChildDrop
         (wxObject *) NULL \
     ),
 	
+/*! \brief Event table macro mapping event wxEVT_SF_LINE_BEFORE_DONE. This event occures
+ * when the interactive connection creation process is finished but this has been added in 
+ * order to allow the developper to cancel the creation if required. The generated event
+ * object holds a pointer to the new line shape. */
+#define EVT_SF_LINE_BEFORE_DONE(id, fn) \
+    DECLARE_EVENT_TABLE_ENTRY( \
+        wxEVT_SF_LINE_BEFORE_DONE, id, wxID_ANY, \
+        (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxSFShapeEventFunction, &fn ), \
+        (wxObject *) NULL \
+    ),
+	
 /*!
  * \brief Class encapsulates generic wxSF shape's event.
  */
@@ -281,12 +293,24 @@ public:
 
     /*! \brief Clone this event object and return pointer to the new instance. */
     wxEvent* Clone() const { return new wxSFShapeEvent(*this); }
+	
+	/*!
+     * \brief Check if the event has been vetoed or not.
+     * \return TRUE if the event has been vetoed.
+     */
+	bool IsVetoed() {return m_Vetoed;}
+	
+	/*!
+	 * \brief Set the veto flag to true.
+	 */
+	void Veto() {m_Vetoed = true;};
 
 
 private:
     // private data members
     /*! \brief Pointer to stored shape object. */
     wxSFShapeBase* m_Shape;
+	bool m_Vetoed;
 };
 
 /*!

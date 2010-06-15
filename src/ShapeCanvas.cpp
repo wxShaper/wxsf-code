@@ -780,7 +780,16 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                             m_pNewLineShape->SetLineMode(wxSFLineShape::modeREADY);
 
                             // inform user that the line is completed
-                            OnConnectionFinished(m_pNewLineShape);
+                            if( !OnPreConnectionFinished(m_pNewLineShape) )
+							{
+								m_pManager->RemoveShape( m_pNewLineShape );
+								m_pNewLineShape = NULL;
+								
+								SaveCanvasState();
+								return;
+							}
+							
+							OnConnectionFinished(m_pNewLineShape);
 
 							m_pNewLineShape->Update();
                             m_pNewLineShape->Refresh();
@@ -1360,6 +1369,23 @@ void wxSFShapeCanvas::OnConnectionFinished(wxSFLineShape* connection)
     wxSFShapeEvent event( wxEVT_SF_LINE_DONE, id);
     event.SetShape( connection );
     ProcessEvent( event );
+}
+
+bool wxSFShapeCanvas::OnPreConnectionFinished(wxSFLineShape* connection)
+{
+	// HINT: override to perform user-defined actions...
+
+	// ... standard implementation generates the wxEVT_SF_LINE_DONE event.
+	long id = -1;
+	if( connection ) id = connection->GetId();
+
+    wxSFShapeEvent event( wxEVT_SF_LINE_BEFORE_DONE, id);
+    event.SetShape( connection );
+    ProcessEvent( event );
+	
+	if( event.IsVetoed() ) return false;
+		
+	return true;
 }
 
 void wxSFShapeCanvas::OnTextChange(wxSFEditTextShape* shape)
