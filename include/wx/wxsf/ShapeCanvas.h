@@ -21,6 +21,7 @@
 #include <wx/wxsf/LineShape.h>
 #include <wx/wxsf/EditTextShape.h>
 #include <wx/wxsf/Printout.h>
+#include <wx/wxsf/CommonFcn.h>
 
 #ifdef __WXMAC__ 
 #include <wx/mac/carbon/printdlg.h> 
@@ -328,7 +329,7 @@ public:
     /*!
      * \brief Start interactive connection creation.
      *
-     * This function switch the cavas to a mode in which a new shape connection
+     * This function switch the canvas to a mode in which a new shape connection
      * can be created interactively (by mouse operations). Every connection must
      * start and finish in some shape object or another connection. At the end of the
      * process the OnConnectionFinished event handler is invoked so the user can
@@ -338,9 +339,28 @@ public:
      * to the function.
      * \param shapeInfo Connection type
      * \param pos Position where to start
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \sa CreateConnection
      */
-    void StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos);
+    void StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos, wxSF::ERROR *err = NULL);
+	 /*!
+     * \brief Start interactive connection creation from existing line object.
+     *
+     * This function switch the canvas to a mode in which a new shape connection
+     * can be created interactively (by mouse operations). Every connection must
+     * start and finish in some shape object or another connection. At the end of the
+     * process the OnConnectionFinished event handler is invoked so the user can
+     * set needed connection properties immediately.
+     *
+     * Function must be called from mouse event handler and the event must be passed
+     * to the function.
+     * \param shape Pointer to existing line shape object which will be used as a connection.
+     * \param pos Position where to start
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
+     * \sa CreateConnection
+     */
+	void StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERROR *err = NULL);
+	
     /*! \brief Abort interactive connection creation process */
 	void AbortInteractiveConnection();
 

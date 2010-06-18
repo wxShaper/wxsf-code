@@ -12,6 +12,7 @@
 #define _WXSFDIAGRAMMANAGER_H
 
 #include <wx/wxsf/ShapeBase.h>
+#include <wx/wxsf/CommonFcn.h>
 
 #define serINCLUDE_PARENTS true
 #define serWITHOUT_PARENTS false
@@ -19,6 +20,7 @@
 #define sfDONT_INITIALIZE false
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
+class WXDLLIMPEXP_SF wxSFLineShape;
 
 /*! \brief Auxiliary class encapsulation two variables suitable for shape IDs. It is
  * used for storing infomation about various relevant shape IDs */
@@ -77,10 +79,11 @@ public:
      * \param srcId ID of a source shape
      * \param trgId ID of target shape
      * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
      * \sa StartInteractiveConnection
      */
-    wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true);
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true, wxSF::ERROR *err = NULL);
     /*!
      * \brief Create new direct connection of given type between two shapes.
      *
@@ -90,26 +93,43 @@ public:
      * \param trgId ID of target shape
 	 * \param lineInfo Connection type (any class inherited from wxSFLineShape)
      * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
      * \sa StartInteractiveConnection
      */
-    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState = true);
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState = true, wxSF::ERROR *err = NULL);
+	/*!
+     * \brief Create new direct connection of given type between two shapes.
+     *
+     * This function creates new simple connection line (without arrows) between gived
+     * shapes.
+     * \param srcId ID of a source shape
+     * \param trgId ID of target shape
+	 * \param line Pointer to line shape
+     * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
+     * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
+     * \sa StartInteractiveConnection
+     */
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState = true, wxSF::ERROR *err = NULL);
     /*!
      * \brief Create new shape and add it to the shape canvas.
      * \param shapeInfo Shape type
      * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to new shape object. The object is added to the shape canvas automaticaly.
      */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, bool saveState = true);
+	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, bool saveState = true, wxSF::ERROR *err = NULL);
 	/*!
 	 * \brief Create new shape and add it to the shape canvas.
 	 * \param shapeInfo Shape type
 	 * \param pos Shape position
 	 * \param saveState Set the parameter TRUE if you wish to save canvas state after the operation
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
 	 * \return Description
 	 * \sa Seealso
 	 */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState = true);
+	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState = true, wxSF::ERROR *err = NULL);
     /*!
      * \brief Add an existing shape to the canvas.
      * \param shape Pointer to the shape
@@ -117,9 +137,10 @@ public:
      * \param pos Position
      * \param initialize TRUE if the shape should be reinitilialized, otherwise FALSE
      * \param saveState TRUE if the canvas state should be saved
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to the shape
      */
-	wxSFShapeBase* AddShape(wxSFShapeBase* shape, xsSerializable* parent,  const wxPoint& pos, bool initialize, bool saveState = true);
+	wxSFShapeBase* AddShape(wxSFShapeBase* shape, xsSerializable* parent,  const wxPoint& pos, bool initialize, bool saveState = true, wxSF::ERROR *err = NULL);
 
 	/*!
 	 * \brief Remove given shape from the shape canvas. The shape object will be deleted as well.

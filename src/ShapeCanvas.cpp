@@ -1888,10 +1888,17 @@ void wxSFShapeCanvas::SaveCanvas(const wxString& file)
     xmlDoc.Save(file, 2);
 }
 
-void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos)
+void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos,  wxSF::ERROR *err)
 {
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
+	
+	if(!m_pManager)
+	{
+		if( err ) *err = wxSF::errINVALID_INPUT;
+		return;
+	}
+	else if( err ) *err = wxSF::errOK;
 
 	wxPoint lpos = DP2LP(pos);
 
@@ -1910,9 +1917,51 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
 
                  // swith on the "under-construcion" mode
                  m_pNewLineShape->SetUnfinishedPoint(lpos);
-            }
+			}
+            else if( err ) *err = wxSF::errNOT_CREATED;
         }
+		else if( err ) *err = wxSF::errNOT_ACCEPTED;
     }
+	else if( err ) *err = wxSF::errINVALID_INPUT;
+}
+
+void wxSFShapeCanvas::StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERROR *err)
+{
+	wxASSERT(m_pManager);
+	wxASSERT(shape);
+	
+	if(!m_pManager || !shape)
+	{
+		if( err ) *err = wxSF::errINVALID_INPUT;
+		return;
+	}
+	else if( err ) *err = wxSF::errOK;
+
+	wxPoint lpos = DP2LP(pos);
+
+    if((m_nWorkingMode == modeREADY) && shape->IsKindOf(CLASSINFO(wxSFLineShape)))
+    {
+        wxSFShapeBase* pShapeUnder = GetShapeAtPosition(lpos);
+		if( pShapeUnder && (pShapeUnder->GetId() != -1) && pShapeUnder->IsConnectionAccepted(shape->GetClassInfo()->GetClassName()) )
+		{
+			if( m_pManager->Contains(shape) ) m_pNewLineShape = shape;
+			else m_pNewLineShape = (wxSFLineShape*)m_pManager->AddShape( shape, NULL, wxDefaultPosition, sfINITIALIZE, sfDONT_SAVE_STATE );
+			
+			if(m_pNewLineShape)
+			{
+				m_nWorkingMode = modeCREATECONNECTION;
+				m_pNewLineShape->SetLineMode(wxSFLineShape::modeUNDERCONSTRUCTION);
+
+				m_pNewLineShape->SetSrcShapeId(pShapeUnder->GetId());
+
+                // swith on the "under-construcion" mode
+                m_pNewLineShape->SetUnfinishedPoint(lpos);
+            }
+			else if( err ) *err = wxSF::errNOT_CREATED;
+        }
+		else if( err ) *err = wxSF::errNOT_ACCEPTED;
+    }
+	else if( err ) *err = wxSF::errINVALID_INPUT;
 }
 
 void wxSFShapeCanvas::AbortInteractiveConnection()

@@ -29,4 +29,15 @@ namespace wxSFCommonFcn
 	WXDLLIMPEXP_SF double Distance(const wxRealPoint& pt1, const wxRealPoint& pt2);
 }
 
+namespace wxSF
+{
+	enum ERROR
+	{
+		errOK = 0,
+		errNOT_CREATED,
+		errNOT_ACCEPTED,
+		errINVALID_INPUT
+	};
+}
+
 #endif //_WXSFCOMMONFCN_H

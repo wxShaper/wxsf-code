@@ -311,6 +311,10 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
             if(GetMode() == modeREADY)
             {
                 StartInteractiveConnection(CLASSINFO(wxSFLineShape), event.GetPosition());
+				// interactive connection can be created also from existing object for example
+				// if some connection properties should be modified before the connection creation
+				// process is started:
+                //StartInteractiveConnection(new wxSFLineShape(), event.GetPosition());
             }
             else
                 wxSFShapeCanvas::OnLeftDown(event);

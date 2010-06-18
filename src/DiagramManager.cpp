@@ -21,8 +21,7 @@
 #include "wx/wxsf/DiagramManager.h"
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/ControlShape.h"
-
-#include "wx/wxsf/CommonFcn.h"
+#include "wx/wxsf/LineShape.h"
 
 using namespace wxSFCommonFcn;
 
@@ -63,7 +62,7 @@ wxSFDiagramManager::~wxSFDiagramManager()
 // Adding/removing shapes functions
 //----------------------------------------------------------------------------------//
 
-wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveState)
+wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveState, wxSF::ERROR *err)
 {
     wxPoint shapePos;
 
@@ -74,12 +73,12 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveSta
                 (crect.GetBottom() - crect.GetTop())/2);
     }
 
-	wxSFShapeBase* pShape = AddShape(shapeInfo, shapePos, saveState);
+	wxSFShapeBase* pShape = AddShape(shapeInfo, shapePos, saveState, err);
 
 	return pShape;
 }
 
-wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState)
+wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState, wxSF::ERROR *err)
 {
 	wxASSERT( shapeInfo );
 	
@@ -100,10 +99,10 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
 		
         if( pParentShape && pParentShape->IsChildAccepted(shapeInfo->GetClassName()) )
         {
-            pShape = AddShape(pShape, (xsSerializable*)pParentShape, pos - Conv2Point( pParentShape->GetAbsolutePosition() ), sfINITIALIZE, saveState);
+            pShape = AddShape(pShape, (xsSerializable*)pParentShape, pos - Conv2Point( pParentShape->GetAbsolutePosition() ), sfINITIALIZE, saveState, err);
         }
         else
-            pShape = AddShape(pShape, GetRootItem(), pos, sfINITIALIZE, saveState);
+            pShape = AddShape(pShape, GetRootItem(), pos, sfINITIALIZE, saveState, err);
 
 
 		if( pParentShape )pParentShape->Update();
@@ -111,10 +110,13 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
         return pShape;
     }
     else
+	{
+		if( err ) *err = wxSF::errNOT_ACCEPTED;
         return NULL;
+	}
 }
 
-wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable* parent, const wxPoint& pos, bool initialize, bool saveState)
+wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable* parent, const wxPoint& pos, bool initialize, bool saveState, wxSF::ERROR *err)
 {
 	if(shape)
 	{
@@ -184,6 +186,8 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                     m_pShapeCanvas->SaveCanvasState();
                 }
             }
+			
+			if( err ) *err = wxSF::errOK;
 		}
 		else
 		{
@@ -191,20 +195,23 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 
 			delete shape;
 			shape = NULL;
+			
+			if( err ) *err = wxSF::errNOT_ACCEPTED;
 		}
 	}
+	else if( err ) *err = wxSF::errINVALID_INPUT;
 
 	return shape;
 }
 
-wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, bool saveState)
+wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, bool saveState, wxSF::ERROR *err)
 {
-    return CreateConnection(srcId, trgId, CLASSINFO(wxSFLineShape), saveState);
+    return CreateConnection(srcId, trgId, CLASSINFO(wxSFLineShape), saveState, err);
 }
 
-wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState)
+wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState, wxSF::ERROR *err)
 {
-    wxSFShapeBase* pShape = AddShape(lineInfo, sfDONT_SAVE_STATE);
+    wxSFShapeBase* pShape = AddShape(lineInfo, sfDONT_SAVE_STATE, err);
     if(pShape)
     {
         wxSFLineShape *pLine = (wxSFLineShape*)pShape;
@@ -220,6 +227,26 @@ wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxCl
     }
     return pShape;
 }
+
+wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState, wxSF::ERROR *err)
+{
+    wxSFShapeBase* pShape = AddShape(line, NULL, wxDefaultPosition, sfINITIALIZE, sfDONT_SAVE_STATE, err);
+    if(pShape)
+    {
+        wxSFLineShape *pLine = (wxSFLineShape*)pShape;
+        pLine->SetSrcShapeId(srcId);
+        pLine->SetTrgShapeId(trgId);
+
+
+        if( m_pShapeCanvas )
+        {
+            if(saveState)m_pShapeCanvas->SaveCanvasState();
+            pLine->Refresh();
+        }
+    }
+    return pShape;
+}
+
 
 void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 {

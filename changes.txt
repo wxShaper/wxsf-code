@@ -1,4 +1,4 @@
-Changes in version 1.9.2 beta (2010-06-15):
+Changes in version 1.9.2 beta (2010-06-18):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.3.2:
   - Error states/messages aren't displayed by using messageboxes no more. Use wxXmlSerializer::GetErrMessage()
@@ -14,7 +14,13 @@ Changes in version 1.9.2 beta (2010-06-15):
 - Fixed build error occured during compilation of wxSFDemo sample project on wxWidgets without defined wxOPEN and wxSAVE symbols.
 - Fixed drawing of non-transparent text shapes in Windows (shape border wasn't visible).
 - Added new virtual function wxSFShapeCanvas::OnPreConnectionFinished() and event wxEVT_SF_LINE_BEFORE_DONE suitable for
-  canceling/vetoing creation of line shape if needed.
+  canceling/vetoing creation of line shape if needed (patch by foldink).
+- Added new function wxSFShapeCanvas::StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERROR *err = NULL)
+  which can create an interactive connection from existing line shape object.
+- Added new function wxSFShapeCanvas::CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState = true, wxSF::ERROR *err = NULL)
+  which can create a connection from existing line shape object.
+- All prototypes of AddShape(), CreateConnection() and StartInteractiveConnection() functions now take one additional argument (pointer to variable)
+  which can return an operation result type defined if wxSF::ERROR enumeration. Note that this new argument can be NULL (which is its default value).  
 
 Changes in version 1.9.1 beta (2010-01-15):
 --------------------------------------------
