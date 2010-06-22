@@ -242,9 +242,11 @@ void wxSFGridShape::Update()
     wxSFShapeBase *pShape;
 
     // check an existence of already assigned shapes
-    for(size_t i = 0; i < m_arrCells.GetCount(); i++ )
+    for(size_t i = 0; i < m_arrCells.GetCount(); )
     {
         if( !GetChild(m_arrCells[i])) m_arrCells.RemoveAt(i);
+		else
+			i++;
     }
 
     // check whether all child shapes' IDs are present in the cells array...
