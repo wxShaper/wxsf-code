@@ -312,12 +312,16 @@ private:
     IDList m_lstIDPairs;
     /*! \brief Auxiliary list */
 	ShapeList m_lstLinesForUpdate;
+	/*! \brief Auxiliary list */
+	ShapeList m_lstGridsForUpdate;
 
 	/*! \brief wxSF version number */
 	wxString m_sSFVersion;
 
 	/*! \brief Update connection shapes after importing/dropping of new shapes */
 	void UpdateConnections();
+	/*! \brief Update grid shapes after importing/dropping of new shapes */
+	void UpdateGrids();
 
 	/*!
 	 * \brief Deserialize shapes from XML and assign them to given parent.

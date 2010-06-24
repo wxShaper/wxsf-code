@@ -22,6 +22,7 @@
 #include "wx/wxsf/ShapeCanvas.h"
 #include "wx/wxsf/ControlShape.h"
 #include "wx/wxsf/LineShape.h"
+#include "wx/wxsf/GridShape.h"
 
 using namespace wxSFCommonFcn;
 
@@ -384,8 +385,11 @@ void wxSFDiagramManager::DeserializeObjects(xsSerializable* parent, wxXmlNode* n
 {
     _DeserializeObjects(parent, node);
 
-    // update IDs in connection lines
+    // update IDs in connection lines and grids
     UpdateConnections();
+	UpdateGrids();
+	
+	m_lstIDPairs.Clear();
 	
     if( m_pShapeCanvas )
     {
@@ -422,10 +426,14 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				pShape->DeserializeObject(shapeNode);
 
 				// update handle in line shapes
-				if(pShape->IsKindOf(CLASSINFO(wxSFLineShape)))
+				if( pShape->IsKindOf( CLASSINFO(wxSFLineShape) ) )
 				{
 					pShape->CreateHandles();
 					m_lstLinesForUpdate.Append(pShape);
+				}
+				else if( pShape->IsKindOf( CLASSINFO(wxSFGridShape) ) )
+				{
+					m_lstGridsForUpdate.Append(pShape);
 				}
 
 				// store information about IDs' changes and re-assign shapes' IDs
@@ -451,6 +459,7 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				// there are some unsupported shapes so the diagrams must be cleared because of possible damage
 				RemoveAll();
 				m_lstLinesForUpdate.Clear();
+				m_lstGridsForUpdate.Clear();
 				
 				wxMessageBox( wxT("Deserialization couldn't be completed because not of all shapes are accepted."), wxT("wxShapeFramework"), wxOK | wxICON_WARNING );
 				return;
@@ -658,11 +667,11 @@ bool wxSFDiagramManager::HasChildren(wxSFShapeBase* parent)
 
 void wxSFDiagramManager::UpdateConnections()
 {
-	wxSFLineShape* pLine;
-	IDPair* pIDPair;
-
 	if( !m_lstLinesForUpdate.IsEmpty() )
 	{		
+		wxSFLineShape* pLine;
+		IDPair* pIDPair;
+	
         // now check ids
 		long oldSrcId, oldTrgId;
 		long newSrcId, newTrgId;
@@ -678,17 +687,17 @@ void wxSFDiagramManager::UpdateConnections()
 			while(idnode)
             {
 				pIDPair = idnode->GetData();
-				if(pIDPair->m_nNewID != pIDPair->m_nOldID)
-				{
-					if(oldSrcId == pIDPair->m_nOldID) newSrcId = pIDPair->m_nNewID;
-					if(oldTrgId == pIDPair->m_nOldID) newTrgId = pIDPair->m_nNewID;
-				}
+				/*if(pIDPair->m_nNewID != pIDPair->m_nOldID)
+				{*/
+				if(oldSrcId == pIDPair->m_nOldID) newSrcId = pIDPair->m_nNewID;
+				if(oldTrgId == pIDPair->m_nOldID) newTrgId = pIDPair->m_nNewID;
+				/*}*/
 				idnode = idnode->GetNext();
 			}
 			pLine->SetSrcShapeId(newSrcId);
 			pLine->SetTrgShapeId(newTrgId);
 			
-			// check whether line's src and trg shapes realy exists
+			// check whether line's src and trg shapes really exists
 			if(!GetItem(pLine->GetSrcShapeId()) || !GetItem(pLine->GetTrgShapeId()))
             {
                 RemoveItem(pLine);
@@ -696,10 +705,51 @@ void wxSFDiagramManager::UpdateConnections()
 			
 			node = node->GetNext();
 		}
+		
+		m_lstLinesForUpdate.Clear();
     }
+}
 
-	m_lstIDPairs.Clear();
-	m_lstLinesForUpdate.Clear();
+void wxSFDiagramManager::UpdateGrids()
+{
+	if( !m_lstGridsForUpdate.IsEmpty() )
+	{		
+        // now check ids
+		wxSFGridShape* pGrid;
+		IDPair* pIDPair;
+		int nIndex;
+		IDList::compatibility_iterator idnode;
+		
+		ShapeList::compatibility_iterator node = m_lstGridsForUpdate.GetFirst();
+		while(node)
+        {
+			pGrid = (wxSFGridShape*)node->GetData();
+			nIndex = wxNOT_FOUND;
+			
+			idnode = m_lstIDPairs.GetFirst();
+			while(idnode)
+            {
+				pIDPair = idnode->GetData();
+				
+				nIndex = pGrid->m_arrCells.Index( pIDPair->m_nOldID );
+				if( nIndex != wxNOT_FOUND )	pGrid->m_arrCells[ nIndex ] = pIDPair->m_nNewID;
+				
+				idnode = idnode->GetNext();
+			}
+			
+			// check whether grid's children really exists
+			for( size_t i = 0; i < pGrid->m_arrCells.GetCount(); )
+			{
+				if( !GetItem( pGrid->m_arrCells[i] ) ) pGrid->RemoveFromGrid( pGrid->m_arrCells[i] );
+				else
+					i++;
+			}
+			
+			node = node->GetNext();
+		}
+		
+		m_lstGridsForUpdate.Clear();	
+    }
 }
 
 void wxSFDiagramManager::UpdateAll()

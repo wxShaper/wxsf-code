@@ -186,6 +186,14 @@ wxSFShapeBase* wxSFGridShape::GetManagedShape(int row, int col)
 		return NULL;
 }
 
+void wxSFGridShape::RemoveFromGrid(long id)
+{
+	if( m_arrCells.Index( id ) != wxNOT_FOUND )
+	{
+		m_arrCells.Remove( id );
+	}
+}
+
 //----------------------------------------------------------------------------------//
 // public virtual functions
 //----------------------------------------------------------------------------------//
@@ -379,4 +387,3 @@ void wxSFGridShape::FitShapeToRect(wxSFShapeBase *shape, const wxRect& rct)
             break;
     }
 }
-

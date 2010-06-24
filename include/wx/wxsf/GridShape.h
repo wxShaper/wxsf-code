@@ -30,6 +30,8 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
 {
     public:
         XS_DECLARE_CLONABLE_CLASS(wxSFGridShape);
+		
+		friend class wxSFDiagramManager;
 
         /*! \brief Default constructor. */
         wxSFGridShape();
@@ -129,6 +131,11 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
         * \return True on successe, otherwise False
         */
         bool InsertToGrid(int index, wxSFShapeBase *shape);
+		/**
+		 * \brief Remove shape with given ID from the grid.
+		 * \param id ID of shape which should be removed
+		 */
+		void RemoveFromGrid(long id);
 
         // public virtual functions
         /*! \brief Upate shape (align all child shapes an resize it to fit them) */
