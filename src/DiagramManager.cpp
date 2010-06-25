@@ -63,7 +63,7 @@ wxSFDiagramManager::~wxSFDiagramManager()
 // Adding/removing shapes functions
 //----------------------------------------------------------------------------------//
 
-wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveState, wxSF::ERROR *err)
+wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveState, wxSF::ERRCODE *err)
 {
     wxPoint shapePos;
 
@@ -79,7 +79,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, bool saveSta
 	return pShape;
 }
 
-wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState, wxSF::ERROR *err)
+wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState, wxSF::ERRCODE *err)
 {
 	wxASSERT( shapeInfo );
 	
@@ -117,7 +117,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxClassInfo* shapeInfo, const wxPoin
 	}
 }
 
-wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable* parent, const wxPoint& pos, bool initialize, bool saveState, wxSF::ERROR *err)
+wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable* parent, const wxPoint& pos, bool initialize, bool saveState, wxSF::ERRCODE *err)
 {
 	if(shape)
 	{
@@ -205,12 +205,12 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 	return shape;
 }
 
-wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, bool saveState, wxSF::ERROR *err)
+wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, bool saveState, wxSF::ERRCODE *err)
 {
     return CreateConnection(srcId, trgId, CLASSINFO(wxSFLineShape), saveState, err);
 }
 
-wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState, wxSF::ERROR *err)
+wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState, wxSF::ERRCODE *err)
 {
     wxSFShapeBase* pShape = AddShape(lineInfo, sfDONT_SAVE_STATE, err);
     if(pShape)
@@ -229,7 +229,7 @@ wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxCl
     return pShape;
 }
 
-wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState, wxSF::ERROR *err)
+wxSFShapeBase* wxSFDiagramManager::CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState, wxSF::ERRCODE *err)
 {
     wxSFShapeBase* pShape = AddShape(line, NULL, wxDefaultPosition, sfINITIALIZE, sfDONT_SAVE_STATE, err);
     if(pShape)

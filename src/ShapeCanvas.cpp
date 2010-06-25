@@ -1888,7 +1888,7 @@ void wxSFShapeCanvas::SaveCanvas(const wxString& file)
     xmlDoc.Save(file, 2);
 }
 
-void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos,  wxSF::ERROR *err)
+void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos,  wxSF::ERRCODE *err)
 {
 	wxASSERT(m_pManager);
 	if(!m_pManager)return;
@@ -1925,7 +1925,7 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
 	else if( err ) *err = wxSF::errINVALID_INPUT;
 }
 
-void wxSFShapeCanvas::StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERROR *err)
+void wxSFShapeCanvas::StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERRCODE *err)
 {
 	wxASSERT(m_pManager);
 	wxASSERT(shape);

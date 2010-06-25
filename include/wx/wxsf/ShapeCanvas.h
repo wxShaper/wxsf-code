@@ -342,7 +342,7 @@ public:
 	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \sa CreateConnection
      */
-    void StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos, wxSF::ERROR *err = NULL);
+    void StartInteractiveConnection(wxClassInfo* shapeInfo, const wxPoint& pos, wxSF::ERRCODE *err = NULL);
 	 /*!
      * \brief Start interactive connection creation from existing line object.
      *
@@ -359,7 +359,7 @@ public:
 	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \sa CreateConnection
      */
-	void StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERROR *err = NULL);
+	void StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERRCODE *err = NULL);
 	
     /*! \brief Abort interactive connection creation process */
 	void AbortInteractiveConnection();

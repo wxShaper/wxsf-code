@@ -83,7 +83,7 @@ public:
      * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
      * \sa StartInteractiveConnection
      */
-    wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true, wxSF::ERROR *err = NULL);
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, bool saveState = true, wxSF::ERRCODE *err = NULL);
     /*!
      * \brief Create new direct connection of given type between two shapes.
      *
@@ -97,7 +97,7 @@ public:
      * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
      * \sa StartInteractiveConnection
      */
-    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState = true, wxSF::ERROR *err = NULL);
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxClassInfo *lineInfo, bool saveState = true, wxSF::ERRCODE *err = NULL);
 	/*!
      * \brief Create new direct connection of given type between two shapes.
      *
@@ -111,7 +111,7 @@ public:
      * \return Pointer to new connection object. The object is added to the shape canvas automaticaly.
      * \sa StartInteractiveConnection
      */
-    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState = true, wxSF::ERROR *err = NULL);
+    wxSFShapeBase* CreateConnection(long srcId, long trgId, wxSFLineShape *line, bool saveState = true, wxSF::ERRCODE *err = NULL);
     /*!
      * \brief Create new shape and add it to the shape canvas.
      * \param shapeInfo Shape type
@@ -119,7 +119,7 @@ public:
 	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to new shape object. The object is added to the shape canvas automaticaly.
      */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, bool saveState = true, wxSF::ERROR *err = NULL);
+	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, bool saveState = true, wxSF::ERRCODE *err = NULL);
 	/*!
 	 * \brief Create new shape and add it to the shape canvas.
 	 * \param shapeInfo Shape type
@@ -129,7 +129,7 @@ public:
 	 * \return Description
 	 * \sa Seealso
 	 */
-	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState = true, wxSF::ERROR *err = NULL);
+	wxSFShapeBase* AddShape(wxClassInfo* shapeInfo, const wxPoint& pos, bool saveState = true, wxSF::ERRCODE *err = NULL);
     /*!
      * \brief Add an existing shape to the canvas.
      * \param shape Pointer to the shape
@@ -140,7 +140,7 @@ public:
 	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
      * \return Pointer to the shape
      */
-	wxSFShapeBase* AddShape(wxSFShapeBase* shape, xsSerializable* parent,  const wxPoint& pos, bool initialize, bool saveState = true, wxSF::ERROR *err = NULL);
+	wxSFShapeBase* AddShape(wxSFShapeBase* shape, xsSerializable* parent,  const wxPoint& pos, bool initialize, bool saveState = true, wxSF::ERRCODE *err = NULL);
 
 	/*!
 	 * \brief Remove given shape from the shape canvas. The shape object will be deleted as well.

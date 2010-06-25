@@ -31,7 +31,7 @@ namespace wxSFCommonFcn
 
 namespace wxSF
 {
-	enum ERROR
+	enum ERRCODE
 	{
 		errOK = 0,
 		errNOT_CREATED,
