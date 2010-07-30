@@ -124,7 +124,8 @@ public:
 	enum EDITTYPE
 	{
 		editINPLACE = 0,
-		editDIALOG
+		editDIALOG,
+		editDISABLED
 	};
 
     /*! \brief Default constructor. */

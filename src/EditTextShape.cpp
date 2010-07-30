@@ -249,6 +249,9 @@ void wxSFEditTextShape::EditLabel()
 				}
 			}
 			break;
+			
+			default:
+				break;
 		}
 	}
 }
