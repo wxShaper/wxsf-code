@@ -51,6 +51,8 @@ extern wxPrintData *g_printData;
 #define sfdvSHAPECANVAS_BACKGROUNDCOLOR wxColour(240, 240, 240)
 /*! \brief Default value of wxSFCanvasSettings::m_nGridSize data member */
 #define sfdvSHAPECANVAS_GRIDSIZE wxSize(10, 10)
+/*! \brief Default value of wxSFCanvasSettings::m_nGridLineMult data member */
+#define sfdvSHAPECANVAS_GRIDLINEMULT 1
 /*! \brief Default value of wxSFCanvasSettings::m_nGridColor data member */
 #define sfdvSHAPECANVAS_GRIDCOLOR wxColour(200, 200, 200)
 /*! \brief Default value of wxSFCanvasSettings::m_CommnonHoverColor data member */
@@ -110,6 +112,7 @@ public:
 
     wxSize m_nGridSize;
     wxColour m_nGridColor;
+	int m_nGridLineMult;
 
     wxRealPoint m_nShadowOffset;
     wxBrush m_ShadowFill;
@@ -594,6 +597,19 @@ public:
 	 * \param grid Grid size
 	 */
 	inline void SetGrid(wxSize grid) { m_Settings.m_nGridSize = grid; }
+	/*!
+	 * \brief Set grid line multiple.
+	 * 
+	 * Grid lines will be drawn in a distance calculated as grid size multiplicated by this value.
+	 * Default value is 1.
+	 * \param multiple Multiple value
+	 */
+	inline void SetGridLineMult(int multiple) { m_Settings.m_nGridLineMult = multiple; }
+	/**
+	 * \brief Get grid line multiple.
+	 * \return Value by which a grid size will be multiplicated to determine grid lines distance
+	 */
+	inline int GetGrigLineMult() const { return m_Settings.m_nGridLineMult; }
 	/*!
 	 * \brief Set grid color.
 	 * \param col Grid color

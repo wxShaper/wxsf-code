@@ -1,6 +1,8 @@
-Changes in version 1.9.3 beta (2010-07-30):
+Changes in version 1.9.3 beta (2010-10-12):
 --------------------------------------------
 - Editation of wxSFEditTextShape can be disabled by putting editDISABLED value to wxSFEditTextShape::SetEditType(EDITTYPE type) function.
+- Added functions void wxSFShapeCanvas::SetGridLineMult(int multiple) and int wxSFShapeCanvas::GetGridLineMult(). If used then grid lines
+  will be drawn in a distance calculated as grid size multiplicated by this value. Default value is 1.
 
 Changes in version 1.9.2 beta (2010-06-24):
 --------------------------------------------

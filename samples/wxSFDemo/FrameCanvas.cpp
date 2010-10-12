@@ -16,6 +16,7 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	// initialize grid
 	AddStyle(sfsGRID_USE);
 	AddStyle(sfsGRID_SHOW);
+	SetGridLineMult(5);
 
 	// canvas background can be printed/ommited during the canvas printing job
     //AddStyle(sfsPRINT_BACKGROUND);
