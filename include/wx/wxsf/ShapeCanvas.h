@@ -55,6 +55,8 @@ extern wxPrintData *g_printData;
 #define sfdvSHAPECANVAS_GRIDLINEMULT 1
 /*! \brief Default value of wxSFCanvasSettings::m_nGridColor data member */
 #define sfdvSHAPECANVAS_GRIDCOLOR wxColour(200, 200, 200)
+/*! \brief Default value of wxSFCanvasSettings::m_nGridStyle data member */
+#define sfdvSHAPECANVAS_GRIDSTYLE wxSOLID
 /*! \brief Default value of wxSFCanvasSettings::m_CommnonHoverColor data member */
 #define sfdvSHAPECANVAS_HOVERCOLOR wxColor(120, 120, 255)
 /*! \brief Default value of wxSFCanvasSettings::m_nGradientFrom data member */
@@ -111,8 +113,9 @@ public:
 	wxColour m_nGradientTo;
 
     wxSize m_nGridSize;
-    wxColour m_nGridColor;
 	int m_nGridLineMult;
+    wxColour m_nGridColor;
+	int m_nGridStyle;
 
     wxRealPoint m_nShadowOffset;
     wxBrush m_ShadowFill;
@@ -620,6 +623,16 @@ public:
 	 * \return Grid color
 	 */
 	inline wxColour GetGridColour() const { return m_Settings.m_nGridColor; }
+	/*!
+	 * \brief Set grid line style.
+	 * \param style Line style
+	 */
+	inline void SetGridStyle(int style) { m_Settings.m_nGridStyle = style; }
+	/*!
+	 * \brief Get grid line style.
+	 * \return Line style
+	 */
+	inline int GetGridStyle() const {return m_Settings.m_nGridStyle; }
 	/*!
 	 * \brief Set shadow offset.
 	 * \param offset Shadow offset

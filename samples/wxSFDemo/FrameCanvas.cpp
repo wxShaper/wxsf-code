@@ -18,6 +18,8 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	AddStyle(sfsGRID_SHOW);
 	// distances between grid lines can be modified via following function:
 	//SetGridLineMult(5);
+	// grid line style can be set as follows:
+	//SetGridStyle(wxSHORT_DASH);
 
 	// canvas background can be printed/ommited during the canvas printing job
     //AddStyle(sfsPRINT_BACKGROUND);

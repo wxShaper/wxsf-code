@@ -151,6 +151,7 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
     m_nGridSize = sfdvSHAPECANVAS_GRIDSIZE;
 	m_nGridLineMult = sfdvSHAPECANVAS_GRIDLINEMULT;
     m_nGridColor = sfdvSHAPECANVAS_GRIDCOLOR;
+	m_nGridStyle = sfdvSHAPECANVAS_GRIDSTYLE;
 	m_nGradientFrom = sfdvSHAPECANVAS_GRADIENT_FROM;
 	m_nGradientTo = sfdvSHAPECANVAS_GRADIENT_TO;
 	m_nStyle = sfdvSHAPECANVAS_STYLE;
@@ -169,6 +170,7 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
     XS_SERIALIZE_EX(m_nGridSize, wxT("grid_size"), sfdvSHAPECANVAS_GRIDSIZE);
     XS_SERIALIZE_EX(m_nGridLineMult, wxT("grid_line_mult"), sfdvSHAPECANVAS_GRIDLINEMULT);
     XS_SERIALIZE_EX(m_nGridColor, wxT("grid_color"), sfdvSHAPECANVAS_GRIDCOLOR);
+    XS_SERIALIZE_EX(m_nGridStyle, wxT("grid_style"), sfdvSHAPECANVAS_GRIDSTYLE);
     XS_SERIALIZE_EX(m_nShadowOffset, wxT("shadow_offset"), sfdvSHAPECANVAS_SHADOWOFFSET);
     XS_SERIALIZE_EX(m_ShadowFill, wxT("shadow_fill"), sfdvSHAPECANVAS_SHADOWBRUSH);
     XS_SERIALIZE_EX(m_nPrintHAlign, wxT("print_halign"), sfdvSHAPECANVAS_PRINT_HALIGN);
@@ -389,7 +391,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			int maxx = int(gridRct.GetRight()/m_Settings.m_nScale);
 			int maxy = int(gridRct.GetBottom()/m_Settings.m_nScale);
 
-			dc.SetPen(wxColor(m_Settings.m_nGridColor));
+			dc.SetPen( wxPen(m_Settings.m_nGridColor, 1, m_Settings.m_nGridStyle) );
 			for(int x = gridRct.GetLeft(); x <= maxx; x += linedist)
 			{
 				dc.DrawLine(x, 0, x, maxy);
