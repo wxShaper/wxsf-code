@@ -6,6 +6,8 @@ Changes in version 1.9.3 beta (2010-12-08):
 - Added functions void wxSFShapeCanvas::SetGridStyle(int style) and int wxSFShapeCanvas::GetGridStyle() allowing user
   to define grid line style.
 - Update wxSFDemo project to reflect new features.
+- Added new virtual event handler void wxSFShapeCanvas::OnUpdateVirtualSize(wxRect &virtrct) called during canvas' virtual size update. The function
+  allows user to modify calculated virtual canvas size.
 
 Changes in version 1.9.2 beta (2010-06-24):
 --------------------------------------------

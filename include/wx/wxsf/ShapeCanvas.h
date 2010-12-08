@@ -925,6 +925,14 @@ public:
 	 * \sa wxSFShapeCanvas::Paste(), wxSFShapePasteEvent
 	 */
 	virtual void OnPaste(const ShapeList& pasted);
+	
+	/*!
+	 * \brief Event handler called if canvas virtual size is going to be updated.
+	 * The default implementation does nothing but the function can be overrided by
+	 * a user to modify calculated virtual canvas size.
+	 * \param virtrct Calculated canvas virtual size
+	 */
+	virtual void OnUpdateVirtualSize(wxRect &virtrct);
 
 
 protected:

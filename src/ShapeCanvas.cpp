@@ -1411,6 +1411,10 @@ void wxSFShapeCanvas::OnTextChange(wxSFEditTextShape* shape)
     ProcessEvent( event );
 }
 
+void wxSFShapeCanvas::OnUpdateVirtualSize(wxRect& virtrct)
+{
+	// HINT: override it for custom actions...
+}
 
 //----------------------------------------------------------------------------------//
 // Private event handlers functions
@@ -2488,6 +2492,9 @@ wxRect wxSFShapeCanvas::GetSelectionBB()
 void wxSFShapeCanvas::UpdateVirtualSize()
 {
     wxRect virtRct = GetTotalBoundingBox();
+	
+	// allow user to modify calculated virtual canvas size
+	this->OnUpdateVirtualSize( virtRct );
 
     // update virtual area of the scrolled window if neccessary
     if(!virtRct.IsEmpty())
@@ -3194,4 +3201,3 @@ wxDragResult wxSFCanvasDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult def
 
 	return def;
 }
-
