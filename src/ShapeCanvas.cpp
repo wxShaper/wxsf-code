@@ -28,6 +28,7 @@
 #include "wx/wxsf/SFEvents.h"
 #include "wx/wxsf/CommonFcn.h"
 #include "wx/wxsf/ControlShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 #ifndef __WXMSW__
 
@@ -140,6 +141,8 @@ int wxSFShapeCanvas::m_nRefCounter = 0;
 wxBitmap wxSFShapeCanvas::m_OutBMP;
 // this flag has sense only if wxUSE_GRAPHICS_CONTEXT is present...
 bool wxSFShapeCanvas::m_fEnableGC = false;
+
+using namespace wxSFCommonFcn;
 
 IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 
@@ -784,6 +787,8 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
                         {
                             m_pNewLineShape->SetTrgShapeId(pShapeUnder->GetId());
                             m_pNewLineShape->CreateHandles();
+							
+                            m_pNewLineShape->SetEndingConnectionPoint( pShapeUnder->GetNearestConnectionPoint( Conv2RealPoint(lpos) ) );
 
                             // swith off the "under-construcion" mode
                             m_pNewLineShape->SetLineMode(wxSFLineShape::modeREADY);
@@ -1928,8 +1933,11 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
 
                  m_pNewLineShape->SetSrcShapeId(pShapeUnder->GetId());
 
-                 // swith on the "under-construcion" mode
+                 // switch on the "under-construcion" mode
                  m_pNewLineShape->SetUnfinishedPoint(lpos);
+				 // assign starting point of new line shapes to the nearest connection point of 
+				 // connected shape if exists
+				 m_pNewLineShape->SetStartingConnectionPoint( pShapeUnder->GetNearestConnectionPoint( Conv2RealPoint(lpos) ) );
 			}
             else if( err ) *err = wxSF::errNOT_CREATED;
         }
@@ -1969,6 +1977,10 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxSFLineShape* shape, const wxP
 
                 // swith on the "under-construcion" mode
                 m_pNewLineShape->SetUnfinishedPoint(lpos);
+				 // assign starting point of new line shapes to the nearest connection point of 
+				 // connected shape if exists
+				 m_pNewLineShape->SetStartingConnectionPoint( pShapeUnder->GetNearestConnectionPoint( Conv2RealPoint(lpos) ) );
+
             }
 			else if( err ) *err = wxSF::errNOT_CREATED;
         }

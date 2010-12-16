@@ -40,4 +40,11 @@ void wxSFShapeBase::Deserialize(wxXmlNode* node)
 	{
 	    m_pUserData->SetParent(this);
 	}
+	
+	// update fixed connection points
+	for( ConnectionPointList::iterator it = m_lstConnectionPts.begin(); it != m_lstConnectionPts.end(); ++it )
+	{
+		wxSFConnectionPoint *pCp = (wxSFConnectionPoint*) *it;
+		pCp->SetParentShape( this );
+	}
 }

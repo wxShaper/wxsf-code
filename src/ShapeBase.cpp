@@ -20,8 +20,11 @@
 #include "wx/wxsf/TextShape.h"
 #include "wx/wxsf/GridShape.h"
 #include "wx/wxsf/ControlShape.h"
+#include "wx/wxsf/CommonFcn.h"
 
 #include <wx/listimpl.cpp>
+
+using namespace wxSFCommonFcn;
 
 WX_DEFINE_EXPORTED_LIST(ShapeList);
 
@@ -54,6 +57,7 @@ wxSFShapeBase::wxSFShapeBase(void)
 	MarkSerializableDataMembers();
 
 	m_lstHandles.DeleteContents(true);
+	m_lstConnectionPts.DeleteContents(true);
 }
 
 wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager)
@@ -99,6 +103,7 @@ wxSFShapeBase::wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager
 	MarkSerializableDataMembers();
 
 	m_lstHandles.DeleteContents(true);
+	m_lstConnectionPts.DeleteContents(true);
 }
 
 wxSFShapeBase::wxSFShapeBase(const wxSFShapeBase& obj) : xsSerializable(obj)
@@ -145,6 +150,19 @@ wxSFShapeBase::wxSFShapeBase(const wxSFShapeBase& obj) : xsSerializable(obj)
 		node = node->GetNext();
 	}
     m_lstHandles.DeleteContents(true);
+	
+	// copy connection points
+	wxSFConnectionPoint *pConnPt;
+	ConnectionPointList::compatibility_iterator node2 = obj.m_lstConnectionPts.GetFirst();
+	while(node2)
+	{
+		pConnPt = new wxSFConnectionPoint(*(wxSFConnectionPoint*)node2->GetData());
+		pConnPt->SetParentShape(this);
+		m_lstConnectionPts.Append(pConnPt);
+
+		node2 = node2->GetNext();
+	}
+	m_lstConnectionPts.DeleteContents(true);
 
 	// mark serialized properties
 	MarkSerializableDataMembers();
@@ -154,6 +172,9 @@ wxSFShapeBase::~wxSFShapeBase(void)
 {
 	// clear handles
 	m_lstHandles.Clear();
+	// clear connection points
+	m_lstConnectionPts.Clear();
+	
 	// delete user data
 	if(m_pUserData && (m_nStyle & sfsDELETE_USER_DATA))delete m_pUserData;
 }
@@ -175,9 +196,9 @@ void wxSFShapeBase::MarkSerializableDataMembers()
     XS_SERIALIZE_EX(m_nHBorder, wxT("hborder"), sfdvBASESHAPE_HBORDER);
     XS_SERIALIZE_EX(m_nVBorder, wxT("vborder"), sfdvBASESHAPE_VBORDER);
 	XS_SERIALIZE_EX(m_nCustomDockPoint, wxT("custom_dock_point"), sfdvBASESHAPE_DOCK_POINT);
+	XS_SERIALIZE(m_lstConnectionPts, wxT("connection_points"));
     XS_SERIALIZE(m_pUserData, wxT("user_data"));
 }
-
 
 //----------------------------------------------------------------------------------//
 // Public functions
@@ -595,6 +616,12 @@ void wxSFShapeBase::Draw(wxDC& dc, bool children)
 	    this->DrawNormal(dc);
 
 	if(m_fSelected)this->DrawSelected(dc);
+	
+	// ... then draw connection points ...
+	for( ConnectionPointList::iterator it = m_lstConnectionPts.begin(); it != m_lstConnectionPts.end(); ++it )
+	{
+		((wxSFConnectionPoint*)(*it))->Draw(dc);
+	}
 
 	// ... then draw child shapes
 	if(children)
@@ -836,6 +863,66 @@ void wxSFShapeBase::RemoveHandle(wxSFShapeHandle::HANDLETYPE type, long id)
 	if(pHnd)
 	{
 		m_lstHandles.DeleteObject(pHnd);
+	}
+}
+
+wxSFConnectionPoint* wxSFShapeBase::GetConnectionPoint(wxSFConnectionPoint::CPTYPE type)
+{
+	for( ConnectionPointList::iterator it = m_lstConnectionPts.begin(); it != m_lstConnectionPts.end(); ++it )
+	{
+		if( ((wxSFConnectionPoint*)(*it))->GetType() == type ) return (wxSFConnectionPoint*)*it;
+	}
+	
+	return NULL;
+}
+
+wxSFConnectionPoint* wxSFShapeBase::GetNearestConnectionPoint(const wxRealPoint& pos)
+{
+	int nMinDist = INT_MAX;
+	
+	wxSFConnectionPoint *pConnPt = NULL;
+	
+	for( ConnectionPointList::iterator it = m_lstConnectionPts.begin(); it != m_lstConnectionPts.end(); ++it )
+	{
+		int nCurrDistance = Distance( pos, ((wxSFConnectionPoint*)(*it))->GetConnectionPoint() );
+		if( nCurrDistance < nMinDist )
+		{
+			nMinDist = nCurrDistance;
+			pConnPt = ((wxSFConnectionPoint*)(*it));
+		}
+	}
+	
+	return pConnPt;
+}
+
+void wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint::CPTYPE type)
+{
+	if( !GetConnectionPoint( type ) )
+	{
+		m_lstConnectionPts.Append( new wxSFConnectionPoint( this, type) );
+	}
+}
+
+void wxSFShapeBase::AddConnectionPoint(const wxRealPoint& relpos, long id)
+{
+	wxSFConnectionPoint *pCp = new wxSFConnectionPoint( this, relpos, id );
+	m_lstConnectionPts.Append( pCp );
+}
+
+void wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint* cp)
+{
+	if( cp )
+	{
+		m_lstConnectionPts.Append( cp );
+	}
+}
+
+void wxSFShapeBase::RemoveConnectionPoint(wxSFConnectionPoint::CPTYPE type)
+{
+	wxSFConnectionPoint *pConnPt = GetConnectionPoint( type );
+	if( pConnPt )
+	{
+		m_lstConnectionPts.DeleteObject( pConnPt );
 	}
 }
 
@@ -1242,6 +1329,14 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 		{
 			node->GetData()->_OnMouseMove(pos);
 			node = node->GetNext();
+		}
+		
+		// send the event to the connection points too...
+		ConnectionPointList::compatibility_iterator node2 = m_lstConnectionPts.GetFirst();
+		while(node2)
+		{
+			((wxSFConnectionPoint*) node2->GetData())->_OnMouseMove(pos);
+			node2 = node2->GetNext();
 		}
 
 		// determine, whether the shape should be highlighted for any reason

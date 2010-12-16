@@ -975,6 +975,84 @@ RealPointList xsListRealPointPropIO::FromString(const wxString& value)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
+// xsListSerializablePropIO class ///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC_CLASS(xsListSerializablePropIO, xsPropertyIO);
+
+void xsListSerializablePropIO::Read(xsProperty *property, wxXmlNode *source)
+{
+	SerializableList& list = *(SerializableList*)property->m_pSourceVariable;
+
+	// clear previous list content
+	bool fDelState = list.GetDeleteContents();
+
+	list.DeleteContents(true);
+    list.Clear();
+	list.DeleteContents(fDelState);
+
+	wxXmlNode *listNode = source->GetChildren();
+    while(listNode)
+    {
+		if( listNode->GetName() == wxT("object") )
+		{
+			xsSerializable* object = (xsSerializable*)wxCreateDynamicObject(listNode->GetPropVal(wxT("type"), wxT("")));
+			if(object)
+			{
+				object->DeserializeObject(listNode);
+				list.Append( object );
+			}
+		}
+		
+		listNode = listNode->GetNext();
+	}
+}
+
+void xsListSerializablePropIO::Write(xsProperty *property, wxXmlNode *target)
+{
+    SerializableList& list = *(SerializableList*)property->m_pSourceVariable;
+
+    if( !list.IsEmpty() )
+    {
+        wxXmlNode *newNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("property"));
+		SerializableList::compatibility_iterator listNode = list.GetFirst();
+        while(listNode)
+        {
+			xsSerializable *object = listNode->GetData();
+			newNode->AddChild(object->SerializeObject(NULL));			
+			
+            listNode = listNode->GetNext();
+        }
+
+        target->AddChild(newNode);
+        AppendPropertyType(property, newNode);
+    }
+}
+
+wxString xsListSerializablePropIO::GetValueStr(xsProperty *property)
+{
+	return ToString(*((SerializableList*)property->m_pSourceVariable));
+}
+
+void xsListSerializablePropIO::SetValueStr(xsProperty *property, const wxString& valstr)
+{
+	*((SerializableList*)property->m_pSourceVariable) = FromString(valstr);
+}
+
+wxString xsListSerializablePropIO::ToString(const SerializableList& value)
+{
+	return wxString::Format(wxT("Serializable list at address 0x%x"), &value);
+}
+
+SerializableList xsListSerializablePropIO::FromString(const wxString& value)
+{
+	wxUnusedVar( value );
+	
+	return SerializableList();
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 // xsDynObjPropIO class /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 

@@ -104,7 +104,15 @@ void wxSFOrthoLineShape::DrawCompleteLine(wxDC& dc)
 			else
 			{
 				wxSFShapeBase* pSrcShape = GetShapeManager()->FindShape(m_nSrcShapeId);
-				if( pSrcShape ) DrawLineSegment( dc, pSrcShape->GetBorderPoint(pSrcShape->GetCenter(), Conv2RealPoint(m_nUnfinishedPoint)), Conv2RealPoint(m_nUnfinishedPoint) );
+				if( pSrcShape )
+				{
+					if( pSrcShape->GetConnectionPoints().IsEmpty() )
+					{
+						DrawLineSegment( dc, pSrcShape->GetBorderPoint(pSrcShape->GetCenter(), Conv2RealPoint(m_nUnfinishedPoint)), Conv2RealPoint(m_nUnfinishedPoint) );
+					}
+					else
+						DrawLineSegment( dc, GetModSrcPoint(), Conv2RealPoint(m_nUnfinishedPoint) );
+				}
 			}
 				
             dc.SetPen(wxNullPen);

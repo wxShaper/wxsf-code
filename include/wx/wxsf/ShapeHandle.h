@@ -116,7 +116,7 @@ public:
     long GetId(){return m_nId;}
 
 	// public functions
-	/*! \brief Refreash (repaint) the handle */
+	/*! \brief Refresh (repaint) the handle */
 	void Refresh();
 	/*!
 	 * \brief Find out whether given point is inside the handle.

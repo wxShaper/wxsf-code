@@ -24,6 +24,7 @@
 
 class WXDLLIMPEXP_XS xsProperty;
 class WXDLLIMPEXP_XS xsSerializable;
+class WXDLLIMPEXP_XS SerializableList;
 
 WX_DECLARE_OBJARRAY_WITH_DECL(wxRealPoint, RealPointArray, class WXDLLIMPEXP_XS);
 WX_DECLARE_LIST_WITH_DECL(wxRealPoint, RealPointList, class WXDLLIMPEXP_XS);
@@ -282,6 +283,12 @@ XS_DECLARE_EXPORTED_IO_HANDLER(RealPointArray, xsArrayRealPointPropIO, WXDLLIMPE
  * wxRealPoint objects) properties.
  */
 XS_DECLARE_EXPORTED_IO_HANDLER(RealPointList, xsListRealPointPropIO, WXDLLIMPEXP_XS);
+
+/*!
+ * \brief Property class encapsulating I/O functions used by 'SerializableList' (list of
+ * xsSerializable objects) properties.
+ */
+XS_DECLARE_EXPORTED_IO_HANDLER(SerializableList, xsListSerializablePropIO, WXDLLIMPEXP_XS);
 
 /*!
  * \brief Property class encapsulating I/O functions used by 'serializabledynamic' (xsSerializable

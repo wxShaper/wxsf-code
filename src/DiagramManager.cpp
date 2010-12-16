@@ -143,6 +143,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 			if(initialize)
 			{
 				shape->CreateHandles();
+				
 				if( m_pShapeCanvas )
 				{
                     shape->SetHoverColour(m_pShapeCanvas->GetHoverColour());
@@ -162,6 +163,7 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                         pChild = (wxSFShapeBase*)node->GetData();
 
                         pChild->CreateHandles();
+						
                         pChild->Update();
 						
                         if( m_pShapeCanvas )
@@ -429,6 +431,7 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				if( pShape->IsKindOf( CLASSINFO(wxSFLineShape) ) )
 				{
 					pShape->CreateHandles();
+					
 					m_lstLinesForUpdate.Append(pShape);
 				}
 				else if( pShape->IsKindOf( CLASSINFO(wxSFGridShape) ) )

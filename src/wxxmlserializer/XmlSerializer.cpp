@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.2 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.3 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -551,6 +551,7 @@ void wxXmlSerializer::InitializeAllIOHandlers()
     XS_REGISTER_IO_HANDLER(wxT("arrayrealpoint"), xsArrayRealPointPropIO);
 	XS_REGISTER_IO_HANDLER(wxT("mapstring"), xsMapStringPropIO);
     XS_REGISTER_IO_HANDLER(wxT("listrealpoint"), xsListRealPointPropIO);
+    XS_REGISTER_IO_HANDLER(wxT("listserializable"), xsListSerializablePropIO);
     XS_REGISTER_IO_HANDLER(wxT("serializablestatic"), xsStaticObjPropIO);
     XS_REGISTER_IO_HANDLER(wxT("serializabledynamic"), xsDynObjPropIO);
     XS_REGISTER_IO_HANDLER(wxT("serializabledynamicnocreate"), xsDynNCObjPropIO);

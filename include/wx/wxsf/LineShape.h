@@ -181,6 +181,18 @@ friend class wxSFShapeCanvas;
 	 * \return The dock point's position if exists, otherwise the line center
 	 */
 	wxRealPoint GetDockPointPosition(int dp);
+	
+	/*!
+	 * \brief Initialize line's starting point with existing fixed connection point.
+	 * \param cp Pointer to connection point
+	 */
+	void SetStartingConnectionPoint(const wxSFConnectionPoint *cp);
+	/*!
+	 * \brief Initialize line's ending point with existing fixed connection point.
+	 * \param cp Pointer to connection point
+	 */
+	void SetEndingConnectionPoint(const wxSFConnectionPoint *cp);
+	
 	/*!
      * \brief Get starting and ending point of line segment defined by its index.
 	 * \param index Index of desired line segment

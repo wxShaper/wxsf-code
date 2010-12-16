@@ -19,6 +19,7 @@
 #include <wx/list.h>
 
 #include <wx/wxsf/ShapeHandle.h>
+#include <wx/wxsf/ShapeDockpoint.h>
 #include <wx/wxsf/Defs.h>
 #include <wx/wxxmlserializer/XmlSerializer.h>
 
@@ -31,26 +32,28 @@
 #define sfANY NULL
 
 // default values
-/*! \brief Default value of wxSFShapeObject::m_fVisible data member */
+/*! \brief Default value of wxSFShapeBase::m_fVisible data member */
 #define sfdvBASESHAPE_VISIBILITY true
-/*! \brief Default value of wxSFShapeObject::m_fActive data member */
+/*! \brief Default value of wxSFShapeBase::m_fActive data member */
 #define sfdvBASESHAPE_ACTIVITY true
-/*! \brief Default value of wxSFShapeObject::m_nHoverColor data member */
+/*! \brief Default value of wxSFShapeBase::m_nHoverColor data member */
 #define sfdvBASESHAPE_HOVERCOLOUR wxColor(120, 120, 255)
-/*! \brief Default value of wxSFShapeObject::m_nRelativePosition data member */
+/*! \brief Default value of wxSFShapeBase::m_nRelativePosition data member */
 #define sfdvBASESHAPE_POSITION wxRealPoint(0, 0)
-/*! \brief Default value of wxSFShapeObject::m_nVAlign data member */
+/*! \brief Default value of wxSFShapeBase::m_nVAlign data member */
 #define sfdvBASESHAPE_VALIGN valignNONE
-/*! \brief Default value of wxSFShapeObject::m_nHAlign data member */
+/*! \brief Default value of wxSFShapeBase::m_nHAlign data member */
 #define sfdvBASESHAPE_HALIGN halignNONE
-/*! \brief Default value of wxSFShapeObject::m_nVBorder data member */
+/*! \brief Default value of wxSFShapeBase::m_nVBorder data member */
 #define sfdvBASESHAPE_VBORDER 0
-/*! \brief Default value of wxSFShapeObject::m_nHBorder data member */
+/*! \brief Default value of wxSFShapeBase::m_nHBorder data member */
 #define sfdvBASESHAPE_HBORDER 0
-/*! \brief Default value of wxSFShapeObject::m_nStyle data member */
+/*! \brief Default value of wxSFShapeBase::m_nStyle data member */
 #define sfdvBASESHAPE_DEFAULT_STYLE sfsDEFAULT_SHAPE_STYLE
-/*! \brief Default value of wxSFShapeObject::m_nSCustomDockPoint data member */
+/*! \brief Default value of wxSFShapeBase::m_nCustomDockPoint data member */
 #define sfdvBASESHAPE_DOCK_POINT 0
+
+typedef SerializableList ConnectionPointList;
 
 class WXDLLIMPEXP_SF wxSFShapeCanvas;
 class WXDLLIMPEXP_SF wxSFDiagramManager;
@@ -85,6 +88,7 @@ class WXDLLIMPEXP_SF wxSFShapeBase : public xsSerializable
 public:
 
     friend class wxSFShapeCanvas;
+    friend class wxSFDiagramManager;
     friend class wxSFShapeHandle;
 
 	XS_DECLARE_CLONABLE_CLASS(wxSFShapeBase);
@@ -165,20 +169,20 @@ public:
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
 
-    /*! \brief constructor */
+    /*! \brief Baseic constructor. */
 	wxSFShapeBase(void);
 	/*!
-	 * \brief User constructor
+	 * \brief Enhanced constructor.
 	 * \param pos Initial relative position
 	 * \param manager Pointer to parent diagram manager
      */
 	wxSFShapeBase(const wxRealPoint& pos, wxSFDiagramManager* manager);
 	/*!
-	 * \brief Copy constructor
+	 * \brief Copy constructor.
 	 * \param obj Reference to the source object
      */
 	wxSFShapeBase(const wxSFShapeBase& obj);
-	/*! \brief Destructor */
+	/*! \brief Destructor. */
 	virtual ~wxSFShapeBase(void);
 
 	// public functions
@@ -682,6 +686,48 @@ public:
 	 * \sa wxSFShapeHandle
 	 */
 	void RemoveHandle(wxSFShapeHandle::HANDLETYPE type, long id = -1);
+	
+	/*!
+	 * \brief Get reference to connection points list.
+	 * \return Constant reference to connection points list
+	 */
+	inline ConnectionPointList& GetConnectionPoints() { return m_lstConnectionPts; }
+	/*!
+	 * \brief Get connection point of given type assigned to the shape.
+	 * \param type Connection point type
+	 * \return Pointer to connection point if exists, otherwise NULL
+	 * \sa wxSFConnectionPoint::CPTYPE
+	 */
+	wxSFConnectionPoint* GetConnectionPoint(wxSFConnectionPoint::CPTYPE type);
+	/*!
+	 * \brief Get connection point closest to the diven position.
+	 * \param pos Position
+	 * \return Pointer to closest connection point if exists, otherwise NULL
+	 */
+	wxSFConnectionPoint* GetNearestConnectionPoint(const wxRealPoint& pos);
+	/*!
+	 * \brief Assign connection point of given type to the shape.
+	 * \param type Connection point type
+	 * \sa wxSFConnectionPoint::CPTYPE
+	 */
+	void AddConnectionPoint(wxSFConnectionPoint::CPTYPE type);
+	/*!
+	 * \brief Assign custom connection point to the shape.
+	 * \param relpos Relative position in percentages
+	 * \param id Optional connection point ID
+	 */
+	void AddConnectionPoint(const wxRealPoint& relpos, long id = -1);
+	/*!
+	 * \brief Assigned given connection point to the shape.
+	 * \param cp Pointer to connection point (shape will take the ownership)
+	 */
+	void AddConnectionPoint(wxSFConnectionPoint *cp);
+	/*!
+	 * \brief Remove connection point of given type from the shape (if pressent).
+	 * \param type Connection point type
+	 * \sa wxSFConnectionPoint::CPTYPE
+	 */
+	void RemoveConnectionPoint(wxSFConnectionPoint::CPTYPE type);
 
 	// public event handlers
 	/*!
@@ -867,6 +913,7 @@ protected:
 
 	/*! \brief Handle list */
 	HandleList m_lstHandles;
+	ConnectionPointList m_lstConnectionPts;
 
 	/*! \brief Container for serializable user data associated with the shape */
 	xsSerializable *m_pUserData;
@@ -951,8 +998,9 @@ private:
 
     // private functions
 
-	 /*! \brief Initialize serializable properties. */
+	/*! \brief Initialize serializable properties. */
 	void MarkSerializableDataMembers();
+	
 	/*!
 	 * \brief Auxiliary function called by GetNeighbours function.
 	 * \param neighbours List of neighbour shapes
