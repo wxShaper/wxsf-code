@@ -169,7 +169,7 @@ public:
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
 
-    /*! \brief Baseic constructor. */
+    /*! \brief Basic constructor. */
 	wxSFShapeBase(void);
 	/*!
 	 * \brief Enhanced constructor.
