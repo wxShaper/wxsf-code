@@ -38,7 +38,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.9.3 beta");
+    m_sSFVersion =  wxT("1.10.0 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -163,7 +163,6 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
                         pChild = (wxSFShapeBase*)node->GetData();
 
                         pChild->CreateHandles();
-						
                         pChild->Update();
 						
                         if( m_pShapeCanvas )
@@ -431,7 +430,6 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				if( pShape->IsKindOf( CLASSINFO(wxSFLineShape) ) )
 				{
 					pShape->CreateHandles();
-					
 					m_lstLinesForUpdate.Append(pShape);
 				}
 				else if( pShape->IsKindOf( CLASSINFO(wxSFGridShape) ) )
