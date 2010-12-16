@@ -866,11 +866,12 @@ void wxSFShapeBase::RemoveHandle(wxSFShapeHandle::HANDLETYPE type, long id)
 	}
 }
 
-wxSFConnectionPoint* wxSFShapeBase::GetConnectionPoint(wxSFConnectionPoint::CPTYPE type)
+wxSFConnectionPoint* wxSFShapeBase::GetConnectionPoint(wxSFConnectionPoint::CPTYPE type, long id)
 {
 	for( ConnectionPointList::iterator it = m_lstConnectionPts.begin(); it != m_lstConnectionPts.end(); ++it )
 	{
-		if( ((wxSFConnectionPoint*)(*it))->GetType() == type ) return (wxSFConnectionPoint*)*it;
+		wxSFConnectionPoint *pCp = (wxSFConnectionPoint*)(*it);
+		if( pCp->GetType() == type && pCp->GetId() == id ) return pCp;
 	}
 	
 	return NULL;

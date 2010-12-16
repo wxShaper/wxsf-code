@@ -695,10 +695,11 @@ public:
 	/*!
 	 * \brief Get connection point of given type assigned to the shape.
 	 * \param type Connection point type
+	 * \param id Optional connection point ID
 	 * \return Pointer to connection point if exists, otherwise NULL
 	 * \sa wxSFConnectionPoint::CPTYPE
 	 */
-	wxSFConnectionPoint* GetConnectionPoint(wxSFConnectionPoint::CPTYPE type);
+	wxSFConnectionPoint* GetConnectionPoint(wxSFConnectionPoint::CPTYPE type, long id = -1);
 	/*!
 	 * \brief Get connection point closest to the diven position.
 	 * \param pos Position
