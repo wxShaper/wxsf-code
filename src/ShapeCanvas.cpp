@@ -3127,7 +3127,7 @@ void wxSFShapeCanvas::PrintPreview(wxSFPrintout *preview, wxSFPrintout *printout
     wxASSERT(preview);
 
 	DeselectAll();
-	
+
     // Pass two printout objects: for preview, and possible printing.
     wxPrintDialogData printDialogData(* g_printData);
     wxPrintPreview *prnPreview = new wxPrintPreview(preview, printout, &printDialogData);
