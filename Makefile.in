@@ -85,6 +85,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_ShapeBaseXml.o \
 	wxsf_lib_ShapeCanvas.o \
 	wxsf_lib_ShapeDataObject.o \
+	wxsf_lib_ShapeDockpoint.o \
 	wxsf_lib_ShapeHandle.o \
 	wxsf_lib_SolidArrow.o \
 	wxsf_lib_TextShape.o \
@@ -129,6 +130,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_ShapeBaseXml.o \
 	wxsf_dll_ShapeCanvas.o \
 	wxsf_dll_ShapeDataObject.o \
+	wxsf_dll_ShapeDockpoint.o \
 	wxsf_dll_ShapeHandle.o \
 	wxsf_dll_SolidArrow.o \
 	wxsf_dll_TextShape.o \
@@ -538,6 +540,9 @@ wxsf_lib_ShapeCanvas.o: $(srcdir)/src/ShapeCanvas.cpp
 wxsf_lib_ShapeDataObject.o: $(srcdir)/src/ShapeDataObject.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/ShapeDataObject.cpp
 
+wxsf_lib_ShapeDockpoint.o: $(srcdir)/src/ShapeDockpoint.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/ShapeDockpoint.cpp
+
 wxsf_lib_ShapeHandle.o: $(srcdir)/src/ShapeHandle.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/ShapeHandle.cpp
 
@@ -660,6 +665,9 @@ wxsf_dll_ShapeCanvas.o: $(srcdir)/src/ShapeCanvas.cpp
 
 wxsf_dll_ShapeDataObject.o: $(srcdir)/src/ShapeDataObject.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/ShapeDataObject.cpp
+
+wxsf_dll_ShapeDockpoint.o: $(srcdir)/src/ShapeDockpoint.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/ShapeDockpoint.cpp
 
 wxsf_dll_ShapeHandle.o: $(srcdir)/src/ShapeHandle.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/ShapeHandle.cpp
