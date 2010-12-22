@@ -38,6 +38,9 @@ enum APPIDS
     IDT_ALIGN_CENTER,
 
     IDT_LAST_TOOLMARKER,
+	
+	IDM_AUTOLAYOUT_FIRST,
+	IDM_AUTOLAYOUT_LAST = IDM_AUTOLAYOUT_FIRST + 100,
 
     // other constrols
     //---------------------------------------------------------------//

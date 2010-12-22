@@ -8,13 +8,14 @@
  * Notes:
  **************************************************************/
 
-#ifndef _WXSF_H
-#define _WXSF_H
+#ifndef _WXSF_H_
+#define _WXSF_H_
 
 // main library classes
 #include <wx/wxsf/DiagramManager.h>
 #include <wx/wxsf/ShapeCanvas.h>
 #include <wx/wxsf/Thumbnail.h>
+#include <wx/wxsf/AutoLayout.h>
 
 // shapes' declarations
 #include <wx/wxsf/RectShape.h>
@@ -54,4 +55,4 @@
 // serialize/deserialize functionality
 #include <wx/wxxmlserializer/XmlSerializer.h>
 
-#endif //_WXSF_H
+#endif //_WXSF_H_

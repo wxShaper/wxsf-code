@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version May 12 2009)
+// C++ code generated with wxFormBuilder (version Nov 29 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -35,6 +35,7 @@ class _MainFrm : public wxFrame
 		wxMenuBar* m_pMenuBar;
 		wxMenu* m_pFileMenu;
 		wxMenu* m_pEditMenu;
+		wxMenu* m_pAutoLayoutMenu;
 		wxMenu* m_pHelpMenu;
 		wxToolBar* m_pToolBar;
 		wxStatusBar* m_pStatusBar;
@@ -44,7 +45,8 @@ class _MainFrm : public wxFrame
 	public:
 		wxBoxSizer* m_pCanvasSizer;
 		
-		_MainFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("wxShapeFramework Demo Application"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1048,700 ), long style = wxCLOSE_BOX|wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		_MainFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("wxShapeFramework Demo Application"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1024,700 ), long style = wxCLOSE_BOX|wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		
 		~_MainFrm();
 	
 };
@@ -61,7 +63,8 @@ class _ThumbFrm : public wxFrame
 	public:
 		wxBoxSizer* m_pMainSizer;
 		
-		_ThumbFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Thumbnail"), const wxPoint& pos = wxPoint( 0,0 ), const wxSize& size = wxSize( 200,150 ), long style = wxCAPTION|wxFRAME_FLOAT_ON_PARENT|wxFRAME_TOOL_WINDOW|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		_ThumbFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Thumbnail"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,150 ), long style = wxCAPTION|wxFRAME_FLOAT_ON_PARENT|wxFRAME_TOOL_WINDOW|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		
 		~_ThumbFrm();
 	
 };

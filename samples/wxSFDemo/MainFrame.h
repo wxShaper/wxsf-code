@@ -69,6 +69,7 @@ protected:
 	wxColourPickerCtrl* cpicker;
 
 	wxSFDiagramManager m_DiagramManager;
+	wxSFAutoLayout m_AutoLayout;
 
 	bool m_fShowGrid;
 	MODE m_nToolMode;
@@ -95,6 +96,7 @@ protected:
 	void OnPrint(wxCommandEvent& event);
 	void OnPrintPreview(wxCommandEvent& event);
 	void OnPageSetup(wxCommandEvent& event);
+	void OnAutoLayout(wxCommandEvent& event);
 
     // toolbar event handlers
 	void OnSlider(wxScrollEvent& event);
@@ -107,6 +109,7 @@ protected:
 	void OnUpdateUndo(wxUpdateUIEvent& event);
 	void OnUpdateRedo(wxUpdateUIEvent& event);
 	void OnUpdateTool(wxUpdateUIEvent& event);
+	void OnUpdateAutoLayout(wxUpdateUIEvent& event);
 
 	DECLARE_EVENT_TABLE();
 

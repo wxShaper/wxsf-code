@@ -156,6 +156,9 @@ public:
 	/*! \brief Remove all shapes from canvas */
 	void Clear();
 	
+	/*! \brief Move all shapes so none of it will be located in negative position */
+	void MoveShapesFromNegatives();
+	
 	/*! \brief Update all shapes in the diagram manager */
 	void UpdateAll();
 

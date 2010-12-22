@@ -23,6 +23,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
 	EVT_MENU(wxID_PRINT, MainFrm::OnPrint)
 	EVT_MENU(wxID_PREVIEW, MainFrm::OnPrintPreview)
 	EVT_MENU(wxID_PAGE_SETUP, MainFrm::OnPageSetup)
+	EVT_MENU_RANGE(IDM_AUTOLAYOUT_FIRST, IDM_AUTOLAYOUT_LAST, MainFrm::OnAutoLayout)
 	EVT_COMMAND_SCROLL(wxID_ZOOM_FIT, MainFrm::OnSlider)
 	EVT_TOOL_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnTool)
 	EVT_COLOURPICKER_CHANGED(IDT_COLORPICKER, MainFrm::OnHowerColor)
@@ -32,6 +33,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
 	EVT_UPDATE_UI(wxID_UNDO, MainFrm::OnUpdateUndo)
 	EVT_UPDATE_UI(wxID_REDO, MainFrm::OnUpdateRedo)
 	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnUpdateTool)
+	EVT_UPDATE_UI_RANGE(IDM_AUTOLAYOUT_FIRST, IDM_AUTOLAYOUT_LAST, MainFrm::OnUpdateAutoLayout)
 END_EVENT_TABLE()
 
 //----------------------------------------------------------------------------------//
@@ -78,6 +80,13 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_pEditMenu->Append(wxID_COPY, wxT("&Copy\tCtrl+C"), wxT("Copy shapes to the clipboard"), wxITEM_NORMAL);
 	m_pEditMenu->Append(wxID_CUT, wxT("Cu&t\tCtrl+X"), wxT("Cut shapes to the clipboard"), wxITEM_NORMAL);
 	m_pEditMenu->Append(wxID_PASTE, wxT("&Paste\tCtrl+V"), wxT("Paste shapes to the canvas"), wxITEM_NORMAL);
+
+	wxArrayString arrLayouts = m_AutoLayout.GetRegisteredAlgorithms();
+	
+	for( size_t i = 0; i < arrLayouts.GetCount(); ++i )
+	{
+		m_pAutoLayoutMenu->Append( IDM_AUTOLAYOUT_FIRST + i, arrLayouts[i] );
+	}
 
     m_pHelpMenu->Append(wxID_ABOUT, wxT("&About..."), wxT("About application..."), wxITEM_NORMAL);
 
@@ -169,6 +178,9 @@ void MainFrm::CleanUp()
 	
 	m_pThumbFrm->Hide();
 	m_pThumbFrm->GetThumbnail()->SetCanvas(NULL);
+	
+	// clean up registered (standard) autolayout algorithms
+	wxSFAutoLayout::CleanUp();
 
  	Destroy();	
 }
@@ -537,6 +549,10 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
     }
 }
 
+void MainFrm::OnUpdateAutoLayout(wxUpdateUIEvent& event)
+{
+	event.Enable( m_DiagramManager.GetRootItem()->HasChildren() );
+}
 
 //----------------------------------------------------------------------------------//
 // printing functions
@@ -572,3 +588,8 @@ void MainFrm::OnHowerColor(wxColourPickerEvent& event)
 	m_pShapeCanvas->SetHoverColour(event.GetColour());
 }
 
+void MainFrm::OnAutoLayout(wxCommandEvent& event)
+{
+	m_AutoLayout.Layout( m_pShapeCanvas, m_pAutoLayoutMenu->GetLabel( event.GetId() ) );
+	m_pShapeCanvas->SaveCanvasState();
+}

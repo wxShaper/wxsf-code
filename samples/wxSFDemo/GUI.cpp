@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version May 12 2009)
+// C++ code generated with wxFormBuilder (version Nov 29 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -17,18 +17,21 @@ _MainFrm::_MainFrm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_pMenuBar = new wxMenuBar( 0 );
 	m_pFileMenu = new wxMenu();
-	m_pMenuBar->Append( m_pFileMenu, wxT("&File") );
+	m_pMenuBar->Append( m_pFileMenu, wxT("&File") ); 
 	
 	m_pEditMenu = new wxMenu();
-	m_pMenuBar->Append( m_pEditMenu, wxT("&Edit") );
+	m_pMenuBar->Append( m_pEditMenu, wxT("&Edit") ); 
+	
+	m_pAutoLayoutMenu = new wxMenu();
+	m_pMenuBar->Append( m_pAutoLayoutMenu, wxT("&AutoLayout") ); 
 	
 	m_pHelpMenu = new wxMenu();
-	m_pMenuBar->Append( m_pHelpMenu, wxT("&Help") );
+	m_pMenuBar->Append( m_pHelpMenu, wxT("&Help") ); 
 	
 	this->SetMenuBar( m_pMenuBar );
 	
 	m_pToolBar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
-	m_pToolBar->Realize();
+	m_pToolBar->Realize(); 
 	
 	m_pStatusBar = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
 	wxFlexGridSizer* mainSizer;

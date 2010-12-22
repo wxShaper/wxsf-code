@@ -770,3 +770,50 @@ void wxSFDiagramManager::UpdateAll()
 		node = node->GetNext();
 	}
 }
+
+void wxSFDiagramManager::MoveShapesFromNegatives()
+{
+	wxSFShapeBase *pShape;
+	wxRealPoint shapePos;
+	double minx = 0, miny = 0;
+
+	// find the maximal negative position value
+    ShapeList shapes;
+    GetShapes(CLASSINFO(wxSFShapeBase), shapes);
+
+	ShapeList::compatibility_iterator node = shapes.GetFirst();
+	while(node)
+	{
+		shapePos = node->GetData()->GetAbsolutePosition();
+
+		if(node == shapes.GetFirst())
+		{
+			minx = shapePos.x;
+			miny = shapePos.y;
+		}
+		else
+		{
+            if(shapePos.x < minx)minx = shapePos.x;
+            if(shapePos.y < miny)miny = shapePos.y;
+		}
+
+		node = node->GetNext();
+	}
+
+	// move all parents shape so they (and their children) will be located in the positive values only
+	if((minx < 0) || (miny < 0))
+	{
+		node = shapes.GetFirst();
+		while(node)
+		{
+			pShape = node->GetData();
+
+			if(pShape->GetParentShape() == NULL)
+			{
+				if(minx < 0)pShape->MoveBy(abs((int)minx), 0);
+				if(miny < 0)pShape->MoveBy(0, abs((int)miny));
+			}
+			node = node->GetNext();
+		}
+	}
+}
