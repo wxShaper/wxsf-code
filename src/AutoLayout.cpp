@@ -77,7 +77,7 @@ void wxSFAutoLayout::InitializeAllAlgorithms()
 {
 	// register predefined algorithms
 	RegisterLayoutAlgorithm( wxT("Circle"), new wxSFLayoutCircle() );
-	//RegisterLayoutAlgorithm( wxT("Tree"), new wxSFLayoutTree() );
+	RegisterLayoutAlgorithm( wxT("Vertical Tree"), new wxSFLayoutVerticalTree() );
 	RegisterLayoutAlgorithm( wxT("Mesh"), new wxSFLayoutMesh() );
 }
 
@@ -124,41 +124,88 @@ void wxSFAutoLayout::Layout(wxSFShapeCanvas* canvas, const wxString& algname)
 	{
 		Layout( *canvas->GetDiagramManager(), algname );
 		canvas->UpdateVirtualSize();
+		canvas->UpdateMultieditSize();
 		canvas->Refresh(false);
 	}
+}
+
+// layout algorithms helpers ///////////////////////////////////////////////////
+
+wxRect wxSFLayoutAlgorithm::GetBoundingBox(const ShapeList& shapes)
+{
+	wxRect rctBB;
+	
+	for( ShapeList::const_iterator it = shapes.begin(); it != shapes.end(); ++ it )
+	{
+		wxSFShapeBase *pShape = *it;
+		
+		if( it == shapes.begin() ) rctBB = pShape->GetBoundingBox();
+		else
+			rctBB.Union( pShape->GetBoundingBox() );
+	}
+	
+	return rctBB;
+}
+
+wxSize wxSFLayoutAlgorithm::GetShapesExtent(const ShapeList& shapes)
+{
+	int nTotalWidth = 0, nTotalHeight = 0;
+	
+	for( ShapeList::const_iterator it = shapes.begin(); it != shapes.end(); ++ it )
+	{
+		wxRect rctBB = (*it)->GetBoundingBox();
+		
+		nTotalWidth += rctBB.GetWidth();
+		nTotalHeight += rctBB.GetHeight();
+	}
+	
+	return wxSize( nTotalWidth, nTotalHeight );
+}
+
+wxRealPoint wxSFLayoutAlgorithm::GetShapesCenter(const ShapeList& shapes)
+{
+	wxRealPoint nCenter;
+	
+	for( ShapeList::const_iterator it = shapes.begin(); it != shapes.end(); ++ it )
+	{
+		nCenter = nCenter + (*it)->GetAbsolutePosition();
+	}
+	
+	nCenter.x /= shapes.GetCount();
+	nCenter.y /= shapes.GetCount();
+	
+	return nCenter;
+}
+
+wxRealPoint wxSFLayoutAlgorithm::GetTopLeft(const ShapeList& shapes)
+{
+	double startx = INT_MAX, starty = INT_MAX;
+	
+	for( ShapeList::const_iterator it = shapes.begin(); it != shapes.end(); ++ it )
+	{
+		wxSFShapeBase *pShape = *it;
+		
+		wxRealPoint nPos = pShape->GetAbsolutePosition();
+		if( nPos.x < startx ) startx = nPos.x;
+		if( nPos.y < starty ) starty = nPos.y;
+	}
+	
+	return wxRealPoint( startx, starty );
 }
 
 // pre-defined layout algorithms ///////////////////////////////////////////////
 
 void wxSFLayoutCircle::DoLayout(ShapeList& shapes)
 {
-	// first calculate diagram center and total width and height
-	wxRealPoint nCenter;
-	int nTotalWidth = 0;
-	int nTotalHeight = 0;
-	int nCount = shapes.GetCount();
-	
-	for( ShapeList::iterator it = shapes.begin(); it != shapes.end(); ++ it )
-	{
-		wxSFShapeBase *pShape = *it;
-		
-		wxRect rctBB = pShape->GetBoundingBox();
-		
-		nCenter = nCenter + pShape->GetAbsolutePosition();
-		nTotalWidth += rctBB.GetWidth();
-		nTotalHeight += rctBB.GetHeight();
-	}
-	
-	nCenter.x /= nCount;
-	nCenter.y /= nCount;
+	wxSize sizeShapes = GetShapesExtent( shapes );
+	wxRealPoint nCenter = GetShapesCenter( shapes );
 	
 	double x, y;
-	double step = 360.0 / nCount;
+	double step = 360.0 / shapes.GetCount();
 	double degree = 0;
-	double rx = nTotalWidth / 2;
-	double ry = nTotalHeight / 2;
+	double rx = sizeShapes.x / 2;
+	double ry = sizeShapes.y / 2;
 	
-	// move shapes
 	for( ShapeList::iterator it = shapes.begin(); it != shapes.end(); ++ it )
 	{
 		wxSFShapeBase *pShape = *it;
@@ -171,32 +218,71 @@ void wxSFLayoutCircle::DoLayout(ShapeList& shapes)
 	}
 }
 
-void wxSFLayoutTree::DoLayout(ShapeList& shapes)
-{
-	// TODO: implement it...
-}
+//------------------------------------------------------------------------------
 
-void wxSFLayoutMesh::DoLayout(ShapeList& shapes)
+void wxSFLayoutVerticalTree::DoLayout(ShapeList& shapes)
 {
-	int i, cols = floor( sqrt( shapes.GetCount() ) );
+	ShapeList lstConnections;
+	ShapeList lstRoots;
 	
-	double roffset, coffset, startx, starty, maxh;
-	startx = starty = INT_MAX;
-	roffset = coffset = 0;
+	wxRealPoint nStart = GetTopLeft( shapes );
+	m_nMinX = nStart.x;
 	
-	// find starting position
+	// find root items
 	for( ShapeList::iterator it = shapes.begin(); it != shapes.end(); ++ it )
 	{
 		wxSFShapeBase *pShape = *it;
 		
-		wxRealPoint nPos = pShape->GetAbsolutePosition();
-		if( nPos.x < startx ) startx = nPos.x;
-		if( nPos.y < starty ) starty = nPos.y;
+		lstConnections.Clear();
+		pShape->GetAssignedConnections( CLASSINFO(wxSFLineShape), wxSFShapeBase::lineENDING, lstConnections );
+		
+		if( lstConnections.IsEmpty() )
+		{
+			m_nCurrMaxWidth = 0;
+			ProcessNode( pShape, nStart.y );
+		}
 	}
+}
+
+void wxSFLayoutVerticalTree::ProcessNode(wxSFShapeBase* node, double y)
+{
+	wxASSERT( node );
 	
-	// move shapes
-	i = 0;
-	maxh = 0;
+	if( node )
+	{
+		node->MoveTo( m_nMinX, y );
+		
+		wxRect rctBB = node->GetBoundingBox();
+		if( rctBB.GetWidth() > m_nCurrMaxWidth ) m_nCurrMaxWidth = rctBB.GetWidth();
+		
+		ShapeList lstConnections;
+		node->GetNeighbours( lstConnections, CLASSINFO(wxSFShapeBase), wxSFShapeBase::lineSTARTING );
+
+		if( lstConnections.IsEmpty() )
+		{
+			m_nMinX += m_nCurrMaxWidth + 10;
+		}
+		else
+		{
+			for( ShapeList::iterator it = lstConnections.begin(); it != lstConnections.end(); ++it )
+			{
+				ProcessNode( *it, y + rctBB.GetHeight() + 30 );
+			}
+		}
+	}
+}
+
+//------------------------------------------------------------------------------
+
+void wxSFLayoutMesh::DoLayout(ShapeList& shapes)
+{
+	int i = 0, cols = floor( sqrt( shapes.GetCount() ) );
+	
+	double roffset, coffset, maxh = -10;
+	roffset = coffset = 0;
+
+	wxRealPoint nStart = GetTopLeft( shapes );
+
 	for( ShapeList::iterator it = shapes.begin(); it != shapes.end(); ++ it )
 	{
 		wxSFShapeBase *pShape = *it;
@@ -208,7 +294,7 @@ void wxSFLayoutMesh::DoLayout(ShapeList& shapes)
 			maxh = 0;
 		}
 		
-		pShape->MoveTo( startx + coffset, starty + roffset );
+		pShape->MoveTo( nStart.x + coffset, nStart.y + roffset );
 		
 		wxRect rctBB = pShape->GetBoundingBox();
 		coffset += rctBB.GetWidth() + 10;
@@ -216,3 +302,4 @@ void wxSFLayoutMesh::DoLayout(ShapeList& shapes)
 		if( rctBB.GetHeight() > maxh ) maxh = rctBB.GetHeight();
 	}
 }
+

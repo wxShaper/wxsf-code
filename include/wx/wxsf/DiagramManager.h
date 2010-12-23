@@ -269,6 +269,11 @@ public:
 	 */
 	void GetShapesInside(const wxRect& rct, ShapeList& shapes);
 
+	/*!
+	 * \brief Determines whether the diagram manager contains some shapes.
+	 * \return TRUE if there are no shapes in the manager, otherwise FALSE
+	 */
+	inline bool IsEmpty() const { return ! GetRootItem()->HasChildren(); }
     /*!
      * \brief Function finds out whether given shape has some children.
      * \param parent Pointer to potential parent shape

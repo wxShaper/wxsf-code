@@ -21,6 +21,12 @@ public:
 	virtual ~wxSFLayoutAlgorithm() {;}
 	
 	virtual void DoLayout(ShapeList &shapes) = 0;
+	
+protected:
+	wxRect GetBoundingBox(const ShapeList &shapes);
+	wxSize GetShapesExtent(const ShapeList &shapes);
+	wxRealPoint GetShapesCenter(const ShapeList &shapes);
+	wxRealPoint GetTopLeft(const ShapeList &shapes);
 };
 
 WX_DECLARE_HASH_MAP( wxString, wxSFLayoutAlgorithm*, wxStringHash, wxStringEqual, LayoutAlgoritmMap );
@@ -57,12 +63,19 @@ public:
 	virtual void DoLayout(ShapeList &shapes);
 };
 
-class wxSFLayoutTree : public wxSFLayoutAlgorithm
+class wxSFLayoutVerticalTree : public wxSFLayoutAlgorithm
 {
 public:
-	virtual ~wxSFLayoutTree() {;}
+	virtual ~wxSFLayoutVerticalTree() {;}
 	
 	virtual void DoLayout(ShapeList &shapes);
+	
+protected:
+	double m_nMinX;
+	//double m_nCurY;
+	int m_nCurrMaxWidth;
+
+	void ProcessNode(wxSFShapeBase *node, double y);
 };
 
 class wxSFLayoutMesh : public wxSFLayoutAlgorithm

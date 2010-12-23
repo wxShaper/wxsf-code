@@ -551,7 +551,7 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
 
 void MainFrm::OnUpdateAutoLayout(wxUpdateUIEvent& event)
 {
-	event.Enable( m_DiagramManager.GetRootItem()->HasChildren() );
+	event.Enable( !m_DiagramManager.IsEmpty() );
 }
 
 //----------------------------------------------------------------------------------//
