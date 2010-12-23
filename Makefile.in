@@ -53,6 +53,7 @@ WXSF_LIB_CXXFLAGS = -I$(srcdir)/include -I../src -I./src $(WX_CXXFLAGS) \
 	$(CPPFLAGS) $(CXXFLAGS)
 WXSF_LIB_OBJECTS =  \
 	wxsf_lib_ArrowBase.o \
+	wxsf_lib_AutoLayout.o \
 	wxsf_lib_BitmapShape.o \
 	wxsf_lib_BitmapShapeXml.o \
 	wxsf_lib_CanvasHistory.o \
@@ -98,6 +99,7 @@ WXSF_DLL_CXXFLAGS = -I$(srcdir)/include -DWXMAKINGDLL_WXSF -I../src -I./src \
 	-DWXMAKINGDLL_WXXS $(PIC_FLAG) $(WX_CXXFLAGS) $(CPPFLAGS) $(CXXFLAGS)
 WXSF_DLL_OBJECTS =  \
 	wxsf_dll_ArrowBase.o \
+	wxsf_dll_AutoLayout.o \
 	wxsf_dll_BitmapShape.o \
 	wxsf_dll_BitmapShapeXml.o \
 	wxsf_dll_CanvasHistory.o \
@@ -444,6 +446,9 @@ make_sample_dir_sfsample4:
 wxsf_lib_ArrowBase.o: $(srcdir)/src/ArrowBase.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/ArrowBase.cpp
 
+wxsf_lib_AutoLayout.o: $(srcdir)/src/AutoLayout.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/AutoLayout.cpp
+
 wxsf_lib_BitmapShape.o: $(srcdir)/src/BitmapShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/BitmapShape.cpp
 
@@ -569,6 +574,9 @@ wxsf_lib_XmlSerializer.o: $(srcdir)/src/wxxmlserializer/XmlSerializer.cpp
 
 wxsf_dll_ArrowBase.o: $(srcdir)/src/ArrowBase.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/ArrowBase.cpp
+
+wxsf_dll_AutoLayout.o: $(srcdir)/src/AutoLayout.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/AutoLayout.cpp
 
 wxsf_dll_BitmapShape.o: $(srcdir)/src/BitmapShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/BitmapShape.cpp
