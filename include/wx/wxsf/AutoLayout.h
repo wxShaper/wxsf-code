@@ -15,17 +15,51 @@
 
 #include <wx/hashmap.h>
 
+/*!
+ * \class wxSFLayoutAlgorithm
+ * \author Michal Bližňák
+ * \date 23.12.2010
+ * \file AutoLayout.h
+ * \brief Base class for all layouting algorithms. The class containts one abstract function modifying
+ * shapes' layout and several helper functions.
+ */
 class WXDLLIMPEXP_SF wxSFLayoutAlgorithm : public wxObject
 {
 public:
+	/*!
+	 * \brief Destructor.
+	 */
 	virtual ~wxSFLayoutAlgorithm() {;}
-	
+	/*!
+	 * \brief Functions perfomrning the layout change. All derived classes must implement it.
+	 * \param shapes List of shapes which should be layouted
+	 */
 	virtual void DoLayout(ShapeList &shapes) = 0;
 	
 protected:
+	/*!
+	 * \brief Calculate bounding box surroundig given shapes.
+	 * \param shapes List of shapes
+	 * \return Bounding box
+	 */
 	wxRect GetBoundingBox(const ShapeList &shapes);
+	/*!
+	 * \brief Get overall extent of all given shapes calculated as a sum of their width and height.
+	 * \param shapes List of shapes
+	 * \return Overall shapes extent
+	 */
 	wxSize GetShapesExtent(const ShapeList &shapes);
+	/*!
+	 * \brief Get center point of given shapes.
+	 * \param shapes List of shapes
+	 * \return Center point
+	 */
 	wxRealPoint GetShapesCenter(const ShapeList &shapes);
+	/*!
+	 * \brief Get top-left point of bounding box surrounding given shapes.
+	 * \param shapes List of shapes
+	 * \return Top-left point of bounding box surrounding given shapes
+	 */
 	wxRealPoint GetTopLeft(const ShapeList &shapes);
 };
 
@@ -59,9 +93,16 @@ protected:
 class wxSFLayoutCircle : public wxSFLayoutAlgorithm
 {
 public:
+	wxSFLayoutCircle() : m_DistanceRatio(1) {;}
 	virtual ~wxSFLayoutCircle() {;}
 	
 	virtual void DoLayout(ShapeList &shapes);
+	
+	void SetDistanceRatio(double DistanceRatio) {this->m_DistanceRatio = DistanceRatio;}
+	double GetDistanceRatio() const {return m_DistanceRatio;}
+	
+protected:
+	double m_DistanceRatio;
 };
 
 class wxSFLayoutVerticalTree : public wxSFLayoutAlgorithm

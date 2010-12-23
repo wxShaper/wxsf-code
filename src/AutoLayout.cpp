@@ -206,8 +206,8 @@ void wxSFLayoutCircle::DoLayout(ShapeList& shapes)
 	double x, y;
 	double step = 360.0 / shapes.GetCount();
 	double degree = 0;
-	double rx = sizeShapes.x / 2;
-	double ry = sizeShapes.y / 2;
+	double rx = ( sizeShapes.x / 2 ) * m_DistanceRatio;
+	double ry = ( sizeShapes.y / 2 ) * m_DistanceRatio;
 	
 	for( ShapeList::iterator it = shapes.begin(); it != shapes.end(); ++ it )
 	{
@@ -258,16 +258,16 @@ void wxSFLayoutVerticalTree::ProcessNode(wxSFShapeBase* node, double y)
 		wxRect rctBB = node->GetBoundingBox();
 		if( rctBB.GetWidth() > m_nCurrMaxWidth ) m_nCurrMaxWidth = rctBB.GetWidth();
 		
-		ShapeList lstConnections;
-		node->GetNeighbours( lstConnections, CLASSINFO(wxSFShapeBase), wxSFShapeBase::lineSTARTING );
+		ShapeList lstNeighbours;
+		node->GetNeighbours( lstNeighbours, CLASSINFO(wxSFShapeBase), wxSFShapeBase::lineSTARTING );
 
-		if( lstConnections.IsEmpty() )
+		if( lstNeighbours.IsEmpty() )
 		{
 			m_nMinX += m_nCurrMaxWidth + m_HSpace;
 		}
 		else
 		{
-			for( ShapeList::iterator it = lstConnections.begin(); it != lstConnections.end(); ++it )
+			for( ShapeList::iterator it = lstNeighbours.begin(); it != lstNeighbours.end(); ++it )
 			{
 				ProcessNode( *it, y + rctBB.GetHeight() + m_VSpace );
 			}
@@ -312,16 +312,16 @@ void wxSFLayoutHorizontalTree::ProcessNode(wxSFShapeBase* node, double x)
 		wxRect rctBB = node->GetBoundingBox();
 		if( rctBB.GetHeight() > m_nCurrMaxHeight ) m_nCurrMaxHeight = rctBB.GetHeight();
 		
-		ShapeList lstConnections;
-		node->GetNeighbours( lstConnections, CLASSINFO(wxSFShapeBase), wxSFShapeBase::lineSTARTING );
+		ShapeList lstNeighbours;
+		node->GetNeighbours( lstNeighbours, CLASSINFO(wxSFShapeBase), wxSFShapeBase::lineSTARTING );
 
-		if( lstConnections.IsEmpty() )
+		if( lstNeighbours.IsEmpty() )
 		{
 			m_nMinY += m_nCurrMaxHeight + m_VSpace;
 		}
 		else
 		{
-			for( ShapeList::iterator it = lstConnections.begin(); it != lstConnections.end(); ++it )
+			for( ShapeList::iterator it = lstNeighbours.begin(); it != lstNeighbours.end(); ++it )
 			{
 				ProcessNode( *it, x + rctBB.GetWidth() + m_HSpace );
 			}
