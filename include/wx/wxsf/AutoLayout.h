@@ -45,6 +45,7 @@ public:
 	static void CleanUp();
 	
 	wxArrayString GetRegisteredAlgorithms();
+	wxSFLayoutAlgorithm *GetAlgorithm(const wxString &algname) { return m_mapAlgorithms[algname]; }
 	
 protected:
 	void InitializeAllAlgorithms();
@@ -66,24 +67,65 @@ public:
 class wxSFLayoutVerticalTree : public wxSFLayoutAlgorithm
 {
 public:
+	wxSFLayoutVerticalTree() : m_HSpace(30), m_VSpace(30) {;}
 	virtual ~wxSFLayoutVerticalTree() {;}
 	
 	virtual void DoLayout(ShapeList &shapes);
 	
+	void SetHSpace(double HSpace) {this->m_HSpace = HSpace;}
+	void SetVSpace(double VSpace) {this->m_VSpace = VSpace;}
+	double GetHSpace() const {return m_HSpace;}
+	double GetVSpace() const {return m_VSpace;}
+	
 protected:
 	double m_nMinX;
-	//double m_nCurY;
 	int m_nCurrMaxWidth;
+	
+	double m_HSpace;
+	double m_VSpace;
 
 	void ProcessNode(wxSFShapeBase *node, double y);
+};
+
+class wxSFLayoutHorizontalTree : public wxSFLayoutAlgorithm
+{
+public:
+	wxSFLayoutHorizontalTree() : m_HSpace(30), m_VSpace(30) {;}
+	virtual ~wxSFLayoutHorizontalTree() {;}
+	
+	virtual void DoLayout(ShapeList &shapes);
+	
+	void SetHSpace(double HSpace) {this->m_HSpace = HSpace;}
+	void SetVSpace(double VSpace) {this->m_VSpace = VSpace;}
+	double GetHSpace() const {return m_HSpace;}
+	double GetVSpace() const {return m_VSpace;}
+	
+protected:
+	double m_nMinY;
+	int m_nCurrMaxHeight;
+	
+	double m_HSpace;
+	double m_VSpace;
+
+	void ProcessNode(wxSFShapeBase *node, double x);
 };
 
 class wxSFLayoutMesh : public wxSFLayoutAlgorithm
 {
 public:
+	wxSFLayoutMesh() : m_HSpace(30), m_VSpace(30) {;}
 	virtual ~wxSFLayoutMesh() {;}
 	
 	virtual void DoLayout(ShapeList &shapes);
+	
+	void SetHSpace(double HSpace) {this->m_HSpace = HSpace;}
+	void SetVSpace(double VSpace) {this->m_VSpace = VSpace;}
+	double GetHSpace() const {return m_HSpace;}
+	double GetVSpace() const {return m_VSpace;}
+	
+protected:
+	double m_HSpace;
+	double m_VSpace;
 };
 
 #endif //_WXSFAUTOLAYOUT_H_

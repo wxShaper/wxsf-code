@@ -754,6 +754,8 @@ public:
 	void UpdateVirtualSize();
 	/*! \brief Move all shapes so none of it will be located in negative position */
 	void MoveShapesFromNegatives();
+	/*! \brief Center diagram in accordance to the shape canvas extent. */
+	void CenterShapes();
     /*!
      * \brief Validate selection (remove redundantly selected shapes etc...).
      * \param selection List of selected shapes that should be validated

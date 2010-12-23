@@ -2541,6 +2541,24 @@ void wxSFShapeCanvas::MoveShapesFromNegatives()
 	if( m_pManager ) m_pManager->MoveShapesFromNegatives();
 }
 
+void wxSFShapeCanvas::CenterShapes()
+{
+	wxRect rctBB = GetTotalBoundingBox();
+	wxRect rctPrevBB = rctBB;
+	
+	rctBB = rctBB.CenterIn( wxRect( wxPoint(0, 0), GetSize() ) );
+	
+	double nDx = rctBB.GetLeft() - rctPrevBB.GetLeft();
+	double nDy = rctBB.GetTop() - rctPrevBB.GetTop();
+	
+	for( ShapeList::iterator it = m_lstCurrentShapes.begin(); it != m_lstCurrentShapes.end(); ++it )
+	{
+		(*it)->MoveBy( nDx, nDy );
+	}
+	
+	MoveShapesFromNegatives();
+}
+
 void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
 {
     int nCnt = 0;
