@@ -31,7 +31,7 @@ public:
 	 */
 	virtual ~wxSFLayoutAlgorithm() {;}
 	/*!
-	 * \brief Functions perfomrning the layout change. All derived classes must implement it.
+	 * \brief Function performing the layout change. All derived classes must implement it.
 	 * \param shapes List of shapes which should be layouted
 	 */
 	virtual void DoLayout(ShapeList &shapes) = 0;
@@ -65,24 +65,81 @@ protected:
 
 WX_DECLARE_HASH_MAP( wxString, wxSFLayoutAlgorithm*, wxStringHash, wxStringEqual, LayoutAlgoritmMap );
 	
+/*!
+ * \class wxSFAutoLayout
+ * \author Michal Bližňák
+ * \date 1.1.2011
+ * \file AutoLayout.h
+ * \brief Class implements automatic diagram layout. The class allows to automatically layout shapes
+ * included in diagram manager/shape canvas/list of shapes by using several pre-defined layouting 
+ * algorithms. The class should be used as it is.
+ */
 class WXDLLIMPEXP_SF wxSFAutoLayout
 {
 public:
+	/*!
+	 * \brief Constructor.
+	 */
 	wxSFAutoLayout();
+	/*!
+	 * \brief Destructor.
+	 */
 	~wxSFAutoLayout();
 
+	/*!
+	 * \brief Layout shapes included in given list.
+	 * \param shapes List of shapes
+	 * \param algname Algorithm name
+	 */
 	void Layout(ShapeList &shapes, const wxString& algname);
+	/*!
+	 * \brief Layout shapes included in given diagram manager.
+	 * \param manager Reference to diagram manager
+	 * \param algname Algorithm name
+	 */
 	void Layout(wxSFDiagramManager &manager, const wxString& algname);
+	/*!
+	 * \brief Layout shapes included in given shape canvas.
+	 * \param canvas Pointer to shape canvas
+	 * \param algname
+	 */
 	void Layout(wxSFShapeCanvas *canvas, const wxString& algname);
 	
+	/*!
+	 * \brief Register custom layouting algorithm (class derived from wxSFLayoutAlgorithm).
+	 * \param algname Algorithm name
+	 * \param alg Pointer to class encapsulating the layouting algorithm
+	 * \return TRUE if the algorithm was successfuly registered, otherwise FALSE
+	 */
 	static bool RegisterLayoutAlgorithm(const wxString& algname, wxSFLayoutAlgorithm *alg);
+	/*!
+	 * \brief Clean up registered layouting algorithms. Must be called at application deinitialization
+	 * if wxSFAutoLayout were used in the program.
+	 */
 	static void CleanUp();
 	
+	/*!
+	 * \brief Get string list containing names of registered layouting algorithms.
+	 * \return List of registered algorithm names.
+	 */
 	wxArrayString GetRegisteredAlgorithms();
+	/*!
+	 * \brief Get pointer to registered layouting algorithm.
+	 * \param algname Algorithm name
+	 * \return Pointer to class encapsulating selected layouting algorithm if registered, otherwise NULL
+	 */
 	wxSFLayoutAlgorithm *GetAlgorithm(const wxString &algname) { return m_mapAlgorithms[algname]; }
 	
 protected:
+	/*!
+	 * \brief Register all pre-defined layouting algorithms. The function is called from wxSFAutoLayout class
+	 * constructor.
+	 */
 	void InitializeAllAlgorithms();
+	/*!
+	 * \brief Update given shape canvas.
+	 * \param canvas
+	 */
 	void UpdateCanvas(wxSFShapeCanvas *canvas);
 	
 	static LayoutAlgoritmMap m_mapAlgorithms;
@@ -91,32 +148,93 @@ protected:
 
 // pre-defined algorithms //////////////////////////////////////////////////////
 
+/*!
+ * \class wxSFLayoutCircle
+ * \author Michal Bližňák
+ * \date 1.1.2011
+ * \file AutoLayout.h
+ * \brief Class encapsulating algorithm which layouts all top-most shapes into circle registered under "Circle" name.
+ * The algorithm doesn't optimize conection lines crossing.
+ */
 class wxSFLayoutCircle : public wxSFLayoutAlgorithm
 {
 public:
+	/*!
+	 * \brief Constructor.
+	 */
 	wxSFLayoutCircle() : m_DistanceRatio(1) {;}
+	/*!
+	 * \brief Destructor.
+	 */
 	virtual ~wxSFLayoutCircle() {;}
 	
+	/*!
+	 * \brief Function performing the layout change.
+	 * \param shapes List of shapes which should be layouted
+	 */
 	virtual void DoLayout(ShapeList &shapes);
 	
+	/*!
+	 * \brief Set ratio in which calculated distance between shapes will be reduced. Values less than
+	 * 1 means that the distance will be smaller, values bigger than 1 means that the distance will be
+	 * bigger.
+	 * \param DistanceRatio Distance ratio
+	 */
 	void SetDistanceRatio(double DistanceRatio) {this->m_DistanceRatio = DistanceRatio;}
+	/*!
+	 * \brief Get distance ratio.
+	 * \return Current distance ratio
+	 */
 	double GetDistanceRatio() const {return m_DistanceRatio;}
 	
 protected:
 	double m_DistanceRatio;
 };
 
+/*!
+ * \class wxSFLayoutVerticalTree
+ * \author Michal Bližňák
+ * \date 1.1.2011
+ * \file AutoLayout.h
+ * \brief Class encapsulating algorithm which layouts all top-most shapes into vertical tree registered under "Vertical Tree" name.
+ */
 class wxSFLayoutVerticalTree : public wxSFLayoutAlgorithm
 {
 public:
+	/*!
+	 * \brief Constructor.
+	 */
 	wxSFLayoutVerticalTree() : m_HSpace(30), m_VSpace(30) {;}
+	/*!
+	 * \brief Destructor.
+	 */
 	virtual ~wxSFLayoutVerticalTree() {;}
 	
+	/*!
+	 * \brief Function performing the layout change.
+	 * \param shapes List of shapes which should be layouted
+	 */
 	virtual void DoLayout(ShapeList &shapes);
-	
+
+	/*!
+	 * \brief Set horizontal space between shapes.
+	 * \param HSpace Horizontal space in pixels.
+	 */
 	void SetHSpace(double HSpace) {this->m_HSpace = HSpace;}
+	/*!
+	 * \brief Set vertical space between shapes.
+	 * \param VSpace Vertical space in pixels.
+	 */
 	void SetVSpace(double VSpace) {this->m_VSpace = VSpace;}
+	/*!
+	 * \brief Get horizontal space.
+	 * \return Horizontal space in pixels.
+	 */
 	double GetHSpace() const {return m_HSpace;}
+	/*!
+	 * \brief Get vertical space.
+	 * \return Vertical space in pixels.
+	 */
 	double GetVSpace() const {return m_VSpace;}
 	
 protected:
@@ -126,20 +244,58 @@ protected:
 	double m_HSpace;
 	double m_VSpace;
 
+	/*!
+	 * \brief Process single shape.
+	 * \param node Pointer to processed shape.
+	 * \param y Vertical position of the shape.
+	 */
 	void ProcessNode(wxSFShapeBase *node, double y);
 };
 
+/*!
+ * \class wxSFLayoutHorizontalTree
+ * \author Michal Bližňák
+ * \date 1.1.2011
+ * \file AutoLayout.h
+ * \brief Class encapsulating algorithm which layouts all top-most shapes into horizontal tree registered under "Horizontal Tree" name.
+ */
 class wxSFLayoutHorizontalTree : public wxSFLayoutAlgorithm
 {
 public:
+	/*!
+	 * \brief Constructor.
+	 */
 	wxSFLayoutHorizontalTree() : m_HSpace(30), m_VSpace(30) {;}
+	/*!
+	 * \brief Destructor.
+	 */
 	virtual ~wxSFLayoutHorizontalTree() {;}
 	
+	/*!
+	 * \brief Function performing the layout change.
+	 * \param shapes List of shapes which should be layouted
+	 */
 	virtual void DoLayout(ShapeList &shapes);
 	
+	/*!
+	 * \brief Set horizontal space between shapes.
+	 * \param HSpace Horizontal space in pixels.
+	 */
 	void SetHSpace(double HSpace) {this->m_HSpace = HSpace;}
+	/*!
+	 * \brief Set vertical space between shapes.
+	 * \param VSpace Vertical space in pixels.
+	 */
 	void SetVSpace(double VSpace) {this->m_VSpace = VSpace;}
+	/*!
+	 * \brief Get horizontal space.
+	 * \return Horizontal space in pixels.
+	 */
 	double GetHSpace() const {return m_HSpace;}
+	/*!
+	 * \brief Get vertical space.
+	 * \return Vertical space in pixels.
+	 */
 	double GetVSpace() const {return m_VSpace;}
 	
 protected:
@@ -152,18 +308,53 @@ protected:
 	void ProcessNode(wxSFShapeBase *node, double x);
 };
 
+/*!
+ * \class wxSFLayoutMesh
+ * \author Michal Bližňák
+ * \date 1.1.2011
+ * \file AutoLayout.h
+ * \brief Class encapsulating algorithm which layouts all top-most shapes into mesh registered under "Mesh" name.
+ * The algorithm doesn't optimize conection lines crossing.
+ */
 class wxSFLayoutMesh : public wxSFLayoutAlgorithm
 {
 public:
+	/*!
+	 * \brief Constructor.
+	 */
 	wxSFLayoutMesh() : m_HSpace(30), m_VSpace(30) {;}
+	/*!
+	 * \brief Destructor.
+	 */
 	virtual ~wxSFLayoutMesh() {;}
 	
+	/*!
+	 * \brief Function performing the layout change.
+	 * \param shapes List of shapes which should be layouted
+	 */
 	virtual void DoLayout(ShapeList &shapes);
 	
+	/*!
+	 * \brief Set horizontal space between shapes.
+	 * \param HSpace Horizontal space in pixels.
+	 */
 	void SetHSpace(double HSpace) {this->m_HSpace = HSpace;}
+	/*!
+	 * \brief Set vertical space between shapes.
+	 * \param VSpace Vertical space in pixels.
+	 */
 	void SetVSpace(double VSpace) {this->m_VSpace = VSpace;}
+	/*!
+	 * \brief Get horizontal space.
+	 * \return Horizontal space in pixels.
+	 */
 	double GetHSpace() const {return m_HSpace;}
+	/*!
+	 * \brief Get vertical space.
+	 * \return Vertical space in pixels.
+	 */
 	double GetVSpace() const {return m_VSpace;}
+	
 	
 protected:
 	double m_HSpace;
