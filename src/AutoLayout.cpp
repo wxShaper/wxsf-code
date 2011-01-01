@@ -116,6 +116,8 @@ void wxSFAutoLayout::Layout(wxSFDiagramManager& manager, const wxString& algname
 		pAlg->DoLayout( lstShapes );
 		
 		manager.MoveShapesFromNegatives();
+		
+		if( manager.GetShapeCanvas() ) UpdateCanvas( manager.GetShapeCanvas() );
 	}
 }
 
@@ -124,12 +126,15 @@ void wxSFAutoLayout::Layout(wxSFShapeCanvas* canvas, const wxString& algname)
 	if( canvas )
 	{
 		Layout( *canvas->GetDiagramManager(), algname );
-		
-		canvas->CenterShapes();
-		canvas->UpdateVirtualSize();
-		canvas->UpdateMultieditSize();
-		canvas->Refresh(false);
 	}
+}
+
+void wxSFAutoLayout::UpdateCanvas(wxSFShapeCanvas* canvas)
+{
+	canvas->CenterShapes();
+	canvas->UpdateVirtualSize();
+	canvas->UpdateMultieditSize();
+	canvas->Refresh(false);
 }
 
 // layout algorithms helpers ///////////////////////////////////////////////////
@@ -359,4 +364,3 @@ void wxSFLayoutMesh::DoLayout(ShapeList& shapes)
 		if( rctBB.GetHeight() > maxh ) maxh = rctBB.GetHeight();
 	}
 }
-

@@ -83,6 +83,7 @@ public:
 	
 protected:
 	void InitializeAllAlgorithms();
+	void UpdateCanvas(wxSFShapeCanvas *canvas);
 	
 	static LayoutAlgoritmMap m_mapAlgorithms;
 	
