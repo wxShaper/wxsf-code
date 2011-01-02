@@ -2553,7 +2553,8 @@ void wxSFShapeCanvas::CenterShapes()
 	
 	for( ShapeList::iterator it = m_lstCurrentShapes.begin(); it != m_lstCurrentShapes.end(); ++it )
 	{
-		(*it)->MoveBy( nDx, nDy );
+		wxSFShapeBase *pShape = *it;
+		if( ! pShape->GetParentShape() ) pShape->MoveBy( nDx, nDy );
 	}
 	
 	MoveShapesFromNegatives();
