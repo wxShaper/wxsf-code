@@ -156,7 +156,7 @@ void wxSFSample3Frame::OnTextChanged(wxSFShapeTextEvent& event)
 {
     // get changed text shape
     wxSFEditTextShape* pText = (wxSFEditTextShape*)event.GetShape();
-
+	
     if( pText )
     {
 		// update the text shape and its parent(s)
