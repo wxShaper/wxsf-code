@@ -82,6 +82,7 @@ rm -rf `find $out -type f -name Makefile`
 
 echo "Creating archive..."
 tar -cvzf wxSF_src-$1.tgz $out
+zip -r wxSF_src-$1.zip $out
 
 # remove temporary dir
 rm -rf $out
