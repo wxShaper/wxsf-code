@@ -16,10 +16,6 @@
 #include <wx/hashmap.h>
 
 /*!
- * \class wxSFLayoutAlgorithm
- * \author Michal Bližňák
- * \date 23.12.2010
- * \file AutoLayout.h
  * \brief Base class for all layouting algorithms. The class containts one abstract function modifying
  * shapes' layout and several helper functions.
  */
@@ -66,10 +62,6 @@ protected:
 WX_DECLARE_HASH_MAP( wxString, wxSFLayoutAlgorithm*, wxStringHash, wxStringEqual, LayoutAlgoritmMap );
 	
 /*!
- * \class wxSFAutoLayout
- * \author Michal Bližňák
- * \date 1.1.2011
- * \file AutoLayout.h
  * \brief Class implements automatic diagram layout. The class allows to automatically layout shapes
  * included in diagram manager/shape canvas/list of shapes by using several pre-defined layouting 
  * algorithms. The class should be used as it is.
@@ -149,12 +141,8 @@ protected:
 // pre-defined algorithms //////////////////////////////////////////////////////
 
 /*!
- * \class wxSFLayoutCircle
- * \author Michal Bližňák
- * \date 1.1.2011
- * \file AutoLayout.h
  * \brief Class encapsulating algorithm which layouts all top-most shapes into circle registered under "Circle" name.
- * The algorithm doesn't optimize conection lines crossing.
+ * The algorithm doesn't optimize connection lines crossing.
  */
 class wxSFLayoutCircle : public wxSFLayoutAlgorithm
 {
@@ -192,10 +180,6 @@ protected:
 };
 
 /*!
- * \class wxSFLayoutVerticalTree
- * \author Michal Bližňák
- * \date 1.1.2011
- * \file AutoLayout.h
  * \brief Class encapsulating algorithm which layouts all top-most shapes into vertical tree registered under "Vertical Tree" name.
  */
 class wxSFLayoutVerticalTree : public wxSFLayoutAlgorithm
@@ -253,10 +237,6 @@ protected:
 };
 
 /*!
- * \class wxSFLayoutHorizontalTree
- * \author Michal Bližňák
- * \date 1.1.2011
- * \file AutoLayout.h
  * \brief Class encapsulating algorithm which layouts all top-most shapes into horizontal tree registered under "Horizontal Tree" name.
  */
 class wxSFLayoutHorizontalTree : public wxSFLayoutAlgorithm
@@ -309,12 +289,8 @@ protected:
 };
 
 /*!
- * \class wxSFLayoutMesh
- * \author Michal Bližňák
- * \date 1.1.2011
- * \file AutoLayout.h
  * \brief Class encapsulating algorithm which layouts all top-most shapes into mesh registered under "Mesh" name.
- * The algorithm doesn't optimize conection lines crossing.
+ * The algorithm doesn't optimize connection lines crossing.
  */
 class wxSFLayoutMesh : public wxSFLayoutAlgorithm
 {
