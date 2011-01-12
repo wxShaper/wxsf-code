@@ -1265,6 +1265,11 @@ void wxSFShapeBase::_OnBeginDrag(const wxPoint& pos)
 
 	m_fFirstMove = true;
 	this->OnBeginDrag(pos);
+	
+	if( GetParentShape() && (m_nStyle & sfsPROPAGATE_DRAGGING) )
+	{
+		GetParentShape()->_OnBeginDrag( pos );
+	}
 }
 
 void wxSFShapeBase::_OnDragging(const wxPoint& pos)
@@ -1309,6 +1314,11 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 
 		m_fFirstMove = false;
 	}
+	
+	if( GetParentShape() && (m_nStyle & sfsPROPAGATE_DRAGGING) )
+	{
+		GetParentShape()->_OnDragging( pos );
+	}
 }
 
 void wxSFShapeBase::_OnEndDrag(const wxPoint& pos)
@@ -1316,6 +1326,11 @@ void wxSFShapeBase::_OnEndDrag(const wxPoint& pos)
 	if ( !m_fActive ) return;
 
     this->OnEndDrag(pos);
+	
+	if( GetParentShape() && (m_nStyle & sfsPROPAGATE_DRAGGING) )
+	{
+		GetParentShape()->_OnEndDrag( pos );
+	}
 }
 
 void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)

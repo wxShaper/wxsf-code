@@ -639,7 +639,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 					// cancel previous selections if neccessary...
 					if( m_lstSelection.IndexOf(pSelectedShape->GetParentShape()) != wxNOT_FOUND )
 					{
-						DeselectAll();
+						if( !pSelectedShape->ContainsStyle( wxSFShapeBase::sfsPROPAGATE_SELECTION ) ) DeselectAll();
 					}
 					else if(!event.ControlDown())
 					{
@@ -648,9 +648,13 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 							DeselectAll();
 						}
 					}
-
-					pSelectedShape->Select(true);
-					//pSelectedShape->ShowHandles(true);
+					
+					if( pSelectedShape->ContainsStyle( wxSFShapeBase::sfsPROPAGATE_SELECTION ) && pSelectedShape->GetParentShape() )
+					{
+						pSelectedShape->GetParentShape()->Select(true);
+					}
+					else
+						pSelectedShape->Select(true);
 
 					GetSelectedShapes(m_lstSelection);
 					// remove child shapes from the selection

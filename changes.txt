@@ -1,3 +1,10 @@
+Changes in version 1.10.1 beta (2011-01-12):
+--------------------------------------------
+- Added shape style sfsPROPAGATE_DRAGGING which propagates shape dragging event to the parent shape (if any) even
+  if sfsPOSITION_CHANGE style is not present.
+- Added shape style sfsPROPAGATE_SELECTION which propagates selection to the parent shape (if any).
+- Update wxSFSample3 project to reflect new features.
+
 Changes in version 1.10.0 beta (2010-12-22):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.3.3:

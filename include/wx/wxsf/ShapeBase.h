@@ -165,6 +165,10 @@ public:
 		sfsLOCK_CHILDREN = 1024,
 		/*! \brief Emit events (catchable in shape canvas) */
 		sfsEMIT_EVENTS = 2048,
+		/*! \brief Propagate mouse dragging event to parent shape */
+		sfsPROPAGATE_DRAGGING = 4096,
+		/*! \brief Propagate selection to parent shape (it means this shape cannot be selected because its focus is redirected to its parent shape) */
+		sfsPROPAGATE_SELECTION = 8192,
 		/*! \brief Default shape style */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};

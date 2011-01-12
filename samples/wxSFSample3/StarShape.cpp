@@ -85,7 +85,7 @@ void cStarShape::Initialize()
         m_pText->SetHAlign(wxSFShapeBase::halignCENTER);
 
         // set required shape style(s)
-		m_pText->SetStyle(sfsALWAYS_INSIDE | sfsHOVERING | sfsPROCESS_DEL);
+		m_pText->SetStyle(sfsALWAYS_INSIDE | sfsHOVERING | sfsPROCESS_DEL | sfsPROPAGATE_DRAGGING | sfsPROPAGATE_SELECTION);
 		// you can also force displaying of the shapes handles even if the interactive
 		// size change is not allowed:
 		//m_pText->AddStyle(sfsSHOW_HANDLES);
