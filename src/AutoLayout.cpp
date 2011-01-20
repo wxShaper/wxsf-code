@@ -274,7 +274,7 @@ void wxSFLayoutVerticalTree::ProcessNode(wxSFShapeBase* node, double y)
 		{
 			for( ShapeList::iterator it = lstNeighbours.begin(); it != lstNeighbours.end(); ++it )
 			{
-				ProcessNode( *it, y + rctBB.GetHeight() + m_VSpace );
+				if( ! (*it)->GetParentShape() )	ProcessNode( *it, y + rctBB.GetHeight() + m_VSpace );
 			}
 		}
 	}
@@ -328,7 +328,7 @@ void wxSFLayoutHorizontalTree::ProcessNode(wxSFShapeBase* node, double x)
 		{
 			for( ShapeList::iterator it = lstNeighbours.begin(); it != lstNeighbours.end(); ++it )
 			{
-				ProcessNode( *it, x + rctBB.GetWidth() + m_HSpace );
+				if( ! (*it)->GetParentShape() )	ProcessNode( *it, x + rctBB.GetWidth() + m_HSpace );
 			}
 		}
 	}
