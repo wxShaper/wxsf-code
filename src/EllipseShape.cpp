@@ -51,11 +51,18 @@ wxSFEllipseShape::~wxSFEllipseShape()
 
 wxRealPoint wxSFEllipseShape::GetBorderPoint(const wxRealPoint& start, const wxRealPoint& end)
 {
-    // HINT: overload it for custom actions...
+	double dist = Distance(start, end);
+	wxRealPoint nCenter = GetAbsolutePosition() + wxRealPoint(m_nRectSize.x/2, m_nRectSize.y/2);
 
-    // TODO: wxSFEllipseShape: Improve 'GetBorderPoint' function
+	if(dist)
+	{
+		double srcDx = m_nRectSize.x/2*(end.x-start.x)/dist - (start.x-nCenter.x);
+		double srcDy = m_nRectSize.y/2*(end.y-start.y)/dist - (start.y-nCenter.y);
 
-    return wxSFRectShape::GetBorderPoint(start, end);
+		return wxRealPoint(start.x + srcDx, start.y + srcDy);
+	}
+	else
+		return nCenter;
 }
 
 bool wxSFEllipseShape::Contains(const wxPoint& pos)
