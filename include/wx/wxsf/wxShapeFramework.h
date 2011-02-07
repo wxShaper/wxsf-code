@@ -42,6 +42,7 @@
 #include <wx/wxsf/LineShape.h>
 #include <wx/wxsf/CurveShape.h>
 #include <wx/wxsf/OrthoShape.h>
+#include <wx/wxsf/RoundOrthoShape.h>
 
 // library events
 #include <wx/wxsf/SFEvents.h>

@@ -145,6 +145,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_pToolBar->AddRadioTool(IDT_LINESHP, wxT("Line"), wxBitmap(Line_xpm), wxNullBitmap, wxT("Polyline connection"));
 	m_pToolBar->AddRadioTool(IDT_CURVESHP, wxT("Curve"), wxBitmap(Curve_xpm), wxNullBitmap, wxT("Curve connection"));
 	m_pToolBar->AddRadioTool(IDT_ORTHOSHP, wxT("Ortho line"), wxBitmap(OrthoLine_xpm), wxNullBitmap, wxT("Orthogonal connection"));
+	m_pToolBar->AddRadioTool(IDT_RNDORTHOSHP, wxT("Rounded ortho line"), wxBitmap(RoundOrthoLine_xpm), wxNullBitmap, wxT("Rounded orthogonal connection"));
 	m_pToolBar->AddRadioTool(IDT_STANDALONELINESHP, wxT("Stand alone line"), wxBitmap(StandAloneLine_xpm), wxNullBitmap, wxT("Stand alone line"));
 	m_pToolBar->AddSeparator();
 	m_pToolBar->AddTool(IDT_ALIGN_LEFT, wxT("Align left"), wxBitmap(AlignLeft_xpm), wxT("Align selected shapes to the left"));
@@ -379,6 +380,10 @@ void MainFrm::OnTool(wxCommandEvent& event)
         case IDT_ORTHOSHP:
             m_nToolMode = modeORTHOLINE;
             break;
+			
+		case IDT_RNDORTHOSHP:
+            m_nToolMode = modeROUNDORTHOLINE;
+            break;
 
         case IDT_DIAMONDSHP:
             m_nToolMode = modeDIAMOND;
@@ -484,6 +489,10 @@ void MainFrm::OnUpdateTool(wxUpdateUIEvent& event)
 
         case IDT_ORTHOSHP:
             event.Check(m_nToolMode == modeORTHOLINE);
+            break;
+			
+		case IDT_RNDORTHOSHP:
+            event.Check(m_nToolMode == modeROUNDORTHOLINE);
             break;
 
         case IDT_DIAMONDSHP:

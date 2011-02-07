@@ -54,16 +54,15 @@ protected:
 	 * \return Zero-based index of line segment located under the given point
 	 */
 	virtual int GetHitLinesegment(const wxPoint& pos);
-
-	// protected functions
 	/**
 	 * \brief Draw one orthogonal line segment.
 	 * \param dc Device context
 	 * \param src Starting point of the ortho line segment.
 	 * \param trg Ending point of the ortho line segment.
 	 */
-	void DrawLineSegment(wxDC& dc, const wxRealPoint& src, const wxRealPoint& trg);
-	
+	virtual void DrawLineSegment(wxDC& dc, const wxRealPoint& src, const wxRealPoint& trg);
+
+	// protected functions
 	/**
 	 * \brief Get first part of orthogonal line segment.
 	 * \param src Staring point of the ortho line segment

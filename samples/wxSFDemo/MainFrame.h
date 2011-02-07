@@ -48,6 +48,7 @@ public:
 		modeLINE,
 		modeCURVE,
 		modeORTHOLINE,
+		modeROUNDORTHOLINE,
 		modeGRID,
 		modeFLEXGRID,
 		modeSTANDALONELINE

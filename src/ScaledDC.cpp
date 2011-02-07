@@ -114,6 +114,8 @@ void wxSFScaledDC::DoCrossHair(wxCoord x, wxCoord y)
 }
 void wxSFScaledDC::DoDrawArc(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc)
 {
+	// TODO: Draw arc by using graphics context as well
+	
 	m_pTargetDC->DrawArc(Scale(x1), Scale(y1), Scale(x2), Scale(y2), Scale(xc), Scale(yc));
 }
 void wxSFScaledDC::DoDrawBitmap(const wxBitmap& bmp, wxCoord x, wxCoord y, bool useMask)

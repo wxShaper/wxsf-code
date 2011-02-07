@@ -357,6 +357,17 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
         }
         break;
 		
+	case MainFrm::modeROUNDORTHOLINE:
+        {
+            if(GetMode() == modeREADY)
+            {
+                StartInteractiveConnection(CLASSINFO(wxSFRoundOrthoLineShape), event.GetPosition());
+            }
+            else
+                wxSFShapeCanvas::OnLeftDown(event);
+        }
+        break;
+		
 	case MainFrm::modeSTANDALONELINE:
 		{
 			pShape = GetDiagramManager()->AddShape(CLASSINFO(wxSFLineShape), event.GetPosition(), sfDONT_SAVE_STATE);

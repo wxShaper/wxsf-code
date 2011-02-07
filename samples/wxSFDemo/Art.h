@@ -12,6 +12,7 @@
 #include "res/StandAloneLine.xpm"
 #include "res/Curve.xpm"
 #include "res/OrthoLine.xpm"
+#include "res/RoundOrthoLine.xpm"
 #include "res/Ellipse.xpm"
 #include "res/Circle.xpm"
 #include "res/FixedRect.xpm"
