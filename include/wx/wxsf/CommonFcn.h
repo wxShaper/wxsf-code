@@ -31,13 +31,15 @@ namespace wxSFCommonFcn
 
 namespace wxSF
 {
-	enum ERRCODE
+	enum WXDLLIMPEXP_SF ERRCODE
 	{
 		errOK = 0,
 		errNOT_CREATED,
 		errNOT_ACCEPTED,
 		errINVALID_INPUT
 	};
+	
+	WXDLLIMPEXP_SF extern const double PI;
 }
 
 #endif //_WXSFCOMMONFCN_H

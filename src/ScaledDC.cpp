@@ -115,21 +115,21 @@ void wxSFScaledDC::DoCrossHair(wxCoord x, wxCoord y)
 }
 void wxSFScaledDC::DoDrawArc(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc)
 {
-	// TODO: Draw arc by using graphics context as well
-	
 	if( m_fEnableGC )
     {
         #if wxUSE_GRAPHICS_CONTEXT
         InitGC();
 		wxGraphicsPath path = m_pGC->CreatePath();
 		
-		double dist = wxSFCommonFcn::Distance( wxRealPoint(x1, y1), wxRealPoint(xc, yc) );
-		double sang = acos( (x1 - xc) / dist );
+		double dist, sang, eang;
 		
 		dist = wxSFCommonFcn::Distance( wxRealPoint(x2, y2), wxRealPoint(xc, yc) );
-		double eang = acos( (x2 - xc) / dist );
+		sang = acos( (x2 - xc) / dist ) + ( yc > y2 ? wxSF::PI : 0 );
 		
-		path.AddArc( xc, yc, dist, sang, eang, false );
+		dist = wxSFCommonFcn::Distance( wxRealPoint(x1, y1), wxRealPoint(xc, yc) );
+		eang = acos( (x1 - xc) / dist ) + ( yc > y1 ? wxSF::PI : 0 );
+		
+		path.AddArc( xc, yc, dist, sang, eang, true );
 		
 		m_pGC->StrokePath( path );
 		

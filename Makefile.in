@@ -79,6 +79,7 @@ WXSF_LIB_OBJECTS =  \
 	wxsf_lib_PolygonShapeXml.o \
 	wxsf_lib_Printout.o \
 	wxsf_lib_RectShape.o \
+	wxsf_lib_RoundOrthoShape.o \
 	wxsf_lib_RoundRectShape.o \
 	wxsf_lib_SFEvents.o \
 	wxsf_lib_ScaledDC.o \
@@ -125,6 +126,7 @@ WXSF_DLL_OBJECTS =  \
 	wxsf_dll_PolygonShapeXml.o \
 	wxsf_dll_Printout.o \
 	wxsf_dll_RectShape.o \
+	wxsf_dll_RoundOrthoShape.o \
 	wxsf_dll_RoundRectShape.o \
 	wxsf_dll_SFEvents.o \
 	wxsf_dll_ScaledDC.o \
@@ -524,6 +526,9 @@ wxsf_lib_Printout.o: $(srcdir)/src/Printout.cpp
 wxsf_lib_RectShape.o: $(srcdir)/src/RectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RectShape.cpp
 
+wxsf_lib_RoundOrthoShape.o: $(srcdir)/src/RoundOrthoShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RoundOrthoShape.cpp
+
 wxsf_lib_RoundRectShape.o: $(srcdir)/src/RoundRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_LIB_CXXFLAGS) $(srcdir)/src/RoundRectShape.cpp
 
@@ -652,6 +657,9 @@ wxsf_dll_Printout.o: $(srcdir)/src/Printout.cpp
 
 wxsf_dll_RectShape.o: $(srcdir)/src/RectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RectShape.cpp
+
+wxsf_dll_RoundOrthoShape.o: $(srcdir)/src/RoundOrthoShape.cpp
+	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RoundOrthoShape.cpp
 
 wxsf_dll_RoundRectShape.o: $(srcdir)/src/RoundRectShape.cpp
 	$(CXXC) -c -o $@ $(WXSF_DLL_CXXFLAGS) $(srcdir)/src/RoundRectShape.cpp
