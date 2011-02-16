@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.3 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.4 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -137,6 +137,24 @@ void xsSerializable::Reparent(xsSerializable* parent)
     }
     else
         m_pParentItem = NULL;
+}
+
+void xsSerializable::RemoveChild(xsSerializable* child)
+{
+	wxASSERT( child );
+	
+	if( child )
+	{
+		m_lstChildItems.DeleteObject( child );
+		delete child;
+	}
+}
+
+void xsSerializable::RemoveChildren()
+{
+	m_lstChildItems.DeleteContents( true );
+	m_lstChildItems.Clear();
+	m_lstChildItems.DeleteContents( false );
 }
 
 xsSerializable* xsSerializable::GetFirstChild()

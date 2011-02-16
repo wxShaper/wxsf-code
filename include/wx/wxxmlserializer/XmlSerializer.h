@@ -315,6 +315,16 @@ public:
      * \return Pointer to to the added child object
      */
     xsSerializable* InsertChild(size_t pos, xsSerializable* child);
+	/*!
+	 * \brief Remove serializable child item from this object (the child item will be destroyed).
+	 * \param child Pointer to child item which should be removed
+	 */
+	void RemoveChild(xsSerializable *child);
+	/*!
+	 * \brief Remove all child items (all items will be destroyed).
+	 */
+	void RemoveChildren();
+	
     /*!
      * \brief Assign this object as a child to given parent object.
      * \param parent Pointer to new parent object (must NOT be NULL)
