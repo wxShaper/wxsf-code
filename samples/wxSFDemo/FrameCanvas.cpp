@@ -502,6 +502,8 @@ void FrameCanvas::OnConnectionFinished(wxSFLineShape* connection)
 		connection->AcceptConnection(wxT("All"));
         connection->AcceptSrcNeighbour(wxT("All"));
         connection->AcceptTrgNeighbour(wxT("All"));
+		
+		connection->SetDockPoint(sfdvLINESHAPE_DOCKPOINT_CENTER);
 
 		m_pParentFrame->SetToolMode(MainFrm::modeDESIGN);
     }

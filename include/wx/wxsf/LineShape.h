@@ -13,6 +13,7 @@
 
 #include <wx/wxsf/ShapeBase.h>
 #include <wx/wxsf/ArrowBase.h>
+#include <limits.h>
 
 // default values
 /*! \brief Default value of undefined ID. */
@@ -25,6 +26,8 @@
 #define sfdvLINESHAPE_DOCKPOINT_START -1
 /*! \brief Default value of wxSFLineShape::m_nDockPoint data member (end line point). */
 #define sfdvLINESHAPE_DOCKPOINT_END -2
+/*! \brief Default value of wxSFLineShape::m_nDockPoint data member (middle dock point). */
+#define sfdvLINESHAPE_DOCKPOINT_CENTER INT_MAX
 /*! \brief Default value of wxSFLineShape::m_nSrcOffset and wxSFLineShape::m_nTrgOffset data members. */
 #define sfdvLINESHAPE_OFFSET wxRealPoint(-1, -1)
 /*! \brief Default value of wxSFLineShape::m_nSrcPoint and wxSFLineShape::m_nTrgPoint data members. */
@@ -161,7 +164,8 @@ friend class wxSFShapeCanvas;
 	/*!
 	 * \brief Set the line dock point. It is a zerro based index of the line
 	 * control point which will act as the shape position (value returned by GetRelativePosition() function).
-	 * \param index Zerro based index of the line control point (-1 means UNDEFINED)
+	 * \param index Zerro based index of the line control point
+	 * \sa sfdvLINESHAPE_DOCKPOINT_START, sfdvLINESHAPE_DOCKPOINT_END, sfdvLINESHAPE_DOCKPOINT_CENTER
 	 */
 	inline void SetDockPoint(int index) {m_nDockPoint = index;}
 	/*!

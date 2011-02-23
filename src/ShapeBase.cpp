@@ -816,7 +816,7 @@ wxRealPoint wxSFShapeBase::GetParentAbsolutePosition()
 	wxSFShapeBase * pParentShape = GetParentShape();
 	if(pParentShape)
 	{
-		if( m_pParentItem->IsKindOf(CLASSINFO(wxSFLineShape)) )
+		if( m_pParentItem->IsKindOf(CLASSINFO(wxSFLineShape)) && m_nCustomDockPoint != sfdvBASESHAPE_DOCK_POINT)
 		{
 			return ((wxSFLineShape*) m_pParentItem)->GetDockPointPosition( m_nCustomDockPoint );
 		}

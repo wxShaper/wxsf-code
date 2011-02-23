@@ -51,7 +51,7 @@
 /*! \brief Default value of wxSFShapeBase::m_nStyle data member */
 #define sfdvBASESHAPE_DEFAULT_STYLE sfsDEFAULT_SHAPE_STYLE
 /*! \brief Default value of wxSFShapeBase::m_nCustomDockPoint data member */
-#define sfdvBASESHAPE_DOCK_POINT 0
+#define sfdvBASESHAPE_DOCK_POINT -3
 
 typedef SerializableList ConnectionPointList;
 
