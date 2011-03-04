@@ -57,6 +57,9 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	// multiple styles can be set in this way:
 	// SetStyle( sfsGRID_USE | sfsGRID_SHOW ) ... or ...
 	// SetStyle( sfsDEFAULT_CANVAS_STYLE )
+	
+	// process mouse wheel if needed
+	AddStyle(sfsPROCESS_MOUSEWHEEL);
 
 	// set accepted shapes
 	GetDiagramManager()->ClearAcceptedShapes();
@@ -507,4 +510,13 @@ void FrameCanvas::OnConnectionFinished(wxSFLineShape* connection)
 
 		m_pParentFrame->SetToolMode(MainFrm::modeDESIGN);
     }
+}
+
+void FrameCanvas::OnMouseWheel(wxMouseEvent& event)
+{
+	// do default actions
+	wxSFShapeCanvas::OnMouseWheel(event);
+
+	// adjust zoom slider control
+	m_pParentFrame->GetZoomSlider()->SetValue(GetScale() * 50);
 }

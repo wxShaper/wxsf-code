@@ -194,6 +194,7 @@ BEGIN_EVENT_TABLE(wxSFShapeCanvas, wxScrolledWindow)
 	EVT_LEFT_DCLICK(wxSFShapeCanvas::_OnLeftDoubleClick)
 	EVT_RIGHT_DCLICK(wxSFShapeCanvas::_OnRightDoubleClick)
 	EVT_MOTION(wxSFShapeCanvas::_OnMouseMove)
+	EVT_MOUSEWHEEL(wxSFShapeCanvas::_OnMouseWheel)
 	EVT_KEY_DOWN(wxSFShapeCanvas::_OnKeyDown)
 	EVT_ENTER_WINDOW(wxSFShapeCanvas::_OnEnterWindow)
 	EVT_LEAVE_WINDOW(wxSFShapeCanvas::_OnLeaveWindow)
@@ -1248,6 +1249,25 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 	}
 }
 
+void wxSFShapeCanvas::OnMouseWheel(wxMouseEvent& event)
+{
+    // HINT: override it for custom actions...
+	
+	if( event.ControlDown() )
+	{
+		double nScale = GetScale();
+		nScale += (double)event.GetWheelRotation()/(event.GetWheelDelta()*10);
+		
+		if( nScale > 0.1 )
+		{
+			SetScale( nScale );
+			Refresh(false);
+		}
+	}
+
+	event.Skip();
+}
+
 void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 {
 	// HINT: override it for custom actions...
@@ -1538,6 +1558,14 @@ void wxSFShapeCanvas::_OnMouseMove(wxMouseEvent& event)
 
     event.Skip();
 }
+
+void wxSFShapeCanvas::_OnMouseWheel(wxMouseEvent& event)
+{
+	if( ContainsStyle( sfsPROCESS_MOUSEWHEEL ) ) this->OnMouseWheel(event);
+
+    event.Skip();
+}
+
 void wxSFShapeCanvas::_OnKeyDown(wxKeyEvent& event)
 {
     this->OnKeyDown(event);

@@ -16,6 +16,7 @@ public:
 	virtual void OnRightDown(wxMouseEvent& event);
 	virtual void OnKeyDown(wxKeyEvent& event);
 	virtual void OnConnectionFinished(wxSFLineShape* connection);
+	virtual void OnMouseWheel(wxMouseEvent& event);
 
 protected:
 	// protected data members

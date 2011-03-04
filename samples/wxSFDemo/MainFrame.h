@@ -59,6 +59,8 @@ public:
 	// public data accessors
 	MODE GetToolMode(){return m_nToolMode;}
 	void SetToolMode(MODE m){m_nToolMode = m;}
+	
+	wxSlider* GetZoomSlider(){return m_pZoomSlider;}
 
 	// public data members
 	bool m_fShowShadows;
