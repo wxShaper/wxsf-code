@@ -11,6 +11,7 @@ Changes in version 1.11.0 beta (2011-03-04):
   function (for more details see the documentation).
 - Shape canvas can process wxEVT_MOUSEWHEEL event if sfsPROCESS_MOUSEWHEEL style is in use. In this case a new virtual function
   wxSFShapeCanvas::OnMouseWheel() is called which adjusts the canvas scale.
+- Added functions wxSFShapeCanvas::Set/GetMinScale() and wxSFShapeCanvas::Set/GetMaxScale() for definition of mouse wheel scale boundaries.
 - Fixed and unified wxSFLineShape::SetDockPoint() and wxSFShapeBase::SetCustomDockPoint() functionality.
 - Fixed Horizontal/Vertical tree layout algorithm.
 - Improved detection of ellipse shape vs. connection line intersection.

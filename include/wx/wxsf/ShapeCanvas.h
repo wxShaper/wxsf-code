@@ -77,6 +77,11 @@ extern wxPrintData *g_printData;
 #define sfdvSHAPECANVAS_PRINT_VALIGN wxSFShapeCanvas::valignMIDDLE
 /*! \brief Default value of wxSFCanvasSettings::m_nPrintMode data member */
 #define sfdvSHAPECANVAS_PRINT_MODE wxSFShapeCanvas::prnFIT_TO_MARGINS
+/*! \brief Default value of wxSFCanvasSettings::m_nMinScale data member */
+#define sfdvSHAPECANVAS_SCALE_MIN 0.1
+/*! \brief Default value of wxSFCanvasSettings::m_nMaxScale data member */
+#define sfdvSHAPECANVAS_SCALE_MAX 5
+
 
 class wxSFCanvasDropTarget;
 
@@ -123,6 +128,8 @@ public:
     wxArrayString m_arrAcceptedShapes;
 
     double m_nScale;
+	double m_nMinScale;
+	double m_nMaxScale;
 
 	long m_nStyle;
 
@@ -696,6 +703,26 @@ public:
 	 * \param scale Scale value
 	 */
 	void SetScale(double scale);
+	/*!
+	 * \brief Set minimal allowed scale (for mouse wheel scale change).
+	 * \param scale Minimal scale
+	 */
+	void SetMinScale(double scale) { m_Settings.m_nMinScale = scale; }
+	/*!
+	 * \brief Get minimal allowed scale (for mouse wheel scale change).
+	 * \return Minimal scale
+	 */
+	double GetMinScale() { return m_Settings.m_nMinScale; }
+	/*!
+	 * \brief Set maximal allowed scale (for mouse wheel scale change).
+	 * \param scale Maximal scale
+	 */
+	void SetMaxScale(double scale) { m_Settings.m_nMaxScale = scale; }
+	/*!
+	 * \brief Set maximal allowed scale (for mouse wheel scale change).
+	 * \return Maximal scale
+	 */
+	double GetMaxScale() { return m_Settings.m_nMaxScale; }
 	/*!
 	 * \brief Get the canvas scale.
 	 * \return Canvas scale

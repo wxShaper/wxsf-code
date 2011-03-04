@@ -60,6 +60,9 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	
 	// process mouse wheel if needed
 	AddStyle(sfsPROCESS_MOUSEWHEEL);
+	// set scale boundaries aplied on mouse wheel scale change
+	SetMinScale(0.1);
+	SetMaxScale(2);
 
 	// set accepted shapes
 	GetDiagramManager()->ClearAcceptedShapes();

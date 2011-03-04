@@ -149,6 +149,8 @@ IMPLEMENT_DYNAMIC_CLASS(wxSFCanvasSettings, xsSerializable);
 wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
 {
     m_nScale = 1;
+	m_nMinScale = sfdvSHAPECANVAS_SCALE_MIN;
+	m_nMaxScale = sfdvSHAPECANVAS_SCALE_MAX;	
     m_nBackgroundColor = sfdvSHAPECANVAS_BACKGROUNDCOLOR;
     m_nCommonHoverColor = sfdvSHAPECANVAS_HOVERCOLOR;
     m_nGridSize = sfdvSHAPECANVAS_GRIDSIZE;
@@ -165,6 +167,8 @@ wxSFCanvasSettings::wxSFCanvasSettings() : xsSerializable()
 	m_nPrintMode = sfdvSHAPECANVAS_PRINT_MODE;
 
     XS_SERIALIZE(m_nScale, wxT("scale"));
+	XS_SERIALIZE_EX(m_nMinScale, wxT("min_scale"), sfdvSHAPECANVAS_SCALE_MIN);
+    XS_SERIALIZE_EX(m_nMaxScale, wxT("max_scale"), sfdvSHAPECANVAS_SCALE_MAX);
 	XS_SERIALIZE_EX(m_nStyle, wxT("style"), sfdvSHAPECANVAS_STYLE);
     XS_SERIALIZE_EX(m_nBackgroundColor, wxT("background_color"), sfdvSHAPECANVAS_BACKGROUNDCOLOR);
 	XS_SERIALIZE_EX(m_nGradientFrom, wxT("gradient_from"), sfdvSHAPECANVAS_GRADIENT_FROM);
@@ -1258,11 +1262,11 @@ void wxSFShapeCanvas::OnMouseWheel(wxMouseEvent& event)
 		double nScale = GetScale();
 		nScale += (double)event.GetWheelRotation()/(event.GetWheelDelta()*10);
 		
-		if( nScale > 0.1 )
-		{
-			SetScale( nScale );
-			Refresh(false);
-		}
+		if( nScale < m_Settings.m_nMinScale ) nScale = m_Settings.m_nMinScale;
+		if( nScale > m_Settings.m_nMaxScale ) nScale = m_Settings.m_nMaxScale;
+		
+		SetScale( nScale );
+		Refresh(false);
 	}
 
 	event.Skip();
