@@ -15,6 +15,7 @@ Changes in version 1.11.0 beta (2011-03-04):
 - Fixed and unified wxSFLineShape::SetDockPoint() and wxSFShapeBase::SetCustomDockPoint() functionality.
 - Fixed Horizontal/Vertical tree layout algorithm.
 - Improved detection of ellipse shape vs. connection line intersection.
+- Canvas state is not saved if OnPreConnectionFinished() exists with false.
 - Update wxSFDemo and wxSFSample3 project to reflect new features.
 
 Changes in version 1.10.0 beta (2010-12-22):

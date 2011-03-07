@@ -809,8 +809,6 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 								
 								m_nWorkingMode = modeREADY;
 								m_pNewLineShape = NULL;
-								
-								SaveCanvasState();
 								return;
 							}
 							
