@@ -63,7 +63,7 @@ bool wxSFPrintout::OnPrintPage(int page)
         wxRect fitRect, totalBB = m_pCanvas->GetTotalBoundingBox();
         wxCoord maxX = totalBB.GetRight();
         wxCoord maxY = totalBB.GetBottom();
-
+		
         // set printing mode
         switch( m_pCanvas->GetPrintMode() )
         {
@@ -106,8 +106,8 @@ bool wxSFPrintout::OnPrintPage(int page)
         // This offsets the image so that it is centered within the reference
         // rectangle defined above.
 
-        wxCoord xoff = (fitRect.width - maxX - totalBB.GetLeft()) / 2;
-        wxCoord yoff = (fitRect.height - maxY - totalBB.GetTop()) / 2;
+        wxCoord xoff = ((fitRect.width - maxX - totalBB.GetLeft()) / 2) - fitRect.x;
+        wxCoord yoff = ((fitRect.height - maxY - totalBB.GetTop()) / 2) - fitRect.y;
 
         switch( m_pCanvas->GetPrintHAlign() )
         {
