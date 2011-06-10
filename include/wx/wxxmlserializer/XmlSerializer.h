@@ -900,28 +900,28 @@ public:
     xsProperty(wxArrayString* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraystring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for CharArray property. */
-    xsProperty(CharArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraychar")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    xsProperty(wxXS::CharArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraychar")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for IntArray property. */
-    xsProperty(IntArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    xsProperty(wxXS::IntArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for LongArray property. */
-    xsProperty(LongArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraylong")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    xsProperty(wxXS::LongArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraylong")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for DoubleArray property. */
-    xsProperty(DoubleArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraydoubles")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    xsProperty(wxXS::DoubleArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arraydoubles")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for RealPointArray property. */
-    xsProperty(RealPointArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    xsProperty(wxXS::RealPointArray* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("arrayrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for RealPointList property. */
-    xsProperty(RealPointList* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("listrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    xsProperty(wxXS::RealPointList* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("listrealpoint")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for SerializableList property. */
     xsProperty(SerializableList* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("listserializable")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for StringMap property. */
-    xsProperty(StringMap* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("mapstring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
+    xsProperty(wxXS::StringMap* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("mapstring")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
 
     /*! \brief Constructor for static serializable property. */
     xsProperty(xsSerializable* src, const wxString& field) : m_pSourceVariable((void*)src), m_sFieldName(field), m_sDataType(wxT("serializablestatic")), m_sDefaultValueStr(wxT("")), m_fSerialize(true) {;}
@@ -1055,32 +1055,32 @@ public:
 	 * \brief Get reference to managed data member as CharArray.
 	 * \return Reference to managed data member
 	 */
-	inline CharArray& AsCharArray() { wxASSERT(m_sDataType == wxT("arraychar")); return *(CharArray*)m_pSourceVariable; }
+	inline wxXS::CharArray& AsCharArray() { wxASSERT(m_sDataType == wxT("arraychar")); return *(wxXS::CharArray*)m_pSourceVariable; }
 	/**
 	 * \brief Get reference to managed data member as IntArray.
 	 * \return Reference to managed data member
 	 */
-	inline IntArray& AsIntArray() { wxASSERT(m_sDataType == wxT("arrayint")); return *(IntArray*)m_pSourceVariable; }
+	inline wxXS::IntArray& AsIntArray() { wxASSERT(m_sDataType == wxT("arrayint")); return *(wxXS::IntArray*)m_pSourceVariable; }
 	/**
 	 * \brief Get reference to managed data member as LongArray.
 	 * \return Reference to managed data member
 	 */
-	inline LongArray& AsLongArray() { wxASSERT(m_sDataType == wxT("arraylong")); return *(LongArray*)m_pSourceVariable; }
+	inline wxXS::LongArray& AsLongArray() { wxASSERT(m_sDataType == wxT("arraylong")); return *(wxXS::LongArray*)m_pSourceVariable; }
 	/**
 	 * \brief Get reference to managed data member as DoubleArray.
 	 * \return Reference to managed data member
 	 */
-	inline DoubleArray& AsDoubleArray() { wxASSERT(m_sDataType == wxT("arraydouble")); return *(DoubleArray*)m_pSourceVariable; }
+	inline wxXS::DoubleArray& AsDoubleArray() { wxASSERT(m_sDataType == wxT("arraydouble")); return *(wxXS::DoubleArray*)m_pSourceVariable; }
 	/**
 	 * \brief Get reference to managed data member as RealPointArray.
 	 * \return Reference to managed data member
 	 */
-	inline RealPointArray& AsRealPointArray() { wxASSERT(m_sDataType == wxT("arrayrealpoint")); return *(RealPointArray*)m_pSourceVariable; }
+	inline wxXS::RealPointArray& AsRealPointArray() { wxASSERT(m_sDataType == wxT("arrayrealpoint")); return *(wxXS::RealPointArray*)m_pSourceVariable; }
 	/**
 	 * \brief Get reference to managed data member as RealPointList.
 	 * \return Reference to managed data member
 	 */
-	inline RealPointList& AsRealPointList() { wxASSERT(m_sDataType == wxT("listrealpoint")); return *(RealPointList*)m_pSourceVariable; }
+	inline wxXS::RealPointList& AsRealPointList() { wxASSERT(m_sDataType == wxT("listrealpoint")); return *(wxXS::RealPointList*)m_pSourceVariable; }
 	/**
 	 * \brief Get reference to managed data member as SerializableList.
 	 * \return Reference to managed data member
@@ -1091,7 +1091,7 @@ public:
 	 * \brief Get reference to managed data member as StringMap.
 	 * \return Reference to managed data member
 	 */
-	inline StringMap& AsStringMap() { wxASSERT(m_sDataType == wxT("mapstring")); return *(StringMap*)m_pSourceVariable; }
+	inline wxXS::StringMap& AsStringMap() { wxASSERT(m_sDataType == wxT("mapstring")); return *(wxXS::StringMap*)m_pSourceVariable; }
 	
 	/**
 	 * \brief Get reference to managed data member as serializable static object.

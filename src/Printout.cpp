@@ -63,7 +63,7 @@ bool wxSFPrintout::OnPrintPage(int page)
         wxRect fitRect, totalBB = m_pCanvas->GetTotalBoundingBox();
         wxCoord maxX = totalBB.GetRight();
         wxCoord maxY = totalBB.GetBottom();
-		
+
         // set printing mode
         switch( m_pCanvas->GetPrintMode() )
         {

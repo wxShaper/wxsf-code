@@ -327,14 +327,14 @@ void wxSFDiagramManager::Clear()
 // Serialization/deserialization functions
 //----------------------------------------------------------------------------------//
 
-bool wxSFDiagramManager::SerializeToXml(const wxString& file)
+bool wxSFDiagramManager::SerializeToXml(const wxString& file, bool withroot)
 {
-    return wxXmlSerializer::SerializeToXml(file);
+    return wxXmlSerializer::SerializeToXml(file, withroot);
 }
 
-bool wxSFDiagramManager::SerializeToXml(wxOutputStream& outstream)
+bool wxSFDiagramManager::SerializeToXml(wxOutputStream& outstream, bool withroot)
 {
-    return wxXmlSerializer::SerializeToXml(outstream);
+    return wxXmlSerializer::SerializeToXml(outstream, withroot);
 }
 
 bool wxSFDiagramManager::DeserializeFromXml(const wxString& file)
@@ -403,7 +403,7 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 {
 	wxSFShapeBase *pShape;
 	
-	IntArray arrNewIDs;
+	wxXS::IntArray arrNewIDs;
 	SerializableList lstForUpdate;
 
 	wxXmlNode* shapeNode = node->GetChildren();
@@ -465,6 +465,10 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 				wxMessageBox( wxT("Deserialization couldn't be completed because not of all shapes are accepted."), wxT("wxShapeFramework"), wxOK | wxICON_WARNING );
 				return;
 			}
+		}
+		else if(shapeNode->GetName() == m_sRootName + wxT("_properties"))
+		{
+		    m_pRoot->DeserializeObject(shapeNode->GetChildren());
 		}
 		shapeNode = shapeNode->GetNext();
 	}

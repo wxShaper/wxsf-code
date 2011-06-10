@@ -129,7 +129,7 @@ void wxSFMultiSelRect::OnRightHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas() && !AnyWidthExceeded(handle.GetDelta()))
 	{
-	    RealPointList::compatibility_iterator ptnode;
+	    wxXS::RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 
@@ -179,7 +179,7 @@ void wxSFMultiSelRect::OnLeftHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas() && !AnyWidthExceeded(wxPoint(-handle.GetDelta().x, 0)))
 	{
-	    RealPointList::compatibility_iterator ptnode;
+	    wxXS::RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 
@@ -238,7 +238,7 @@ void wxSFMultiSelRect::OnBottomHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas()  && !AnyHeightExceeded(handle.GetDelta()))
 	{
-        RealPointList::compatibility_iterator ptnode;
+        wxXS::RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 
@@ -287,7 +287,7 @@ void wxSFMultiSelRect::OnTopHandle(wxSFShapeHandle& handle)
 {
 	if(GetParentCanvas()  && !AnyHeightExceeded(wxPoint(0, -handle.GetDelta().y)))
 	{
-	    RealPointList::compatibility_iterator ptnode;
+	    wxXS::RealPointList::compatibility_iterator ptnode;
 	    wxSFLineShape* pLine;
 	    wxRealPoint* pt;
 

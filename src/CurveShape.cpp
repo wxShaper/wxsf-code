@@ -28,7 +28,7 @@ wxSFCurveShape::wxSFCurveShape() : wxSFLineShape()
 {
 }
 
-wxSFCurveShape::wxSFCurveShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFCurveShape::wxSFCurveShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager)
 : wxSFLineShape(src, trg, path, manager)
 {
 }
@@ -197,7 +197,7 @@ void wxSFCurveShape::DrawCompleteLine(wxDC& dc)
 void wxSFCurveShape::GetSegmentQuaternion(size_t segment, wxRealPoint& A, wxRealPoint& B, wxRealPoint& C, wxRealPoint& D)
 {
 	static wxRealPoint quart[4];
-	RealPointList::compatibility_iterator node;
+	wxXS::RealPointList::compatibility_iterator node;
 	
 	int nIndex = 2 - segment;
 	

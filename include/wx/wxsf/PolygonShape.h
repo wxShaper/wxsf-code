@@ -100,7 +100,7 @@ public:
 protected:
 	// protected data members
 	bool m_fConnectToVertex;
-	RealPointArray m_arrVertices;
+	wxXS::RealPointArray m_arrVertices;
 
 	// protected functions
 	/*!

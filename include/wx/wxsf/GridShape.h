@@ -166,7 +166,7 @@ class WXDLLIMPEXP_SF wxSFGridShape : public wxSFRectShape
         /*! \brief Space additional space between managed shapes. */
         int m_nCellSpace;
         /*! \brief Array containing the IDs of managed shapes. */
-        IntArray m_arrCells;
+        wxXS::IntArray m_arrCells;
 
         // protected functions
         /*!

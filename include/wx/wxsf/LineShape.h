@@ -55,7 +55,7 @@ friend class wxSFShapeCanvas;
 	 * \param path List of the line control points (can be empty)
 	 * \param manager Pointer to parent shape manager
 	 */
-	wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
+	wxSFLineShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager);
 	/**
 	 * \brief User constructor.
 	 * \param src Starting line point
@@ -63,7 +63,7 @@ friend class wxSFShapeCanvas;
 	 * \param path List of the line control points (can be empty)
 	 * \param manager Pointer to parent shape manager
 	 */
-	wxSFLineShape(const wxRealPoint& src, const wxRealPoint& trg, const RealPointList& path, wxSFDiagramManager* manager);
+	wxSFLineShape(const wxRealPoint& src, const wxRealPoint& trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager);
 	/*!
 	 * \brief Copy constructor.
 	 * \param obj Reference to the source object
@@ -178,7 +178,7 @@ friend class wxSFShapeCanvas;
 	 * \brief Get a list of the line's contol points (their positions).
 	 * \return List of control points' positions
 	 */
-	inline RealPointList& GetControlPoints() {return m_lstPoints;}
+	inline wxXS::RealPointList& GetControlPoints() {return m_lstPoints;}
 	/*!
 	 * \brief Get a position of given line dock point.
 	 * \param dp Dock point
@@ -317,7 +317,7 @@ protected:
 
 	// protected data members
 	/*! \brief List of the line's control points. */
-	RealPointList m_lstPoints;
+	wxXS::RealPointList m_lstPoints;
 	wxRealPoint m_nPrevPosition;
 	wxPoint m_nUnfinishedPoint;
 	LINEMODE m_nMode;

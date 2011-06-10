@@ -28,7 +28,7 @@ wxSFOrthoLineShape::wxSFOrthoLineShape() : wxSFLineShape()
 {
 }
 
-wxSFOrthoLineShape::wxSFOrthoLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFOrthoLineShape::wxSFOrthoLineShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager)
 : wxSFLineShape(src, trg, path, manager)
 {
 }

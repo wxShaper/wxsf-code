@@ -22,6 +22,7 @@
 #include <limits>
 
 using namespace std;
+using namespace wxXS;
 
 WX_DEFINE_EXPORTED_OBJARRAY(RealPointArray);
 WX_DEFINE_EXPORTED_LIST(RealPointList);

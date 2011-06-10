@@ -31,7 +31,7 @@ wxSFRoundOrthoLineShape::wxSFRoundOrthoLineShape() : wxSFOrthoLineShape()
 	XS_SERIALIZE_EX(m_nMaxRadius, wxT("max_radius"), sfdvROUNDORTHOSHAPE_MAXRADIUS);
 }
 
-wxSFRoundOrthoLineShape::wxSFRoundOrthoLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFRoundOrthoLineShape::wxSFRoundOrthoLineShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager)
 : wxSFOrthoLineShape(src, trg, path, manager)
 {
 	m_nMaxRadius = sfdvROUNDORTHOSHAPE_MAXRADIUS;

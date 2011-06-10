@@ -35,7 +35,7 @@ public:
 	 * \param path Array of line's control points
 	 * \param manager Parent parent diagram manager
 	 */
-	wxSFRoundOrthoLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager);
+	wxSFRoundOrthoLineShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager);
 	/*!
 	 * \brief Copy constructor.
 	 * \param obj Reference to the source object

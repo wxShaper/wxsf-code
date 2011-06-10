@@ -47,7 +47,7 @@ wxSFLineShape::wxSFLineShape(void)
 	m_lstPoints.DeleteContents(true);
 }
 
-wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFLineShape::wxSFLineShape(long src, long trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager)
 : wxSFShapeBase(wxRealPoint(0, 0), manager)
 {
 	m_nSrcShapeId = src;
@@ -67,7 +67,7 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSF
 	m_nMode = modeREADY;
 	m_fStandAlone = false;
 
-	RealPointList::compatibility_iterator node = path.GetFirst();
+	wxXS::RealPointList::compatibility_iterator node = path.GetFirst();
 	while(node)
 	{
 		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
@@ -79,7 +79,7 @@ wxSFLineShape::wxSFLineShape(long src, long trg, const RealPointList& path, wxSF
 	m_lstPoints.DeleteContents(true);
 }
 
-wxSFLineShape::wxSFLineShape(const wxRealPoint& src, const wxRealPoint& trg, const RealPointList& path, wxSFDiagramManager* manager)
+wxSFLineShape::wxSFLineShape(const wxRealPoint& src, const wxRealPoint& trg, const wxXS::RealPointList& path, wxSFDiagramManager* manager)
 : wxSFShapeBase(wxRealPoint(0, 0), manager)
 {
 	m_nSrcShapeId = sfdvLINESHAPE_UNKNOWNID;
@@ -100,7 +100,7 @@ wxSFLineShape::wxSFLineShape(const wxRealPoint& src, const wxRealPoint& trg, con
 	m_nMode = modeREADY;
 	m_fStandAlone = true;
 
-	RealPointList::compatibility_iterator node = path.GetFirst();
+	wxXS::RealPointList::compatibility_iterator node = path.GetFirst();
 	while(node)
 	{
 		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
@@ -145,7 +145,7 @@ wxSFLineShape::wxSFLineShape(const wxSFLineShape& obj)
 	m_nMode = obj.m_nMode;
 	m_fStandAlone = obj.m_fStandAlone;
 
-	RealPointList::compatibility_iterator node = obj.m_lstPoints.GetFirst();
+	wxXS::RealPointList::compatibility_iterator node = obj.m_lstPoints.GetFirst();
 	while(node)
 	{
 		m_lstPoints.Append(new wxRealPoint(*node->GetData()));
@@ -236,7 +236,7 @@ wxRealPoint wxSFLineShape::GetSrcPoint()
 		{
 			if( pSrcShape->GetConnectionPoints().IsEmpty() )
 			{
-				RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
+				wxXS::RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 				if( node )
 				{	
 					pt1 = *node->GetData();
@@ -275,7 +275,7 @@ wxRealPoint wxSFLineShape::GetTrgPoint()
 		{
 			if( pTrgShape->GetConnectionPoints().IsEmpty() )
 			{
-				RealPointList::compatibility_iterator node = m_lstPoints.GetLast();
+				wxXS::RealPointList::compatibility_iterator node = m_lstPoints.GetLast();
 				if( node )
 				{	
 					pt2 = *node->GetData();
@@ -390,7 +390,7 @@ wxRect wxSFLineShape::GetBoundingBox()
     {
 		wxRealPoint prevPt = GetSrcPoint();
 		
-		RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
+		wxXS::RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 		while( node )
 		{
 			if(lineRct.IsEmpty())
@@ -446,7 +446,7 @@ wxRect wxSFLineShape::GetBoundingBox()
 
 wxRealPoint wxSFLineShape::GetDockPointPosition(int dp)
 {
-	RealPointList::compatibility_iterator ptnode;
+	wxXS::RealPointList::compatibility_iterator ptnode;
 
 	int ptsCnt = (int)m_lstPoints.GetCount();
 
@@ -493,7 +493,7 @@ bool wxSFLineShape::GetLineSegment(size_t index, wxRealPoint& src, wxRealPoint& 
 		}
 		else if( (index > 0) && (index < m_lstPoints.GetCount()) )
 		{
-			RealPointList::compatibility_iterator node = m_lstPoints.Item(index);
+			wxXS::RealPointList::compatibility_iterator node = m_lstPoints.Item(index);
 			
 			src = *node->GetPrevious()->GetData();
 			trg = *node->GetData();
@@ -524,7 +524,7 @@ void wxSFLineShape::Scale(double x, double y, bool children)
 {
 	wxRealPoint *pt;
 
-	RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
+	wxXS::RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 	while(node)
 	{
 		pt = node->GetData();
@@ -550,7 +550,7 @@ void wxSFLineShape::MoveBy(double x, double y)
 {
 	wxRealPoint *pt;
 
-	RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
+	wxXS::RealPointList::compatibility_iterator node = m_lstPoints.GetFirst();
 	while(node)
 	{
 		pt = node->GetData();
@@ -589,7 +589,7 @@ void wxSFLineShape::OnHandle(wxSFShapeHandle& handle)
     {
     case wxSFShapeHandle::hndLINECTRL:
         {
-            RealPointList::compatibility_iterator node = m_lstPoints.Item(handle.GetId());
+            wxXS::RealPointList::compatibility_iterator node = m_lstPoints.Item(handle.GetId());
             if(node)
             {
                 wxRealPoint* pt = node->GetData();
