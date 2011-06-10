@@ -4,6 +4,8 @@ Changes in version 1.11.1 beta (2011-06-10):
   - Data types defined in wxXmlSerializer are wrapped by wxXS namespace (e.g. IntArray -> wxXS::IntArray ).
 
 - Fixed diagram print.
+- Fixed crash occured when diagram was loaded into shape manager by using wxSFDiagramManager::DeserializeFromXml() 
+  function without assigned shape canvas.
 - Functions wxSFDiagramManager::SerializeToXml() allows serialization of root item's properties in the same
   way like original wxXmlSerializer::SerializeToXml() function prototypes do.
 

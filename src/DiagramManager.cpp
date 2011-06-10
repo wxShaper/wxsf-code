@@ -344,11 +344,11 @@ bool wxSFDiagramManager::DeserializeFromXml(const wxString& file)
 	wxFileInputStream instream(file);
 	if(instream.IsOk())
 	{
-        m_pShapeCanvas->ClearCanvasHistory();
+        if( m_pShapeCanvas) m_pShapeCanvas->ClearCanvasHistory();
 
 		fSuccess = DeserializeFromXml(instream);
 
-        m_pShapeCanvas->SaveCanvasState();
+        if( m_pShapeCanvas) m_pShapeCanvas->SaveCanvasState();
 	}
 	else
 		wxMessageBox(wxT("Unable to initialize input stream."), wxT("ShapeFramework"), wxOK | wxICON_ERROR);
