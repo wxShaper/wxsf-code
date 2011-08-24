@@ -26,7 +26,7 @@ WX_DEFINE_EXPORTED_LIST(SerializableList);
 // static members
 PropertyIOMap wxXmlSerializer::m_mapPropertyIOHandlers;
 int wxXmlSerializer::m_nRefCounter = 0;
-wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.5 beta");
+wxString wxXmlSerializer::m_sLibraryVersion = wxT("1.3.6 beta");
 
 /////////////////////////////////////////////////////////////////////////////////////
 // xsProperty class /////////////////////////////////////////////////////////////////
@@ -347,7 +347,11 @@ wxXmlNode* xsSerializable::SerializeObject(wxXmlNode* node)
 	if(!node || (node->GetName() != wxT("object")))
 	{
 		node = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("object"));
-		node->AddProperty(new wxXmlProperty(wxT("type"), this->GetClassInfo()->GetClassName()));
+#if wxVERSION_NUMBER < 2900
+		node->AddProperty( wxT("type"), this->GetClassInfo()->GetClassName() );
+#else
+		node->AddAttribute( wxT("type"), this->GetClassInfo()->GetClassName() );
+#endif
 	}
 
 	if(node) return this->Serialize(node);
@@ -416,7 +420,11 @@ void xsSerializable::Deserialize(wxXmlNode* node)
 	{
 	    if(xmlNode->GetName() == wxT("property"))
 	    {
+#if wxVERSION_NUMBER < 2900
 	        xmlNode->GetPropVal(wxT("name"), &propName);
+#else
+	        xmlNode->GetAttribute(wxT("name"), &propName);
+#endif
 	        property = GetProperty(propName);
 
 	        if(property)
@@ -743,9 +751,13 @@ bool wxXmlSerializer::SerializeToXml(wxOutputStream& outstream, bool withroot)
 	if(root)
 	{
 	    // add version
+#if wxVERSION_NUMBER < 2900
 	    root->AddProperty(wxT("owner"), m_sOwner);
 	    root->AddProperty(wxT("version"), m_sVersion);
-
+#else
+	    root->AddAttribute(wxT("owner"), m_sOwner);
+	    root->AddAttribute(wxT("version"), m_sVersion);
+#endif
 	    // serialize root item properties
 	    if(withroot)
 	    {
@@ -802,9 +814,13 @@ bool wxXmlSerializer::DeserializeFromXml(wxInputStream& instream)
 		{
 		    // read project node's properties here...
 		    wxString version, owner;
+#if wxVERSION_NUMBER < 2900
 		    root->GetPropVal(wxT("owner"), &owner);
 		    root->GetPropVal(wxT("version"), &version);
-
+#else
+		    root->GetAttribute(wxT("owner"), &owner);
+		    root->GetAttribute(wxT("version"), &version);
+#endif
 		    if( (owner == m_sOwner) && (version == m_sVersion) )
 		    {
                 // read shape objects from XML recursively
@@ -881,7 +897,11 @@ void wxXmlSerializer::DeserializeObjects(xsSerializable* parent, wxXmlNode* node
 	{
 		if(projectNode->GetName() == wxT("object"))
 		{
+#if wxVERSION_NUMBER < 2900
 		    pItem = (xsSerializable*)wxCreateDynamicObject(projectNode->GetPropVal(wxT("type"), wxT("")));
+#else
+		    pItem = (xsSerializable*)wxCreateDynamicObject(projectNode->GetAttribute(wxT("type"), wxT("")));
+#endif
 			if(pItem)
 			{
 			    if(parent)

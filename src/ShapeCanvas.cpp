@@ -15,6 +15,7 @@
 #endif
 
 #include <wx/dcbuffer.h>
+#include <wx/dcgraph.h>
 #include <wx/sstream.h>
 #include <wx/clipbrd.h>
 #include <wx/dnd.h>
@@ -282,7 +283,10 @@ bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
         int nWidth, nHeight;
         wxDisplaySize(&nWidth, &nHeight);
 
-        if( !m_OutBMP.Create(nWidth, nHeight) ) wxLogError(wxT("Couldn't create output bitmap."));
+        if( !m_OutBMP.Create(nWidth, nHeight) )
+		{
+			wxLogError(wxT("Couldn't create output bitmap."));
+		}
 	}
 
     SetScrollbars(5, 5, 100, 100);
@@ -325,38 +329,46 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 	wxUnusedVar( event );
 	
 	// use double-buffered painting
-	wxBufferedPaintDC paintDC( this );
+	wxAutoBufferedPaintDC paintDC( this );
 
+#if wxVERSION_NUMBER < 2900
 	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
 
 	PrepareDC( dc );
 	dc.PrepareGC();
 
 	DrawContent(dc, sfFROM_PAINT);
-
-
-	/*int sx, sy, x, y;
-
-	wxPaintDC paintDC(this);
-
-	GetClientSize(&sx, &sy);
-
-	wxSFScaledPaintDC dc(m_OutBMP, m_Settings.m_nScale);
-
-	if(dc.IsOk())
-	{
-        // prepare window dc
-        PrepareDC(dc);
+#else
 #if wxUSE_GRAPHICS_CONTEXT
-        dc.PrepareGC();
+    if( IsGCEnabled() )
+	{
+		int x, y;
+		wxGCDC gdc( paintDC );
+		wxGraphicsContext *pGC = gdc.GetGraphicsContext();
+
+		PrepareDC( paintDC );
+		paintDC.GetDeviceOrigin( &x, &y );
+		
+		// scale and translate GC
+		pGC->Scale( m_Settings.m_nScale, m_Settings.m_nScale );
+		pGC->Translate( x, y );
+	
+		DrawContent( gdc, sfFROM_PAINT );
+	}
+	else
+	{
+		wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
+		
+		PrepareDC( dc );
+		DrawContent( dc, sfFROM_PAINT );
+	}
+#else
+	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
+	
+	PrepareDC( dc );
+	DrawContent( dc, sfFROM_PAINT  );
 #endif
-
-        DrawContent(dc, sfFROM_PAINT);
-        dc.GetDeviceOrigin(&x, &y);
-
-        paintDC.Blit(0, 0, sx, sy, &dc, -x, -y);
-	}*/
-
+#endif
 }
 
 void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
@@ -369,7 +381,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
     wxSFShapeBase *pShape = NULL, *pParentShape = NULL;
 	wxSFLineShape *pLine = NULL;
 
-    #if wxUSE_GRAPHICS_CONTEXT
+    #if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
     wxSFScaledDC::EnableGC( false );
     #endif
 
@@ -411,7 +423,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 		}
 	}
 
-    #if wxUSE_GRAPHICS_CONTEXT
+    #if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
     wxSFScaledDC::EnableGC( m_fEnableGC );
     #endif
 
@@ -536,7 +548,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 			}
 		}
 
-        #if wxUSE_GRAPHICS_CONTEXT
+        #if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
         wxSFScaledDC::EnableGC( false );
         #endif
 
@@ -578,7 +590,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 		}
 	}
 
-    #if wxUSE_GRAPHICS_CONTEXT
+    #if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
     wxSFScaledDC::EnableGC( false );
     #endif
 }

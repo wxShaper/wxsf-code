@@ -38,7 +38,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.11.1 beta");
+    m_sSFVersion =  wxT("1.11.2 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));
@@ -126,10 +126,10 @@ wxSFShapeBase* wxSFDiagramManager::AddShape(wxSFShapeBase* shape, xsSerializable
 		    if( m_pShapeCanvas )
 		    {
                 wxPoint newPos = m_pShapeCanvas->FitPositionToGrid(m_pShapeCanvas->DP2LP(pos));
-                shape->SetRelativePosition(wxRealPoint(newPos.x, newPos.y));
+                shape->SetRelativePosition( Conv2RealPoint(newPos) );
 		    }
 		    else
-                shape->SetRelativePosition(wxRealPoint(pos.x, pos.y));
+                shape->SetRelativePosition( Conv2RealPoint(pos) );
 
             // add parent shape to the data manager (serializer)
             if(parent)
@@ -411,7 +411,11 @@ void wxSFDiagramManager::_DeserializeObjects(xsSerializable* parent, wxXmlNode* 
 	{
 		if(shapeNode->GetName() == wxT("object"))
 		{
+#if wxVERSION_NUMBER < 2900
 			pShape = AddShape((wxSFShapeBase*)wxCreateDynamicObject(shapeNode->GetPropVal(wxT("type"), wxT(""))), parent, wxPoint(0, 0), true, sfDONT_SAVE_STATE);
+#else
+			pShape = AddShape((wxSFShapeBase*)wxCreateDynamicObject(shapeNode->GetAttribute(wxT("type"), wxT(""))), parent, wxPoint(0, 0), true, sfDONT_SAVE_STATE);
+#endif
 			if(pShape)
 			{
 				// store new assigned ID

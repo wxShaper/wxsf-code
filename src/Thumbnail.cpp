@@ -152,7 +152,7 @@ void wxSFThumbnail::_OnPaint(wxPaintEvent& event)
 {
 	wxUnusedVar( event );
 	
-	#if wxUSE_GRAPHICS_CONTEXT
+	#if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
 	bool fGCEnabled = wxSFShapeCanvas::IsGCEnabled();
     wxSFScaledDC::EnableGC( false );
     #endif
@@ -197,7 +197,7 @@ void wxSFThumbnail::_OnPaint(wxPaintEvent& event)
 	
 	dc.SetBackground( wxNullBrush );
 	
-    #if wxUSE_GRAPHICS_CONTEXT
+    #if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
     wxSFScaledDC::EnableGC( fGCEnabled );
     #endif
 }

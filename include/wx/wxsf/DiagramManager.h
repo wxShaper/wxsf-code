@@ -19,8 +19,8 @@
 #define sfINITIALIZE true
 #define sfDONT_INITIALIZE false
 
-class WXDLLIMPEXP_SF wxSFShapeCanvas;
-class WXDLLIMPEXP_SF wxSFLineShape;
+class wxSFShapeCanvas;
+class wxSFLineShape;
 
 /*! \brief Auxiliary class encapsulation two variables suitable for shape IDs. It is
  * used for storing infomation about various relevant shape IDs */

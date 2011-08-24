@@ -15,6 +15,19 @@
 #endif
 
 #include "wx/wxsf/ScaledDC.h"
+
+#if wxVERSION_NUMBER >= 2900
+
+wxSFScaledDC::wxSFScaledDC( wxWindowDC *target, double scale) : wxDC( new wxSFDCImplWrapper( target->GetImpl(), scale ) )
+{
+}
+
+wxSFScaledDC::~wxSFScaledDC()
+{
+}
+
+#else // ! wxVERSION_NUMBER >= 2900
+
 #include "wx/wxsf/CommonFcn.h"
 
 bool wxSFScaledDC::m_fEnableGC = false;
@@ -105,10 +118,10 @@ void wxSFScaledDC::ComputeScaleAndOrigin()
 {
 	m_pTargetDC->ComputeScaleAndOrigin();
 }
-bool wxSFScaledDC::DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC* source, wxCoord xsrc, wxCoord ysrc, int rop, bool useMask, wxCoord xsrcMask, wxCoord ysrcMask)
-{
-	return m_pTargetDC->Blit( Scale(xdest), Scale(ydest), width, height, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
-}
+	bool wxSFScaledDC::DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC* source, wxCoord xsrc, wxCoord ysrc, int rop, bool useMask, wxCoord xsrcMask, wxCoord ysrcMask)
+	{
+		return m_pTargetDC->Blit( Scale(xdest), Scale(ydest), width, height, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
+	}
 void wxSFScaledDC::DoCrossHair(wxCoord x, wxCoord y)
 {
 	m_pTargetDC->CrossHair( Scale(x), Scale(y) );
@@ -666,3 +679,5 @@ void wxSFScaledDC::StartPage()
 {
 	m_pTargetDC->StartPage();
 }
+
+#endif // wxVERSION_NUMBER >= 2900
