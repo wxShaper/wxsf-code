@@ -219,11 +219,11 @@ else
 	end
 	
 	-- Set wxWidgets build options.
-	table.insert( package.config["Debug"].buildoptions, "`wx-config "..debug_option.." "..static_option.." --cflags`" )
-	table.insert( package.config["Release"].buildoptions, "`wx-config --debug=no "..static_option.." --cflags`" )
+	table.insert( package.config["Debug"].buildoptions, "`" .. wx_root .. "wx-config "..debug_option.." "..static_option.." --cflags`" )
+	table.insert( package.config["Release"].buildoptions, "`" .. wx_root .. "wx-config --debug=no "..static_option.." --cflags`" )
 	
 	-- Set the wxWidgets link options.
-	table.insert( package.config["Debug"].linkoptions, "`wx-config "..debug_option.." "..static_option.." --libs`" )
-	table.insert( package.config["Release"].linkoptions, "`wx-config --debug=no "..static_option.." --libs`" )
+	table.insert( package.config["Debug"].linkoptions, "`" .. wx_root .. "wx-config "..debug_option.." "..static_option.." --libs`" )
+	table.insert( package.config["Release"].linkoptions, "`" .. wx_root .. "wx-config --debug=no "..static_option.." --libs`" )
 end
 
