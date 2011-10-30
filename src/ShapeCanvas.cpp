@@ -329,7 +329,7 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 	wxUnusedVar( event );
 	
 	// use double-buffered painting
-	wxAutoBufferedPaintDC paintDC( this );
+	wxBufferedPaintDC paintDC( this );
 
 #if wxVERSION_NUMBER < 2900
 	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
@@ -602,20 +602,31 @@ void wxSFShapeCanvas::_OnEraseBackground(wxEraseEvent& event)
 	wxUnusedVar( event );
 }
 
-void wxSFShapeCanvas::RefreshCanvas(bool erase, wxRect rct)
+void wxSFShapeCanvas::RefreshCanvas(bool erase, const wxRect& rct)
 {
-    /*wxRect updRct = LP2DP(rct);
-
-    updRct.Inflate(int(10/m_Settings.m_nScale), int(10/m_Settings.m_nScale));
-
-    RefreshRect(updRct, erase);*/
-
 	wxPoint lpos = DP2LP(wxPoint(0, 0));
+	wxRect updRct = rct;
 
-	rct.Inflate(int(20/m_Settings.m_nScale), int(20/m_Settings.m_nScale));
-	rct.Offset(-lpos.x, -lpos.y);
+	updRct.Inflate(int(20/m_Settings.m_nScale), int(20/m_Settings.m_nScale));
+	updRct.Offset(-lpos.x, -lpos.y);
 
-	RefreshRect(wxRect(int(rct.x*m_Settings.m_nScale), int(rct.y*m_Settings.m_nScale), int(rct.width*m_Settings.m_nScale), int(rct.height*m_Settings.m_nScale)), erase);
+	RefreshRect(wxRect(int(updRct.x*m_Settings.m_nScale), int(updRct.y*m_Settings.m_nScale), int(updRct.width*m_Settings.m_nScale), int(updRct.height*m_Settings.m_nScale)), erase);
+}
+
+void wxSFShapeCanvas::InvalidateRect(const wxRect& rct)
+{
+	if( m_nInvalidateRect.IsEmpty() ) m_nInvalidateRect = rct;
+	else
+		m_nInvalidateRect.Union( rct );
+}
+
+void wxSFShapeCanvas::RefreshInvalidatedRect()
+{
+	if( !m_nInvalidateRect.IsEmpty() )
+	{
+		RefreshCanvas( false, m_nInvalidateRect );
+		m_nInvalidateRect = wxRect(0, 0, 0, 0);
+	}
 }
 
 //----------------------------------------------------------------------------------//
@@ -827,7 +838,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 							OnConnectionFinished(m_pNewLineShape);
 
 							m_pNewLineShape->Update();
-                            m_pNewLineShape->Refresh();
+                            m_pNewLineShape->Refresh(sfDELAYED);
 
                             m_nWorkingMode = modeREADY;
                             m_pNewLineShape = NULL;
@@ -851,6 +862,8 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 	default:
 		m_nWorkingMode = modeREADY;
 	}
+	
+	RefreshInvalidatedRect();
 }
 
 void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
@@ -920,8 +933,6 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 
 	case modeSHAPEMOVE:
 		{
-		    //wxSFShapeBase* pParentShape = NULL;
-
 			ShapeList m_lstSelection;
 			GetSelectedShapes(m_lstSelection);
 
@@ -953,8 +964,6 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 	case modeMULTISELECTION:
 		{
 			ShapeList m_lstSelection;
-/*            ShapeList shapes;
-            m_pManager->GetShapes(CLASSINFO(wxSFShapeBase), shapes);*/
 
 			wxRect selRect(m_shpMultiEdit.GetBoundingBox().GetLeftTop(), m_shpMultiEdit.GetBoundingBox().GetRightBottom());
 			ShapeList::compatibility_iterator node = m_lstCurrentShapes.GetFirst();
@@ -964,7 +973,6 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 				if(pShape->IsActive() && selRect.Contains(pShape->GetBoundingBox()))
 				{
 					pShape->Select(true);
-					//pShape->ShowHandles(true);
 					m_lstSelection.Append(pShape);
 				}
 				node = node->GetNext();
@@ -997,6 +1005,8 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
         UpdateVirtualSize();
         Refresh();
     }
+	else
+		RefreshInvalidatedRect();
 }
 
 void wxSFShapeCanvas::OnLeftDoubleClick(wxMouseEvent& event)
@@ -1017,7 +1027,7 @@ void wxSFShapeCanvas::OnLeftDoubleClick(wxMouseEvent& event)
             if(pShape)
             {
                 pShape->OnLeftDoubleClick(lpos);
-                pShape->Refresh();
+                //pShape->Refresh(sfDELAYED);
 
                 // double click onto a line shape always change its set of
                 // control points so the canvas state should be saved now...
@@ -1029,6 +1039,8 @@ void wxSFShapeCanvas::OnLeftDoubleClick(wxMouseEvent& event)
     default:
         break;
 	}
+	
+	RefreshInvalidatedRect();
 }
 
 void wxSFShapeCanvas::OnRightDown(wxMouseEvent& event)
@@ -1052,7 +1064,6 @@ void wxSFShapeCanvas::OnRightDown(wxMouseEvent& event)
             {
                 pShape->Select(true);
                 pShape->OnRightClick(lpos);
-                //pShape->Refresh();
             }
         }
         break;
@@ -1067,9 +1078,7 @@ void wxSFShapeCanvas::OnRightDown(wxMouseEvent& event)
 void wxSFShapeCanvas::OnRightUp(wxMouseEvent &event)
 {
 	// HINT: override it for custom actions...
-
-	wxPoint lpos = DP2LP(event.GetPosition());
-
+	
 	switch(m_nWorkingMode)
 	{
 	case modeREADY:
@@ -1098,7 +1107,7 @@ void wxSFShapeCanvas::OnRightDoubleClick(wxMouseEvent& event)
             if(pShape)
             {
                 pShape->OnRightDoubleClick(lpos);
-                pShape->Refresh();
+                //pShape->Refresh(sfDELAYED);
             }
         }
         break;
@@ -1106,6 +1115,8 @@ void wxSFShapeCanvas::OnRightDoubleClick(wxMouseEvent& event)
     default:
         break;
 	}
+	
+	RefreshInvalidatedRect();
 }
 
 void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
@@ -1138,17 +1149,18 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 				// update unfinished line if any
 				if(m_pNewLineShape)
 				{
-                    wxRect lineRct, updLineRct;
-                    m_pNewLineShape->GetCompleteBoundingBox(lineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
+                    //wxRect lineRct, updLineRct;
+                    //m_pNewLineShape->GetCompleteBoundingBox(lineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
 
 				    m_pNewLineShape->SetUnfinishedPoint(FitPositionToGrid(lpos));
-				    m_pNewLineShape->GetCompleteBoundingBox(updLineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
+				    //m_pNewLineShape->GetCompleteBoundingBox(updLineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
 
-					lineRct.Union(updLineRct);
+					//lineRct.Union(updLineRct);
 					
 					m_pNewLineShape->Update();
+					m_pNewLineShape->Refresh(sfDELAYED);
 
-					RefreshCanvas(false, lineRct);
+					//RefreshCanvas(false, lineRct);
 				}
 			}
 		}
@@ -1261,6 +1273,8 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
     default:
         break;
 	}
+	
+	RefreshInvalidatedRect();
 }
 
 void wxSFShapeCanvas::OnMouseWheel(wxMouseEvent& event)
@@ -1683,38 +1697,12 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
 
 void wxSFShapeCanvas::_OnLeaveWindow(wxMouseEvent& event)
 {
-	wxPoint lpos = DP2LP(event.GetPosition());
-
 	switch(m_nWorkingMode)
 	{
 	case modeMULTISELECTION:
 		break;
 
 	case modeSHAPEMOVE:
-		{
-			/*ShapeList m_lstSelection;
-			GetSelectedShapes(m_lstSelection);
-
-			if( ContainsStyle(sfsDND) )
-			{
-				DoDragDrop(m_lstSelection, lpos);
-			}*/
-			/*else
-			{
-				MoveShapesFromNegatives();
-				UpdateVirtualSize();
-
-				if(m_lstSelection.GetCount() > 1)
-				{
-					UpdateMultieditSize();
-					m_shpMultiEdit.Show(true);
-					m_shpMultiEdit.ShowHandles(true);
-				}
-
-				m_nWorkingMode = modeREADY;
-				Refresh(false);
-			}*/
-		}
 		break;
 
     case modeCREATECONNECTION:
@@ -1728,7 +1716,6 @@ void wxSFShapeCanvas::_OnLeaveWindow(wxMouseEvent& event)
 
 	default:
         m_nWorkingMode = modeREADY;
-        Refresh(false);
 		break;
 	}
 

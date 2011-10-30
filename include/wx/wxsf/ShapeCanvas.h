@@ -386,11 +386,24 @@ public:
 	/*! \brief Hide handles of all shapes */
 	void HideAllHandles();
 	/*!
-	 * \brief Repaint the shape canvas
+	 * \brief Repaint the shape canvas.
 	 * \param erase TRUE if the canvas should be erased before repainting
 	 * \param rct Refreshed region (rectangle)
 	 */
-	void RefreshCanvas(bool erase, wxRect rct);
+	void RefreshCanvas(bool erase, const wxRect& rct);
+	
+	/*!
+	 * \brief Mark given rectangle as an invalidated one, i.e. as a rectangle which should
+	 * be refreshed (by using wxSFShapeCanvas::RefreshInvalidatedRect()).
+	 * \param rct Rectangle to be invalidated
+	 */
+	void InvalidateRect(const wxRect& rct);
+	/*!
+	 * \brief Refresh all canvas rectangles marked as invalidated.
+	 * \sa wxSFShapeCanvas::InvalidateRect()
+	 */
+	void RefreshInvalidatedRect();
+	
 	/*!
 	 * \brief Show shapes shadows (only current digram shapes are affected).
 	 *
@@ -1005,6 +1018,8 @@ private:
 	wxDataFormat m_formatShapes;
 
 	wxPoint m_nPrevMousePos;
+	
+	wxRect m_nInvalidateRect;
 
 	/*! \brief Canvas history manager */
 	wxSFCanvasHistory m_CanvasHistory;

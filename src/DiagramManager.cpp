@@ -38,7 +38,7 @@ wxSFDiagramManager::wxSFDiagramManager()
     m_pShapeCanvas = NULL;
     m_lstIDPairs.DeleteContents(true);
 
-    m_sSFVersion =  wxT("1.11.2 beta");
+    m_sSFVersion =  wxT("1.12.0 beta");
 
     SetSerializerOwner(wxT("wxShapeFramework"));
     SetSerializerVersion(wxT("1.0"));

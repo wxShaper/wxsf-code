@@ -586,9 +586,9 @@ void wxSFShapeBase::SetUserData(xsSerializable* data)
 // Drawing functions
 //----------------------------------------------------------------------------------//
 
-void wxSFShapeBase::Refresh()
+void wxSFShapeBase::Refresh(bool delayed)
 {
-    Refresh(this->GetBoundingBox());
+    Refresh(this->GetBoundingBox(), delayed);
 }
 
 void wxSFShapeBase::Draw(wxDC& dc, bool children)
@@ -828,11 +828,14 @@ wxRealPoint wxSFShapeBase::GetParentAbsolutePosition()
 }
 
 
-void wxSFShapeBase::Refresh(const wxRect& rct)
+void wxSFShapeBase::Refresh(const wxRect& rct, bool delayed)
 {
 	if(m_pParentManager && GetShapeManager()->GetShapeCanvas())
 	{
-		GetShapeManager()->GetShapeCanvas()->RefreshCanvas(false, rct);
+		if( delayed )
+			GetShapeManager()->GetShapeCanvas()->InvalidateRect(rct);
+		else
+			GetShapeManager()->GetShapeCanvas()->RefreshCanvas(false, rct);
 	}
 }
 
@@ -1310,7 +1313,7 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 		GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN | bbSHADOW);
 
 		// update canvas
-		Refresh( prevBB.Union(currBB) );
+		Refresh( prevBB.Union(currBB), sfDELAYED );
 
 		m_fFirstMove = false;
 	}
@@ -1408,7 +1411,7 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 			else
 			    this->OnMouseOver(pos);
 
-			Refresh();
+			Refresh(sfDELAYED);
 		}
 		else
 		{
@@ -1416,7 +1419,7 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 			{
 				m_fMouseOver = false;
 				this->OnMouseLeave(pos);
-				Refresh();
+				Refresh(sfDELAYED);
 			}
 		}
 	}
@@ -1483,7 +1486,7 @@ void wxSFShapeBase::_OnKey(int key)
             GetCompleteBoundingBox(currBB, bbSELF | bbCONNECTIONS | bbCHILDREN | bbSHADOW);
 
             prevBB.Union(currBB);
-            Refresh(prevBB);
+            Refresh(prevBB, sfDELAYED);
         }
         else
             pCanvas->Refresh(false);
@@ -1530,5 +1533,5 @@ void wxSFShapeBase::_OnHandle(wxSFShapeHandle& handle)
 		this->GetCompleteBoundingBox( currBB );
 
     // refresh shape
-    Refresh( currBB.Union( prevBB ) );
+    Refresh( currBB.Union( prevBB ), sfDELAYED );
 }

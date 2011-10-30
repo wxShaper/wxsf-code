@@ -1,3 +1,13 @@
+Changes in version 1.12.0 beta (2011-10-25):
+--------------------------------------------
+- Optimized canvas refresh.
+- Added function wxSFShapeCanvas::InvalidateRect(const wxRect& rct) which marks given
+  rectangle as "invalidated", i.e. requesting refresh. 
+- Added function wxSFShapeCanvas::RefreshInvalidatedRect() which refreshes all previously
+  invalidated canvas areas (rectangles).
+- Functions wxSFShapeBase::Refresh(...) now takes an argument which can make the shape canvas
+  refresh delayed (it can be refreshed later by using wxSFShapeCanvas::RefreshInvalidatedRect() function).
+
 Changes in version 1.11.2 beta (2011-08-24):
 --------------------------------------------
 - Switched to use wxXmlSerializer 1.3.6:
