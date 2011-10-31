@@ -89,7 +89,7 @@ void wxSFShapeHandle::Draw(wxDC& dc)
 
 void wxSFShapeHandle::Refresh()
 {
-	if(m_pParentShape)m_pParentShape->Refresh();
+	if( m_pParentShape ) m_pParentShape->Refresh( sfDELAYED );
 }
 
 //----------------------------------------------------------------------------------//

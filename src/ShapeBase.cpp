@@ -1407,11 +1407,10 @@ void wxSFShapeBase::_OnMouseMove(const wxPoint& pos)
 			{
 				m_fMouseOver = true;
 				this->OnMouseEnter(pos);
+				Refresh(sfDELAYED);
 			}
 			else
 			    this->OnMouseOver(pos);
-
-			Refresh(sfDELAYED);
 		}
 		else
 		{
