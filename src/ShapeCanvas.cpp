@@ -742,7 +742,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 				}
 
 				// update canvas
-				Refresh(false);
+				InvalidateRect( GetClientRect() );
 			}
 			else
 			{
@@ -1003,7 +1003,7 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
         m_nWorkingMode = modeREADY;
         UpdateMultieditSize();
         UpdateVirtualSize();
-        Refresh();
+        Refresh(false);
     }
 	else
 		RefreshInvalidatedRect();
@@ -1072,7 +1072,7 @@ void wxSFShapeCanvas::OnRightDown(wxMouseEvent& event)
         break;
 	}
 
-	Refresh();
+	Refresh(false);
 }
 
 void wxSFShapeCanvas::OnRightUp(wxMouseEvent &event)
@@ -1266,7 +1266,8 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 		{
 			wxRect shpRct = m_shpMultiEdit.GetBoundingBox();
 			m_shpMultiEdit.SetRectSize(wxRealPoint(lpos.x - shpRct.GetLeft(), lpos.y - shpRct.GetTop()));
-			Refresh(false);
+			
+			InvalidateRect( GetClientRect() );
 		}
 		break;
 
@@ -1332,6 +1333,7 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 			m_pManager->RemoveShapes(m_lstSelection);
 			m_shpMultiEdit.Show(false);
 			SaveCanvasState();
+			
 			Refresh(false);
 		}
 		break;
@@ -1371,6 +1373,7 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
                 break;
 			}
 			m_nWorkingMode = modeREADY;
+			
 			Refresh(false);
 		}
 		break;
@@ -1615,7 +1618,8 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
             UpdateMultieditSize();
             m_shpMultiEdit.Show(false);
             m_nWorkingMode = modeREADY;
-            Refresh(false);
+			
+            InvalidateRect( GetClientRect() );
         }
 		break;
 
@@ -1641,7 +1645,7 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
 				m_nWorkingMode = modeREADY;
 				m_pSelectedHandle = NULL;
 
-                Refresh(false);
+                InvalidateRect( GetClientRect() );
             }
         }
         break;
@@ -1655,7 +1659,8 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
 
                 SaveCanvasState();
                 m_nWorkingMode = modeREADY;
-                Refresh(false);
+				
+				InvalidateRect( GetClientRect() );
             }
         }
 		break;
@@ -1684,7 +1689,8 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
             }
 
             m_nWorkingMode = modeREADY;
-            Refresh(false);
+            
+			InvalidateRect( GetClientRect() );
         }
         break;
 
@@ -1692,6 +1698,8 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
         break;
 	}
 
+	RefreshInvalidatedRect();
+	
 	event.Skip();
 }
 
@@ -2784,9 +2792,6 @@ void wxSFShapeCanvas::Paste()
 		wxSFShapeDataObject dataObj(m_formatShapes);
 		if(wxTheClipboard->GetData(dataObj))
 		{
-/*			wxMemoryBuffer dataBuffer = CreateMembufferFromString(dataObj.m_Data.GetText());
-			wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);*/
-
 			wxStringInputStream instream( dataObj.m_Data.GetText() );
 
 			if(instream.IsOk())
@@ -2812,7 +2817,7 @@ void wxSFShapeCanvas::Paste()
 				this->OnPaste(lstNewContent);
 
 				SaveCanvasState();
-				Refresh();
+				Refresh(false);
 			}
 		}
 		if( wxTheClipboard->IsOpened() )wxTheClipboard->Close();
@@ -2910,9 +2915,6 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 {
 	if( data )
 	{
-/*		wxMemoryBuffer dataBuffer = CreateMembufferFromString(((wxSFShapeDataObject*)data)->m_Data.GetText());
-		wxMemoryInputStream instream(dataBuffer.GetData(), dataBuffer.GetDataLen()-1);*/
-
 		wxStringInputStream instream( ((wxSFShapeDataObject*)data)->m_Data.GetText() );
 
 		if(instream.IsOk())

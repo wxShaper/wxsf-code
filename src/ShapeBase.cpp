@@ -608,6 +608,7 @@ void wxSFShapeBase::Draw(wxDC& dc, bool children)
 		if(m_fHighlighParent)
 		{
 			this->DrawHighlighted(dc);
+			m_fHighlighParent = false;
 		}
 		else
 			this->DrawHover(dc);
@@ -1327,7 +1328,7 @@ void wxSFShapeBase::_OnDragging(const wxPoint& pos)
 void wxSFShapeBase::_OnEndDrag(const wxPoint& pos)
 {
 	if ( !m_fActive ) return;
-
+	
     this->OnEndDrag(pos);
 	
 	if( GetParentShape() && (m_nStyle & sfsPROPAGATE_DRAGGING) )
