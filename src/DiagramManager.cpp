@@ -294,7 +294,7 @@ void wxSFDiagramManager::RemoveShape(wxSFShapeBase* shape, bool refresh)
 		
         if( pParent ) pParent->Update();
 
-		if( refresh && m_pShapeCanvas ) m_pShapeCanvas->Refresh();
+		if( refresh && m_pShapeCanvas ) m_pShapeCanvas->Refresh(false);
 	}
 }
 

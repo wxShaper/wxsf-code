@@ -1412,6 +1412,9 @@ void wxSFShapeCanvas::OnKeyDown(wxKeyEvent &event)
 			{
 				m_shpMultiEdit._OnKey(event.GetKeyCode());
 			}
+			
+			RefreshInvalidatedRect();
+			SaveCanvasState();
 		}
 		break;
 
