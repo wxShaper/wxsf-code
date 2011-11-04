@@ -33,7 +33,7 @@ done
 if ${wxpath}wx-config --unicode >/dev/null 2>/dev/null; then
 	unicode="--unicode"
 fi
-if ! ${wxpath}/wx-config --debug >/dev/null 2>/dev/null; then
+if ! ${wxpath}wx-config --debug >/dev/null 2>/dev/null; then
 	debug="--disable-wx-debug"
 fi
 release=`${wxpath}wx-config --release`

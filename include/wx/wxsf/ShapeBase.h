@@ -194,7 +194,7 @@ public:
 
     /*! \brief Refresh (redraw) the shape
 	 * \param delayed If TRUE then the shape canvas will be rather invalidated than refreshed.
-	 * \sa wxSFShapeCanvas::InvalidatedRect(), wxSFShapeCanvas::RefreshInvalidatedRect()
+	 * \sa wxSFShapeCanvas::InvalidateRect(), wxSFShapeCanvas::RefreshInvalidatedRect()
 	 */
 	void Refresh(bool delayed = false);
 	/*!
@@ -991,7 +991,7 @@ protected:
      * \brief Repaint the shape
      * \param rct Canvas portion that should be updated
 	 * \param delayed If TRUE then the shape canvas will be rather invalidated than refreshed.
-	 * \sa wxSFShapeCanvas::InvalidatedRect(), wxSFShapeCanvas::RefreshInvalidatedRect()
+	 * \sa wxSFShapeCanvas::InvalidateRect(), wxSFShapeCanvas::RefreshInvalidatedRect()
      */
 	void Refresh(const wxRect& rct, bool delayed = false);
 	

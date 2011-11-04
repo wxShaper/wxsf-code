@@ -3,8 +3,8 @@
 rem ========== Code::Blocks project files ==========
 rem premake\premake-win32.exe --target cb-gcc --wx-version 28 --unicode --with-wx-shared --shared
 rem premake\premake-win32.exe --target cb-gcc --wx-version 28 --unicode --static-runtime
-echo done...
-echo.
+rem echo done...
+rem echo.
 
 rem ==========CodeLite project files ==========
 premake\premake-win32.exe --target cl-gcc --wx-version 28 --unicode --with-wx-shared --shared
@@ -26,4 +26,4 @@ rem premake\premake-win32.exe --target vs2005 --wx-version 28 --unicode --static
 echo done...
 echo.
 
-echo Done generating all project files for wxShapeFramework
+echo Done generating all project files for wxShapeFramework.
