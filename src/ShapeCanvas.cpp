@@ -247,6 +247,8 @@ bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
     // NOTE: user must call wxSFShapeCanvas::SetDiagramManager() to complete
     // canvas initialization!
 
+	wxInitAllImageHandlers();
+	
     // perform basic window initialization
     wxScrolledWindow::Create(parent, id, pos, size, style, name);
 
@@ -2052,25 +2054,51 @@ void wxSFShapeCanvas::AbortInteractiveConnection()
 
 void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
 {
+	SaveCanvasToImage( file );
+}
+
+void wxSFShapeCanvas::SaveCanvasToImage(const wxString& file, wxBitmapType type, bool background, double scale)
+{
     // create memory DC a draw the canvas content into
 
-    wxRect bmpBB = GetTotalBoundingBox();
-    bmpBB.Inflate(m_Settings.m_nGridSize);
+	if( scale == -1 ) scale = GetScale();
+    
+	wxRect bmpBB = GetTotalBoundingBox();
+    bmpBB.Inflate( m_Settings.m_nGridSize * scale );
 
-    wxBitmap outbmp(bmpBB.GetRight(), bmpBB.GetBottom());
+    wxBitmap outbmp( bmpBB.GetWidth() * scale, bmpBB.GetHeight() * scale );
 	wxMemoryDC dc( outbmp );
 
-    //wxSFScaledPaintDC outdc(outbmp, 1);
-	wxSFScaledDC outdc((wxWindowDC*)&dc, 1);
+	wxSFScaledDC outdc( (wxWindowDC*)&dc, scale );
 
-    if(outdc.IsOk())
+    if( outdc.IsOk() )
     {
-        DrawContent(outdc, sfNOT_FROM_PAINT);
-        outbmp.SaveFile(file, wxBITMAP_TYPE_BMP);
-        wxMessageBox(wxString::Format(wxT("The chart has been saved to '%s'."), file.GetData()), wxT("ShapeFramework"));
+		outdc.SetDeviceOrigin( -bmpBB.GetLeft() * scale, -bmpBB.GetTop() * scale );
+		
+		int prevStyle = GetStyle();
+		wxColour prevColour = GetCanvasColour();
+		
+		if( !background )
+		{
+			RemoveStyle( wxSFShapeCanvas::sfsGRADIENT_BACKGROUND );
+            RemoveStyle( wxSFShapeCanvas::sfsGRID_SHOW );
+            SetCanvasColour( *wxWHITE);
+		}
+		
+        DrawContent( outdc, sfNOT_FROM_PAINT );
+		
+		if( !background )
+		{
+			SetStyle( prevStyle );
+			SetCanvasColour( prevColour );
+		}
+		
+        if( outbmp.SaveFile(file, type) ) wxMessageBox(wxString::Format(wxT("The image has been saved to '%s'."), file.GetData()), wxT("ShapeFramework"));
+		else
+			 wxMessageBox(wxT("Unable to save image to ") + file + wxT("."), wxT("wxShapeFramework"), wxOK | wxICON_ERROR);
     }
     else
-        wxMessageBox(wxT("Could not create output bitmap."), wxT("wxShapeFramework"), wxOK | wxICON_WARNING);
+        wxMessageBox(wxT("Could not create output bitmap."), wxT("wxShapeFramework"), wxOK | wxICON_ERROR);
 }
 
 void wxSFShapeCanvas::GetSelectedShapes(ShapeList& selection)
@@ -3228,3 +3256,4 @@ wxDragResult wxSFCanvasDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult def
 
 	return def;
 }
+

@@ -45,6 +45,8 @@ extern wxPrintData *g_printData;
 #define sfALL_SHAPES false
 #define sfPROMPT true
 #define sfNO_PROMPT false
+#define sfWITH_BACKGROUND true
+#define sfWITHOUT_BACKGROUND false
 
 // default values
 /*! \brief Default value of wxSFCanvasSettings::m_nBackgroundColor data member */
@@ -337,9 +339,19 @@ public:
 	void SaveCanvas(const wxString& file);
     /*!
      * \brief Export canvas content to BMP file.
+	 * DEPRECATED: use SaveCanvasToImage() instead.
      * \param file Full file name
      */
 	void SaveCanvasToBMP(const wxString& file);
+	/*!
+	 * \brief Export canvas content to image file.
+	 * \param file Full file name
+	 * \param type Image type. See wxBitmapType for more details. Default type is
+	 * wxBITMAP_TYPE_BMP.
+	 * \param background Export also diagram background
+	 * \param scale Image scale. If -1 then current canvas scale id used.
+	 */
+	void SaveCanvasToImage(const wxString& file, wxBitmapType type = wxBITMAP_TYPE_BMP, bool background = true, double scale = -1);
 
     /*!
      * \brief Start interactive connection creation.

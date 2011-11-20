@@ -1,3 +1,8 @@
+Changes in version 1.12.1 beta (2011-11-20):
+--------------------------------------------
+- Added function wxSFShapeCanvas::SaveCanvasToImage(...) providing better diagram export to an image.
+- Updated wxSFDemo project to reflect new features.
+
 Changes in version 1.12.0 beta (2011-10-25):
 --------------------------------------------
 - Optimized canvas refresh.

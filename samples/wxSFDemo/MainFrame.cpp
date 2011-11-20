@@ -64,7 +64,7 @@ MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 	m_pFileMenu->Append(wxID_OPEN, wxT("&Open\tCtrl+O"), wxT("Load a chart from XML file"), wxITEM_NORMAL);
 	m_pFileMenu->Append(wxID_SAVE, wxT("&Save as...\tCtrl+Shift+S"), wxT("Save the chart to XML file"), wxITEM_NORMAL);
 	m_pFileMenu->AppendSeparator();
-	m_pFileMenu->Append(IDM_SAVEASBITMAP, wxT("&Export to BMP..."), wxT("Export the chart to BMP file"), wxITEM_NORMAL);
+	m_pFileMenu->Append(IDM_SAVEASBITMAP, wxT("&Export to image..."), wxT("Export the chart to BMP file"), wxITEM_NORMAL);
 	m_pFileMenu->AppendSeparator();
 	m_pFileMenu->Append(wxID_PRINT, wxT("&Print...\tCtrl+P"), wxT("Open pring dialog"), wxITEM_NORMAL);
 	m_pFileMenu->Append(wxID_PREVIEW, wxT("Print pre&view...\tAlt+P"), wxT("Open print preview window"), wxITEM_NORMAL);
@@ -303,16 +303,38 @@ void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.9 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2011"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.10 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2011"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
 {
-	wxFileDialog dlg(this, wxT("Export canvas to BMP..."), wxGetCwd(), wxT(""), wxT("BMP Files (*.bmp)|*.bmp"), wxSAVE);
+	wxFileDialog dlg(this, wxT("Export canvas to image..."), wxGetCwd(), wxT(""),
+		wxT("BMP Files (*.bmp)|*.bmp|GIF Files (*.gif)|(*.gif)|XPM Files (*.xpm)|*.xpm|PNG Files (*.png)|*.png|JPEG Files (*.jpg)|*.jpg"), wxSAVE);
 
 	if(dlg.ShowModal() == wxID_OK)
 	{
-        m_pShapeCanvas->SaveCanvasToBMP(dlg.GetPath());
+		wxBitmapType type = wxBITMAP_TYPE_ANY;
+		
+		switch( dlg.GetFilterIndex() )
+		{
+			case 0:
+				type = wxBITMAP_TYPE_BMP;
+				break;
+			case 1:
+				type = wxBITMAP_TYPE_GIF;
+				break;
+			case 2:
+				type = wxBITMAP_TYPE_XPM;
+				break;
+			case 3:
+				type = wxBITMAP_TYPE_PNG;
+				break;
+			case 4:
+				type = wxBITMAP_TYPE_JPEG;
+				break;
+		}
+		
+        m_pShapeCanvas->SaveCanvasToImage( dlg.GetPath(), type, sfWITH_BACKGROUND );
 	}
 }
 
