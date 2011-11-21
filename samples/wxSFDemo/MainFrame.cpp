@@ -57,6 +57,8 @@ ThumbFrm::~ThumbFrm()
 
 MainFrm::MainFrm( wxWindow* parent ) : _MainFrm( parent )
 {
+	wxInitAllImageHandlers();
+	
     // set icon
 	SetIcon(wxIcon(wx_xpm));
 

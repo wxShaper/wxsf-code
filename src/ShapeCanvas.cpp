@@ -246,8 +246,6 @@ bool wxSFShapeCanvas::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos
 {
     // NOTE: user must call wxSFShapeCanvas::SetDiagramManager() to complete
     // canvas initialization!
-
-	wxInitAllImageHandlers();
 	
     // perform basic window initialization
     wxScrolledWindow::Create(parent, id, pos, size, style, name);
