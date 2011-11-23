@@ -1149,18 +1149,18 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 				// update unfinished line if any
 				if(m_pNewLineShape)
 				{
-                    //wxRect lineRct, updLineRct;
-                    //m_pNewLineShape->GetCompleteBoundingBox(lineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
+                    wxRect lineRct, updLineRct;
+                    m_pNewLineShape->GetCompleteBoundingBox(lineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
 
 				    m_pNewLineShape->SetUnfinishedPoint(FitPositionToGrid(lpos));
-				    //m_pNewLineShape->GetCompleteBoundingBox(updLineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
-
-					//lineRct.Union(updLineRct);
-					
 					m_pNewLineShape->Update();
-					m_pNewLineShape->Refresh(sfDELAYED);
+					
+				    m_pNewLineShape->GetCompleteBoundingBox(updLineRct, wxSFShapeBase::bbSELF | wxSFShapeBase::bbCHILDREN);
 
-					//RefreshCanvas(false, lineRct);
+					lineRct.Union(updLineRct);
+					
+					//m_pNewLineShape->Refresh(sfDELAYED);
+					InvalidateRect( lineRct );
 				}
 			}
 		}
