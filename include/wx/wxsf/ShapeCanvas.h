@@ -410,6 +410,11 @@ public:
 	 * \param rct Rectangle to be invalidated
 	 */
 	void InvalidateRect(const wxRect& rct);
+	
+	/*!
+	 * \brief Mark whole visible canvas portion as an invalidated rectangle.
+	 */
+	void InvalidateVisibleRect();
 	/*!
 	 * \brief Refresh all canvas rectangles marked as invalidated.
 	 * \sa wxSFShapeCanvas::InvalidateRect()

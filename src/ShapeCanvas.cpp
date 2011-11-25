@@ -620,6 +620,11 @@ void wxSFShapeCanvas::InvalidateRect(const wxRect& rct)
 		m_nInvalidateRect.Union( rct );
 }
 
+void wxSFShapeCanvas::InvalidateVisibleRect()
+{
+	InvalidateRect( DP2LP( GetClientRect() ) );
+}
+
 void wxSFShapeCanvas::RefreshInvalidatedRect()
 {
 	if( !m_nInvalidateRect.IsEmpty() )
@@ -742,7 +747,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 				}
 
 				// update canvas
-				InvalidateRect( GetClientRect() );
+				InvalidateVisibleRect();
 			}
 			else
 			{
@@ -1267,7 +1272,7 @@ void wxSFShapeCanvas::OnMouseMove(wxMouseEvent& event)
 			wxRect shpRct = m_shpMultiEdit.GetBoundingBox();
 			m_shpMultiEdit.SetRectSize(wxRealPoint(lpos.x - shpRct.GetLeft(), lpos.y - shpRct.GetTop()));
 			
-			InvalidateRect( GetClientRect() );
+			InvalidateVisibleRect();
 		}
 		break;
 
@@ -1622,7 +1627,7 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
             m_shpMultiEdit.Show(false);
             m_nWorkingMode = modeREADY;
 			
-            InvalidateRect( GetClientRect() );
+            InvalidateVisibleRect();
         }
 		break;
 
@@ -1648,7 +1653,7 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
 				m_nWorkingMode = modeREADY;
 				m_pSelectedHandle = NULL;
 
-                InvalidateRect( GetClientRect() );
+                InvalidateVisibleRect();
             }
         }
         break;
@@ -1663,7 +1668,7 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
                 SaveCanvasState();
                 m_nWorkingMode = modeREADY;
 				
-				InvalidateRect( GetClientRect() );
+				InvalidateVisibleRect();
             }
         }
 		break;
@@ -1693,7 +1698,7 @@ void wxSFShapeCanvas::_OnEnterWindow(wxMouseEvent& event)
 
             m_nWorkingMode = modeREADY;
             
-			InvalidateRect( GetClientRect() );
+			InvalidateVisibleRect();
         }
         break;
 
@@ -3254,4 +3259,3 @@ wxDragResult wxSFCanvasDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult def
 
 	return def;
 }
-

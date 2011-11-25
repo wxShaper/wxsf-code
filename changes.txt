@@ -1,7 +1,10 @@
-Changes in version 1.12.1 beta (2011-11-20):
+Changes in version 1.12.1 beta (2011-11-25):
 --------------------------------------------
 - Added function wxSFShapeCanvas::SaveCanvasToImage(...) providing better diagram export to an image.
+- Added function wxSFShapeCanvas::InvalidateVisibleRect() which marks whole visible canvas rectangle
+  as an invalidated one.
 - Updated wxSFDemo project to reflect new features.
+- Fixed drawing issues when multiple selected shapes were handled.
 
 Changes in version 1.12.0 beta (2011-10-25):
 --------------------------------------------
