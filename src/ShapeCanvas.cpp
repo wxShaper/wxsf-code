@@ -2063,20 +2063,29 @@ void wxSFShapeCanvas::SaveCanvasToBMP(const wxString& file)
 void wxSFShapeCanvas::SaveCanvasToImage(const wxString& file, wxBitmapType type, bool background, double scale)
 {
     // create memory DC a draw the canvas content into
-
-	if( scale == -1 ) scale = GetScale();
+	
+	double prevScale = GetScale();
+	if( scale == -1 ) scale = prevScale;
     
 	wxRect bmpBB = GetTotalBoundingBox();
-    bmpBB.Inflate( m_Settings.m_nGridSize * scale );
+	
+	bmpBB.SetLeft( bmpBB.GetLeft() * scale );
+	bmpBB.SetTop( bmpBB.GetTop() * scale );
+	bmpBB.SetWidth( bmpBB.GetWidth() * scale );
+	bmpBB.SetHeight( bmpBB.GetHeight() * scale );
+	
+    bmpBB.Inflate( m_Settings.m_nGridSize );
 
-    wxBitmap outbmp( bmpBB.GetWidth() * scale, bmpBB.GetHeight() * scale );
+    wxBitmap outbmp( bmpBB.GetWidth(), bmpBB.GetHeight() );
 	wxMemoryDC dc( outbmp );
 
 	wxSFScaledDC outdc( (wxWindowDC*)&dc, scale );
 
     if( outdc.IsOk() )
     {
-		outdc.SetDeviceOrigin( -bmpBB.GetLeft() * scale, -bmpBB.GetTop() * scale );
+		if( scale != prevScale ) SetScale( scale );
+		
+		outdc.SetDeviceOrigin( -bmpBB.GetLeft(), -bmpBB.GetTop() );
 		
 		int prevStyle = GetStyle();
 		wxColour prevColour = GetCanvasColour();
@@ -2095,6 +2104,8 @@ void wxSFShapeCanvas::SaveCanvasToImage(const wxString& file, wxBitmapType type,
 			SetStyle( prevStyle );
 			SetCanvasColour( prevColour );
 		}
+		
+		if( scale != prevScale ) SetScale( prevScale );
 		
         if( outbmp.SaveFile(file, type) ) wxMessageBox(wxString::Format(wxT("The image has been saved to '%s'."), file.GetData()), wxT("ShapeFramework"));
 		else
