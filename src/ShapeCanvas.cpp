@@ -2074,7 +2074,7 @@ void wxSFShapeCanvas::SaveCanvasToImage(const wxString& file, wxBitmapType type,
 	bmpBB.SetWidth( bmpBB.GetWidth() * scale );
 	bmpBB.SetHeight( bmpBB.GetHeight() * scale );
 	
-    bmpBB.Inflate( m_Settings.m_nGridSize );
+    bmpBB.Inflate( m_Settings.m_nGridSize * scale );
 
     wxBitmap outbmp( bmpBB.GetWidth(), bmpBB.GetHeight() );
 	wxMemoryDC dc( outbmp );
