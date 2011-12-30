@@ -3224,7 +3224,7 @@ void wxSFShapeCanvas::PageMargins()
     (*g_pageSetupData) = pageMarginsDialog.GetPageSetupDialogData();
 }
 #endif 
-*/
+
 #ifdef __WXMAC__ 
 void wxSFShapeCanvas::PageMargins() 
 { 
@@ -3241,9 +3241,9 @@ void wxSFShapeCanvas::PageMargins()
 	pageMarginsDialog.ShowModal(); 
  
 	(*g_printData) = pageMarginsDialog.GetPageSetupDialogData().GetPrintData(); 
-	(*g_pageSetupData) = pageMarginsDialog.GetPageSetupDialogData(); 
+	(*g_pageSetupData) = pageMarginsDialog.GetPageSetupDialogData();
 } 
-#endif
+#endif */
 
 //----------------------------------------------------------------------------------//
 // wxSFCanvasDropTarget class

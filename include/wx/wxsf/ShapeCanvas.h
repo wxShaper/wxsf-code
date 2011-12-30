@@ -494,10 +494,10 @@ public:
 	void PrintPreview(wxSFPrintout *preview, wxSFPrintout *printout = NULL);
 	/*! \brief Show page setup dialog for printing. */
 	void PageSetup();
-	#ifdef __WXMAC__
-	/*! \brief Show page margins setup dialog (available only for MAC). */
-	void PageMargins();
-	#endif
+	// #ifdef __WXMAC__
+	// /*! \brief Show page margins setup dialog (available only for MAC). */
+	// void PageMargins();
+	// #endif 
 
     /*!
      * \brief Convert device position to logical position.
