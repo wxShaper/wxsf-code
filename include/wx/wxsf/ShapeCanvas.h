@@ -1074,6 +1074,8 @@ private:
 	void ClearTemporaries();
 	/*! \brief Assign give shape to parent at given location (if exists) */
 	void ReparentShape(wxSFShapeBase *shape, const wxPoint& parentpos);
+	/*! \brief Propagate selection recursively to all parents if sfsPROPAGATE_SELECTION flag is set */
+	void PropagateSelection(wxSFShapeBase *shape, bool selection);
 
 	// private event handlers
 	/*!

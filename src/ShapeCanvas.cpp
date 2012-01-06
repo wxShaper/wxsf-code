@@ -684,7 +684,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 					
 					if( pSelectedShape->ContainsStyle( wxSFShapeBase::sfsPROPAGATE_SELECTION ) && pSelectedShape->GetParentShape() )
 					{
-						pSelectedShape->GetParentShape()->Select(true);
+						PropagateSelection( pSelectedShape, true );
 					}
 					else
 						pSelectedShape->Select(true);
@@ -2761,6 +2761,18 @@ void wxSFShapeCanvas::AlignSelected(HALIGN halign, VALIGN valign)
         SaveCanvasState();
         RefreshCanvas(false, updRct);
     }
+}
+
+void wxSFShapeCanvas::PropagateSelection(wxSFShapeBase* shape, bool selection)
+{
+	wxSFShapeBase *parent = shape->GetParentShape();
+	
+	if( parent && shape->ContainsStyle( wxSFShapeBase::sfsPROPAGATE_SELECTION ) )
+	{
+		parent->Select( selection );
+		
+		PropagateSelection( parent, selection );
+	}
 }
 
 //----------------------------------------------------------------------------------//
