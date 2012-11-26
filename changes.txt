@@ -1,3 +1,9 @@
+Changes in version 1.12.2 beta (2012-11-25):
+--------------------------------------------
+- Shape events are processed immediatelly (which returns former behaviour and fixes at least
+  incorrect shape handles delta value published via wxSF events).
+- Handle movement delta is set to 0,0 at the begining of the handle dragging.
+
 Changes in version 1.12.1 beta (2011-01-06):
 --------------------------------------------
 - Added function wxSFShapeCanvas::SaveCanvasToImage(...) providing better diagram export to an image.

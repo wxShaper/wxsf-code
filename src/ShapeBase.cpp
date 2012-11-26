@@ -1072,7 +1072,7 @@ void wxSFShapeBase::OnLeftClick(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_LEFT_DOWN, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1085,7 +1085,7 @@ void wxSFShapeBase::OnRightClick(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_RIGHT_DOWN, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1098,7 +1098,7 @@ void wxSFShapeBase::OnLeftDoubleClick(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_LEFT_DCLICK, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1111,7 +1111,7 @@ void wxSFShapeBase::OnRightDoubleClick(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_RIGHT_DCLICK, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1124,7 +1124,7 @@ void wxSFShapeBase::OnBeginDrag(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_DRAG_BEGIN, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1137,7 +1137,7 @@ void wxSFShapeBase::OnDragging(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_DRAG, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1150,7 +1150,7 @@ void wxSFShapeBase::OnEndDrag(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_DRAG_END, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1163,7 +1163,7 @@ void wxSFShapeBase::OnHandle(wxSFShapeHandle& handle)
 		wxSFShapeHandleEvent evt( wxEVT_SF_SHAPE_HANDLE, this->GetId() );
 		evt.SetShape( this );
 		evt.SetHandle( handle );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1176,7 +1176,7 @@ void wxSFShapeBase::OnBeginHandle(wxSFShapeHandle& handle)
 		wxSFShapeHandleEvent evt( wxEVT_SF_SHAPE_HANDLE_BEGIN, this->GetId() );
 		evt.SetShape( this );
 		evt.SetHandle( handle );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1189,7 +1189,7 @@ void wxSFShapeBase::OnEndHandle(wxSFShapeHandle& handle)
 		wxSFShapeHandleEvent evt( wxEVT_SF_SHAPE_HANDLE_END, this->GetId() );
 		evt.SetShape( this );
 		evt.SetHandle( handle );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1202,7 +1202,7 @@ bool wxSFShapeBase::OnKey(int key)
 		wxSFShapeKeyEvent evt( wxEVT_SF_SHAPE_KEYDOWN, this->GetId() );
 		evt.SetShape( this );
 		evt.SetKeyCode( key );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 
     return TRUE;
@@ -1217,7 +1217,7 @@ void wxSFShapeBase::OnMouseEnter(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_MOUSE_ENTER, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1230,7 +1230,7 @@ void wxSFShapeBase::OnMouseOver(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_MOUSE_OVER, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1243,7 +1243,7 @@ void wxSFShapeBase::OnMouseLeave(const wxPoint& pos)
 		wxSFShapeMouseEvent evt( wxEVT_SF_SHAPE_MOUSE_LEAVE, this->GetId() );
 		evt.SetShape( this );
 		evt.SetMousePosition( pos );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
@@ -1256,7 +1256,7 @@ void wxSFShapeBase::OnChildDropped(const wxRealPoint& pos, wxSFShapeBase* child)
 		wxSFShapeChildDropEvent evt( wxEVT_SF_SHAPE_CHILD_DROP, this->GetId() );
 		evt.SetShape( this );
 		evt.SetChildShape( child );
-		wxPostEvent( GetParentCanvas(), evt );
+		GetParentCanvas()->GetEventHandler()->ProcessEvent( evt );
 	}
 }
 
