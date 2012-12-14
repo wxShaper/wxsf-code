@@ -329,7 +329,7 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 	wxUnusedVar( event );
 	
 	// use double-buffered painting
-	wxBufferedPaintDC paintDC( this );
+	wxAutoBufferedPaintDC paintDC( this );
 
 #if wxVERSION_NUMBER < 2900
 	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
