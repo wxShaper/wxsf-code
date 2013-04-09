@@ -64,9 +64,14 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	SetMinScale(0.1);
 	SetMaxScale(2);
 
-	// set accepted shapes
+	// specify accepted shapes...
 	GetDiagramManager()->ClearAcceptedShapes();
 	GetDiagramManager()->AcceptShape(wxT("All"));
+	
+	// ... in addition, specify accepted top shapes (i.e. shapes that can be placed
+	// directly onto the canvas)
+	// GetDiagramManager()->ClearAcceptedTopShapes();
+	// GetDiagramManager()->AcceptTopShape(wxT("wxSFRectShape"));
 
 	// you can set also the canvas history manager working mode:
 	// 1) Requires implementation of xsSerializable::Clone() virtual function
@@ -74,7 +79,7 @@ FrameCanvas::FrameCanvas(wxSFDiagramManager* manager, wxWindow* parent, wxWindow
 	// and shape manager.
 	// GetHistoryManager().SetMode(wxSFCanvasHistory::histUSE_CLONING);
 	// 2) No other programming overhead is required (except implementation
-	// of standard serialization functionality). This working mode is default.
+	// of standard serialization functionality). This working mode is default one.
 	GetHistoryManager().SetMode(wxSFCanvasHistory::histUSE_SERIALIZATION);
 
 	// change of the canvas history manager working mode clears the stored states

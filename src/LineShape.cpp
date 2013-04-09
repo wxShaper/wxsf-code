@@ -568,6 +568,8 @@ void wxSFLineShape::MoveBy(double x, double y)
 	}
 	
 	if( !m_lstChildItems.IsEmpty() ) Update();
+	
+	if( GetShapeManager() ) GetShapeManager()->SetModified( true );
 }
 
 void wxSFLineShape::CreateHandles()

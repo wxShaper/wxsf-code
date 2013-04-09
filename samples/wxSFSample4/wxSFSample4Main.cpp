@@ -67,6 +67,7 @@ wxSFSample4Frame::wxSFSample4Frame(wxFrame *frame, const wxString& title)
 
     // set some diagram manager properties if necessary...
     // set accepted shapes (accept only wxSFControlShape)
+	m_Manager.ClearAcceptedShapes();
     m_Manager.AcceptShape(wxT("wxSFControlShape"));
 
     // create shape canvas and associate it with shape manager
@@ -147,7 +148,7 @@ void wxSFSample4Frame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg = wxbuildinfo(long_f);
 
-    msg += wxT("\nWelcome to wxSFShapeFramework Sample 4 (c) Michal Bliznak, 2008\n\n");
+    msg += wxT("\nWelcome to wxSFShapeFramework Sample 4 (c) Michal Bliznak, 2008 - 2013\n\n");
     msg += wxT("Sample demostrates posibility to manage GUI controls (widgets) by the wxSFControlShape.\n");
     msg += wxT("wxSF event handlers are connected via 'Connect' function.\n\n");
     msg += wxT("Usage:\n");

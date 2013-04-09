@@ -1,3 +1,16 @@
+Changes in version 1.13.0 beta (2013-04-09):
+--------------------------------------------
+- Fixed #6 'void' function returning a value.
+- Fixed #7 error C2374: 'i' : redefinition.
+- Fixed #8 Memory leak when wxGraphicsContext is enabled.
+- Added functions wxSFDiagramManager::IsModified() and wxSFDiagramManager::SetModified(...).
+- Added functions wxSFDiagramManager::AcceptTopShape(...) and wxSFDiagramManager::ClearAcceptedTopShapes()
+  suitable for specification of shapes that can be inserted to diagram manager as top shapes (i.e.
+  shapes without any parent).
+- Diagram manager now accepts all shape types by default (also, all the shapes are accepted
+  as top shapes by default).
+- Updated sample projects to reflect new features.
+
 Changes in version 1.12.4 beta (2013-02-14):
 --------------------------------------------
 - Fixed build error with wxWidgets 2.9.5.

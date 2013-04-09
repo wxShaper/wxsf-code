@@ -13,6 +13,7 @@
 
 #include <wx/dataobj.h>
 #include <wx/dnd.h>
+#include <wx/hashmap.h>
 
 #include <wx/wxsf/ShapeBase.h>
 #include <wx/wxsf/DiagramManager.h>
@@ -26,6 +27,8 @@
 #ifdef __WXMAC__ 
 #include <wx/printdlg.h> 
 #endif 
+
+WX_DECLARE_HASH_MAP( int, wxRealPoint*, wxIntegerHash, wxIntegerEqual, PositionMap );
 
 /*! \brief XPM (mono-)bitmap which can be used in shape's shadow brush */
 extern const char* wxSFShadowBrush_xpm[];
@@ -1035,6 +1038,7 @@ private:
 	wxDataFormat m_formatShapes;
 
 	wxPoint m_nPrevMousePos;
+	PositionMap m_mapPrevPositions;
 	
 	wxRect m_nInvalidateRect;
 
@@ -1061,7 +1065,7 @@ private:
 	// private functions
 
 	/*! \brief Validate selection so the shapes in the given list can be processed by the clipboard functions */
-	void ValidateSelectionForClipboard(ShapeList& selection);
+	void ValidateSelectionForClipboard(ShapeList& selection, bool storeprevpos);
 	/*! \brief Append connections assigned to shapes in given list to this list as well */
 	void AppendAssignedConnections(wxSFShapeBase *shape, ShapeList& selection, bool childrenonly);
 	/*! \brief Initialize printing framework */
@@ -1076,6 +1080,11 @@ private:
 	void ReparentShape(wxSFShapeBase *shape, const wxPoint& parentpos);
 	/*! \brief Propagate selection recursively to all parents if sfsPROPAGATE_SELECTION flag is set */
 	void PropagateSelection(wxSFShapeBase *shape, bool selection);
+	
+	/*! \brief Store previous shape's position modified in ValidateSelectionForClipboard() function */
+	inline void StorePrevPosition(const wxSFShapeBase *shape);
+	/*! \brief Restore previously stored shapes' positions and clear the storage */
+	void RestorePrevPositions();
 
 	// private event handlers
 	/*!

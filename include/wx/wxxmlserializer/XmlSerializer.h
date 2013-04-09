@@ -994,7 +994,7 @@ public:
 	void FromString(const wxString& val)
 	{
 		xsPropertyIO *pIO = wxXmlSerializer::m_mapPropertyIOHandlers[m_sDataType];
-		if(pIO) return pIO->SetValueStr(this, val);
+		if(pIO) pIO->SetValueStr(this, val);
 	}
 	
 	/**

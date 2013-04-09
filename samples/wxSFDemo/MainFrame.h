@@ -82,6 +82,7 @@ protected:
 
 	// common events
 	void OnClose(wxCloseEvent& event);
+	void OnIdle(wxIdleEvent& event);
 
     // menu event handlers
 	void OnExit(wxCommandEvent& event);

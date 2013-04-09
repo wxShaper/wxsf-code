@@ -80,6 +80,7 @@ wxSFSample3Frame::wxSFSample3Frame(wxFrame *frame, const wxString& title)
 
     // set some diagram manager properties if necessary...
     // set shape types accepted by the diagram manager
+	m_Manager.ClearAcceptedShapes();
     m_Manager.AcceptShape(wxT("cStarShape"));
     m_Manager.AcceptShape(wxT("wxSFTextShape"));
     m_Manager.AcceptShape(wxT("wxSFLineShape"));
@@ -208,7 +209,7 @@ void wxSFSample3Frame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg = wxbuildinfo(long_f);
 
-    msg += wxT("\nWelcome to wxSFShapeFramework Sample 3 (c) Michal Bliznak, 2007\n\n");
+    msg += wxT("\nWelcome to wxSFShapeFramework Sample 3 (c) Michal Bliznak, 2007 - 2013\n\n");
     msg += wxT("Sample demostrates basic wxSF functionality:\n");
     msg += wxT(" - wxSF events are redirected via 'Connect' function.\n");
     msg += wxT(" - New custom 'composite' shape is created.\n");

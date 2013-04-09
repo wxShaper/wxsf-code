@@ -34,6 +34,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
 	EVT_UPDATE_UI(wxID_REDO, MainFrm::OnUpdateRedo)
 	EVT_UPDATE_UI_RANGE(IDT_FIRST_TOOLMARKER, IDT_LAST_TOOLMARKER, MainFrm::OnUpdateTool)
 	EVT_UPDATE_UI_RANGE(IDM_AUTOLAYOUT_FIRST, IDM_AUTOLAYOUT_LAST, MainFrm::OnUpdateAutoLayout)
+	EVT_IDLE(MainFrm::OnIdle)
 END_EVENT_TABLE()
 
 //----------------------------------------------------------------------------------//
@@ -211,13 +212,10 @@ void MainFrm::OnNew(wxCommandEvent& WXUNUSED(event))
 	if(wxMessageBox(wxT("Current chart will be lost. Do you want to proceed?"), wxT("ShapeFramework"), wxYES_NO | wxICON_QUESTION) == wxYES)
 	{
 		m_DiagramManager.Clear();
+		
 		m_pShapeCanvas->ClearCanvasHistory();
-
-        // set accepted shapes
-        m_DiagramManager.ClearAcceptedShapes();
-        m_DiagramManager.AcceptShape(wxT("All"));
-
         m_pShapeCanvas->SaveCanvasState();
+		
 		m_pShapeCanvas->Refresh();
 	}
 }
@@ -305,7 +303,7 @@ void MainFrm::OnSelectAll(wxCommandEvent& WXUNUSED(event))
 
 void MainFrm::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.10 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2011"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
+    wxMessageBox(wxString::Format(wxT("ShapeFramework Demonstration Application v1.11 \nwxShapeFramework version number: %s\nMichal Bliznak (c) 2007 - 2013"), m_DiagramManager.GetVersion().c_str()), wxT("ShapeFranework"));
 }
 
 void MainFrm::OnExportToBMP(wxCommandEvent& WXUNUSED(event))
@@ -625,4 +623,10 @@ void MainFrm::OnAutoLayout(wxCommandEvent& event)
 {
 	m_AutoLayout.Layout( m_pShapeCanvas, m_pAutoLayoutMenu->GetLabel( event.GetId() ) );
 	m_pShapeCanvas->SaveCanvasState();
+}
+
+void MainFrm::OnIdle(wxIdleEvent& event)
+{
+	if( m_DiagramManager.IsModified() ) SetTitle( wxT("wxShapeFramework Demo Application (diagram is modified)") );
+	else SetTitle( wxT("wxShapeFramework Demo Application") );
 }

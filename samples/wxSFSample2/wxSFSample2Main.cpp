@@ -79,6 +79,7 @@ wxSFSample2Frame::wxSFSample2Frame(wxFrame *frame, const wxString& title)
 
     // set some diagram manager properties if necessary...
     // set accepted shapes (accept only 'SampleShape')
+	m_Manager.ClearAcceptedShapes();
     m_Manager.AcceptShape(wxT("SampleShape"));
 
     // create shape canvas and associate it with shape manager
@@ -126,7 +127,7 @@ void wxSFSample2Frame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg = wxbuildinfo(long_f);
 
-    msg += wxT("\nWelcome to wxSFShapeFramework Sample 2 (c) Michal Bliznak, 2007\n\n");
+    msg += wxT("\nWelcome to wxSFShapeFramework Sample 2 (c) Michal Bliznak, 2007 - 2013\n\n");
     msg += wxT("Sample demostrates basic wxSF functionality.\n");
     msg += wxT("wxSF event handlers are overrided in user-defined canvas and shape class.\n\n");
     msg += wxT("Usage:\n");
