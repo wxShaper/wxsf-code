@@ -3088,7 +3088,15 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 											  sfINITIALIZE,
 											  sfDONT_SAVE_STATE );
 									  
-				if( shape ) lstNewContent.Append( shape );
+				if( shape )
+				{
+					if( parent ) 
+					{
+						parent->OnChildDropped( shape->GetAbsolutePosition() - parent->GetAbsolutePosition(), shape );
+						parent->Update();
+					}
+					lstNewContent.Append( shape );
+				}
 			}
 			
             DeselectAll();
