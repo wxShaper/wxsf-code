@@ -25,7 +25,7 @@ class WXDLLIMPEXP_SF wxSFShapeBase;
  * points are the only places where connected lines can start/end. 
  * \sa wxSFShapeBase::AddConnectionPoint()
  */
-class wxSFConnectionPoint : public xsSerializable
+class WXDLLIMPEXP_SF wxSFConnectionPoint : public xsSerializable
 {
 public:
 
