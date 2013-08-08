@@ -1978,6 +1978,11 @@ void wxSFShapeCanvas::StartInteractiveConnection(wxClassInfo* shapeInfo, const w
     if((m_nWorkingMode == modeREADY) && shapeInfo->IsKindOf(CLASSINFO(wxSFLineShape)))
     {
         wxSFShapeBase* pShapeUnder = GetShapeAtPosition(lpos);
+		// propagate request for interactive connection if requested
+		while( pShapeUnder && pShapeUnder->ContainsStyle( wxSFShapeBase::sfsPROPAGATE_INTERACTIVE_CONNECTION ) ) {
+			pShapeUnder = pShapeUnder->GetParentShape();
+		}
+		// start the connection's creation process if possible
 		if( pShapeUnder && (pShapeUnder->GetId() != -1) && pShapeUnder->IsConnectionAccepted(shapeInfo->GetClassName()) )
 		{
 			m_pNewLineShape = (wxSFLineShape*)m_pManager->AddShape(shapeInfo, sfDONT_SAVE_STATE);

@@ -9,6 +9,8 @@ Changes in version 1.13.0 beta (2013-04-09):
   shapes without any parent).
 - Diagram manager now accepts all shape types by default (also, all the shapes are accepted
   as top shapes by default).
+- Added new shape style sfsPROPAGATE_INTERACTIVE_CONNECTION allowing the shape to propagate interactive connection
+  request to its parent.
 - Updated sample projects to reflect new features.
 
 Changes in version 1.12.4 beta (2013-02-14):
