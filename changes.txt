@@ -11,6 +11,7 @@ Changes in version 1.13.0 beta (2013-04-09):
   as top shapes by default).
 - Added new shape style sfsPROPAGATE_INTERACTIVE_CONNECTION allowing the shape to propagate interactive connection
   request to its parent.
+- Added new shape style sfsNO_FIT_TO_CHILDREN which avoids the shape to be resized to fit its children automatically.
 - Updated sample projects to reflect new features.
 
 Changes in version 1.12.4 beta (2013-02-14):

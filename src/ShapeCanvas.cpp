@@ -879,7 +879,6 @@ void wxSFShapeCanvas::OnLeftUp(wxMouseEvent &event)
 			// resize parent shape to fit all its children if neccessary
 			if( m_pSelectedHandle->GetParentShape()->GetParentShape() )
 			{
-				//((wxSFShapeBase*)m_pSelectedHandle->GetParentShape()->GetParentShape())->FitToChildren();
 				((wxSFShapeBase*)m_pSelectedHandle->GetParentShape()->GetParentShape())->Update();
 			}
 

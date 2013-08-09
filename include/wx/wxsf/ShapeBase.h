@@ -172,6 +172,8 @@ public:
 		sfsPROPAGATE_SELECTION = 8192,
 		/*! \brief Propagate interactive connection request to parent shape (it means this shape cannot be connected interactively because this feature is redirected to its parent shape) */
 		sfsPROPAGATE_INTERACTIVE_CONNECTION = 16384,
+		/*! \brief Do no resize the shape to fit its children automatically */
+		sfsNO_FIT_TO_CHILDREN = 32768,
 		/*! \brief Default shape style */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};

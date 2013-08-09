@@ -274,7 +274,7 @@ void wxSFGridShape::Update()
     this->DoChildrenLayout();
 
     // fit the shape to its children
-    this->FitToChildren();
+    if( ! ContainsStyle( sfsNO_FIT_TO_CHILDREN ) ) this->FitToChildren();
 
     // do it recursively on all parent shapes
     if( GetParentShape() )GetParentShape()->Update();
