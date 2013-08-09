@@ -797,19 +797,13 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 		    {
 		        //wxSFShapeBase* pShapeUnder = GetShapeAtPosition(lpos);
 				wxSFShapeBase* pShapeUnder = GetShapeUnderCursor();
-                //if(pShapeUnder && !pShapeUnder->IsKindOf(CLASSINFO(wxSFLineShape)))
+				// propagate request for interactive connection if requested
+				while( pShapeUnder && pShapeUnder->ContainsStyle( wxSFShapeBase::sfsPROPAGATE_INTERACTIVE_CONNECTION ) ) {
+					pShapeUnder = pShapeUnder->GetParentShape();
+				}
+                // finish connection's creation process if possible
 				if(pShapeUnder)
                 {
-					/*if((m_pNewLineShape->GetSrcShapeId() == -1) &&
-                        (pShapeUnder->IsConnectionAccepted(m_pNewLineShape->GetClassInfo()->GetClassName())))
-                        //(!pShapeUnder->GetAcceptedTrgNeighbours().IsEmpty()))
-                    {
-                        m_pNewLineShape->SetSrcShapeId(pShapeUnder->GetId());
-
-						// swith on the "under-construcion" mode
-						m_pNewLineShape->SetUnfinishedPoint(lpos);
-                    }
-                    else */
 					if((m_pNewLineShape->GetTrgShapeId() == -1) &&
                             (pShapeUnder != m_pNewLineShape) &&
                             (pShapeUnder->GetId() != -1) &&
