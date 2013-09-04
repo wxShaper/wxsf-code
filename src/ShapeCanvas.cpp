@@ -342,16 +342,14 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 #if wxUSE_GRAPHICS_CONTEXT
     if( IsGCEnabled() )
 	{
-		int x, y;
 		wxGCDC gdc( paintDC );
-		wxGraphicsContext *pGC = gdc.GetGraphicsContext();
-
-		PrepareDC( paintDC );
-		paintDC.GetDeviceOrigin( &x, &y );
 		
-		// scale and translate GC
+		PrepareDC( paintDC );
+		PrepareDC( gdc );
+		
+		// scale  GC
+		wxGraphicsContext *pGC = gdc.GetGraphicsContext();
 		pGC->Scale( m_Settings.m_nScale, m_Settings.m_nScale );
-		pGC->Translate( x, y );
 	
 		DrawContent( gdc, sfFROM_PAINT );
 	}
