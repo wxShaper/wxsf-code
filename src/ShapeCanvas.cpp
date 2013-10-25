@@ -337,7 +337,7 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 	PrepareDC( dc );
 	dc.PrepareGC();
 
-	DrawContent(dc, sfFROM_PAINT);
+	this->DrawContent(dc, sfFROM_PAINT);
 #else
 #if wxUSE_GRAPHICS_CONTEXT
     if( IsGCEnabled() )
@@ -351,20 +351,20 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 		wxGraphicsContext *pGC = gdc.GetGraphicsContext();
 		pGC->Scale( m_Settings.m_nScale, m_Settings.m_nScale );
 	
-		DrawContent( gdc, sfFROM_PAINT );
+		this->DrawContent( gdc, sfFROM_PAINT );
 	}
 	else
 	{
 		wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
 		
 		PrepareDC( dc );
-		DrawContent( dc, sfFROM_PAINT );
+		this->DrawContent( dc, sfFROM_PAINT );
 	}
 #else
 	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
 	
 	PrepareDC( dc );
-	DrawContent( dc, sfFROM_PAINT  );
+	this->DrawContent( dc, sfFROM_PAINT  );
 #endif
 #endif
 }
@@ -2097,7 +2097,7 @@ void wxSFShapeCanvas::SaveCanvasToImage(const wxString& file, wxBitmapType type,
             SetCanvasColour( *wxWHITE);
 		}
 		
-        DrawContent( outdc, sfNOT_FROM_PAINT );
+        this->DrawContent( outdc, sfNOT_FROM_PAINT );
 		
 		if( !background )
 		{
