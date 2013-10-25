@@ -827,9 +827,10 @@ public:
 	/*!
 	 * \brief Function responsible for drawing of the canvas's content to given DC.
 	 * \param dc Reference to device context where the shapes will be drawn to
-	 * \param fromPaint Set the argument to TRUE if the dc argument refers to the wxPaintDC instance
+	 * \param fromPaint Set the argument to TRUE if the dc argument refers to the wxPaintDC instance 
+	 * or derived classes (i.e. the function is called as a response to wxEVT_PAINT event)
 	 */
-	void DrawContent(wxDC& dc, bool fromPaint);
+	virtual void DrawContent(wxDC& dc, bool fromPaint);
 
     /*!
      * \brief Get reference to multiselection box

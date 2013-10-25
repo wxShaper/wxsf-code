@@ -1,4 +1,4 @@
-Changes in version 1.13.0 beta (2013-09-04):
+Changes in version 1.13.0 beta (2013-10-25):
 --------------------------------------------
 - Fixed #6 'void' function returning a value.
 - Fixed #7 error C2374: 'i' : redefinition.
@@ -13,6 +13,7 @@ Changes in version 1.13.0 beta (2013-09-04):
   request to its parent.
 - Added new shape style sfsNO_FIT_TO_CHILDREN which avoids the shape to be resized to fit its children automatically.
 - Fixed incorrect refresh of scaled canvas if wxGraphicsContext is used for drawing.
+- Function wxSFShapeCanvas::DrawContent(...) is virtual now.
 - Updated sample projects to reflect new features.
 
 Changes in version 1.12.4 beta (2013-02-14):
