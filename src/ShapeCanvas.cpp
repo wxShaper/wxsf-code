@@ -337,7 +337,9 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 	PrepareDC( dc );
 	dc.PrepareGC();
 
-	this->DrawContent(dc, sfFROM_PAINT);
+	this->DrawBackground( dc, sfFROM_PAINT );
+	this->DrawContent( dc, sfFROM_PAINT );
+	this->DrawForeground( dc, sfFROM_PAINT );
 #else
 #if wxUSE_GRAPHICS_CONTEXT
     if( IsGCEnabled() )
@@ -351,40 +353,38 @@ void wxSFShapeCanvas::_OnPaint(wxPaintEvent& event)
 		wxGraphicsContext *pGC = gdc.GetGraphicsContext();
 		pGC->Scale( m_Settings.m_nScale, m_Settings.m_nScale );
 	
+		this->DrawBackground( gdc, sfFROM_PAINT );
 		this->DrawContent( gdc, sfFROM_PAINT );
+		this->DrawForeground( gdc, sfFROM_PAINT );
 	}
 	else
 	{
 		wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
 		
 		PrepareDC( dc );
+		this->DrawBackground( dc, sfFROM_PAINT );
 		this->DrawContent( dc, sfFROM_PAINT );
+		this->DrawForeground( dc, sfFROM_PAINT );
 	}
 #else
 	wxSFScaledDC dc( (wxWindowDC*)&paintDC, m_Settings.m_nScale );
 	
 	PrepareDC( dc );
+	this->DrawBackground( dc, sfFROM_PAINT  );
 	this->DrawContent( dc, sfFROM_PAINT  );
+	this->DrawForeground( dc, sfFROM_PAINT  );
 #endif
 #endif
 }
 
-void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
+void wxSFShapeCanvas::DrawBackground(wxDC& dc, bool fromPaint)
 {
-    wxASSERT( m_pManager );
-    if(!m_pManager)return;
-    wxASSERT(m_pManager->GetRootItem());
-    if(!m_pManager->GetRootItem())return;
-
-    wxSFShapeBase *pShape = NULL, *pParentShape = NULL;
-	wxSFLineShape *pLine = NULL;
-
     #if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
     wxSFScaledDC::EnableGC( false );
     #endif
 
 	// erase background
-	if( m_Settings.m_nStyle & sfsGRADIENT_BACKGROUND )
+	if( ContainsStyle( sfsGRADIENT_BACKGROUND ) )
 	{
 	    wxSize nBcgSize = GetVirtualSize() + wxSize(m_Settings.m_nGridSize.x, m_Settings.m_nGridSize.y);
 	    if( m_Settings.m_nScale != 1.f )
@@ -399,7 +399,7 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
 	}
 
 	// show grid
-	if( ContainsStyle(sfsGRID_SHOW) )
+	if( ContainsStyle( sfsGRID_SHOW ) )
 	{
 		int linedist = m_Settings.m_nGridSize.x * m_Settings.m_nGridLineMult;
 		
@@ -424,6 +424,22 @@ void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
     #if wxVERSION_NUMBER < 2900 && wxUSE_GRAPHICS_CONTEXT
     wxSFScaledDC::EnableGC( m_fEnableGC );
     #endif
+}
+
+void wxSFShapeCanvas::DrawForeground(wxDC& dc, bool fromPaint)
+{
+	// do nothing here...
+}
+
+void wxSFShapeCanvas::DrawContent(wxDC& dc, bool fromPaint)
+{
+    wxASSERT( m_pManager );
+    if(!m_pManager)return;
+    wxASSERT(m_pManager->GetRootItem());
+    if(!m_pManager->GetRootItem())return;
+
+    wxSFShapeBase *pShape = NULL, *pParentShape = NULL;
+	wxSFLineShape *pLine = NULL;
 
 	if(fromPaint)
 	{
@@ -2095,9 +2111,12 @@ void wxSFShapeCanvas::SaveCanvasToImage(const wxString& file, wxBitmapType type,
 			RemoveStyle( wxSFShapeCanvas::sfsGRADIENT_BACKGROUND );
             RemoveStyle( wxSFShapeCanvas::sfsGRID_SHOW );
             SetCanvasColour( *wxWHITE);
+		} else {
+			this->DrawBackground( outdc, sfNOT_FROM_PAINT );
 		}
 		
         this->DrawContent( outdc, sfNOT_FROM_PAINT );
+        this->DrawForeground( outdc, sfNOT_FROM_PAINT );
 		
 		if( !background )
 		{

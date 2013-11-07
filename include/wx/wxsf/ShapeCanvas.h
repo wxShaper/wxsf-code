@@ -825,12 +825,29 @@ public:
 	void ValidateSelection(ShapeList& selection);
 
 	/*!
-	 * \brief Function responsible for drawing of the canvas's content to given DC.
+	 * \brief Function responsible for drawing of the canvas's content to given DC. The default
+	 * implementation draws actual objects managed by assigned diagram manager.
 	 * \param dc Reference to device context where the shapes will be drawn to
 	 * \param fromPaint Set the argument to TRUE if the dc argument refers to the wxPaintDC instance 
 	 * or derived classes (i.e. the function is called as a response to wxEVT_PAINT event)
 	 */
 	virtual void DrawContent(wxDC& dc, bool fromPaint);
+	/*!
+	 * \brief Function responsible for drawing of the canvas's background to given DC. The default
+	 * implementation draws canvas background and grid.
+	 * \param dc Reference to device context where the shapes will be drawn to
+	 * \param fromPaint Set the argument to TRUE if the dc argument refers to the wxPaintDC instance 
+	 * or derived classes (i.e. the function is called as a response to wxEVT_PAINT event)
+	 */
+	virtual void DrawBackground(wxDC& dc, bool fromPaint);
+	/*!
+	 * \brief Function responsible for drawing of the canvas's foreground to given DC. The default
+	 * do nothing.
+	 * \param dc Reference to device context where the shapes will be drawn to
+	 * \param fromPaint Set the argument to TRUE if the dc argument refers to the wxPaintDC instance 
+	 * or derived classes (i.e. the function is called as a response to wxEVT_PAINT event)
+	 */
+	virtual void DrawForeground(wxDC& dc, bool fromPaint);
 
     /*!
      * \brief Get reference to multiselection box

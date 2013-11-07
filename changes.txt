@@ -14,6 +14,10 @@ Changes in version 1.13.0 beta (2013-10-25):
 - Added new shape style sfsNO_FIT_TO_CHILDREN which avoids the shape to be resized to fit its children automatically.
 - Fixed incorrect refresh of scaled canvas if wxGraphicsContext is used for drawing.
 - Function wxSFShapeCanvas::DrawContent(...) is virtual now.
+- Added virtual function wxSFShapeCanvas::DrawBackground(...) called before wxSFShapeCanvas::DrawContent(...)
+  responsible for drawing of the canvas background and grid.
+- Added virtual function wxSFShapeCanvas::DrawForeground(...) called after wxSFShapeCanvas::DrawContent(...)
+  responsible for drawing onto the top of the diagram.
 - Updated sample projects to reflect new features.
 
 Changes in version 1.12.4 beta (2013-02-14):
