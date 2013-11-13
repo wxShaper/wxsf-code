@@ -65,6 +65,8 @@ wxSFSample1Frame::wxSFSample1Frame(wxFrame *frame, const wxString& title)
 	m_mapEventTypeInfo[ wxEVT_SF_SHAPE_MOUSE_OVER] = wxT("Mouse is moving over shape's area (wxEVT_SF_SHAPE_MOUSE_OVER)");
 	m_mapEventTypeInfo[ wxEVT_SF_SHAPE_MOUSE_LEAVE ] = wxT("Mouse has leaved shape's area (wxEVT_SF_SHAPE_MOUSE_LEAVE)");
 	m_mapEventTypeInfo[ wxEVT_SF_SHAPE_CHILD_DROP ] = wxT("Child shape has been assigned to shape (wxEVT_SF_SHAPE_CHILD_DROP)");
+	m_mapEventTypeInfo[ wxEVT_SF_LINE_HANDLE_ADD ] = wxT("Line handle has been created (wxEVT_SF_LINE_HANDLE_ADD)");
+	m_mapEventTypeInfo[ wxEVT_SF_LINE_HANDLE_REMOVE ] = wxT("Line handle has been removed (wxEVT_SF_LINE_HANDLE_REMOVE)");
 
 #if wxUSE_MENUS
     // create a menu bar
@@ -97,6 +99,7 @@ wxSFSample1Frame::wxSFSample1Frame(wxFrame *frame, const wxString& title)
     // set accepted shapes (accept only wxSFRectShape)
 	m_Manager.ClearAcceptedShapes();
     m_Manager.AcceptShape(wxT("wxSFRectShape"));
+	m_Manager.AcceptShape(wxT("wxSFCurveShape"));
 
     // create shape canvas and associate it with shape manager
     m_pCanvas = new wxSFShapeCanvas(&m_Manager, this);
@@ -124,10 +127,14 @@ wxSFSample1Frame::wxSFSample1Frame(wxFrame *frame, const wxString& title)
 	m_pCanvas->Connect(wxEVT_SF_SHAPE_HANDLE_BEGIN, wxSFShapeHandleEventHandler(wxSFSample1Frame::OnShapeHandleEvent), NULL, this);
 	m_pCanvas->Connect(wxEVT_SF_SHAPE_HANDLE, wxSFShapeHandleEventHandler(wxSFSample1Frame::OnShapeHandleEvent), NULL, this);
 	m_pCanvas->Connect(wxEVT_SF_SHAPE_HANDLE_END, wxSFShapeHandleEventHandler(wxSFSample1Frame::OnShapeHandleEvent), NULL, this);
+	m_pCanvas->Connect(wxEVT_SF_LINE_HANDLE_ADD, wxSFShapeHandleEventHandler(wxSFSample1Frame::OnShapeHandleEvent), NULL, this);
+	m_pCanvas->Connect(wxEVT_SF_LINE_HANDLE_REMOVE, wxSFShapeHandleEventHandler(wxSFSample1Frame::OnShapeHandleEvent), NULL, this);
 	
 	m_pCanvas->Connect(wxEVT_SF_SHAPE_KEYDOWN, wxSFShapeKeyEventHandler(wxSFSample1Frame::OnShapeKeyEvent), NULL, this);
 	
 	m_pCanvas->Connect(wxEVT_SF_SHAPE_CHILD_DROP, wxSFShapeChildDropEventHandler(wxSFSample1Frame::OnShapeChildDropEvent), NULL, this);
+	
+	m_pCanvas->Connect(wxEVT_SF_LINE_DONE, wxSFShapeEventHandler(wxSFSample1Frame::OnLineFinished), NULL, this);
 	
 	mainSizer->Add( m_pCanvas, 1, wxEXPAND, 0 );
 	
@@ -167,17 +174,28 @@ void wxSFSample1Frame::OnLeftClickCanvas(wxMouseEvent& event)
 
 void wxSFSample1Frame::OnRightClickCanvas(wxMouseEvent& event)
 {
-    // add new rectangular shape to the diagram ...
-    wxSFShapeBase* pShape = m_Manager.AddShape(CLASSINFO(wxSFRectShape), event.GetPosition());
-    // set some shape's properties...
-    if(pShape)
-    {
-        // set accepted child shapes for the new shape
-        pShape->AcceptChild(wxT("wxSFRectShape"));
-		// enable emmiting of shape events
-		pShape->AddStyle( wxSFShapeBase::sfsEMIT_EVENTS );
-    }
-
+	if( event.ControlDown() )
+	{
+		// create connection line
+		m_pCanvas->StartInteractiveConnection( CLASSINFO(wxSFCurveShape), event.GetPosition() );
+	}
+	else
+	{
+		// add new rectangular shape to the diagram ...
+		wxSFShapeBase* pShape = m_Manager.AddShape(CLASSINFO(wxSFRectShape), event.GetPosition());
+		// set some shape's properties...
+		if(pShape)
+		{
+			// set accepted child shapes for the new shape
+			pShape->AcceptChild(wxT("wxSFRectShape"));
+			// set accepted connections for the new shape
+			pShape->AcceptConnection(wxT("All"));
+			pShape->AcceptSrcNeighbour(wxT("wxSFRectShape"));
+			pShape->AcceptTrgNeighbour(wxT("wxSFRectShape"));
+			// enable emmiting of shape events
+			pShape->AddStyle( wxSFShapeBase::sfsEMIT_EVENTS );
+		}
+	}
     // ... and process standard canvas operations
     event.Skip();
 }
@@ -202,6 +220,7 @@ void wxSFSample1Frame::OnAbout(wxCommandEvent& WXUNUSED(event))
     msg += wxT("Usage:\n");
     msg += wxT(" - Left mouse click operates with inserted shapes\n");
     msg += wxT(" - Right mouse click inserts a rectangular shape to the canvas\n");
+    msg += wxT(" - Right mouse click onto the shape + CTRL key starts interactive line connection \n");
     msg += wxT(" - DEL key removes selected shape\n");
 
     wxMessageBox(msg, wxT("wxShapeFramework Sample 1"));
@@ -259,6 +278,10 @@ void wxSFSample1Frame::OnShapeHandleEvent(wxSFShapeHandleEvent& event)
 				sHndType = wxT("right-bottom");
 				break;
 				
+			case wxSFShapeHandle::hndLINECTRL:
+				sHndType = wxT("line-control");
+				break;
+				
 			default:
 				break;
 		}
@@ -293,4 +316,9 @@ void wxSFSample1Frame::OnShapeChildDropEvent(wxSFShapeChildDropEvent& event)
 												event.GetId(),
 												event.GetChildShape()->GetId() ) );
 	}
+}
+
+void wxSFSample1Frame::OnLineFinished(wxSFShapeEvent& event)
+{
+	event.GetShape()->AddStyle( wxSFShapeBase::sfsEMIT_EVENTS );
 }

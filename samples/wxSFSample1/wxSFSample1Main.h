@@ -61,6 +61,7 @@ class wxSFSample1Frame: public wxFrame
 		void OnShapeHandleEvent(wxSFShapeHandleEvent& event);
 		void OnShapeKeyEvent(wxSFShapeKeyEvent& event);
 		void OnShapeChildDropEvent(wxSFShapeChildDropEvent& event);
+		void OnLineFinished(wxSFShapeEvent& event);
 
         DECLARE_EVENT_TABLE()
 };
