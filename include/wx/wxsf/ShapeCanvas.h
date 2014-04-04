@@ -211,6 +211,14 @@ public:
 		modeDND
 	};
 
+	/*! \brief Selection modes */
+	enum SELECTIONMODE
+	{
+		selectNORMAL,
+		selectADD,
+		selectREMOVE,
+	};
+
     /*! \brief Search mode flags for GetShapeAtPosition function */
 	enum SEARCHMODE
 	{
@@ -315,6 +323,16 @@ public:
 	    prnMAP_TO_DEVICE
 	};
 
+	enum PRECONNECTIONFINISHEDSTATE
+	{
+		/*! \brief Finish line connection. */
+		pfsOK,
+		/*! \brief Cancel line connection and abort the interactive connection. */
+		pfsFAILED_AND_CANCEL_LINE,
+		/*! \brief Cancel line connection and continue with the interactive connection. */
+		pfsFAILED_AND_CONTINUE_EDIT,
+	};
+
 	// public functions
 
     /*!
@@ -390,6 +408,24 @@ public:
      * \sa CreateConnection
      */
 	void StartInteractiveConnection(wxSFLineShape* shape, const wxPoint& pos, wxSF::ERRCODE *err = NULL);
+	 /*!
+     * \brief Start interactive connection creation from existing line object.
+     *
+     * This function switch the canvas to a mode in which a new shape connection
+     * can be created interactively (by mouse operations). Every connection must
+     * start and finish in some shape object or another connection. At the end of the
+     * process the OnConnectionFinished event handler is invoked so the user can
+     * set needed connection properties immediately.
+     *
+     * Function must be called from mouse event handler and the event must be passed
+     * to the function.
+     * \param shape Pointer to existing line shape object which will be used as a connection.
+	 * \param connectionPoint Initial connection point
+     * \param pos Position where to start
+	 * \param err Pointer to variable where operation result will be stored. Can be NULL.
+     * \sa CreateConnection
+     */
+	void StartInteractiveConnection(wxSFLineShape* shape, wxSFConnectionPoint* connectionPoint, const wxPoint& pos, wxSF::ERRCODE *err = NULL);
 	
     /*! \brief Abort interactive connection creation process */
 	void AbortInteractiveConnection();
@@ -520,6 +556,10 @@ public:
      */
 	wxPoint LP2DP(const wxPoint& pos) const;
 	wxRect LP2DP(const wxRect& rct) const;
+
+	/*!
+	*/
+	void UpdateShapeUnderCursorCache(const wxPoint& pos);
 
 	/*!
 	 * \brief Get shape under current mouse cursor position (fast implementation - use everywhere
@@ -997,7 +1037,7 @@ public:
 	 * \return false if the generated event has been vetoed in this case,
 	 * the connection creation is cancelled
 	 */
-	virtual bool OnPreConnectionFinished(wxSFLineShape* connection);
+	virtual PRECONNECTIONFINISHEDSTATE OnPreConnectionFinished(wxSFLineShape* connection);
 
 	/*!
 	 * \brief Event handler called by the framework after any dragged shapes
@@ -1033,6 +1073,7 @@ protected:
 
 	// protected data members
 	MODE m_nWorkingMode;
+    SELECTIONMODE m_nSelectionMode;
 	wxSFCanvasSettings m_Settings;
 	static bool m_fEnableGC;
 
@@ -1042,6 +1083,8 @@ private:
 
 	// private data members
 
+	wxRealPoint m_selectionStart;
+    wxSFMultiSelRect m_shpSelection;
 	wxSFMultiSelRect m_shpMultiEdit;
 	static wxBitmap m_OutBMP;
 
@@ -1096,8 +1139,6 @@ private:
 	void ClearTemporaries();
 	/*! \brief Assign give shape to parent at given location (if exists) */
 	void ReparentShape(wxSFShapeBase *shape, const wxPoint& parentpos);
-	/*! \brief Propagate selection recursively to all parents if sfsPROPAGATE_SELECTION flag is set */
-	void PropagateSelection(wxSFShapeBase *shape, bool selection);
 	
 	/*! \brief Store previous shape's position modified in ValidateSelectionForClipboard() function */
 	inline void StorePrevPosition(const wxSFShapeBase *shape);

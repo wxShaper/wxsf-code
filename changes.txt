@@ -1,4 +1,4 @@
-Changes in version 1.14.0 beta (2014-04-02):
+Changes in version 1.14.0 beta (2014-04-04):
 --------------------------------------------
 - Added two shape events wxEVT_SF_LINE_HANDLE_ADD and wxEVT_SF_LINE_HANDLE_REMOVE emited
   when a line shape's handle is added or removed.
@@ -7,6 +7,20 @@ Changes in version 1.14.0 beta (2014-04-02):
   (see wxSFConnectionPoint::SetOrthoDirection(...) function).
 - Functions related to the connection points' creation now returns pointer to the newly 
   created connection point.
+- Add ability to propagate hovering and highlighting (patch by Marius).
+- Extend multi-selection to support incremental adding/removing from the selection list.
+  Hold the shift key to keep adding to the selection and ctrl+shift to remove from it (patch by Marius).
+- Add ability to continue line editing if pre-connection handler vetoes. Returning false from a pre-connection
+  check right now cancels the operation completely. It would be more helpful if the user could pick a 3'rd option
+  where he doesn't have to abort and be allowed to stay inside the connection mode until he find an appropriate place to connect to (patch by Marius).
+- Expose ability to update shape under cursor cache. If we want to remove the first shape under the cursor and continue work after,
+  we find that there is no way to update the cached "m_pUnselectedShapeUnderCursor/etc..". A function UpdateShapeUnderCursorCache witch
+  exposes this functionality withouth having to wait for a new mouse event has been added (patch by Marius).
+- Add ability to start a interactive connection from a specified connection point. The user might already have a wxSFConnectionPoint where he wants
+  to start the interactive connection from so a simplified StartInteractiveConnection function was added (patch by Marius).
+- Fix multiselection rectangle drawing when using GC On Windows 8 if we set: shapeCanvas->EnableGC(true) then there is a issues with drawing the multiple
+  selection rectangle on negative selections. Basically when dragging from right to left would lead the selection rectangle to have a negative width/height
+  witch GC can't draw (patch by Marius).
 - Updated sample projects to reflect new features.
 
 Changes in version 1.13.0 beta (2013-10-25):

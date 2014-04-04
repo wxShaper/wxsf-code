@@ -174,6 +174,10 @@ public:
 		sfsPROPAGATE_INTERACTIVE_CONNECTION = 16384,
 		/*! \brief Do no resize the shape to fit its children automatically */
 		sfsNO_FIT_TO_CHILDREN = 32768,
+		/*! \brief Propagate hovering to parent. */
+		sfsPROPAGATE_HOVERING = 65536,
+		/*! \brief Propagate hovering to parent. */
+		sfsPROPAGATE_HIGHLIGHTING = 131072,
 		/*! \brief Default shape style */
 		sfsDEFAULT_SHAPE_STYLE = sfsPARENT_CHANGE | sfsPOSITION_CHANGE | sfsSIZE_CHANGE | sfsHOVERING | sfsHIGHLIGHTING | sfsSHOW_HANDLES | sfsALWAYS_INSIDE | sfsDELETE_USER_DATA
 	};
