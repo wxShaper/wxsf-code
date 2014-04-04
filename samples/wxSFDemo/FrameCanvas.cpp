@@ -227,8 +227,15 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 				//pShape->AddStyle( wxSFShapeBase::sfsLOCK_CHILDREN );
 				
 				// shapes can have fixed connection points defined in the following way:
-				pShape->AddConnectionPoint( wxSFConnectionPoint::cpCENTERLEFT );
-				pShape->AddConnectionPoint( wxSFConnectionPoint::cpCENTERRIGHT );
+				wxSFConnectionPoint *cp = pShape->AddConnectionPoint( wxSFConnectionPoint::cpCENTERLEFT );
+				// also direction of connected orthogonal lines can be set in the following way:
+				cp->SetOrthoDirection( wxSFConnectionPoint::cpdHORIZONTAL );
+				cp = pShape->AddConnectionPoint( wxSFConnectionPoint::cpCENTERRIGHT );
+				cp->SetOrthoDirection( wxSFConnectionPoint::cpdHORIZONTAL );
+				cp = pShape->AddConnectionPoint( wxSFConnectionPoint::cpTOPMIDDLE );
+				cp->SetOrthoDirection( wxSFConnectionPoint::cpdVERTICAL );
+				cp = pShape->AddConnectionPoint( wxSFConnectionPoint::cpBOTTOMMIDDLE );
+				cp->SetOrthoDirection( wxSFConnectionPoint::cpdVERTICAL );
 				// user can define also any number of CUSTOM connection points placed relatively to the 
 				// parent shape's bounding box ("25, 50" here means 25% of width and 50% of height):
 				pShape->AddConnectionPoint( wxRealPoint(25, 50) );

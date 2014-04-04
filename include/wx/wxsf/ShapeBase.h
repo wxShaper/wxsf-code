@@ -722,9 +722,10 @@ public:
 	 * \brief Assign connection point of given type to the shape.
 	 * \param type Connection point type
 	 * \param persistent TRUE if the connection point should be serialized
+	 * \return Pointer to the new connection point
 	 * \sa wxSFConnectionPoint::CPTYPE
 	 */
-	void AddConnectionPoint(wxSFConnectionPoint::CPTYPE type, bool persistent = true);
+	wxSFConnectionPoint* AddConnectionPoint(wxSFConnectionPoint::CPTYPE type, bool persistent = true);
 	/*!
 	 * \brief Assigned given connection point to the shape.
 	 * \param cp Pointer to connection point (shape will take the ownership)
@@ -736,8 +737,9 @@ public:
 	 * \param relpos Relative position in percentages
 	 * \param id Optional connection point ID
 	 * \param persistent TRUE if the connection point should be serialized
+	 * \return Pointer to the new connection point
 	 */
-	void AddConnectionPoint(const wxRealPoint& relpos, long id = -1, bool persistent = true);
+	wxSFConnectionPoint* AddConnectionPoint(const wxRealPoint& relpos, long id = -1, bool persistent = true);
 	/*!
 	 * \brief Remove connection point of given type from the shape (if pressent).
 	 * \param type Connection point type

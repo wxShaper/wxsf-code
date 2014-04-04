@@ -895,21 +895,28 @@ wxSFConnectionPoint* wxSFShapeBase::GetNearestConnectionPoint(const wxRealPoint&
 	return pConnPt;
 }
 
-void wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint::CPTYPE type, bool persistent)
+wxSFConnectionPoint* wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint::CPTYPE type, bool persistent)
 {
 	if( !GetConnectionPoint( type ) )
 	{
 		wxSFConnectionPoint *cp = new wxSFConnectionPoint( this, type);
 		cp->EnableSerialization( persistent );
 		m_lstConnectionPts.Append( cp );
+		
+		return cp;
+		
+	} else {
+		return NULL;
 	}
 }
 
-void wxSFShapeBase::AddConnectionPoint(const wxRealPoint& relpos, long id, bool persistent)
+wxSFConnectionPoint* wxSFShapeBase::AddConnectionPoint(const wxRealPoint& relpos, long id, bool persistent)
 {
 	wxSFConnectionPoint *cp = new wxSFConnectionPoint( this, relpos, id );
 	cp->EnableSerialization( persistent );
 	m_lstConnectionPts.Append( cp );
+	
+	return cp;
 }
 
 void wxSFShapeBase::AddConnectionPoint(wxSFConnectionPoint* cp, bool persistent)
