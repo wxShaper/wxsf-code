@@ -341,7 +341,7 @@ public:
     virtual void GetUserScale(double *x, double *y) const { m_pOrig->GetUserScale( x, y ); }
 
     virtual void SetLogicalScale(double x, double y) { m_pOrig->SetLogicalScale( x, y ); }
-    virtual void GetLogicalScale(double *x, double *y) { m_pOrig->GetLogicalScale( x, y ); }
+    virtual void GetLogicalScale(double *x, double *y) const { m_pOrig->GetLogicalScale( x, y ); }
 	
     virtual void SetLogicalOrigin(wxCoord x, wxCoord y) { m_pOrig->SetLogicalOrigin( x, y ); }
     virtual void DoGetLogicalOrigin(wxCoord *x, wxCoord *y) const { m_pOrig->DoGetLogicalOrigin( x, y); }
@@ -578,7 +578,7 @@ public:
         delete [] updPoints;
 	}
 	
-    virtual void DoDrawPolyPolygon(int n, int count[], wxPoint points[],
+    virtual void DoDrawPolyPolygon(int n, const int count[], const wxPoint points[],
                                wxCoord xoffset, wxCoord yoffset,
                                wxPolygonFillMode fillStyle)
 	{
