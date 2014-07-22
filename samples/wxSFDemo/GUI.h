@@ -45,7 +45,7 @@ class _MainFrm : public wxFrame
 	public:
 		wxBoxSizer* m_pCanvasSizer;
 		
-		_MainFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("wxShapeFramework Demo Application"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1024,700 ), long style = wxCLOSE_BOX|wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
+		_MainFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("wxShapeFramework Demo Application"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCLOSE_BOX|wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL );
 		
 		~_MainFrm();
 	

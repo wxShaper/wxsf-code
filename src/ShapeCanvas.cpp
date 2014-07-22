@@ -858,7 +858,7 @@ void wxSFShapeCanvas::OnLeftDown(wxMouseEvent& event)
 					pShapeUnder = pShapeUnder->GetParentShape();
 				}
                 // finish connection's creation process if possible
-				if(pShapeUnder)
+				if(pShapeUnder && !event.ControlDown())
                 {
 					if((m_pNewLineShape->GetTrgShapeId() == -1) &&
                             (pShapeUnder != m_pNewLineShape) &&
@@ -2173,11 +2173,10 @@ void wxSFShapeCanvas::SaveCanvasToImage(const wxString& file, wxBitmapType type,
 		{
 			RemoveStyle( wxSFShapeCanvas::sfsGRADIENT_BACKGROUND );
             RemoveStyle( wxSFShapeCanvas::sfsGRID_SHOW );
-            SetCanvasColour( *wxWHITE);
-		} else {
-			this->DrawBackground( outdc, sfNOT_FROM_PAINT );
+            SetCanvasColour( *wxWHITE );
 		}
 		
+		this->DrawBackground( outdc, sfNOT_FROM_PAINT );
         this->DrawContent( outdc, sfNOT_FROM_PAINT );
         this->DrawForeground( outdc, sfNOT_FROM_PAINT );
 		
