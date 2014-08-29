@@ -3183,6 +3183,7 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
             } */ 
 			
 			ShapeList lstNewContent;
+			ShapeList lstParentsToUpdate;
 			wxPoint lpos = DP2LP(wxPoint(x, y));
 
             int dx = 0;
@@ -3205,7 +3206,11 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 				wxSFShapeBase *parent = m_pManager->GetShapeAtPosition( Conv2Point( shape->GetAbsolutePosition() ),
 																		1, 
 																		wxSFDiagramManager::searchUNSELECTED );
-																		
+							
+				// do not reparent connection lines
+				wxSFLineShape *line = wxDynamicCast( shape, wxSFLineShape );
+				if( line && ! line->IsStandAlone() ) parent = NULL;
+				
 				shape = m_pManager->AddShape( (wxSFShapeBase*)shape->Clone(),
 											  parent,
 											  parent ? LP2DP( Conv2Point( shape->GetAbsolutePosition() - parent->GetAbsolutePosition() ) ) : LP2DP( Conv2Point( shape->GetAbsolutePosition() ) ),
@@ -3217,13 +3222,19 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 					if( parent ) 
 					{
 						parent->OnChildDropped( shape->GetAbsolutePosition() - parent->GetAbsolutePosition(), shape );
-						parent->Update();
+						// update each target parent just once
+						if( lstParentsToUpdate.Find( parent ) == NULL ) lstParentsToUpdate.Append( parent );
 					}
 					lstNewContent.Append( shape );
 				}
 			}
 			
             DeselectAll();
+			
+			for( ShapeList::iterator it = lstParentsToUpdate.begin(); it != lstParentsToUpdate.end(); ++it )
+			{
+				(*it)->Update();
+			}			
 
 			if( !m_fDnDStartedHere )
 			{

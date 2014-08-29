@@ -1,9 +1,10 @@
-Changes in version 1.15.0 beta (2014-07-22):
+Changes in version 1.15.0 beta (2014-08-29):
 --------------------------------------------
 - Holding CTRL key during the interactive connection creation allows users to place control points
   even "onto" an underlying shape without finishing the connection process.
 - Fixed export of diagrams with disabled background to image files.
 - Fixed several warning messages which appeared when the wxSF was built by using clang compiler (patch by iwbnwif).
+- Connection lines bounded to the dropped shape are not accidentaly reparented anymore.
 
 Changes in version 1.14.0 beta (2014-04-04):
 --------------------------------------------
