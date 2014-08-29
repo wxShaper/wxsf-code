@@ -3198,14 +3198,16 @@ void wxSFShapeCanvas::_OnDrop(wxCoord x, wxCoord y, wxDragResult def, wxDataObje
 			mgr.GetUsedIDs() = m_pManager->GetUsedIDs();
 			mgr.DeserializeFromXml( instream );
 			
+			wxSFShapeBase *parent = m_pManager->GetShapeAtPosition( lpos, //Conv2Point( shape->GetAbsolutePosition()
+																	1, 
+																	wxSFDiagramManager::searchUNSELECTED );
+
+			
 			SerializableList &topshapes = mgr.GetRootItem()->GetChildrenList();
 			for( SerializableList::iterator it = topshapes.begin(); it != topshapes.end(); ++it )
 			{
 				wxSFShapeBase *shape = (wxSFShapeBase*)*it;
 				shape->MoveBy( dx, dy );
-				wxSFShapeBase *parent = m_pManager->GetShapeAtPosition( Conv2Point( shape->GetAbsolutePosition() ),
-																		1, 
-																		wxSFDiagramManager::searchUNSELECTED );
 							
 				// do not reparent connection lines
 				wxSFLineShape *line = wxDynamicCast( shape, wxSFLineShape );
