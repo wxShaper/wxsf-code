@@ -84,6 +84,7 @@ echo -----=
 Echo -----= Codelite Options
 echo -----= 1) --target cl-gcc --wx-version 28 --unicode --with-wx-shared --shared
 echo -----= 2) --target cl-gcc --wx-version 28 --unicode --static-runtime
+echo -----= 3) --target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
 echo -----=
 echo -----= b) Back
 echo -----= e) Exit
@@ -93,6 +94,7 @@ set /p selection=-----= Select a parameter build (default 1):
 
 if %selection%==1 goto ClSelected%selection%
 if %selection%==2 goto ClSelected%selection%
+if %selection%==3 goto ClSelected%selection%
 if %selection%==b goto Reset
 if %selection%==e goto Exit
 
@@ -118,6 +120,16 @@ premake\premake-win32.exe --target cl-gcc --wx-version 28 --unicode --static-run
 echo -----===============================
 echo -----= Done!
 goto Exit
+:ClSelected3
+cls
+echo -----=
+echo -----= Option "--target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config" Selected
+echo -----= Firing up the generator!
+echo -----===============================
+premake\premake-win32.exe --target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
+echo -----===============================
+echo -----= Done!
+goto Exit
 
 :GnuSelected
 cls
@@ -125,6 +137,7 @@ echo.
 Echo -----= GNU Makefile Options
 echo -----= 1) --target gnu --wx-version 28 --unicode --with-wx-shared --shared
 echo -----= 2) --target gnu --wx-version 28 --unicode --static-runtime
+echo -----= 3) --target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
 echo -----=
 echo -----= b) Back
 echo -----= e) Exit
@@ -134,6 +147,7 @@ set /p selection=-----= Select a parameter build (default 2):
 
 if %selection%==1 goto GnuSelected%selection%
 if %selection%==2 goto GnuSelected%selection%
+if %selection%==3 goto GnuSelected%selection%
 if %selection%==b goto Reset
 if %selection%==e goto Exit
 
@@ -156,6 +170,17 @@ echo -----= Option "--target gnu --wx-version 28 --unicode --static-runtime" Sel
 echo -----= Firing up the generator!
 echo -----===============================
 premake\premake-win32.exe --target gnu --wx-version 28 --unicode --static-runtime
+echo -----===============================
+echo -----= Done!
+goto Exit
+:GnuSelected3
+cls
+echo -----=
+echo -----= Option "--target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config" Selected
+echo -----= Firing up the generator!
+echo -----===============================
+
+premake\premake-win32.exe --target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
 echo -----===============================
 echo -----= Done!
 goto Exit

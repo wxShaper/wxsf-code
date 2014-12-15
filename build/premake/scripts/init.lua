@@ -23,6 +23,8 @@ addoption( "unicode", "Use the Unicode character set" )
 addoption( "with-wx-shared", "Link against wxWidgets as a shared library" )
 addoption( "wx-version", "Used wxWidgets version" )
 addoption( "wx-root", "Specify wxWidgets prefix for platforms which uses wx-config" )
+addoption( "architecture", "Specify build architecture" )
+addoption( "use-wx-config", "Use wx-config for configuration (even on MS Windows)" )
 
 wx_target = ""
 if ( windows ) then
@@ -38,6 +40,10 @@ if( options["unicode"] ) then
 	usign = "u" 
 end
 
+custom_targetName = ""
+
+wx_custom = ""
+wx_config_libs = ""
 wx_release = options["wx-version"]
 
 wx_root = ""

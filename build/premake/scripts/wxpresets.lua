@@ -127,7 +127,7 @@ table.insert( package.defines, "__WX__" )
 table.insert( package.config["Debug"].defines, debug_macro )
 table.insert( package.config["Release"].defines, "NDEBUG" )
 
-if ( windows ) then
+if ( windows and not options["use-wx-config"] ) then
 --******* WINDOWS SETUP ***********
 --*	Settings that are Windows specific.
 --*********************************
@@ -202,11 +202,13 @@ if ( windows ) then
 	-- Set the Windows defines.
 	table.insert( package.defines, { "__WXMSW__", "WIN32", "_WINDOWS" } )
 else
---******* LINUX/MAC SETUP *************
+--******* LINUX/MAC/WINDOWS-WX-CONFIG SETUP *************
 --*	Settings that are Linux/Mac specific.
 --*************************************
 	-- Ignore resource files in Linux/Mac.
-	table.insert( package.excludes, matchrecursive( "*.rc" ) )
+	if( not windows ) then
+		table.insert( package.excludes, matchrecursive( "*.rc" ) )
+	end
 	
 	-- Add buildflag for proper dll building.
 	if ( macosx and options["with-wx-shared"] and package.kind == "dll") then
@@ -218,12 +220,34 @@ else
 		static_option = "--static=no"
 	end
 	
-	-- Set wxWidgets build options.
-	table.insert( package.config["Debug"].buildoptions, "`" .. wx_root .. "wx-config "..debug_option.." "..static_option.." --cflags`" )
-	table.insert( package.config["Release"].buildoptions, "`" .. wx_root .. "wx-config --debug=no "..static_option.." --cflags`" )
-	
-	-- Set the wxWidgets link options.
-	table.insert( package.config["Debug"].linkoptions, "`" .. wx_root .. "wx-config "..debug_option.." "..static_option.." --libs`" )
-	table.insert( package.config["Release"].linkoptions, "`" .. wx_root .. "wx-config --debug=no "..static_option.." --libs`" )
+	if( target == "cl-gcc" ) then
+		-- Set wxWidgets build options.
+		table.insert( package.config["Debug"].buildoptions, "$(shell " .. wx_root .. "wx-config "..debug_option.." "..static_option.." --cflags)" )
+		table.insert( package.config["Release"].buildoptions, "$(shell " .. wx_root .. "wx-config --debug=no "..static_option.." --cflags)" )
+		
+		-- Set the wxWidgets link options.
+		table.insert( package.config["Debug"].linkoptions, "$(shell " .. wx_root .. "wx-config "..debug_option.." "..static_option.." --libs "..wx_config_libs..")" )
+		table.insert( package.config["Release"].linkoptions, "$(shell " .. wx_root .. "wx-config --debug=no "..static_option.." --libs "..wx_config_libs..")" )
+		
+		if( windows ) then
+			-- Set the wxWidgets resources options.
+			table.insert( package.config["Debug"].resoptions, "$(shell " .. wx_root .. "wx-config "..debug_option.." "..static_option.." --rcflags)" )
+			table.insert( package.config["Release"].resoptions, "$(shell " .. wx_root .. "wx-config --debug=no "..static_option.." --rcflags)" )
+		end
+	else
+		-- Set wxWidgets build options.
+		table.insert( package.config["Debug"].buildoptions, "`" .. wx_root .. "wx-config "..debug_option.." "..static_option.." --cflags`" )
+		table.insert( package.config["Release"].buildoptions, "`" .. wx_root .. "wx-config --debug=no "..static_option.." --cflags`" )
+		
+		-- Set the wxWidgets link options.
+		table.insert( package.config["Debug"].linkoptions, "`" .. wx_root .. "wx-config "..debug_option.." "..static_option.." --libs "..wx_config_libs.."`" )
+		table.insert( package.config["Release"].linkoptions, "`" .. wx_root .. "wx-config --debug=no "..static_option.." --libs "..wx_config_libs.."`" )
+
+		if( windows ) then
+			-- Set the wxWidgets resources options.
+			table.insert( package.config["Debug"].resoptions, "`" .. wx_root .. "wx-config "..debug_option.." "..static_option.." --rcflags`" )
+			table.insert( package.config["Release"].resoptions, "`" .. wx_root .. "wx-config --debug=no "..static_option.." --rcflags`" )
+		end
+	end
 end
 
