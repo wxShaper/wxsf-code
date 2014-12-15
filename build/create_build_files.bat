@@ -84,7 +84,7 @@ echo -----=
 Echo -----= Codelite Options
 echo -----= 1) --target cl-gcc --wx-version 28 --unicode --with-wx-shared --shared
 echo -----= 2) --target cl-gcc --wx-version 28 --unicode --static-runtime
-echo -----= 3) --target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
+echo -----= 3) --target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config --wx-root %WXWIN%/lib/gcc_dll/
 echo -----=
 echo -----= b) Back
 echo -----= e) Exit
@@ -123,10 +123,10 @@ goto Exit
 :ClSelected3
 cls
 echo -----=
-echo -----= Option "--target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config" Selected
+echo -----= Option "--target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config --wx-root %WXWIN%/lib/gcc_dll/" Selected
 echo -----= Firing up the generator!
 echo -----===============================
-premake\premake-win32.exe --target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
+premake\premake-win32.exe --target cl-gcc --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config --wx-root %WXWIN%/lib/gcc_dll/
 echo -----===============================
 echo -----= Done!
 goto Exit
@@ -137,7 +137,7 @@ echo.
 Echo -----= GNU Makefile Options
 echo -----= 1) --target gnu --wx-version 28 --unicode --with-wx-shared --shared
 echo -----= 2) --target gnu --wx-version 28 --unicode --static-runtime
-echo -----= 3) --target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
+echo -----= 3) --target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config --wx-root %WXWIN%/lib/gcc_dll/
 echo -----=
 echo -----= b) Back
 echo -----= e) Exit
@@ -176,11 +176,11 @@ goto Exit
 :GnuSelected3
 cls
 echo -----=
-echo -----= Option "--target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config" Selected
+echo -----= Option "--target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config --wx-root %WXWIN%/lib/gcc_dll" Selected
 echo -----= Firing up the generator!
 echo -----===============================
 
-premake\premake-win32.exe --target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config
+premake\premake-win32.exe --target gnu --wx-version 30 --unicode --with-wx-shared --shared --use-wx-config --wx-root %WXWIN%/lib/gcc_dll
 echo -----===============================
 echo -----= Done!
 goto Exit
