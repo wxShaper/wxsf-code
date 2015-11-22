@@ -28,7 +28,7 @@
 #include <wx/printdlg.h> 
 #endif 
 
-WX_DECLARE_HASH_MAP( long, wxRealPoint*, wxIntegerHash, wxIntegerEqual, PositionMap );
+WX_DECLARE_HASH_MAP( wxUIntPtr, wxRealPoint*, wxIntegerHash, wxIntegerEqual, PositionMap );
 
 /*! \brief XPM (mono-)bitmap which can be used in shape's shadow brush */
 extern const char* wxSFShadowBrush_xpm[];

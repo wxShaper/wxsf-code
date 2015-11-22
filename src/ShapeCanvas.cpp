@@ -3446,7 +3446,7 @@ void wxSFShapeCanvas::RestorePrevPositions()
 
 void wxSFShapeCanvas::StorePrevPosition(const wxSFShapeBase* shape)
 {
-	m_mapPrevPositions[ (long)shape ] = new wxRealPoint( shape->GetRelativePosition() );
+	m_mapPrevPositions[ (wxUIntPtr)shape ] = new wxRealPoint( shape->GetRelativePosition() );
 }
 
 /*#ifdef __WXMAC__
