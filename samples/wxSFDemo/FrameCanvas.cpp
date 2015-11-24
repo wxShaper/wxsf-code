@@ -260,7 +260,7 @@ void FrameCanvas::OnLeftDown(wxMouseEvent& event)
 
                 // set visual style
 			    pGrid->SetFill(*wxTRANSPARENT_BRUSH);
-			    pGrid->SetBorder(wxPen(*wxBLACK, 1, wxDOT));
+			    pGrid->SetBorder(wxPen(*wxBLACK, 1, wxPENSTYLE_DOT));
 
 			    // number of rows and columns cas be set here (default grid dimension is 3x3) ...
 			    //pGrid->SetDimensions(2, 2);

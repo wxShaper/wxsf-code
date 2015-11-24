@@ -106,7 +106,7 @@ void wxSFOrthoLineShape::DrawCompleteLine(wxDC& dc)
 			}
 
             // draw unfinished line segment if any (for interactive line creation)
-            dc.SetPen( wxPen(*wxBLACK, 1, wxDOT) );
+            dc.SetPen( wxPen(*wxBLACK, 1, wxPENSTYLE_DOT) );
 			
 			if( i )
 			{
@@ -142,7 +142,7 @@ void wxSFOrthoLineShape::DrawCompleteLine(wxDC& dc)
             // draw linesegment being updated
 			GetLineSegment( 0, src, trg );
 			
-            dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
+            dc.SetPen(wxPen(*wxBLACK, 1, wxPENSTYLE_DOT));
 			this->DrawLineSegment( dc, Conv2RealPoint(m_nUnfinishedPoint), trg, GetUsedConnectionPoints( cpSrc, cpTrg, 0 ) );
             dc.SetPen(wxNullPen);
         }
@@ -163,7 +163,7 @@ void wxSFOrthoLineShape::DrawCompleteLine(wxDC& dc)
 				trg = GetSrcPoint();
 			
             // draw linesegment being updated
-            dc.SetPen(wxPen(*wxBLACK, 1, wxDOT));
+            dc.SetPen(wxPen(*wxBLACK, 1, wxPENSTYLE_DOT));
 			this->DrawLineSegment( dc, trg, Conv2RealPoint(m_nUnfinishedPoint), GetUsedConnectionPoints( cpSrc, cpTrg, m_lstPoints.GetCount() ) );
             dc.SetPen(wxNullPen);
         }

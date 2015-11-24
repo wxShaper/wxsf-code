@@ -1,6 +1,7 @@
-Changes in version 1.15.1 beta (2015-11-22):
+Changes in version 1.15.1 beta (2015-11-24):
 --------------------------------------------
 - Fixed build on 64-bit OS with GCC 5.1.
+- Fixed build warnings dealing with usage of deprecated pen/brush style names.
 
 Changes in version 1.15.0 beta (2014-08-29):
 --------------------------------------------

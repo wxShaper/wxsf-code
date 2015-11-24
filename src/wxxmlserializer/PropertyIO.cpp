@@ -21,7 +21,6 @@
 #include <wx/arrimpl.cpp>
 #include <limits>
 
-using namespace std;
 using namespace wxXS;
 
 WX_DEFINE_EXPORTED_OBJARRAY(RealPointArray);
@@ -188,11 +187,11 @@ double xsDoublePropIO::FromString(const wxString& value)
 	{
 	    if( value == wxT("NAN") )
 	    {
-	        num = numeric_limits<double>::quiet_NaN();
+	        num = std::numeric_limits<double>::quiet_NaN();
 	    }
 	    else if( value == wxT("INF") )
 	    {
-	        num = numeric_limits<double>::infinity();
+	        num = std::numeric_limits<double>::infinity();
 	    }
 	    else
 	    {
@@ -244,11 +243,11 @@ float xsFloatPropIO::FromString(const wxString& value)
 	{
 	    if( value == wxT("NAN") )
 	    {
-	        num = numeric_limits<float>::quiet_NaN();
+	        num = std::numeric_limits<float>::quiet_NaN();
 	    }
 	    else if( value == wxT("INF") )
 	    {
-	        num = numeric_limits<float>::infinity();
+	        num = std::numeric_limits<float>::infinity();
 	    }
 	    else
 	    {
@@ -385,7 +384,7 @@ wxPen xsPenPropIO::FromString(const wxString& value)
 	wxStringTokenizer tokens(value, wxT(" "), wxTOKEN_STRTOK);
 	pen.SetColour(xsColourPropIO::FromString(tokens.GetNextToken()));
 	pen.SetWidth(xsLongPropIO::FromString(tokens.GetNextToken()));
-	pen.SetStyle(xsLongPropIO::FromString(tokens.GetNextToken()));
+	pen.SetStyle((wxPenStyle)xsLongPropIO::FromString(tokens.GetNextToken()));
 
 	return pen;
 }
@@ -407,7 +406,7 @@ wxBrush xsBrushPropIO::FromString(const wxString& value)
 
 	wxStringTokenizer tokens(value, wxT(" "), wxTOKEN_STRTOK);
 	brush.SetColour(xsColourPropIO::FromString(tokens.GetNextToken()));
-	brush.SetStyle(xsLongPropIO::FromString(tokens.GetNextToken()));
+	brush.SetStyle((wxBrushStyle)xsLongPropIO::FromString(tokens.GetNextToken()));
 
 	return brush;
 }
