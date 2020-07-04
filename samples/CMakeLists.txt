@@ -1,0 +1,5 @@
+add_subdirectory(wxSFSample1)
+add_subdirectory(wxSFSample2)
+add_subdirectory(wxSFSample3)
+add_subdirectory(wxSFSample4)
+add_subdirectory(wxSFDemo)
