@@ -1,5 +1,10 @@
 cmake_minimum_required (VERSION 3.17)
 project (wxsf)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+
+find_program(WXCONFIG wx-config)
+if(NOT WXCONFIG)
+    message(FATAL_ERROR "wx-config not found!")
+endif()
+
 add_subdirectory(src)
 add_subdirectory(samples)
