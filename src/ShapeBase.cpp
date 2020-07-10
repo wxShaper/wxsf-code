@@ -232,9 +232,9 @@ void wxSFShapeBase::_GetCompleteBoundingBox(wxRect &rct, int mask)
 	// firts, get bounding box of the current shape
 	if(mask & bbSELF)
 	{
-		if(rct.IsEmpty())rct = this->GetBoundingBox().Inflate( abs(m_nHBorder), abs(m_nVBorder) );
+		if(rct.IsEmpty())rct = this->GetBoundingBox().Inflate( fabs(m_nHBorder), fabs(m_nVBorder) );
 		else
-			rct.Union(this->GetBoundingBox().Inflate( abs(m_nHBorder), abs(m_nVBorder)) );
+			rct.Union(this->GetBoundingBox().Inflate( fabs(m_nHBorder), fabs(m_nVBorder)) );
 
 		// add also shadow offset if neccessary
         if( (mask & bbSHADOW) && (m_nStyle & sfsSHOW_SHADOW) && GetParentCanvas() )
