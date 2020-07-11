@@ -139,7 +139,7 @@ wxSFSample1Frame::wxSFSample1Frame(wxFrame *frame, const wxString& title)
 	mainSizer->Add( m_pCanvas, 1, wxEXPAND, 0 );
 	
 	m_textLog = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,150 ), wxTE_MULTILINE );
-	m_textLog->SetFont( wxFont( 8, 74, 90, 90, false, wxT("Sans") ) );
+	m_textLog->SetFont( wxFont( wxFONTSIZE_X_SMALL, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
 	m_textLog->SetMinSize( wxSize( -1,150 ) );
 	
 	mainSizer->Add( m_textLog, 0, wxEXPAND, 0 );
