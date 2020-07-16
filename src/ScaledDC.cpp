@@ -425,10 +425,6 @@ wxBitmap wxSFScaledDC::DoGetAsBitmap(const wxRect *subrect) const
 {
 	return m_pTargetDC->GetAsBitmap( subrect );
 }
-void wxSFScaledDC::DoGetClippingBox(wxCoord* x, wxCoord* y, wxCoord* w, wxCoord* h) const
-{
-	m_pTargetDC->GetClippingBox( x, y, w, h );
-}
 void wxSFScaledDC::DoGetClippingRegion(wxCoord* x, wxCoord* y, wxCoord* w, wxCoord* h)
 {
 	wxUnusedVar( x );

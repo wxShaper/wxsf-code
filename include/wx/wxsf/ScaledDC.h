@@ -152,7 +152,6 @@ protected:
 	virtual void DoDrawText(const wxString& text, wxCoord x, wxCoord y);
 	virtual bool DoFloodFill(wxCoord x, wxCoord y, const wxColour& col, int style = wxFLOOD_SURFACE);
 	virtual wxBitmap DoGetAsBitmap(const wxRect *subrect) const;
-	virtual void DoGetClippingBox(wxCoord *x, wxCoord *y, wxCoord *w, wxCoord *h) const;
 	virtual void DoGetClippingRegion(wxCoord *x, wxCoord *y, wxCoord *w, wxCoord *h);
 	virtual void DoGetDeviceOrigin(wxCoord *x, wxCoord *y) const;
 	virtual void DoGetLogicalOrigin(wxCoord *x, wxCoord *y) const;
@@ -316,9 +315,6 @@ public:
 
     // NB: this function works with device coordinates, not the logical ones!
     virtual void DoSetDeviceClippingRegion(const wxRegion& region) { m_pOrig->DoSetDeviceClippingRegion( region ); }
-
-    virtual void DoGetClippingBox(wxCoord *x, wxCoord *y,
-                                  wxCoord *w, wxCoord *h) const { m_pOrig->DoGetClippingBox( x, y, w, h ); }
 
     virtual void DestroyClippingRegion() { m_pOrig->DestroyClippingRegion(); }
 
