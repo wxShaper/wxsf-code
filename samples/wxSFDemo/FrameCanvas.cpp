@@ -443,7 +443,7 @@ void FrameCanvas::OnRightDown(wxMouseEvent& event)
         int counter;
 
         // show basic info
-        msg.Printf(wxT("Class name: %s, ID: %d\n"), pShape->GetClassInfo()->GetClassName(), pShape->GetId());
+        msg.Printf(wxT("Class name: %s, ID: %ld\n"), pShape->GetClassInfo()->GetClassName(), pShape->GetId());
 
         // show info about shape's children
         counter = 1;
@@ -456,7 +456,7 @@ void FrameCanvas::OnRightDown(wxMouseEvent& event)
             {
                 pChild = node->GetData();
 
-                msg += wxString::Format(wxT("%d. Class name: %s, ID: %d\n"), counter, pChild->GetClassInfo()->GetClassName(), pChild->GetId());
+                msg += wxString::Format(wxT("%d. Class name: %s, ID: %ld\n"), counter, pChild->GetClassInfo()->GetClassName(), pChild->GetId());
                 counter++;
 
                 node = node->GetNext();
@@ -475,7 +475,7 @@ void FrameCanvas::OnRightDown(wxMouseEvent& event)
             {
                 pChild = node->GetData();
 
-                msg += wxString::Format(wxT("%d. Class name: %s, ID: %d\n"), counter, pChild->GetClassInfo()->GetClassName(), pChild->GetId());
+                msg += wxString::Format(wxT("%d. Class name: %s, ID: %ld\n"), counter, pChild->GetClassInfo()->GetClassName(), pChild->GetId());
                 counter++;
 
                 node = node->GetNext();
