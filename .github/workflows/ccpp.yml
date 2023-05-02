@@ -1,0 +1,51 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  
+  build:
+    continue-on-error: true
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest, windows-2019]
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Prepare dependencies
+      run:   |
+         if [ "$RUNNER_OS" == "Linux" ]; then
+              sudo apt-get update && \
+              sudo apt-get install -yq \
+                cmake \
+                graphviz doxygen libwxgtk3.0-gtk3-dev libwxgtk3.0-gtk3-0v5
+         elif [ "$RUNNER_OS" == "Windows" ]; then
+              choco install graphviz doxygen.install
+              vcpkg install wxwidgets
+              vcpkg integrate install
+         elif [ "$RUNNER_OS" == "macOS" ]; then
+              brew install graphviz doxygen wxWidgets
+         else
+              echo "$RUNNER_OS not supported"
+              exit 1
+         fi
+      shell: bash      
+    - name: configure
+      run:   |
+         if [ "$RUNNER_OS" == "Linux" ]; then
+              cmake -B ci-build
+         elif [ "$RUNNER_OS" == "Windows" ]; then
+              cmake -B ci-build -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+         elif [ "$RUNNER_OS" == "macOS" ]; then
+              cmake -B ci-build
+         else
+              cmake -B ci-build
+         fi
+      shell: bash      
+    - name: build
+      run: cmake --build ci-build
+#    - name: test
+#      run: cd ci-build && ctest
+#              -DwxWidgets_ROOT_DIR=C:\wxWidgets-3.1.2 \
+#              -DwxWidgets_LIB_DIR=C:\wxWidgets-3.1.2\lib\vc_dll
