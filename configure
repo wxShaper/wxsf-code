@@ -2334,12 +2334,13 @@ $as_echo "will be automatically detected" >&6; }
                 else
                     TOOLKIT="$withval"
 
-                                        if test "$TOOLKIT" != "gtk1" -a "$TOOLKIT" != "gtk2" -a \
+                    if test "$TOOLKIT" != "gtk1" -a "$TOOLKIT" != "gtk2" -a \
+                            "$TOOLKIT" != "gtk3" -a \
                             "$TOOLKIT" != "msw" -a "$TOOLKIT" != "motif" -a \
                             "$TOOLKIT" != "x11" -a "$TOOLKIT" != "mac" -a \
                             "$TOOLKIT" != "mgl" -a "$TOOLKIT" != "dfb" ; then
                         as_fn_error $? "
-    Unrecognized option value (allowed values: auto, gtk1, gtk2, msw, motif, x11, mac, mgl, dfb)
+    Unrecognized option value (allowed values: auto, gtk1, gtk2, gtk3, msw, motif, x11, mac, mgl, dfb)
                         " "$LINENO" 5
                     fi
 
