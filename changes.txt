@@ -1,3 +1,14 @@
+Changes in version 1.16.0 (2023-05-02):
+---------------------------------------
+- Added github actions for ci build and dependabot <gulliver@traumkristalle.net>
+- Uses find_package in CMake <gulliver@traumkristalle.net>
+- Reorganized all readme_*.txt files into README markdown (rt@cfdconsultants.de)
+- Added gtk3 port to configure (rt@cfdconsultants.de)
+- Removed unused DoGetClippingBox (dvertx@gmail.com)
+- Fix deprecated functions calls into valid calls (dvertx@gmail.com)
+- Added CMake build system (dvertx@gmail.com)
+- Retargets wxSF to use wxWidgets 3.1.x (dvertx@gmail.com)
+
 Changes in version 1.15.1 beta (2015-11-24):
 --------------------------------------------
 - Fixed build on 64-bit OS with GCC 5.1.
