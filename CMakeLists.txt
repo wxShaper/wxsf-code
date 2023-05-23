@@ -10,7 +10,7 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-project (wxsf VERSION 0.0.2 LANGUAGES CXX)
+project (wxsf VERSION 1.16.0 LANGUAGES CXX)
 
 include(${CMAKE_ROOT}/Modules/FindwxWidgets.cmake)
 include(${CMAKE_ROOT}/Modules/UsewxWidgets.cmake)
