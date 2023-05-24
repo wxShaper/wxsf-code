@@ -1,0 +1,8 @@
+<map id="wxSFShapeKeyEvent" name="wxSFShapeKeyEvent">
+<area shape="rect" id="node1" title="Class encapsulates wxEVT_SF_SHAPE_KEYDOWN event." alt="" coords="5,260,163,287"/>
+<area shape="rect" id="node2" title=" " alt="" coords="23,171,102,197"/>
+<area shape="rect" id="node3" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="127,171,255,197"/>
+<area shape="rect" id="node4" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="279,81,393,108"/>
+<area shape="rect" id="node6" href="$df/dfd/classwx_xml_serializer.html" title="Class encapsulates a serializable objects&#39; manager which is responsible for handling stored serializa..." alt="" coords="365,171,493,197"/>
+<area shape="rect" id="node5" title=" " alt="" coords="416,5,499,32"/>
+</map>

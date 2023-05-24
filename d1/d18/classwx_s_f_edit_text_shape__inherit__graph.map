@@ -1,0 +1,6 @@
+<map id="wxSFEditTextShape" name="wxSFEditTextShape">
+<area shape="rect" id="node1" title="Class encapsulating the editable text shape. It extends the basic text shape." alt="" coords="5,229,155,256"/>
+<area shape="rect" id="node2" href="$de/d95/classwx_s_f_text_shape.html" title="Class encapsulates basic non&#45;editable text shape which is suitable for displaying of various text inf..." alt="" coords="19,155,141,181"/>
+<area shape="rect" id="node3" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="17,80,143,107"/>
+<area shape="rect" id="node4" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="16,5,144,32"/>
+</map>

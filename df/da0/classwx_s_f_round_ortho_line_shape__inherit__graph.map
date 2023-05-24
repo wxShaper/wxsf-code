@@ -1,0 +1,6 @@
+<map id="wxSFRoundOrthoLineShape" name="wxSFRoundOrthoLineShape">
+<area shape="rect" id="node1" title="Rounded orthogonal line shape. The class extends wxSFOrthoLineShape class and allows user to create c..." alt="" coords="5,229,207,256"/>
+<area shape="rect" id="node2" href="$d7/d4e/classwx_s_f_ortho_line_shape.html" title="Orthogonal line shape. The class extends wxSFLineShape class and allows user to create connection lin..." alt="" coords="26,155,186,181"/>
+<area shape="rect" id="node3" href="$d7/d05/classwx_s_f_line_shape.html" title="Basic class encapsulating the multiline consisting of several line segments." alt="" coords="44,80,168,107"/>
+<area shape="rect" id="node4" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="42,5,170,32"/>
+</map>

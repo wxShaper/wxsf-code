@@ -1,0 +1,7 @@
+<map id="wxSFGridShape" name="wxSFGridShape">
+<area shape="rect" id="node1" title="Class encapsulates a rectangular shape derived from wxSFRectShape class which acts as a grid&#45;based co..." alt="" coords="19,229,143,256"/>
+<area shape="rect" id="node5" href="$dc/d15/classwx_s_f_flex_grid_shape.html" title="Class encapsulates a rectangular shape derived from wxSFGridShape class which acts as a flexible grid..." alt="" coords="5,304,157,331"/>
+<area shape="rect" id="node2" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="18,155,145,181"/>
+<area shape="rect" id="node3" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="17,80,145,107"/>
+<area shape="rect" id="node4" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="25,5,138,32"/>
+</map>

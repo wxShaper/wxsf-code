@@ -1,0 +1,9 @@
+<map id="wxSFArrowBase" name="wxSFArrowBase">
+<area shape="rect" id="node1" title="Base class for a line arrows." alt="" coords="83,155,209,181"/>
+<area shape="rect" id="node4" href="$d6/dab/classwx_s_f_open_arrow.html" title="Class extends the wxSFArrowBase class and encapsulates arrow shape consisting of single two lines lea..." alt="" coords="5,229,135,256"/>
+<area shape="rect" id="node5" href="$d7/d98/classwx_s_f_solid_arrow.html" title="Class extends the wxSFArrowBase class and encapsulates arrow shape consisting of a solid triangle poi..." alt="" coords="159,229,285,256"/>
+<area shape="rect" id="node2" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="89,80,203,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="105,5,187,32"/>
+<area shape="rect" id="node6" href="$da/d96/classwx_s_f_circle_arrow.html" title="Class extends the wxSFSolidBase class and encapsulates arrow shape consisting of a filled circle loca..." alt="" coords="72,304,204,331"/>
+<area shape="rect" id="node7" href="$d5/d7b/classwx_s_f_diamond_arrow.html" title="Class extends the wxSFSolidArrow class and encapsulates arrow shape consisting of filled diamond loca..." alt="" coords="229,304,383,331"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="wxSFControlShape" name="wxSFControlShape">
+<area shape="rect" id="node1" title="Class encapsulates a special shape able to manage assigned GUI controls (widgets)...." alt="" coords="5,229,149,256"/>
+<area shape="rect" id="node2" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="14,155,141,181"/>
+<area shape="rect" id="node3" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="13,80,141,107"/>
+<area shape="rect" id="node4" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="21,5,134,32"/>
+</map>

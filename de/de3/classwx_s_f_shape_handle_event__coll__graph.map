@@ -1,0 +1,8 @@
+<map id="wxSFShapeHandleEvent" name="wxSFShapeHandleEvent">
+<area shape="rect" id="node1" title="Class encapsulates handle&#45;related events." alt="" coords="90,349,269,376"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,260,84,287"/>
+<area shape="rect" id="node3" href="$d9/dde/classwx_s_f_shape_handle.html" title="Class encapsulates shape&#39;s handle. The class shouldn&#39;t be used separately; see wxSFShapeBase class fo..." alt="" coords="108,260,251,287"/>
+<area shape="rect" id="node4" title=" " alt="" coords="110,5,193,32"/>
+<area shape="rect" id="node6" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="173,81,287,108"/>
+<area shape="rect" id="node5" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="191,171,319,197"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="wxSFContentCtrl" name="wxSFContentCtrl">
+<area shape="rect" id="node1" title="Auxiliary class providing neccessary functionality needed for in&#45;place modification of a content of t..." alt="" coords="157,81,287,108"/>
+<area shape="rect" id="node3" href="$db/d8d/classwx_s_f_edit_text_shape.html" title="Class encapsulating the editable text shape. It extends the basic text shape." alt="" coords="38,171,187,197"/>
+<area shape="rect" id="node2" title=" " alt="" coords="177,5,267,32"/>
+<area shape="rect" id="node4" href="$de/d95/classwx_s_f_text_shape.html" title="Class encapsulates basic non&#45;editable text shape which is suitable for displaying of various text inf..." alt="" coords="7,81,130,108"/>
+<area shape="rect" id="node5" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="5,5,132,32"/>
+</map>

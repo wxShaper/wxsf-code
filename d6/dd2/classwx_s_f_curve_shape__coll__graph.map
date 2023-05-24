@@ -1,0 +1,7 @@
+<map id="wxSFCurveShape" name="wxSFCurveShape">
+<area shape="rect" id="node1" title="Interpolation line shape. The class extends wxSFLineShape class and allows user to create curved conn..." alt="" coords="5,364,140,391"/>
+<area shape="rect" id="node2" href="$d7/d05/classwx_s_f_line_shape.html" title="Basic class encapsulating the multiline consisting of several line segments." alt="" coords="11,288,135,315"/>
+<area shape="rect" id="node3" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="19,95,147,121"/>
+<area shape="rect" id="node5" href="$db/ddd/classwx_s_f_arrow_base.html" title="Base class for a line arrows." alt="" coords="89,184,214,211"/>
+<area shape="rect" id="node4" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="59,5,172,32"/>
+</map>

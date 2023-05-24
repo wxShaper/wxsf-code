@@ -1,0 +1,7 @@
+<map id="wxSFOrthoLineShape" name="wxSFOrthoLineShape">
+<area shape="rect" id="node1" title="Orthogonal line shape. The class extends wxSFLineShape class and allows user to create connection lin..." alt="" coords="5,364,165,391"/>
+<area shape="rect" id="node2" href="$d7/d05/classwx_s_f_line_shape.html" title="Basic class encapsulating the multiline consisting of several line segments." alt="" coords="23,288,147,315"/>
+<area shape="rect" id="node3" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="32,95,160,121"/>
+<area shape="rect" id="node5" href="$db/ddd/classwx_s_f_arrow_base.html" title="Base class for a line arrows." alt="" coords="101,184,227,211"/>
+<area shape="rect" id="node4" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="71,5,185,32"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="wxSFCircleShape" name="wxSFCircleShape">
+<area shape="rect" id="node1" title="Class encapsulating the circle shape." alt="" coords="9,229,143,256"/>
+<area shape="rect" id="node2" href="$d3/df7/classwx_s_f_square_shape.html" title="Class encapsulating the square shape. It extends the basic rectangular shape." alt="" coords="5,155,147,181"/>
+<area shape="rect" id="node3" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="13,80,139,107"/>
+<area shape="rect" id="node4" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="12,5,140,32"/>
+</map>

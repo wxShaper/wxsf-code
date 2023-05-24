@@ -1,0 +1,6 @@
+<map id="wxSFDiamondShape" name="wxSFDiamondShape">
+<area shape="rect" id="node1" title="Class encapsulating the diamond shape. It extends the basic polygon shape." alt="" coords="5,229,161,256"/>
+<area shape="rect" id="node2" href="$d9/dbd/classwx_s_f_polygon_shape.html" title="Class extends the wxSFRectShape and encapsulates general polygon shape defined by a set of its vertic..." alt="" coords="9,155,158,181"/>
+<area shape="rect" id="node3" href="$db/d0e/classwx_s_f_rect_shape.html" title="Class encapsulates basic rectangle shape which is used as a base class for many other shapes that can..." alt="" coords="20,80,147,107"/>
+<area shape="rect" id="node4" href="$da/d88/classwx_s_f_shape_base.html" title="Base class for all shapes providing fundamental functionality and publishing set of virtual functions..." alt="" coords="19,5,147,32"/>
+</map>

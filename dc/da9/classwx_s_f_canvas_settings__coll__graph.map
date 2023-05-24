@@ -1,0 +1,6 @@
+<map id="wxSFCanvasSettings" name="wxSFCanvasSettings">
+<area shape="rect" id="node1" title="Auxiliary serializable class encapsulating the canvas properties." alt="" coords="5,171,164,197"/>
+<area shape="rect" id="node2" href="$de/d26/classxs_serializable.html" title="Base class encapsulating object which can be serialized/deserialized to/from XML file (disk file or a..." alt="" coords="97,81,211,108"/>
+<area shape="rect" id="node4" href="$df/dfd/classwx_xml_serializer.html" title="Class encapsulates a serializable objects&#39; manager which is responsible for handling stored serializa..." alt="" coords="189,171,317,197"/>
+<area shape="rect" id="node3" title=" " alt="" coords="234,5,317,32"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="wxSFCanvasHistory" name="wxSFCanvasHistory">
+<area shape="rect" id="node1" title="Container class that manages stored canvas states (canvas snapshots) and implements basic Undo/Redo f..." alt="" coords="61,81,213,108"/>
+<area shape="rect" id="node6" href="$db/d44/classwx_s_f_shape_canvas.html" title="Class encapsulating a Shape canvas. The shape canvas is window control which extends the wxScrolledWi..." alt="" coords="201,183,345,209"/>
+<area shape="rect" id="node2" title=" " alt="" coords="96,5,179,32"/>
+<area shape="rect" id="node3" href="$d7/d2d/classwx_s_f_canvas_state.html" title="Class which stores one saved state of the shape canvas. The instaces of this class are managed by the..." alt="" coords="5,361,144,388"/>
+<area shape="rect" id="node5" href="$df/dfd/classwx_xml_serializer.html" title="Class encapsulates a serializable objects&#39; manager which is responsible for handling stored serializa..." alt="" coords="439,132,567,159"/>
+<area shape="rect" id="node4" href="$d2/d22/classwx_s_f_diagram_manager.html" title="Class encapsulating framework&#39;s data layer. Its functions are responsible for managing shape objects ..." alt="" coords="259,272,429,299"/>
+</map>

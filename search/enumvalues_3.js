@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['haligncenter_2500',['halignCENTER',['../db/d44/classwx_s_f_shape_canvas.html#afe68e5ffc6b55c9760e56973425da5ccae287701cc9e57a3f5270e552db562d94',1,'wxSFShapeCanvas::halignCENTER()'],['../da/d88/classwx_s_f_shape_base.html#a7a76ab799b88df9fa0b23c8ba7b4d75bac9a8ca1338c71b8e60e261d68d388784',1,'wxSFShapeBase::halignCENTER()']]],
+  ['halignexpand_2501',['halignEXPAND',['../da/d88/classwx_s_f_shape_base.html#a7a76ab799b88df9fa0b23c8ba7b4d75baaca5f35316ed345c4949ad52c5032e39',1,'wxSFShapeBase']]],
+  ['halignleft_2502',['halignLEFT',['../da/d88/classwx_s_f_shape_base.html#a7a76ab799b88df9fa0b23c8ba7b4d75bab2dc997caa61a9fdabff1be87d845c01',1,'wxSFShapeBase::halignLEFT()'],['../db/d44/classwx_s_f_shape_canvas.html#afe68e5ffc6b55c9760e56973425da5ccab8724ca2bcc73de14554699a0bcf7ef2',1,'wxSFShapeCanvas::halignLEFT()']]],
+  ['halignline_5fend_2503',['halignLINE_END',['../da/d88/classwx_s_f_shape_base.html#a7a76ab799b88df9fa0b23c8ba7b4d75baf6b3bb6e59ef32033989bf039508421e',1,'wxSFShapeBase']]],
+  ['halignline_5fstart_2504',['halignLINE_START',['../da/d88/classwx_s_f_shape_base.html#a7a76ab799b88df9fa0b23c8ba7b4d75baa707eb95ffbbc374de0d018d1fbd72d5',1,'wxSFShapeBase']]],
+  ['halignnone_2505',['halignNONE',['../da/d88/classwx_s_f_shape_base.html#a7a76ab799b88df9fa0b23c8ba7b4d75ba34b69a5e57eafc075efd408263fce718',1,'wxSFShapeBase::halignNONE()'],['../db/d44/classwx_s_f_shape_canvas.html#afe68e5ffc6b55c9760e56973425da5ccaec1a109ef79ed86e37509fb8f401d897',1,'wxSFShapeCanvas::halignNONE()']]],
+  ['halignright_2506',['halignRIGHT',['../da/d88/classwx_s_f_shape_base.html#a7a76ab799b88df9fa0b23c8ba7b4d75ba2be1c6a430fc95196bb0106f73761fcb',1,'wxSFShapeBase::halignRIGHT()'],['../db/d44/classwx_s_f_shape_canvas.html#afe68e5ffc6b55c9760e56973425da5cca60a3d996ce39625acb2a09cf117a576c',1,'wxSFShapeCanvas::halignRIGHT()']]],
+  ['histuse_5fcloning_2507',['histUSE_CLONING',['../d8/d5f/classwx_s_f_canvas_history.html#ae1fc48fb8e1c549d2c8c6dd03291732da9b41d22208c902a7351a6e5761ce465c',1,'wxSFCanvasHistory']]],
+  ['histuse_5fserialization_2508',['histUSE_SERIALIZATION',['../d8/d5f/classwx_s_f_canvas_history.html#ae1fc48fb8e1c549d2c8c6dd03291732da68a5b288374a48ff8f69ad7343f8db26',1,'wxSFCanvasHistory']]],
+  ['hndbottom_2509',['hndBOTTOM',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330a6eb057326f3aa65b971d833d8d9ec2c4',1,'wxSFShapeHandle']]],
+  ['hndleft_2510',['hndLEFT',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330aa6f2330aed5653d75e22cebe4d10afed',1,'wxSFShapeHandle']]],
+  ['hndleftbottom_2511',['hndLEFTBOTTOM',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330a0b3b51f97d92468b67687e2983a2827f',1,'wxSFShapeHandle']]],
+  ['hndlefttop_2512',['hndLEFTTOP',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330af6bd4d97f13490c6ba17ae3538cd8433',1,'wxSFShapeHandle']]],
+  ['hndlinectrl_2513',['hndLINECTRL',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330acc7fac8cf606aff5d109c3765cbcd8ba',1,'wxSFShapeHandle']]],
+  ['hndlineend_2514',['hndLINEEND',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330af1e239224fdd6c52a70ccf77e1dc8a5c',1,'wxSFShapeHandle']]],
+  ['hndlinestart_2515',['hndLINESTART',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330abedf6475931dacb2127650f9b1fe3d20',1,'wxSFShapeHandle']]],
+  ['hndright_2516',['hndRIGHT',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330a55f83b6b34c5de830e82903b04cdad86',1,'wxSFShapeHandle']]],
+  ['hndrightbottom_2517',['hndRIGHTBOTTOM',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330ad311c5e260c74376ea8c2b0dad8f69c0',1,'wxSFShapeHandle']]],
+  ['hndrighttop_2518',['hndRIGHTTOP',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330aacadce1533c0db188ca656322eb5a0d4',1,'wxSFShapeHandle']]],
+  ['hndtop_2519',['hndTOP',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330acd1c3e2ca61ee33e0d57ef563254092a',1,'wxSFShapeHandle']]],
+  ['hndundef_2520',['hndUNDEF',['../d9/dde/classwx_s_f_shape_handle.html#ab6e596fe8bda284c4a851119a2ee2330a483d7c783ac35bec0f707215938ed49b',1,'wxSFShapeHandle']]]
+];
