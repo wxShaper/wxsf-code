@@ -2,10 +2,12 @@ cmake_minimum_required (VERSION 3.17)
 
 set(CMAKE_CXX_STANDARD 11)
 
-if (MSVC)
-    add_compile_options(/W4)
-else()
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options(-Wall -Wextra -pedantic)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    add_compile_options(/W4)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

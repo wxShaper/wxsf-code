@@ -21,8 +21,8 @@ jobs:
                 cmake \
                 graphviz doxygen libwxgtk3.0-gtk3-dev libwxgtk3.0-gtk3-0v5
          elif [ "$RUNNER_OS" == "Windows" ]; then
-              choco install graphviz doxygen.install
-              vcpkg install wxwidgets
+              # choco install graphviz doxygen.install
+              vcpkg install wxwidgets:x64-windows
               vcpkg integrate install
          elif [ "$RUNNER_OS" == "macOS" ]; then
               brew install graphviz doxygen wxWidgets
