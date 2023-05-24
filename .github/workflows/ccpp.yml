@@ -19,13 +19,13 @@ jobs:
               sudo apt-get update && \
               sudo apt-get install -yq \
                 cmake \
-                graphviz doxygen libwxgtk3.0-gtk3-dev libwxgtk3.0-gtk3-0v5
+                libwxgtk3.0-gtk3-dev libwxgtk3.0-gtk3-0v5
          elif [ "$RUNNER_OS" == "Windows" ]; then
               # choco install graphviz doxygen.install
               vcpkg install wxwidgets:x64-windows
               vcpkg integrate install
          elif [ "$RUNNER_OS" == "macOS" ]; then
-              brew install graphviz doxygen wxWidgets
+              brew install wxWidgets
          else
               echo "$RUNNER_OS not supported"
               exit 1
@@ -36,7 +36,7 @@ jobs:
          if [ "$RUNNER_OS" == "Linux" ]; then
               cmake -B ci-build
          elif [ "$RUNNER_OS" == "Windows" ]; then
-              cmake -B ci-build -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+              VERBOSE=1 cmake -B ci-build -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
          elif [ "$RUNNER_OS" == "macOS" ]; then
               cmake -B ci-build
          else
