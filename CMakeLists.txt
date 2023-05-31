@@ -12,6 +12,8 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(BUILD_SHARED_LIBS "Build shared libraries (.dll/.so) instead of static ones (.lib/.a)" ON)
+
 project (wxsf VERSION 1.16.0 LANGUAGES CXX)
 
 include(${CMAKE_ROOT}/Modules/FindwxWidgets.cmake)
