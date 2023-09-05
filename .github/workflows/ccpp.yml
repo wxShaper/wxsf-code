@@ -12,7 +12,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest, windows-2019]
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Prepare dependencies
       run:   |
          if [ "$RUNNER_OS" == "Linux" ]; then
